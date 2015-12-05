@@ -1,6 +1,7 @@
 # NadekoBot
 
-Nadeko Discord chatbot I made in c#, using Discord.net library.
+Nadeko Discord chatbot I made in c#, using Discord.net library.  
+You can also create a very basic web-ui with the data that is in the Parse DB. [example](http://www.nadekobot.tk)
 
 ##This section will guide you through how to setup NadekoBot
 After you have cloned this repo, move the data from the DLLs folder to the bin/debug. Those are part of the libraries you will need for your project. The other part should resolve after you start the project for the first time. All the references are shown [in this image.](http://icecream.me/uploads/72738d3b2797e46767e10820998ad5b3.png)
@@ -32,3 +33,5 @@ You should replace nadeko's image with the image of your bot in order to make th
 Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 
 Enjoy
+
+*TODO: list of commands*
