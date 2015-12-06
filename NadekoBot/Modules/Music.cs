@@ -45,7 +45,6 @@ namespace NadekoBot.Modules
         //m sh - shuffle songs
         //m pl - current playlist
 
-
         public override void Install(ModuleManager manager)
         {
             var client = NadekoBot.client;
