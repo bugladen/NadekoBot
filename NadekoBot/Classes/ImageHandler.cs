@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +36,13 @@ namespace NadekoBot
                 offsetx += img.Width;
             }
             return bitmap;
+        }
+
+        public static Stream ImageToStream(Image img,ImageFormat format) {
+            MemoryStream stream = new MemoryStream();
+            img.Save(stream, format);
+            stream.Position = 0;
+            return stream;
         }
     }
 }

@@ -47,7 +47,7 @@ public class Cards
                 {
                     str += GetName().ToLower();
                 }
-                return @"images/cards/" + str + "_of_" + suit.ToString().ToLower() + ".jpg";
+                return @"./images/cards/" + str + "_of_" + suit.ToString().ToLower() + ".jpg";
             }
         }
 

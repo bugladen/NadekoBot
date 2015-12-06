@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
 using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace NadekoBot
 {
@@ -26,15 +28,16 @@ namespace NadekoBot
 
                 try
                 {
-                    int num = int.Parse(e.Args[0]);
+                    int num = 1;
+                    var isParsed = int.TryParse(e.GetArg("count"), out num);
+                    if (!isParsed || num <2)
+                    {
+                        await client.SendFile(e.Channel, cards.DrawACard().Path);
+                        return;
+                    }
                     if (num > 5)
-                    {
                         num = 5;
-                    }
-                    else if (num < 1)
-                    {
-                        num = 1;
-                    }
+
                     Image[] images = new Image[num];
                     for (int i = 0; i < num; i++)
                     {
@@ -45,11 +48,10 @@ namespace NadekoBot
                         images[i] = Image.FromFile(cards.DrawACard().Path);
                     }
                     Bitmap bitmap = ImageHandler.MergeImages(images);
-                    bitmap.Save("cards.png");
-                    await client.SendFile(e.Channel, "cards.png");
+                    await client.SendFile(e.Channel, num+" cards.jpg",ImageHandler.ImageToStream(bitmap,ImageFormat.Jpeg));
                 }
-                catch (Exception) {
-                    Console.WriteLine("Error drawing (a) card(s)");
+                catch (Exception ex) {
+                    Console.WriteLine("Error drawing (a) card(s) "+ex.ToString());
                 }
             };
         }
@@ -58,7 +60,7 @@ namespace NadekoBot
         {
             cgb.CreateCommand("$draw")
                 .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\nUsage: $draw [x]")
-                .Parameter("count", ParameterType.Multiple)
+                .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
         }
         
