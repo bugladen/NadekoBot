@@ -36,6 +36,7 @@ namespace NadekoBot.Modules
         public override void Install(ModuleManager manager)
         {
             Random rng = new Random();
+
             manager.CreateCommands("", cgb =>
             {
                 var client = manager.Client;
@@ -53,7 +54,6 @@ namespace NadekoBot.Modules
                     {
                         await client.SendMessage(e.Channel, Mention.User(e.User) + "\\o\\");
                     });
-
             });
 
             manager.CreateCommands(NadekoBot.botMention, cgb =>
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules
                         else
                             await client.SendMessage(e.Channel, Mention.User(e.User) + ", Don't be silly.");
                     });
-
+                
                 CreateCommand(cgb, "die")
                     .Description("Works only for the owner. Shuts the bot down.")
                     .Do(async e =>
@@ -189,7 +189,6 @@ namespace NadekoBot.Modules
                         string str = "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
                         await client.SendMessage(e.Channel, str);
                     });
-
                 CreateCommand(cgb, "fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\nUsage: @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
@@ -468,20 +467,6 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         await client.SendMessage(e.Channel, "Calling " + e.Args[0] + "...");
-                    });
-
-                cgb.CreateCommand("cid")
-                    .Description("Shows current channel id")
-                    .Do(async e =>
-                    {
-                        await client.SendMessage(e.Channel, "This channel's id is " + e.Channel.Id);
-                    });
-
-                cgb.CreateCommand("sid")
-                    .Description("Shows current server id")
-                    .Do(async e =>
-                    {
-                        await client.SendMessage(e.Channel, "This server's id is " + e.Server.Id);
                     });
                 CreateCommand(cgb, "hide")
                     .Description("Hides nadeko in plain sight!11!!")

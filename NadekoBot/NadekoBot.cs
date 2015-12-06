@@ -4,10 +4,8 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord.Commands;
 using Discord.Modules;
-using System.Text.RegularExpressions;
 using Parse;
 using NadekoBot.Modules;
-using System.Timers;
 
 namespace NadekoBot
 {
@@ -64,7 +62,7 @@ namespace NadekoBot
 
             //install modules
             modules.Install(new Administration(), "Administration", FilterType.Unrestricted);
-            modules.Install(new Conversations(), "Conversation", FilterType.Unrestricted);
+            modules.Install(new Conversations(), "Conversations", FilterType.Unrestricted);
             modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
             modules.Install(new Games(), "Games", FilterType.Unrestricted);
             modules.Install(new Music(), "Music", FilterType.Unrestricted);
