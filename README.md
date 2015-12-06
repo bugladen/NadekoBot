@@ -12,7 +12,7 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 ```json
 {
 	"Username":"bot_email",
-	"BotMention":"@BotName",
+	"BotMention":"<@bot_id>",
 	"Password":"bot_password",
 	"GoogleAPIKey":"google_api_key",
 	"OwnerID":123123123123,
