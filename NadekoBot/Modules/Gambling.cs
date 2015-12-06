@@ -1,5 +1,4 @@
-﻿using Discord.Commands;
-using Discord.Modules;
+﻿using Discord.Modules;
 
 namespace NadekoBot.Modules
 {
