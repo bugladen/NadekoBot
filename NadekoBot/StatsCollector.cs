@@ -27,18 +27,6 @@ namespace NadekoBot
 
             _service.RanCommand += StatsCollector_RanCommand;
             NadekoBot.client.MessageReceived += Client_MessageReceived;
-            /*
-            Timer t = new Timer();
-
-            t.Interval = 5000;
-
-            t.Elapsed += (s,e) =>
-            {
-                FillConsole();
-            };
-
-            t.Start();
-            */
 
             StartCollecting();
         }

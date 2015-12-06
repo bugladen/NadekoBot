@@ -58,30 +58,12 @@ namespace NadekoBot
 
             //add command service
             var commands = client.AddService(commandService);
-
-            //help command
-            commands.CreateCommand("-h")
-                .Alias(new string[]{"-help",NadekoBot.botMention+" help", NadekoBot.botMention+" h"})
-                .Description("Help command")
-                .Do(async e =>
-                {
-                    string helpstr = "";
-                    foreach (var com in client.Commands().AllCommands) {
-                        helpstr += "&###**#" + com.Category + "#**\n";
-                        helpstr += PrintCommandHelp(com);
-                    }
-                    while (helpstr.Length > 2000) {
-                        var curstr = helpstr.Substring(0, 2000);
-                        await client.SendPrivateMessage(e.User, curstr.Substring(0,curstr.LastIndexOf("&")));
-                        helpstr = curstr.Substring(curstr.LastIndexOf("&")) + helpstr.Substring(2000);
-                    }
-                    await client.SendPrivateMessage(e.User, helpstr);
-                });
             
             //create module service
             var modules = client.AddService(new ModuleService());
 
             //install modules
+            modules.Install(new Administration(), "Administration", FilterType.Unrestricted);
             modules.Install(new Conversations(), "Conversation", FilterType.Unrestricted);
             modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
             modules.Install(new Games(), "Games", FilterType.Unrestricted);
@@ -112,28 +94,6 @@ namespace NadekoBot
             if (e.Command != null)
                 client.SendMessage(e.Channel, Mention.User(e.User) + " Command failed. See help (-h).");
         }
-
-        private static string PrintCommandHelp(Command com)
-        {
-            var str = "`" + com.Text + "`\n";
-            foreach (var a in com.Aliases)
-                str += "`" + a + "`\n";
-            str += "Description: " + com.Description + "\n";
-            return str;
-        }
-        /* removed
-        private static void Crawl()
-        {
-            Timer t = new Timer();
-            t.Interval = 5000; // start crawling after 5 seconds
-            t.Elapsed += (s, e) => {
-                var wc = new WebCrawler.WebCrawler();
-                WebCrawler.WebCrawler.OnFoundInvite += inv => { TryJoin(inv); };
-                t.Stop();
-            };
-            t.Start();
-        }
-        */
 
         private static async void TryJoin(string code)
         {

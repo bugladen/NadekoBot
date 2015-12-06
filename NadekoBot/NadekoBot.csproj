@@ -91,6 +91,8 @@
     <Compile Include="Commands\DiscordCommand.cs" />
     <Compile Include="Commands\DrawCommand.cs" />
     <Compile Include="Commands\FlipCoinCommand.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Modules\Administration.cs" />
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling.cs" />

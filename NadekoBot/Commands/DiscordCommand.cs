@@ -32,8 +32,8 @@ namespace NadekoBot
         public abstract Func<CommandEventArgs,Task> DoFunc();
 
         /// <summary>
-        /// Initializes the CommandBuilder with values
+        /// Initializes the CommandBuilder with values using CommandGroupBuilder
         /// </summary>
-        public abstract void Init(CommandGroupBuilder cgb);        
+        public abstract void Init(CommandGroupBuilder cgb);
     }
 }
