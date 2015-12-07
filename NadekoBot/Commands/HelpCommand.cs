@@ -10,7 +10,7 @@ namespace NadekoBot
         {
             return async e =>
                 {
-                    string helpstr = "";
+                    string helpstr = "Official repo: https://github.com/Kwoth/NadekoBot/"+Environment.NewLine;
                     foreach (var com in client.Commands().AllCommands)
                     {
                         helpstr += "&###**#" + com.Category + "#**\n";
