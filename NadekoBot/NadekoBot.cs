@@ -21,6 +21,7 @@ namespace NadekoBot
         {
             //load credentials from credentials.json
             Credentials c;
+
             try
             {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
