@@ -43,7 +43,7 @@ namespace NadekoBot
                     await client.SendMessage(e.Channel, "**Trivia game started!** It is bound to this channel. But only 1 game can run per server. \n First player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.");
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**\n[tq quits trivia]\n[@NadekoBot clr clears my messages]"); // TODO type x to be reminded of the question
+                    await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**\n[tq quits trivia]\n[@NadekoBot clr clears my messages]");
             };
         }
 
@@ -57,7 +57,7 @@ namespace NadekoBot
                     await client.SendMessage(e.Channel, lb);
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is not running on this server."); // TODO type x to be reminded of the question
+                    await client.SendMessage(e.Channel, "Trivia game is not running on this server.");
             };
         }
 
@@ -71,7 +71,7 @@ namespace NadekoBot
                     await client.SendMessage(e.Channel, lb);
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is not running on this server."); // TODO type x to be reminded of the question
+                    await client.SendMessage(e.Channel, "Trivia game is not running on this server.");
             };
         }
 
