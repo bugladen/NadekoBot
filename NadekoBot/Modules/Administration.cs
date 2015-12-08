@@ -81,7 +81,7 @@ namespace NadekoBot.Modules
                         }
                         catch (Exception)
                         {
-                            await client.SendMessage(e.Channel, "Failed to add roles. Most likely reason: Insufficient permissions.");
+                            await client.SendMessage(e.Channel, "Failed to remove roles. Most likely reason: Insufficient permissions.");
                         }
                     });
 
