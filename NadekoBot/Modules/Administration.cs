@@ -1,5 +1,6 @@
 ﻿using Discord.Modules;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NadekoBot.Modules
@@ -258,6 +259,18 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         await client.SendMessage(e.Channel, "This server's id is " + e.Server.Id);
+                    });
+
+                cgb.CreateCommand(".stats")
+                    .Description("Shows some basic stats for nadeko")
+                    .Do(async e =>
+                    {
+                        int serverCount = client.AllServers.Count();
+                        int uniqueUserCount = client.AllUsers.Count();
+                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
+                        string uptime = " " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+
+                        await client.SendMessage(e.Channel, String.Format("```Servers: {0}\nUnique Users: {1}\nUptime: {2}\nMy id is: {3}```", serverCount, uniqueUserCount, uptime, client.CurrentUserId));
                     });
             });
 

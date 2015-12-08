@@ -507,17 +507,6 @@ namespace NadekoBot.Modules
                             StatsCollector.DEBUG_LOG(ex.ToString());
                         }
                     });
-                CreateCommand(cgb, "stats")
-                    .Description("Shows some basic stats for nadeko")
-                    .Do(async e =>
-                    {
-                        int serverCount = client.AllServers.Count();
-                        int uniqueUserCount = client.AllUsers.Count();
-                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        string uptime = " " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
-
-                        await client.SendMessage(e.Channel, String.Format("```Servers: {0}\nUnique Users: {1}\nUptime: {2}\nMy id is: {3}```", serverCount, uniqueUserCount, uptime, client.CurrentUserId));
-                    });
 
 
                 //TODO add eval
