@@ -9,6 +9,22 @@ namespace NadekoBot
 {
     public static class Extensions
     {
+        public static string Scramble(this string word) {
+
+            var letters = word.ToArray();
+            for (int i = 0; i < letters.Length; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    continue;
+                }
+
+                if (letters[i] != ' ')
+                    letters[i] = '_';
+            }
+            return "`"+string.Join(" ", letters)+"`";
+        }
+
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

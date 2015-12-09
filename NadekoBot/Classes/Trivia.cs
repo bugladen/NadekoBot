@@ -3,6 +3,7 @@ using Discord.Commands;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -38,14 +39,13 @@ namespace NadekoBot
         {
             return async e =>
             {
-                Console.WriteLine("doign the func");
                 TriviaGame tg;
                 if ((tg = StartNewGame(e))!=null)
                 {
-                    await client.SendMessage(e.Channel, "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.");
+                    await client.SendMessage(e.Channel, "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.\nTyping [idfk] 15 seconds after the question has started will give you a hint.");
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**\n[tq quits trivia]\n[@NadekoBot clr clears my messages]");
+                    await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**");
             };
         }
 
@@ -139,6 +139,7 @@ namespace NadekoBot
         private bool active = false;
 
         private Timer timeout;
+        private Stopwatch stopwatch;
         private bool isQuit = false;
 
         public TriviaGame(CommandEventArgs starter, DiscordClient client) {
@@ -152,6 +153,7 @@ namespace NadekoBot
 
             timeout = new Timer();
             timeout.Interval = 30000;
+            stopwatch = new Stopwatch();
             timeout.Elapsed += (s, e) => { TimeUp(); };
 
             LoadNextRound();
@@ -162,10 +164,16 @@ namespace NadekoBot
             if (e.Server.Id != _serverId || !active)
                 return;
 
+            if (e.Message.Text.ToLower().Equals("idfk")) {
+                GetHint(e);
+                return;
+            }
+
             if (e.Message.Text.ToLower() == currentQuestion.Answer.ToLower())
             {
                 active = false; //start pause between rounds
                 timeout.Enabled = false;
+                stopwatch.Stop();
 
                 if (!users.ContainsKey(e.User.Id))
                     users.Add(e.User.Id, 1);
@@ -183,6 +191,14 @@ namespace NadekoBot
 
                 //if it still didnt return, we can safely start another round :D
                 LoadNextRound();
+            }
+        }
+
+        public async void GetHint(MessageEventArgs e) {
+            if (timeout != null && !isQuit && stopwatch.ElapsedMilliseconds > 10000)
+                await client.SendMessage(e.Channel, currentQuestion.Answer.Scramble());
+            else {
+                await client.SendMessage(e.Channel, $"You have to wait {10-stopwatch.ElapsedMilliseconds/1000} more seconds in order to get a hint.");
             }
         }
 
@@ -214,6 +230,8 @@ namespace NadekoBot
                 await client.SendMessage(ch, currentQuestion.ToString());
                 t.Enabled = false;
                 timeout.Enabled = true;//starting countdown of the next question
+                stopwatch.Reset();
+                stopwatch.Start();
             };
             return;
         }
@@ -229,6 +247,8 @@ namespace NadekoBot
             client.MessageReceived -= PotentialGuess;
             timeout.Enabled = false;
             timeout.Dispose();
+            stopwatch.Stop();
+            stopwatch.Reset();
             Trivia.FinishGame(this);
         }
 
