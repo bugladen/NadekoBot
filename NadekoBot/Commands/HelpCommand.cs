@@ -10,17 +10,24 @@ namespace NadekoBot
         {
             return async e =>
                 {
-                    string helpstr = "Official repo: https://github.com/Kwoth/NadekoBot/"+Environment.NewLine;
+                    string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/** \n";
+
+                    string lastCategory = "";
                     foreach (var com in client.Commands().AllCommands)
                     {
-                        helpstr += "&###**#" + com.Category + "#**\n";
+                        if (com.Category != lastCategory)
+                        {
+                            helpstr += "\n`----`**`" + com.Category + "`**`----`\n";
+                            lastCategory = com.Category;
+                        }
                         helpstr += PrintCommandHelp(com);
                     }
+                    helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
                     while (helpstr.Length > 2000)
                     {
                         var curstr = helpstr.Substring(0, 2000);
-                        await client.SendPrivateMessage(e.User, curstr.Substring(0, curstr.LastIndexOf("&")));
-                        helpstr = curstr.Substring(curstr.LastIndexOf("&")) + helpstr.Substring(2000);
+                        await client.SendPrivateMessage(e.User, curstr.Substring(0, curstr.LastIndexOf("\n")+1));
+                        helpstr = curstr.Substring(curstr.LastIndexOf("\n")+1) + helpstr.Substring(2000);
                     }
                     await client.SendPrivateMessage(e.User, helpstr);
                 };
@@ -36,10 +43,10 @@ namespace NadekoBot
 
         private string PrintCommandHelp(Command com)
         {
-            var str = "`" + com.Text + "`\n";
+            var str = "`" + com.Text + "`";
             foreach (var a in com.Aliases)
-                str += "`" + a + "`\n";
-            str += "Description: " + com.Description + "\n";
+                str += " [" + a + " ]";
+            str += " **Description:** " + com.Description + "\n";
             return str;
         }
     }

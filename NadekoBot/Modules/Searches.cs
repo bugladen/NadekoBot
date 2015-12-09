@@ -30,6 +30,7 @@ namespace NadekoBot.Modules
             {
                 cgb.CreateCommand("~av")
                     .Parameter("mention", Discord.Commands.ParameterType.Required)
+                    .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
                     .Do(async e =>
                     {
                         if (e.Message.MentionedUsers.Count() == 0) {

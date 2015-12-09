@@ -25,7 +25,7 @@ namespace NadekoBot.Modules
         private CommandBuilder CreateCommand(CommandGroupBuilder cbg, string txt)
         {
             CommandBuilder cb = cbg.CreateCommand(txt);
-            return AliasCommand(cb, txt);
+            return cb;
         }
 
         private CommandBuilder AliasCommand(CommandBuilder cb, string txt)
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules
 
                 CreateCommand(cgb, "insult")
                     .Parameter("mention", ParameterType.Required)
-                    .Description("Only works for owner. Insults @X person.\nUsage: @NadekoBot insult @X.")
+                    .Description("Only works for owner. Insults @X person.\n**Usage**: @NadekoBot insult @X.")
                     .Do(async e =>
                     {
                         List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules
                     });
 
                 CreateCommand(cgb, "praise")
-                    .Description("Only works for owner. Praises @X person.\nUsage: @NadekoBot insult @X.")
+                    .Description("Only works for owner. Praises @X person.\n**Usage**: @NadekoBot praise @X.")
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("are you there")
                     .Description("Checks if nadeko is operational.")
-                    .Alias(new string[] { "!", "?", "??", "???", "!!", "!!!" })
+                    .Alias(new string[] { "!", "?" })
                     .Do(SayYes());
 
                 CreateCommand(cgb, "draw")
@@ -190,7 +190,7 @@ namespace NadekoBot.Modules
                         await client.SendMessage(e.Channel, str);
                     });
                 CreateCommand(cgb, "fire")
-                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\nUsage: @NadekoBot fire [x]")
+                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -211,7 +211,7 @@ namespace NadekoBot.Modules
                     });
 
                 CreateCommand(cgb, "rip")
-                    .Description("Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.\nUsage: @NadekoBot rip [@X]")
+                    .Description("Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.\n**Usage**: @NadekoBot rip [@X]")
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -248,7 +248,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("i")
-                   .Description("Pulls a first image using a search parameter.\nUsage: @NadekoBot img Multiword_search_parameter")
+                   .Description("Pulls a first image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
                    .Alias("img")
                    .Parameter("all", ParameterType.Unparsed)
                        .Do(async e =>
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules
                        });
 
                 cgb.CreateCommand("ir")
-                    .Description("Pulls a random image using a search parameter.\nUsage: @NadekoBot img Multiword_search_parameter")
+                    .Description("Pulls a random image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
                     .Alias("imgrandom")
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
@@ -345,7 +345,7 @@ namespace NadekoBot.Modules
                     });
 
                 CreateCommand(cgb, "bb")
-                    .Description("Says bye to someone.\nUsage: @NadekoBot bb @X")
+                    .Description("Says bye to someone. **Usage**: @NadekoBot bb @X")
                     .Parameter("ppl", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -358,7 +358,7 @@ namespace NadekoBot.Modules
                     });
 
                 AliasCommand(CreateCommand(cgb, "req"), "request")
-                    .Description("Requests a feature for nadeko.\nUsage: @NadekoBot req Mutliword_feature_request")
+                    .Description("Requests a feature for nadeko.\n**Usage**: @NadekoBot req new_feature")
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -462,7 +462,7 @@ namespace NadekoBot.Modules
                     });
 
                 CreateCommand(cgb, "call")
-                    .Description("Useless. Writes calling @X to chat.\nUsage: @NadekoBot call @X ")
+                    .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -481,6 +481,7 @@ namespace NadekoBot.Modules
 
                                 await client.EditProfile("", null, null, null,  ms, ImageType.Png);
                             }
+                            await client.SendMessage(e.Channel, "*hides*");
                         }
                         catch (Exception ex)
                         {
@@ -489,7 +490,7 @@ namespace NadekoBot.Modules
                     });
 
                 CreateCommand(cgb, "unhide")
-                    .Description("Hides nadeko in plain sight!11!!")
+                    .Description("Unhides nadeko in plain sight!1!!1")
                     .Do(async e =>
                     {
                         try
@@ -501,6 +502,7 @@ namespace NadekoBot.Modules
 
                                 await client.EditProfile("", null, null, null,ms, ImageType.Jpeg);
                             }
+                            await client.SendMessage(e.Channel, "*unhides*");
                         }
                         catch (Exception ex)
                         {
