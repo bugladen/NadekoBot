@@ -2,26 +2,26 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using Discord.Commands;
-using Discord.Modules;
 using Parse;
+using Discord.Commands;
 using NadekoBot.Modules;
+using Discord.Modules;
+using Newtonsoft.Json.Linq;
 
 namespace NadekoBot
 {
     class NadekoBot
     {
         public static DiscordClient client;
-        public static StatsCollector sc;
+       // public static StatsCollector stats_collector;
         public static string botMention;
         public static string GoogleAPIKey;
         public static long OwnerID;
 
-        static void Main(string[] args)
+        static void Main()
         {
             //load credentials from credentials.json
             Credentials c;
-
             try
             {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
@@ -36,14 +36,14 @@ namespace NadekoBot
                 return;
             }
 
+            client = new DiscordClient();
+            
             //init parse
             if (c.ParseKey != null && c.ParseID != null)
                 ParseClient.Initialize(c.ParseID,c.ParseKey);
 
             //create new discord client
-            client = new DiscordClient(new DiscordClientConfig() {
-                VoiceMode = DiscordVoiceMode.Outgoing,
-            });
+            
 
             //create a command service
             var commandService = new CommandService(new CommandServiceConfig
@@ -53,7 +53,7 @@ namespace NadekoBot
             });
 
             //monitor commands for logging
-            sc = new StatsCollector(commandService);
+            //stats_collector = new StatsCollector(commandService);
 
             //add command service
             var commands = client.AddService(commandService);
@@ -66,45 +66,17 @@ namespace NadekoBot
             modules.Install(new Conversations(), "Conversations", FilterType.Unrestricted);
             modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
             modules.Install(new Games(), "Games", FilterType.Unrestricted);
-            modules.Install(new Music(), "Music", FilterType.Unrestricted);
+            //modules.Install(new Music(), "Music", FilterType.Unrestricted);
             modules.Install(new Searches(), "Searches", FilterType.Unrestricted);
-
-            commands.CommandError += Commands_CommandError;
 
             //run the bot
             client.Run(async () =>
             {
-                Console.WriteLine("Trying to connect...");
-                try
-                {
-                    await client.Connect(c.Username, c.Password);
-                    Console.WriteLine("Connected!");
-                }
-                catch (Exception ex) {
-                    Console.WriteLine(ex.ToString());
-                }
+                await client.Connect(c.Username, c.Password);
+                Console.WriteLine("Connected!");
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
-        }
-
-        private static void Commands_CommandError(object sender, CommandErrorEventArgs e)
-        {
-            if (e.Command != null)
-                client.SendMessage(e.Channel, Mention.User(e.User) + " Command failed. See help (-h).");
-        }
-
-        private static async void TryJoin(string code)
-        {
-            try
-            {
-                await NadekoBot.client.AcceptInvite(await NadekoBot.client.GetInvite(code));
-                File.AppendAllText("invites.txt", code + "\n");
-            }
-            catch (Exception)
-            {
-                StatsCollector.DEBUG_LOG("Failed to join " + code);
-            }
         }
     }
 }

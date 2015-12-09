@@ -26,7 +26,7 @@ namespace NadekoBot
             this._service = service;
 
             _service.RanCommand += StatsCollector_RanCommand;
-            NadekoBot.client.MessageReceived += Client_MessageReceived;
+            //NadekoBot.client.MessageReceived += Client_MessageReceived;
 
             StartCollecting();
         }
@@ -69,7 +69,7 @@ namespace NadekoBot
             try
             {
                 await NadekoBot.client.AcceptInvite(await NadekoBot.client.GetInvite(code));
-                await NadekoBot.client.SendMessage(e.Channel, Mention.User(e.User) + " I joined it, thanks :)");
+                await NadekoBot.client.SendMessage(e.Channel, e.User.Mention + " I joined it, thanks :)");
                 DEBUG_LOG("Sucessfuly joined server with code " + code);
                 DEBUG_LOG("Here is a link for you: discord.gg/" + code);
             }
@@ -172,6 +172,7 @@ namespace NadekoBot
 
         private void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
+            Console.WriteLine("command ran");
             commandsRan++;
             var obj = new ParseObject("CommandsRan");
 

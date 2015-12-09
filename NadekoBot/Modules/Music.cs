@@ -20,7 +20,7 @@ namespace NadekoBot.Modules
         private static bool exit = true;
 
         public static bool NextSong = false;
-        public static IDiscordVoiceClient Voice;
+        public static Discord.Audio.DiscordAudioClient Voice;
         public static Channel VoiceChannel;
         public static bool Pause = false;
         public static List<YouTubeVideo> SongQueue = new List<YouTubeVideo>();
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules
                     {
                     if (Voice != null) return;
                     VoiceChannel = client.FindChannels(e.Server, e.GetArg("ChannelName").Trim(), ChannelType.Voice).FirstOrDefault();
-                    Voice = await client.JoinVoiceServer(VoiceChannel);
+                    //Voice = await client.JoinVoiceServer(VoiceChannel);
                     Exit = false;
                     NextSong = false;
                     Pause = false;
@@ -176,7 +176,7 @@ namespace NadekoBot.Modules
                                     {
                                         while ((byteCount = stream.Read(buffer, 0, blockSize)) > 0)
                                         {
-                                            Voice.SendVoicePCM(buffer, byteCount);
+                                          //  Voice.SendVoicePCM(buffer, byteCount);
                                             counter += blockSize;
                                             if (NextSong)
                                             {
@@ -193,10 +193,10 @@ namespace NadekoBot.Modules
                                     }
                                 });
                             }
-                            await Voice.WaitVoice();
+                         //   await Voice.WaitVoice();
                         }
                         catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-                        await client.LeaveVoiceServer(VoiceChannel.Server);
+                       // await client.LeaveVoiceServer(VoiceChannel.Server);
                         Voice = null;
                         VoiceChannel = null;
                     });

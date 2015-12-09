@@ -3,6 +3,7 @@ using Discord.Commands;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -37,10 +38,11 @@ namespace NadekoBot
         {
             return async e =>
             {
+                Console.WriteLine("doign the func");
                 TriviaGame tg;
                 if ((tg = StartNewGame(e))!=null)
                 {
-                    await client.SendMessage(e.Channel, "**Trivia game started!** It is bound to this channel. But only 1 game can run per server. \n First player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.");
+                    await client.SendMessage(e.Channel, "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.");
                 }
                 else
                     await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**\n[tq quits trivia]\n[@NadekoBot clr clears my messages]");
@@ -171,10 +173,10 @@ namespace NadekoBot
                 {
                     users[e.User.Id]++;
                 }
-                await client.SendMessage(e.Channel, Mention.User(e.User) + " Guessed it!\n The answer was: **" + currentQuestion.Answer + "**");
+                await client.SendMessage(e.Channel, e.User.Mention + " Guessed it!\n The answer was: **" + currentQuestion.Answer + "**");
 
                 if (users[e.User.Id] >= 10) {
-                    await client.SendMessage(e.Channel, " We have a winner! It's " + Mention.User(e.User)+"\n"+GetLeaderboard()+"\n To start a new game type '@NadekoBot t'");
+                    await client.SendMessage(e.Channel, " We have a winner! It's " + e.User.Mention+"\n"+GetLeaderboard()+"\n To start a new game type '@NadekoBot t'");
                     FinishGame();
                     return;
                 }
@@ -209,7 +211,7 @@ namespace NadekoBot
             t.Enabled = true;
             t.Elapsed += async (s, ev) => {
                 active = true;
-                await client.SendMessage(ch, "QUESTION\n**" + currentQuestion.Question + " **");
+                await client.SendMessage(ch, currentQuestion.ToString());
                 t.Enabled = false;
                 timeout.Enabled = true;//starting countdown of the next question
             };
@@ -217,7 +219,7 @@ namespace NadekoBot
         }
 
         private async void TimeUp() {
-            await client.SendMessage(client.GetChannel(_channellId), "**Time's up.**\nCorrect answer was: **" + currentQuestion.Answer+"**\n**[tq quits trivia][tl shows leaderboard][@NadekoBot clr clears my messages]**");
+            await client.SendMessage(client.GetChannel(_channellId), "**Time's up.**\nCorrect answer was: **" + currentQuestion.Answer+"**\n\n*[tq quits trivia][tl shows leaderboard]["+NadekoBot.botMention+" clr clears my messages]*");
             LoadNextRound();
         }
 
@@ -250,6 +252,7 @@ namespace NadekoBot
     }
 
     public class TriviaQuestion {
+        public string Category;
         public string Question;
         public string Answer;
         public TriviaQuestion(string q, string a) {
@@ -259,7 +262,7 @@ namespace NadekoBot
 
         public override string ToString()
         {
-            return this.Question;
+            return this.Category == null ? "--------**Q**--------\nQuestion: **" + this.Question + "?**" : "--------Q--------\nCategory: " + this.Category + "\nQuestion: **"+ this.Question+ "?**";
         }
     }
 
@@ -283,16 +286,18 @@ namespace NadekoBot
         public TriviaQuestionsPool() {
             _r = new Random();
             pool = new List<TriviaQuestion>();
-            var httpClient = new System.Net.Http.HttpClient();
+            JArray arr = JArray.Parse(File.ReadAllText("questions.txt"));
 
-
-            var r = httpClient.GetAsync("http://jservice.io/api/clues?category=19").Result;
-            string str = r.Content.ReadAsStringAsync().Result;
-            dynamic obj = JArray.Parse(str);
-
-            foreach (var item in obj)
+            foreach (var item in arr)
             {
-                pool.Add(new TriviaQuestion((string)item.question,(string)item.answer));
+                TriviaQuestion tq;
+                tq = new TriviaQuestion((string)item["Question"],(string)item["Answer"]);
+
+                if (item?["Category"] != null) {
+                    tq.Category = item["Category"].ToString();
+                }
+
+                pool.Add(tq);
             }
         }
 

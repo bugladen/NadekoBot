@@ -270,7 +270,7 @@ namespace NadekoBot.Modules
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
                         string uptime = " " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
 
-                        await client.SendMessage(e.Channel, String.Format("```Servers: {0}\nUnique Users: {1}\nUptime: {2}\nMy id is: {3}```", serverCount, uniqueUserCount, uptime, client.CurrentUserId));
+                        await client.SendMessage(e.Channel, String.Format("```Servers: {0}\nUnique Users: {1}\nUptime: {2}\nMy id is: {3}```", serverCount, uniqueUserCount, uptime, client.CurrentUser.Id));
                     });
             });
 

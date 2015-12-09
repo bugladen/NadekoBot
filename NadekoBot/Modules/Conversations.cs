@@ -45,14 +45,14 @@ namespace NadekoBot.Modules
                     .Description("Nadeko replies with /o/")
                     .Do(async e =>
                     {
-                        await client.SendMessage(e.Channel, Mention.User(e.User) + "/o/");
+                        await client.SendMessage(e.Channel, e.User.Mention + "/o/");
                     });
 
                 cgb.CreateCommand("/o/")
                     .Description("Nadeko replies with \\o\\")
                     .Do(async e =>
                     {
-                        await client.SendMessage(e.Channel, Mention.User(e.User) + "\\o\\");
+                        await client.SendMessage(e.Channel, e.User.Mention + "\\o\\");
                     });
             });
 
@@ -67,9 +67,9 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         if (e.User.Id == NadekoBot.OwnerID)
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + ", Of course I do, my Master.");
+                            await client.SendMessage(e.Channel, e.User.Mention + ", Of course I do, my Master.");
                         else
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + ", Don't be silly.");
+                            await client.SendMessage(e.Channel, e.User.Mention + ", Don't be silly.");
                     });
                 
                 CreateCommand(cgb, "die")
@@ -82,10 +82,10 @@ namespace NadekoBot.Modules
                             t.Interval = 2000;
                             t.Elapsed += (s, ev) => { Environment.Exit(0); };
                             t.Start();
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + ", Yes, my love.");
+                            await client.SendMessage(e.Channel, e.User.Mention + ", Yes, my love.");
                         }
                         else
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + ", No.");
+                            await client.SendMessage(e.Channel, e.User.Mention + ", No.");
                     });
 
                 CreateCommand(cgb, "how are you")
@@ -94,18 +94,18 @@ namespace NadekoBot.Modules
                     {
                         if (e.User.Id == NadekoBot.OwnerID)
                         {
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + " I am great as long as you are here.");
+                            await client.SendMessage(e.Channel, e.User.Mention + " I am great as long as you are here.");
                         }
                         else
                         {
                             var kw = client.GetUser(e.Server, NadekoBot.OwnerID);
                             if (kw != null && kw.Status == UserStatus.Online)
                             {
-                                await client.SendMessage(e.Channel, Mention.User(e.User) + " I am great as long as " + Mention.User(kw) + " is with me.");
+                                await client.SendMessage(e.Channel, e.User.Mention + " I am great as long as " + Mention.User(kw) + " is with me.");
                             }
                             else
                             {
-                                await client.SendMessage(e.Channel, Mention.User(e.User) + " I am sad. My Master is not with me.");
+                                await client.SendMessage(e.Channel, e.User.Mention + " I am sad. My Master is not with me.");
                             }
                         }
                     });
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules
                         }
                         else
                         {
-                            await client.SendMessage(e.Channel, Mention.User(e.User) + " Eww, why would i do that for you ?!");
+                            await client.SendMessage(e.Channel, e.User.Mention + " Eww, why would i do that for you ?!");
                         }
                     });
 
@@ -153,11 +153,11 @@ namespace NadekoBot.Modules
                         {
                             if (u.Id == NadekoBot.OwnerID)
                             {
-                                await client.SendMessage(e.Channel, Mention.User(e.User) + " I don't need your permission to praise my beloved Master <3");
+                                await client.SendMessage(e.Channel, e.User.Mention + " I don't need your permission to praise my beloved Master <3");
                             }
                             else
                             {
-                                await client.SendMessage(e.Channel, Mention.User(e.User) + " Yeah... No.");
+                                await client.SendMessage(e.Channel, e.User.Mention + " Yeah... No.");
                             }
                         }
                     });
@@ -166,7 +166,7 @@ namespace NadekoBot.Modules
                     .Description("Useless.")
                     .Do(async e =>
                     {
-                        await client.SendMessage(e.Channel, Mention.User(e.User) + " I will be soon.");
+                        await client.SendMessage(e.Channel, e.User.Mention + " I will be soon.");
                     });
 
                 cgb.CreateCommand("are you there")
@@ -398,7 +398,7 @@ namespace NadekoBot.Modules
                             {
                                 if (StatsCollector.DeleteRequest(int.Parse(e.Args[0])))
                                 {
-                                    await client.SendMessage(e.Channel, Mention.User(e.User) + " Request deleted.");
+                                    await client.SendMessage(e.Channel, e.User.Mention + " Request deleted.");
                                 }
                                 else
                                 {
@@ -425,7 +425,7 @@ namespace NadekoBot.Modules
                                 var sc = StatsCollector.ResolveRequest(int.Parse(e.Args[0]));
                                 if (sc != null)
                                 {
-                                    await client.SendMessage(e.Channel, Mention.User(e.User) + " Request resolved, notice sent.");
+                                    await client.SendMessage(e.Channel, e.User.Mention + " Request resolved, notice sent.");
                                     await client.SendPrivateMessage(client.GetUser(client.GetServer(sc.ServerId), sc.Id), "**This request of yours has been resolved:**\n" + sc.Text);
                                 }
                                 else

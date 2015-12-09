@@ -5,7 +5,21 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot", "NadekoBot\NadekoBot.csproj", "{27A886F5-CDDA-4F4A-81EE-6DAFCCE9DE46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net", "E:\Ostalo\Discord.Net\src\Discord.Net.Net45\Discord.Net.csproj", "{8D71A857-879A-4A10-859E-5FF824ED6688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Modules", "E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\Discord.Net.Modules.csproj", "{3091164F-66AE-4543-A63D-167C1116241D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Commands", "E:\Ostalo\Discord.Net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj", "{1B5603B4-6F8F-4289-B945-7BAAE523D740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Audio", "E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net5\Discord.Net.Audio.csproj", "{7BFEF748-B934-4621-9B11-6302E3A9F6B3}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		E:\Ostalo\Discord.Net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{7bfef748-b934-4621-9b11-6302e3a9f6b3}*SharedItemsImports = 4
+		E:\Ostalo\Discord.Net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{1b5603b4-6f8f-4289-b945-7baae523d740}*SharedItemsImports = 4
+		E:\Ostalo\Discord.Net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{3091164f-66ae-4543-a63d-167c1116241d}*SharedItemsImports = 4
+		E:\Ostalo\Discord.Net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{8d71a857-879a-4a10-859e-5ff824ed6688}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		FullDebug|Any CPU = FullDebug|Any CPU
@@ -18,6 +32,30 @@ Global
 		{27A886F5-CDDA-4F4A-81EE-6DAFCCE9DE46}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
 		{27A886F5-CDDA-4F4A-81EE-6DAFCCE9DE46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27A886F5-CDDA-4F4A-81EE-6DAFCCE9DE46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.FullDebug|Any CPU.ActiveCfg = FullDebug|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.FullDebug|Any CPU.Build.0 = FullDebug|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D71A857-879A-4A10-859E-5FF824ED6688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3091164F-66AE-4543-A63D-167C1116241D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFEF748-B934-4621-9B11-6302E3A9F6B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
