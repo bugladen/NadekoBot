@@ -82,7 +82,7 @@ Enjoy
 **Usage:** @NadekoBot fire [x]  
 `@BotName` rip **Description:** Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.  
 **Usage:** @NadekoBot rip [@X]  
-`@BotName` j **Description:** Joins a server using a code. Obsolete, since nadeko will autojoin any valid code in chat.  
+`@BotName` j **Description:** Joins a server using a code.  
 `@BotName` i [@BotName img ] **Description:** Pulls a first image using a search parameter.  
 **Usage:** @NadekoBot img Multiword_search_parameter  
 `@BotName` ir [@BotName imgrandom ] **Description:** Pulls a random image using a search parameter.  
