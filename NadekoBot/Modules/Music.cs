@@ -86,11 +86,11 @@ namespace NadekoBot.Modules
                             Pause = !Pause;
                             if (Pause)
                             {
-                                await client.SendMessage(e.Channel, "Pausing. Run the command again to resume.");
+                                await e.Send( "Pausing. Run the command again to resume.");
                             }
                             else
                             {
-                                await client.SendMessage(e.Channel, "Resuming...");
+                                await e.Send( "Resuming...");
                             }
                         }
                     });
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules
                         if (video?.Uri != "" && video.Uri != null)
                         {
                             SongQueue.Add(video);
-                            await client.SendMessage(e.Channel, "**Queued** " + video.FullName);
+                            await e.Send( "**Queued** " + video.FullName);
                         }
                     });
                 
@@ -118,8 +118,8 @@ namespace NadekoBot.Modules
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e =>
                     {
-                        await client.SendMessage(e.Channel, SongQueue.Count + " videos currently queued.");
-                        await client.SendMessage(e.Channel, string.Join("\n", SongQueue.Select(v => v.FullName).Take(10)));
+                        await e.Send( SongQueue.Count + " videos currently queued.");
+                        await e.Send( string.Join("\n", SongQueue.Select(v => v.FullName).Take(10)));
                     });
 
                 cgb.CreateCommand("sh")
@@ -128,12 +128,12 @@ namespace NadekoBot.Modules
                     {
                         if (SongQueue.Count < 2)
                         {
-                            await client.SendMessage(e.Channel, "Not enough songs in order to perform the shuffle.");
+                            await e.Send( "Not enough songs in order to perform the shuffle.");
                             return;
                         }
 
                         SongQueue.Shuffle();
-                        await client.SendMessage(e.Channel, "Songs shuffled!");
+                        await e.Send( "Songs shuffled!");
                     });
 
                 cgb.CreateCommand("radio")
@@ -162,14 +162,14 @@ namespace NadekoBot.Modules
                                     {
                                         Voice = null;
                                         Exit = false;
-                                        await client.SendMessage(e.Channel, "Exiting...");
+                                        await e.Send( "Exiting...");
                                         return;
                                     }
                                     int blockSize = 1920;
                                     byte[] buffer = new byte[1920];
                                     //float multiplier = 1.0f / 48000 / 2;
                                     
-                                    var msg = await client.SendMessage(e.Channel, "Playing " + Music.CurrentSong.FullName + " [00:00]");
+                                    var msg = await e.Send( "Playing " + Music.CurrentSong.FullName + " [00:00]");
                                     int counter = 0;
                                     int byteCount;
                                     using (var stream = GetAudioFileStream(Music.CurrentSong.Uri))

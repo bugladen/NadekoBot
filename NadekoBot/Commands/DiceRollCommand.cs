@@ -49,7 +49,7 @@ namespace NadekoBot
                         if (num < 1) num = 1;
                         if (num > 30)
                         {
-                            await client.SendMessage(e.Channel, "You can roll up to 30 dies at a time.");
+                            await e.Send( "You can roll up to 30 dies at a time.");
                             num = 30;
                         }
                         List<Image> dices = new List<Image>(num);
@@ -73,12 +73,12 @@ namespace NadekoBot
                         }
 
                         Bitmap bitmap = ImageHandler.MergeImages(dices.ToArray());
-                        await client.SendMessage(e.Channel, values.Count + " Dies rolled. Total: **"+values.Sum()+"** Average: **"+(values.Sum()/(1.0f*values.Count)).ToString("N2")+"**");
+                        await e.Send( values.Count + " Dies rolled. Total: **"+values.Sum()+"** Average: **"+(values.Sum()/(1.0f*values.Count)).ToString("N2")+"**");
                         await client.SendFile(e.Channel, "dices.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
                     }
                     catch (Exception)
                     {
-                        await client.SendMessage(e.Channel, "Please enter a number of dices to roll.");
+                        await e.Send( "Please enter a number of dices to roll.");
                         return;
                     }
                 }

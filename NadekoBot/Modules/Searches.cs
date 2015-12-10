@@ -34,11 +34,11 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         if (e.Message.MentionedUsers.Count() == 0) {
-                            await client.SendMessage(e.Channel, "You need to mention a person");
+                            await e.Send( "You need to mention a person");
                             return;
                         }
                         string av = e.Message.MentionedUsers.First().AvatarUrl;
-                        await client.SendMessage(e.Channel, ShortenUrl("http://www.discordapp.com/api/" + av));
+                        await e.Send( ShortenUrl("http://www.discordapp.com/api/" + av));
 
                     });
                 cgb.CreateCommand("~yt")
@@ -51,10 +51,10 @@ namespace NadekoBot.Modules
                         var str = ShortenUrl(FindYoutubeUrlByKeywords(e.GetArg("query")));
                         if (str == null || str.Trim().Length < 5)
                         {
-                            await client.SendMessage(e.Channel, "Query failed");
+                            await e.Send( "Query failed");
                             return;
                         }
-                        await client.SendMessage(e.Channel, str);
+                        await e.Send( str);
                     });
 
                 cgb.CreateCommand("~ani")
@@ -67,11 +67,11 @@ namespace NadekoBot.Modules
 
                         var result = GetAnimeQueryResultLink(e.GetArg("query"));
                         if (result == null) { 
-                            await client.SendMessage(e.Channel, "Failed to find that anime.");
+                            await e.Send( "Failed to find that anime.");
                             return;
                         }
 
-                        await client.SendMessage(e.Channel,result.ToString());
+                        await e.Send(result.ToString());
                     });
 
                 cgb.CreateCommand("~mang")
@@ -85,10 +85,10 @@ namespace NadekoBot.Modules
                         var result = GetMangaQueryResultLink(e.GetArg("query"));
                         if (result == null)
                         {
-                            await client.SendMessage(e.Channel, "Failed to find that anime.");
+                            await e.Send( "Failed to find that anime.");
                             return;
                         }
-                        await client.SendMessage(e.Channel, result.ToString());
+                        await e.Send( result.ToString());
                     });
             });
         }

@@ -42,10 +42,10 @@ namespace NadekoBot
                 TriviaGame tg;
                 if ((tg = StartNewGame(e))!=null)
                 {
-                    await client.SendMessage(e.Channel, "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.\nTyping [idfk] 15 seconds after the question has started will give you a hint.");
+                    await e.Send( "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.\nTyping [idfk] 15 seconds after the question has started will give you a hint.");
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**");
+                    await e.Send( "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**");
             };
         }
 
@@ -56,10 +56,10 @@ namespace NadekoBot
                 if (runningTrivias.ContainsKey(e.Server.Id))
                 {
                     var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
-                    await client.SendMessage(e.Channel, lb);
+                    await e.Send( lb);
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is not running on this server.");
+                    await e.Send( "Trivia game is not running on this server.");
             };
         }
 
@@ -70,10 +70,10 @@ namespace NadekoBot
                 if (runningTrivias.ContainsKey(e.Server.Id))
                 {
                     var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
-                    await client.SendMessage(e.Channel, lb);
+                    await e.Send( lb);
                 }
                 else
-                    await client.SendMessage(e.Channel, "Trivia game is not running on this server.");
+                    await e.Send( "Trivia game is not running on this server.");
             };
         }
 
@@ -103,10 +103,10 @@ namespace NadekoBot
             {
                 if (runningTrivias.ContainsKey(e.Server.Id) && runningTrivias[e.Server.Id].ChannelId ==e.Channel.Id)
                 {
-                    await client.SendMessage(e.Channel, "Trivia will stop after this question. Run [**@NadekoBot clr**] to remove this bot's messages from the channel.");
+                    await e.Send( "Trivia will stop after this question. Run [**@NadekoBot clr**] to remove this bot's messages from the channel.");
                     runningTrivias[e.Server.Id].StopGame();
                 }
-                else await client.SendMessage(e.Channel, "No trivias are running on this channel.");
+                else await e.Send( "No trivias are running on this channel.");
             };
         }
 
@@ -181,10 +181,10 @@ namespace NadekoBot
                 {
                     users[e.User.Id]++;
                 }
-                await client.SendMessage(e.Channel, e.User.Mention + " Guessed it!\n The answer was: **" + currentQuestion.Answer + "**");
+                await e.Send( e.User.Mention + " Guessed it!\n The answer was: **" + currentQuestion.Answer + "**");
 
                 if (users[e.User.Id] >= 10) {
-                    await client.SendMessage(e.Channel, " We have a winner! It's " + e.User.Mention+"\n"+GetLeaderboard()+"\n To start a new game type '@NadekoBot t'");
+                    await e.Send( " We have a winner! It's " + e.User.Mention+"\n"+GetLeaderboard()+"\n To start a new game type '@NadekoBot t'");
                     FinishGame();
                     return;
                 }
@@ -196,9 +196,9 @@ namespace NadekoBot
 
         public async void GetHint(MessageEventArgs e) {
             if (timeout != null && !isQuit && stopwatch.ElapsedMilliseconds > 10000)
-                await client.SendMessage(e.Channel, currentQuestion.Answer.Scramble());
+                await e.Send( currentQuestion.Answer.Scramble());
             else {
-                await client.SendMessage(e.Channel, $"You have to wait {10-stopwatch.ElapsedMilliseconds/1000} more seconds in order to get a hint.");
+                await e.Send( $"You have to wait {10-stopwatch.ElapsedMilliseconds/1000} more seconds in order to get a hint.");
             }
         }
 

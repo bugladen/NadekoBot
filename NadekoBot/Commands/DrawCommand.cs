@@ -18,7 +18,7 @@ namespace NadekoBot
                 if (cards == null)
                 {
                     cards = new Cards();
-                    await client.SendMessage(e.Channel, "Shuffling cards...");
+                    await e.Send( "Shuffling cards...");
                 }
 
                 try
@@ -38,7 +38,7 @@ namespace NadekoBot
                     {
                         if (cards.CardPool.Count == 0)
                         {
-                            await client.SendMessage(e.Channel, "No more cards in a deck...\nGetting a new deck...\nShuffling cards...");
+                            await e.Send( "No more cards in a deck...\nGetting a new deck...\nShuffling cards...");
                         }
                         images[i] = Image.FromFile(cards.DrawACard().Path);
                     }
