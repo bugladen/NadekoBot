@@ -343,7 +343,7 @@ namespace NadekoBot.Modules
                         f.Read(b, 0, b.Length);
                         f.Close();
                         string str = Encoding.ASCII.GetString(b);
-                        await client.SendPrivateMessage(e.User, "```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
+                        await client.SendMessage(e.User, "```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
                     });
 
                 CreateCommand(cgb, "cs")
@@ -392,9 +392,9 @@ namespace NadekoBot.Modules
                     {
                         string str = StatsCollector.GetRequests();
                         if (str.Trim().Length > 110)
-                            await client.SendPrivateMessage(e.User, str);
+                            await client.SendMessage(e.User, str);
                         else
-                            await client.SendPrivateMessage(e.User, "No requests atm.");
+                            await client.SendMessage(e.User, "No requests atm.");
                     });
 
                 CreateCommand(cgb, "dr")
@@ -436,7 +436,7 @@ namespace NadekoBot.Modules
                                 if (sc != null)
                                 {
                                     await e.Send(e.User.Mention + " Request resolved, notice sent.");
-                                    await client.SendPrivateMessage(client.GetUser(client.GetServer(sc.ServerId), sc.Id), "**This request of yours has been resolved:**\n" + sc.Text);
+                                    await client.SendMessage(client.GetUser(client.GetServer(sc.ServerId), sc.Id), "**This request of yours has been resolved:**\n" + sc.Text);
                                 }
                                 else
                                 {
@@ -530,11 +530,12 @@ namespace NadekoBot.Modules
                         foreach (var s in client.AllServers) {
                             try
                             {
-                                i++;
-                                var invite = await client.CreateInvite(e.Channel, 0, 0);
+                                var invite = await client.CreateInvite(s, 0, 0);
                                 invites+=invite.Url+"\n";
+                                i++;
                             }
-                            catch (Exception) {
+                            catch (Exception ex) {
+                                Console.WriteLine(ex.ToString());
                                 j++;
                                 continue;
                             }

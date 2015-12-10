@@ -26,10 +26,10 @@ namespace NadekoBot
                     while (helpstr.Length > 2000)
                     {
                         var curstr = helpstr.Substring(0, 2000);
-                        await client.SendPrivateMessage(e.User, curstr.Substring(0, curstr.LastIndexOf("\n")+1));
+                        await client.SendMessage(e.User, curstr.Substring(0, curstr.LastIndexOf("\n")+1));
                         helpstr = curstr.Substring(curstr.LastIndexOf("\n")+1) + helpstr.Substring(2000);
                     }
-                    await client.SendPrivateMessage(e.User, helpstr);
+                    await client.SendMessage(e.User, helpstr);
                 };
         }
 

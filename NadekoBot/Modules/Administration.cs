@@ -40,7 +40,7 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await client.EditUser(usr, null, null, new Discord.Role[] { role }, Discord.EditMode.Add);
+                            await client.EditUser(usr, null, null,null, new Discord.Role[] { role }, Discord.EditMode.Add);
                             await e.Send( $"Successfully added role **{role.Name}** to user **{usr.Mention}**");
                         }
                         catch (InvalidOperationException) { //fkin voltana and his shenanigans, fix role.Mention pl0x
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await client.EditUser(usr, null, null, new Discord.Role[]{ role }, Discord.EditMode.Remove);
+                            await client.EditUser(usr, null, null,null, new Discord.Role[]{ role }, Discord.EditMode.Remove);
                             await e.Send( $"Successfully removed role **{role.Name}** from user **{usr.Mention}**");
                         }
                         catch (InvalidOperationException) {
