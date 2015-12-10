@@ -131,7 +131,7 @@ namespace NadekoBot.Modules
                         }
                         else if (e.User.Id == NadekoBot.OwnerID)
                         {
-                            await e.Send(e.User.Mention + insults[r.Next(0, insults.Count)]);
+                            await e.Send(u.Mention + insults[r.Next(0, insults.Count)]);
                         }
                         else
                         {
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules
                     .Description("Nadeko instructs you to type $draw. Gambling functions start with $")
                     .Do(async e =>
                     {
-                        await e.Send("Sorry i dont gamble, type $draw for that function.");
+                        await e.Send("Sorry i don't gamble, type $draw for that function.");
                     });
 
                 CreateCommand(cgb, "uptime")
