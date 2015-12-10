@@ -46,7 +46,7 @@ namespace NadekoBot.Modules
                     .Description("Nadeko replies with /o/")
                     .Do(async e =>
                     {
-                        await e.Send( e.User.Mention + "/o/");
+                        await e.Send(e.User.Mention + "/o/");
                     });
 
                 cgb.CreateCommand("/o/")

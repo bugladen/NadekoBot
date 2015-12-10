@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace NadekoBot
 {
@@ -17,10 +18,10 @@ namespace NadekoBot
             {
                 if (cards == null)
                 {
+                    await e.Send("Shuffling cards...");
                     cards = new Cards();
-                    await e.Send( "Shuffling cards...");
                 }
-
+                
                 try
                 {
                     int num = 1;
@@ -33,17 +34,24 @@ namespace NadekoBot
                     if (num > 5)
                         num = 5;
 
-                    Image[] images = new Image[num];
+                    List<Image> images = new List<Image>();
+                    List<Cards.Card> cardObjects = new List<Cards.Card>();
                     for (int i = 0; i < num; i++)
                     {
-                        if (cards.CardPool.Count == 0)
+                        if (cards.CardPool.Count == 0 && i!= 0)
                         {
-                            await e.Send( "No more cards in a deck...\nGetting a new deck...\nShuffling cards...");
+                            await e.Send( "No more cards in a deck.");
+                            break;
                         }
-                        images[i] = Image.FromFile(cards.DrawACard().Path);
+                        var currentCard = cards.DrawACard();
+                        cardObjects.Add(currentCard);
+                        images.Add(Image.FromFile(currentCard.Path));
                     }
                     Bitmap bitmap = ImageHandler.MergeImages(images);
-                    await client.SendFile(e.Channel, num+" cards.jpg",ImageHandler.ImageToStream(bitmap,ImageFormat.Jpeg));
+                    await client.SendFile(e.Channel, images.Count+" cards.jpg",ImageHandler.ImageToStream(bitmap, ImageFormat.Jpeg));
+                    if (cardObjects.Count == 5) {
+                        await e.Send(Cards.GetHandValue(cardObjects));
+                    }
                 }
                 catch (Exception ex) {
                     Console.WriteLine("Error drawing (a) card(s) "+ex.ToString());

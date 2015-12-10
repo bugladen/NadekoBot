@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -13,10 +14,11 @@ namespace NadekoBot
         /// </summary>
         /// <param name="images">The Images you want to merge.</param>
         /// <returns>Merged bitmap</returns>
-        public static Bitmap MergeImages(Image[] images)
+        public static Bitmap MergeImages(IEnumerable<Image> images)
         {
+            if (images.Count() == 0) return null;
             int width = images.Sum(i => i.Width);
-            int height = images[0].Height;
+            int height = images.First().Height;
             Bitmap bitmap = new Bitmap(width, height);
             var r = new Random();
             int offsetx = 0;
