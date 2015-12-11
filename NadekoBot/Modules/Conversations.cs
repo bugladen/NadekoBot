@@ -535,16 +535,59 @@ namespace NadekoBot.Modules
                                 i++;
                             }
                             catch (Exception ex) {
-                                Console.WriteLine(ex.ToString());
                                 j++;
                                 continue;
                             }
                         }
                         File.WriteAllText("dump.txt", invites);
                         await e.Send($"Got invites for {i} servers and failed to get invites for {j} servers");
-                        
                     });
 
+                Stopwatch randServerSW = new Stopwatch();
+                randServerSW.Start();
+
+                cgb.CreateCommand("randserver")
+                    .Description("Generates an invite to a random server and prints some stats.")
+                    .Do(async e =>
+                    {
+                        if (randServerSW.ElapsedMilliseconds / 1000 < 1800)
+                        {
+                            await e.Send("You have to wait " + (1800 - randServerSW.ElapsedMilliseconds / 1000) + " more seconds to use this function.");
+                            return;
+                        }
+                        randServerSW.Reset();
+                        while (true) {
+                            var server = client.AllServers.OrderBy(x => rng.Next()).FirstOrDefault();
+                            if (server == null)
+                                continue;
+                            try
+                            {
+                                var inv = await client.CreateInvite(server, 100, 5);
+                                await e.Send("**Server:** " + server.Name +
+                                            "\n**Owner:** " + server.Owner.Name +
+                                            "\n**Channels:** " + server.Channels.Count() +
+                                            "\n**Total Members:** " + server.Members.Count() +
+                                            "\n**Online Members:** " + server.Members.Where(u => u.Status == UserStatus.Online).Count() +
+                                            "\n**Invite:** " + inv.Url);
+                                break;
+                            }
+                            catch (Exception) { continue; }
+                        }
+                    });
+
+                cgb.CreateCommand("av").Alias("avatar")
+                    .Parameter("mention", ParameterType.Required)
+                    .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
+                    .Do(async e =>
+                    {
+                        var usr = client.FindUsers(e.Channel, e.GetArg("mention")).FirstOrDefault();
+                        if (usr == null) {
+                            await e.Send("Invalid user specified.");
+                            return;
+                        }
+                        string av = usr.AvatarUrl;
+                        await e.Send(Searches.ShortenUrl(av));
+                    });
 
                 //TODO add eval
                 /*

@@ -28,19 +28,6 @@ namespace NadekoBot.Modules
 
             manager.CreateCommands("",cgb =>
             {
-                cgb.CreateCommand("~av")
-                    .Parameter("mention", Discord.Commands.ParameterType.Required)
-                    .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
-                    .Do(async e =>
-                    {
-                        if (e.Message.MentionedUsers.Count() == 0) {
-                            await e.Send( "You need to mention a person");
-                            return;
-                        }
-                        string av = e.Message.MentionedUsers.First().AvatarUrl;
-                        await e.Send( ShortenUrl("http://www.discordapp.com/api/" + av));
-
-                    });
                 cgb.CreateCommand("~yt")
                     .Parameter("query",Discord.Commands.ParameterType.Unparsed)
                     .Description("Queries youtubes and embeds the first result")
