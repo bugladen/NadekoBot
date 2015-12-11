@@ -263,6 +263,8 @@ namespace NadekoBot.Modules
                    .Parameter("all", ParameterType.Unparsed)
                        .Do(async e =>
                        {
+                           await e.Send("This feature is being reconstructed.");
+                           /*
                            var httpClient = new System.Net.Http.HttpClient();
                            string str = e.Args[0];
 
@@ -276,6 +278,7 @@ namespace NadekoBot.Modules
                            }
                            string s = Searches.ShortenUrl(obj.responseData.results[0].url.ToString());
                            await e.Send(s);
+                           */
                        });
 
                 cgb.CreateCommand("ir")
@@ -284,19 +287,28 @@ namespace NadekoBot.Modules
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-
+                        await e.Send("This feature is being reconstructed.");
+                        /*
                         var httpClient = new System.Net.Http.HttpClient();
                         string str = e.Args[0];
                         var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=" + rng.Next(0, 30)).Result;
-                        dynamic obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
-                        if (obj.responseData.results.Count == 0)
+                        JObject obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
+                        try
                         {
-                            await e.Send("No results found for that keyword :\\");
-                            return;
+                            Console.WriteLine(obj.ToString());
+                            if (obj["responseData"]["results"].Count() == 0)
+                            {
+                                await e.Send("No results found for that keyword :\\");
+                                return;
+                            }
+                            int rnd = rng.Next(0, obj["responseData"]["results"].Count());
+                            string s = Searches.ShortenUrl(obj["responseData"]["results"][rnd]["url"].ToString());
+                            await e.Send(s);
                         }
-                        int rnd = rng.Next(0, obj.responseData.results.Count);
-                        string s = Searches.ShortenUrl(obj.responseData.results[rnd].url.ToString());
-                        await e.Send(s);
+                        catch (Exception ex) {
+                            Console.WriteLine(ex.ToString());
+                        }
+                        */
                     });
 
 
@@ -362,7 +374,7 @@ namespace NadekoBot.Modules
                         string str = "Bye";
                         foreach (var u in e.Message.MentionedUsers)
                         {
-                            str += " " + Mention.User(u);
+                            str += " " + u.Mention;
                         }
                         await e.Send(str);
                     });

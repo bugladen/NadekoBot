@@ -6,7 +6,6 @@ using Parse;
 using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
-using Newtonsoft.Json.Linq;
 
 namespace NadekoBot
 {
