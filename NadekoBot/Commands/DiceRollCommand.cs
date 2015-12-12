@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.Modules;
-using Discord;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -85,9 +82,7 @@ namespace NadekoBot
             };
         }
 
-        private Image GetDice(int num) {
-            return Image.FromFile("images/dice/"+num+".png");
-        }
+        private Image GetDice(int num) => Image.FromFile("images/dice/" + num + ".png");
 
         public override void Init(CommandGroupBuilder cgb)
         {

@@ -8,7 +8,6 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Drawing;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
@@ -29,10 +28,7 @@ namespace NadekoBot.Modules
             return cb;
         }
 
-        private CommandBuilder AliasCommand(CommandBuilder cb, string txt)
-        {
-            return cb.Alias(new string[] { "," + txt, "-" + txt });
-        }
+        private CommandBuilder AliasCommand(CommandBuilder cb, string txt) => cb.Alias(new string[] { "," + txt, "-" + txt });
 
         public override void Install(ModuleManager manager)
         {
@@ -546,7 +542,7 @@ namespace NadekoBot.Modules
                                 invites+=invite.Url+"\n";
                                 i++;
                             }
-                            catch (Exception ex) {
+                            catch (Exception) {
                                 j++;
                                 continue;
                             }
@@ -640,12 +636,7 @@ namespace NadekoBot.Modules
             return ImageHandler.ImageToStream(bm,ImageFormat.Png);
         }
 
-        private Func<CommandEventArgs, Task> SayYes()
-        {
-            return async e =>
-            {
-                await NadekoBot.client.SendMessage(e.Channel, "Yes. :)");
-            };
-        }
+        private Func<CommandEventArgs, Task> SayYes() 
+            => async e => await NadekoBot.client.SendMessage(e.Channel, "Yes. :)");
     }
 }

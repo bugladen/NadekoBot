@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -31,51 +29,40 @@ namespace NadekoBot
             return tg;
         }
 
-        public TriviaQuestion GetCurrentQuestion(long serverId) {
-            return runningTrivias[serverId].currentQuestion;
-        }
+        public TriviaQuestion GetCurrentQuestion(long serverId) => runningTrivias[serverId].currentQuestion;
 
-        public override Func<CommandEventArgs, Task> DoFunc()
+        public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            return async e =>
+            TriviaGame tg;
+            if ((tg = StartNewGame(e)) != null)
             {
-                TriviaGame tg;
-                if ((tg = StartNewGame(e))!=null)
-                {
-                    await e.Send( "**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.\nTyping [idfk] 15 seconds after the question has started will give you a hint.");
-                }
-                else
-                    await e.Send( "Trivia game is already running on this server. The question is:\n**"+GetCurrentQuestion(e.Server.Id).Question+"**");
-            };
-        }
+                await e.Send("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command [tq] if game was started by accident.\nTyping [idfk] 15 seconds after the question has started will give you a hint.");
+            }
+            else
+                await e.Send("Trivia game is already running on this server. The question is:\n**" + GetCurrentQuestion(e.Server.Id).Question + "**");
+        };
 
-        private Func<CommandEventArgs, Task> LbFunc()
+        private Func<CommandEventArgs, Task> LbFunc() => async e =>
         {
-            return async e =>
+            if (runningTrivias.ContainsKey(e.Server.Id))
             {
-                if (runningTrivias.ContainsKey(e.Server.Id))
-                {
-                    var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
-                    await e.Send( lb);
-                }
-                else
-                    await e.Send( "Trivia game is not running on this server.");
-            };
-        }
+                var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
+                await e.Send(lb);
+            }
+            else
+                await e.Send("Trivia game is not running on this server.");
+        };
 
-        private Func<CommandEventArgs, Task> RepeatFunc()
+        private Func<CommandEventArgs, Task> RepeatFunc() => async e =>
         {
-            return async e =>
+            if (runningTrivias.ContainsKey(e.Server.Id))
             {
-                if (runningTrivias.ContainsKey(e.Server.Id))
-                {
-                    var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
-                    await e.Send( lb);
-                }
-                else
-                    await e.Send( "Trivia game is not running on this server.");
-            };
-        }
+                var lb = runningTrivias[e.User.Server.Id].GetLeaderboard();
+                await e.Send(lb);
+            }
+            else
+                await e.Send("Trivia game is not running on this server.");
+        };
 
         public override void Init(CommandGroupBuilder cgb)
         {
@@ -97,18 +84,15 @@ namespace NadekoBot
                 .Do(QuitFunc());
         }
 
-        private Func<CommandEventArgs, Task> QuitFunc()
+        private Func<CommandEventArgs, Task> QuitFunc() => async e =>
         {
-            return async e =>
+            if (runningTrivias.ContainsKey(e.Server.Id) && runningTrivias[e.Server.Id].ChannelId == e.Channel.Id)
             {
-                if (runningTrivias.ContainsKey(e.Server.Id) && runningTrivias[e.Server.Id].ChannelId ==e.Channel.Id)
-                {
-                    await e.Send( "Trivia will stop after this question. Run [**@NadekoBot clr**] to remove this bot's messages from the channel.");
-                    runningTrivias[e.Server.Id].StopGame();
-                }
-                else await e.Send( "No trivias are running on this channel.");
-            };
-        }
+                await e.Send("Trivia will stop after this question. Run [**@NadekoBot clr**] to remove this bot's messages from the channel.");
+                runningTrivias[e.Server.Id].StopGame();
+            }
+            else await e.Send("No trivias are running on this channel.");
+        };
 
         internal static void FinishGame(TriviaGame triviaGame)
         {
@@ -122,13 +106,7 @@ namespace NadekoBot
         private long _serverId;
         private long _channellId;
 
-        public long ChannelId
-        {
-            get
-            {
-                return _channellId;
-            }
-        }
+        public long ChannelId => _channellId;
 
         private Dictionary<long, int> users;
 
@@ -271,19 +249,21 @@ namespace NadekoBot
         }
     }
 
-    public class TriviaQuestion {
+    public class TriviaQuestion
+    {
         public string Category;
         public string Question;
         public string Answer;
-        public TriviaQuestion(string q, string a) {
+        public TriviaQuestion(string q, string a)
+        {
             this.Question = q;
             this.Answer = a;
         }
 
-        public override string ToString()
-        {
-            return this.Category == null ? "--------**Q**--------\nQuestion: **" + this.Question + "?**" : "--------Q--------\nCategory: " + this.Category + "\nQuestion: **"+ this.Question+ "?**";
-        }
+        public override string ToString() =>
+            this.Category == null ?
+            "--------**Q**--------\nQuestion: **" + this.Question + "?**" :
+            "--------Q--------\nCategory: " + this.Category + "\nQuestion: **" + this.Question + "?**";
     }
 
     public class TriviaQuestionsPool {
@@ -303,7 +283,8 @@ namespace NadekoBot
 
         private Random _r;
 
-        public TriviaQuestionsPool() {
+        public TriviaQuestionsPool()
+        {
             _r = new Random();
             pool = new List<TriviaQuestion>();
             JArray arr = JArray.Parse(File.ReadAllText("questions.txt"));
@@ -311,9 +292,10 @@ namespace NadekoBot
             foreach (var item in arr)
             {
                 TriviaQuestion tq;
-                tq = new TriviaQuestion((string)item["Question"],(string)item["Answer"]);
+                tq = new TriviaQuestion((string)item["Question"], (string)item["Answer"]);
 
-                if (item?["Category"] != null) {
+                if (item?["Category"] != null)
+                {
                     tq.Category = item["Category"].ToString();
                 }
 

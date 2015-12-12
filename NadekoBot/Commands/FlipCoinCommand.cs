@@ -13,20 +13,18 @@ namespace NadekoBot
             _r = new Random();
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc()
+        public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            return async e => {
-                int num = _r.Next(0, 2);
-                if (num == 1)
-                {
-                    await client.SendFile(e.Channel, @"images/coins/heads.png");
-                }
-                else
-                {
-                    await client.SendFile(e.Channel, @"images/coins/tails.png");
-                }
-            };
-        }
+            int num = _r.Next(0, 2);
+            if (num == 1)
+            {
+                await client.SendFile(e.Channel, @"images/coins/heads.png");
+            }
+            else
+            {
+                await client.SendFile(e.Channel, @"images/coins/tails.png");
+            }
+        };
 
         public override void Init(CommandGroupBuilder cgb)
         {

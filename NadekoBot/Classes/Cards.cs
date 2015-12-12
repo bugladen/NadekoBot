@@ -58,14 +58,10 @@ public class Cards
             this.suit = s;
             this.number = card_num;
         }
-        public string GetName() {
-            return cardNames[number];
-        }
 
-        public override string ToString()
-        {
-            return cardNames[number] + " Of " + suit;
-        }
+        public string GetName() => cardNames[number];
+
+        public override string ToString() => cardNames[number] + " Of " + suit;
 
         public int CompareTo(object obj)
         {
@@ -95,11 +91,7 @@ public class Cards
     /// Restart the game of blackjack. It will only refill the pool for now. Probably wont be used, unless you want to have only 1 bjg running at one time,
     /// then you will restart the same game every time.
     /// </summary>
-    public void Restart()
-    {
-        // you dont have to uncover what is actually happening anda da hood
-        RefillPool();
-    }
+    public void Restart() => RefillPool();
 
     /// <summary>
     /// Removes all cards from the pool and refills the pool with all of the possible cards. NOTE: I think this is too expensive.

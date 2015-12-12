@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 
@@ -24,17 +22,14 @@ namespace NadekoBot
             }
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc()
+        public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            return async e =>
-            {
-                if (CopiedUsers.Contains(e.User.Id)) return;
+            if (CopiedUsers.Contains(e.User.Id)) return;
 
-                CopiedUsers.Add(e.User.Id);
-                await e.Send( " I'll start copying you now.");
-                return;
-            };
-        }
+            CopiedUsers.Add(e.User.Id);
+            await e.Send(" I'll start copying you now.");
+            return;
+        };
 
         public override void Init(CommandGroupBuilder cgb)
         {
@@ -49,16 +44,13 @@ namespace NadekoBot
                 .Do(StopCopy());
         }
 
-        private Func<CommandEventArgs, Task> StopCopy()
+        private Func<CommandEventArgs, Task> StopCopy() => async e =>
         {
-            return async e =>
-            {
-                if (!CopiedUsers.Contains(e.User.Id)) return;
+            if (!CopiedUsers.Contains(e.User.Id)) return;
 
-                CopiedUsers.Remove(e.User.Id);
-                await e.Send( " I wont copy anymore.");
-                return;
-            };
-        }
+            CopiedUsers.Remove(e.User.Id);
+            await e.Send(" I wont copy anymore.");
+            return;
+        };
     }
 }
