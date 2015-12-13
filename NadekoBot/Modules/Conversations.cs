@@ -351,7 +351,7 @@ namespace NadekoBot.Modules
                         f.Read(b, 0, b.Length);
                         f.Close();
                         string str = Encoding.ASCII.GetString(b);
-                        await client.SendMessage(e.User, "```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
+                        await e.User.Send("```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
                     });
 
                 CreateCommand(cgb, "cs")
@@ -400,9 +400,9 @@ namespace NadekoBot.Modules
                     {
                         string str = StatsCollector.GetRequests();
                         if (str.Trim().Length > 110)
-                            await client.SendMessage(e.User, str);
+                            await e.User.Send(str);
                         else
-                            await client.SendMessage(e.User, "No requests atm.");
+                            await e.User.Send("No requests atm.");
                     });
 
                 CreateCommand(cgb, "dr")
@@ -444,7 +444,7 @@ namespace NadekoBot.Modules
                                 if (sc != null)
                                 {
                                     await e.Send(e.User.Mention + " Request resolved, notice sent.");
-                                    await client.SendMessage(client.GetUser(client.GetServer(sc.ServerId), sc.Id), "**This request of yours has been resolved:**\n" + sc.Text);
+                                    await client.GetUser(client.GetServer(sc.ServerId), sc.Id).Send("**This request of yours has been resolved:**\n" + sc.Text);
                                 }
                                 else
                                 {
@@ -637,6 +637,6 @@ namespace NadekoBot.Modules
         }
 
         private Func<CommandEventArgs, Task> SayYes() 
-            => async e => await NadekoBot.client.SendMessage(e.Channel, "Yes. :)");
+            => async e => await e.Send("Yes. :)");
     }
 }

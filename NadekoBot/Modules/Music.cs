@@ -20,7 +20,7 @@ namespace NadekoBot.Modules
         private static bool exit = true;
 
         public static bool NextSong = false;
-        public static Discord.Audio.DiscordAudioClient Voice;
+        public static DiscordAudioClient Voice;
         public static Channel VoiceChannel;
         public static bool Pause = false;
         public static List<YouTubeVideo> SongQueue = new List<YouTubeVideo>();

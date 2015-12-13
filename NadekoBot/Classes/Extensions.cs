@@ -34,6 +34,7 @@ namespace NadekoBot
         /// <returns></returns>
         public static async Task<Message> Send(this CommandEventArgs e, string message) 
             => await NadekoBot.client.SendMessage(e.Channel, message);
+
         /// <summary>
         /// Sends a message to the channel from which MessageEventArg came.
         /// </summary>
@@ -45,16 +46,55 @@ namespace NadekoBot
             await NadekoBot.client.SendMessage(e.Channel, message);
         }
 
+        /// <summary>
+        /// Sends a message to this channel.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static async Task Send(this Channel c, string message)
+        {
+            await NadekoBot.client.SendMessage(c, message);
+        }
+
+        /// <summary>
+        /// Sends a private message to this user.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static async Task Send(this User u, string message)
+        {
+            await NadekoBot.client.SendMessage(u, message);
+        }
+
+        /// <summary>
+        /// Replies to a user who invoked this command, message start with that user's mention.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public static async Task Reply(this CommandEventArgs e, string message)
         {
-            await NadekoBot.client.SendMessage(e.Channel, e.User.Mention + " " + message);
+            await e.Send(e.User.Mention + " " + message);
         }
 
+        /// <summary>
+        /// Replies to a user who invoked this command, message start with that user's mention.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public static async Task Reply(this MessageEventArgs e, string message)
         {
-            await NadekoBot.client.SendMessage(e.Channel, e.User.Mention + " " + message);
+            await e.Send(e.User.Mention + " " + message);
         }
 
+        /// <summary>
+        /// Randomizes element order in a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

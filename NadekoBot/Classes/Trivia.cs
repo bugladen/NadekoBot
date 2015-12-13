@@ -196,7 +196,7 @@ namespace NadekoBot
 
             if (currentQuestion == null || isQuit)
             {
-                client.SendMessage(ch, "Trivia bot stopping. :\\\n" + GetLeaderboard());
+                await ch.Send("Trivia bot stopping. :\\\n" + GetLeaderboard());
                 FinishGame();
                 return;
             }
@@ -205,7 +205,7 @@ namespace NadekoBot
             t.Enabled = true;
             t.Elapsed += async (s, ev) => {
                 active = true;
-                await client.SendMessage(ch, currentQuestion.ToString());
+                await ch.Send(currentQuestion.ToString());
                 t.Enabled = false;
                 timeout.Enabled = true;//starting countdown of the next question
                 stopwatch.Reset();
@@ -215,7 +215,7 @@ namespace NadekoBot
         }
 
         private async void TimeUp() {
-            await client.SendMessage(client.GetChannel(_channellId), "**Time's up.**\nCorrect answer was: **" + currentQuestion.Answer+"**\n\n*[tq quits trivia][tl shows leaderboard]["+NadekoBot.botMention+" clr clears my messages]*");
+            await client.GetChannel(_channellId)?.Send("**Time's up.**\nCorrect answer was: **" + currentQuestion.Answer+"**\n\n*[tq quits trivia][tl shows leaderboard]["+NadekoBot.botMention+" clr clears my messages]*");
             LoadNextRound();
         }
 

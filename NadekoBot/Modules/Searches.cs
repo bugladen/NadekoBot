@@ -36,7 +36,7 @@ namespace NadekoBot.Modules
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
                         var str = ShortenUrl(FindYoutubeUrlByKeywords(e.GetArg("query")));
-                        if (str == null || str.Trim().Length < 5)
+                        if (string.IsNullOrEmpty(str.Trim()))
                         {
                             await e.Send( "Query failed");
                             return;
@@ -140,9 +140,9 @@ namespace NadekoBot.Modules
         }
 
         private static async Task<bool> ValidateQuery(Discord.Channel ch,string query) {
-            if (query == null || query.Trim().Length == 0)
+            if (string.IsNullOrEmpty(query.Trim()))
             {
-                await NadekoBot.client.SendMessage(ch, "Please specify search parameters.");
+                await ch.Send("Please specify search parameters.");
                 return false;
             }
             return true;

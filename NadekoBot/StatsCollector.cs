@@ -69,7 +69,7 @@ namespace NadekoBot
             try
             {
                 await NadekoBot.client.AcceptInvite(await NadekoBot.client.GetInvite(code));
-                await NadekoBot.client.SendMessage(e.Channel, e.User.Mention + " I joined it, thanks :)");
+                await e.Send(e.User.Mention + " I joined it, thanks :)");
                 DEBUG_LOG("Sucessfuly joined server with code " + code);
                 DEBUG_LOG("Here is a link for you: discord.gg/" + code);
             }
@@ -80,7 +80,7 @@ namespace NadekoBot
         }
 
         public static void DEBUG_LOG(string text) {
-            NadekoBot.client.SendMessage(NadekoBot.client.GetChannel(119365591852122112), text);
+            NadekoBot.client.GetChannel(119365591852122112).Send(text);
         }
 
         private void StartCollecting() {
