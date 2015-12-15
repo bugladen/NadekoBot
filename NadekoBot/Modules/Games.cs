@@ -94,7 +94,7 @@ namespace NadekoBot.Modules
             }
         }
 
-        private PokeType GetType(long id) {
+        private PokeType GetType(ulong id) {
             var remainder = id % 10;
             if (remainder < 3)
                 return PokeType.WATER;

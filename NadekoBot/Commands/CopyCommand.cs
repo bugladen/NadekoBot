@@ -7,11 +7,11 @@ namespace NadekoBot
 {
     class CopyCommand : DiscordCommand
     {
-        private List<long> CopiedUsers;
+        private List<ulong> CopiedUsers;
 
         public CopyCommand() : base()
         {
-            CopiedUsers = new List<long>();
+            CopiedUsers = new List<ulong>();
             client.MessageReceived += Client_MessageReceived;
         }
 

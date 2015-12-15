@@ -154,8 +154,8 @@ namespace NadekoBot
             {
                 if (i == requestNumber) {
                     var txt = reqObj.Get<string>("Request");
-                    var id = reqObj.Get<long>("UserId");
-                    var sid = reqObj.Get<long>("ServerId");
+                    var id = reqObj.Get<ulong>("UserId");
+                    var sid = reqObj.Get<ulong>("ServerId");
                     reqObj.DeleteAsync();
                     return new ResolveRequestObject { Id = id, Text = txt, ServerId=sid };
                 }
@@ -165,8 +165,8 @@ namespace NadekoBot
         }
 
         public class ResolveRequestObject {
-            public long Id;
-            public long ServerId;
+            public ulong Id;
+            public ulong ServerId;
             public string Text;
         }
 

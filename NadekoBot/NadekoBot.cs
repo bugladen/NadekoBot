@@ -15,7 +15,7 @@ namespace NadekoBot
        // public static StatsCollector stats_collector;
         public static string botMention;
         public static string GoogleAPIKey;
-        public static long OwnerID;
+        public static ulong OwnerID;
 
         static void Main()
         {

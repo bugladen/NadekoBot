@@ -13,10 +13,10 @@ namespace NadekoBot
 {
     public class Trivia : DiscordCommand
     {
-        public static Dictionary<long, TriviaGame> runningTrivias;
+        public static Dictionary<ulong, TriviaGame> runningTrivias;
 
         public Trivia() : base() {
-            runningTrivias = new Dictionary<long, TriviaGame>();
+            runningTrivias = new Dictionary<ulong, TriviaGame>();
         }
 
         public static TriviaGame StartNewGame(CommandEventArgs e) {
@@ -29,7 +29,7 @@ namespace NadekoBot
             return tg;
         }
 
-        public TriviaQuestion GetCurrentQuestion(long serverId) => runningTrivias[serverId].currentQuestion;
+        public TriviaQuestion GetCurrentQuestion(ulong serverId) => runningTrivias[serverId].currentQuestion;
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
@@ -103,12 +103,12 @@ namespace NadekoBot
     public class TriviaGame {
 
         private DiscordClient client;
-        private long _serverId;
-        private long _channellId;
+        private ulong _serverId;
+        private ulong _channellId;
 
-        public long ChannelId => _channellId;
+        public ulong ChannelId => _channellId;
 
-        private Dictionary<long, int> users;
+        private Dictionary<ulong, int> users;
 
         public List<string> oldQuestions;
 
@@ -121,7 +121,7 @@ namespace NadekoBot
         private bool isQuit = false;
 
         public TriviaGame(CommandEventArgs starter, DiscordClient client) {
-            this.users = new Dictionary<long, int>();
+            this.users = new Dictionary<ulong, int>();
             this.client = client;
             this._serverId = starter.Server.Id;
             this._channellId= starter.Channel.Id;
@@ -196,7 +196,7 @@ namespace NadekoBot
 
             if (currentQuestion == null || isQuit)
             {
-                await ch.Send("Trivia bot stopping. :\\\n" + GetLeaderboard());
+                ch.Send("Trivia bot stopping. :\\\n" + GetLeaderboard());
                 FinishGame();
                 return;
             }

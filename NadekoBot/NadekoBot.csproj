@@ -48,18 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Discord.Net">
-      <HintPath>E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\bin\Debug\Discord.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Discord.Net.Audio">
-      <HintPath>E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net5\bin\Debug\Discord.Net.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="Discord.Net.Commands">
-      <HintPath>E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\bin\Debug\Discord.Net.Commands.dll</HintPath>
-    </Reference>
-    <Reference Include="Discord.Net.Modules">
-      <HintPath>E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\bin\Debug\Discord.Net.Modules.dll</HintPath>
-    </Reference>
     <Reference Include="libvideo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VideoLibrary.1.3.1\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\libvideo.dll</HintPath>
       <Private>True</Private>
@@ -137,6 +125,24 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net5\Discord.Net.Audio.csproj">
+      <Project>{7bfef748-b934-4621-9b11-6302e3a9f6b3}</Project>
+      <Name>Discord.Net.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj">
+      <Project>{1b5603b4-6f8f-4289-b945-7baae523d740}</Project>
+      <Name>Discord.Net.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\Discord.Net.Modules.csproj">
+      <Project>{3091164f-66ae-4543-a63d-167c1116241d}</Project>
+      <Name>Discord.Net.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Net45\Discord.Net.csproj">
+      <Project>{8d71a857-879a-4a10-859e-5ff824ed6688}</Project>
+      <Name>Discord.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

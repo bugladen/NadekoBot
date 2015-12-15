@@ -241,10 +241,14 @@ namespace NadekoBot.Modules
                     .Parameter("user",Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
-                        if (e.Message.MentionedUsers.Any())
-                            await e.Send( "Id of the user " + e.Message.MentionedUsers.First().Mention + " is " + e.Message.MentionedUsers.First().Id);
-                        else
-                            await e.Send( "You must mention a user.");
+                        var usr = client.FindUsers(e.Channel, e.GetArg("user")).FirstOrDefault();
+                        if (usr == null)
+                        {
+                            await e.Send("You must mention a user.");
+                            return;
+                        }
+
+                        await e.Send( "Id of the user " + usr.Name + " is " + usr.Id);
                     });
 
                 cgb.CreateCommand(".cid").Alias(".channelid")
