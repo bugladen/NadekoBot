@@ -307,7 +307,6 @@ namespace NadekoBot.Modules
                         */
                     });
 
-
                 AliasCommand(CreateCommand(cgb, "save"), "s")
                     .Description("Saves something for the owner in a file.")
                     .Parameter("all", ParameterType.Unparsed)
@@ -353,7 +352,28 @@ namespace NadekoBot.Modules
                         string str = Encoding.ASCII.GetString(b);
                         await e.User.Send("```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
                     });
+                cgb.CreateCommand("slm")
+                    .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
+                    .Do(async e => {
 
+                        Message msg;
+                        var msgs = e.Channel.Messages
+                                    .Where(m => m.MentionedUsers.Contains(e.User))
+                                    .OrderBy(m => m.Timestamp);
+                        if (msgs.Count() > 0)
+                            msg = msgs.FirstOrDefault();
+                        else {
+                            var msgsarr = await client.DownloadMessages(e.Channel, 10000);
+                            msg = msgsarr
+                                    .Where(m => m.MentionedUsers.Contains(e.User))
+                                    .OrderBy(m => m.Timestamp)
+                                    .FirstOrDefault();
+                        }
+                        if (msg != null)
+                            await e.Send("Last message mentioning you was at " + msg.Timestamp + "\n**Message:** " + msg.RawText);
+                        else
+                            await e.Send("I can't find a message mentioning you.");
+                    });
                 CreateCommand(cgb, "cs")
                     .Description("Deletes all saves")
                     .Do(async e =>
