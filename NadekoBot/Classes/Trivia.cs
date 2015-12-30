@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -196,7 +197,9 @@ namespace NadekoBot
 
             if (currentQuestion == null || isQuit)
             {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 ch.Send("Trivia bot stopping. :\\\n" + GetLeaderboard());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 FinishGame();
                 return;
             }
@@ -242,7 +245,7 @@ namespace NadekoBot
             
             foreach (var KeyValuePair in users)
             {
-                str += "**" + client.GetUser(client.GetServer(_serverId), KeyValuePair.Key).Name + "** has " +KeyValuePair.Value + (KeyValuePair.Value == 1 ? "point." : "points.") + Environment.NewLine;
+                str += "**" + client.GetServer(_serverId).GetUser(KeyValuePair.Key).Name + "** has " +KeyValuePair.Value + (KeyValuePair.Value == 1 ? "point." : "points.") + Environment.NewLine;
             }
             
             return str;

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Discord.Legacy;
 
 namespace NadekoBot.Modules
 {
@@ -26,13 +27,13 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles) return;
-                        var usr = client.FindUsers(e.Server, e.GetArg("user_name")).FirstOrDefault();
+                        var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
                         if (usr == null) {
                             await e.Send( "You failed to supply a valid username");
                             return;
                         }
 
-                        var role = client.FindRoles(e.Server, e.GetArg("role_name")).FirstOrDefault();
+                        var role = e.Server.FindRoles(e.GetArg("role_name")).FirstOrDefault();
                         if (role == null) {
                             await e.Send( "You failed to supply a valid role");
                             return;
@@ -40,10 +41,8 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await client.EditUser(usr, null, null,null, new Discord.Role[] { role }, Discord.EditMode.Add);
+                            await usr.AddRoles(new Discord.Role[] { role });
                             await e.Send( $"Successfully added role **{role.Name}** to user **{usr.Mention}**");
-                        }
-                        catch (InvalidOperationException) { //fkin voltana and his shenanigans, fix role.Mention pl0x
                         }
                         catch (Exception ex)
                         {
@@ -59,14 +58,15 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles) return;
-                        var usr = client.FindUsers(e.Server, e.GetArg("user_name")).FirstOrDefault();
+
+                        var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
                         if (usr == null)
                         {
                             await e.Send( "You failed to supply a valid username");
                             return;
                         }
 
-                        var role = client.FindRoles(e.Server, e.GetArg("role_name")).FirstOrDefault();
+                        var role = e.Server.FindRoles(e.GetArg("role_name")).FirstOrDefault();
                         if (role == null)
                         {
                             await e.Send( "You failed to supply a valid role");
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await client.EditUser(usr, null, null,null, new Discord.Role[]{ role }, Discord.EditMode.Remove);
+                            await usr.RemoveRoles(new Discord.Role[] { role });
                             await e.Send( $"Successfully removed role **{role.Name}** from user **{usr.Mention}**");
                         }
                         catch (InvalidOperationException) {
@@ -111,9 +111,9 @@ namespace NadekoBot.Modules
                         }
                         try
                         {
-                                var r = await client.CreateRole(e.Server, e.GetArg("role_name"));
-                                await client.EditRole(r, null,null, color);
-                                await e.Send( $"Successfully created role **{r.Mention}**.");
+                                var r = await e.Server.CreateRole(e.GetArg("role_name"));
+                                await r.Edit(null,null, color);
+                                await e.Send( $"Successfully created role **{r.ToString()}**.");
                         }
                         catch (Exception)
                         {
@@ -131,7 +131,7 @@ namespace NadekoBot.Modules
                                 if (e.User.ServerPermissions.BanMembers && e.Message.MentionedUsers.Any())
                                 {
                                     var usr = e.Message.MentionedUsers.First();
-                                    await client.BanUser(e.Message.MentionedUsers.First());
+                                    await usr.Server.Ban(usr);
                                     await e.Send( "Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
                             }
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules
                             if (e.User.ServerPermissions.KickMembers && e.Message.MentionedUsers.Any())
                             {
                                 var usr = e.Message.MentionedUsers.First();
-                                await client.KickUser(e.Message.MentionedUsers.First());
+                                await e.Message.MentionedUsers.First().Kick();
                                 await e.Send("Kicked user " + usr.Name+" Id: "+usr.Id);
                             }
                         }
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await client.DeleteChannel(client.FindChannels(e.Server,e.GetArg("channel_name"),Discord.ChannelType.Voice).FirstOrDefault());
+                                await e.Server.FindChannels(e.GetArg("channel_name"),Discord.ChannelType.Voice).FirstOrDefault()?.Delete();
                                 await e.Send( $"Removed channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await client.CreateChannel(e.Server, e.GetArg("channel_name"), Discord.ChannelType.Voice);
+                                await e.Server.CreateChannel(e.GetArg("channel_name"), Discord.ChannelType.Voice);
                                 await e.Send( $"Created voice channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await client.DeleteChannel(client.FindChannels(e.Server, e.GetArg("channel_name"), Discord.ChannelType.Text).FirstOrDefault());
+                                await e.Server.FindChannels(e.GetArg("channel_name"), Discord.ChannelType.Text).FirstOrDefault()?.Delete();
                                 await e.Send( $"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -227,7 +227,7 @@ namespace NadekoBot.Modules
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await client.CreateChannel(e.Server, e.GetArg("channel_name"), Discord.ChannelType.Text);
+                                await e.Server.CreateChannel(e.GetArg("channel_name"), Discord.ChannelType.Text);
                                 await e.Send( $"Added text channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -241,7 +241,7 @@ namespace NadekoBot.Modules
                     .Parameter("user",Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
-                        var usr = client.FindUsers(e.Channel, e.GetArg("user")).FirstOrDefault();
+                        var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         if (usr == null)
                         {
                             await e.Send("You must mention a user.");
@@ -269,8 +269,8 @@ namespace NadekoBot.Modules
                     .Description("Shows some basic stats for nadeko")
                     .Do(async e =>
                     {
-                        int serverCount = client.AllServers.Count();
-                        int uniqueUserCount = client.AllUsers.Count();
+                        int serverCount = client.Servers.Count();
+                        int uniqueUserCount = client.Servers.Sum(s=>s.Users.Count());
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
                         string uptime = " " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
 

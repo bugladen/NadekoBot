@@ -6,6 +6,7 @@ using Parse;
 using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -16,6 +17,7 @@ namespace NadekoBot
         public static string botMention;
         public static string GoogleAPIKey;
         public static ulong OwnerID;
+        public static string password;
 
         static void Main()
         {
@@ -27,6 +29,7 @@ namespace NadekoBot
                 botMention = c.BotMention;
                 GoogleAPIKey = c.GoogleAPIKey;
                 OwnerID = c.OwnerID;
+                password = c.Password;
             }
             catch (Exception)
             {
@@ -55,10 +58,10 @@ namespace NadekoBot
             //stats_collector = new StatsCollector(commandService);
 
             //add command service
-            var commands = client.AddService(commandService);
+            var commands = client.Services.Add<CommandService>(commandService);
             
             //create module service
-            var modules = client.AddService(new ModuleService());
+            var modules = client.Services.Add<ModuleService>(new ModuleService());
 
             //install modules
             modules.Install(new Administration(), "Administration", FilterType.Unrestricted);

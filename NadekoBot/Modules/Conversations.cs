@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
+using Discord.Legacy;
 
 namespace NadekoBot.Modules
 {
@@ -95,7 +96,7 @@ namespace NadekoBot.Modules
                         }
                         else
                         {
-                            var kw = client.GetUser(e.Server, NadekoBot.OwnerID);
+                            var kw = e.Server.GetUser(NadekoBot.OwnerID);
                             if (kw != null && kw.Status == UserStatus.Online)
                             {
                                 await e.Send(e.User.Mention + " I am great as long as " + kw.Mention + " is with me.");
@@ -114,7 +115,7 @@ namespace NadekoBot.Modules
                     {
                         List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
                         Random r = new Random();
-                        var u = client.FindUsers(e.Channel, e.GetArg("mention")).FirstOrDefault();
+                        var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
                         if (u == null) {
                             await e.Send("Invalid user specified.");
@@ -142,7 +143,7 @@ namespace NadekoBot.Modules
                     {
                         List<string> praises = new List<string> { " You are cool.", " You are nice... But don't get any wrong ideas.", " You did a good job." };
                         Random r = new Random();
-                        var u = client.FindUsers(e.Channel, e.GetArg("mention")).FirstOrDefault();
+                        var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
                         if (u == null)
                         {
@@ -225,7 +226,7 @@ namespace NadekoBot.Modules
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var usr = client.FindUsers(e.Channel, e.GetArg("user")).FirstOrDefault();
+                        var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         string text = "";
                         if (usr == null)
                         {
@@ -234,7 +235,7 @@ namespace NadekoBot.Modules
                         else {
                             text = usr.Name;
                         }
-                        await client.SendFile(e.Channel, "ripzor_m8.png", RipName(text));
+                        await e.Channel.SendFile("ripzor_m8.png", RipName(text));
                     });
 
                 cgb.CreateCommand("j")
@@ -244,7 +245,7 @@ namespace NadekoBot.Modules
                     {
                         try
                         {
-                            await client.AcceptInvite(client.GetInvite(e.Args[0]).Result);
+                            await (await client.GetInvite(e.Args[0])).Accept();
                             await e.Send("I got in!");
                         }
                         catch (Exception)
@@ -363,7 +364,7 @@ namespace NadekoBot.Modules
                         if (msgs.Count() > 0)
                             msg = msgs.FirstOrDefault();
                         else {
-                            var msgsarr = await client.DownloadMessages(e.Channel, 10000);
+                            var msgsarr = await e.Channel.DownloadMessages(10000);
                             msg = msgsarr
                                     .Where(m => m.MentionedUsers.Contains(e.User))
                                     .OrderBy(m => m.Timestamp)
@@ -464,7 +465,7 @@ namespace NadekoBot.Modules
                                 if (sc != null)
                                 {
                                     await e.Send(e.User.Mention + " Request resolved, notice sent.");
-                                    await client.GetUser(client.GetServer(sc.ServerId), sc.Id).Send("**This request of yours has been resolved:**\n" + sc.Text);
+                                    await client.GetServer(sc.ServerId).GetUser(sc.Id).Send("**This request of yours has been resolved:**\n" + sc.Text);
                                 }
                                 else
                                 {
@@ -487,10 +488,10 @@ namespace NadekoBot.Modules
                         {
                             if (e.Channel.Messages.Count() < 50)
                             {
-                                await client.DownloadMessages(e.Channel, 100);
+                                await e.Channel.DownloadMessages(100);
                             }
 
-                            await client.DeleteMessages(e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id));
+                            e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id).ForEach(async m => await m.Delete());
 
                         }
                         catch (Exception)
@@ -515,9 +516,9 @@ namespace NadekoBot.Modules
                             using (MemoryStream ms = new MemoryStream())
                             using (Image img = Image.FromFile("images/hidden.png"))
                             {
-                                img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                img.Save(ms, ImageFormat.Png);
 
-                                await client.EditProfile("", null, null, null, ms, ImageType.Png);
+                                await client.CurrentUser.Edit(NadekoBot.password, null, null, null, ms, ImageType.Png);
                             }
                             await e.Send("*hides*");
                         }
@@ -538,7 +539,7 @@ namespace NadekoBot.Modules
                             {
                                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                                await client.EditProfile("", null, null, null, ms, ImageType.Jpeg);
+                                await client.CurrentUser.Edit(NadekoBot.password, null, null, null, ms, ImageType.Jpeg);
                             }
                             await e.Send("*unhides*");
                         }
@@ -555,10 +556,10 @@ namespace NadekoBot.Modules
                         int i = 0;
                         int j = 0;
                         string invites = "";
-                        foreach (var s in client.AllServers) {
+                        foreach (var s in client.Servers) {
                             try
                             {
-                                var invite = await client.CreateInvite(s, 0, 0);
+                                var invite = await s.CreateInvite(0);
                                 invites+=invite.Url+"\n";
                                 i++;
                             }
@@ -585,17 +586,17 @@ namespace NadekoBot.Modules
                         }
                         randServerSW.Reset();
                         while (true) {
-                            var server = client.AllServers.OrderBy(x => rng.Next()).FirstOrDefault();
+                            var server = client.Servers.OrderBy(x => rng.Next()).FirstOrDefault();
                             if (server == null)
                                 continue;
                             try
                             {
-                                var inv = await client.CreateInvite(server, 100, 5);
+                                var inv = await server.CreateInvite(100, 5);
                                 await e.Send("**Server:** " + server.Name +
                                             "\n**Owner:** " + server.Owner.Name +
-                                            "\n**Channels:** " + server.Channels.Count() +
-                                            "\n**Total Members:** " + server.Members.Count() +
-                                            "\n**Online Members:** " + server.Members.Where(u => u.Status == UserStatus.Online).Count() +
+                                            "\n**Channels:** " + server.AllChannels.Count() +
+                                            "\n**Total Members:** " + server.Users.Count() +
+                                            "\n**Online Members:** " + server.Users.Where(u => u.Status == UserStatus.Online).Count() +
                                             "\n**Invite:** " + inv.Url);
                                 break;
                             }
@@ -608,7 +609,7 @@ namespace NadekoBot.Modules
                     .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
                     .Do(async e =>
                     {
-                        var usr = client.FindUsers(e.Channel, e.GetArg("mention")).FirstOrDefault();
+                        var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (usr == null) {
                             await e.Send("Invalid user specified.");
                             return;

@@ -4,6 +4,7 @@ using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -27,7 +28,7 @@ namespace NadekoBot
                   var isParsed = int.TryParse(e.GetArg("count"), out num);
                   if (!isParsed || num < 2)
                   {
-                      await client.SendFile(e.Channel, cards.DrawACard().Path);
+                      await e.Channel.SendFile(cards.DrawACard().Path);
                       return;
                   }
                   if (num > 5)
@@ -47,7 +48,7 @@ namespace NadekoBot
                       images.Add(Image.FromFile(currentCard.Path));
                   }
                   Bitmap bitmap = ImageHandler.MergeImages(images);
-                  await client.SendFile(e.Channel, images.Count + " cards.jpg", ImageHandler.ImageToStream(bitmap, ImageFormat.Jpeg));
+                  await e.Channel.SendFile(images.Count + " cards.jpg", ImageHandler.ImageToStream(bitmap, ImageFormat.Jpeg));
                   if (cardObjects.Count == 5)
                   {
                       await e.Send(Cards.GetHandValue(cardObjects));

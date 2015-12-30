@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -35,7 +36,7 @@ namespace NadekoBot
                     }
 
                     Bitmap bitmap = ImageHandler.MergeImages(images);
-                    await client.SendFile(e.Channel, "dice.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
+                    await e.Channel.SendFile("dice.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
                     return;
                 }
                 else
@@ -71,7 +72,7 @@ namespace NadekoBot
 
                         Bitmap bitmap = ImageHandler.MergeImages(dices.ToArray());
                         await e.Send( values.Count + " Dies rolled. Total: **"+values.Sum()+"** Average: **"+(values.Sum()/(1.0f*values.Count)).ToString("N2")+"**");
-                        await client.SendFile(e.Channel, "dices.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
+                        await e.Channel.SendFile("dices.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
                     }
                     catch (Exception)
                     {

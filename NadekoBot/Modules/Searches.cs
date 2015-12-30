@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Net.Http;
+using Discord.Legacy;
 
 namespace NadekoBot.Modules
 {
@@ -19,81 +20,6 @@ namespace NadekoBot.Modules
     {
         public Searches() : base()
         {
-
-        }
-
-        class EditUserBuilder {
-
-            public Discord.DiscordClient Client { get; set; }
-            public Discord.User User { get; set; }
-            private bool? ShouldMute { get; set; }
-            private bool? ShouldDeaf { get; set; }
-            private Discord.Channel TargetVoiceChannel { get; set; }
-            private Dictionary<Discord.EditMode, IEnumerable<Discord.Role>> TargetRoles { get; set; }
-
-
-            public EditUserBuilder(Discord.User user, Discord.DiscordClient client = null) {
-                this.User = user;
-                this.Client = client;
-                TargetRoles = new Dictionary<Discord.EditMode, IEnumerable<Discord.Role>>();
-            }
-
-            public EditUserBuilder Mute(bool mute = true) {
-                ShouldMute = mute;
-                return this;
-            }
-
-            public EditUserBuilder Deaf(bool mute = true)
-            {
-                ShouldDeaf = mute;
-                return this;
-            }
-
-            public EditUserBuilder VoiceChannel(Discord.Channel voiceChannel = null)
-            {
-                TargetVoiceChannel = voiceChannel;
-                return this;
-            }
-
-            public EditUserBuilder Roles(IEnumerable<Discord.Role> roles, Discord.EditMode mode)
-            {
-                if (TargetRoles.Keys.Contains(mode))
-                {
-                    TargetRoles[mode] = TargetRoles[mode].Concat(roles);
-                }
-                else
-                {
-                    TargetRoles[mode] = roles;
-                }
-                return this;
-            }
-
-            public async Task Apply() {
-                if (Client == null || User == null) return;  //throw exception?
-                await Client.EditUser(User, ShouldMute, ShouldDeaf, TargetVoiceChannel);
-                foreach (var mode in TargetRoles.Keys) {
-                    await Client.EditUser(User, null, null, null, TargetRoles[mode], mode);
-                }
-                return;
-            }
-
-            public EditUserBuilder SetUser(Discord.User user)
-            {
-                this.User = user;
-                return this;
-            }
-
-            public EditUserBuilder SetClient(Discord.DiscordClient client)
-            {
-                this.Client = client;
-                return this;
-            }
-
-            public EditUserBuilder DoWhen(Func<EditUserBuilder, EditUserBuilder> func, Func<bool> predicate) {
-                if (predicate())
-                    return func(this);
-                return this;
-            }
 
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -18,11 +19,11 @@ namespace NadekoBot
             int num = _r.Next(0, 2);
             if (num == 1)
             {
-                await client.SendFile(e.Channel, @"images/coins/heads.png");
+                await e.Channel.SendFile(@"images/coins/heads.png");
             }
             else
             {
-                await client.SendFile(e.Channel, @"images/coins/tails.png");
+                await e.Channel.SendFile(@"images/coins/tails.png");
             }
         };
 

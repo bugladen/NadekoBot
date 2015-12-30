@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Timers;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -68,7 +69,7 @@ namespace NadekoBot
         private async void TryJoin(MessageEventArgs e, string code) {
             try
             {
-                await NadekoBot.client.AcceptInvite(await NadekoBot.client.GetInvite(code));
+                await (await NadekoBot.client.GetInvite(code)).Accept();
                 await e.Send(e.User.Mention + " I joined it, thanks :)");
                 DEBUG_LOG("Sucessfuly joined server with code " + code);
                 DEBUG_LOG("Here is a link for you: discord.gg/" + code);
@@ -80,7 +81,9 @@ namespace NadekoBot
         }
 
         public static void DEBUG_LOG(string text) {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             NadekoBot.client.GetChannel(119365591852122112).Send(text);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void StartCollecting() {
@@ -91,8 +94,8 @@ namespace NadekoBot
             {
                 var obj = new ParseObject("Stats");
                 dataLastSent = "Data last sent at: "+DateTime.Now.Hour+":"+DateTime.Now.Minute;
-                obj["OnlineUsers"] = NadekoBot.client.AllUsers.Count();
-                obj["ConnectedServers"] = NadekoBot.client.AllServers.Count();
+                obj["OnlineUsers"] = NadekoBot.client.Servers.Sum(x=>x.Users.Count());
+                obj["ConnectedServers"] = NadekoBot.client.Servers.Count();
 
                 obj.SaveAsync();
             };

@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using VideoLibrary;
 using System.Threading;
 using System.Diagnostics;
+using Discord.Legacy;
 
 namespace NadekoBot.Modules
 {
@@ -143,7 +144,7 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                     if (Voice != null) return;
-                    VoiceChannel = client.FindChannels(e.Server, e.GetArg("ChannelName").Trim(), ChannelType.Voice).FirstOrDefault();
+                    VoiceChannel = e.Server.FindChannels(e.GetArg("ChannelName").Trim(), ChannelType.Voice).FirstOrDefault();
                     //Voice = await client.JoinVoiceServer(VoiceChannel);
                     Exit = false;
                     NextSong = false;

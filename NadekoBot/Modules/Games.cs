@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Modules;
+using Discord.Legacy;
 
 namespace NadekoBot.Modules
 {
@@ -25,7 +26,7 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         
-                        var usr = NadekoBot.client.FindUsers(e.Server,e.GetArg("target")).FirstOrDefault();
+                        var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         var usrType = GetType(usr.Id);
                         string response = "";
                         int dmg = GetDamage(usrType, e.GetArg("attack_type").ToLowerInvariant());
@@ -44,7 +45,7 @@ namespace NadekoBot.Modules
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
-                        var usr = NadekoBot.client.FindUsers(e.Server, e.GetArg("target")).FirstOrDefault();
+                        var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         if (usr == null) {
                             await e.Send("No such person.");
                         }

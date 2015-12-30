@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Discord.Commands;
 using Discord;
+using Discord.Legacy;
 
 namespace NadekoBot
 {
@@ -33,7 +34,7 @@ namespace NadekoBot
         /// <param name="message">Message to be sent</param>
         /// <returns></returns>
         public static async Task<Message> Send(this CommandEventArgs e, string message) 
-            => await NadekoBot.client.SendMessage(e.Channel, message);
+            => await e.Channel.SendMessage(message);
 
         /// <summary>
         /// Sends a message to the channel from which MessageEventArg came.
@@ -43,7 +44,7 @@ namespace NadekoBot
         /// <returns></returns>
         public static async Task Send(this MessageEventArgs e, string message)
         {
-            await NadekoBot.client.SendMessage(e.Channel, message);
+            await e.Channel.SendMessage(message);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace NadekoBot
         /// <returns></returns>
         public static async Task Send(this Channel c, string message)
         {
-            await NadekoBot.client.SendMessage(c, message);
+            await c.SendMessage(message);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace NadekoBot
         /// <returns></returns>
         public static async Task Send(this User u, string message)
         {
-            await NadekoBot.client.SendMessage(u, message);
+            await u.SendMessage(message);
         }
 
         /// <summary>
@@ -109,6 +110,12 @@ namespace NadekoBot
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
+            }
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
+            foreach (T element in source) {
+                action(element);
             }
         }
     }
