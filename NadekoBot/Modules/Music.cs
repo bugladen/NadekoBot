@@ -21,7 +21,7 @@ namespace NadekoBot.Modules
         private static bool exit = true;
 
         public static bool NextSong = false;
-        public static DiscordAudioClient Voice;
+        public static IAudioClient Voice;
         public static Channel VoiceChannel;
         public static bool Pause = false;
         public static List<YouTubeVideo> SongQueue = new List<YouTubeVideo>();
@@ -96,6 +96,21 @@ namespace NadekoBot.Modules
                         }
                     });
 
+                cgb.CreateCommand("testq")
+                    .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
+                    .Parameter("Query", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var youtube = YouTube.Default;
+                        var video = youtube.GetAllVideos(e.GetArg("Query"))
+                            .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                            .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
+
+                        if (video?.Uri != "" && video.Uri != null) {
+                            SongQueue.Add(video);
+                            await e.Send("**Queued** " + video.FullName);
+                        }
+                    });
+
                 cgb.CreateCommand("q")
                     .Alias("yq")
                     .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
@@ -145,7 +160,7 @@ namespace NadekoBot.Modules
                     {
                     if (Voice != null) return;
                     VoiceChannel = e.Server.FindChannels(e.GetArg("ChannelName").Trim(), ChannelType.Voice).FirstOrDefault();
-                    //Voice = await client.JoinVoiceServer(VoiceChannel);
+                    Voice = await client.Audio().Join(VoiceChannel);
                     Exit = false;
                     NextSong = false;
                     Pause = false;
@@ -166,18 +181,28 @@ namespace NadekoBot.Modules
                                         await e.Send( "Exiting...");
                                         return;
                                     }
-                                    int blockSize = 1920;
-                                    byte[] buffer = new byte[1920];
-                                    //float multiplier = 1.0f / 48000 / 2;
+                                    int blockSize = 3840;
+                                    byte[] buffer = new byte[3840];
                                     
                                     var msg = await e.Send( "Playing " + Music.CurrentSong.FullName + " [00:00]");
                                     int counter = 0;
                                     int byteCount;
                                     using (var stream = GetAudioFileStream(Music.CurrentSong.Uri))
                                     {
-                                        while ((byteCount = stream.Read(buffer, 0, blockSize)) > 0)
+                                        var m = await e.Send("Downloading song...");
+                                        var memStream = new MemoryStream();
+                                        while (true) {
+                                            byte[] buff = new byte[0x4000 * 10];
+                                            int read = stream.Read(buff, 0, buff.Length);
+                                            if (read <= 0) break;
+                                            memStream.Write(buff, 0, read);
+                                        }
+
+                                        e.Send("Song downloaded");
+                                        memStream.Position = 0;
+                                        while ((byteCount = memStream.Read(buffer, 0, blockSize)) > 0)
                                         {
-                                          //  Voice.SendVoicePCM(buffer, byteCount);
+                                            Voice.Send(buffer, byteCount);
                                             counter += blockSize;
                                             if (NextSong)
                                             {
@@ -194,10 +219,10 @@ namespace NadekoBot.Modules
                                     }
                                 });
                             }
-                         //   await Voice.WaitVoice();
+                        Voice.Wait();
                         }
                         catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-                       // await client.LeaveVoiceServer(VoiceChannel.Server);
+                        await Voice.Disconnect();
                         Voice = null;
                         VoiceChannel = null;
                     });
@@ -209,7 +234,7 @@ namespace NadekoBot.Modules
             Process p = Process.Start(new ProcessStartInfo()
             {
                 FileName = "ffmpeg",
-                Arguments = "-i \"" + Uri.EscapeUriString(file) + "\" -f s16le -ar 48000 -af volume=1 -ac 1 pipe:1 ",
+                Arguments = "-i \"" + Uri.EscapeUriString(file) + "\" -f s16le -ar 48000 -af volume=1 -ac 2 pipe:1 ",
                 UseShellExecute = false,
                 RedirectStandardOutput = true
             });
