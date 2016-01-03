@@ -7,6 +7,7 @@ using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
 using Discord.Legacy;
+using Discord.Audio;
 
 namespace NadekoBot
 {
@@ -63,12 +64,17 @@ namespace NadekoBot
             //create module service
             var modules = client.Services.Add<ModuleService>(new ModuleService());
 
+            //add audio service
+            var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
+                Channels = 2
+            }));
+
             //install modules
             modules.Install(new Administration(), "Administration", FilterType.Unrestricted);
             modules.Install(new Conversations(), "Conversations", FilterType.Unrestricted);
             modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
             modules.Install(new Games(), "Games", FilterType.Unrestricted);
-            //modules.Install(new Music(), "Music", FilterType.Unrestricted);
+            modules.Install(new Music(), "Music", FilterType.Unrestricted);
             modules.Install(new Searches(), "Searches", FilterType.Unrestricted);
 
             //run the bot

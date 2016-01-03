@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Modules", "E:\O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Commands", "E:\Ostalo\Discord.Net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj", "{1B5603B4-6F8F-4289-B945-7BAAE523D740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Audio", "E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net5\Discord.Net.Audio.csproj", "{7BFEF748-B934-4621-9B11-6302E3A9F6B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Audio", "E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net45\Discord.Net.Audio.csproj", "{7BFEF748-B934-4621-9B11-6302E3A9F6B3}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
