@@ -44,19 +44,19 @@ Enjoy
 `.rr` [.removerole ] **Description:** Removes a role from a given user.  
 **Usage:** .rr @User Admin  
 `.r` [.role ] [.cr ] **Description:** Creates a role with a given name, and color.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.b` [.ban ] **Description:** Kicks a mentioned user  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.k` [.kick ] **Description:** Kicks a mentioned user.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.rvch` **Description:** Removes a voice channel with a given name.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions. ` 
 `.vch` [.cvch ] **Description:** Creates a new voice channel with a given name.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.rch` [.rtch ] **Description:** Removes a text channel with a given name.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.ch` [.tch ] **Description:** Creates a new text channel with a given name.  
-`Both the user and the bot must have the sufficient permissions.  
+`Both the user and the bot must have the sufficient permissions.`  
 `.uid` [.userid ] **Description:** Shows user id  
 `.cid` [.channelid ] **Description:** Shows current channel id  
 `.sid` [.serverid ] **Description:** Shows current server id  
