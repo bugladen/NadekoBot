@@ -50,7 +50,7 @@ Enjoy
 `.k` [.kick ] **Description:** Kicks a mentioned user.  
 `Both the user and the bot must have the sufficient permissions.`  
 `.rvch` **Description:** Removes a voice channel with a given name.  
-`Both the user and the bot must have the sufficient permissions. ` 
+`Both the user and the bot must have the sufficient permissions. `  
 `.vch` [.cvch ] **Description:** Creates a new voice channel with a given name.  
 `Both the user and the bot must have the sufficient permissions.`  
 `.rch` [.rtch ] **Description:** Removes a text channel with a given name.  
