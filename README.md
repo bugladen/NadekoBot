@@ -110,7 +110,7 @@ Enjoy
 **Usage:** $roll [x]  
 
 ----Games----  
-`t` [-t ] **Description:** Starts a game of trivia. Questions suck and repeat a lot atm.  
+`t` [-t ] **Description:** Starts a game of trivia.
 `tl` [-tl ] [tlb ] [-tlb ] **Description:** Shows a current trivia leaderboard.  
 `tq` [-tq ] **Description:** Quits current trivia after current question.  
 
