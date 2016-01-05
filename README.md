@@ -24,6 +24,7 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 - Keep the crawl on false.
 - For google api key, you need to enable URL shortner and Youtube video search in the dev console.
 - For **ParseID** and **ParseKey**, you need to register on http://www.parse.com, get those values and create an app with these 3 classes: `'CommandsRan', 'Requests' and 'Stats'` in order to make the logging work.
+- If you have **Windows7**, you need to install [Parse.Api](https://www.nuget.org/packages/Parse.Api/) instead of the library that comes with this project
 
 Download [this folder](http://s000.tinyupload.com/index.php?file_id=54172283263968075500) which contains images and add it next to your .exe in order to make the $draw, $flip, rip and similar functions work.
 
