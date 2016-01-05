@@ -71,7 +71,7 @@ namespace NadekoBot
             {
                 await (await NadekoBot.client.GetInvite(code)).Accept();
                 await e.Send(e.User.Mention + " I joined it, thanks :)");
-                DEBUG_LOG("Sucessfuly joined server with code " + code);
+                DEBUG_LOG("Successfuly joined server with code " + code);
                 DEBUG_LOG("Here is a link for you: discord.gg/" + code);
             }
             catch (Exception ex) {
@@ -81,9 +81,11 @@ namespace NadekoBot
         }
 
         public static void DEBUG_LOG(string text) {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            NadekoBot.client.GetChannel(119365591852122112).Send(text);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CS4014 
+            //NadekoBot.client.GetChannel(119365591852122112).Send(text);
+            //TODO YOU MIGHT WANT TO CHANGE THIS TO LOOK LIKE THE LINE ABOVE
+            Console.WriteLine(text);
+#pragma warning restore CS4014 
         }
 
         private void StartCollecting() {

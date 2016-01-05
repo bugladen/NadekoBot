@@ -66,7 +66,8 @@ namespace NadekoBot
 
             //add audio service
             var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
-                Channels = 2
+                Channels = 2,
+                EnableEncryption = false
             }));
 
             //install modules
