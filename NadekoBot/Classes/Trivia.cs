@@ -68,7 +68,7 @@ namespace NadekoBot
         public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("t")
-                .Description("Starts a game of trivia. Questions suck and repeat a lot atm.")
+                .Description("Starts a game of trivia.")
                 .Alias("-t")
                 .Do(DoFunc());
 

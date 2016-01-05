@@ -20,7 +20,7 @@ namespace NadekoBot.Modules
             {
                 commands.ForEach(cmd => cmd.Init(cgb));
                 cgb.CreateCommand(">")
-                    .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: @BotName strike @User")
+                    .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")
                     .Parameter("attack_type",Discord.Commands.ParameterType.Required)
                     .Parameter("target",Discord.Commands.ParameterType.Required)
                     .Do(async e =>
@@ -43,6 +43,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
+                    .Description("Gets the users element type. Use this to do more damage with strike")
                     .Do(async e =>
                     {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();

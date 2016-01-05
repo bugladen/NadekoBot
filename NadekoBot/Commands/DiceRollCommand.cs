@@ -88,7 +88,7 @@ namespace NadekoBot
         public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("$roll")
-                .Description("Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice.\nUsage: $roll [x]")
+                .Description("Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice.\n**Usage**: $roll [x]")
                 .Parameter("num", ParameterType.Optional)
                 .Do(DoFunc());
         }

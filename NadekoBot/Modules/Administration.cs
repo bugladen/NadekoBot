@@ -21,7 +21,7 @@ namespace NadekoBot.Modules
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(".sr").Alias(".setrole")
-                    .Description("Sets a role for a given user.\nUsage: .sr @User Guest")
+                    .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", Discord.Commands.ParameterType.Required)
                     .Parameter("role_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".rr").Alias(".removerole")
-                    .Description("Removes a role from a given user.\nUsage: .rr @User Admin")
+                    .Description("Removes a role from a given user.\n**Usage**: .rr @User Admin")
                     .Parameter("user_name", Discord.Commands.ParameterType.Required)
                     .Parameter("role_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".r").Alias(".role").Alias(".cr")
-                    .Description("Creates a role with a given name, and color.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Creates a role with a given name, and color.")
                     .Parameter("role_name",Discord.Commands.ParameterType.Required)
                     .Parameter("role_color",Discord.Commands.ParameterType.Optional)
                     .Do(async e =>
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".b").Alias(".ban")
-                    .Description("Kicks a mentioned user\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Kicks a mentioned user")
                         .Do(async e =>
                         {
                             try
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".k").Alias(".kick")
                     .Parameter("user")
-                    .Description("Kicks a mentioned user.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Kicks a mentioned user.")
                     .Do(async e =>
                     {
                         try
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".rvch")
-                    .Description("Removes a voice channel with a given name.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Removes a voice channel with a given name.")
                     .Parameter("channel_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".vch").Alias(".cvch")
-                    .Description("Creates a new voice channel with a given name.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Creates a new voice channel with a given name.")
                     .Parameter("channel_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
@@ -200,7 +200,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".rch").Alias(".rtch")
-                    .Description("Removes a text channel with a given name.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Removes a text channel with a given name.")
                     .Parameter("channel_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".ch").Alias(".tch")
-                    .Description("Creates a new text channel with a given name.\n*Both the user and the bot must have the sufficient permissions.*")
+                    .Description("Creates a new text channel with a given name.")
                     .Parameter("channel_name", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {

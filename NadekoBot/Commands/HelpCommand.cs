@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Legacy;
+using System.IO;
 
 namespace NadekoBot
 {
@@ -31,12 +32,34 @@ namespace NadekoBot
             await e.User.Send(helpstr);
         };
 
+        public Action<CommandEventArgs> DoGitFunc() => e => {
+            string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/** \n";
+
+            string lastCategory = "";
+            foreach (var com in client.Commands().AllCommands) {
+                if (com.Category != lastCategory) {
+                    helpstr += "\n### " + com.Category + "  \n";
+                    helpstr += "Command [alias] | Description | Usage\n";
+                    helpstr += "----------------|--------------|-------\n";
+                    lastCategory = com.Category;
+                }
+                helpstr += PrintCommandHelp(com);
+            }
+            helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
+            helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
+            File.WriteAllText("readme.md",helpstr);
+            return;
+        };
+
         public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("-h")
                 .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h" })
                 .Description("Help command")
                 .Do(DoFunc());
+            cgb.CreateCommand("-hgit")
+                .Description("Help command stylized for github readme")
+                .Do(DoGitFunc());
         }
 
         private string PrintCommandHelp(Command com)

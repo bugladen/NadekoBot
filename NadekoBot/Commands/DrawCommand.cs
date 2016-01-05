@@ -63,7 +63,7 @@ namespace NadekoBot
         public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("$draw")
-                .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\nUsage: $draw [x]")
+                .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
         }

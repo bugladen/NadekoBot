@@ -84,7 +84,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("testq")
-                    .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
+                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
                     .Do(async e => {
                         var youtube = YouTube.Default;
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
+                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
                     .Do(async e => {
                         var youtube = YouTube.Default;
