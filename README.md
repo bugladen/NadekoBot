@@ -36,7 +36,7 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands  
-(may be incomplete) 10.12.2015
+(may be incomplete) last updated: 5.1.2015
 
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
