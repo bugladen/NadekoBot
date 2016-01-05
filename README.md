@@ -1,6 +1,6 @@
 # NadekoBot
 
-Nadeko Discord chatbot I made in c#, using Discord.net library.  
+Nadeko Discord chatbot written in C# using Discord.net library.  
 You can also create a very basic web-ui with the data that is in the Parse DB. [example](http://www.nadekobot.tk)
 
 ##This section will guide you through how to setup NadekoBot
