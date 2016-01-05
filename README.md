@@ -29,6 +29,7 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 Download [this folder](http://s000.tinyupload.com/index.php?file_id=54172283263968075500) which contains images and add it next to your .exe in order to make the $draw, $flip, rip and similar functions work.
 
 You should replace nadeko's image with the image of your bot in order to make the hide/unhide commands work as intended.
+You should **remove** Discord.Net projects from your solution, and use DLLs instead, as instructed above.  
 
 **You are all set.**
 Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
