@@ -94,7 +94,8 @@ namespace NadekoBot.Modules {
 
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
-                            await e.Send("**Queued** " + video.FullName);
+                            
+                            await e.Send("**Queued** " + video.FullName+ video.Stream().Length);
                         }
                     });
 
@@ -107,7 +108,7 @@ namespace NadekoBot.Modules {
                         var video = youtube.GetAllVideos(Searches.FindYoutubeUrlByKeywords(e.Args[0]))
                             .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
                             .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
-
+                        
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
                             await e.Send("**Queued** " + video.FullName);
