@@ -3,7 +3,8 @@
 Nadeko Discord chatbot written in C# using Discord.net library.  
 You can also create a very basic web-ui with the data that is in the Parse DB. [example](http://www.nadekobot.tk)
 
-##This section will guide you through how to setup NadekoBot
+##This section will guide you through how to setup NadekoBot from the source code
+#### If you want to semi-easily setup the bot, go to [releases](https://github.com/Kwoth/NadekoBot/releases)
 After you have cloned this repo, move the libopus and libsodium from the DLLs folder to the bin/debug. And after removing all of Discord.Net's project references, add other dlls from dll folder as a reference. Those are part of the libraries you will need for your project. The other part should resolve after you start the project for the first time. All the references are shown [in this image.](http://icecream.me/uploads/72738d3b2797e46767e10820998ad5b3.png)
 
 In your bin/debug folder (or next to your exe), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, where to store data, etc.
