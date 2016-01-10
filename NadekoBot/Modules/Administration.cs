@@ -87,7 +87,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".r").Alias(".role").Alias(".cr")
-                    .Description("Creates a role with a given name, and color.")
+                    .Description("Creates a role with a given name, and color.\n**Usage**: .r AwesomeRole Orange")
                     .Parameter("role_name",Discord.Commands.ParameterType.Required)
                     .Parameter("role_color",Discord.Commands.ParameterType.Optional)
                     .Do(async e =>
@@ -115,15 +115,11 @@ namespace NadekoBot.Modules
                                 await r.Edit(null,null, color);
                                 await e.Send( $"Successfully created role **{r.ToString()}**.");
                         }
-                        catch (Exception)
-                        {
-                            await e.Send( "No sufficient permissions.");
-                        }
-                        return;
+                        catch (Exception) { }
                     });
 
                 cgb.CreateCommand(".b").Alias(".ban")
-                    .Description("Kicks a mentioned user")
+                    .Description("Bans a mentioned user")
                         .Do(async e =>
                         {
                             try
@@ -134,11 +130,19 @@ namespace NadekoBot.Modules
                                     await usr.Server.Ban(usr);
                                     await e.Send( "Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            }
-                            catch (Exception)
-                            {
-                                await e.Send( "No sufficient permissions.");
-                            }
+                            } catch (Exception) { }
+                        });
+
+                cgb.CreateCommand(".ub").Alias(".unban")
+                    .Description("Unbans a mentioned user")
+                        .Do(async e => {
+                            try {
+                                if (e.User.ServerPermissions.BanMembers && e.Message.MentionedUsers.Any()) {
+                                    var usr = e.Message.MentionedUsers.First();
+                                    await usr.Server.Unban(usr);
+                                    await e.Send("Unbanned user " + usr.Name + " Id: " + usr.Id);
+                                }
+                            } catch (Exception) { }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
