@@ -78,6 +78,18 @@ namespace NadekoBot.Modules
                         }
                         await e.Send( result.ToString());
                     });
+
+                cgb.CreateCommand("~randomcat")
+                    .Description("Shows a random cat image.")
+                    .Do(async e => {
+                        try {
+                            await e.Send(JObject.Parse(new StreamReader(
+                                WebRequest.Create("http://www.random.cat/meow")
+                                    .GetResponse()
+                                    .GetResponseStream())
+                                .ReadToEnd())["file"].ToString());
+                        } catch (Exception) { }
+                    });
             });
         }
 
