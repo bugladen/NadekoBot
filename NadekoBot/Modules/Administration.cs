@@ -241,6 +241,15 @@ namespace NadekoBot.Modules
                         }
                     });
 
+                cgb.CreateCommand(".st").Alias(".settopic")
+                    .Description("Sets a topic on the current channel.")
+                    .Parameter("topic",Discord.Commands.ParameterType.Unparsed)
+                    .Do(async e => {
+                        try {
+                            await e.Channel.Edit(topic: e.GetArg("topic"));
+                        } catch (Exception) { }
+                    });
+
                 cgb.CreateCommand(".uid").Alias(".userid")
                     .Description("Shows user id")
                     .Parameter("user",Discord.Commands.ParameterType.Required)
