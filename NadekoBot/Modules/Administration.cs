@@ -278,6 +278,7 @@ namespace NadekoBot.Modules
                     });
                 cgb.CreateCommand(".prune")
                     .Parameter("num", Discord.Commands.ParameterType.Required)
+                    .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
                     .Do(async e => {
                         int num;
 
