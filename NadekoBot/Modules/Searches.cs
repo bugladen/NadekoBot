@@ -13,6 +13,7 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Discord.Legacy;
+using Discord.Commands;
 
 namespace NadekoBot.Modules
 {
@@ -89,6 +90,58 @@ namespace NadekoBot.Modules
                                     .GetResponseStream())
                                 .ReadToEnd())["file"].ToString());
                         } catch (Exception) { }
+                    });
+
+                cgb.CreateCommand("~i")
+                   .Description("Pulls a first image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
+                   .Alias("img")
+                   .Parameter("all", ParameterType.Unparsed)
+                       .Do(async e => {
+                           await e.Send("This feature is being reconstructed.");
+                           /*
+                           var httpClient = new System.Net.Http.HttpClient();
+                           string str = e.Args[0];
+
+                           var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=0").Result;
+
+                           dynamic obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
+                           if (obj.responseData.results.Count == 0)
+                           {
+                               await e.Send("No results found for that keyword :\\");
+                               return;
+                           }
+                           string s = Searches.ShortenUrl(obj.responseData.results[0].url.ToString());
+                           await e.Send(s);
+                           */
+                       });
+
+                cgb.CreateCommand("~ir")
+                    .Description("Pulls a random image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
+                    .Alias("imgrandom")
+                    .Parameter("all", ParameterType.Unparsed)
+                    .Do(async e => {
+                        await e.Send("This feature is being reconstructed.");
+                        /*
+                        var httpClient = new System.Net.Http.HttpClient();
+                        string str = e.Args[0];
+                        var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=" + rng.Next(0, 30)).Result;
+                        JObject obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
+                        try
+                        {
+                            Console.WriteLine(obj.ToString());
+                            if (obj["responseData"]["results"].Count() == 0)
+                            {
+                                await e.Send("No results found for that keyword :\\");
+                                return;
+                            }
+                            int rnd = rng.Next(0, obj["responseData"]["results"].Count());
+                            string s = Searches.ShortenUrl(obj["responseData"]["results"][rnd]["url"].ToString());
+                            await e.Send(s);
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine(ex.ToString());
+                        }
+                        */
                     });
             });
         }

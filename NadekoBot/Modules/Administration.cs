@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Discord.Legacy;
+using System.Timers;
 
 namespace NadekoBot.Modules
 {
@@ -293,6 +294,33 @@ namespace NadekoBot.Modules
 
                         (await e.Channel.DownloadMessages(num)).ForEach(async m => await m.Delete());
 
+                    });
+
+                cgb.CreateCommand(".die")
+                    .Description("Works only for the owner. Shuts the bot down.")
+                    .Do(async e => {
+                        if (e.User.Id == NadekoBot.OwnerID) {
+                            Timer t = new Timer();
+                            t.Interval = 2000;
+                            t.Elapsed += (s, ev) => { Environment.Exit(0); };
+                            t.Start();
+                            await e.Send("Shutting down.");
+                        }
+                    });
+
+                cgb.CreateCommand(".clr")
+                    .Description("Clears some of nadeko's messages from the current channel.")
+                    .Do(async e => {
+                        try {
+                            if (e.Channel.Messages.Count() < 50) {
+                                await e.Channel.DownloadMessages(100);
+                            }
+
+                            e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id).ForEach(async m => await m.Delete());
+
+                        } catch (Exception) {
+                            await e.Send("I cant do it :(");
+                        }
                     });
 
             });

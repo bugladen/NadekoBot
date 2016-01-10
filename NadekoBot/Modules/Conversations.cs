@@ -60,14 +60,12 @@ namespace NadekoBot.Modules
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                CreateCommand(cgb, "do you love me")
-                    .Description("Replies with positive answer only to the bot owner.")
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                            await e.Send(e.User.Mention + ", Of course I do, my Master.");
-                        else
-                            await e.Send(e.User.Mention + ", Don't be silly.");
+                CreateCommand(cgb, "uptime")
+                    .Description("Shows how long is Nadeko running for.")
+                    .Do(async e => {
+                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
+                        string str = "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+                        await e.Send(str);
                     });
 
                 CreateCommand(cgb, "die")
@@ -84,6 +82,44 @@ namespace NadekoBot.Modules
                         }
                         else
                             await e.Send(e.User.Mention + ", No.");
+                    });
+
+                Stopwatch randServerSW = new Stopwatch();
+                randServerSW.Start();
+
+                cgb.CreateCommand("randserver")
+                    .Description("Generates an invite to a random server and prints some stats.")
+                    .Do(async e => {
+                        if (randServerSW.ElapsedMilliseconds / 1000 < 1800) {
+                            await e.Send("You have to wait " + (1800 - randServerSW.ElapsedMilliseconds / 1000) + " more seconds to use this function.");
+                            return;
+                        }
+                        randServerSW.Reset();
+                        while (true) {
+                            var server = client.Servers.OrderBy(x => rng.Next()).FirstOrDefault();
+                            if (server == null)
+                                continue;
+                            try {
+                                var inv = await server.CreateInvite(100, 5);
+                                await e.Send("**Server:** " + server.Name +
+                                            "\n**Owner:** " + server.Owner.Name +
+                                            "\n**Channels:** " + server.AllChannels.Count() +
+                                            "\n**Total Members:** " + server.Users.Count() +
+                                            "\n**Online Members:** " + server.Users.Where(u => u.Status == UserStatus.Online).Count() +
+                                            "\n**Invite:** " + inv.Url);
+                                break;
+                            } catch (Exception) { continue; }
+                        }
+                    });
+
+
+                CreateCommand(cgb, "do you love me")
+                    .Description("Replies with positive answer only to the bot owner.")
+                    .Do(async e => {
+                        if (e.User.Id == NadekoBot.OwnerID)
+                            await e.Send(e.User.Mention + ", Of course I do, my Master.");
+                        else
+                            await e.Send(e.User.Mention + ", Don't be silly.");
                     });
 
                 CreateCommand(cgb, "how are you")
@@ -189,16 +225,7 @@ namespace NadekoBot.Modules
                     .Description("Nadeko instructs you to type $draw. Gambling functions start with $")
                     .Do(async e =>
                     {
-                        await e.Send("Sorry i don't gamble, type $draw for that function.");
-                    });
-
-                CreateCommand(cgb, "uptime")
-                    .Description("Shows how long is Nadeko running for.")
-                    .Do(async e =>
-                    {
-                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        string str = "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
-                        await e.Send(str);
+                        await e.Send("Sorry, I don't gamble, type $draw for that function.");
                     });
                 CreateCommand(cgb, "fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
@@ -239,7 +266,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("j")
-                    .Description("Joins a server using a code. Obsolete, since nadeko will autojoin any valid code in chat.")
+                    .Description("Joins a server using a code.")
                     .Parameter("id", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -252,60 +279,6 @@ namespace NadekoBot.Modules
                         {
                             await e.Send("Invalid code.");
                         }
-                    });
-
-                cgb.CreateCommand("i")
-                   .Description("Pulls a first image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
-                   .Alias("img")
-                   .Parameter("all", ParameterType.Unparsed)
-                       .Do(async e =>
-                       {
-                           await e.Send("This feature is being reconstructed.");
-                           /*
-                           var httpClient = new System.Net.Http.HttpClient();
-                           string str = e.Args[0];
-
-                           var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=0").Result;
-
-                           dynamic obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
-                           if (obj.responseData.results.Count == 0)
-                           {
-                               await e.Send("No results found for that keyword :\\");
-                               return;
-                           }
-                           string s = Searches.ShortenUrl(obj.responseData.results[0].url.ToString());
-                           await e.Send(s);
-                           */
-                       });
-
-                cgb.CreateCommand("ir")
-                    .Description("Pulls a random image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
-                    .Alias("imgrandom")
-                    .Parameter("all", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        await e.Send("This feature is being reconstructed.");
-                        /*
-                        var httpClient = new System.Net.Http.HttpClient();
-                        string str = e.Args[0];
-                        var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=" + rng.Next(0, 30)).Result;
-                        JObject obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
-                        try
-                        {
-                            Console.WriteLine(obj.ToString());
-                            if (obj["responseData"]["results"].Count() == 0)
-                            {
-                                await e.Send("No results found for that keyword :\\");
-                                return;
-                            }
-                            int rnd = rng.Next(0, obj["responseData"]["results"].Count());
-                            string s = Searches.ShortenUrl(obj["responseData"]["results"][rnd]["url"].ToString());
-                            await e.Send(s);
-                        }
-                        catch (Exception ex) {
-                            Console.WriteLine(ex.ToString());
-                        }
-                        */
                     });
 
                 AliasCommand(CreateCommand(cgb, "save"), "s")
@@ -480,26 +453,6 @@ namespace NadekoBot.Modules
                         else await e.Send("You don't have permission to do that.");
                     });
 
-                CreateCommand(cgb, "clr")
-                    .Description("Clears some of nadeko's messages from the current channel.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
-                            if (e.Channel.Messages.Count() < 50)
-                            {
-                                await e.Channel.DownloadMessages(100);
-                            }
-
-                            e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id).ForEach(async m => await m.Delete());
-
-                        }
-                        catch (Exception)
-                        {
-                            await e.Send("I cant do it :(");
-                        }
-                    });
-
                 CreateCommand(cgb, "call")
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
@@ -572,37 +525,7 @@ namespace NadekoBot.Modules
                         await e.Send($"Got invites for {i} servers and failed to get invites for {j} servers");
                     });
 
-                Stopwatch randServerSW = new Stopwatch();
-                randServerSW.Start();
-
-                cgb.CreateCommand("randserver")
-                    .Description("Generates an invite to a random server and prints some stats.")
-                    .Do(async e =>
-                    {
-                        if (randServerSW.ElapsedMilliseconds / 1000 < 1800)
-                        {
-                            await e.Send("You have to wait " + (1800 - randServerSW.ElapsedMilliseconds / 1000) + " more seconds to use this function.");
-                            return;
-                        }
-                        randServerSW.Reset();
-                        while (true) {
-                            var server = client.Servers.OrderBy(x => rng.Next()).FirstOrDefault();
-                            if (server == null)
-                                continue;
-                            try
-                            {
-                                var inv = await server.CreateInvite(100, 5);
-                                await e.Send("**Server:** " + server.Name +
-                                            "\n**Owner:** " + server.Owner.Name +
-                                            "\n**Channels:** " + server.AllChannels.Count() +
-                                            "\n**Total Members:** " + server.Users.Count() +
-                                            "\n**Online Members:** " + server.Users.Where(u => u.Status == UserStatus.Online).Count() +
-                                            "\n**Invite:** " + inv.Url);
-                                break;
-                            }
-                            catch (Exception) { continue; }
-                        }
-                    });
+                
 
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
