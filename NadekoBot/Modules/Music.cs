@@ -111,7 +111,8 @@ namespace NadekoBot.Modules {
                         
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
-                            await e.Send("**Queued** " + video.FullName);
+                            if(SongQueue.Count > 1)
+                                await e.Send("**Queued** " + video.FullName);
                         }
                     });
 
@@ -171,7 +172,6 @@ namespace NadekoBot.Modules {
                                     var msg = await e.Send("Playing " + Music.CurrentSong.FullName + " [00:00]");
                                     int counter = 0;
                                     int byteCount;
-                                    var m = await e.Send("Downloading song...");
 
                                     while ((byteCount = streamer.PCMOutput.Read(buffer, 0, blockSize)) > 0) {
                                         Voice.Send(buffer, byteCount);

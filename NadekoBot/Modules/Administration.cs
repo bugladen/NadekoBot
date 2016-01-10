@@ -274,8 +274,22 @@ namespace NadekoBot.Modules
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
                         string uptime = " " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
 
-                        await e.Send( String.Format("```Servers: {0}\nUnique Users: {1}\nUptime: {2}\nMy id is: {3}```", serverCount, uniqueUserCount, uptime, client.CurrentUser.Id));
+                        await e.Send($"```Servers: {serverCount}\nUnique Users: {uniqueUserCount}\nUptime: {uptime}\nMy id is: {client.CurrentUser.Id}```");
                     });
+                cgb.CreateCommand(".prune")
+                    .Parameter("num", Discord.Commands.ParameterType.Required)
+                    .Do(async e => {
+                        int num;
+
+                        if (!Int32.TryParse(e.GetArg("num"), out num) || num < 1) {
+                            await e.Send("Incorrect amount.");
+                            return;
+                        }
+
+                        (await e.Channel.DownloadMessages(num)).ForEach(async m => await m.Delete());
+
+                    });
+
             });
 
         }

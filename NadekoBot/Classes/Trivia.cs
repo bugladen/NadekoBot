@@ -140,6 +140,7 @@ namespace NadekoBot
 
         private async void PotentialGuess(object sender, MessageEventArgs e)
         {
+            if (e.Server == null || e.Channel == null) return;
             if (e.Server.Id != _serverId || !active)
                 return;
 
