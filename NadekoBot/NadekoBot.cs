@@ -14,9 +14,9 @@ namespace NadekoBot
     class NadekoBot
     {
         public static DiscordClient client;
-       // public static StatsCollector stats_collector;
+        public static StatsCollector stats_collector;
         public static string botMention;
-        public static string GoogleAPIKey;
+        public static string GoogleAPIKey = null;
         public static ulong OwnerID;
         public static string password;
 
@@ -28,7 +28,9 @@ namespace NadekoBot
             {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
                 botMention = c.BotMention;
-                GoogleAPIKey = c.GoogleAPIKey;
+                if (c.GoogleAPIKey == null || c.GoogleAPIKey == "") {
+                    Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
+                }
                 OwnerID = c.OwnerID;
                 password = c.Password;
             }
@@ -39,14 +41,8 @@ namespace NadekoBot
                 return;
             }
 
-            client = new DiscordClient();
-            
-            //init parse
-            if (c.ParseKey != null && c.ParseID != null)
-                ParseClient.Initialize(c.ParseID,c.ParseKey);
-
             //create new discord client
-            
+            client = new DiscordClient();
 
             //create a command service
             var commandService = new CommandService(new CommandServiceConfig
@@ -55,8 +51,16 @@ namespace NadekoBot
                 HelpMode = HelpMode.Disable
             });
 
-            //monitor commands for logging
-            //stats_collector = new StatsCollector(commandService);
+            //init parse
+            if (c.ParseKey != null && c.ParseID != null && c.ParseID != "" && c.ParseKey != "") {
+                ParseClient.Initialize(c.ParseID, c.ParseKey);
+
+                //monitor commands for logging
+                stats_collector = new StatsCollector(commandService);
+            } else {
+                Console.WriteLine("Parse key and/or ID not found. Bot will not log.");
+            }
+
 
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);

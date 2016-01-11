@@ -177,7 +177,6 @@ namespace NadekoBot
 
         private void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
-            Console.WriteLine("command ran");
             commandsRan++;
             var obj = new ParseObject("CommandsRan");
 

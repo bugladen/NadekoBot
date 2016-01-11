@@ -83,22 +83,6 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand("testq")
-                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
-                    .Parameter("Query", ParameterType.Unparsed)
-                    .Do(async e => {
-                        var youtube = YouTube.Default;
-                        var video = youtube.GetAllVideos(e.GetArg("Query"))
-                            .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
-                            .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
-
-                        if (video?.Uri != "" && video.Uri != null) {
-                            SongQueue.Add(video);
-                            
-                            await e.Send("**Queued** " + video.FullName+ video.Stream().Length);
-                        }
-                    });
-
                 cgb.CreateCommand("q")
                     .Alias("yq")
                     .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
