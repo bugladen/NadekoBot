@@ -37,8 +37,7 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands  
-(may be incomplete) last updated: 5.1.2016
-
+(may be incomplete) last updated: 11.1.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
@@ -49,17 +48,23 @@ Command [alias] | Description | Usage
 `-hgit`  |  Help command stylized for github readme
 `.sr` [.setrole ]  |  Sets a role for a given user. |  .sr @User Guest
 `.rr` [.removerole ]  |  Removes a role from a given user. |  .rr @User Admin
-`.r` [.role ] [.cr ]  |  Creates a role with a given name, and color.
-`.b` [.ban ]  |  Kicks a mentioned user
+`.r` [.role ] [.cr ]  |  Creates a role with a given name, and color. |  .r AwesomeRole Orange
+`.b` [.ban ]  |  Bans a mentioned user
+`.ub` [.unban ]  |  Unbans a mentioned user
 `.k` [.kick ]  |  Kicks a mentioned user.
 `.rvch`  |  Removes a voice channel with a given name.
 `.vch` [.cvch ]  |  Creates a new voice channel with a given name.
 `.rch` [.rtch ]  |  Removes a text channel with a given name.
 `.ch` [.tch ]  |  Creates a new text channel with a given name.
+`.st` [.settopic ]  |  Sets a topic on the current channel.
 `.uid` [.userid ]  |  Shows user id
 `.cid` [.channelid ]  |  Shows current channel id
 `.sid` [.serverid ]  |  Shows current server id
 `.stats`  |  Shows some basic stats for nadeko
+`.prune`  |  Prunes a number of messages from the current channel. |  .prune 50
+`.die`  |  Works only for the owner. Shuts the bot down.
+`.clr`  |  Clears some of nadeko's messages from the current channel.
+`.newname`  |  Give the bot a new name.
 
 ### Conversations  
 Command [alias] | Description | Usage
@@ -68,20 +73,19 @@ Command [alias] | Description | Usage
 `/o/`  |  Nadeko replies with \o\
 `@BotName copyme` [@BotName cm ]  |  Nadeko starts copying everything you say. Disable with cs
 `@BotName cs` [@BotName copystop ]  |  Nadeko stops copying you
-`@BotName do you love me`  |  Replies with positive answer only to the bot owner.
+`@BotName uptime`  |  Shows how long is Nadeko running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
+`@BotName randserver`  |  Generates an invite to a random server and prints some stats.
+`@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`  |  Replies positive only if bot owner is online.
 `@BotName insult`  |  Only works for owner. Insults @X person. |  @NadekoBot insult @X.
 `@BotName praise`  |  Only works for owner. Praises @X person. |  @NadekoBot praise @X.
 `@BotName are you real`  |  Useless.
 `@BotName are you there` [@BotName ! ] [@BotName ? ]  |  Checks if nadeko is operational.
 `@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
-`@BotName uptime`  |  Shows how long is Nadeko running for.
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
 `@BotName rip`  |  Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave. |  @NadekoBot rip [@X]
-`@BotName j`  |  Joins a server using a code. Obsolete, since nadeko will autojoin any valid code in chat.
-`@BotName i` [@BotName img ]  |  Pulls a first image using a search parameter. |  @NadekoBot img Multiword_search_parameter
-`@BotName ir` [@BotName imgrandom ]  |  Pulls a random image using a search parameter. |  @NadekoBot img Multiword_search_parameter
+`@BotName j`  |  Joins a server using a code.
 `@BotName save` [@BotName ,s ] [@BotName -s ]  |  Saves something for the owner in a file.
 `@BotName ls`  |  Shows all saved items.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
@@ -91,12 +95,10 @@ Command [alias] | Description | Usage
 `@BotName lr`  |  PMs the user all current nadeko requests.
 `@BotName dr`  |  Deletes a request. Only owner is able to do this.
 `@BotName rr`  |  Resolves a request. Only owner is able to do this.
-`@BotName clr`  |  Clears some of nadeko's messages from the current channel.
 `@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
 `@BotName hide`  |  Hides nadeko in plain sight!11!!
 `@BotName unhide`  |  Unhides nadeko in plain sight!1!!1
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt
-`@BotName randserver`  |  Generates an invite to a random server and prints some stats.
 `@BotName av` [@BotName avatar ]  |  Shows a mentioned person's avatar.  |  ~av @X
 
 ### Gambling  
@@ -133,3 +135,4 @@ Command [alias] | Description | Usage
 `~yt`  |  Queries youtubes and embeds the first result
 `~ani` [~anime ] [~aq ]  |  Queries anilist for an anime and shows the first result.
 `~mang` [~manga ] [~mq ]  |  Queries anilist for a manga and shows the first result.
+`~randomcat`  |  Shows a random cat image.
