@@ -22,6 +22,7 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 	"ParseKey":"parse_api_key",
 }
 ```
+- BotMention(bot\_id) and OwnerID are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.
 - Keep the crawl on false.
 - For google api key, you need to enable URL shortner and Youtube video search in the dev console.
 - For **ParseID** and **ParseKey**, you need to register on http://www.parse.com, get those values and create an app with these 3 classes: `'CommandsRan', 'Requests' and 'Stats'` in order to make the logging work.
