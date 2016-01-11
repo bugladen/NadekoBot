@@ -30,6 +30,8 @@ namespace NadekoBot
                 botMention = c.BotMention;
                 if (c.GoogleAPIKey == null || c.GoogleAPIKey == "") {
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
+                } else {
+                    GoogleAPIKey = c.GoogleAPIKey;
                 }
                 OwnerID = c.OwnerID;
                 password = c.Password;
