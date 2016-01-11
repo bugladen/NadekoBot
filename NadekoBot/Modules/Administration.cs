@@ -331,7 +331,14 @@ namespace NadekoBot.Modules
                             await e.Send("I cant do it :(");
                         }
                     });
+                cgb.CreateCommand(".newname")
+                    .Description("Give the bot a new name.")
+                    .Parameter("new_name",Discord.Commands.ParameterType.Required)
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
 
+                        await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
+                    });
             });
 
         }
