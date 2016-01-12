@@ -34,6 +34,7 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 - For google api key, you need to enable URL shortner and Youtube video search in the dev console.
 - For **ParseID** and **ParseKey**, you need to register on http://www.parse.com, get those values and create an app with these 3 classes: `'CommandsRan', 'Requests' and 'Stats'` in order to make the logging work.
 - If you have **Windows7**, you need to install [Parse.Api](https://www.nuget.org/packages/Parse.Api/) instead of the library that comes with this project
+- If you want to have music, you need to download FFMPEG from this link http://ffmpeg.zeranoe.com/builds/ (static build version) and add ffmpeg/bin folder to your PATH environment variable. You do that by opening explorer -> right click 'This PC' -> properties -> advanced system settings -> In the top part, there is a PATH field, add `;` to the end and then your ffmpeg install location /bin (for example ;C:\ffmpeg-5.6.7\bin) and save. Open command prompt and type ffmpeg to see if you added it correctly. If it says "command not found" then you made a mistake somewhere. There are a lot of guides on the internet on how to add stuff to your PATH, check them out if you are stuck.
 
 Download [this folder](http://s000.tinyupload.com/index.php?file_id=54172283263968075500) which contains images and add it next to your .exe in order to make the $draw, $flip, rip and similar functions work.
 
