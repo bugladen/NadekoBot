@@ -1,9 +1,11 @@
 ﻿using Discord.Modules;
+using Discord.Commands;
+using Discord;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using Discord.Legacy;
 using System.Timers;
+using Discord.Commands.Permissions.Visibility;
 
 namespace NadekoBot.Modules
 {
@@ -23,8 +25,8 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".sr").Alias(".setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
-                    .Parameter("user_name", Discord.Commands.ParameterType.Required)
-                    .Parameter("role_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("user_name", ParameterType.Required)
+                    .Parameter("role_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles) return;
@@ -42,7 +44,7 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await usr.AddRoles(new Discord.Role[] { role });
+                            await usr.AddRoles(new Role[] { role });
                             await e.Send( $"Successfully added role **{role.Name}** to user **{usr.Mention}**");
                         }
                         catch (Exception ex)
@@ -54,8 +56,8 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".rr").Alias(".removerole")
                     .Description("Removes a role from a given user.\n**Usage**: .rr @User Admin")
-                    .Parameter("user_name", Discord.Commands.ParameterType.Required)
-                    .Parameter("role_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("user_name", ParameterType.Required)
+                    .Parameter("role_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles) return;
@@ -76,7 +78,7 @@ namespace NadekoBot.Modules
 
                         try
                         {
-                            await usr.RemoveRoles(new Discord.Role[] { role });
+                            await usr.RemoveRoles(new Role[] { role });
                             await e.Send( $"Successfully removed role **{role.Name}** from user **{usr.Mention}**");
                         }
                         catch (InvalidOperationException) {
@@ -89,19 +91,19 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".r").Alias(".role").Alias(".cr")
                     .Description("Creates a role with a given name, and color.\n**Usage**: .r AwesomeRole Orange")
-                    .Parameter("role_name",Discord.Commands.ParameterType.Required)
-                    .Parameter("role_color",Discord.Commands.ParameterType.Optional)
+                    .Parameter("role_name", ParameterType.Required)
+                    .Parameter("role_color", ParameterType.Optional)
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles) return;
 
-                        var color = Discord.Color.Blue;
+                        var color = Color.Blue;
                         if (e.GetArg("role_color") != null)
                         {
                             try
                             {
                                 if (e.GetArg("role_color") != null && e.GetArg("role_color").Trim().Length > 0)
-                                    color = (typeof(Discord.Color)).GetField(e.GetArg("role_color")).GetValue(null) as Discord.Color;
+                                    color = (typeof(Color)).GetField(e.GetArg("role_color")).GetValue(null) as Color;
                             }
                             catch (Exception ex)
                             {
@@ -168,14 +170,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".rvch")
                     .Description("Removes a voice channel with a given name.")
-                    .Parameter("channel_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("channel_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         try
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await e.Server.FindChannels(e.GetArg("channel_name"),Discord.ChannelType.Voice).FirstOrDefault()?.Delete();
+                                await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Voice).FirstOrDefault()?.Delete();
                                 await e.Send( $"Removed channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -187,14 +189,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".vch").Alias(".cvch")
                     .Description("Creates a new voice channel with a given name.")
-                    .Parameter("channel_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("channel_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         try
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await e.Server.CreateChannel(e.GetArg("channel_name"), Discord.ChannelType.Voice);
+                                await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Voice);
                                 await e.Send( $"Created voice channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -206,14 +208,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".rch").Alias(".rtch")
                     .Description("Removes a text channel with a given name.")
-                    .Parameter("channel_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("channel_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         try
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await e.Server.FindChannels(e.GetArg("channel_name"), Discord.ChannelType.Text).FirstOrDefault()?.Delete();
+                                await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault()?.Delete();
                                 await e.Send( $"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -225,14 +227,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".ch").Alias(".tch")
                     .Description("Creates a new text channel with a given name.")
-                    .Parameter("channel_name", Discord.Commands.ParameterType.Required)
+                    .Parameter("channel_name", ParameterType.Required)
                     .Do(async e =>
                     {
                         try
                         {
                             if (e.User.ServerPermissions.ManageChannels)
                             {
-                                await e.Server.CreateChannel(e.GetArg("channel_name"), Discord.ChannelType.Text);
+                                await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Text);
                                 await e.Send( $"Added text channel **{e.GetArg("channel_name")}**.");
                             }
                         }
@@ -243,7 +245,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".st").Alias(".settopic")
                     .Description("Sets a topic on the current channel.")
-                    .Parameter("topic",Discord.Commands.ParameterType.Unparsed)
+                    .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e => {
                         try {
                             await e.Channel.Edit(topic: e.GetArg("topic"));
@@ -252,7 +254,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".uid").Alias(".userid")
                     .Description("Shows user id")
-                    .Parameter("user",Discord.Commands.ParameterType.Required)
+                    .Parameter("user", ParameterType.Required)
                     .Do(async e =>
                     {
                         var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
@@ -291,7 +293,7 @@ namespace NadekoBot.Modules
                         await e.Send($"```Servers: {serverCount}\nUnique Users: {uniqueUserCount}\nUptime: {uptime}\nMy id is: {client.CurrentUser.Id}```");
                     });
                 cgb.CreateCommand(".prune")
-                    .Parameter("num", Discord.Commands.ParameterType.Required)
+                    .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
                     .Do(async e => {
                         int num;
@@ -333,13 +335,56 @@ namespace NadekoBot.Modules
                     });
                 cgb.CreateCommand(".newname")
                     .Description("Give the bot a new name.")
-                    .Parameter("new_name",Discord.Commands.ParameterType.Required)
+                    .Parameter("new_name", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID) return;
+                        if (e.User.Id != NadekoBot.OwnerID || e.GetArg("new_name") == null) return;
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
+
+                cgb.CreateCommand(".greet")
+                    .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
+                        announcing = !announcing;
+                        
+                        if (announcing) {
+                            announceChannel = e.Channel;
+                            joinServer = e.Server;
+                            NadekoBot.client.UserJoined += Client_UserJoined;
+                            await e.Send("Announcements enabled on this channel.");
+                        } else {
+                            announceChannel = null;
+                            joinServer = null;
+                            NadekoBot.client.UserJoined -= Client_UserJoined;
+                            await e.Send("Announcements disabled.");
+                        }
+                    });
+
+                cgb.CreateCommand(".greetmsg")
+                    .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
+                    .Parameter("msg",ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (e.GetArg("msg") == null) return;
+                        announceMsg = e.GetArg("msg");
+                        await e.Send("New message set.");
+                    });
             });
+
+        }
+
+        bool announcing = false;
+        Channel announceChannel = null;
+        Server joinServer = null;
+        string announceMsg = "Welcome to the server %user%";
+
+        private void Client_UserJoined(object sender, UserEventArgs e) {
+            if (e.Server != joinServer) return;
+            try {
+                announceChannel?.Send(announceMsg.Replace("%user%", e.User.Mention));
+            } catch (Exception) {
+                Console.WriteLine("Failed sending greet message to the specified channel");
+            }
 
         }
     }
