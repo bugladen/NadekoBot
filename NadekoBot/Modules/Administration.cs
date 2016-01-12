@@ -302,8 +302,9 @@ namespace NadekoBot.Modules
                             await e.Send("Incorrect amount.");
                             return;
                         }
-
-                        (await e.Channel.DownloadMessages(num)).ForEach(async m => await m.Delete());
+                        try {
+                            (await e.Channel.DownloadMessages(num)).ForEach(async m => await m.Delete());
+                        } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
 
                     });
 
