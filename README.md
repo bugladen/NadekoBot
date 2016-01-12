@@ -51,6 +51,8 @@ Enjoy
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
+Official repo: **github.com/Kwoth/NadekoBot/** 
+
 ### Administration  
 Command [alias] | Description | Usage
 ----------------|--------------|-------
@@ -75,6 +77,8 @@ Command [alias] | Description | Usage
 `.die`  |  Works only for the owner. Shuts the bot down.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`  |  Give the bot a new name.
+`.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
+`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
 
 ### Conversations  
 Command [alias] | Description | Usage
@@ -133,7 +137,6 @@ Command [alias] | Description | Usage
 `!m n` [!m next ]  |  Goes to the next song in the queue.
 `!m s` [!m stop ]  |  Completely stops the music and unbinds the bot from the channel.
 `!m p` [!m pause ]  |  Pauses the song
-`!m testq`  |  Queue a song using a multi/single word name. |  `!m q Dream Of Venice`
 `!m q` [!m yq ]  |  Queue a song using a multi/single word name. |  `!m q Dream Of Venice`
 `!m lq` [!m ls ] [!m lp ]  |  Lists up to 10 currently queued songs.
 `!m sh`  |  Shuffles the current playlist.
