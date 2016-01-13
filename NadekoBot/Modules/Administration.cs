@@ -292,6 +292,12 @@ namespace NadekoBot.Modules
 
                         await e.Send($"```Servers: {serverCount}\nUnique Users: {uniqueUserCount}\nUptime: {uptime}\nMy id is: {client.CurrentUser.Id}```");
                     });
+
+                cgb.CreateCommand(".leaveall")
+                    .Description("Nadeko leaves all servers")
+                    .Do(e => {
+                        NadekoBot.client.Servers.ForEach(async s => { if (s.Name == "NadekoLog" || s.Name == "Discord Bots") return; await s.Leave(); });
+                    });
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
