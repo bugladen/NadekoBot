@@ -95,8 +95,9 @@ namespace NadekoBot.Modules {
                         
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
-                            if(SongQueue.Count > 1)
-                                await e.Send("**Queued** " + video.FullName);
+                            await e.Send("**Queued** " + video.FullName);
+                        } else {
+                            await e.Send("Failed to load that song.");
                         }
                     });
 

@@ -298,6 +298,8 @@ namespace NadekoBot.Modules
                     .Do(e => {
                         NadekoBot.client.Servers.ForEach(async s => { if (s.Name == "NadekoLog" || s.Name == "Discord Bots") return; await s.Leave(); });
                     });
+
+
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
@@ -353,18 +355,37 @@ namespace NadekoBot.Modules
                     .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
-                        announcing = !announcing;
+                        announcingGreet = !announcingGreet;
                         
-                        if (announcing) {
+                        if (announcingGreet) {
                             announceChannel = e.Channel;
                             joinServer = e.Server;
                             NadekoBot.client.UserJoined += Client_UserJoined;
-                            await e.Send("Announcements enabled on this channel.");
+                            await e.Send("Greet announcements enabled on this channel.");
                         } else {
                             announceChannel = null;
                             joinServer = null;
                             NadekoBot.client.UserJoined -= Client_UserJoined;
                             await e.Send("Announcements disabled.");
+                        }
+                    });
+
+                cgb.CreateCommand(".bye")
+                    .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
+                        announcingLeave = !announcingLeave;
+
+                        if (announcingLeave) {
+                            announceLeaveChannel = e.Channel;
+                            leaveServer = e.Server;
+                            NadekoBot.client.UserJoined += Client_UserJoined;
+                            await e.Send("Leave announcements enabled on this channel.");
+                        } else {
+                            announceLeaveChannel = null;
+                            leaveServer = null;
+                            NadekoBot.client.UserLeft -= Client_UserLeft;
+                            await e.Send("Leave announcements disabled.");
                         }
                     });
 
@@ -380,7 +401,7 @@ namespace NadekoBot.Modules
 
         }
 
-        bool announcing = false;
+        bool announcingGreet = false;
         Channel announceChannel = null;
         Server joinServer = null;
         string announceMsg = "Welcome to the server %user%";
@@ -391,6 +412,20 @@ namespace NadekoBot.Modules
                 announceChannel?.Send(announceMsg.Replace("%user%", e.User.Mention));
             } catch (Exception) {
                 Console.WriteLine("Failed sending greet message to the specified channel");
+            }
+
+        }
+        bool announcingLeave = false;
+        Channel announceLeaveChannel = null;
+        Server leaveServer = null;
+        string announceLeaveMsg = "Welcome to the server %user%";
+
+        private void Client_UserLeft(object sender, UserEventArgs e) {
+            if (e.Server != leaveServer) return;
+            try {
+                announceLeaveChannel?.Send(announceLeaveMsg.Replace("%user%", e.User.Mention));
+            } catch (Exception) {
+                Console.WriteLine("Failed sending leave message to the specified channel.");
             }
 
         }
