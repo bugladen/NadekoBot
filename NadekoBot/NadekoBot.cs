@@ -99,8 +99,12 @@ namespace NadekoBot
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             if (e.Server != null) return;
+            try {
+                (await client.GetInvite(e.Message.Text))?.Accept();
+            } catch (Exception) { }
+
             if (repliedRecently = !repliedRecently) {
-                await e.Send("You can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nIf you don't want me on your server, you can simply ban me ;(");
+                await e.Send("You can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(");
                 Timer t = new Timer();
                 t.Interval = 2000;
                 t.Start();
