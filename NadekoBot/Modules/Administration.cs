@@ -248,7 +248,8 @@ namespace NadekoBot.Modules
                     .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e => {
                         try {
-                            await e.Channel.Edit(topic: e.GetArg("topic"));
+                            if(e.User.ServerPermissions.ManageChannels)
+                                await e.Channel.Edit(topic: e.GetArg("topic"));
                         } catch (Exception) { }
                     });
 
@@ -296,7 +297,8 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand(".leaveall")
                     .Description("Nadeko leaves all servers")
                     .Do(e => {
-                        NadekoBot.client.Servers.ForEach(async s => { if (s.Name == "NadekoLog" || s.Name == "Discord Bots") return; await s.Leave(); });
+                        if(e.User.Id == NadekoBot.OwnerID)
+                            NadekoBot.client.Servers.ForEach(async s => { if (s.Name == "NadekoLog" || s.Name == "Discord Bots") return; await s.Leave(); });
                     });
 
 
@@ -304,6 +306,8 @@ namespace NadekoBot.Modules
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
                     .Do(async e => {
+                        if (!e.User.ServerPermissions.ManageMessages) return;
+
                         int num;
 
                         if (!Int32.TryParse(e.GetArg("num"), out num) || num < 1) {
@@ -393,6 +397,8 @@ namespace NadekoBot.Modules
                     .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
                     .Parameter("msg",ParameterType.Unparsed)
                     .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
+
                         if (e.GetArg("msg") == null) return;
                         announceMsg = e.GetArg("msg");
                         await e.Send("New message set.");
