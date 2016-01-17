@@ -10,6 +10,7 @@
         public bool Crawl;
         public string ParseID;
         public string ParseKey;
+        public string TrelloAppKey;
     }
     public class AnimeResult
     {

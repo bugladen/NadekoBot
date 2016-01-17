@@ -20,11 +20,13 @@ namespace NadekoBot
         public static string GoogleAPIKey = null;
         public static ulong OwnerID;
         public static string password;
+        public static string TrelloAppKey;
 
         static void Main()
         {
             //load credentials from credentials.json
             Credentials c;
+            bool trelloLoaded = false;
             try
             {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
@@ -33,6 +35,12 @@ namespace NadekoBot
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
                 } else {
                     GoogleAPIKey = c.GoogleAPIKey;
+                }
+                if (c.TrelloAppKey == null || c.TrelloAppKey == "") {
+                    Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
+                } else {
+                    TrelloAppKey = c.TrelloAppKey;
+                    trelloLoaded = true;
                 }
                 OwnerID = c.OwnerID;
                 password = c.Password;
@@ -86,6 +94,8 @@ namespace NadekoBot
             modules.Install(new Games(), "Games", FilterType.Unrestricted);
             modules.Install(new Music(), "Music", FilterType.Unrestricted);
             modules.Install(new Searches(), "Searches", FilterType.Unrestricted);
+            if(trelloLoaded)
+                modules.Install(new Trello(), "Trello", FilterType.Unrestricted);
 
             //run the bot
             client.Run(async () =>
@@ -97,6 +107,7 @@ namespace NadekoBot
             Console.ReadKey();
         }
         static bool repliedRecently = false;
+
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             if (e.Server != null) return;
             try {
