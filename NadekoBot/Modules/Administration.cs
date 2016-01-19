@@ -424,7 +424,7 @@ namespace NadekoBot.Modules
         bool announcingLeave = false;
         Channel announceLeaveChannel = null;
         Server leaveServer = null;
-        string announceLeaveMsg = "Welcome to the server %user%";
+        string announceLeaveMsg = "%user% has left the server";
 
         private void Client_UserLeft(object sender, UserEventArgs e) {
             if (e.Server != leaveServer) return;
