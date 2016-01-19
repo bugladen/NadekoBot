@@ -383,7 +383,7 @@ namespace NadekoBot.Modules
                         if (announcingLeave) {
                             announceLeaveChannel = e.Channel;
                             leaveServer = e.Server;
-                            NadekoBot.client.UserJoined += Client_UserLeft;
+                            NadekoBot.client.UserLeft += Client_UserLeft;
                             await e.Send("Leave announcements enabled on this channel.");
                         } else {
                             announceLeaveChannel = null;
