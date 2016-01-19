@@ -26,9 +26,9 @@ namespace NadekoBot.Modules {
         public static IAudioClient Voice;
         public static Channel VoiceChannel;
         public static bool Pause = false;
-        public static List<YouTubeVideo> SongQueue = new List<YouTubeVideo>();
+        public static List<StreamRequest> SongQueue = new List<StreamRequest>();
 
-        public static YouTubeVideo CurrentSong;
+        public static StreamRequest CurrentSong;
 
         public static bool Exit {
             get { return exit; }
@@ -49,6 +49,16 @@ namespace NadekoBot.Modules {
 
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
+
+            Task.Run(async () => {
+                while (true) {
+                    if (CurrentSong == null || CurrentSong.State == StreamTaskState.Completed) {
+                        await LoadNextSong();
+                    } else
+                        await Task.Delay(200);
+                }
+            });
+
             manager.CreateCommands("!m", cgb => {
                 //queue all more complex commands
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -57,8 +67,11 @@ namespace NadekoBot.Modules {
                     .Alias("next")
                     .Description("Goes to the next song in the queue.")
                     .Do(e => {
-                        if (Voice != null && Exit == false) {
-                            NextSong = true;
+                        if (CurrentSong == null) return;
+                        CurrentSong.Cancel();
+                        CurrentSong = SongQueue.Take(1).FirstOrDefault();
+                        if (CurrentSong != null) {
+                            CurrentSong.Start();
                         }
                     });
 
@@ -66,50 +79,35 @@ namespace NadekoBot.Modules {
                     .Alias("stop")
                     .Description("Completely stops the music and unbinds the bot from the channel.")
                     .Do(e => {
-                        if (Voice != null && Exit == false) {
-                            Exit = true;
-                            SongQueue = new List<YouTubeVideo>();
+                        SongQueue.Clear();
+                        if (CurrentSong != null) {
+                            CurrentSong.Cancel();
+                            CurrentSong = null;
                         }
                     });
-
                 cgb.CreateCommand("p")
                     .Alias("pause")
                     .Description("Pauses the song")
                     .Do(async e => {
-                        if (Voice != null && Exit == false && CurrentSong != null) {
-                            Pause = !Pause;
-                            if (Pause) {
-                                await e.Send("Pausing. Run the command again to resume.");
-                            } else {
-                                await e.Send("Resuming...");
-                            }
-                        }
+                        /*if (CurrentSong != null) {
+                            CurrentSong.
+                        }*/
+                        await e.Send("Not yet implemented.");
                     });
-
                 cgb.CreateCommand("q")
                     .Alias("yq")
                     .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
-                    .Do(async e => {
-                        var youtube = YouTube.Default;
-                        var video = youtube.GetAllVideos(Searches.FindYoutubeUrlByKeywords(e.Args[0]))
-                            .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
-                            .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
-                        
-                        if (video?.Uri != "" && video.Uri != null) {
-                            SongQueue.Add(video);
-                            await e.Send("**Queued** " + video.FullName);
-                        } else {
-                            await e.Send("Failed to load that song.");
-                        }
+                    .Do(e => {
+                        SongQueue.Add(new StreamRequest(NadekoBot.client, e, e.GetArg("Query")));
                     });
 
                 cgb.CreateCommand("lq")
                     .Alias("ls").Alias("lp")
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e => {
-                        await e.Send(SongQueue.Count + " videos currently queued.");
-                        await e.Send(string.Join("\n", SongQueue.Select(v => v.FullName).Take(10)));
+                        await e.Send(":musical_note: " + SongQueue.Count + " videos currently queued.");
+                        await e.Send(string.Join("\n", SongQueue.Select(v => v.Title).Take(10)));
                     });
 
                 cgb.CreateCommand("sh")
@@ -121,88 +119,21 @@ namespace NadekoBot.Modules {
                         }
 
                         SongQueue.Shuffle();
-                        await e.Send("Songs shuffled!");
-                    });
-
-                cgb.CreateCommand("radio")
-                    .Alias("music")
-                    .Description("Binds to a voice and text channel in order to play music.")
-                    .Parameter("ChannelName", ParameterType.Unparsed)
-                    .Do(async e => {
-                        if (Voice != null) return;
-                        VoiceChannel = e.Server.FindChannels(e.GetArg("ChannelName").Trim(), ChannelType.Voice).FirstOrDefault();
-                        Voice = await client.Audio().Join(VoiceChannel);
-                        Exit = false;
-                        NextSong = false;
-                        Pause = false;
-                        try {
-                            while (true) {
-                                if (Exit) break;
-                                if (SongQueue.Count == 0 || Pause) { Thread.Sleep(100); continue; }
-                                if (!LoadNextSong()) break;
-
-                                await Task.Run(async () => {
-                                    if (Exit) {
-                                        Voice = null;
-                                        Exit = false;
-                                        await e.Send("Exiting...");
-                                        return;
-                                    }
-
-                                    var streamer = new AudioStreamer(Music.CurrentSong.Uri);
-                                    streamer.Start();
-                                    while (streamer.BytesSentToTranscoder < 100 * 0x1000 || streamer.NetworkDone)
-                                        await Task.Delay(500);
-
-                                    int blockSize = 1920 * client.Audio().Config.Channels;
-                                    byte[] buffer = new byte[blockSize];
-
-                                    var msg = await e.Send("Playing " + Music.CurrentSong.FullName + " [00:00]");
-                                    int counter = 0;
-                                    int byteCount;
-
-                                    while ((byteCount = streamer.PCMOutput.Read(buffer, 0, blockSize)) > 0) {
-                                        Voice.Send(buffer, byteCount);
-                                        counter += blockSize;
-                                        if (NextSong) {
-                                            NextSong = false;
-                                            break;
-                                        }
-                                        if (Exit) {
-                                            Exit = false;
-                                            return;
-                                        }
-                                        while (Pause) Thread.Sleep(100);
-                                    }
-                                });
-                            }
-                            Voice.Wait();
-                        } catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-                        await Voice.Disconnect();
-                        Voice = null;
-                        VoiceChannel = null;
+                        await e.Send(":musical_note: Songs shuffled!");
                     });
             });
         }
 
-        private Stream GetAudioFileStream(string file) {
-            Process p = Process.Start(new ProcessStartInfo() {
-                FileName = "ffmpeg",
-                Arguments = "-i \"" + Uri.EscapeUriString(file) + "\" -f s16le -ar 48000 -af volume=1 -ac 2 pipe:1 ",
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            });
-            return p.StandardOutput.BaseStream;
-        }
-
-        private bool LoadNextSong() {
+        private async Task LoadNextSong() {
             if (SongQueue.Count == 0) {
                 CurrentSong = null;
-                return false;
+                await Task.Delay(200);
+                return;
             }
             CurrentSong = SongQueue[0];
             SongQueue.RemoveAt(0);
-            return true;
+            CurrentSong.Start();
+            return;
         }
     }
 
@@ -238,7 +169,7 @@ namespace NadekoBot.Modules {
         public StreamTaskState State => streamTask?.State ?? StreamTaskState.Queued;
 
 
-        public StreamRequest(DiscordClient client, MessageEventArgs e, string text) {
+        public StreamRequest(DiscordClient client, CommandEventArgs e, string text) {
             this.client = client;
             Server = e.Server;
             Channel = e.Channel;
@@ -257,59 +188,29 @@ namespace NadekoBot.Modules {
         }
 
         void ResolveLink() {
-            var url = RequestText;
+            var query = RequestText;
+            try {
+                var video = YouTube.Default.GetAllVideos(Searches.FindYoutubeUrlByKeywords(query))
+                        .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                        .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
 
-            if (url.IndexOf("soundcloud", StringComparison.OrdinalIgnoreCase) != -1) {
-                var track = Services.SoundcloudService.GetTrackStreamUrl(url, out Title, out StreamUrl);
-                Length = TimeSpan.FromMilliseconds(track.Duration);
-                Title = track.Title;
-                FileName = Uri.EscapeUriString(Title) + ".mp3";
+                if (video == null)
+                    throw new Exception("Could not load any video elements");                   // First one
 
-                StartBuffering();
-                linkResolved = true;
-            } else if (url.IndexOf("youtube", StringComparison.OrdinalIgnoreCase) != -1 || url.IndexOf("youtu.be", StringComparison.OrdinalIgnoreCase) != -1) {
-                try {
-                    var infos = DownloadUrlResolver
-                        .GetDownloadUrls(url.Trim())
-                        .Where(i => i.AudioType != AudioType.Unknown)
-                        .ToArray();
-
-                    if (infos.Length == 0)
-                        throw new Exception("Could not load any video elements");
-
-                    var info = infos
-                        .GroupBy(x => x.AudioBitrate)   // Create groups for audio bitrates
-                        .OrderByDescending(x => x.Key)  // Group with max bitrate first
-                        .Take(1)                        // Only take one group
-                        .SelectMany(x => x)             // Unpack group container again
-                        .OrderBy(x => x.Resolution)     // take vid with smallest resolution
-                        .First();                       // First one
-
-                    StreamUrl = info.DownloadUrl;
-                    Title = info.Title;
-                    FileName = Uri.EscapeUriString(Title) + ".mp4";
-
-                    StartBuffering();
-                    linkResolved = true;
-                } catch (Exception) {
-                    // Send a message to the guy that queued that
-                    Channel.SendMessage(":warning: " + User.Mention + " Cannot load youtube url: `This video is not available in your country` or the url is corrupted somehow...");
-                    Console.WriteLine("Cannot parse youtube url: " + url);
-                    Cancel();
-                }
-            } else {
-                // Is it a direct link oO ??
-                var format = validFormats.FirstOrDefault(f => url.EndsWith(f));
-                if (format == null) {
-                    Console.WriteLine("Direct link: \"" + url + "\" does not end with a valid extension");
-                    return;
-                }
-
-                StreamUrl = url;
-                Title = url;
+                StreamUrl = video.Uri;
+                Title = video.Title;
+                var fileName = Title.Replace("\\","_").Replace("/","_");
+                Path.GetInvalidPathChars().ForEach(c => { fileName = fileName.Replace(c, '_'); });
+                FileName = fileName;
 
                 StartBuffering();
                 linkResolved = true;
+                Channel.Send(":musical_note: **Queued** " + video.FullName);
+            } catch (Exception) {
+                // Send a message to the guy that queued that
+                Channel.SendMessage(":warning: " + User.Mention + " Cannot load youtube url: `This video is not available in your country` or the url is corrupted somehow...");
+                Console.WriteLine("Cannot parse youtube url: " + query);
+                Cancel();
             }
         }
 
@@ -319,7 +220,6 @@ namespace NadekoBot.Modules {
             var fullPath = Path.Combine(folder, FileName);
 
             FileStream fileStream;
-            FileStream readStream;
             try {
                 if (File.Exists(fullPath) && new FileInfo(fullPath).Length > 1024 * 2) {
                     NetworkDone = true;
@@ -338,13 +238,9 @@ namespace NadekoBot.Modules {
                 Console.WriteLine("Exception while creating or opening stream buffers: " + ex);
                 return;
             }
-
-
-
+            
             Task.Run(() => {
-                AutoResetDelay fileLengthCheckDelay = new AutoResetDelay(500);
                 int byteCounter = 0;
-                bool fileLengthDetermined = false;
 
                 try {
                     var webClient = new WebClient();
@@ -362,7 +258,7 @@ namespace NadekoBot.Modules {
                         TotalSourceBytes += read;
                         fileStream.Write(buffer, 0, read);
 
-                        if (TotalSourceBytes > 1024 * 2 && Length.TotalSeconds < 0.1 && fileLengthCheckDelay.IsReady) {
+                        if (TotalSourceBytes > 1024 * 2 && Length.TotalSeconds < 0.1) {
                             Length = GetFileLength(fullPath);
                         }
                     }
@@ -381,9 +277,6 @@ namespace NadekoBot.Modules {
                 return;
 
             Stopwatch resolveTimer = Stopwatch.StartNew();
-
-            if (!linkResolved || bufferingStream == null)
-                Channel.SendMessage($":musical_note: Resolving link...\r\n:warning: `Keep in mind that other people can 'steal' the bot by just starting a stream command in their own server...`\r\n");
 
             while (resolveTimer.ElapsedMilliseconds < 8000) {
                 if (bufferingStream != null)
@@ -423,21 +316,6 @@ namespace NadekoBot.Modules {
 
         Channel GetVoiceChannelForUser(User user) {
             return client.Servers.SelectMany(s => s.VoiceChannels).FirstOrDefault(c => c.Users.Any(u => u.Id == user.Id));
-        }
-
-        public string GetFormattedTitle() {
-            if (Length.TotalSeconds < double.Epsilon)
-                Length = GetFileLength(FileName);
-
-            if (Title != DefaultTitle)
-                return $"**{Title.Replace('*', '°')}** *({Length.ToString()})*";
-
-            // put into <> when it contains a domain
-            if (StreamUrl == null)
-                return "<" + RequestText + ">";
-            if (StreamUrl.Contains("http:") || StreamUrl.Contains("https:"))
-                return "<" + StreamUrl.Trim() + ">";
-            return StreamUrl;
         }
 
         public static TimeSpan GetFileLength(string fileName) {
@@ -540,7 +418,7 @@ namespace NadekoBot.Modules {
 
                     // How much data is in the final output buffer?
                     // We dont want to transcode too much in advance
-                    if (available > 0 && availableRingSpace < 1) {
+                    if (available > 0) {
                         int read = await sourceStream.ReadAsync(buffer, 0, (int)Math.Min(available, buffer.LongLength), cancellationToken);
                         if (read > 0) {
                             // Write to transcoder
@@ -630,4 +508,115 @@ namespace NadekoBot.Modules {
             }
         }
     }
+    class StreamTask {
+        readonly DiscordClient client;
+        readonly StreamRequest streamRequest;
+        readonly Stream bufferingStream;
+
+        CancellationTokenSource tokenSource;
+        Task audioTask;
+
+        public StreamTaskState State { get; private set; }
+
+        public StreamTask(DiscordClient client, StreamRequest streamRequest, Stream bufferingStream) {
+            this.streamRequest = streamRequest;
+            this.bufferingStream = bufferingStream;
+            this.client = client;
+
+            State = StreamTaskState.Queued;
+        }
+
+        public void StartStreaming() {
+            if (State != StreamTaskState.Queued)
+                return;
+
+            State = StreamTaskState.Playing;
+            tokenSource = new CancellationTokenSource();
+            audioTask = Task.Run(StreamFunc, tokenSource.Token);
+        }
+
+        public void CancelStreaming() {
+            if (State != StreamTaskState.Queued && State != StreamTaskState.Playing)
+                return;
+
+            tokenSource?.Cancel(false);
+            audioTask?.Wait();
+            State = StreamTaskState.Completed;
+        }
+
+        async Task StreamFunc() {
+            CancellationToken cancellationToken = tokenSource.Token;
+            IAudioClient voiceClient = null;
+            TranscodingTask streamer = null;
+            try {
+                uint byteCounter = 0;
+
+                // Download and read audio from the url
+                streamer = new TranscodingTask(streamRequest, bufferingStream);
+                streamer.Start();
+
+                // Wait until we have at least a few kb transcoded or network stream done
+                while (true) {
+                    if (streamRequest.NetworkDone) {
+                        await Task.Delay(600);
+                        break;
+                    }
+                    if (streamer.ReadyBytesLeft > 5 * 1024)
+                        break;
+                    await Task.Delay(200);
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
+                // Start streaming to voice
+                await streamRequest.Channel.SendMessage($":musical_note: Playing {streamRequest.Title}");
+
+                var audioService = client.Audio();
+                voiceClient = await audioService.Join(streamRequest.VoiceChannel);
+
+                int blockSize = 1920 * audioService.Config.Channels;
+                byte[] voiceBuffer = new byte[blockSize];
+                var ringBuffer = streamer.PCMOutput;
+
+                Stopwatch timeout = Stopwatch.StartNew();
+                while (true) {
+                    var readCount = ringBuffer.Read(voiceBuffer, 0, voiceBuffer.Length);
+
+                    if (readCount == 0) {
+                        if (timeout.ElapsedMilliseconds > 1500) {
+                            Console.WriteLine("Audio stream timed out. Disconnecting.");
+                            break;
+                        }
+
+                        await Task.Delay(200);
+                        continue;
+                    }
+
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+
+                    timeout.Restart();
+
+                    byteCounter += (uint)voiceBuffer.Length;
+                    voiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+                }
+
+                streamer.Cancel();
+
+                voiceClient.Wait();
+            } catch (Exception ex) {
+                await streamRequest.Channel.SendMessage($":musical_note: {streamRequest.User.Mention} Something went wrong, please report this. :angry: :anger:");
+                Console.WriteLine("Exception while playing music: " + ex);
+            } finally {
+                if (voiceClient != null) {
+                    State = StreamTaskState.Completed;
+                    streamer?.Cancel();
+                    await voiceClient.Disconnect();
+                    await Task.Delay(500);
+                }
+            }
+        }
+    }
+
 }

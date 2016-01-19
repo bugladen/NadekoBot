@@ -88,17 +88,17 @@ namespace NadekoBot
             }));
 
             //install modules
-            modules.Install(new Administration(), "Administration", FilterType.Unrestricted);
-            modules.Install(new Conversations(), "Conversations", FilterType.Unrestricted);
-            modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
-            modules.Install(new Games(), "Games", FilterType.Unrestricted);
-            modules.Install(new Music(), "Music", FilterType.Unrestricted);
-            modules.Install(new Searches(), "Searches", FilterType.Unrestricted);
+            modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
+            modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
+            modules.Add(new Games(), "Games", ModuleFilter.None);
+            modules.Add(new Music(), "Music", ModuleFilter.None);
+            modules.Add(new Searches(), "Searches", ModuleFilter.None);
             if(trelloLoaded)
-                modules.Install(new Trello(), "Trello", FilterType.Unrestricted);
+                modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
             //run the bot
-            client.Run(async () =>
+            client.ExecuteAndWait(async () =>
             {
                 await client.Connect(c.Username, c.Password);
                 Console.WriteLine("Connected!");

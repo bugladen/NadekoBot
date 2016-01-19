@@ -26,7 +26,7 @@ namespace NadekoBot
         {
             this._service = service;
 
-            _service.RanCommand += StatsCollector_RanCommand;
+            _service.CommandExecuted += StatsCollector_RanCommand;
             //NadekoBot.client.MessageReceived += Client_MessageReceived;
 
             StartCollecting();
