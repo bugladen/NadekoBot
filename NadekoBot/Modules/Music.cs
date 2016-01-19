@@ -77,13 +77,14 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("s")
                     .Alias("stop")
-                    .Description("Completely stops the music and unbinds the bot from the channel.")
+                    .Description("Completely stops the music and unbinds the bot from the channel and cleanes up files.")
                     .Do(e => {
                         SongQueue.Clear();
                         if (CurrentSong != null) {
                             CurrentSong.Cancel();
                             CurrentSong = null;
                         }
+                        Directory.Delete("StreamBuffers", true);
                     });
                 cgb.CreateCommand("p")
                     .Alias("pause")
@@ -206,9 +207,9 @@ namespace NadekoBot.Modules {
                 StartBuffering();
                 linkResolved = true;
                 Channel.Send(":musical_note: **Queued** " + video.FullName);
-            } catch (Exception) {
+            } catch (Exception e) {
                 // Send a message to the guy that queued that
-                Channel.SendMessage(":warning: " + User.Mention + " Cannot load youtube url: `This video is not available in your country` or the url is corrupted somehow...");
+                Channel.SendMessage(":warning: The url is corrupted somehow...");
                 Console.WriteLine("Cannot parse youtube url: " + query);
                 Cancel();
             }
