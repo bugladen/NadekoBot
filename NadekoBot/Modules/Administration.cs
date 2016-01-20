@@ -374,6 +374,17 @@ namespace NadekoBot.Modules
                         }
                     });
 
+                cgb.CreateCommand(".greetmsg")
+                    .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
+                    .Parameter("msg", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
+
+                        if (e.GetArg("msg") == null) return;
+                        announceMsg = e.GetArg("msg");
+                        await e.Send("New greet message set.");
+                    });
+
                 cgb.CreateCommand(".bye")
                     .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
                     .Do(async e => {
@@ -393,15 +404,15 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                cgb.CreateCommand(".greetmsg")
-                    .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
-                    .Parameter("msg",ParameterType.Unparsed)
+                cgb.CreateCommand(".byemsg")
+                    .Description("Sets a new announce leave message. Type %user% if you want to mention the new member.\n**Usage**: .byemsg %user% has left the server.")
+                    .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
 
                         if (e.GetArg("msg") == null) return;
-                        announceMsg = e.GetArg("msg");
-                        await e.Send("New message set.");
+                        announceLeaveMsg = e.GetArg("msg");
+                        await e.Send("New bye message set.");
                     });
             });
 

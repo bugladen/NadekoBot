@@ -72,7 +72,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("bind")
-                    .Description("Bind a trello bot to a certain channel. Bot will operate only in 1 channel at a time")
+                    .Description("Bind a trello bot to a single channel. You will receive notifications from your board when somethign is added or edited.")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;

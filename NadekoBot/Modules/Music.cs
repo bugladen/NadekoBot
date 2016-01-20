@@ -11,7 +11,7 @@ using System.IO;
 using Discord;
 using Discord.Audio;
 using System.Collections.Concurrent;
-using VideoLibrary;
+using YoutubeExtractor;
 using System.Threading;
 using System.Diagnostics;
 using Discord.Legacy;
@@ -90,9 +90,6 @@ namespace NadekoBot.Modules {
                     .Alias("pause")
                     .Description("Pauses the song")
                     .Do(async e => {
-                        /*if (CurrentSong != null) {
-                            CurrentSong.
-                        }*/
                         await e.Send("Not yet implemented.");
                     });
                 cgb.CreateCommand("q")
@@ -126,7 +123,9 @@ namespace NadekoBot.Modules {
         }
 
         private async Task LoadNextSong() {
-            if (SongQueue.Count == 0) {
+            if (SongQueue.Count == 0 || !SongQueue[0].LinkResolved) {
+                if (CurrentSong != null)
+                    CurrentSong.Cancel();
                 CurrentSong = null;
                 await Task.Delay(200);
                 return;
@@ -141,7 +140,8 @@ namespace NadekoBot.Modules {
     enum StreamTaskState {
         Queued,
         Playing,
-        Completed
+        Completed,
+        NotReady
     }
 
     class StreamRequest {
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules {
         public TimeSpan Length = TimeSpan.FromSeconds(0);
         public string FileName;
 
-        bool linkResolved;
+        public bool LinkResolved = false;
         public string StreamUrl;
         public bool NetworkDone;
         public long TotalSourceBytes;
@@ -191,25 +191,26 @@ namespace NadekoBot.Modules {
         void ResolveLink() {
             var query = RequestText;
             try {
-                var video = YouTube.Default.GetAllVideos(Searches.FindYoutubeUrlByKeywords(query))
-                        .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                var video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(query))
+                        .Where(v => v.AdaptiveType == AdaptiveType.Audio)
                         .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
 
                 if (video == null)
                     throw new Exception("Could not load any video elements");                   // First one
 
-                StreamUrl = video.Uri;
+                StreamUrl = video.DownloadUrl;
                 Title = video.Title;
-                var fileName = Title.Replace("\\","_").Replace("/","_");
-                Path.GetInvalidPathChars().ForEach(c => { fileName = fileName.Replace(c, '_'); });
-                FileName = fileName;
+                string invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                foreach (char c in invalidChars) {
+                    FileName = FileName.Replace(c.ToString(), "_");
+                }
 
                 StartBuffering();
-                linkResolved = true;
-                Channel.Send(":musical_note: **Queued** " + video.FullName);
+                LinkResolved = true;
+                Channel.Send(":musical_note: **Queued** " + video.Title);
             } catch (Exception e) {
                 // Send a message to the guy that queued that
-                Channel.SendMessage(":warning: The url is corrupted somehow...");
+                Channel.SendMessage(":warning: Something went wrong...");
                 Console.WriteLine("Cannot parse youtube url: " + query);
                 Cancel();
             }
