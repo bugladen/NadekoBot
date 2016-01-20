@@ -111,8 +111,23 @@ namespace NadekoBot.Modules
                             } catch (Exception) { continue; }
                         }
                     });
-
-
+                /*
+                cgb.CreateCommand("avalanche!")
+                    .Description("Mentions a person in every channel of the server, then deletes it")
+                    .Parameter("name", ParameterType.Required)
+                    .Do(e => {
+                        var usr = e.Server.FindUsers(e.GetArg("name")).FirstOrDefault();
+                        if (usr == null) return;
+                        e.Server.AllChannels.ForEach(async c => {
+                            try {
+                                var m = await c.SendMessage(usr.Mention);
+                                await m.Delete();
+                            } catch (Exception ex) {
+                                Console.WriteLine(ex);
+                            }
+                        });
+                    });
+                    */
                 CreateCommand(cgb, "do you love me")
                     .Description("Replies with positive answer only to the bot owner.")
                     .Do(async e => {
