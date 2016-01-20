@@ -98,21 +98,7 @@ namespace NadekoBot.Modules
                    .Parameter("all", ParameterType.Unparsed)
                        .Do(async e => {
                            await e.Send("This feature is being reconstructed.");
-                           /*
-                           var httpClient = new System.Net.Http.HttpClient();
-                           string str = e.Args[0];
-
-                           var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=0").Result;
-
-                           dynamic obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
-                           if (obj.responseData.results.Count == 0)
-                           {
-                               await e.Send("No results found for that keyword :\\");
-                               return;
-                           }
-                           string s = Searches.ShortenUrl(obj.responseData.results[0].url.ToString());
-                           await e.Send(s);
-                           */
+                           
                        });
 
                 cgb.CreateCommand("~ir")
@@ -121,27 +107,7 @@ namespace NadekoBot.Modules
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e => {
                         await e.Send("This feature is being reconstructed.");
-                        /*
-                        var httpClient = new System.Net.Http.HttpClient();
-                        string str = e.Args[0];
-                        var r = httpClient.GetAsync("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + Uri.EscapeDataString(str) + "&start=" + rng.Next(0, 30)).Result;
-                        JObject obj = JObject.Parse(r.Content.ReadAsStringAsync().Result);
-                        try
-                        {
-                            Console.WriteLine(obj.ToString());
-                            if (obj["responseData"]["results"].Count() == 0)
-                            {
-                                await e.Send("No results found for that keyword :\\");
-                                return;
-                            }
-                            int rnd = rng.Next(0, obj["responseData"]["results"].Count());
-                            string s = Searches.ShortenUrl(obj["responseData"]["results"][rnd]["url"].ToString());
-                            await e.Send(s);
-                        }
-                        catch (Exception ex) {
-                            Console.WriteLine(ex.ToString());
-                        }
-                        */
+
                     });
             });
         }
@@ -214,18 +180,24 @@ namespace NadekoBot.Modules
             return true;
         }
 
-        public static string FindYoutubeUrlByKeywords(string v)
-        {
+        public static string FindYoutubeUrlByKeywords(string v) {
+            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+                Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
+                return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            }
             WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
 
             var sr = new StreamReader(wr.GetResponse().GetResponseStream());
 
             dynamic obj = JObject.Parse(sr.ReadToEnd());
-            return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+            string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+            return toReturn;
         }
 
         public static string ShortenUrl(string url)
         {
+            if (NadekoBot.GoogleAPIKey == null || NadekoBot.GoogleAPIKey == "") return url;
+
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.GoogleAPIKey);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
