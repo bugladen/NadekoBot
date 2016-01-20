@@ -51,8 +51,6 @@ Enjoy
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
-Official repo: **github.com/Kwoth/NadekoBot/** 
-
 ### Administration  
 Command [alias] | Description | Usage
 ----------------|--------------|-------
@@ -73,12 +71,15 @@ Command [alias] | Description | Usage
 `.cid` [.channelid ]  |  Shows current channel id
 `.sid` [.serverid ]  |  Shows current server id
 `.stats`  |  Shows some basic stats for nadeko
+`.leaveall`  |  Nadeko leaves all servers
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 50
 `.die`  |  Works only for the owner. Shuts the bot down.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`  |  Give the bot a new name.
 `.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
 `.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
+`.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
+`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
 
 ### Conversations  
 Command [alias] | Description | Usage
@@ -135,12 +136,11 @@ Command [alias] | Description | Usage
 Command [alias] | Description | Usage
 ----------------|--------------|-------
 `!m n` [!m next ]  |  Goes to the next song in the queue.
-`!m s` [!m stop ]  |  Completely stops the music and unbinds the bot from the channel.
+`!m s` [!m stop ]  |  Completely stops the music and unbinds the bot from the channel and cleanes up files.
 `!m p` [!m pause ]  |  Pauses the song
 `!m q` [!m yq ]  |  Queue a song using a multi/single word name. |  `!m q Dream Of Venice`
 `!m lq` [!m ls ] [!m lp ]  |  Lists up to 10 currently queued songs.
 `!m sh`  |  Shuffles the current playlist.
-`!m radio` [!m music ]  |  Binds to a voice and text channel in order to play music.
 
 ### Searches  
 Command [alias] | Description | Usage
