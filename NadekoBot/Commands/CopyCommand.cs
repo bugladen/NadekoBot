@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Legacy;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {

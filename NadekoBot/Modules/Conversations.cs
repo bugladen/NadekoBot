@@ -11,7 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
-using Discord.Legacy;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules
 {

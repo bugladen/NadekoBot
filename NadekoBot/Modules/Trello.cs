@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Discord.Modules;
 using Manatee.Trello.ManateeJson;
 using Manatee.Trello;
 using System.Timers;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     class Trello : DiscordModule {

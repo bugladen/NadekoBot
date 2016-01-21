@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Modules;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Xml;
 using Newtonsoft.Json;
-using System.Net.Http;
-using Discord.Legacy;
 using Discord.Commands;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules
 {
@@ -108,6 +102,13 @@ namespace NadekoBot.Modules
                     .Do(async e => {
                         await e.Send("This feature is being reconstructed.");
 
+                    });
+                cgb.CreateCommand("lmgtfy")
+                    .Description("Google something for an idiot.")
+                    .Parameter("ffs", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
+                        await e.Send($"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
                     });
             });
         }

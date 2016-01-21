@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Timers;
 using Discord.Commands.Permissions.Visibility;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules
 {

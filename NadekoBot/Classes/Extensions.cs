@@ -6,8 +6,9 @@ using System.Security.Cryptography;
 using Discord.Commands;
 using Discord;
 using Discord.Legacy;
+using NadekoBot.Modules;
 
-namespace NadekoBot
+namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
@@ -111,6 +112,16 @@ namespace NadekoBot
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        /// <summary>
+        /// Shortens a string URL
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="action"></param>
+        public static string ShortenUrl(this string str) {
+            return Searches.ShortenUrl(str);
         }
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {

@@ -7,7 +7,7 @@ using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
 using Discord.Audio;
-using System.Threading.Tasks;
+using NadekoBot.Extensions;
 using System.Timers;
 using System.Linq;
 

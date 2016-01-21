@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Timers;
-using Discord.Legacy;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {

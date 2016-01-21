@@ -3,18 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Modules;
 using Discord.Commands;
 using System.IO;
 using Discord;
 using Discord.Audio;
-using System.Collections.Concurrent;
 using YoutubeExtractor;
 using System.Threading;
 using System.Diagnostics;
-using Discord.Legacy;
+using NadekoBot.Extensions;
 using System.Net;
 using System.Globalization;
 
@@ -196,7 +194,7 @@ namespace NadekoBot.Modules {
                         .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
 
                 if (video == null)
-                    throw new Exception("Could not load any video elements");                   // First one
+                    throw new Exception("Could not load any video elements");
 
                 StreamUrl = video.DownloadUrl;
                 Title = video.Title;

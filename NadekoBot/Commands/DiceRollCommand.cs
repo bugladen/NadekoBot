@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Discord.Legacy;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
