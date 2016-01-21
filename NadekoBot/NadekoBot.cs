@@ -35,18 +35,20 @@ namespace NadekoBot
                 if (c.GoogleAPIKey == null || c.GoogleAPIKey == "") {
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
                 } else {
+                    Console.WriteLine("Google API key provided.");
                     GoogleAPIKey = c.GoogleAPIKey;
                 }
                 if (c.TrelloAppKey == null || c.TrelloAppKey == "") {
                     Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
                 } else {
+                    Console.WriteLine("Trello app key provided.");
                     TrelloAppKey = c.TrelloAppKey;
                     trelloLoaded = true;
                 }
                 OwnerID = c.OwnerID;
                 password = c.Password;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine("Failed to load stuff from credentials.json, RTFM");
                 Console.ReadKey();
@@ -70,7 +72,7 @@ namespace NadekoBot
                 //monitor commands for logging
                 stats_collector = new StatsCollector(commandService);
             } else {
-                Console.WriteLine("Parse key and/or ID not found. Bot will not log.");
+                Console.WriteLine("Parse key and/or ID not found. Logging disabled.");
             }
 
             //reply to personal messages
@@ -102,11 +104,17 @@ namespace NadekoBot
             client.ExecuteAndWait(async () =>
             {
                 await client.Connect(c.Username, c.Password);
+                Console.WriteLine("-------------------------");
+                Console.WriteLine("Discord.Net version: " + DiscordConfig.LibVersion);
+                Console.WriteLine("Runtime: " + client.GetRuntime());
                 Console.WriteLine("Logged in as: " + client.CurrentUser.Name);
                 Console.WriteLine("Bot id: " + client.CurrentUser.Id);
+
                 Console.WriteLine("Servers: " + client.Servers.Count());
                 Console.WriteLine("Channels: " + client.Servers.Sum(s=>s.AllChannels.Count()));
-                Console.WriteLine("Discord.Net version: " + DiscordConfig.LibVersion);
+                Console.WriteLine("Users: " + client.Servers.Sum(s => s.Users.Count()));
+
+                Console.WriteLine("Heap: "+ Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString() + "MB");
                 Console.WriteLine("-------------------------");
             });
             Console.WriteLine("Exiting...");

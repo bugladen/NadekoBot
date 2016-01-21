@@ -30,6 +30,7 @@ namespace NadekoBot
             //NadekoBot.client.MessageReceived += Client_MessageReceived;
 
             StartCollecting();
+            Console.WriteLine("Logging enabled.");
         }
 
         private void FillConsole() {
@@ -101,7 +102,6 @@ namespace NadekoBot
 
                 obj.SaveAsync();
             };
-            Console.WriteLine("Server stats sent.");
         }
 
         public static void SaveRequest(CommandEventArgs e, string text) {

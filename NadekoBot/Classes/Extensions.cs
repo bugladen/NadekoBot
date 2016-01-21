@@ -120,9 +120,15 @@ namespace NadekoBot.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static string ShortenUrl(this string str) {
-            return Searches.ShortenUrl(str);
-        }
+        public static string ShortenUrl(this string str) => Searches.ShortenUrl(str);
+
+        /// <summary>
+        /// Gets the program runtime
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="action"></param>
+        public static string GetRuntime(this DiscordClient c) => ".Net Framework 4.5.2";
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
             foreach (T element in source) {
