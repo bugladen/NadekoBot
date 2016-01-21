@@ -19,9 +19,13 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 	"OwnerID":123123123123,
 	"ParseID":"parse_app_id",
 	"ParseKey":"parse_api_key",
+	"TrelloAppKey": "your_trello_app_key"
 }
 ```
-**You can omit Parse keys if you don't want logging. You can omit googleAPIKey if you don't want music.**
+##### You can omit:  
+- Parse keys if you don't want logging  
+- googleAPIKey if you don't want music  
+- TrelloAppKey if you don't need trello notifications
 ```json
 {
 	"Username":"bot_email",
@@ -47,7 +51,7 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands  
-(may be incomplete) last updated: 11.1.2016
+(may be incomplete) last updated: 20.1.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
