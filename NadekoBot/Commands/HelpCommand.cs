@@ -39,7 +39,7 @@ namespace NadekoBot
             foreach (var com in client.Commands().AllCommands) {
                 if (com.Category != lastCategory) {
                     helpstr += "\n### " + com.Category + "  \n";
-                    helpstr += "Command [alias] | Description | Usage\n";
+                    helpstr += "Command and aliases | Description | Usage\n";
                     helpstr += "----------------|--------------|-------\n";
                     lastCategory = com.Category;
                 }
@@ -66,7 +66,7 @@ namespace NadekoBot
         {
             var str = "`" + com.Text + "`";
             foreach (var a in com.Aliases)
-                str += " [" + a + " ]";
+                str += ", `" + a + "`";
             str += " **Description:** " + com.Description + "\n";
             return str;
         }

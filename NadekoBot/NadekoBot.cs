@@ -9,6 +9,7 @@ using Discord.Modules;
 using Discord.Audio;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Linq;
 
 namespace NadekoBot
 {
@@ -101,7 +102,12 @@ namespace NadekoBot
             client.ExecuteAndWait(async () =>
             {
                 await client.Connect(c.Username, c.Password);
-                Console.WriteLine("Connected!");
+                Console.WriteLine("Logged in as: " + client.CurrentUser.Name);
+                Console.WriteLine("Bot id: " + client.CurrentUser.Id);
+                Console.WriteLine("Servers: " + client.Servers.Count());
+                Console.WriteLine("Channels: " + client.Servers.Sum(s=>s.AllChannels.Count()));
+                Console.WriteLine("Discord.Net version: " + DiscordConfig.LibVersion);
+                Console.WriteLine("-------------------------");
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();

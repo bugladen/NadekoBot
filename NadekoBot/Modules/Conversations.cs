@@ -224,7 +224,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                CreateCommand(cgb, "are you real")
+                cgb.CreateCommand("are you real")
                     .Description("Useless.")
                     .Do(async e =>
                     {
@@ -236,13 +236,13 @@ namespace NadekoBot.Modules
                     .Alias(new string[] { "!", "?" })
                     .Do(SayYes());
 
-                CreateCommand(cgb, "draw")
+                cgb.CreateCommand("draw")
                     .Description("Nadeko instructs you to type $draw. Gambling functions start with $")
                     .Do(async e =>
                     {
                         await e.Send("Sorry, I don't gamble, type $draw for that function.");
                     });
-                CreateCommand(cgb, "fire")
+                cgb.CreateCommand("fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
@@ -296,7 +296,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                AliasCommand(CreateCommand(cgb, "save"), "s")
+                cgb.CreateCommand("save")
                     .Description("Saves something for the owner in a file.")
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
