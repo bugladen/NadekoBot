@@ -23,14 +23,6 @@ namespace NadekoBot.Modules
             commands.Add(new CopyCommand());
         }
 
-        private CommandBuilder CreateCommand(CommandGroupBuilder cbg, string txt)
-        {
-            CommandBuilder cb = cbg.CreateCommand(txt);
-            return cb;
-        }
-
-        private CommandBuilder AliasCommand(CommandBuilder cb, string txt) => cb.Alias(new string[] { "," + txt, "-" + txt });
-
         public override void Install(ModuleManager manager)
         {
             Random rng = new Random();
@@ -60,7 +52,7 @@ namespace NadekoBot.Modules
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                CreateCommand(cgb, "uptime")
+                cgb.CreateCommand("uptime")
                     .Description("Shows how long is Nadeko running for.")
                     .Do(async e => {
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
@@ -68,7 +60,7 @@ namespace NadekoBot.Modules
                         await e.Send(str);
                     });
 
-                CreateCommand(cgb, "die")
+                cgb.CreateCommand("die")
                     .Description("Works only for the owner. Shuts the bot down.")
                     .Do(async e =>
                     {
@@ -90,6 +82,11 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("randserver")
                     .Description("Generates an invite to a random server and prints some stats.")
                     .Do(async e => {
+                        if (client.Servers.Count() < 10) {
+                            await e.Send("I need to be connected to at least 10 servers for this command to work.");
+                            return;
+                        }
+
                         if (randServerSW.ElapsedMilliseconds / 1000 < 1800) {
                             await e.Send("You have to wait " + (1800 - randServerSW.ElapsedMilliseconds / 1000) + " more seconds to use this function.");
                             return;
@@ -128,7 +125,7 @@ namespace NadekoBot.Modules
                         });
                     });
                     */
-                CreateCommand(cgb, "do you love me")
+                cgb.CreateCommand("do you love me")
                     .Description("Replies with positive answer only to the bot owner.")
                     .Do(async e => {
                         if (e.User.Id == NadekoBot.OwnerID)
@@ -137,7 +134,7 @@ namespace NadekoBot.Modules
                             await e.Send(e.User.Mention + ", Don't be silly.");
                     });
 
-                CreateCommand(cgb, "how are you")
+                cgb.CreateCommand("how are you")
                     .Description("Replies positive only if bot owner is online.")
                     .Do(async e =>
                     {
@@ -159,7 +156,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                CreateCommand(cgb, "insult")
+                cgb.CreateCommand("insult")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Only works for owner. Insults @X person.\n**Usage**: @NadekoBot insult @X.")
                     .Do(async e =>
@@ -187,7 +184,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                CreateCommand(cgb, "praise")
+                cgb.CreateCommand("praise")
                     .Description("Only works for owner. Praises @X person.\n**Usage**: @NadekoBot praise @X.")
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e =>
@@ -263,7 +260,7 @@ namespace NadekoBot.Modules
                         await e.Send(str);
                     });
 
-                CreateCommand(cgb, "rip")
+                cgb.CreateCommand("rip")
                     .Description("Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.\n**Usage**: @NadekoBot rip [@X]")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
@@ -325,7 +322,7 @@ namespace NadekoBot.Modules
                         else await e.Send("Not for you, only my Master <3");
                     });
 
-                CreateCommand(cgb, "ls")
+                cgb.CreateCommand("ls")
                     .Description("Shows all saved items.")
                     .Do(async e =>
                     {
@@ -363,7 +360,7 @@ namespace NadekoBot.Modules
                         else
                             await e.Send("I can't find a message mentioning you.");
                     });
-                CreateCommand(cgb, "cs")
+                cgb.CreateCommand("cs")
                     .Description("Deletes all saves")
                     .Do(async e =>
                     {
@@ -371,7 +368,7 @@ namespace NadekoBot.Modules
                         await e.Send("Cleared all saves.");
                     });
 
-                CreateCommand(cgb, "bb")
+                cgb.CreateCommand("bb")
                     .Description("Says bye to someone. **Usage**: @NadekoBot bb @X")
                     .Parameter("ppl", ParameterType.Unparsed)
                     .Do(async e =>
@@ -384,7 +381,8 @@ namespace NadekoBot.Modules
                         await e.Send(str);
                     });
 
-                AliasCommand(CreateCommand(cgb, "req"), "request")
+                cgb.CreateCommand("req")
+                    .Alias("request")
                     .Description("Requests a feature for nadeko.\n**Usage**: @NadekoBot req new_feature")
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
@@ -403,7 +401,7 @@ namespace NadekoBot.Modules
                         await e.Send("Thank you for your request.");
                     });
 
-                CreateCommand(cgb, "lr")
+                cgb.CreateCommand("lr")
                     .Description("PMs the user all current nadeko requests.")
                     .Do(async e =>
                     {
@@ -414,7 +412,7 @@ namespace NadekoBot.Modules
                             await e.User.Send("No requests atm.");
                     });
 
-                CreateCommand(cgb, "dr")
+                cgb.CreateCommand("dr")
                     .Description("Deletes a request. Only owner is able to do this.")
                     .Parameter("reqNumber", ParameterType.Required)
                     .Do(async e =>
@@ -440,7 +438,7 @@ namespace NadekoBot.Modules
                         else await e.Send("You don't have permission to do that.");
                     });
 
-                CreateCommand(cgb, "rr")
+                cgb.CreateCommand("rr")
                     .Description("Resolves a request. Only owner is able to do this.")
                     .Parameter("reqNumber", ParameterType.Required)
                     .Do(async e =>
@@ -468,14 +466,14 @@ namespace NadekoBot.Modules
                         else await e.Send("You don't have permission to do that.");
                     });
 
-                CreateCommand(cgb, "call")
+                cgb.CreateCommand("call")
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e =>
                     {
                         await e.Send("Calling " + e.Args[0] + "...");
                     });
-                CreateCommand(cgb, "hide")
+                cgb.CreateCommand("hide")
                     .Description("Hides nadeko in plain sight!11!!")
                     .Do(async e =>
                     {
@@ -496,7 +494,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                CreateCommand(cgb, "unhide")
+                cgb.CreateCommand("unhide")
                     .Description("Unhides nadeko in plain sight!1!!1")
                     .Do(async e =>
                     {
