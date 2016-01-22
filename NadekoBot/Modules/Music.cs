@@ -27,6 +27,35 @@ namespace NadekoBot.Modules {
             public bool Pause = false;
             public List<StreamRequest> SongQueue = new List<StreamRequest>();
             public StreamRequest CurrentSong;
+
+            public MusicControls() {
+                Task.Run(async () => {
+                    while (true) {
+                        try {
+                            if (CurrentSong == null || CurrentSong.State == StreamTaskState.Completed) {
+                                LoadNextSong();
+                            }
+                        } catch (Exception e) {
+                            Console.WriteLine("Bug in music task run. " + e);
+                        }
+                        await Task.Delay(200);
+                    }
+                });
+            }
+
+            private void LoadNextSong() {
+                if (SongQueue.Count == 0 || !SongQueue[0].LinkResolved) {
+                    if (CurrentSong != null)
+                        CurrentSong.Cancel();
+                    CurrentSong = null;
+                    return;
+                }
+                CurrentSong = SongQueue[0];
+                SongQueue.RemoveAt(0);
+                CurrentSong.Start();
+                return;
+            }
+
         }
         
         public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server,MusicControls>();
@@ -47,22 +76,7 @@ namespace NadekoBot.Modules {
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
 
-            Task.Run(async () => {
-
-                while (true) {
-                    try {
-                        foreach (var kvp in musicPlayers) {
-                            var player = kvp.Value;
-                            if (player.CurrentSong == null || player.CurrentSong.State == StreamTaskState.Completed) {
-                                LoadNextSong(player);
-                                await Task.Delay(200);
-                            }
-                        }
-                    } catch (Exception e) {
-                        Console.WriteLine(e);
-                    }
-                }
-            });
+            
 
             manager.CreateCommands("!m", cgb => {
                 //queue all more complex commands
@@ -146,19 +160,6 @@ namespace NadekoBot.Modules {
                         await e.Send(":musical_note: Songs shuffled!");
                     });
             });
-        }
-
-        private void LoadNextSong(MusicControls player) {
-            if (player.SongQueue.Count == 0 || !player.SongQueue[0].LinkResolved) {
-                if (player.CurrentSong != null)
-                    player.CurrentSong.Cancel();
-                player.CurrentSong = null;
-                return;
-            }
-            player.CurrentSong = player.SongQueue[0];
-            player.SongQueue.RemoveAt(0);
-            player.CurrentSong.Start();
-            return;
         }
     }
 

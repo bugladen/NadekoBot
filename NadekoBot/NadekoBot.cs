@@ -24,12 +24,13 @@ namespace NadekoBot
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
+        public static string BotVersion = "0.5-beta1";
 
         static void Main()
         {
             //load credentials from credentials.json
             Credentials c;
-            bool trelloLoaded = false;
+            bool loadTrello = false;
             try
             {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
@@ -45,7 +46,7 @@ namespace NadekoBot
                 } else {
                     Console.WriteLine("Trello app key provided.");
                     TrelloAppKey = c.TrelloAppKey;
-                    trelloLoaded = true;
+                    loadTrello = true;
                 }
                 if (c.ForwardMessages != true)
                     Console.WriteLine("Not forwarding messages.");
@@ -97,8 +98,7 @@ namespace NadekoBot
             var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
                 Channels = 2,
                 EnableEncryption = false,
-                EnableMultiserver = true,
-                Mode = AudioMode.Outgoing
+                EnableMultiserver = true
             }));
 
             //install modules
@@ -108,25 +108,17 @@ namespace NadekoBot
             modules.Add(new Games(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
-            if(trelloLoaded)
+            if(loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
             //run the bot
             client.ExecuteAndWait(async () =>
             {
                 await client.Connect(c.Username, c.Password);
-                Console.WriteLine("-------------------------");
-                Console.WriteLine("Discord.Net version: " + DiscordConfig.LibVersion);
-                Console.WriteLine("Runtime: " + client.GetRuntime());
-                Console.WriteLine("Logged in as: " + client.CurrentUser.Name);
-                Console.WriteLine("Bot id: " + client.CurrentUser.Id);
 
-                Console.WriteLine("Servers: " + client.Servers.Count());
-                Console.WriteLine("Channels: " + client.Servers.Sum(s=>s.AllChannels.Count()));
-                Console.WriteLine("Users: " + client.Servers.Sum(s => s.Users.Count()));
-
-                Console.WriteLine("Heap: "+ Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString() + "MB");
-                Console.WriteLine("-------------------------");
+                Console.WriteLine("-----------------");
+                Console.WriteLine(GetStats());
+                Console.WriteLine("-----------------");
 
                 foreach (var serv in client.Servers) {
                     if ((OwnerUser = serv.GetUser(OwnerID)) != null)
@@ -137,17 +129,28 @@ namespace NadekoBot
             Console.WriteLine("Exiting...");
             Console.ReadKey();
         }
-        static bool repliedRecently = false;
 
+        public static string GetStats() =>
+            "Discord.Net version: " + DiscordConfig.LibVersion +
+            "\nRuntime: " + client.GetRuntime() +
+            "\nBot Version: " + BotVersion +
+            "\nLogged in as: " + client.CurrentUser.Name +
+            "\nBot id: " + client.CurrentUser.Id +
+            "\nServers: " + client.Servers.Count() +
+            "\nChannels: " + client.Servers.Sum(s => s.AllChannels.Count()) +
+            "\nUsers: " + client.Servers.Sum(s => s.Users.Count()) +
+            "\nHeap: " + Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString() + "MB";
+
+
+        static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
-            if (e.Server != null) return;
+            if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
             try {
                 (await client.GetInvite(e.Message.Text))?.Accept();
-                await e.User.Send("I got in, thanks. <3");
             } catch (Exception) { }
 
-            if (NadekoBot.ForwardMessages && OwnerUser != null)
-                await OwnerUser.Send(e.Message.Text);
+            if (ForwardMessages && OwnerUser != null)
+                await OwnerUser.SendMessage(e.User +": ```\n"+e.Message.Text+"\n```");
 
             if (repliedRecently = !repliedRecently) {
                 await e.Send("You can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(");
