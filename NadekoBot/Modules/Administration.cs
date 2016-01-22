@@ -311,7 +311,7 @@ namespace NadekoBot.Modules
                             await e.Send("Announcements disabled.");
                         }
                     });
-
+                //todo add greet/bye for everyone
                 cgb.CreateCommand(".greetmsg")
                     .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
                     .Parameter("msg", ParameterType.Unparsed)
