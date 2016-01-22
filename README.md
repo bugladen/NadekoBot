@@ -1,11 +1,11 @@
 # NadekoBot
 
-Nadeko Discord chatbot written in C# using Discord.net library.  
-You can also create a very basic web-ui with the data that is in the Parse DB. [example](http://www.nadekobot.tk)
+Nadeko Discord chatbot written in C# using Discord.net library.
+You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBhxEi0X
 
 ##This section will guide you through how to setup NadekoBot from the source code
 #### If you want to semi-easily setup the bot, go to [releases](https://github.com/Kwoth/NadekoBot/releases)
-After you have cloned this repo, move the libopus and libsodium from the DLLs folder to the bin/debug. And after removing all of Discord.Net's project references, add other dlls from dll folder as a reference. Those are part of the libraries you will need for your project. The other part should resolve after you start the project for the first time. All the references are shown [in this image.](http://icecream.me/uploads/72738d3b2797e46767e10820998ad5b3.png)
+After you have cloned this repo, move the libopus and libsodium from the DLLs folder to the bin/debug. And after removing all of Discord.Net's project references, add other dlls from dll folder as a reference. Those are part of the libraries you will need for your project. The other part should resolve after you start the project for the first time.
 
 In your bin/debug folder (or next to your exe), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, where to store data, etc.
 
@@ -51,7 +51,7 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands  
-(may be incomplete) last updated: 20.1.2016
+(may be incomplete) last updated: 22.1.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
@@ -84,6 +84,11 @@ Command and aliases | Description | Usage
 `.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
 `.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
 `.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
+`.checkmyperms`  |  Checks your userspecific permissions on this channel.
+`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set.**Owner only**.
+`.commsserver`  |  Sets a server for through-bot communication.**Owner only**.
+`.send`  |  Send a message to someone on a different server through the bot.**Owner only.**
+  |  .send Message text multi word!
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -105,12 +110,12 @@ Command and aliases | Description | Usage
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
 `@BotName rip`  |  Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave. |  @NadekoBot rip [@X]
 `@BotName j`  |  Joins a server using a code.
-`@BotName save`, `@BotName ,s`, `@BotName -s`  |  Saves something for the owner in a file.
+`@BotName save`  |  Saves something for the owner in a file.
 `@BotName ls`  |  Shows all saved items.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
 `@BotName cs`  |  Deletes all saves
 `@BotName bb`  |  Says bye to someone.  |  @NadekoBot bb @X
-`@BotName req`, `@BotName ,request`, `@BotName -request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
+`@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
 `@BotName lr`  |  PMs the user all current nadeko requests.
 `@BotName dr`  |  Deletes a request. Only owner is able to do this.
 `@BotName rr`  |  Resolves a request. Only owner is able to do this.
@@ -142,8 +147,9 @@ Command and aliases | Description | Usage
 `!m n`, `!m next`  |  Goes to the next song in the queue.
 `!m s`, `!m stop`  |  Completely stops the music and unbinds the bot from the channel and cleanes up files.
 `!m p`, `!m pause`  |  Pauses the song
-`!m q`, `!m yq`  |  Queue a song using a multi/single word name. |  `!m q Dream Of Venice`
+`!m q`, `!m yq`  |  Queue a song using keywords or link. **You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
+`!m clrbfr`, `!m clearbuffers`  |  Clears the music buffer across all servers. **Owner only.**
 `!m sh`  |  Shuffles the current playlist.
 
 ### Searches  
@@ -153,3 +159,6 @@ Command and aliases | Description | Usage
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
 `~randomcat`  |  Shows a random cat image.
+`~i`, `img`  |  Pulls a first image using a search parameter. Does not work atm. |  @NadekoBot img Multiword_search_parameter
+`~ir`, `imgrandom`  |  Pulls a random image using a search parameter. Does not work atm. |  @NadekoBot img Multiword_search_parameter
+`lmgtfy`  |  Google something for an idiot.
