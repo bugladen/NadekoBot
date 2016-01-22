@@ -19,13 +19,15 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 	"OwnerID":123123123123,
 	"ParseID":"parse_app_id",
 	"ParseKey":"parse_api_key",
-	"TrelloAppKey": "your_trello_app_key"
+	"TrelloAppKey": "your_trello_app_key",
+	"ForwardMessages": true,
 }
 ```
 ##### You can omit:  
 - Parse keys if you don't want logging  
 - googleAPIKey if you don't want music  
 - TrelloAppKey if you don't need trello notifications
+- ForwardMessages if you don't want bot PM messages to be redirected to you
 ```json
 {
 	"Username":"bot_email",
