@@ -20,8 +20,10 @@ namespace NadekoBot
         public static string botMention;
         public static string GoogleAPIKey = null;
         public static ulong OwnerID;
+        public static User OwnerUser = null;
         public static string password;
         public static string TrelloAppKey;
+        public static bool ForwardMessages = false;
 
         static void Main()
         {
@@ -45,6 +47,13 @@ namespace NadekoBot
                     TrelloAppKey = c.TrelloAppKey;
                     trelloLoaded = true;
                 }
+                if (c.ForwardMessages != true)
+                    Console.WriteLine("Not forwarding messages.");
+                else {
+                    ForwardMessages = true;
+                    Console.WriteLine("Forwarding messages.");
+                }
+
                 OwnerID = c.OwnerID;
                 password = c.Password;
             }
@@ -75,7 +84,7 @@ namespace NadekoBot
                 Console.WriteLine("Parse key and/or ID not found. Logging disabled.");
             }
 
-            //reply to personal messages
+            //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
 
             //add command service
@@ -87,7 +96,9 @@ namespace NadekoBot
             //add audio service
             var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
                 Channels = 2,
-                EnableEncryption = false
+                EnableEncryption = false,
+                EnableMultiserver = true,
+                Mode = AudioMode.Outgoing
             }));
 
             //install modules
@@ -116,6 +127,12 @@ namespace NadekoBot
 
                 Console.WriteLine("Heap: "+ Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString() + "MB");
                 Console.WriteLine("-------------------------");
+
+                foreach (var serv in client.Servers) {
+                    if ((OwnerUser = serv.GetUser(OwnerID)) != null)
+                        return;
+                }
+
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -126,7 +143,11 @@ namespace NadekoBot
             if (e.Server != null) return;
             try {
                 (await client.GetInvite(e.Message.Text))?.Accept();
+                await e.User.Send("I got in, thanks. <3");
             } catch (Exception) { }
+
+            if (NadekoBot.ForwardMessages && OwnerUser != null)
+                await OwnerUser.Send(e.Message.Text);
 
             if (repliedRecently = !repliedRecently) {
                 await e.Send("You can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(");

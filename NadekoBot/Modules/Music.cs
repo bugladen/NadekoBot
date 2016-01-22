@@ -15,23 +15,22 @@ using System.Diagnostics;
 using NadekoBot.Extensions;
 using System.Net;
 using System.Globalization;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
-        private static bool exit = true;
 
-        public static bool NextSong = false;
-        public static IAudioClient Voice;
-        public static Channel VoiceChannel;
-        public static bool Pause = false;
-        public static List<StreamRequest> SongQueue = new List<StreamRequest>();
-
-        public static StreamRequest CurrentSong;
-
-        public static bool Exit {
-            get { return exit; }
-            set { exit = value; } // if i set this to true, break the song and exit the main loop
+        public class MusicControls {
+            public bool NextSong = false;
+            public IAudioClient Voice;
+            public Channel VoiceChannel;
+            public bool Pause = false;
+            public List<StreamRequest> SongQueue = new List<StreamRequest>();
+            public StreamRequest CurrentSong;
         }
+        
+        public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server,MusicControls>();
+
 
         public Music() : base() {
             //commands.Add(new PlayMusic());
@@ -49,11 +48,19 @@ namespace NadekoBot.Modules {
             var client = NadekoBot.client;
 
             Task.Run(async () => {
+
                 while (true) {
-                    if (CurrentSong == null || CurrentSong.State == StreamTaskState.Completed) {
-                        await LoadNextSong();
-                    } else
-                        await Task.Delay(200);
+                    try {
+                        foreach (var kvp in musicPlayers) {
+                            var player = kvp.Value;
+                            if (player.CurrentSong == null || player.CurrentSong.State == StreamTaskState.Completed) {
+                                LoadNextSong(player);
+                                await Task.Delay(200);
+                            }
+                        }
+                    } catch (Exception e) {
+                        Console.WriteLine(e);
+                    }
                 }
             });
 
@@ -65,9 +72,10 @@ namespace NadekoBot.Modules {
                     .Alias("next")
                     .Description("Goes to the next song in the queue.")
                     .Do(e => {
-                        if (CurrentSong == null) return;
+                        if (musicPlayers.ContainsKey(e.Server) == false || (musicPlayers[e.Server]?.CurrentSong) == null) return;
+                        var CurrentSong = musicPlayers[e.Server].CurrentSong;
                         CurrentSong.Cancel();
-                        CurrentSong = SongQueue.Take(1).FirstOrDefault();
+                        CurrentSong = musicPlayers[e.Server].SongQueue.Take(1).FirstOrDefault();
                         if (CurrentSong != null) {
                             CurrentSong.Start();
                         }
@@ -77,60 +85,79 @@ namespace NadekoBot.Modules {
                     .Alias("stop")
                     .Description("Completely stops the music and unbinds the bot from the channel and cleanes up files.")
                     .Do(e => {
-                        SongQueue.Clear();
-                        if (CurrentSong != null) {
-                            CurrentSong.Cancel();
-                            CurrentSong = null;
+                        if (musicPlayers.ContainsKey(e.Server) == false) return;
+                        var player = musicPlayers[e.Server];
+                        player.SongQueue.Clear();
+                        if (player.CurrentSong != null) {
+                            player.CurrentSong.Cancel();
+                            player.CurrentSong = null;
                         }
-                        Directory.Delete("StreamBuffers", true);
                     });
+
                 cgb.CreateCommand("p")
                     .Alias("pause")
                     .Description("Pauses the song")
                     .Do(async e => {
+                        if (musicPlayers.ContainsKey(e.Server) == false) return;
                         await e.Send("Not yet implemented.");
                     });
+
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
+                    .Description("Queue a song using keywords or link. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
                     .Do(e => {
-                        SongQueue.Add(new StreamRequest(NadekoBot.client, e, e.GetArg("Query")));
+                        if (musicPlayers.ContainsKey(e.Server) == false)
+                            musicPlayers.TryAdd(e.Server, new MusicControls());
+                        var player = musicPlayers[e.Server];
+                        player.SongQueue.Add(new StreamRequest(NadekoBot.client, e, e.GetArg("Query")));
                     });
 
                 cgb.CreateCommand("lq")
                     .Alias("ls").Alias("lp")
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e => {
-                        await e.Send(":musical_note: " + SongQueue.Count + " videos currently queued.");
-                        await e.Send(string.Join("\n", SongQueue.Select(v => v.Title).Take(10)));
+                        if (musicPlayers.ContainsKey(e.Server) == false) await e.Send(":musical_note: No active music player.");
+                        var player = musicPlayers[e.Server];
+
+                        await e.Send(":musical_note: " + player.SongQueue.Count + " videos currently queued.");
+                        await e.Send(string.Join("\n", player.SongQueue.Select(v => v.Title).Take(10)));
+                    });
+
+                cgb.CreateCommand("clrbfr")
+                    .Alias("clearbuffers")
+                    .Description("Clears the music buffer across all servers. **Owner only.**")
+                    .Do(e => {
+                        if (NadekoBot.OwnerID != e.User.Id) return;
+                        Directory.Delete("StreamBuffers", true);
                     });
 
                 cgb.CreateCommand("sh")
                     .Description("Shuffles the current playlist.")
                     .Do(async e => {
-                        if (SongQueue.Count < 2) {
+                        if (musicPlayers.ContainsKey(e.Server) == false) return;
+                        var player = musicPlayers[e.Server];
+                        if (player.SongQueue.Count < 2) {
                             await e.Send("Not enough songs in order to perform the shuffle.");
                             return;
                         }
 
-                        SongQueue.Shuffle();
+                        player.SongQueue.Shuffle();
                         await e.Send(":musical_note: Songs shuffled!");
                     });
             });
         }
 
-        private async Task LoadNextSong() {
-            if (SongQueue.Count == 0 || !SongQueue[0].LinkResolved) {
-                if (CurrentSong != null)
-                    CurrentSong.Cancel();
-                CurrentSong = null;
-                await Task.Delay(200);
+        private void LoadNextSong(MusicControls player) {
+            if (player.SongQueue.Count == 0 || !player.SongQueue[0].LinkResolved) {
+                if (player.CurrentSong != null)
+                    player.CurrentSong.Cancel();
+                player.CurrentSong = null;
                 return;
             }
-            CurrentSong = SongQueue[0];
-            SongQueue.RemoveAt(0);
-            CurrentSong.Start();
+            player.CurrentSong = player.SongQueue[0];
+            player.SongQueue.RemoveAt(0);
+            player.CurrentSong.Start();
             return;
         }
     }

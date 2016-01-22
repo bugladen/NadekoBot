@@ -7,10 +7,10 @@
         public string BotMention;
         public string GoogleAPIKey;
         public ulong OwnerID;
-        public bool Crawl;
         public string ParseID;
         public string ParseKey;
         public string TrelloAppKey;
+        public bool? ForwardMessages;
     }
     public class AnimeResult
     {
