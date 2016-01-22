@@ -1,6 +1,6 @@
 # NadekoBot
 
-Nadeko Discord chatbot written in C# using Discord.net library.
+Nadeko Discord chatbot written in C# using Discord.net library.  
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBhxEi0X
 
 ##This section will guide you through how to setup NadekoBot from the source code
