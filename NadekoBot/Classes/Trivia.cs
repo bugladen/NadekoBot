@@ -137,11 +137,11 @@ namespace NadekoBot
             client.MessageReceived += PotentialGuess;
 
             strictness = new List<Tuple<int, int>>();
-            strictness.Add(new Tuple<int, int>(6, 0));
-            strictness.Add(new Tuple<int, int>(9, 1));
-            strictness.Add(new Tuple<int, int>(13, 2));
-            strictness.Add(new Tuple<int, int>(16, 3));
-            strictness.Add(new Tuple<int, int>(21, 4));
+            strictness.Add(new Tuple<int, int>(5, 0));
+            strictness.Add(new Tuple<int, int>(6, 1));
+            strictness.Add(new Tuple<int, int>(8, 2));
+            strictness.Add(new Tuple<int, int>(15, 3));
+            strictness.Add(new Tuple<int, int>(22, 4));
             maxStringLength = 22;
 
             timeout = new Timer();

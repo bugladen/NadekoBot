@@ -12,6 +12,7 @@ namespace NadekoBot.Modules
     {
         public Games() : base() {
             commands.Add(new Trivia());
+            commands.Add(new SpeedTyping());
         }
 
         public override void Install(ModuleManager manager)
