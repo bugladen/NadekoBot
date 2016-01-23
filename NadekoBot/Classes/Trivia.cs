@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using NadekoBot.Extensions;
+using System.Collections;
 
 namespace NadekoBot
 {
@@ -117,6 +119,10 @@ namespace NadekoBot
 
         private bool active = false;
 
+        //represents the min size to judge levDistance with
+        private List<Tuple<int, int>> strictness;
+        private int maxStringLength;
+
         private Timer timeout;
         private Stopwatch stopwatch;
         private bool isQuit = false;
@@ -129,6 +135,14 @@ namespace NadekoBot
 
             oldQuestions = new List<string>();
             client.MessageReceived += PotentialGuess;
+
+            strictness = new List<Tuple<int, int>>();
+            strictness.Add(new Tuple<int, int>(6, 0));
+            strictness.Add(new Tuple<int, int>(9, 1));
+            strictness.Add(new Tuple<int, int>(13, 2));
+            strictness.Add(new Tuple<int, int>(16, 3));
+            strictness.Add(new Tuple<int, int>(21, 4));
+            maxStringLength = 22;
 
             timeout = new Timer();
             timeout.Interval = 30000;
@@ -144,12 +158,15 @@ namespace NadekoBot
             if (e.Server.Id != _serverId || !active)
                 return;
 
+            if (e.User.Id == client.CurrentUser.Id)
+                return;
+
             if (e.Message.Text.ToLower().Equals("idfk")) {
                 GetHint(e);
                 return;
             }
 
-            if (e.Message.Text.ToLower() == currentQuestion.Answer.ToLower())
+            if (IsAnswerCorrect(e.Message.Text.ToLower(), currentQuestion.Answer.ToLower()))
             {
                 active = false; //start pause between rounds
                 timeout.Enabled = false;
@@ -172,6 +189,99 @@ namespace NadekoBot
                 //if it still didnt return, we can safely start another round :D
                 LoadNextRound();
             }
+        }
+
+        private bool IsAnswerCorrect(string guess, string answer)
+        {
+            if(guess.Equals(answer))
+            {
+                return true;
+            }
+            guess = CleanString(guess);
+            answer = CleanString(answer);
+            if (guess.Equals(answer))
+            {
+                return true;
+            }
+
+            int levDistance = ComputeLevenshteinDistance(guess, answer);
+            return Judge(guess.Length, answer.Length, levDistance);
+        }
+
+        private bool Judge(int guessLength, int answerLength, int levDistance)
+        {
+            foreach(Tuple<int, int> level in strictness)
+            {
+                if(guessLength <= level.Item1 || answerLength <= level.Item1)
+                {
+                    if (levDistance <= level.Item2)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        private string CleanString(string str)
+        {
+            str = " " + str + " ";
+            str = Regex.Replace(str, "\\s+", " ");
+            str = Regex.Replace(str, "[^\\w\\d\\s]", "");
+            //Here's where custom modification can be done
+            str = Regex.Replace(str, "\\s(a|an|the|of|in|for|to|as|at|be)\\s", " ");
+            //End custom mod and cleanup whitespace
+            str = Regex.Replace(str, "^\\s+", "");
+            str = Regex.Replace(str, "\\s+$", "");
+            //Trim the really long answers
+            str = str.Length <= maxStringLength ? str : str.Substring(0, maxStringLength);
+            return str;
+        }
+
+        //http://www.dotnetperls.com/levenshtein
+        private int ComputeLevenshteinDistance(string s, string t)
+        {
+            int n = s.Length;
+            int m = t.Length;
+            int[,] d = new int[n + 1, m + 1];
+
+            // Step 1
+            if (n == 0)
+            {
+                return m;
+            }
+
+            if (m == 0)
+            {
+                return n;
+            }
+
+            // Step 2
+            for (int i = 0; i <= n; d[i, 0] = i++)
+            {
+            }
+
+            for (int j = 0; j <= m; d[0, j] = j++)
+            {
+            }
+
+            // Step 3
+            for (int i = 1; i <= n; i++)
+            {
+                //Step 4
+                for (int j = 1; j <= m; j++)
+                {
+                    // Step 5
+                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+
+                    // Step 6
+                    d[i, j] = Math.Min(
+                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                        d[i - 1, j - 1] + cost);
+                }
+            }
+            // Step 7
+            return d[n, m];
         }
 
         public async void GetHint(MessageEventArgs e) {
