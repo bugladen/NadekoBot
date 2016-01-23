@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\SParser.cs" />
+    <Compile Include="Classes\SpeedTyping.cs" />
     <Compile Include="Classes\_JSONModels.cs" />
     <Compile Include="Classes\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />

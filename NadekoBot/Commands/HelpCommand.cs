@@ -10,7 +10,7 @@ namespace NadekoBot
     {
         public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/**\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X";
+            string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/**";
 
             string lastCategory = "";
             foreach (var com in client.Commands().AllCommands)
@@ -22,6 +22,7 @@ namespace NadekoBot
                 }
                 helpstr += PrintCommandHelp(com);
             }
+            helpstr += "\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X";
             helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
             while (helpstr.Length > 2000)
             {

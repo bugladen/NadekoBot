@@ -9,6 +9,10 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Classes {
 
+    public static class SentencesProvider {
+
+    }
+
     public class TypingGame {
         private Channel channel;
 
@@ -23,7 +27,6 @@ namespace NadekoBot.Classes {
         }
 
         internal void Start() {
-            throw new NotImplementedException();
         }
     }
 
@@ -60,13 +63,15 @@ namespace NadekoBot.Classes {
             };
 
         public override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("typing contest")
+            /*
+            cgb.CreateCommand("typing start")
                 .Description("Starts a typing contest.")
                 .Do(DoFunc());
 
             cgb.CreateCommand("typing stop")
                 .Description("Stops a typing contest on the current channel.")
                 .Do(QuitFunc());
+                */
         }
     }
 }
