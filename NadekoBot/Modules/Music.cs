@@ -137,7 +137,16 @@ namespace NadekoBot.Modules {
                         await e.Send(":musical_note: " + player.SongQueue.Count + " videos currently queued.");
                         await e.Send(string.Join("\n", player.SongQueue.Select(v => v.Title).Take(10)));
                     });
-
+								
+                cgb.CreateCommand("np")
+                 .Alias("playing")
+                 .Description("Shows the song currently playing.")
+                 .Do(e => {
+                     if (musicPlayers.ContainsKey(e.Server) == false) return;
+                     var player = musicPlayers[e.Server];
+                      e.Send($"Now Playing **{player.CurrentSong.Title}**");
+                 });
+				
                 cgb.CreateCommand("clrbfr")
                     .Alias("clearbuffers")
                     .Description("Clears the music buffer across all servers. **Owner only.**")
@@ -233,10 +242,11 @@ namespace NadekoBot.Modules {
 
                 StartBuffering();
                 LinkResolved = true;
-                Channel.Send(":musical_note: **Queued** " + video.Title);
+                Channel.Send($"{User.Mention}, Queued **{video.Title}**");
             } catch (Exception e) {
                 // Send a message to the guy that queued that
-                Channel.SendMessage(":warning: Something went wrong...");
+                Channel.SendMessage("This video is unavailable in the country the Bot is running in, or you enter an invalid name or url.");
+
                 Console.WriteLine("Cannot parse youtube url: " + query);
                 Cancel();
             }
@@ -598,7 +608,7 @@ namespace NadekoBot.Modules {
                     return;
 
                 // Start streaming to voice
-                await streamRequest.Channel.SendMessage($":musical_note: Playing {streamRequest.Title}");
+                 await streamRequest.Channel.SendMessage($"Playing **{streamRequest.Title}** [{streamRequest.Length}]");
 
                 var audioService = client.Audio();
                 voiceClient = await audioService.Join(streamRequest.VoiceChannel);
@@ -638,6 +648,7 @@ namespace NadekoBot.Modules {
                 Console.WriteLine("Exception while playing music: " + ex);
             } finally {
                 if (voiceClient != null) {
+					await streamRequest.Channel.SendMessage($"Finished playing **{streamRequest.Title}**");
                     State = StreamTaskState.Completed;
                     streamer?.Cancel();
                     await voiceClient.Disconnect();
