@@ -39,6 +39,8 @@ namespace NadekoBot.Modules {
                             Console.WriteLine("Bug in music task run. " + e);
                         }
                         await Task.Delay(200);
+
+                        CleanMusicPlayers();
                     }
                 });
             }
@@ -57,8 +59,8 @@ namespace NadekoBot.Modules {
             }
 
         }
-        
-        public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server,MusicControls>();
+
+        public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server, MusicControls>();
 
 
         public Music() : base() {
@@ -76,7 +78,7 @@ namespace NadekoBot.Modules {
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
 
-            
+
 
             manager.CreateCommands("!m", cgb => {
                 //queue all more complex commands
@@ -137,16 +139,16 @@ namespace NadekoBot.Modules {
                         await e.Send(":musical_note: " + player.SongQueue.Count + " videos currently queued.");
                         await e.Send(string.Join("\n", player.SongQueue.Select(v => v.Title).Take(10)));
                     });
-								
+
                 cgb.CreateCommand("np")
                  .Alias("playing")
                  .Description("Shows the song currently playing.")
-                 .Do(e => {
+                 .Do(async e => {
                      if (musicPlayers.ContainsKey(e.Server) == false) return;
                      var player = musicPlayers[e.Server];
-                      e.Send($"Now Playing **{player.CurrentSong.Title}**");
+                     await e.Send($"Now Playing **{player.CurrentSong.Title}**");
                  });
-				
+
                 cgb.CreateCommand("clrbfr")
                     .Alias("clearbuffers")
                     .Description("Clears the music buffer across all servers. **Owner only.**")
@@ -169,6 +171,28 @@ namespace NadekoBot.Modules {
                         await e.Send(":musical_note: Songs shuffled!");
                     });
             });
+        }
+        internal static void CleanMusicPlayers() {
+            foreach (var mp in musicPlayers
+                                .Where(kvp => kvp.Value.CurrentSong == null
+                                && kvp.Value.SongQueue.Count == 0)) {
+                var val = mp.Value;
+                musicPlayers.TryRemove(mp.Key, out val);
+            }
+        }
+
+        internal static string GetMusicStats() {
+            var servers = 0;
+            var queued = 0;
+            musicPlayers.ForEach(kvp => {
+                var mp = kvp.Value;
+                if(mp.SongQueue.Count > 0 || mp.CurrentSong != null)
+                    queued += mp.SongQueue.Count + 1;
+                servers++;
+            });
+
+            return $"Playing {queued} songs across {servers} servers.";
+
         }
     }
 
