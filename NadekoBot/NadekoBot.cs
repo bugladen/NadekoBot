@@ -145,6 +145,11 @@ namespace NadekoBot
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
+
+            //just ban this trash AutoModerator
+            if (e.User.Id == 105309315895693312)
+                return; // FU
+
             try {
                 await (await client.GetInvite(e.Message.Text)).Accept();
                 await e.Send("I got in!");
