@@ -7,48 +7,54 @@ using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Threading;
+using System.Diagnostics;
 
 namespace NadekoBot {
 
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
-            return "Random test sentence.";
+            return "Random ultra long test sentence that i have to type every time.";
         }
     }
 
     public class TypingGame {
+        public static float WORD_VALUE { get; } = 4.5f;
         private Channel channel;
         public string currentSentence;
         public bool IsActive;
+        private Stopwatch sw;
     
         public TypingGame(Channel channel) {
             this.channel = channel;
             currentSentence = SentencesProvider.GetRandomSentence();
             IsActive = false;
+            sw = new Stopwatch();
         }
 
         public Channel Channell { get; internal set; }
 
         internal async Task<bool> Stop() {
             if (!IsActive) return false;
-            IsActive = false;
             NadekoBot.client.MessageReceived -= AnswerReceived;
+            IsActive = false;
+            sw.Stop();
+            sw.Reset();
             await channel.Send("Typing contest stopped");
             return true;
         }
 
         internal async Task Start() {
             IsActive = true;
-            var msg = await channel.SendMessage("Starting new typing contest in **3**....");
+            var msg = await channel.SendMessage("Starting new typing contest in **3**...");
             await Task.Delay(1000);
-            await msg.Edit("Starting new typing contest in **2**....");
+            await msg.Edit("Starting new typing contest in **2**...");
             await Task.Delay(1000);
-            await msg.Edit("Starting new typing contest in **1**....");
+            await msg.Edit("Starting new typing contest in **1**...");
             await Task.Delay(1000);
             await msg.Edit($"**{currentSentence}**");
-
+            sw.Start();
             HandleAnswers();
-            int i = 10;
+            int i = (int)(currentSentence.Length / WORD_VALUE * 1.7f);
             while (i > 0) {
                 await Task.Delay(1000);
                 i--;
@@ -69,7 +75,7 @@ namespace NadekoBot {
             var guess = e.Message.RawText;
 
             if (currentSentence == guess) {
-                await channel.Send(e.User.Mention + " finished!");
+                await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
             }
         }
     }
@@ -109,7 +115,6 @@ namespace NadekoBot {
             };
 
         public override void Init(CommandGroupBuilder cgb) {
-             /*
             cgb.CreateCommand("typestart")
                 .Description("Starts a typing contest.")
                 .Do(DoFunc());
@@ -117,7 +122,6 @@ namespace NadekoBot {
             cgb.CreateCommand("typestop")
                 .Description("Stops a typing contest on the current channel.")
                 .Do(QuitFunc());
-               */
         }
     }
 }

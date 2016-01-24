@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Timers;
 using NadekoBot.Extensions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules
 {
@@ -232,7 +233,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".stats")
                     .Description("Shows some basic stats for nadeko")
-                    .Do(async e => await e.Send("```" + NadekoBot.GetStats() + "\n" + Music.GetMusicStats() + "```"));
+                    .Do(async e => {
+                        var t = Task.Run(() => {
+                            return "```" + NadekoBot.GetStats() + "\n" + Music.GetMusicStats() + "```";
+                        });
+
+                        await e.Send(await t);
+
+                    });
 
                 cgb.CreateCommand(".leaveall")
                     .Description("Nadeko leaves all servers")
