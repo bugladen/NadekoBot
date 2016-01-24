@@ -315,9 +315,9 @@ namespace NadekoBot.Modules
 					
 		      cgb.CreateCommand(".setgame")
                 .Description("Sets the bots game.")
-                .Parameter("set_game", ParameterType.Required)
+                .Parameter("set_game", ParameterType.Unparsed)
                 .Do(e => {
-                    if (e.User.Id != NadekoBot.OwnerID) return;
+                    if (e.User.Id != NadekoBot.OwnerID || e.GetArg("set_game") != null) return;
 
                     client.SetGame(e.GetArg("set_game"));
                 });

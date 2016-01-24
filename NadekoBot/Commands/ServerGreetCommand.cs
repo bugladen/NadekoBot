@@ -197,6 +197,8 @@ namespace NadekoBot.Commands {
 
                     AnnouncementsDictionary[e.Server.Id].GreetText = e.GetArg("msg");
                     await e.Send("New greet message set.");
+                    if (!AnnouncementsDictionary[e.Server.Id].Greet)
+                        await e.Send("Enable greet messsages by typing `.greet`");
                 });
 
             cgb.CreateCommand(".bye")
@@ -225,6 +227,8 @@ namespace NadekoBot.Commands {
 
                     AnnouncementsDictionary[e.Server.Id].ByeText = e.GetArg("msg");
                     await e.Send("New bye message set.");
+                    if (!AnnouncementsDictionary[e.Server.Id].Bye)
+                        await e.Send("Enable bye messsages by typing `.bye`");
                 });
         }
     }
