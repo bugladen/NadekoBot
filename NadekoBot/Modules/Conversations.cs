@@ -456,12 +456,9 @@ namespace NadekoBot.Modules
                     {
                         try
                         {
-                            using (MemoryStream ms = new MemoryStream())
-                            using (Image img = Image.FromFile("images/hidden.png"))
+                            using (Stream ms = File.OpenRead("images/hidden.png"))
                             {
-                                img.Save(ms, ImageFormat.Png);
-
-                                await client.CurrentUser.Edit(NadekoBot.password, null, null, null, ms, ImageType.Png);
+                                await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
                             }
                             await e.Send("*hides*");
                         }
@@ -477,12 +474,8 @@ namespace NadekoBot.Modules
                     {
                         try
                         {
-                            using (MemoryStream ms = new MemoryStream())
-                            using (Image img = Image.FromFile("images/nadeko.jpg"))
-                            {
-                                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                                await client.CurrentUser.Edit(NadekoBot.password, null, null, null, ms, ImageType.Jpeg);
+                            using (Stream ms = File.OpenRead("images/nadeko.jpg")) {
+                                await client.CurrentUser.Edit(NadekoBot.password, avatar: ms,avatarType:ImageType.Jpeg);
                             }
                             await e.Send("*unhides*");
                         }
