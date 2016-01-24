@@ -122,11 +122,12 @@ namespace NadekoBot.Modules {
                     .Alias("yq")
                     .Description("Queue a song using keywords or link. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
-                    .Do(e => {
+                    .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false)
                             musicPlayers.TryAdd(e.Server, new MusicControls());
                         var player = musicPlayers[e.Server];
                         player.SongQueue.Add(new StreamRequest(NadekoBot.client, e, e.GetArg("Query")));
+                        await e.Send(":warning: Music is unstable atm, working on a fix. :warning:");
                     });
 
                 cgb.CreateCommand("lq")
