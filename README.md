@@ -82,6 +82,7 @@ Command and aliases | Description | Usage
 `.die`  |  Works only for the owner. Shuts the bot down.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`  |  Give the bot a new name.
+`.setgame`  |  Sets the bots game.**Owner only**.
 `.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
 `.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
 `.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
