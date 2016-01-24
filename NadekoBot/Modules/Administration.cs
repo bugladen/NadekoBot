@@ -302,6 +302,17 @@ namespace NadekoBot.Modules
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
+					
+		  cgb.CreateCommand(".setgame")
+            .Description("Sets the bots game.")
+            .Parameter("set_game", ParameterType.Required)
+            .Do( e => {
+                if (e.User.Id != NadekoBot.OwnerID || e.GetArg("set_game") == null) return;
+
+                client.SetGame(e.GetArg("set_game"));
+            });
+
+					
 
                 cgb.CreateCommand(".greet")
                     .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
