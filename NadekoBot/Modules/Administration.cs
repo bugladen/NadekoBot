@@ -313,16 +313,14 @@ namespace NadekoBot.Modules
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
 					
-		  cgb.CreateCommand(".setgame")
-            .Description("Sets the bots game.")
-            .Parameter("set_game", ParameterType.Required)
-            .Do( e => {
-                if (e.User.Id != NadekoBot.OwnerID || e.GetArg("set_game") == null) return;
+		      cgb.CreateCommand(".setgame")
+                .Description("Sets the bots game.")
+                .Parameter("set_game", ParameterType.Required)
+                .Do(e => {
+                    if (e.User.Id != NadekoBot.OwnerID) return;
 
-                client.SetGame(e.GetArg("set_game"));
-            });
-
-					
+                    client.SetGame(e.GetArg("set_game"));
+                });
 
                 cgb.CreateCommand(".checkmyperms")
                     .Description("Checks your userspecific permissions on this channel.")
