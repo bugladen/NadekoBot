@@ -8,6 +8,7 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Threading;
 using System.Diagnostics;
+using Parse;
 
 namespace NadekoBot {
 

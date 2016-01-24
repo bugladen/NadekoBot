@@ -7,6 +7,7 @@ using System.Linq;
 using System.Timers;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
+using NadekoBot.Commands;
 
 namespace NadekoBot.Modules
 {
@@ -14,6 +15,7 @@ namespace NadekoBot.Modules
     {
         public Administration() : base() {
             commands.Add(new HelpCommand());
+            commands.Add(new ServerGreetCommand());
         }
 
         public override void Install(ModuleManager manager)
@@ -62,7 +64,6 @@ namespace NadekoBot.Modules
                             await e.Send("You failed to supply a valid username");
                             return;
                         }
-
                         var role = e.Server.FindRoles(e.GetArg("role_name")).FirstOrDefault();
                         if (role == null) {
                             await e.Send("You failed to supply a valid role");
@@ -269,14 +270,23 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand(".die")
-                    .Description("Works only for the owner. Shuts the bot down.")
+                    .Alias(".graceful")
+                    .Parameter("reason",ParameterType.Unparsed)
+                    .Description("Works only for the owner. Shuts the bot down and notifies users about the restart.")
                     .Do(async e => {
                         if (e.User.Id == NadekoBot.OwnerID) {
                             Timer t = new Timer();
                             t.Interval = 2000;
                             t.Elapsed += (s, ev) => { Environment.Exit(0); };
                             t.Start();
-                            await e.Send("Shutting down.");
+                            string reason = e.GetArg("reason");
+                            if (reason == null)
+                                reason = "Unspecified.";
+                            foreach (var kvp in Music.musicPlayers) {
+                                if(kvp.Value?.CurrentSong?.Channel!=null)
+                                    await kvp.Value.CurrentSong.Channel.Send($"Owner initiated a shutdown, sorry for the interruption.\nReason: `{reason}`");
+                            }
+                            await e.Send("`Shutting down.`");
                         }
                     });
 
@@ -313,66 +323,6 @@ namespace NadekoBot.Modules
             });
 
 					
-
-                cgb.CreateCommand(".greet")
-                    .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
-                    .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID) return;
-                        announcingGreet = !announcingGreet;
-
-                        if (announcingGreet) {
-                            announceChannel = e.Channel;
-                            joinServer = e.Server;
-                            NadekoBot.client.UserJoined += Client_UserJoined;
-                            await e.Send("Greet announcements enabled on this channel.");
-                        } else {
-                            announceChannel = null;
-                            joinServer = null;
-                            NadekoBot.client.UserJoined -= Client_UserJoined;
-                            await e.Send("Announcements disabled.");
-                        }
-                    });
-                //todo add greet/bye for everyone
-                cgb.CreateCommand(".greetmsg")
-                    .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
-                    .Parameter("msg", ParameterType.Unparsed)
-                    .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID) return;
-
-                        if (e.GetArg("msg") == null) return;
-                        announceMsg = e.GetArg("msg");
-                        await e.Send("New greet message set.");
-                    });
-
-                cgb.CreateCommand(".bye")
-                    .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
-                    .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID) return;
-                        announcingLeave = !announcingLeave;
-
-                        if (announcingLeave) {
-                            announceLeaveChannel = e.Channel;
-                            leaveServer = e.Server;
-                            NadekoBot.client.UserLeft += Client_UserLeft;
-                            await e.Send("Leave announcements enabled on this channel.");
-                        } else {
-                            announceLeaveChannel = null;
-                            leaveServer = null;
-                            NadekoBot.client.UserLeft -= Client_UserLeft;
-                            await e.Send("Leave announcements disabled.");
-                        }
-                    });
-
-                cgb.CreateCommand(".byemsg")
-                    .Description("Sets a new announce leave message. Type %user% if you want to mention the new member.\n**Usage**: .byemsg %user% has left the server.")
-                    .Parameter("msg", ParameterType.Unparsed)
-                    .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID) return;
-
-                        if (e.GetArg("msg") == null) return;
-                        announceLeaveMsg = e.GetArg("msg");
-                        await e.Send("New bye message set.");
-                    });
 
                 cgb.CreateCommand(".checkmyperms")
                     .Description("Checks your userspecific permissions on this channel.")
@@ -424,7 +374,6 @@ namespace NadekoBot.Modules
                             await e.Send("Sending failed.");
                         }
                     });
-
             });
 
         }
