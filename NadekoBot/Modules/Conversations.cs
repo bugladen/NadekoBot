@@ -164,24 +164,16 @@ namespace NadekoBot.Modules
                         List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
-
                         if (u == null) {
                             await e.Send("Invalid user specified.");
                             return;
                         }
 
-                        if (u.Id == NadekoBot.OwnerID)
-                        {
+                        if (u.Id == NadekoBot.OwnerID) {
                             await e.Send("I would never insult my master <3");
+                            return;
                         }
-                        else if (e.User.Id == NadekoBot.OwnerID)
-                        {
-                            await e.Send(u.Mention + insults[r.Next(0, insults.Count)]);
-                        }
-                        else
-                        {
-                            await e.Send(e.User.Mention + " Eww, why would i do that for you ?!");
-                        }
+                        await e.Send(u.Mention + insults[r.Next(0, insults.Count)]);
                     });
 
                 cgb.CreateCommand("praise")
@@ -189,7 +181,7 @@ namespace NadekoBot.Modules
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e =>
                     {
-                        List<string> praises = new List<string> { " You are cool.", " You are nice... But don't get any wrong ideas.", " You did a good job." };
+                        List<string> praises = new List<string> { " You are cool.", " You are nice!", " You did a good job.", " You did something nice.", " is awesome!" };
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
@@ -199,26 +191,11 @@ namespace NadekoBot.Modules
                             return;
                         }
 
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
-                            if (u.Id != NadekoBot.OwnerID)
-                                await e.Send(u.Mention + praises[r.Next(0, praises.Count)]);
-                            else
-                            {
-                                await e.Send(u.Mention + " No need, you know I love you <3");
-                            }
+                        if (u.Id == NadekoBot.OwnerID) {
+                            await e.Send(e.User.Mention + " I don't need your permission to praise my beloved Master <3");
+                            return;
                         }
-                        else
-                        {
-                            if (u.Id == NadekoBot.OwnerID)
-                            {
-                                await e.Send(e.User.Mention + " I don't need your permission to praise my beloved Master <3");
-                            }
-                            else
-                            {
-                                await e.Send(e.User.Mention + " Yeah... No.");
-                            }
-                        }
+                        await e.Send(u.Mention + praises[r.Next(0, praises.Count)]);
                     });
 
                 cgb.CreateCommand("are you real")
