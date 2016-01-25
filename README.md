@@ -82,6 +82,7 @@ Command and aliases | Description | Usage
 `.die`  |  Works only for the owner. Shuts the bot down.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`  |  Give the bot a new name.
+`.setgame`  |  Sets the bot's game.**Owner only**.
 `.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
 `.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
 `.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
@@ -150,6 +151,7 @@ Command and aliases | Description | Usage
 `!m s`, `!m stop`  |  Completely stops the music and unbinds the bot from the channel and cleanes up files.
 `!m p`, `!m pause`  |  Pauses the song
 `!m q`, `!m yq`  |  Queue a song using keywords or link. **You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!m np`, `!m playing`  |  Shows what song is playing.
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
 `!m clrbfr`, `!m clearbuffers`  |  Clears the music buffer across all servers. **Owner only.**
 `!m sh`  |  Shuffles the current playlist.
