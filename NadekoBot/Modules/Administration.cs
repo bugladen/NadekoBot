@@ -8,6 +8,7 @@ using System.Timers;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using NadekoBot.Commands;
+using System.IO;
 
 namespace NadekoBot.Modules
 {
@@ -334,8 +335,7 @@ namespace NadekoBot.Modules
 
                         //await e.Send("```\n" + e.User.ServerPermissions.+"\n```");
                     });
-
-                //todo maybe add .opencomms and then make send always send to that user?
+                
                 Server commsServer = null;
                 User commsUser = null;
 
@@ -372,8 +372,38 @@ namespace NadekoBot.Modules
                             await e.Send("Sending failed.");
                         }
                     });
-            });
 
+                /*
+               cgb.CreateCommand(".jsontype")
+                   .Do(async e => {
+                       Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));
+                       if (data == null || data.Count == 0) return;
+
+                       var wer = data.Where(jt => jt["Description"].ToString().Length > 120);
+                       var list = wer.Select(jt => { 
+                           var obj = new Parse.ParseObject("TypingArticles");
+                           obj["text"] = jt["Description"].ToString();
+                           return obj;
+                       });
+                       await Parse.ParseObject.SaveAllAsync(list);
+                       await e.Send("saved to parse");
+
+                   });
+
+               cgb.CreateCommand(".repeat")
+                   .Do(async e => {
+                       if (e.User.Id != NadekoBot.OwnerID) return;
+
+                       string[] notifs = { "Admin use .bye .greet", "Unstable - fixing", "fixing ~ani, ~mang", "join NadekoLog server", "-h is help, .stats",};
+                       int i = notifs.Length;
+                       while (true) {
+                           await e.Channel.SendMessage($".setgame {notifs[--i]}");
+                           await Task.Delay(20000);
+                           if (i == 0) i = notifs.Length;
+                       }
+                   });
+               */
+            });
         }
 
         bool announcingGreet = false;

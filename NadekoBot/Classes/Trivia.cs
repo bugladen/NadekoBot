@@ -204,7 +204,7 @@ namespace NadekoBot
                 return true;
             }
 
-            int levDistance = ComputeLevenshteinDistance(guess, answer);
+            int levDistance = guess.LevenshteinDistance(answer);
             return Judge(guess.Length, answer.Length, levDistance);
         }
 
@@ -236,52 +236,6 @@ namespace NadekoBot
             //Trim the really long answers
             str = str.Length <= maxStringLength ? str : str.Substring(0, maxStringLength);
             return str;
-        }
-
-        //http://www.dotnetperls.com/levenshtein
-        private int ComputeLevenshteinDistance(string s, string t)
-        {
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
-
-            // Step 1
-            if (n == 0)
-            {
-                return m;
-            }
-
-            if (m == 0)
-            {
-                return n;
-            }
-
-            // Step 2
-            for (int i = 0; i <= n; d[i, 0] = i++)
-            {
-            }
-
-            for (int j = 0; j <= m; d[0, j] = j++)
-            {
-            }
-
-            // Step 3
-            for (int i = 1; i <= n; i++)
-            {
-                //Step 4
-                for (int j = 1; j <= m; j++)
-                {
-                    // Step 5
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-
-                    // Step 6
-                    d[i, j] = Math.Min(
-                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                        d[i - 1, j - 1] + cost);
-                }
-            }
-            // Step 7
-            return d[n, m];
         }
 
         public async void GetHint(MessageEventArgs e) {

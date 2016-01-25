@@ -29,7 +29,7 @@ for(my $i = 0; $i < $maxPages; $i++)
 		$fullUrl .= "&start=$i" .0;
 	}
 	print "Getting this: $fullUrl\n";
-	my $html = `curl -A "$userAgent" -k "$fullUrl"`;
+	my $html = `curl -A "$userAgent" -k -L "$fullUrl"`;
 
 	#print "HTML: $html";
 	#<STDIN>;

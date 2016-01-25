@@ -86,15 +86,20 @@ namespace NadekoBot {
 
             var guess = e.Message.RawText;
 
-            if (currentSentence == guess && !finishedUserIds.Contains(e.User.Id)) {
+            var distance = currentSentence.LevenshteinDistance(guess);
+            var decision = Judge(distance, guess.Length);
+            if (decision && !finishedUserIds.Contains(e.User.Id)) {
                 finishedUserIds.Add(e.User.Id);
-                await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
                 if (finishedUserIds.Count % 2 == 0) {
                     await e.Send($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
                 }
 
             }
         }
+
+        private bool Judge(int errors, int textLength) => errors <= textLength / 25;
+
     }
 
     class SpeedTyping : DiscordCommand {
