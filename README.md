@@ -66,6 +66,7 @@ Command and aliases | Description | Usage
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name, and color. |  .r AwesomeRole Orange
+`.color`, `.c`  |  Set a role's color to the rgb(0-255 0-255 0-255) color value provided. |  .color Admin 255 255 255
 `.b`, `.ban`  |  Bans a mentioned user
 `.ub`, `.unban`  |  Unbans a mentioned user
 `.k`, `.kick`  |  Kicks a mentioned user.
