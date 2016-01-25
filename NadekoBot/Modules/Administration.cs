@@ -105,6 +105,43 @@ namespace NadekoBot.Modules
                         } catch (Exception) { }
                     });
 
+					
+					
+					
+					
+               cgb.CreateCommand(".color").Alias(".c")
+             .Parameter("Rolename", ParameterType.Required)
+             .Parameter("r", ParameterType.Optional)
+             .Parameter("g", ParameterType.Optional)
+             .Parameter("b", ParameterType.Optional)
+             .Description("Set a role's color to the rgb(0-255 0-255 0-255) color value provided.")
+             .Do(async e =>
+             {
+
+
+                 if (!e.User.ServerPermissions.ManageRoles)
+                 {
+                     await e.Channel.SendMessage("You don't have permission to use this!");
+                     return;
+                 }
+
+
+
+                 if (e.Args.Count() == 2 || e.Args.Count() == 4)
+                 {
+                     bool rgb = e.Args.Count() == 4;
+                        byte red = Convert.ToByte(rgb ? int.Parse(e.Args[1]) : Convert.ToInt32(e.Args[1].Substring(0, 2), 16));
+                     byte green = Convert.ToByte(rgb ? int.Parse(e.Args[2]) : Convert.ToInt32(e.Args[1].Substring(2, 2), 16));
+                     byte blue = Convert.ToByte(rgb ? int.Parse(e.Args[3]) : Convert.ToInt32(e.Args[1].Substring(4, 2), 16));
+                     Role role = e.Server.FindRoles(e.Args[0]).FirstOrDefault();
+                        await role.Edit(color: new Color(red, green, blue));
+                     await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
+                 }
+                 else
+                     await e.Channel.SendMessage("The parameters are invalid.");
+             });
+					
+					
                 cgb.CreateCommand(".b").Alias(".ban")
                     .Parameter("everything",ParameterType.Unparsed)
                     .Description("Bans a mentioned user")
