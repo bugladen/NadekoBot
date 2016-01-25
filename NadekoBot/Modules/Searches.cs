@@ -142,7 +142,7 @@ namespace NadekoBot.Modules
         {
             try
             {
-                var cl = new RestSharp.RestClient("https://anilist.co/api");
+                var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
 
                 RefreshToken();
@@ -168,7 +168,7 @@ namespace NadekoBot.Modules
             {
                 RefreshToken();
 
-                var cl = new RestSharp.RestClient("https://anilist.co/api");
+                var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
                 rq = new RestSharp.RestRequest("/manga/search/"+Uri.EscapeUriString(query));
                 rq.AddParameter("access_token", token);
@@ -188,12 +188,19 @@ namespace NadekoBot.Modules
 
         private void RefreshToken()
         {
-            var cl = new RestSharp.RestClient("https://anilist.co/api");
+            var cl = new RestSharp.RestClient("http://anilist.co/api");
             var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
             rq.AddParameter("grant_type", "client_credentials");
             rq.AddParameter("client_id", "kwoth-w0ki9");
             rq.AddParameter("client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z");
-            token = JObject.Parse(cl.Execute(rq).Content)["access_token"].ToString();
+            var exec = cl.Execute(rq);
+            /*
+            Console.WriteLine($"Server gave me content: { exec.Content }\n{ exec.ResponseStatus } -> {exec.ErrorMessage} ");
+            Console.WriteLine($"Err exception: {exec.ErrorException}");
+            Console.WriteLine($"Inner: {exec.ErrorException.InnerException}");
+            */
+
+            token = JObject.Parse(exec.Content)["access_token"].ToString();
         }
 
         private static async Task<bool> ValidateQuery(Discord.Channel ch,string query) {
