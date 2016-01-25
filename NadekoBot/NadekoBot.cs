@@ -24,7 +24,7 @@ namespace NadekoBot
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
-        public static string BotVersion = "0.7-beta3";
+        public static string BotVersion = "0.7-beta4";
 
         static void Main()
         {
