@@ -10,11 +10,12 @@ using System.Threading;
 using System.Diagnostics;
 using Parse;
 
-namespace NadekoBot {
+namespace NadekoBot { 
 
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
-            return "Random ultra long test sentence that i have to type every time.";
+            var data = new ParseQuery<ParseObject>("TypingArticles").FindAsync().Result;
+            return data.ToList()[(new Random()).Next(0, data.Count())].Get<string>("text");
         }
     }
 
@@ -60,9 +61,9 @@ namespace NadekoBot {
                 await Task.Delay(1000);
                 i--;
                 if (!IsActive)
-                    break;
+                    return;
             }
-            
+
             await Stop();
             await Start();
         }
@@ -124,6 +125,19 @@ namespace NadekoBot {
             cgb.CreateCommand("typestop")
                 .Description("Stops a typing contest on the current channel.")
                 .Do(QuitFunc());
+
+            cgb.CreateCommand("typeadd")
+                .Description("Adds a new article to the typing contest. Owner only.")
+                .Parameter("text",ParameterType.Unparsed)
+                .Do(async e => {
+                    if (e.User.Id != NadekoBot.OwnerID || e.GetArg("text") == null) return;
+
+                    var obj = new ParseObject("TypingArticles");
+                    obj["text"] = e.GetArg("text");
+                    await obj.SaveAsync();
+                    await e.Send("Added new typing article.");
+                });
+            //todo add user submissions
         }
     }
 }
