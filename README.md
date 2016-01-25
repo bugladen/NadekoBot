@@ -24,7 +24,6 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 }
 ```
 ##### You can omit:  
-- Parse keys if you don't want logging  
 - googleAPIKey if you don't want music  
 - TrelloAppKey if you don't need trello notifications
 - ForwardMessages if you don't want bot PM messages to be redirected to you
@@ -34,6 +33,8 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 	"BotMention":"<@bot_id>",
 	"Password":"bot_password",
 	"OwnerID":123123123123,
+	"ParseID":"parse_app_id",
+	"ParseKey":"parse_api_key",
 }
 ```
 - BotMention(bot\_id) and OwnerID are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.

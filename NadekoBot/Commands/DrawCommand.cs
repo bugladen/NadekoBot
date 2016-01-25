@@ -13,7 +13,9 @@ namespace NadekoBot
     {
         private Cards cards = null;
 
-        public DrawCommand() : base() { }
+        public DrawCommand() : base() {
+            cards = new Cards();
+        }
 
         public override Func<CommandEventArgs, Task> DoFunc() => async (e) =>
           {
@@ -67,6 +69,17 @@ namespace NadekoBot
                 .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
+
+            cgb.CreateCommand("$shuffle")
+                .Alias("$reshuffle")
+                .Description("Reshuffles all cards back into the deck.")
+                .Do(async e => {
+                    if (cards == null) {
+                        cards = new Cards();
+                    }
+                    cards.Restart();
+                    await e.Send("Deck reshuffled.");
+                });
         }
         
     }

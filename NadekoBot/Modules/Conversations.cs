@@ -486,9 +486,10 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("dump")
-                    .Description("Dumps all of the invites it can to dump.txt")
+                    .Description("Dumps all of the invites it can to dump.txt.** Owner Only.**")
                     .Do(async e =>
                     {
+                        if (NadekoBot.OwnerID != e.User.Id) return;
                         int i = 0;
                         int j = 0;
                         string invites = "";

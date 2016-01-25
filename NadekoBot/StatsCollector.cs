@@ -84,7 +84,6 @@ namespace NadekoBot
         public static void DEBUG_LOG(string text) {
 #pragma warning disable CS4014 
             //NadekoBot.client.GetChannel(119365591852122112).Send(text);
-            //TODO YOU MIGHT WANT TO CHANGE THIS TO LOOK LIKE THE LINE ABOVE
             Console.WriteLine(text);
 #pragma warning restore CS4014 
         }
