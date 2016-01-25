@@ -19,18 +19,20 @@ namespace NadekoBot {
         }
     }
 
+    //todo add leniency and stuff
     public class TypingGame {
         public static float WORD_VALUE { get; } = 4.5f;
         private Channel channel;
         public string currentSentence;
         public bool IsActive;
         private Stopwatch sw;
+        private List<ulong> finishedUserIds;
     
         public TypingGame(Channel channel) {
             this.channel = channel;
-            currentSentence = SentencesProvider.GetRandomSentence();
             IsActive = false;
             sw = new Stopwatch();
+            finishedUserIds = new List<ulong>();
         }
 
         public Channel Channell { get; internal set; }
@@ -38,6 +40,7 @@ namespace NadekoBot {
         internal async Task<bool> Stop() {
             if (!IsActive) return false;
             NadekoBot.client.MessageReceived -= AnswerReceived;
+            finishedUserIds.Clear();
             IsActive = false;
             sw.Stop();
             sw.Reset();
@@ -46,17 +49,23 @@ namespace NadekoBot {
         }
 
         internal async Task Start() {
+            if (IsActive) return; // can't start running game
             IsActive = true;
+            currentSentence = SentencesProvider.GetRandomSentence();
+            int i = (int)(currentSentence.Length / WORD_VALUE * 1.7f);
+            await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.");
+
+
             var msg = await channel.SendMessage("Starting new typing contest in **3**...");
             await Task.Delay(1000);
             await msg.Edit("Starting new typing contest in **2**...");
             await Task.Delay(1000);
             await msg.Edit("Starting new typing contest in **1**...");
             await Task.Delay(1000);
-            await msg.Edit($"**{currentSentence}**");
+            await msg.Edit($":book:**{currentSentence}**:book:");
             sw.Start();
             HandleAnswers();
-            int i = (int)(currentSentence.Length / WORD_VALUE * 1.7f);
+            
             while (i > 0) {
                 await Task.Delay(1000);
                 i--;
@@ -77,8 +86,13 @@ namespace NadekoBot {
 
             var guess = e.Message.RawText;
 
-            if (currentSentence == guess) {
+            if (currentSentence == guess && !finishedUserIds.Contains(e.User.Id)) {
+                finishedUserIds.Add(e.User.Id);
                 await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                if (finishedUserIds.Count % 2 == 0) {
+                    await e.Send($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
+                }
+
             }
         }
     }
@@ -137,6 +151,7 @@ namespace NadekoBot {
                     await obj.SaveAsync();
                     await e.Send("Added new typing article.");
                 });
+
             //todo add user submissions
         }
     }
