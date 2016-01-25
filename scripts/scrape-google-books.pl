@@ -60,16 +60,25 @@ for(my $i = 0; $i < $maxPages; $i++)
 
 open FILE, ">:utf8", $file or die "Could not open file to write $!";
 print FILE "[\n";
+my $first = 1;
 for my $title (keys %hash)
 {
+	if($first)
+	{
+		$first = 0;
+	}
+	else
+	{
+		print FILE ",\n";
+	}
 	next unless (defined $title and defined $hash{$title});
 	next unless ($title ne '' and $hash{$title} ne '');
 	print FILE "\t{\n";
 	print FILE "\t\t\"Title\":\"$title\",\n";
 	print FILE "\t\t\"Description\":\"$hash{$title}\"\n";
-	print FILE "\t}\n";
+	print FILE "\t}";
 }
-print FILE "]";
+print FILE "\n]";
 close FILE;
 
 sub clean
