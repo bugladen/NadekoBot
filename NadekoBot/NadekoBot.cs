@@ -10,11 +10,10 @@ using Discord.Audio;
 using NadekoBot.Extensions;
 using System.Timers;
 using System.Linq;
+using System.Diagnostics;
 
-namespace NadekoBot
-{
-    class NadekoBot
-    {
+namespace NadekoBot {
+    class NadekoBot {
         public static DiscordClient client;
         public static StatsCollector stats_collector;
         public static string botMention;
@@ -24,15 +23,14 @@ namespace NadekoBot
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
-        public static string BotVersion = "0.7-beta4";
+        public static string BotVersion = "0.7-beta5";
+        public static int commandsRan = 0;
 
-        static void Main()
-        {
+        static void Main() {
             //load credentials from credentials.json
             Credentials c;
             bool loadTrello = false;
-            try
-            {
+            try {
                 c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
                 botMention = c.BotMention;
                 if (c.GoogleAPIKey == null || c.GoogleAPIKey == "") {
@@ -57,9 +55,7 @@ namespace NadekoBot
 
                 OwnerID = c.OwnerID;
                 password = c.Password;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Console.WriteLine("Failed to load stuff from credentials.json, RTFM");
                 Console.ReadKey();
                 return;
@@ -69,8 +65,7 @@ namespace NadekoBot
             client = new DiscordClient();
 
             //create a command service
-            var commandService = new CommandService(new CommandServiceConfig
-            {
+            var commandService = new CommandService(new CommandServiceConfig {
                 CommandChar = null,
                 HelpMode = HelpMode.Disable
             });
@@ -88,9 +83,12 @@ namespace NadekoBot
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
 
+            //count commands ran
+            client.Commands().CommandExecuted += (s, e) => commandsRan++;
+
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);
-            
+
             //create module service
             var modules = client.Services.Add<ModuleService>(new ModuleService());
 
@@ -108,12 +106,11 @@ namespace NadekoBot
             modules.Add(new Games(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
-            if(loadTrello)
+            if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
             //run the bot
-            client.ExecuteAndWait(async () =>
-            {
+            client.ExecuteAndWait(async () => {
                 await client.Connect(c.Username, c.Password);
 
                 Console.WriteLine("-----------------");
@@ -131,16 +128,22 @@ namespace NadekoBot
         }
 
         public static string GetStats() =>
-            "Discord.Net version: " + DiscordConfig.LibVersion +
-            "\nRuntime: " + client.GetRuntime() +
-            "\nBot Version: " + BotVersion +
-            "\nLogged in as: " + client.CurrentUser.Name +
-            "\nBot id: " + client.CurrentUser.Id +
-            "\nServers: " + client.Servers.Count() +
-            "\nChannels: " + client.Servers.Sum(s => s.AllChannels.Count()) +
-            "\nUsers: " + client.Servers.Sum(s => s.Users.Count()) +
-            "\nHeap: " + Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString() + "MB";
+            "Author: Kwoth" +
+            $"\nDiscord.Net version: {DiscordConfig.LibVersion}"+
+            $"\nRuntime: {client.GetRuntime()}" +
+            $"\nBot Version: {BotVersion}"+
+            $"\nLogged in as: {client.CurrentUser.Name}" +
+            $"\nBot id: {client.CurrentUser.Id}" +
+            $"\nUptime: {GetUptimeString()}" +
+            $"\nServers: {client.Servers.Count()}" +
+            $"\nChannels: {client.Servers.Sum(s => s.AllChannels.Count())}" +
+            $"\nUsers: {client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} ({client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Distinct().Count()} unique) ({client.Servers.SelectMany(x => x.Users.Where(y => y.Status != UserStatus.Offline).Select(y => y.Id)).Distinct().Count()} online)\n" +
+            $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB";
 
+        public static string GetUptimeString() {
+            var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
+            return "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+        }
 
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
