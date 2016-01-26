@@ -140,6 +140,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Music\MusicControls.cs" />
+    <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\SParser.cs" />
     <Compile Include="Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />

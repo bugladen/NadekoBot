@@ -174,5 +174,15 @@ namespace NadekoBot.Extensions
             // Step 7
             return d[n, m];
         }
+
+        public static int KiB(this int value) => value * 1024;
+        public static int KB(this int value) => value * 1000;
+
+        public static int MiB(this int value) => value.KiB() * 1024;
+        public static int MB(this int value) => value.KB() * 1000;
+
+        public static int GiB(this int value) => value.MiB() * 1024;
+        public static int GB(this int value) => value.MB() * 1000;
+
     }
 }
