@@ -218,10 +218,11 @@ namespace NadekoBot.Classes.Music {
                 }
 
                 voiceClient.Wait();
-                State = StreamState.Completed;
-                Console.WriteLine("Song completed.");
+                await voiceClient.Disconnect();
                 if (parent.OnCompleted != null)
                     parent.OnCompleted();
+                State = StreamState.Completed;
+                Console.WriteLine("Song completed.");
             });
 
         internal void StopPlayback() {
