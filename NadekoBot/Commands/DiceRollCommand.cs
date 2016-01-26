@@ -22,8 +22,6 @@ namespace NadekoBot
                     int num1 = r.Next(0, 10);
                     int num2 = r.Next(0, 10);
 
-                    Console.WriteLine(num1+"|"+num2);
-
                     Image[] images;
 
                     if (num1 == 0 && num2 == 0 && r.Next(0, 2) == 1)
