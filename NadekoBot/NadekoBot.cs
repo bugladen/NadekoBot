@@ -83,11 +83,12 @@ namespace NadekoBot {
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
 
-            //count commands ran
-            client.Commands().CommandExecuted += (s, e) => commandsRan++;
 
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);
+
+            //count commands ran
+            client.Commands().CommandExecuted += (s, e) => commandsRan++;
 
             //create module service
             var modules = client.Services.Add<ModuleService>(new ModuleService());
