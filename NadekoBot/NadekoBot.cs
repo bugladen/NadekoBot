@@ -138,8 +138,9 @@ namespace NadekoBot {
             $"\nUptime: {GetUptimeString()}" +
             $"\nServers: {client.Servers.Count()}" +
             $"\nChannels: {client.Servers.Sum(s => s.AllChannels.Count())}" +
-            $"\nUsers: {client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} ({client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Distinct().Count()} unique) ({client.Servers.SelectMany(x => x.Users.Where(y => y.Status != UserStatus.Offline).Select(y => y.Id)).Distinct().Count()} online)\n" +
-            $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB";
+            $"\nUsers: {client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} ({client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Distinct().Count()} unique) ({client.Servers.SelectMany(x => x.Users.Where(y => y.Status != UserStatus.Offline).Select(y => y.Id)).Distinct().Count()} online)" +
+            $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
+            $"\nCommands Ran this session: {commandsRan}";
 
         public static string GetUptimeString() {
             var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
