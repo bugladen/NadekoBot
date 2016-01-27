@@ -151,17 +151,22 @@ namespace NadekoBot.Classes.Music {
                 Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
-            
             while (true) {
                 while (buffer.writePos - buffer.readPos > 2.MB() && !cancelSource.IsCancellationRequested) {
-                    
                     await Task.Delay(1000);
                 }
 
-                if (cancelSource.IsCancellationRequested) return;
+                if (cancelSource.IsCancellationRequested) {
+                    try {
+                        p.CancelOutputRead();
+                        p.Close();
+                    } catch (Exception) { }
+                    return;
+                }
 
                 if (buffer.Length > 5.MB()) { // if buffer is over 10 MB, create new one
                     Console.WriteLine("Buffer over 10 megs, clearing.");
@@ -189,6 +194,11 @@ namespace NadekoBot.Classes.Music {
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 1024);
                 
                 if (read == 0) {
+                    try {
+                        p.CancelOutputRead();
+                        p.Close();
+                    } catch (Exception) { }
+
                     Console.WriteLine("Didn't read anything from the stream");
                     return;
                 }
