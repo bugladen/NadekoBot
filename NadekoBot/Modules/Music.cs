@@ -71,7 +71,7 @@ namespace NadekoBot.Modules {
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         var player = musicPlayers[e.Server];
-                        player.SongQueue.Clear();
+                        player.RemoveAllSongs();
                         if (player.CurrentSong != null) {
                             player.CurrentSong.Cancel();
                             player.CurrentSong = null;

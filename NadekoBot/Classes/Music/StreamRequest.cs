@@ -168,10 +168,10 @@ namespace NadekoBot.Classes.Music {
                     return;
                 }
 
-                if (buffer.Length > 5.MB()) { // if buffer is over 10 MB, create new one
+                if (buffer.readPos > 10.MiB()) { // if buffer is over 10 MiB, create new one
                     Console.WriteLine("Buffer over 10 megs, clearing.");
 
-                    var skip = 2.MB();
+                    var skip = 10.MB(); //remove only 10 MB, just in case
                     byte[] data = buffer.ToArray().Skip(skip).ToArray();
                     
                     lock (_bufferLock) {

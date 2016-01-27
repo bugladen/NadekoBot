@@ -42,5 +42,15 @@ namespace NadekoBot.Classes.Music {
             CurrentSong.Start();
             Console.WriteLine("starting");
         }
+
+        internal void RemoveAllSongs() {
+            lock (SongQueue) {
+                foreach (var kvp in SongQueue) {
+                    if(kvp != null)
+                        kvp.Cancel();
+                }
+                SongQueue.Clear();
+            }
+        }
     }
 }
