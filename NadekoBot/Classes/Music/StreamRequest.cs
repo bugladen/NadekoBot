@@ -128,11 +128,10 @@ namespace NadekoBot.Classes.Music {
                 logTimer.Interval = 5000;
                 logTimer.Start();
             }
-            logTimer.Elapsed += LogTimer_Elapsed;
         }
 
         private void LogTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
-            if (cancelSource.IsCancellationRequested) {
+            if (cancelSource.IsCancellationRequested || State != StreamState.Playing) { //don't log if canceld or not playing
                 logTimer.Elapsed -= LogTimer_Elapsed;
                 return;
             }
@@ -208,6 +207,7 @@ namespace NadekoBot.Classes.Music {
 
         internal Task StartPlayback() =>
             Task.Run(async () => {
+                logTimer.Elapsed += LogTimer_Elapsed; // start logging only when the song starts
                 Console.WriteLine("Starting playback.");
                 State = StreamState.Playing;
                 if (parent.OnBuffering != null)
