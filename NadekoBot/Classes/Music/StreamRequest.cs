@@ -12,6 +12,7 @@ using System.IO;
 using System.Diagnostics;
 using NadekoBot.Extensions;
 using System.Threading;
+using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Classes.Music {
     public enum StreamState {
@@ -112,6 +113,8 @@ namespace NadekoBot.Classes.Music {
         private readonly object _bufferLock = new object();
         private CancellationTokenSource cancelSource;
 
+        public static Timer logTimer = new Timer();
+
         public MusicStreamer(StreamRequest parent, string directUrl, Channel channel) {
             this.parent = parent;
             this.channel = channel;
@@ -120,7 +123,25 @@ namespace NadekoBot.Classes.Music {
             Console.WriteLine("Created new streamer");
             State = StreamState.Queued;
             cancelSource = new CancellationTokenSource();
+
+            if (!logTimer.Enabled) {
+                logTimer.Interval = 5000;
+                logTimer.Start();
+            }
+            logTimer.Elapsed += LogTimer_Elapsed;
         }
+
+        private void LogTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
+            if (cancelSource.IsCancellationRequested) {
+                logTimer.Elapsed -= LogTimer_Elapsed;
+                return;
+            }
+            Console.WriteLine($"Music stats for {string.Join("", parent.Title.Take(parent.Title.Length > 10 ? 10 : parent.Title.Length))}");
+            Console.WriteLine($"Server: {parent.Server.Name}");
+            Console.WriteLine($"Title:  - Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State} - Canceled: { cancelSource.IsCancellationRequested}");
+            Console.WriteLine("--------------------------------");
+        }
+
         //todo app will crash if song is too long, should load only next 20-ish seconds
         private async Task BufferSong() {
             Console.WriteLine("Buffering...");
@@ -129,15 +150,14 @@ namespace NadekoBot.Classes.Music {
                 FileName = "ffmpeg",
                 Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1",
                 UseShellExecute = false,
-                RedirectStandardError = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
             });
-
             
             while (true) {
                 while (buffer.writePos - buffer.readPos > 2.MB() && !cancelSource.IsCancellationRequested) {
-                    Console.WriteLine($"Got over 2MB more, waiting. Data length:{buffer.Length * 1.0f / 1.MB()}MB");
+                    
                     await Task.Delay(1000);
                 }
 
