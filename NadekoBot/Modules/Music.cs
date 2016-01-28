@@ -18,7 +18,7 @@ namespace NadekoBot.Modules {
                                 .Where(kvp => kvp.Value.CurrentSong == null
                                 && kvp.Value.SongQueue.Count == 0)) {
                 var val = mp.Value;
-                musicPlayers.TryRemove(mp.Key, out val);
+                (musicPlayers as System.Collections.IDictionary).Remove(mp.Key);
             }
         }
 
@@ -37,9 +37,10 @@ namespace NadekoBot.Modules {
 
         public Music() : base() {
             Timer cleaner = new Timer();
-            cleaner.Elapsed += (s, e) => CleanMusicPlayers();
+            cleaner.Elapsed += (s, e) => System.Threading.Tasks.Task.Run(() => CleanMusicPlayers());
             cleaner.Interval = 10000;
             cleaner.Start();
+            /*
             Timer statPrinter = new Timer();
             NadekoBot.client.Connected += (s, e) => {
                 if (statPrinter.Enabled) return;
@@ -47,7 +48,7 @@ namespace NadekoBot.Modules {
                 statPrinter.Interval = 5000;
                 statPrinter.Start();
             };
-            
+            */
         }
 
         public override void Install(ModuleManager manager) {
@@ -82,7 +83,7 @@ namespace NadekoBot.Modules {
                     .Description("Pauses the song")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
-                        await e.Send("This feature is coming VERY soon.");
+                        await e.Send("This feature is coming tomorrow.");
                         /*
                         if (musicPlayers[e.Server].Pause())
                             if (musicPlayers[e.Server].IsPaused)
