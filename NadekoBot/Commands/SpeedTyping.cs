@@ -62,7 +62,7 @@ namespace NadekoBot {
             await Task.Delay(1000);
             await msg.Edit("Starting new typing contest in **1**...");
             await Task.Delay(1000);
-            await msg.Edit($":book:**{currentSentence}**:book:");
+            await msg.Edit($":book:**{currentSentence.Replace(" "," \x200B")}**:book:");
             sw.Start();
             HandleAnswers();
             

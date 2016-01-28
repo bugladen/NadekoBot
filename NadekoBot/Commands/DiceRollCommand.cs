@@ -33,8 +33,8 @@ namespace NadekoBot
                         images = new Image[2] { GetDice(num1), GetDice(num2) };
                     }
 
-                    Bitmap bitmap = ImageHandler.MergeImages(images);
-                    await e.Channel.SendFile("dice.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
+                    Bitmap bitmap = images.Merge();
+                    await e.Channel.SendFile("dice.png", bitmap.ToStream(ImageFormat.Png));
                     return;
                 }
                 else
@@ -68,9 +68,9 @@ namespace NadekoBot
                             values.Insert(toInsert, randomNumber);
                         }
 
-                        Bitmap bitmap = ImageHandler.MergeImages(dices.ToArray());
+                        Bitmap bitmap = dices.Merge();
                         await e.Send( values.Count + " Dies rolled. Total: **"+values.Sum()+"** Average: **"+(values.Sum()/(1.0f*values.Count)).ToString("N2")+"**");
-                        await e.Channel.SendFile("dices.png", ImageHandler.ImageToStream(bitmap, ImageFormat.Png));
+                        await e.Channel.SendFile("dices.png", bitmap.ToStream(ImageFormat.Png));
                     }
                     catch (Exception)
                     {
@@ -81,7 +81,7 @@ namespace NadekoBot
             };
         }
 
-        private Image GetDice(int num) => Image.FromFile("images/dice/" + num + ".png");
+        private Image GetDice(int num) => Properties.Resources.ResourceManager.GetObject("_" + num) as Image;
 
         public override void Init(CommandGroupBuilder cgb)
         {

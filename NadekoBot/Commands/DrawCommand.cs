@@ -31,7 +31,8 @@ namespace NadekoBot
                   var isParsed = int.TryParse(e.GetArg("count"), out num);
                   if (!isParsed || num < 2)
                   {
-                      await e.Channel.SendFile(cards.DrawACard().Path);
+                      var c = cards.DrawACard();
+                      await e.Channel.SendFile(c.Name +".jpg",(Properties.Resources.ResourceManager.GetObject(c.Name) as Image).ToStream());
                       return;
                   }
                   if (num > 5)
@@ -48,10 +49,10 @@ namespace NadekoBot
                       }
                       var currentCard = cards.DrawACard();
                       cardObjects.Add(currentCard);
-                      images.Add(Image.FromFile(currentCard.Path));
+                      images.Add(Properties.Resources.ResourceManager.GetObject(currentCard.Name) as Image);
                   }
-                  Bitmap bitmap = ImageHandler.MergeImages(images);
-                  await e.Channel.SendFile(images.Count + " cards.jpg", ImageHandler.ImageToStream(bitmap, ImageFormat.Jpeg));
+                  Bitmap bitmap = images.Merge();
+                  await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream());
                   if (cardObjects.Count == 5)
                   {
                       await e.Send(Cards.GetHandValue(cardObjects));

@@ -7,6 +7,8 @@ using Discord.Commands;
 using Discord;
 using Discord.Legacy;
 using NadekoBot.Modules;
+using System.IO;
+using System.Drawing;
 
 namespace NadekoBot.Extensions
 {
@@ -184,5 +186,37 @@ namespace NadekoBot.Extensions
         public static int GiB(this int value) => value.MiB() * 1024;
         public static int GB(this int value) => value.MB() * 1000;
 
+        public static Stream ToStream(this System.Drawing.Image img, System.Drawing.Imaging.ImageFormat format = null) {
+            if (format == null)
+                format = System.Drawing.Imaging.ImageFormat.Jpeg;
+            MemoryStream stream = new MemoryStream();
+            img.Save(stream, format);
+            stream.Position = 0;
+            return stream;
+        }
+
+        /// <summary>
+        /// Merges Images into 1 Image and returns a bitmap.
+        /// </summary>
+        /// <param name="images">The Images you want to merge.</param>
+        /// <returns>Merged bitmap</returns>
+        public static Bitmap Merge(this IEnumerable<Image> images) {
+            if (images.Count() == 0) return null;
+            int width = images.Sum(i => i.Width);
+            int height = images.First().Height;
+            Bitmap bitmap = new Bitmap(width, height);
+            var r = new Random();
+            int offsetx = 0;
+            foreach (var img in images) {
+                Bitmap bm = new Bitmap(img);
+                for (int w = 0; w < img.Width; w++) {
+                    for (int h = 0; h < img.Height; h++) {
+                        bitmap.SetPixel(w + offsetx, h, bm.GetPixel(w, h));
+                    }
+                }
+                offsetx += img.Width;
+            }
+            return bitmap;
+        }
     }
 }

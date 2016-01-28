@@ -36,7 +36,7 @@ public class Cards
         public CARD_SUIT suit;
 		public int number;
         
-        public string Path
+        public string Name
         {
             get
             {
@@ -44,13 +44,13 @@ public class Cards
 
                 if (number <= 10 && number > 1)
                 {
-                    str += number;
+                    str += "_"+number;
                 }
                 else
                 {
                     str += GetName().ToLower();
                 }
-                return @"./images/cards/" + str + "_of_" + suit.ToString().ToLower() + ".jpg";
+                return str + "_of_" + suit.ToString().ToLower();
             }
         }
 

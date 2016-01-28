@@ -12,6 +12,7 @@ using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
 using NadekoBot.Extensions;
+using NadekoBot.Properties;
 
 namespace NadekoBot.Modules
 {
@@ -456,7 +457,7 @@ namespace NadekoBot.Modules
                     {
                         try
                         {
-                            using (Stream ms = File.OpenRead("images/hidden.png"))
+                            using (Stream ms = Resources.hidden.ToStream(ImageFormat.Png))
                             {
                                 await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
                             }
@@ -474,7 +475,7 @@ namespace NadekoBot.Modules
                     {
                         try
                         {
-                            using (Stream ms = File.OpenRead("images/nadeko.jpg")) {
+                            using (Stream ms = Resources.nadeko.ToStream()) {
                                 await client.CurrentUser.Edit(NadekoBot.password, avatar: ms,avatarType:ImageType.Jpeg);
                             }
                             await e.Send("*unhides*");
@@ -543,7 +544,7 @@ namespace NadekoBot.Modules
 
         public Stream RipName(string name)
         {
-            Bitmap bm = new Bitmap(Image.FromFile(@"images\rip.png"));
+            Bitmap bm = Resources.rip;
 
             int offset = name.Length * 5;
 
@@ -561,7 +562,7 @@ namespace NadekoBot.Modules
             g.Flush();
             g.Dispose();
 
-            return ImageHandler.ImageToStream(bm,ImageFormat.Png);
+            return bm.ToStream(ImageFormat.Png);
         }
 
         private Func<CommandEventArgs, Task> SayYes() 

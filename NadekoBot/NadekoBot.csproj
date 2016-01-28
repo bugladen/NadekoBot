@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <WebPage>publish.htm</WebPage>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -148,7 +148,6 @@
     <Compile Include="Classes\_JSONModels.cs" />
     <Compile Include="Classes\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\ImageHandler.cs" />
     <Compile Include="Classes\Trivia.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Commands\DiceRollCommand.cs" />
@@ -166,6 +165,11 @@
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="StatsCollector.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +206,223 @@
       <Project>{8d71a857-879a-4a10-859e-5ff824ed6688}</Project>
       <Name>Discord.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\hidden.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\nadeko.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\rip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\dice\5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\coins\tails.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\coins\heads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\2_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\2_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\2_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\3_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\3_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\3_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\3_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\4_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\4_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\4_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\4_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\5_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\5_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\5_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\5_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\6_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\6_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\6_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\6_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\7_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\7_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\7_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\7_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\8_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\8_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\8_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\8_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\9_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\9_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\9_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\9_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\10_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\10_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\10_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\10_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\ace_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\ace_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\ace_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\ace_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\black_joker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\jack_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\jack_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\jack_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\jack_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\king_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\king_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\king_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\king_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\queen_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\queen_of_diamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\queen_of_hearts.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\queen_of_spades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\red_joker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\images\cards\2_of_clubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\other_data\questions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

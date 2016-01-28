@@ -149,6 +149,7 @@ namespace NadekoBot
             stopwatch = new Stopwatch();
             timeout.Elapsed += (s, e) => { TimeUp(); };
 
+            TriviaQuestionsPool.Instance.Reload();
             LoadNextRound();
         }
 
@@ -353,22 +354,7 @@ namespace NadekoBot
 
         public TriviaQuestionsPool()
         {
-            _r = new Random();
-            pool = new List<TriviaQuestion>();
-            JArray arr = JArray.Parse(File.ReadAllText("questions.txt"));
-
-            foreach (var item in arr)
-            {
-                TriviaQuestion tq;
-                tq = new TriviaQuestion((string)item["Question"], (string)item["Answer"]);
-
-                if (item?["Category"] != null)
-                {
-                    tq.Category = item["Category"].ToString();
-                }
-
-                pool.Add(tq);
-            }
+            Reload();
         }
 
         
@@ -385,6 +371,23 @@ namespace NadekoBot
                 }
             }
             return tq;
+        }
+
+        internal void Reload() {
+            _r = new Random();
+            pool = new List<TriviaQuestion>();
+            JArray arr = JArray.Parse(Properties.Resources.questions);
+
+            foreach (var item in arr) {
+                TriviaQuestion tq;
+                tq = new TriviaQuestion((string)item["Question"], (string)item["Answer"]);
+
+                if (item?["Category"] != null) {
+                    tq.Category = item["Category"].ToString();
+                }
+
+                pool.Add(tq);
+            }
         }
     }
 }
