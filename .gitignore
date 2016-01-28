@@ -19,6 +19,8 @@ obj/
 !**/Bin/Debug/opus.dll
 !**/Bin/Debug/libsodium.dll
 !**/Bin/Debug/Discord.Net.Commands.dll
+!**/Bin/Debug/data/*
+!**/Bin/Debug/data/
 
 # NuGet Packages
 *.nupkg
