@@ -12,6 +12,7 @@ obj/
 *.userprefs
 **/Bin/Debug/**
 **/Bin/Release/
+**/Bin/PRIVATE/
 !**/Bin/Debug/Discord.Net.Audio.dll
 !**/Bin/Debug/Discord.Net.dll
 !**/Bin/Debug/Discord.Net.Commands.dll
