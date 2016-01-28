@@ -105,25 +105,33 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("~hentai")
-                    .Description("Shows a random image from danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
+                    .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
-                        try {
-                            var rng = new Random();
-                            var tag = e.GetArg("tag");
-
-                            if (tag == "loli") //loli doesn't work for some reason atm
-                                tag = "flat_chest";
-
-                            var webpage = MakeRequestAndGetResponse($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag }");
-                            var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*)\"");
-
-                            await e.Send($"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl());
-                        } catch (Exception) {
-                            await e.Send("Error ;(");
-                        }
+                        string tag = e.GetArg("tag");
+                        if (tag == null)
+                            tag = "";
+                        await e.Send(":heart: Gelbooru: " + GetGelbooruImageLink(tag));
+                        await e.Send(":heart: Danbooru: " + GetDanbooruImageLink(tag));
                     });
-
+                cgb.CreateCommand("~danbooru")
+                    .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e => {
+                        string tag = e.GetArg("tag");
+                        if (tag == null)
+                            tag = "";
+                        await e.Send(GetDanbooruImageLink(tag));
+                    });
+                cgb.CreateCommand("~gelbooru")
+                    .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e => {
+                        string tag = e.GetArg("tag");
+                        if (tag == null)
+                            tag = "";
+                        await e.Send(GetGelbooruImageLink(tag));
+                    });
                 cgb.CreateCommand("lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
@@ -224,6 +232,38 @@ namespace NadekoBot.Modules
             dynamic obj = JObject.Parse(sr.ReadToEnd());
             string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
             return toReturn;
+        }
+
+        public string GetDanbooruImageLink(string tag) {
+            try {
+                var rng = new Random();
+
+                if (tag == "loli") //loli doesn't work for some reason atm
+                    tag = "flat_chest";
+
+                var webpage = MakeRequestAndGetResponse($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ","_") }");
+                var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
+
+                return $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
+            } catch (Exception) {
+                return null;
+            }
+        }
+
+        public string GetGelbooruImageLink(string tag) {
+            try {
+                var rng = new Random();
+                var url = $"http://gelbooru.com/index.php?page=post&s=list&pid={ rng.Next(0, 15) * 42 }&tags={ tag.Replace(" ", "_") }";
+                var webpage = MakeRequestAndGetResponse(url); // first extract the post id and go to that posts page
+                var matches = Regex.Matches(webpage, "span id=\"s(?<id>\\d*)\"");
+                var postLink = $"http://gelbooru.com/index.php?page=post&s=view&id={ matches[rng.Next(0, matches.Count)].Groups["id"].Value }";
+                webpage = MakeRequestAndGetResponse(postLink);
+                //now extract the image from post page
+                var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
+                return match.Groups["url"].Value;
+            } catch (Exception) {
+                return null;
+            }
         }
 
         public static string ShortenUrl(string url)

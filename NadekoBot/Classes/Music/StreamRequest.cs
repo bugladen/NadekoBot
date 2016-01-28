@@ -155,7 +155,6 @@ namespace NadekoBot.Classes.Music {
                             Console.WriteLine("Canceling buffer token");
                         }
                     } catch (Exception ex) { Console.WriteLine($"Canceling buffer token failed {ex}"); }
-                    Console.WriteLine("Waiting");
                     await Task.Delay(1000);
                 }
 

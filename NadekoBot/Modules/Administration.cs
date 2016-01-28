@@ -371,6 +371,7 @@ namespace NadekoBot.Modules
                     .Description("Sets a user for through-bot communication. Only works if server is set.**Owner only**.")
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
                         commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
                         if (commsUser != null)
                             await e.Send("User for comms set.");
@@ -382,6 +383,7 @@ namespace NadekoBot.Modules
                     .Description("Sets a server for through-bot communication.**Owner only**.")
                     .Parameter("server", ParameterType.Unparsed)
                     .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
                         commsServer = client.FindServers(e.GetArg("server")).FirstOrDefault();
                         if (commsServer != null)
                             await e.Send("Server for comms set.");
