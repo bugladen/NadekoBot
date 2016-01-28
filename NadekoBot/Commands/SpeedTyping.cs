@@ -15,7 +15,11 @@ namespace NadekoBot {
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
             var data = new ParseQuery<ParseObject>("TypingArticles").FindAsync().Result;
-            return data.ToList()[(new Random()).Next(0, data.Count())].Get<string>("text");
+            try {
+                return data.ToList()[(new Random()).Next(0, data.Count())].Get<string>("text");
+            } catch (Exception) {
+                return "Failed retrieving data from parse. Owner didn't add any articles to type using `typeadd`.";
+            }
         }
     }
 
