@@ -55,13 +55,15 @@ namespace NadekoBot.Classes.Music {
                         .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
 
                 if (video == null) // do something with this error
-                    throw new Exception("Could not load any video elements");
+                    throw new Exception("Could not load any video elements based on the query.");
 
                 Title = video.Title;
 
                 musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
                 OnQueued();
             });
+
+        internal string PrintStats() => musicStreamer?.Stats();
 
         internal void Pause() {
             throw new NotImplementedException();
@@ -77,7 +79,7 @@ namespace NadekoBot.Classes.Music {
         //todo maybe add remove, in order to create remove at position command
 
         internal void Cancel() {
-            musicStreamer?.StopPlayback();
+            musicStreamer?.Cancel();
         }
 
         internal Task Start() =>
@@ -107,13 +109,12 @@ namespace NadekoBot.Classes.Music {
         private DualStream buffer;
 
         public StreamState State { get; internal set; }
-        public string Url { get; private set; }
+        public string Url { get; }
+        private bool IsCanceled { get; set; }
 
         StreamRequest parent;
         private readonly object _bufferLock = new object();
-        private CancellationTokenSource cancelSource;
-
-        public static Timer logTimer = new Timer();
+        private CancellationTokenSource bufferCancelSource;
 
         public MusicStreamer(StreamRequest parent, string directUrl, Channel channel) {
             this.parent = parent;
@@ -122,24 +123,15 @@ namespace NadekoBot.Classes.Music {
             this.Url = directUrl;
             Console.WriteLine("Created new streamer");
             State = StreamState.Queued;
-            cancelSource = new CancellationTokenSource();
-
-            if (!logTimer.Enabled) {
-                logTimer.Interval = 5000;
-                logTimer.Start();
-            }
+            bufferCancelSource = new CancellationTokenSource();
         }
 
-        private void LogTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
-            if (cancelSource.IsCancellationRequested || State != StreamState.Playing) { //don't log if canceld or not playing
-                logTimer.Elapsed -= LogTimer_Elapsed;
-                return;
-            }
-            Console.WriteLine($"Music stats for {string.Join("", parent.Title.Take(parent.Title.Length > 10 ? 10 : parent.Title.Length))}");
-            Console.WriteLine($"Server: {parent.Server.Name}");
-            Console.WriteLine($"Title:  - Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State} - Canceled: { cancelSource.IsCancellationRequested}");
-            Console.WriteLine("--------------------------------");
-        }
+        public string Stats() =>
+            "--------------------------------\n" +
+            $"Music stats for {string.Join("", parent.Title.Take(parent.Title.Length > 20 ? 20 : parent.Title.Length))}\n" +
+            $"Server: {parent.Server.Name}\n" +
+            $"Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State}\n" +
+            "--------------------------------\n";
 
         //todo app will crash if song is too long, should load only next 20-ish seconds
         private async Task BufferSong() {
@@ -154,44 +146,50 @@ namespace NadekoBot.Classes.Music {
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
+
             while (true) {
-                while (buffer.writePos - buffer.readPos > 2.MB() && !cancelSource.IsCancellationRequested) {
+                while (buffer.writePos - buffer.readPos > 2.MB() && State != StreamState.Completed) {
+                    try {
+                        if (bufferCancelSource.Token.CanBeCanceled && !bufferCancelSource.IsCancellationRequested) {
+                            bufferCancelSource.Cancel();
+                            Console.WriteLine("Canceling buffer token");
+                        }
+                    } catch (Exception ex) { Console.WriteLine($"Canceling buffer token failed {ex}"); }
+                    Console.WriteLine("Waiting");
                     await Task.Delay(1000);
                 }
 
-                if (cancelSource.IsCancellationRequested) {
+                if (State == StreamState.Completed) {
                     try {
                         p.CancelOutputRead();
                         p.Close();
                     } catch (Exception) { }
+                    Console.WriteLine("Buffering canceled, stream is completed.");
                     return;
                 }
 
-                if (buffer.readPos > 10.MiB()) { // if buffer is over 10 MiB, create new one
-                    Console.WriteLine("Buffer over 10 megs, clearing.");
+                if (buffer.readPos > 5.MiB()) { // if buffer is over 5 MiB, create new one
+                    Console.WriteLine("Buffer over 5 megs, clearing.");
 
-                    var skip = 10.MB(); //remove only 10 MB, just in case
+                    var skip = 5.MB(); //remove only 10 MB, just in case
                     byte[] data = buffer.ToArray().Skip(skip).ToArray();
-                    
+
+                    var newBuffer = new DualStream();
                     lock (_bufferLock) {
-                        var newWritePos = buffer.writePos - skip;
                         var newReadPos = buffer.readPos - skip;
                         var newPos = buffer.Position - skip;
-
-                        buffer = new DualStream();
+                        buffer = newBuffer;
                         buffer.Write(data, 0, data.Length);
-
-                        buffer.writePos = newWritePos;
                         buffer.readPos = newReadPos;
                         buffer.Position = newPos;
                     }
-                    
+
                 }
-                
+
                 var buf = new byte[1024];
                 int read = 0;
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 1024);
-                
+                //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
                     try {
                         p.CancelOutputRead();
@@ -203,63 +201,72 @@ namespace NadekoBot.Classes.Music {
                 }
                 await buffer.WriteAsync(buf, 0, read);
             }
+
         }
 
-        internal Task StartPlayback() =>
-            Task.Run(async () => {
-                logTimer.Elapsed += LogTimer_Elapsed; // start logging only when the song starts
-                Console.WriteLine("Starting playback.");
-                State = StreamState.Playing;
-                if (parent.OnBuffering != null)
-                    parent.OnBuffering();
-                Task.Run(async () => await BufferSong());
-                await Task.Delay(2000,cancelSource.Token);
-                if (parent.OnStarted != null)
-                    parent.OnStarted();
+        internal async Task StartPlayback() {
+            Console.WriteLine("Starting playback.");
+            State = StreamState.Playing;
+            if (parent.OnBuffering != null)
+                parent.OnBuffering();
+            BufferSong();
+            try {
+                await Task.Delay(5000, bufferCancelSource.Token);
+            } catch (Exception) {
+                Console.WriteLine("Buffered enough in less than 5 seconds!");
+            }
+            //Task.Run(async () => { while (true) { Console.WriteLine($"Title: {parent.Title} State:{State}"); await Task.Delay(200); } });
+            if (parent.OnStarted != null)
+                parent.OnStarted();
+
+            if (buffer.Length > 0) {
                 Console.WriteLine("Prebuffering complete.");
-                //for now wait for 3 seconds before starting playback.
+            } else {
+                Console.WriteLine("Didn't buffer jack shit.");
+            }
+            //for now wait for 3 seconds before starting playback.
 
-                var audio = NadekoBot.client.Audio();
-                
-                var voiceClient = await audio.Join(channel);
-                int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;
-                byte[] voiceBuffer = new byte[blockSize];
+            var audio = NadekoBot.client.Audio();
 
-                while (true) {
-                    int readCount = 0;
-                    lock (_bufferLock) {
-                         readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
-                    }
+            var voiceClient = await audio.Join(channel);
+            int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;
+            byte[] voiceBuffer = new byte[blockSize];
 
-                    if (readCount == 0) {
-                        Console.WriteLine("Nothing to read, stream finished.");
-                        break;
-                    }
-
-                   // while (MusicControls.IsPaused && !cancelSource.IsCancellationRequested)
-                   //     await Task.Delay(100);
-
-                    if (cancelSource.IsCancellationRequested) {
-                        Console.WriteLine("Canceled");
-                        break;
-                    }
-
-                    voiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+            while (!IsCanceled) {
+                int readCount = 0;
+                lock (_bufferLock) {
+                    readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
                 }
 
-                voiceClient.Wait();
-                await voiceClient.Disconnect();
-                if (parent.OnCompleted != null)
-                    parent.OnCompleted();
-                State = StreamState.Completed;
-                Console.WriteLine("Song completed.");
-            });
+                if (readCount == 0) {
+                    Console.WriteLine("Nothing else to read.");
+                    break;
+                }
+
+                if (State == StreamState.Completed) {
+                    Console.WriteLine("Canceled");
+                    break;
+                }
+
+                voiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+            }
+
+            voiceClient.Wait();
+            await voiceClient.Disconnect();
+
+            StopPlayback();
+        }
+
+        internal void Cancel() {
+            IsCanceled = true;
+        }
 
         internal void StopPlayback() {
             Console.WriteLine("Stopping playback");
-            State = StreamState.Completed;
-            if(cancelSource.Token.CanBeCanceled)
-                cancelSource.Cancel();
+            if (State != StreamState.Completed) {
+                State = StreamState.Completed;
+                parent.OnCompleted();
+            }
         }
     }
 
@@ -267,8 +274,9 @@ namespace NadekoBot.Classes.Music {
         public long readPos;
         public long writePos;
 
-        public DualStream() : base() { }
-        public DualStream(byte[] data) : base(data) { }
+        public DualStream() : base() {
+            readPos = writePos = 0;
+        }
 
         public override int Read(byte[] buffer, int offset, int count) {
             int read;

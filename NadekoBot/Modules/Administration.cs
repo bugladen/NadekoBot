@@ -256,15 +256,11 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".uid").Alias(".userid")
                     .Description("Shows user id")
-                    .Parameter("user", ParameterType.Required)
+                    .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
-                        var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
-                        if (usr == null) {
-                            await e.Send("You must mention a user.");
-                            return;
-                        }
-
-                        await e.Send("Id of the user " + usr.Name + " is " + usr.Id);
+                        var usr = e.User;
+                        if(e.GetArg("user") != null) e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
+                        await e.Send($"Id of the user { usr.Name } is { usr.Id }");
                     });
 
                 cgb.CreateCommand(".cid").Alias(".channelid")

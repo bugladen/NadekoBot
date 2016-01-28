@@ -82,8 +82,7 @@ namespace NadekoBot {
 
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
-
-
+            
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);
 
@@ -97,7 +96,8 @@ namespace NadekoBot {
             var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
                 Channels = 2,
                 EnableEncryption = false,
-                EnableMultiserver = true
+                EnableMultiserver = true,
+                Bitrate = 128,
             }));
 
             //install modules
@@ -144,7 +144,7 @@ namespace NadekoBot {
 
         public static string GetUptimeString() {
             var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-            return "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+            return time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
         }
 
         static bool repliedRecently = false;

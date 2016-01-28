@@ -15,6 +15,7 @@ using System.Net;
 using System.Globalization;
 using System.Collections.Concurrent;
 using NadekoBot.Classes.Music;
+using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
@@ -44,10 +45,18 @@ namespace NadekoBot.Modules {
         }
 
         public Music() : base() {
-            System.Timers.Timer cleaner = new System.Timers.Timer();
+            Timer cleaner = new Timer();
             cleaner.Elapsed += (s, e) => CleanMusicPlayers();
             cleaner.Interval = 10000;
             cleaner.Start();
+            Timer statPrinter = new Timer();
+            NadekoBot.client.Connected += (s, e) => {
+                if (statPrinter.Enabled) return;
+                statPrinter.Elapsed += (se, ev) => { Console.WriteLine($"<<--Music-->> {musicPlayers.Count} songs playing."); musicPlayers.ForEach(kvp => Console.WriteLine(kvp.Value?.CurrentSong?.PrintStats())); Console.WriteLine("<<--Music END-->>"); };
+                statPrinter.Interval = 5000;
+                statPrinter.Start();
+            };
+            
         }
 
         public override void Install(ModuleManager manager) {
@@ -74,7 +83,6 @@ namespace NadekoBot.Modules {
                         player.RemoveAllSongs();
                         if (player.CurrentSong != null) {
                             player.CurrentSong.Cancel();
-                            player.CurrentSong = null;
                         }
                     });
 
@@ -129,7 +137,7 @@ namespace NadekoBot.Modules {
                             player.SongQueue.Add(sr);
                         } catch (Exception ex) {
                             Console.WriteLine();
-                            await e.Send("Error. :anger:");
+                            await e.Send($"Error. :anger:\n{ex.Message}");
                             return;
                         }
                     });
