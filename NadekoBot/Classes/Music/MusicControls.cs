@@ -19,8 +19,10 @@ namespace NadekoBot.Classes.Music {
             Task.Run(async () => {
                 while (true) {
                     try {
-                        if ((CurrentSong == null && SongQueue.Count>0) ||
-                            CurrentSong?.State == StreamState.Completed) {
+                        if (CurrentSong == null) {
+                            if (SongQueue.Count > 0)
+                                LoadNextSong();
+                        } else if (CurrentSong.State == StreamState.Completed) {
                             LoadNextSong();
                         }
                     } catch (Exception e) {
