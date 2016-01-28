@@ -259,7 +259,7 @@ namespace NadekoBot.Modules
                     .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
                         var usr = e.User;
-                        if(e.GetArg("user") != null) e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
+                        if(e.GetArg("user") != null) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         await e.Send($"Id of the user { usr.Name } is { usr.Id }");
                     });
 
@@ -310,7 +310,6 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".die")
                     .Alias(".graceful")
-                    .Parameter("reason",ParameterType.Unparsed)
                     .Description("Works only for the owner. Shuts the bot down and notifies users about the restart.")
                     .Do(async e => {
                         if (e.User.Id == NadekoBot.OwnerID) {
@@ -318,13 +317,6 @@ namespace NadekoBot.Modules
                             t.Interval = 2000;
                             t.Elapsed += (s, ev) => { Environment.Exit(0); };
                             t.Start();
-                            string reason = e.GetArg("reason");
-                            if (reason == null)
-                                reason = "Unspecified.";
-                            foreach (var kvp in Music.musicPlayers) {
-                                if(kvp.Value?.CurrentSong?.Channel!=null)
-                                    await kvp.Value.CurrentSong.Channel.Send($"Owner initiated a shutdown, sorry for the interruption.\nReason: `{reason}`");
-                            }
                             await e.Send("`Shutting down.`");
                         }
                     });
