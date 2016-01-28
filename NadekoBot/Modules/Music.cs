@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Discord.Modules;
 using Discord.Commands;
-using System.IO;
 using Discord;
-using Discord.Audio;
-using YoutubeExtractor;
-using System.Threading;
-using System.Diagnostics;
 using NadekoBot.Extensions;
-using System.Net;
-using System.Globalization;
 using System.Collections.Concurrent;
 using NadekoBot.Classes.Music;
 using Timer = System.Timers.Timer;
@@ -161,14 +152,6 @@ namespace NadekoBot.Modules {
                      var player = musicPlayers[e.Server];
                      await e.Send($"Now Playing **{player.CurrentSong.Title}**");
                  });
-
-                cgb.CreateCommand("clrbfr")
-                    .Alias("clearbuffers")
-                    .Description("Clears the music buffer across all servers. **Owner only.**")
-                    .Do(e => {
-                        if (NadekoBot.OwnerID != e.User.Id) return;
-                        Directory.Delete("StreamBuffers", true);
-                    });
 
                 cgb.CreateCommand("sh")
                     .Description("Shuffles the current playlist.")
