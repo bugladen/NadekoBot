@@ -721,25 +721,6 @@ namespace NadekoBot.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {
-        ///    &quot;Question&quot;: &quot;7x was used to refer to the secret ingredient of what drink&quot;,
-        ///    &quot;Answer&quot;: &quot;coca cola&quot;
-        ///  },
-        ///  {
-        ///    &quot;Question&quot;: &quot;And the big wheel keep on turning neon burning up above and I&apos;m just high on the world come on and take the low ride with me girl on the..... What&apos;s the Dire Straits song title?&quot;,
-        ///    &quot;Answer&quot;: &quot;tunnel of love&quot;
-        ///  },
-        ///  {
-        ///    &quot;Question&quot;: &quot;Beverly Hills Cop, when Axel Foley enters the hotel, he uses an alias. Who does he say he works for, and who does he say he&apos;s go [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string questions {
-            get {
-                return ResourceManager.GetString("questions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap red_joker {

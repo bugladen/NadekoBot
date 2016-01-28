@@ -154,7 +154,6 @@ Command and aliases | Description | Usage
 `!m q`, `!m yq`  |  Queue a song using keywords or link. **You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m np`, `!m playing`  |  Shows what song is playing.
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
-`!m clrbfr`, `!m clearbuffers`  |  Clears the music buffer across all servers. **Owner only.**
 `!m sh`  |  Shuffles the current playlist.
 
 ### Searches  

@@ -376,7 +376,7 @@ namespace NadekoBot
         internal void Reload() {
             _r = new Random();
             pool = new List<TriviaQuestion>();
-            JArray arr = JArray.Parse(Properties.Resources.questions);
+            JArray arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
 
             foreach (var item in arr) {
                 TriviaQuestion tq;
