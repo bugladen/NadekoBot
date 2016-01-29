@@ -20,7 +20,7 @@ namespace NadekoBot
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
         {
             if (CopiedUsers.Contains(e.User.Id)) {
-                await e.Send( e.Message.Text);
+                await e.Send( e.Message.Text.Replace("@everyone","@everryone"));
             }
         }
 

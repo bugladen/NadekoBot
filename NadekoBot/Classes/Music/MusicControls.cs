@@ -49,9 +49,10 @@ namespace NadekoBot.Classes.Music {
             lock (_voiceLock) {
                 CurrentSong?.Stop();
                 CurrentSong = null;
-                if (SongQueue.Count == 0) return;
-                CurrentSong = SongQueue[0];
-                SongQueue.RemoveAt(0);
+                if (SongQueue.Count != 0) {
+                    CurrentSong = SongQueue[0];
+                    SongQueue.RemoveAt(0);
+                } else return;
             }
 
             try {
@@ -69,9 +70,9 @@ namespace NadekoBot.Classes.Music {
                     if(kvp != null)
                         kvp.Cancel();
                 }
-                SongQueue.Clear();
+                SongQueue?.Clear();
                 LoadNextSong();
-                VoiceClient.Disconnect();
+                VoiceClient?.Disconnect();
                 VoiceClient = null;
             }
         }

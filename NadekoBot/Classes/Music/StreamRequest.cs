@@ -168,7 +168,7 @@ namespace NadekoBot.Classes.Music {
                         Task.Run(() => bufferCancelSource.Cancel());
                     }
 
-                    await Task.Delay(50);
+                    await Task.Delay(500);
                 }
 
                 if (State == StreamState.Completed) {

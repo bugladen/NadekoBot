@@ -323,18 +323,18 @@ namespace NadekoBot.Modules
                         Message msg;
                         var msgs = e.Channel.Messages
                                     .Where(m => m.MentionedUsers.Contains(e.User))
-                                    .OrderBy(m => m.Timestamp);
+                                    .OrderByDescending(m => m.Timestamp);
                         if (msgs.Count() > 0)
                             msg = msgs.FirstOrDefault();
                         else {
                             var msgsarr = await e.Channel.DownloadMessages(10000);
                             msg = msgsarr
                                     .Where(m => m.MentionedUsers.Contains(e.User))
-                                    .OrderBy(m => m.Timestamp)
+                                    .OrderByDescending(m => m.Timestamp)
                                     .FirstOrDefault();
                         }
                         if (msg != null)
-                            await e.Send("Last message mentioning you was at " + msg.Timestamp + "\n**Message:** " + msg.RawText);
+                            await e.Send("Last message mentioning you was at " + msg.Timestamp + "\n**Message:** " + msg.RawText.Replace("@everyone","@everryone"));
                         else
                             await e.Send("I can't find a message mentioning you.");
                     });
