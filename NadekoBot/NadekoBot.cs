@@ -82,7 +82,7 @@ namespace NadekoBot {
 
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
-            
+
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);
 
@@ -110,10 +110,13 @@ namespace NadekoBot {
             if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
+            //start the timer for stats
+            _statsSW.Start();
             //run the bot
             client.ExecuteAndWait(async () => {
                 await client.Connect(c.Username, c.Password);
 
+                LoadStats();
                 Console.WriteLine("-----------------");
                 Console.WriteLine(GetStats());
                 Console.WriteLine("-----------------");
@@ -127,12 +130,21 @@ namespace NadekoBot {
             Console.WriteLine("Exiting...");
             Console.ReadKey();
         }
-
-        public static string GetStats() =>
+        private static string _statsCache = "";
+        private static Stopwatch _statsSW = new Stopwatch();
+        public static string GetStats() {
+            if (_statsSW.ElapsedTicks > 5) {
+                LoadStats();
+                _statsSW.Restart();
+            }
+            return _statsCache;
+        }
+        private static void LoadStats() {
+            _statsCache =
             "Author: Kwoth" +
-            $"\nDiscord.Net version: {DiscordConfig.LibVersion}"+
+            $"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
             $"\nRuntime: {client.GetRuntime()}" +
-            $"\nBot Version: {BotVersion}"+
+            $"\nBot Version: {BotVersion}" +
             $"\nLogged in as: {client.CurrentUser.Name}" +
             $"\nBot id: {client.CurrentUser.Id}" +
             $"\nUptime: {GetUptimeString()}" +
@@ -141,6 +153,7 @@ namespace NadekoBot {
             $"\nUsers: {client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} ({client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Distinct().Count()} unique) ({client.Servers.SelectMany(x => x.Users.Where(y => y.Status != UserStatus.Offline).Select(y => y.Id)).Distinct().Count()} online)" +
             $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
             $"\nCommands Ran this session: {commandsRan}";
+        }
 
         public static string GetUptimeString() {
             var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
@@ -167,8 +180,8 @@ namespace NadekoBot {
             }
 
             if (ForwardMessages && OwnerUser != null)
-                await OwnerUser.SendMessage(e.User +": ```\n"+e.Message.Text+"\n```");
-            
+                await OwnerUser.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
+
             if (repliedRecently = !repliedRecently) {
                 await e.Send("You can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X");
                 Timer t = new Timer();

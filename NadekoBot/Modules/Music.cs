@@ -13,34 +13,20 @@ namespace NadekoBot.Modules {
 
         public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server, MusicControls>();
 
-        internal static void CleanMusicPlayers() {
-            foreach (var mp in musicPlayers
-                                .Where(kvp => kvp.Value.CurrentSong == null
-                                && kvp.Value.SongQueue.Count == 0)) {
-                var val = mp.Value;
-                (musicPlayers as System.Collections.IDictionary).Remove(mp.Key);
-            }
-        }
-
         internal static string GetMusicStats() {
             var servers = 0;
             var queued = 0;
-            musicPlayers.ForEach(kvp => {
-                var mp = kvp.Value;
-                if (mp.SongQueue.Count > 0 || mp.CurrentSong != null)
-                    queued += mp.SongQueue.Count + 1;
-                servers++;
-            });
+            var stats = musicPlayers.Where(kvp => kvp.Value?.SongQueue.Count > 0 || kvp.Value?.CurrentSong != null);
 
-            return $"Playing {queued} songs across {servers} servers.";
+            return $"Playing {stats.Count()} songs, {stats.Sum(kvp => kvp.Value?.SongQueue?.Count ?? 0)} queued.";
         }
 
         public Music() : base() {
-            Timer cleaner = new Timer();
+            /*Timer cleaner = new Timer();
             cleaner.Elapsed += (s, e) => System.Threading.Tasks.Task.Run(() => CleanMusicPlayers());
             cleaner.Interval = 10000;
             cleaner.Start();
-            /*
+            
             Timer statPrinter = new Timer();
             NadekoBot.client.Connected += (s, e) => {
                 if (statPrinter.Enabled) return;
@@ -62,8 +48,8 @@ namespace NadekoBot.Modules {
                     .Alias("next")
                     .Description("Goes to the next song in the queue.")
                     .Do(e => {
-                        if (musicPlayers.ContainsKey(e.Server) == false || (musicPlayers[e.Server]?.CurrentSong) == null) return;
-                        musicPlayers[e.Server].CurrentSong.Cancel();
+                        if (musicPlayers.ContainsKey(e.Server) == false) return;
+                        musicPlayers[e.Server].LoadNextSong();
                     });
 
                 cgb.CreateCommand("s")
@@ -72,10 +58,9 @@ namespace NadekoBot.Modules {
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         var player = musicPlayers[e.Server];
-                        player.RemoveAllSongs();
-                        if (player.CurrentSong != null) {
-                            player.CurrentSong.Cancel();
-                        }
+                        player.Stop();
+                        MusicControls throwAwayValue;
+                        musicPlayers.TryRemove(e.Server, out throwAwayValue);
                     });
 
                 cgb.CreateCommand("p")
@@ -83,14 +68,10 @@ namespace NadekoBot.Modules {
                     .Description("Pauses the song")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
-                        await e.Send("This feature is coming tomorrow.");
-                        /*
-                        if (musicPlayers[e.Server].Pause())
-                            if (musicPlayers[e.Server].IsPaused)
-                                await e.Send("Music player Paused");
-                            else
-                                await e.Send("Music player unpaused.");
-                                */
+                        if (musicPlayers[e.Server].TogglePause())
+                            await e.Send("Music player paused.");
+                        else
+                            await e.Send("Music player unpaused.");
                     });
 
                 cgb.CreateCommand("q")
@@ -99,18 +80,23 @@ namespace NadekoBot.Modules {
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false)
-                            if (musicPlayers.Count > 25) {
-                                await e.Send($"{e.User.Mention}, playlist supports up to 25 songs. If you think this is not enough, contact the owner.:warning:");
+                            if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel))) {
+                                await e.Send("Failed to create a music player for this server");
                                 return;
-                                } 
-                            else
-                                (musicPlayers as System.Collections.IDictionary).Add(e.Server, new MusicControls(e.User.VoiceChannel));
+                            }
 
                         var player = musicPlayers[e.Server];
+
+                        if (player.SongQueue.Count > 25) {
+                            await e.Send("Music player supports up to 25 songs atm. Contant the owner if you think this is not enough :warning:");
+                        }
+
                         try {
                             var sr = player.CreateStreamRequest(e, e.GetArg("query"), player.VoiceChannel);
+                            if (sr == null)
+                                throw new NullReferenceException("StreamRequest is null.");
                             Message msg = null;
-                            sr.OnQueued += async() => {
+                            sr.OnQueued += async () => {
                                 msg = await e.Send($":musical_note:**Queued** {sr.Title}");
                             };
                             sr.OnCompleted += async () => {
@@ -126,12 +112,9 @@ namespace NadekoBot.Modules {
                                 if (msg != null)
                                     msg = await e.Send($":musical_note:**Buffering the song**...{sr.Title}");
                             };
-                            lock (player.SongQueue) {
-                                player.SongQueue.Add(sr);
-                            }
                         } catch (Exception ex) {
                             Console.WriteLine();
-                            await e.Send($"Error. :anger:\n{ex.Message}");
+                            await e.Send($":anger: {ex.Message}");
                             return;
                         }
                     });
@@ -171,5 +154,5 @@ namespace NadekoBot.Modules {
                     });
             });
         }
-    }    
+    }
 }

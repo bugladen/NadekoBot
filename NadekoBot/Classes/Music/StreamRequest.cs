@@ -29,49 +29,55 @@ namespace NadekoBot.Classes.Music {
         public User User { get; }
         public string Query { get; }
 
-
         public string Title { get; internal set; } = String.Empty;
         public IAudioClient VoiceClient { get; private set; }
 
         private MusicStreamer musicStreamer = null;
-        public StreamState State => musicStreamer?.State ?? StreamState.Resolving;
+        public StreamState State => musicStreamer?.State ?? privateState;
+        private StreamState privateState = StreamState.Resolving;
 
-        public StreamRequest(CommandEventArgs e, string query, IAudioClient voiceClient) {
+        public bool IsPaused => MusicControls.IsPaused;
+
+        private MusicControls MusicControls;
+
+        public StreamRequest(CommandEventArgs e, string query, MusicControls mc) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
-            if (voiceClient == null)
-                throw new NullReferenceException($"{nameof(voiceClient)} is null, bot didn't join any server.");
-
-            this.VoiceClient = voiceClient;
+            if (mc.VoiceClient == null)
+                throw new NullReferenceException($"{nameof(mc.VoiceClient)} is null, bot didn't join any server.");
+            this.MusicControls = mc;
+            this.VoiceClient = mc.VoiceClient;
             this.Server = e.Server;
             this.Query = query;
-            ResolveStreamLink();
+            Task.Run(() => ResolveStreamLink());
         }
 
-        private Task ResolveStreamLink() =>
-            Task.Run(() => {
+        private void ResolveStreamLink() {
+            VideoInfo video = null;
+            try {
                 Console.WriteLine("Resolving video link");
-                var video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(Query))
-                        .Where(v => v.AdaptiveType == AdaptiveType.Audio)
-                        .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
+                video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(Query))
+                       .Where(v => v.AdaptiveType == AdaptiveType.Audio)
+                       .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
 
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
 
                 Title = video.Title;
+            } catch (Exception ex) {
+                privateState = StreamState.Completed;
+                Console.WriteLine($"Failed resolving the link.{ex.Message}");
+                return;
+            }
 
-                musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
-                if(OnQueued!=null)
-                    OnQueued();
-            });
+            musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
+            if (OnQueued != null)
+                OnQueued();
+        }
 
         internal string PrintStats() => musicStreamer?.Stats();
-
-        internal void Pause() {
-            throw new NotImplementedException();
-        }
 
         public Action OnQueued = null;
         public Action OnBuffering = null;
@@ -84,24 +90,28 @@ namespace NadekoBot.Classes.Music {
             musicStreamer?.Cancel();
         }
 
+        internal void Stop() {
+            musicStreamer?.Stop();
+        }
+
         internal Task Start() =>
             Task.Run(async () => {
                 Console.WriteLine("Start called.");
 
-                int attemptsLeft = 7;
-                //wait for up to 7 seconds to resolve a link
+                int attemptsLeft = 4;
+                //wait for up to 4 seconds to resolve a link
                 while (State == StreamState.Resolving) {
                     await Task.Delay(1000);
                     Console.WriteLine("Resolving...");
                     if (--attemptsLeft == 0) {
-                        Console.WriteLine("Resolving timed out.");
-                        return;
+                        throw new TimeoutException("Resolving timed out.");
                     }
                 }
                 try {
                     await musicStreamer.StartPlayback();
                 } catch (Exception ex) {
-                    Console.WriteLine("Error in start playback." + ex);
+                    Console.WriteLine("Error in start playback." + ex.Message);
+                    privateState = StreamState.Completed;
                 }
             });
     }
@@ -113,6 +123,7 @@ namespace NadekoBot.Classes.Music {
         public StreamState State { get; internal set; }
         public string Url { get; }
         private bool IsCanceled { get; set; }
+        public bool IsPaused => parent.IsPaused;
 
         StreamRequest parent;
         private readonly object _bufferLock = new object();
@@ -152,14 +163,23 @@ namespace NadekoBot.Classes.Music {
             while (true) {
 
                 while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
-                        if (bufferCancelSource.Token.CanBeCanceled && !bufferCancelSource.IsCancellationRequested) {
-                            bufferCancelSource.Cancel();
-                            Console.WriteLine("Canceling buffer token");
-                        }
+                    if (!bufferCancelSource.IsCancellationRequested) {
+                        Console.WriteLine("Canceling buffer token");
+                        Task.Run(() => bufferCancelSource.Cancel());
+                    }
 
-                    await Task.Delay(1000);
+                    await Task.Delay(50);
                 }
-                
+
+                if (State == StreamState.Completed) {
+                    try {
+                        p.CancelOutputRead();
+                        p.Close();
+                    } catch (Exception) { }
+                    Console.WriteLine("Buffering canceled, stream is completed.");
+                    return;
+                }
+
                 if (buffer.readPos > 5.MiB()) { // if buffer is over 5 MiB, create new one
                     Console.WriteLine("Buffer over 5 megs, clearing.");
 
@@ -175,16 +195,7 @@ namespace NadekoBot.Classes.Music {
                         buffer.readPos = newReadPos;
                         buffer.Position = newPos;
                     }
-                }
-
-                if (State == StreamState.Completed) {
-                    try {
-                        p.CancelOutputRead();
-                        p.Close();
-                    } catch (Exception) { }
-                    Console.WriteLine("Buffering canceled, stream is completed.");
-                    return;
-                }                
+                }             
 
                 var buf = new byte[1024];
                 int read = 0;
@@ -212,6 +223,7 @@ namespace NadekoBot.Classes.Music {
 
         internal async Task StartPlayback() {
             Console.WriteLine("Starting playback.");
+            if (State == StreamState.Playing) return;
             State = StreamState.Playing;
             if (parent.OnBuffering != null)
                 parent.OnBuffering();
@@ -253,22 +265,28 @@ namespace NadekoBot.Classes.Music {
                 } else
                     attempt = 0;
 
+                
+
                 if (State == StreamState.Completed) {
                     Console.WriteLine("Canceled");
                     break;
                 }
 
                 parent.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+
+                while (IsPaused) {
+                    await Task.Delay(50);
+                }
             }
             parent.VoiceClient.Wait();
-            StopPlayback();
+            Stop();
         }
 
         internal void Cancel() {
             IsCanceled = true;
         }
 
-        internal void StopPlayback() {
+        internal void Stop() {
             Console.WriteLine("Stopping playback");
             if (State != StreamState.Completed) {
                 State = StreamState.Completed;
