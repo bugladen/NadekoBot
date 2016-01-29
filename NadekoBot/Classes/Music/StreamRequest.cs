@@ -29,20 +29,23 @@ namespace NadekoBot.Classes.Music {
         public User User { get; }
         public string Query { get; }
 
+
+        public string Title { get; internal set; } = String.Empty;
+        public IAudioClient VoiceClient { get; private set; }
+
         private MusicStreamer musicStreamer = null;
         public StreamState State => musicStreamer?.State ?? StreamState.Resolving;
 
-        public StreamRequest(CommandEventArgs e, string query) {
+        public StreamRequest(CommandEventArgs e, string query, IAudioClient voiceClient) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
-            if (e.User.VoiceChannel == null)
-                throw new NullReferenceException("Voicechannel is null.");
+            if (voiceClient == null)
+                throw new NullReferenceException($"{nameof(voiceClient)} is null, bot didn't join any server.");
 
+            this.VoiceClient = voiceClient;
             this.Server = e.Server;
-            this.Channel = e.User.VoiceChannel;
-            this.User = e.User;
             this.Query = query;
             ResolveStreamLink();
         }
@@ -60,7 +63,8 @@ namespace NadekoBot.Classes.Music {
                 Title = video.Title;
 
                 musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
-                OnQueued();
+                if(OnQueued!=null)
+                    OnQueued();
             });
 
         internal string PrintStats() => musicStreamer?.Stats();
@@ -68,8 +72,6 @@ namespace NadekoBot.Classes.Music {
         internal void Pause() {
             throw new NotImplementedException();
         }
-
-        public string Title { get; internal set; } = String.Empty;
 
         public Action OnQueued = null;
         public Action OnBuffering = null;
@@ -146,16 +148,33 @@ namespace NadekoBot.Classes.Music {
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
-
+            int attempt = 0;
             while (true) {
-                while (buffer.writePos - buffer.readPos > 2.MB() && State != StreamState.Completed) {
-                    try {
+
+                while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
                         if (bufferCancelSource.Token.CanBeCanceled && !bufferCancelSource.IsCancellationRequested) {
                             bufferCancelSource.Cancel();
                             Console.WriteLine("Canceling buffer token");
                         }
-                    } catch (Exception ex) { Console.WriteLine($"Canceling buffer token failed {ex}"); }
+
                     await Task.Delay(1000);
+                }
+                
+                if (buffer.readPos > 5.MiB()) { // if buffer is over 5 MiB, create new one
+                    Console.WriteLine("Buffer over 5 megs, clearing.");
+
+                    var skip = 5.MB(); //remove only 5 MB, just in case
+                    var newBuffer = new DualStream();
+
+                    lock (_bufferLock) {
+                        byte[] data = buffer.ToArray().Skip(skip).ToArray();
+                        var newReadPos = buffer.readPos - skip;
+                        var newPos = buffer.Position - skip;
+                        buffer = newBuffer;
+                        buffer.Write(data, 0, data.Length);
+                        buffer.readPos = newReadPos;
+                        buffer.Position = newPos;
+                    }
                 }
 
                 if (State == StreamState.Completed) {
@@ -165,42 +184,30 @@ namespace NadekoBot.Classes.Music {
                     } catch (Exception) { }
                     Console.WriteLine("Buffering canceled, stream is completed.");
                     return;
-                }
-
-                if (buffer.readPos > 5.MiB()) { // if buffer is over 5 MiB, create new one
-                    Console.WriteLine("Buffer over 5 megs, clearing.");
-
-                    var skip = 5.MB(); //remove only 10 MB, just in case
-                    byte[] data = buffer.ToArray().Skip(skip).ToArray();
-
-                    var newBuffer = new DualStream();
-                    lock (_bufferLock) {
-                        var newReadPos = buffer.readPos - skip;
-                        var newPos = buffer.Position - skip;
-                        buffer = newBuffer;
-                        buffer.Write(data, 0, data.Length);
-                        buffer.readPos = newReadPos;
-                        buffer.Position = newPos;
-                    }
-
-                }
+                }                
 
                 var buf = new byte[1024];
                 int read = 0;
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 1024);
                 //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
-                    try {
-                        p.CancelOutputRead();
-                        p.Close();
-                    } catch (Exception) { }
+                    if (attempt == 2) {
+                        try {
+                            p.CancelOutputRead();
+                            p.Close();
+                        } catch (Exception) { }
 
-                    Console.WriteLine("Didn't read anything from the stream");
-                    return;
+                        Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length/1.MB()}MB length");
+                        return;
+                    } else {
+                        ++attempt;
+                        await Task.Delay(10);
+                    }
+                } else {
+                    attempt = 0;
+                    await buffer.WriteAsync(buf, 0, read);
                 }
-                await buffer.WriteAsync(buf, 0, read);
             }
-
         }
 
         internal async Task StartPlayback() {
@@ -224,13 +231,11 @@ namespace NadekoBot.Classes.Music {
                 Console.WriteLine("Didn't buffer jack shit.");
             }
             //for now wait for 3 seconds before starting playback.
-
-            var audio = NadekoBot.client.Audio();
-
-            var voiceClient = await audio.Join(channel);
+            
             int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;
             byte[] voiceBuffer = new byte[blockSize];
 
+            int attempt = 0;
             while (!IsCanceled) {
                 int readCount = 0;
                 lock (_bufferLock) {
@@ -238,21 +243,24 @@ namespace NadekoBot.Classes.Music {
                 }
 
                 if (readCount == 0) {
-                    Console.WriteLine("Nothing else to read.");
-                    break;
-                }
+                    if (attempt == 2) {
+                        Console.WriteLine($"Failed to read {attempt} times. Stopping playback.");
+                        break;
+                    } else {
+                        ++attempt;
+                        await Task.Delay(10);
+                    }
+                } else
+                    attempt = 0;
 
                 if (State == StreamState.Completed) {
                     Console.WriteLine("Canceled");
                     break;
                 }
 
-                voiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+                parent.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
             }
-
-            voiceClient.Wait();
-            await voiceClient.Disconnect();
-
+            parent.VoiceClient.Wait();
             StopPlayback();
         }
 

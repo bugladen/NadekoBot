@@ -104,11 +104,11 @@ namespace NadekoBot.Modules {
                                 return;
                                 } 
                             else
-                                musicPlayers.TryAdd(e.Server, new MusicControls());
+                                (musicPlayers as System.Collections.IDictionary).Add(e.Server, new MusicControls(e.User.VoiceChannel));
 
                         var player = musicPlayers[e.Server];
                         try {
-                            var sr = new StreamRequest(e, e.GetArg("query"));
+                            var sr = player.CreateStreamRequest(e, e.GetArg("query"), player.VoiceChannel);
                             Message msg = null;
                             sr.OnQueued += async() => {
                                 msg = await e.Send($":musical_note:**Queued** {sr.Title}");
@@ -118,15 +118,17 @@ namespace NadekoBot.Modules {
                             };
                             sr.OnStarted += async () => {
                                 if (msg == null)
-                                    await e.Send($":musical_note:**Started playing** {sr.Title}");
+                                    await e.Send($":musical_note:**Starting playback of** {sr.Title}");
                                 else
-                                    await msg.Edit($":musical_note:**Started playing** {sr.Title}");
+                                    await msg.Edit($":musical_note:**Starting playback of** {sr.Title}");
                             };
                             sr.OnBuffering += async () => {
                                 if (msg != null)
                                     msg = await e.Send($":musical_note:**Buffering the song**...{sr.Title}");
                             };
-                            player.SongQueue.Add(sr);
+                            lock (player.SongQueue) {
+                                player.SongQueue.Add(sr);
+                            }
                         } catch (Exception ex) {
                             Console.WriteLine();
                             await e.Send($"Error. :anger:\n{ex.Message}");
