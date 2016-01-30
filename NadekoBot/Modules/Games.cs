@@ -26,12 +26,11 @@ namespace NadekoBot.Modules
                     .Parameter("target",Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
-                        
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         var usrType = GetType(usr.Id);
                         string response = "";
                         int dmg = GetDamage(usrType, e.GetArg("attack_type").ToLowerInvariant());
-                        response = e.GetArg("attack_type") + (e.GetArg("attack_type")=="splash"?"es ":"s ") + usr.Mention + " for " + dmg+".\n";
+                        response = e.GetArg("attack_type") + (e.GetArg("attack_type") == "splash" ? "es " : "s ") + $"{usr.Mention}{GetImage(usrType)} for {dmg}\n";
                         if (dmg >= 65)
                         {
                             response += "It's super effective!";
@@ -39,7 +38,7 @@ namespace NadekoBot.Modules
                         else if (dmg <= 35) {
                             response += "Ineffective!";
                         }
-                        await e.Send(NadekoBot.botMention + " " + response);
+                        await e.Send($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
                     });
 
                 cgb.CreateCommand("poketype")
@@ -51,10 +50,36 @@ namespace NadekoBot.Modules
                         if (usr == null) {
                             await e.Send("No such person.");
                         }
-
-                        await e.Send(usr.Name + "'s type is " + GetType(usr.Id));
+                        var t = GetType(usr.Id);
+                        await e.Send($"{usr.Name}'s type is {GetImage(t)} {t}");
                     });
             });
+        }
+        /*
+
+            🌿 or 🍃 or 🌱 Grass
+⚡ Electric
+❄ Ice
+☁ Fly
+🔥 Fire
+💧 or 💦 Water
+⭕ Normal
+🐛 Insect
+🌟 or 💫 or ✨ Fairy
+    */
+        string GetImage(PokeType t) {
+            switch (t) {
+                case PokeType.WATER:
+                    return "💦";
+                case PokeType.GRASS:
+                    return "🌿";
+                case PokeType.FIRE:
+                    return "🔥";
+                case PokeType.ELECTRICAL:
+                    return "⚡️";
+                default:
+                    return "⭕️";
+            }
         }
 
         private int GetDamage(PokeType targetType, string v)
@@ -98,6 +123,9 @@ namespace NadekoBot.Modules
         }
 
         private PokeType GetType(ulong id) {
+            if (id == 113760353979990024)
+                return PokeType.FIRE;
+
             var remainder = id % 10;
             if (remainder < 3)
                 return PokeType.WATER;

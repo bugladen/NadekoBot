@@ -385,9 +385,14 @@ namespace NadekoBot.Modules {
                             var lastmessage = e.Channel.Messages.LastOrDefault();
                             while (num > 0 && lastmessage != null) {
                                 msgs.ForEach(async m => await m.Delete());
-                                num -= 100;
+                                int toDelete;
+                                if (num > 100)
+                                    toDelete = 100;
+                                else
+                                    toDelete = num;
+                                num -= toDelete;
                                 lastmessage = msgs.LastOrDefault();
-                                msgs = await e.Channel.DownloadMessages(100, lastmessage?.Id);
+                                msgs = await e.Channel.DownloadMessages(toDelete, lastmessage?.Id);
                             }
                         } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
 
