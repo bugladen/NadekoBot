@@ -9,8 +9,6 @@ using Discord.Modules;
 using Discord.Audio;
 using NadekoBot.Extensions;
 using System.Timers;
-using System.Linq;
-using System.Diagnostics;
 
 namespace NadekoBot {
     class NadekoBot {
@@ -49,11 +47,19 @@ namespace NadekoBot {
                     ForwardMessages = true;
                     Console.WriteLine("Forwarding messages.");
                 }
+                if (c.ParseKey == null || c.ParseID == null || c.ParseID == "" || c.ParseKey == "") {
+                    Console.WriteLine("Parse key and/or ID not found. Those are mandatory.");
+                    Console.ReadKey();
+                    return;
+                }
+
+                //init parse
+                ParseClient.Initialize(c.ParseID, c.ParseKey);
 
                 OwnerID = c.OwnerID;
                 password = c.Password;
             } catch (Exception ex) {
-                Console.WriteLine("Failed to load stuff from credentials.json, RTFM");
+                Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
                 Console.ReadKey();
                 return;
             }
@@ -61,22 +67,13 @@ namespace NadekoBot {
             //create new discord client
             client = new DiscordClient();
 
+
             //create a command service
             var commandService = new CommandService(new CommandServiceConfig {
                 CommandChar = null,
                 HelpMode = HelpMode.Disable
             });
-
-            //init parse
-            if (c.ParseKey != null && c.ParseID != null && c.ParseID != "" && c.ParseKey != "") {
-                ParseClient.Initialize(c.ParseID, c.ParseKey);
-
-                //monitor commands for logging
-                
-            } else {
-                Console.WriteLine("Parse key and/or ID not found. Logging disabled.");
-            }
-
+            
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
 

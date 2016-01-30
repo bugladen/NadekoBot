@@ -33,6 +33,17 @@ namespace NadekoBot.Extensions {
             }
             return "`"+string.Join(" ", letters)+"`";
         }
+        public static string TrimTo(this string str, int num) {
+            if (num < 0)
+                throw new ArgumentException("TrimTo argument cannot be less than 0");
+            if (num == 0)
+                return String.Empty;
+            if (num <= 3)
+                return String.Join("", str.Select(c => '.'));
+            if (str.Length < num)
+                return str;
+            return string.Join("", str.Take(num - 3)) + "...";
+        }
 
         /// <summary>
         /// Sends a message to the channel from which this command is called.

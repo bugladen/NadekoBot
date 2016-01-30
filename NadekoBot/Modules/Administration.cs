@@ -300,7 +300,14 @@ namespace NadekoBot.Modules {
                             return;
                         }
                         try {
-                            (await e.Channel.DownloadMessages(num)).ForEach(async m => await m.Delete());
+                            var msgs = await e.Channel.DownloadMessages(100);
+                            var lastmessage = e.Channel.Messages.LastOrDefault();
+                            while (num > 0 && lastmessage!=null) {
+                                msgs.ForEach(async m => await m.Delete());
+                                num -= 100;
+                                lastmessage = msgs.LastOrDefault();
+                                msgs = await e.Channel.DownloadMessages(100, lastmessage?.Id);
+                            }
                         } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
 
                     });
@@ -322,9 +329,7 @@ namespace NadekoBot.Modules {
                     .Description("Clears some of nadeko's messages from the current channel.")
                     .Do(async e => {
                         try {
-                            if (e.Channel.Messages.Count() < 50) {
-                                await e.Channel.DownloadMessages(100);
-                            }
+                            await e.Channel.DownloadMessages(100);
 
                             e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id).ForEach(async m => await m.Delete());
 

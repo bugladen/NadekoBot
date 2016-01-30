@@ -65,7 +65,7 @@ namespace NadekoBot.Classes.Music {
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
 
-                Title = video.Title;
+                Title = video.Title.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
             } catch (Exception ex) {
                 privateState = StreamState.Completed;
                 Console.WriteLine($"Failed resolving the link.{ex.Message}");
@@ -142,7 +142,7 @@ namespace NadekoBot.Classes.Music {
 
         public string Stats() =>
             "--------------------------------\n" +
-            $"Music stats for {string.Join("", parent.Title.Take(parent.Title.Length > 20 ? 20 : parent.Title.Length))}\n" +
+            $"Music stats for {string.Join("", parent.Title.TrimTo(50))}\n" +
             $"Server: {parent.Server.Name}\n" +
             $"Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State}\n" +
             "--------------------------------\n";
