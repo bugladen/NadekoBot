@@ -1,5 +1,5 @@
 # NadekoBot
-
+**Scroll down for a list of commands**  
 Nadeko Discord chatbot written in C# using Discord.net library.  
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBhxEi0X
 
@@ -51,7 +51,7 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 
 Enjoy
 
-##List of commands  
+##List of commands   
 (may be incomplete) last updated: 22.1.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
