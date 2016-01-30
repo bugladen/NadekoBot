@@ -47,18 +47,18 @@ namespace NadekoBot
 
         public void LoadStats() {
             _statsCache =
-            "Author: Kwoth" +
-            $"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
-            $"\nRuntime: {_client.GetRuntime()}" +
-            $"\nBot Version: {BotVersion}" +
-            $"\nLogged in as: {_client.CurrentUser.Name}" +
-            $"\nBot id: {_client.CurrentUser.Id}" +
-            $"\nUptime: {GetUptimeString()}" +
-            $"\nServers: {_client.Servers.Count()}" +
-            $"\nChannels: {_client.Servers.Sum(s => s.AllChannels.Count())}" +
-            $"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-            $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
-            $"\nCommands Ran this session: {_commandsRan}";
+            "`Author: Kwoth`" +
+            //$"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
+            //$"\nRuntime: {_client.GetRuntime()}" +
+            $"\n`Bot Version: {BotVersion}`" +
+            //$"\nLogged in as: {_client.CurrentUser.Name}" +
+            $"\n`Bot id: {_client.CurrentUser.Id}`" +
+            $"\n`Uptime: {GetUptimeString()}`" +
+            $"\n`Servers: {_client.Servers.Count()}`" +
+            $"\n`Channels: {_client.Servers.Sum(s => s.AllChannels.Count())}`" +
+            //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
+            //$"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
+            $"\n`Commands Ran this session: {_commandsRan}`";
         }
 
         public string GetStats() {

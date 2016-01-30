@@ -272,7 +272,7 @@ namespace NadekoBot.Modules {
                     .Description("Shows some basic stats for nadeko")
                     .Do(async e => {
                         var t = Task.Run(() => {
-                            return "```" + NadekoStats.Instance.GetStats() + "\n" + Music.GetMusicStats() + "```";
+                            return NadekoStats.Instance.GetStats() + "\n`" + Music.GetMusicStats() + "`";
                         });
 
                         await e.Send(await t);

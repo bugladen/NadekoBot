@@ -84,6 +84,8 @@ namespace NadekoBot.Modules {
                                 await e.Send("Failed to create a music player for this server");
                                 return;
                             }
+                        if (e.GetArg("query") == null || e.GetArg("query").Length < 5)
+                            return;
 
                         var player = musicPlayers[e.Server];
 
@@ -97,8 +99,14 @@ namespace NadekoBot.Modules {
                                 throw new NullReferenceException("StreamRequest is null.");
                             Message msg = null;
                             Message qmsg = null;
+                            sr.OnResolving += async () => {
+                                qmsg = await e.Send($":musical_note: **Resolving**... \"{e.GetArg("query")}\"");
+                            };
+                            sr.OnResolvingFailed += async (err) => {
+                                qmsg = await e.Send($":anger: :musical_note: **Resolving failed** for `{e.GetArg("query")}`");
+                            };
                             sr.OnQueued += async () => {
-                                qmsg = await e.Send($":musical_note:**Queued** {sr.Title.TrimTo(55)}");
+                                await qmsg.Edit($":musical_note:**Queued** {sr.Title.TrimTo(55)}");
                             };
                             sr.OnCompleted += async () => {
                                 await e.Send($":musical_note:**Finished playing** {sr.Title.TrimTo(55)}");

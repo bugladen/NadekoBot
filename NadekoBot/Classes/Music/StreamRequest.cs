@@ -57,6 +57,8 @@ namespace NadekoBot.Classes.Music {
         private void ResolveStreamLink() {
             VideoInfo video = null;
             try {
+                if (OnResolving != null)
+                    OnResolving();
                 Console.WriteLine("Resolving video link");
                 video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(Query))
                        .Where(v => v.AdaptiveType == AdaptiveType.Audio)
@@ -68,6 +70,8 @@ namespace NadekoBot.Classes.Music {
                 Title = video.Title.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
             } catch (Exception ex) {
                 privateState = StreamState.Completed;
+                if (OnResolvingFailed != null)
+                    OnResolvingFailed(ex.Message);
                 Console.WriteLine($"Failed resolving the link.{ex.Message}");
                 return;
             }
@@ -83,6 +87,8 @@ namespace NadekoBot.Classes.Music {
         public Action OnBuffering = null;
         public Action OnStarted = null;
         public Action OnCompleted = null;
+        public Action OnResolving = null;
+        public Action<string> OnResolvingFailed = null;
 
         //todo maybe add remove, in order to create remove at position command
 
@@ -237,20 +243,18 @@ namespace NadekoBot.Classes.Music {
                 Console.WriteLine($"Prebuffering finished in {bufferAttempts*500}");
             }
             // prebuffering wait stuff end
-
-            //Task.Run(async () => { while (true) { Console.WriteLine($"Title: {parent.Title} State:{State}"); await Task.Delay(200); } });
-            if (parent.OnStarted != null)
-                parent.OnStarted();
-
+            
             if (buffer.Length > 0) {
                 Console.WriteLine("Prebuffering complete.");
             } else {
                 Console.WriteLine("Didn't buffer jack shit.");
             }
-            //for now wait for 3 seconds before starting playback.
             
             int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;
             byte[] voiceBuffer = new byte[blockSize];
+
+            if (parent.OnStarted != null)
+                parent.OnStarted();
 
             int attempt = 0;
             while (!IsCanceled) {
