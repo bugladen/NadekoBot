@@ -184,6 +184,87 @@ namespace NadekoBot.Modules {
                             await e.Send("No sufficient permissions.");
                         }
                     });
+                cgb.CreateCommand(".mute")
+                    .Description("Mutes mentioned user or users")
+                    .Parameter("throwaway", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (!e.User.ServerPermissions.MuteMembers) {
+                            await e.Send("You do not have permission to do that.");
+                            return;
+                        }
+                        if (e.Message.MentionedUsers.Count() == 0)
+                            return;
+                        try {
+                            foreach (var u in e.Message.MentionedUsers) {
+                                await u.Edit(isMuted: true);
+                            }
+                            await e.Send("Mute successful");
+                        } catch (Exception) {
+                            await e.Send("I do not have permission to do that most likely.");
+                        }
+                    });
+
+                cgb.CreateCommand(".unmute")
+                    .Description("Unmutes mentioned user or users")
+                    .Parameter("throwaway", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (!e.User.ServerPermissions.MuteMembers) {
+                            await e.Send("You do not have permission to do that.");
+                            return;
+                        }
+                        if (e.Message.MentionedUsers.Count() == 0)
+                            return;
+                        try {
+                            foreach (var u in e.Message.MentionedUsers) {
+                                await u.Edit(isMuted: false);
+                            }
+                            await e.Send("Unmute successful");
+                        } catch (Exception) {
+                            await e.Send("I do not have permission to do that most likely.");
+                        }
+                    });
+
+                cgb.CreateCommand(".deafen")
+                    .Alias(".deaf")
+                    .Description("Deafens mentioned user or users")
+                    .Parameter("throwaway", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (!e.User.ServerPermissions.DeafenMembers) {
+                            await e.Send("You do not have permission to do that.");
+                            return;
+                        }
+                        if (e.Message.MentionedUsers.Count() == 0)
+                            return;
+                        try {
+                            foreach (var u in e.Message.MentionedUsers) {
+                                await u.Edit(isDeafened: true);
+                            }
+                            await e.Send("Deafen successful");
+                        } catch (Exception) {
+                            await e.Send("I do not have permission to do that most likely.");
+                        }
+                    });
+
+                cgb.CreateCommand(".undeafen")
+                    .Alias(".undeaf")
+                    .Description("Undeafens mentioned user or users")
+                    .Parameter("throwaway", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (!e.User.ServerPermissions.DeafenMembers) {
+                            await e.Send("You do not have permission to do that.");
+                            return;
+                        }
+                        if (e.Message.MentionedUsers.Count() == 0)
+                            return;
+                        try {
+                            foreach (var u in e.Message.MentionedUsers) {
+                                await u.Edit(isDeafened: false);
+                            }
+                            await e.Send("Undeafen successful");
+                        } catch (Exception) {
+                            await e.Send("I do not have permission to do that most likely.");
+                        }
+                    });
 
                 cgb.CreateCommand(".rvch")
                     .Description("Removes a voice channel with a given name.")
@@ -302,7 +383,7 @@ namespace NadekoBot.Modules {
                         try {
                             var msgs = await e.Channel.DownloadMessages(100);
                             var lastmessage = e.Channel.Messages.LastOrDefault();
-                            while (num > 0 && lastmessage!=null) {
+                            while (num > 0 && lastmessage != null) {
                                 msgs.ForEach(async m => await m.Delete());
                                 num -= 100;
                                 lastmessage = msgs.LastOrDefault();
@@ -404,8 +485,9 @@ namespace NadekoBot.Modules {
                             await e.Send("Sending failed.");
                         }
                     });
-
-                /*
+                /*cgb.CreateCommand(".voicetext")
+                    .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
+                
                cgb.CreateCommand(".jsontype")
                    .Do(async e => {
                        Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));

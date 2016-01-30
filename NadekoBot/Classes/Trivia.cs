@@ -11,16 +11,17 @@ using System.Threading.Tasks;
 using System.Timers;
 using NadekoBot.Extensions;
 using System.Collections;
+using System.Collections.Concurrent;
 
 //github.com/micmorris contributed quite a bit to making trivia better!
 namespace NadekoBot {
     public class Trivia : DiscordCommand {
         public static float HINT_TIME_SECONDS = 6;
 
-        public static Dictionary<ulong, TriviaGame> runningTrivias;
+        public static ConcurrentDictionary<ulong, TriviaGame> runningTrivias;
 
         public Trivia() : base() {
-            runningTrivias = new Dictionary<ulong, TriviaGame>();
+            runningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
         }
 
         public static TriviaGame StartNewGame(CommandEventArgs e) {
@@ -28,7 +29,7 @@ namespace NadekoBot {
                 return null;
 
             var tg = new TriviaGame(e, NadekoBot.client);
-            runningTrivias.Add(e.Server.Id, tg);
+            runningTrivias.TryAdd(e.Server.Id, tg);
 
             return tg;
         }
@@ -86,7 +87,8 @@ namespace NadekoBot {
         };
 
         internal static void FinishGame(TriviaGame triviaGame) {
-            runningTrivias.Remove(runningTrivias.Where(kvp => kvp.Value == triviaGame).First().Key);
+            TriviaGame throwaway;
+            runningTrivias.TryRemove(runningTrivias.Where(kvp => kvp.Value == triviaGame).First().Key,out throwaway);
         }
     }
 

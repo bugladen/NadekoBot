@@ -12,7 +12,7 @@ using System.Diagnostics;
 using NadekoBot.Extensions;
 using System.Threading;
 using Timer = System.Timers.Timer;
-using YoutubeExtractor;
+using VideoLibrary;
 
 namespace NadekoBot.Classes.Music {
     public enum StreamState {
@@ -51,18 +51,20 @@ namespace NadekoBot.Classes.Music {
             this.VoiceClient = mc.VoiceClient;
             this.Server = e.Server;
             this.Query = query;
-            Task.Run(() => ResolveStreamLink());
+            Task.Run(async () => await ResolveStreamLink());
         }
 
-        private void ResolveStreamLink() {
-            VideoInfo video = null;
+        private async Task ResolveStreamLink() {
+            VideoLibrary.YouTubeVideo video = null;
             try {
                 if (OnResolving != null)
                     OnResolving();
                 Console.WriteLine("Resolving video link");
-                video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(Query))
-                       .Where(v => v.AdaptiveType == AdaptiveType.Audio)
-                       .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
+
+                video = (await YouTube.Default.GetAllVideosAsync(Searches.FindYoutubeUrlByKeywords(Query)))
+                        .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                        .OrderByDescending(v => v.AudioBitrate)
+                        .FirstOrDefault();
 
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
@@ -76,9 +78,10 @@ namespace NadekoBot.Classes.Music {
                 return;
             }
 
-            musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
+            musicStreamer = new MusicStreamer(this, video.Uri, Channel);
             if (OnQueued != null)
                 OnQueued();
+            return;
         }
 
         internal string PrintStats() => musicStreamer?.Stats();
