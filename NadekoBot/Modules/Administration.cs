@@ -364,7 +364,7 @@ namespace NadekoBot.Modules {
                     .Description("Nadeko leaves all servers")
                     .Do(e => {
                         if (e.User.Id == NadekoBot.OwnerID)
-                            NadekoBot.client.Servers.ForEach(async s => { if (s.Name == "NadekoLog" || s.Name == "Discord Bots") return; await s.Leave(); });
+                            NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
 
 

@@ -94,6 +94,8 @@ namespace NadekoBot.Modules {
                         }
 
                         try {
+                            if (player.VoiceChannel.Server != e.Server)
+                                throw new ArgumentException("You need to be in the voice channel on this server.");
                             var sr = await player.CreateStreamRequest(e, e.GetArg("query"), player.VoiceChannel);
                             if (sr == null)
                                 throw new NullReferenceException("StreamRequest is null.");
