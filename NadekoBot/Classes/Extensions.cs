@@ -5,27 +5,31 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Discord.Commands;
 using Discord;
-using Discord.Legacy;
 using NadekoBot.Modules;
 using System.IO;
 using System.Drawing;
 
-namespace NadekoBot.Extensions
-{
+namespace NadekoBot.Extensions {
     public static class Extensions
     {
         public static string Scramble(this string word) {
 
             var letters = word.ToArray();
-            for (int i = 0; i < letters.Length; i++)
-            {
-                if (i % 3 == 0)
-                {
+            int count = 0;
+            for (int i = 0; i < letters.Length; i++) {
+                if (letters[i] == ' ')
                     continue;
-                }
+
+                count++;
+                if (count <= letters.Length / 5)
+                    continue;
+
+                if (count % 3 == 0)
+                    continue;
 
                 if (letters[i] != ' ')
                     letters[i] = '_';
+
             }
             return "`"+string.Join(" ", letters)+"`";
         }

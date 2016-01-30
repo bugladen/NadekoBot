@@ -58,9 +58,9 @@ namespace NadekoBot.Modules {
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         var player = musicPlayers[e.Server];
-                        player.Stop();
                         MusicControls throwAwayValue;
                         musicPlayers.TryRemove(e.Server, out throwAwayValue);
+                        player.Stop();
                     });
 
                 cgb.CreateCommand("p")
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules {
                         }
 
                         try {
-                            var sr = player.CreateStreamRequest(e, e.GetArg("query"), player.VoiceChannel);
+                            var sr = await player.CreateStreamRequest(e, e.GetArg("query"), player.VoiceChannel);
                             if (sr == null)
                                 throw new NullReferenceException("StreamRequest is null.");
                             Message msg = null;

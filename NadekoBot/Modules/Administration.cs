@@ -10,17 +10,14 @@ using System.Threading.Tasks;
 using NadekoBot.Commands;
 using System.IO;
 
-namespace NadekoBot.Modules
-{
-    class Administration : DiscordModule
-    {
+namespace NadekoBot.Modules {
+    class Administration : DiscordModule {
         public Administration() : base() {
             commands.Add(new HelpCommand());
             commands.Add(new ServerGreetCommand());
         }
 
-        public override void Install(ModuleManager manager)
-        {
+        public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
                 var client = manager.Client;
 
@@ -133,22 +130,22 @@ namespace NadekoBot.Modules
                         try {
                             bool rgb = args.Count() == 4;
 
-                            byte red = Convert.ToByte(rgb ? int.Parse(e.Args[1]) : Convert.ToInt32(e.Args[1].Substring(0,2), 16));
+                            byte red = Convert.ToByte(rgb ? int.Parse(e.Args[1]) : Convert.ToInt32(e.Args[1].Substring(0, 2), 16));
                             byte green = Convert.ToByte(rgb ? int.Parse(e.Args[2]) : Convert.ToInt32(e.Args[1].Substring(2, 2), 16));
                             byte blue = Convert.ToByte(rgb ? int.Parse(e.Args[3]) : Convert.ToInt32(e.Args[1].Substring(4, 2), 16));
-                            
+
                             await role.Edit(color: new Color(red, green, blue));
                             await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
                         } catch (Exception ex) {
                             await e.Send(":warning: Unspecified error, please report this.");
                             Console.WriteLine($".rolecolor error: {ex}");
                         }
-                            
+
                     });
-					
-					
+
+
                 cgb.CreateCommand(".b").Alias(".ban")
-                    .Parameter("everything",ParameterType.Unparsed)
+                    .Parameter("everything", ParameterType.Unparsed)
                     .Description("Bans a mentioned user")
                         .Do(async e => {
                             try {
@@ -259,7 +256,7 @@ namespace NadekoBot.Modules
                     .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
                         var usr = e.User;
-                        if(e.GetArg("user") != null) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
+                        if (e.GetArg("user") != null) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         await e.Send($"Id of the user { usr.Name } is { usr.Id }");
                     });
 
@@ -343,15 +340,15 @@ namespace NadekoBot.Modules
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
-					
-		      cgb.CreateCommand(".setgame")
-                .Description("Sets the bots game.")
-                .Parameter("set_game", ParameterType.Unparsed)
-                .Do(e => {
-                    if (e.User.Id != NadekoBot.OwnerID || e.GetArg("set_game") == null) return;
 
-                    client.SetGame(e.GetArg("set_game"));
-                });
+                cgb.CreateCommand(".setgame")
+                  .Description("Sets the bots game.")
+                  .Parameter("set_game", ParameterType.Unparsed)
+                  .Do(e => {
+                      if (e.User.Id != NadekoBot.OwnerID || e.GetArg("set_game") == null) return;
+
+                      client.SetGame(e.GetArg("set_game"));
+                  });
 
                 cgb.CreateCommand(".checkmyperms")
                     .Description("Checks your userspecific permissions on this channel.")
@@ -363,7 +360,7 @@ namespace NadekoBot.Modules
                         output += "```";
                         await e.User.SendMessage(output);
                     });
-                
+
                 Server commsServer = null;
                 User commsUser = null;
 
@@ -393,7 +390,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand(".send")
                     .Description("Send a message to someone on a different server through the bot.**Owner only.**\n **Usage**: .send Message text multi word!")
-                    .Parameter("msg",ParameterType.Unparsed)
+                    .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
                         try {
@@ -434,35 +431,6 @@ namespace NadekoBot.Modules
                    });
                */
             });
-        }
-
-        bool announcingGreet = false;
-        Channel announceChannel = null;
-        Server joinServer = null;
-        string announceMsg = "Welcome to the server %user%";
-
-        private void Client_UserJoined(object sender, UserEventArgs e) {
-            if (e.Server != joinServer) return;
-            try {
-                announceChannel?.Send(announceMsg.Replace("%user%", e.User.Mention));
-            } catch (Exception) {
-                Console.WriteLine("Failed sending greet message to the specified channel");
-            }
-
-        }
-        bool announcingLeave = false;
-        Channel announceLeaveChannel = null;
-        Server leaveServer = null;
-        string announceLeaveMsg = "%user% has left the server";
-
-        private void Client_UserLeft(object sender, UserEventArgs e) {
-            if (e.Server != leaveServer) return;
-            try {
-                announceLeaveChannel?.Send(announceLeaveMsg.Replace("%user%", e.User.Mention));
-            } catch (Exception) {
-                Console.WriteLine("Failed sending leave message to the specified channel.");
-            }
-
         }
     }
 }

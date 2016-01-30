@@ -10,7 +10,7 @@ namespace NadekoBot
     {
         public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/**";
+            string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
 
             string lastCategory = "";
             foreach (var com in client.Commands().AllCommands)

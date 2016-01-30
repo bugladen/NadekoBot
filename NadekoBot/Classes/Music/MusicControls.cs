@@ -15,13 +15,15 @@ namespace NadekoBot.Classes.Music {
         public StreamRequest CurrentSong;
 
         public bool IsPaused { get; internal set; } = false;
+        public bool Stopped { get; private set; }
+
         public IAudioClient VoiceClient;
 
         private readonly object _voiceLock = new object();
 
         public MusicControls() {
             Task.Run(async () => {
-                while (true) {
+                while (!Stopped) {
                     try {
                         lock (_voiceLock) {
                             if (CurrentSong == null) {
@@ -36,7 +38,7 @@ namespace NadekoBot.Classes.Music {
                     } catch (Exception e) {
                         Console.WriteLine("Bug in music task run. " + e);
                     }
-                    await Task.Delay(200);
+                    await Task.Delay(500);
                 }
             });
         }
@@ -52,7 +54,11 @@ namespace NadekoBot.Classes.Music {
                 if (SongQueue.Count != 0) {
                     CurrentSong = SongQueue[0];
                     SongQueue.RemoveAt(0);
-                } else return;
+                } else {
+                    VoiceClient?.Disconnect();
+                    VoiceClient = null;
+                    return;
+                }
             }
 
             try {
@@ -60,32 +66,35 @@ namespace NadekoBot.Classes.Music {
             } catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
-                CurrentSong = null;
             }
         }
 
         internal void Stop() {
             lock (_voiceLock) {
+                Stopped = true;
                 foreach (var kvp in SongQueue) {
                     if(kvp != null)
                         kvp.Cancel();
                 }
-                SongQueue?.Clear();
-                LoadNextSong();
+                SongQueue.Clear();
+                CurrentSong?.Stop();
+                CurrentSong = null;
                 VoiceClient?.Disconnect();
                 VoiceClient = null;
             }
         }
 
-        internal StreamRequest CreateStreamRequest(CommandEventArgs e, string query, Channel voiceChannel) {
+        internal async Task<StreamRequest> CreateStreamRequest(CommandEventArgs e, string query, Channel voiceChannel) {
             if (VoiceChannel == null)
                 throw new ArgumentNullException("Please join a voicechannel.");
             StreamRequest sr = null;
+            if (VoiceClient == null) {
+                VoiceChannel = voiceChannel;
+                VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
+            }
+            sr = new StreamRequest(e, query, this);
+
             lock (_voiceLock) {
-                if (VoiceClient == null) {
-                    VoiceClient = NadekoBot.client.Audio().Join(VoiceChannel).Result;
-                }
-                sr = new StreamRequest(e, query, this);
                 SongQueue.Add(sr);
             }
             return sr;

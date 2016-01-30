@@ -182,7 +182,13 @@ namespace NadekoBot.Modules
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e =>
                     {
-                        List<string> praises = new List<string> { " You are cool.", " You are nice!", " You did a good job.", " You did something nice.", " is awesome!" };
+                        List<string> praises = new List<string> { " You are cool.",
+                            " You are nice!",
+                            " You did a good job.",
+                            " You did something nice.",
+                            " is awesome!",
+                            " Wow."};
+
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
@@ -320,21 +326,26 @@ namespace NadekoBot.Modules
                     .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
                     .Do(async e => {
 
-                        Message msg;
+                        Message msg = null;
                         var msgs = e.Channel.Messages
                                     .Where(m => m.MentionedUsers.Contains(e.User))
                                     .OrderByDescending(m => m.Timestamp);
                         if (msgs.Count() > 0)
-                            msg = msgs.FirstOrDefault();
+                            msg = msgs.First();
                         else {
-                            var msgsarr = await e.Channel.DownloadMessages(10000);
-                            msg = msgsarr
-                                    .Where(m => m.MentionedUsers.Contains(e.User))
-                                    .OrderByDescending(m => m.Timestamp)
-                                    .FirstOrDefault();
+                            int attempt = 0;
+                            Message lastMessage = null;
+                            while (msg == null && attempt++ < 5) {
+                                var msgsarr = await e.Channel.DownloadMessages(100, lastMessage?.Id);
+                                msg = msgsarr
+                                        .Where(m => m.MentionedUsers.Contains(e.User))
+                                        .OrderByDescending(m => m.Timestamp)
+                                        .FirstOrDefault();
+                                lastMessage = msgsarr.OrderBy(m => m.Timestamp).First();
+                            }
                         }
                         if (msg != null)
-                            await e.Send("Last message mentioning you was at " + msg.Timestamp + "\n**Message:** " + msg.RawText.Replace("@everyone","@everryone"));
+                            await e.Send($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText.Replace("@everyone", "@everryone")}");
                         else
                             await e.Send("I can't find a message mentioning you.");
                     });
