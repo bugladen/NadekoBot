@@ -147,6 +147,7 @@
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\SParser.cs" />
+    <Compile Include="Commands\RequestsCommand.cs" />
     <Compile Include="Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />
     <Compile Include="Classes\_JSONModels.cs" />
@@ -174,7 +175,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StatsCollector.cs" />
+    <Compile Include="Classes\NadekoStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

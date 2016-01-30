@@ -15,7 +15,6 @@ using System.Diagnostics;
 namespace NadekoBot {
     class NadekoBot {
         public static DiscordClient client;
-        public static StatsCollector stats_collector;
         public static string botMention;
         public static string GoogleAPIKey = null;
         public static ulong OwnerID;
@@ -23,8 +22,6 @@ namespace NadekoBot {
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
-        public static string BotVersion = "0.8-beta2";
-        public static int commandsRan = 0;
 
         static void Main() {
             //load credentials from credentials.json
@@ -75,7 +72,7 @@ namespace NadekoBot {
                 ParseClient.Initialize(c.ParseID, c.ParseKey);
 
                 //monitor commands for logging
-                stats_collector = new StatsCollector(commandService);
+                
             } else {
                 Console.WriteLine("Parse key and/or ID not found. Logging disabled.");
             }
@@ -85,9 +82,6 @@ namespace NadekoBot {
 
             //add command service
             var commands = client.Services.Add<CommandService>(commandService);
-
-            //count commands ran
-            client.Commands().CommandExecuted += (s, e) => commandsRan++;
 
             //create module service
             var modules = client.Services.Add<ModuleService>(new ModuleService());
@@ -110,15 +104,11 @@ namespace NadekoBot {
             if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
-            //start the timer for stats
-            _statsSW.Start();
             //run the bot
             client.ExecuteAndWait(async () => {
                 await client.Connect(c.Username, c.Password);
-
-                LoadStats();
                 Console.WriteLine("-----------------");
-                Console.WriteLine(GetStats());
+                Console.WriteLine(NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
 
                 foreach (var serv in client.Servers) {
@@ -129,36 +119,7 @@ namespace NadekoBot {
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
-        }
-        private static string _statsCache = "";
-        private static Stopwatch _statsSW = new Stopwatch();
-        public static string GetStats() {
-            if (_statsSW.ElapsedTicks > 5) {
-                LoadStats();
-                _statsSW.Restart();
-            }
-            return _statsCache;
-        }
-        private static void LoadStats() {
-            _statsCache =
-            "Author: Kwoth" +
-            $"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
-            $"\nRuntime: {client.GetRuntime()}" +
-            $"\nBot Version: {BotVersion}" +
-            $"\nLogged in as: {client.CurrentUser.Name}" +
-            $"\nBot id: {client.CurrentUser.Id}" +
-            $"\nUptime: {GetUptimeString()}" +
-            $"\nServers: {client.Servers.Count()}" +
-            $"\nChannels: {client.Servers.Sum(s => s.AllChannels.Count())}" +
-            $"\nUsers: {client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-            $"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
-            $"\nCommands Ran this session: {commandsRan}";
-        }
-
-        public static string GetUptimeString() {
-            var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-            return time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
-        }
+        }        
 
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {

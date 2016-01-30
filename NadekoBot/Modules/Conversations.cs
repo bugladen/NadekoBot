@@ -13,42 +13,36 @@ using System.Text;
 using System.Drawing.Imaging;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;
+using NadekoBot.Commands;
 
-namespace NadekoBot.Modules
-{
-    class Conversations : DiscordModule
-    {
+namespace NadekoBot.Modules {
+    class Conversations : DiscordModule {
         private string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
-        public Conversations() : base()
-        {
+        public Conversations() : base() {
             commands.Add(new CopyCommand());
+            commands.Add(new RequestsCommand());
         }
 
-        public override void Install(ModuleManager manager)
-        {
+        public override void Install(ModuleManager manager) {
             Random rng = new Random();
 
-            manager.CreateCommands("", cgb =>
-            {
+            manager.CreateCommands("", cgb => {
                 var client = manager.Client;
 
                 cgb.CreateCommand("\\o\\")
                     .Description("Nadeko replies with /o/")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         await e.Send(e.User.Mention + "/o/");
                     });
 
                 cgb.CreateCommand("/o/")
                     .Description("Nadeko replies with \\o\\")
-                    .Do(async e =>
-                    {
-                        await e.Send( e.User.Mention + "\\o\\");
+                    .Do(async e => {
+                        await e.Send(e.User.Mention + "\\o\\");
                     });
             });
 
-            manager.CreateCommands(NadekoBot.botMention, cgb =>
-            {
+            manager.CreateCommands(NadekoBot.botMention, cgb => {
                 var client = manager.Client;
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -63,17 +57,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("die")
                     .Description("Works only for the owner. Shuts the bot down.")
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
+                    .Do(async e => {
+                        if (e.User.Id == NadekoBot.OwnerID) {
                             Timer t = new Timer();
                             t.Interval = 2000;
                             t.Elapsed += (s, ev) => { Environment.Exit(0); };
                             t.Start();
                             await e.Send(e.User.Mention + ", Yes, my love.");
-                        }
-                        else
+                        } else
                             await e.Send(e.User.Mention + ", No.");
                     });
 
@@ -137,21 +128,14 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("how are you")
                     .Description("Replies positive only if bot owner is online.")
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
+                    .Do(async e => {
+                        if (e.User.Id == NadekoBot.OwnerID) {
                             await e.Send(e.User.Mention + " I am great as long as you are here.");
-                        }
-                        else
-                        {
+                        } else {
                             var kw = e.Server.GetUser(NadekoBot.OwnerID);
-                            if (kw != null && kw.Status == UserStatus.Online)
-                            {
+                            if (kw != null && kw.Status == UserStatus.Online) {
                                 await e.Send(e.User.Mention + " I am great as long as " + kw.Mention + " is with me.");
-                            }
-                            else
-                            {
+                            } else {
                                 await e.Send(e.User.Mention + " I am sad. My Master is not with me.");
                             }
                         }
@@ -160,8 +144,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("insult")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Only works for owner. Insults @X person.\n**Usage**: @NadekoBot insult @X.")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
@@ -180,8 +163,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("praise")
                     .Description("Only works for owner. Praises @X person.\n**Usage**: @NadekoBot praise @X.")
                     .Parameter("mention", ParameterType.Required)
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         List<string> praises = new List<string> { " You are cool.",
                             " You are nice!",
                             " You did a good job.",
@@ -192,8 +174,7 @@ namespace NadekoBot.Modules
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
-                        if (u == null)
-                        {
+                        if (u == null) {
                             await e.Send("Invalid user specified.");
                             return;
                         }
@@ -207,8 +188,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("are you real")
                     .Description("Useless.")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         await e.Send(e.User.Mention + " I will be soon.");
                     });
 
@@ -219,15 +199,13 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("draw")
                     .Description("Nadeko instructs you to type $draw. Gambling functions start with $")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         await e.Send("Sorry, I don't gamble, type $draw for that function.");
                     });
                 cgb.CreateCommand("fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         int count = 0;
                         if (e.Args?.Length > 0)
                             int.TryParse(e.Args[0], out count);
@@ -237,8 +215,7 @@ namespace NadekoBot.Modules
                         else if (count > 12)
                             count = 12;
                         string str = "";
-                        for (int i = 0; i < count; i++)
-                        {
+                        for (int i = 0; i < count; i++) {
                             str += firestr;
                         }
                         await e.Send(str);
@@ -247,15 +224,12 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("rip")
                     .Description("Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.\n**Usage**: @NadekoBot rip [@X]")
                     .Parameter("user", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         string text = "";
-                        if (usr == null)
-                        {
+                        if (usr == null) {
                             text = e.GetArg("user");
-                        }
-                        else {
+                        } else {
                             text = usr.Name;
                         }
                         await e.Channel.SendFile("ripzor_m8.png", RipName(text));
@@ -264,15 +238,11 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("j")
                     .Description("Joins a server using a code.")
                     .Parameter("id", ParameterType.Required)
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             await (await client.GetInvite(e.Args[0])).Accept();
                             await e.Send("I got in!");
-                        }
-                        catch (Exception)
-                        {
+                        } catch (Exception) {
                             await e.Send("Invalid code.");
                         }
                     });
@@ -280,39 +250,31 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("save")
                     .Description("Saves something for the owner in a file.")
                     .Parameter("all", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
+                    .Do(async e => {
+                        if (e.User.Id == NadekoBot.OwnerID) {
                             string m = "";
-                            try
-                            {
+                            try {
                                 FileStream f = File.OpenWrite("saves.txt");
                                 m = e.Args[0];
                                 byte[] b = Encoding.ASCII.GetBytes(m + "\n");
                                 f.Seek(f.Length, SeekOrigin.Begin);
                                 f.Write(b, 0, b.Length);
                                 f.Close();
-                            }
-                            catch (Exception)
-                            {
+                            } catch (Exception) {
                                 await e.Send("Error saving. Sorry :(");
                             }
                             if (m.Length > 0)
                                 await e.Send("I saved this for you: " + Environment.NewLine + "```" + m + "```");
                             else
                                 await e.Send("No point in saving empty message...");
-                        }
-                        else await e.Send("Not for you, only my Master <3");
+                        } else await e.Send("Not for you, only my Master <3");
                     });
 
                 cgb.CreateCommand("ls")
                     .Description("Shows all saved items.")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         FileStream f = File.OpenRead("saves.txt");
-                        if (f.Length == 0)
-                        {
+                        if (f.Length == 0) {
                             await e.Send("Saves are empty.");
                             return;
                         }
@@ -351,8 +313,7 @@ namespace NadekoBot.Modules
                     });
                 cgb.CreateCommand("cs")
                     .Description("Deletes all saves")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         File.Delete("saves.txt");
                         await e.Send("Cleared all saves.");
                     });
@@ -360,159 +321,51 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("bb")
                     .Description("Says bye to someone. **Usage**: @NadekoBot bb @X")
                     .Parameter("ppl", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         string str = "Bye";
-                        foreach (var u in e.Message.MentionedUsers)
-                        {
+                        foreach (var u in e.Message.MentionedUsers) {
                             str += " " + u.Mention;
                         }
                         await e.Send(str);
                     });
 
-                cgb.CreateCommand("req")
-                    .Alias("request")
-                    .Description("Requests a feature for nadeko.\n**Usage**: @NadekoBot req new_feature")
-                    .Parameter("all", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        string str = e.Args[0];
-
-                        try
-                        {
-                            StatsCollector.SaveRequest(e, str);
-                        }
-                        catch (Exception)
-                        {
-                            await e.Send("Something went wrong.");
-                            return;
-                        }
-                        await e.Send("Thank you for your request.");
-                    });
-
-                cgb.CreateCommand("lr")
-                    .Description("PMs the user all current nadeko requests.")
-                    .Do(async e =>
-                    {
-                        string str = StatsCollector.GetRequests();
-                        if (str.Trim().Length > 110)
-                            await e.User.Send(str);
-                        else
-                            await e.User.Send("No requests atm.");
-                    });
-
-                cgb.CreateCommand("dr")
-                    .Description("Deletes a request. Only owner is able to do this.")
-                    .Parameter("reqNumber", ParameterType.Required)
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
-                            try
-                            {
-                                if (StatsCollector.DeleteRequest(int.Parse(e.Args[0])))
-                                {
-                                    await e.Send(e.User.Mention + " Request deleted.");
-                                }
-                                else
-                                {
-                                    await e.Send("No request on that number.");
-                                }
-                            }
-                            catch
-                            {
-                                await e.Send("Error deleting request, probably NaN error.");
-                            }
-                        }
-                        else await e.Send("You don't have permission to do that.");
-                    });
-
-                cgb.CreateCommand("rr")
-                    .Description("Resolves a request. Only owner is able to do this.")
-                    .Parameter("reqNumber", ParameterType.Required)
-                    .Do(async e =>
-                    {
-                        if (e.User.Id == NadekoBot.OwnerID)
-                        {
-                            try
-                            {
-                                var sc = StatsCollector.ResolveRequest(int.Parse(e.Args[0]));
-                                if (sc != null)
-                                {
-                                    await e.Send(e.User.Mention + " Request resolved, notice sent.");
-                                    await client.GetServer(sc.ServerId).GetUser(sc.Id).Send("**This request of yours has been resolved:**\n" + sc.Text);
-                                }
-                                else
-                                {
-                                    await e.Send("No request on that number.");
-                                }
-                            }
-                            catch
-                            {
-                                await e.Send("Error resolving request, probably NaN error.");
-                            }
-                        }
-                        else await e.Send("You don't have permission to do that.");
-                    });
-
                 cgb.CreateCommand("call")
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         await e.Send("Calling " + e.Args[0] + "...");
                     });
                 cgb.CreateCommand("hide")
                     .Description("Hides nadeko in plain sight!11!!")
-                    .Do(async e =>
-                    {
-                        try
-                        {
-                            using (Stream ms = Resources.hidden.ToStream(ImageFormat.Png))
-                            {
-                                await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
-                            }
-                            await e.Send("*hides*");
+                    .Do(async e => {
+                        using (Stream ms = Resources.hidden.ToStream(ImageFormat.Png)) {
+                            await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
                         }
-                        catch (Exception ex)
-                        {
-                            StatsCollector.DEBUG_LOG(ex.ToString());
-                        }
+                        await e.Send("*hides*");
                     });
 
                 cgb.CreateCommand("unhide")
                     .Description("Unhides nadeko in plain sight!1!!1")
-                    .Do(async e =>
-                    {
-                        try
-                        {
-                            using (Stream ms = Resources.nadeko.ToStream()) {
-                                await client.CurrentUser.Edit(NadekoBot.password, avatar: ms,avatarType:ImageType.Jpeg);
-                            }
-                            await e.Send("*unhides*");
+                    .Do(async e => {
+                        using (Stream ms = Resources.nadeko.ToStream()) {
+                            await client.CurrentUser.Edit(NadekoBot.password, avatar: ms, avatarType: ImageType.Jpeg);
                         }
-                        catch (Exception ex)
-                        {
-                            StatsCollector.DEBUG_LOG(ex.ToString());
-                        }
+                        await e.Send("*unhides*");
                     });
 
                 cgb.CreateCommand("dump")
                     .Description("Dumps all of the invites it can to dump.txt.** Owner Only.**")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         if (NadekoBot.OwnerID != e.User.Id) return;
                         int i = 0;
                         int j = 0;
                         string invites = "";
                         foreach (var s in client.Servers) {
-                            try
-                            {
+                            try {
                                 var invite = await s.CreateInvite(0);
-                                invites+=invite.Url+"\n";
+                                invites += invite.Url + "\n";
                                 i++;
-                            }
-                            catch (Exception) {
+                            } catch (Exception) {
                                 j++;
                                 continue;
                             }
@@ -521,13 +374,12 @@ namespace NadekoBot.Modules
                         await e.Send($"Got invites for {i} servers and failed to get invites for {j} servers");
                     });
 
-                
+
 
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (usr == null) {
                             await e.Send("Invalid user specified.");
@@ -553,16 +405,14 @@ namespace NadekoBot.Modules
             });
         }
 
-        public Stream RipName(string name)
-        {
+        public Stream RipName(string name) {
             Bitmap bm = Resources.rip;
 
             int offset = name.Length * 5;
 
             int fontSize = 20;
 
-            if (name.Length > 10)
-            {
+            if (name.Length > 10) {
                 fontSize -= (name.Length - 10) / 2;
             }
 
@@ -576,7 +426,7 @@ namespace NadekoBot.Modules
             return bm.ToStream(ImageFormat.Png);
         }
 
-        private Func<CommandEventArgs, Task> SayYes() 
+        private Func<CommandEventArgs, Task> SayYes()
             => async e => await e.Send("Yes. :)");
     }
 }
