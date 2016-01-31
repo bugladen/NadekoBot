@@ -225,13 +225,17 @@ namespace NadekoBot.Modules
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
-            WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
+            try {
+                WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
 
-            var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
 
-            dynamic obj = JObject.Parse(sr.ReadToEnd());
-            string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
-            return toReturn;
+                dynamic obj = JObject.Parse(sr.ReadToEnd());
+                string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+                return toReturn;
+            } catch (Exception) {
+                return string.Empty;
+            }
         }
 
         public string GetDanbooruImageLink(string tag) {

@@ -222,17 +222,14 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("rip")
-                    .Description("Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave.\n**Usage**: @NadekoBot rip [@X]")
-                    .Parameter("user", ParameterType.Unparsed)
+                    .Description("Shows a grave image of someone with a start year\n**Usage**: @NadekoBot rip @Someone 2000")
+                    .Parameter("user", ParameterType.Optional)
+                    .Parameter("year", ParameterType.Optional)
                     .Do(async e => {
                         var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         string text = "";
-                        if (usr == null) {
-                            text = e.GetArg("user");
-                        } else {
-                            text = usr.Name;
-                        }
-                        await e.Channel.SendFile("ripzor_m8.png", RipName(text));
+                        text = usr?.Name;
+                        await e.Channel.SendFile("ripzor_m8.png", RipName(text, e.GetArg("year") == "" ? null : e.GetArg("year")));
                     });
 
                 cgb.CreateCommand("j")
@@ -324,7 +321,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         string str = "Bye";
                         foreach (var u in e.Message.MentionedUsers) {
-                            if(u.Id != NadekoBot.client.CurrentUser.Id)
+                            if (u.Id != NadekoBot.client.CurrentUser.Id)
                                 str += " " + u.Mention;
                         }
                         await e.Send(str);
@@ -406,7 +403,7 @@ namespace NadekoBot.Modules {
             });
         }
 
-        public Stream RipName(string name) {
+        public Stream RipName(string name, string year = null) {
             Bitmap bm = Resources.rip;
 
             int offset = name.Length * 5;
@@ -420,7 +417,7 @@ namespace NadekoBot.Modules {
             //TODO use measure string
             Graphics g = Graphics.FromImage(bm);
             g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, 100 - offset, 200);
-            g.DrawString("? - " + DateTime.Now.Year, new Font("Consolas", 12, FontStyle.Bold), Brushes.Black, 80, 235);
+            g.DrawString((year == null ? "?" : year) + " - " + DateTime.Now.Year, new Font("Consolas", 12, FontStyle.Bold), Brushes.Black, 80, 235);
             g.Flush();
             g.Dispose();
 

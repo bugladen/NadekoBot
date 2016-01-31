@@ -44,6 +44,20 @@ namespace NadekoBot.Extensions {
                 return str;
             return string.Join("", str.Take(num - 3)) + "...";
         }
+        /// <summary>
+        /// Removes trailing S or ES (if specified) on the given string if the num is 1
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="num"></param>
+        /// <param name="es"></param>
+        /// <returns>String with the correct singular/plural form</returns>
+        public static string SnPl(this string str, int? num,bool es = false) {
+            if (str == null)
+                throw new ArgumentNullException(nameof(str));
+            if (num == null)
+                throw new ArgumentNullException(nameof(num));
+            return num == 1 ? str.Remove(str.Length - 1, es ? 2 : 1) : str;
+        }
 
         /// <summary>
         /// Sends a message to the channel from which this command is called.

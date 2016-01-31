@@ -239,7 +239,7 @@ namespace NadekoBot.Classes.Music {
             // prebuffering wait stuff start
             int bufferAttempts = 0;
             int waitPerAttempt = 500;
-            while (!prebufferingComplete && bufferAttempts++ < 10) {
+            while (!prebufferingComplete && bufferAttempts++ < 15) {
                 await Task.Delay(waitPerAttempt);
             }
             if (prebufferingComplete) {
@@ -299,8 +299,9 @@ namespace NadekoBot.Classes.Music {
         internal void Stop() {
             Console.WriteLine("Stopping playback");
             if (State != StreamState.Completed) {
+                if(State == StreamState.Playing)
+                    parent.OnCompleted();
                 State = StreamState.Completed;
-                parent.OnCompleted();
             }
         }
     }

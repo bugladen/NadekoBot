@@ -24,21 +24,17 @@ namespace NadekoBot.Classes.Music {
         public MusicControls() {
             Task.Run(async () => {
                 while (!Stopped) {
-                    try {
-                        lock (_voiceLock) {
-                            if (CurrentSong == null) {
-                                if (SongQueue.Count > 0)
-                                    LoadNextSong();
-
-                            } else if (CurrentSong.State == StreamState.Completed || NextSong) {
-                                NextSong = false;
+                    lock (_voiceLock) {
+                        if (CurrentSong == null) {
+                            if (SongQueue.Count > 0)
                                 LoadNextSong();
-                            }
+
+                        } else if (CurrentSong.State == StreamState.Completed || NextSong) {
+                            NextSong = false;
+                            LoadNextSong();
                         }
-                    } catch (Exception e) {
-                        Console.WriteLine("Bug in music task run. " + e);
                     }
-                    await Task.Delay(500);
+                    await Task.Delay(1000);
                 }
             });
         }
@@ -74,7 +70,7 @@ namespace NadekoBot.Classes.Music {
                 Stopped = true;
                 foreach (var kvp in SongQueue) {
                     if(kvp != null)
-                        kvp.Cancel();
+                        kvp.Stop();
                 }
                 SongQueue.Clear();
                 CurrentSong?.Stop();
