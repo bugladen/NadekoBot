@@ -30,7 +30,6 @@ namespace NadekoBot.Classes.Music {
         public string Query { get; }
 
         public string Title { get; internal set; } = String.Empty;
-        public IAudioClient VoiceClient { get; private set; }
 
         private MusicStreamer musicStreamer = null;
         public StreamState State => musicStreamer?.State ?? privateState;
@@ -38,23 +37,22 @@ namespace NadekoBot.Classes.Music {
 
         public bool IsPaused => MusicControls.IsPaused;
 
-        private MusicControls MusicControls;
+        public MusicControls MusicControls;
 
         public StreamRequest(CommandEventArgs e, string query, MusicControls mc) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
-            if (mc.VoiceClient == null)
-                throw new NullReferenceException($"{nameof(mc.VoiceClient)} is null, bot didn't join any server.");
             this.MusicControls = mc;
-            this.VoiceClient = mc.VoiceClient;
             this.Server = e.Server;
             this.Query = query;
-            Task.Run(async () => await ResolveStreamLink());
+            Task.Run(() => ResolveStreamLink());
+            Console.WriteLine("6");
+            mc.SongQueue.Add(this);
         }
 
-        private async Task ResolveStreamLink() {
+        private void ResolveStreamLink() {
             VideoInfo video = null;
             try {
                 if (OnResolving != null)
@@ -165,7 +163,6 @@ namespace NadekoBot.Classes.Music {
                 Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
@@ -282,13 +279,13 @@ namespace NadekoBot.Classes.Music {
                     break;
                 }
 
-                parent.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+                parent.MusicControls.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
 
                 while (IsPaused) {
                     await Task.Delay(50);
                 }
             }
-            parent.VoiceClient.Wait();
+            parent.MusicControls.VoiceClient.Wait();
             Stop();
         }
 

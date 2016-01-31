@@ -13,8 +13,8 @@ using System.IO;
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
-            commands.Add(new HelpCommand());
-            commands.Add(new ServerGreetCommand());
+           // commands.Add(new HelpCommand());
+           // commands.Add(new ServerGreetCommand());
         }
 
         public override void Install(ModuleManager manager) {
@@ -381,18 +381,12 @@ namespace NadekoBot.Modules {
                             return;
                         }
                         try {
-                            var msgs = await e.Channel.DownloadMessages(100);
-                            var lastmessage = e.Channel.Messages.LastOrDefault();
-                            while (num > 0 && lastmessage != null) {
+                            Message last = null;
+                            while (num > 0) {
+                                var msgs = await e.Channel.DownloadMessages(num, last?.Id);
+                                last = msgs.LastOrDefault();
                                 msgs.ForEach(async m => await m.Delete());
-                                int toDelete;
-                                if (num > 100)
-                                    toDelete = 100;
-                                else
-                                    toDelete = num;
-                                num -= toDelete;
-                                lastmessage = msgs.LastOrDefault();
-                                msgs = await e.Channel.DownloadMessages(toDelete, lastmessage?.Id);
+                                num -= 100;
                             }
                         } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
 

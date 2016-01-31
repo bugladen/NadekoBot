@@ -77,6 +77,7 @@ namespace NadekoBot.Modules {
                     .Description("Queue a song using keywords or link. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => {
+
                         if (musicPlayers.ContainsKey(e.Server) == false)
                             if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel))) {
                                 await e.Send("Failed to create a music player for this server");
@@ -94,16 +95,18 @@ namespace NadekoBot.Modules {
                         try {
                             if (e.User.VoiceChannel?.Server != e.Server)
                                 throw new ArgumentException("You need to be in the voice channel on this server.");
-                            var sr = await player.CreateStreamRequest(e, e.GetArg("query"), e.User.VoiceChannel);
+                            Message qmsg = await e.Channel.SendMessage(":musical_note: **Searching...**");
+
+                            var sr = new StreamRequest(e, e.GetArg("query"), player);
+
                             if (sr == null)
                                 throw new NullReferenceException("StreamRequest is null.");
                             Message msg = null;
-                            Message qmsg = null;
                             sr.OnResolving += async () => {
-                                qmsg = await e.Send($":musical_note: **Resolving**... \"{e.GetArg("query")}\"");
+                                await qmsg.Edit($":musical_note: **Resolving**... \"{e.GetArg("query")}\"");
                             };
                             sr.OnResolvingFailed += async (err) => {
-                                qmsg = await e.Send($":anger: :musical_note: **Resolving failed** for `{e.GetArg("query")}`");
+                                await qmsg.Edit($":anger: :musical_note: **Resolving failed** for `{e.GetArg("query")}`");
                             };
                             sr.OnQueued += async () => {
                                 await qmsg.Edit($":musical_note:**Queued** {sr.Title.TrimTo(55)}");
@@ -162,14 +165,14 @@ namespace NadekoBot.Modules {
                         player.SongQueue.Shuffle();
                         await e.Send(":musical_note: Songs shuffled!");
                     });
-                bool setgameEnabled = true;
+
+                bool setgameEnabled = false;
                 Timer setgameTimer = new Timer();
                 setgameTimer.Interval = 20000;
                 setgameTimer.Elapsed += (s, e) => {
-                    int num = musicPlayers.Count;
+                    int num = musicPlayers.Where(kvp=>kvp.Value.CurrentSong != null).Count();
                     NadekoBot.client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.SongQueue.Count())} queued");
                 };
-                setgameTimer.Start();
                 cgb.CreateCommand("setgame")
                     .Description("Sets the game of the bot to the number of songs playing.**Owner only**")
                     .Do(async e => {

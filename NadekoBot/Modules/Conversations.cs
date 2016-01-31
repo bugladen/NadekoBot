@@ -372,7 +372,17 @@ namespace NadekoBot.Modules {
                         await e.Send($"Got invites for {i} servers and failed to get invites for {j} servers");
                     });
 
-
+                cgb.CreateCommand("ab")
+                    .Description("Try to get 'abalabahaha'")
+                    .Do(async e => {
+                        string[] strings = { "ba", "la", "ha" };
+                        string construct = "@a";
+                        int cnt = rng.Next(4,7);
+                        while (cnt-- > 0) {
+                            construct += strings[rng.Next(0, strings.Length)];
+                        }
+                        await e.Send(construct);
+                    });
 
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)

@@ -9,48 +9,40 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
 
-namespace NadekoBot.Modules
-{
-    class Searches : DiscordModule
-    {
-        public Searches() : base()
-        {
+namespace NadekoBot.Modules {
+    class Searches : DiscordModule {
+        public Searches() : base() {
 
         }
 
-        public override void Install(ModuleManager manager)
-        {
+        public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
 
-            manager.CreateCommands("",cgb =>
-            {
+            manager.CreateCommands("", cgb => {
                 cgb.CreateCommand("~yt")
-                    .Parameter("query",Discord.Commands.ParameterType.Unparsed)
+                    .Parameter("query", Discord.Commands.ParameterType.Unparsed)
                     .Description("Queries youtubes and embeds the first result")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
                         var str = ShortenUrl(FindYoutubeUrlByKeywords(e.GetArg("query")));
-                        if (string.IsNullOrEmpty(str.Trim()))
-                        {
-                            await e.Send( "Query failed");
+                        if (string.IsNullOrEmpty(str.Trim())) {
+                            await e.Send("Query failed");
                             return;
                         }
-                        await e.Send( str);
+                        await e.Send(str);
                     });
 
                 cgb.CreateCommand("~ani")
                     .Alias("~anime").Alias("~aq")
                     .Parameter("query", Discord.Commands.ParameterType.Unparsed)
                     .Description("Queries anilist for an anime and shows the first result.")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
                         var result = GetAnimeQueryResultLink(e.GetArg("query"));
-                        if (result == null) { 
-                            await e.Send( "Failed to find that anime.");
+                        if (result == null) {
+                            await e.Send("Failed to find that anime.");
                             return;
                         }
 
@@ -61,17 +53,15 @@ namespace NadekoBot.Modules
                     .Alias("~manga").Alias("~mq")
                     .Parameter("query", Discord.Commands.ParameterType.Unparsed)
                     .Description("Queries anilist for a manga and shows the first result.")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
                         var result = GetMangaQueryResultLink(e.GetArg("query"));
-                        if (result == null)
-                        {
-                            await e.Send( "Failed to find that anime.");
+                        if (result == null) {
+                            await e.Send("Failed to find that anime.");
                             return;
                         }
-                        await e.Send( result.ToString());
+                        await e.Send(result.ToString());
                     });
 
                 cgb.CreateCommand("~randomcat")
@@ -92,7 +82,7 @@ namespace NadekoBot.Modules
                    .Parameter("all", ParameterType.Unparsed)
                        .Do(async e => {
                            await e.Send("This feature is being reconstructed.");
-                           
+
                        });
 
                 cgb.CreateCommand("~ir")
@@ -146,10 +136,8 @@ namespace NadekoBot.Modules
             new StreamReader(((HttpWebRequest)WebRequest.Create(v)).GetResponse().GetResponseStream()).ReadToEnd();
 
         private string token = "";
-        private AnimeResult GetAnimeQueryResultLink(string query)
-        {
-            try
-            {
+        private AnimeResult GetAnimeQueryResultLink(string query) {
+            try {
                 var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
 
@@ -163,39 +151,32 @@ namespace NadekoBot.Modules
                 rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content);
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 return null;
             }
         }
 
-        private MangaResult GetMangaQueryResultLink(string query)
-        {
-            try
-            {
+        private MangaResult GetMangaQueryResultLink(string query) {
+            try {
                 RefreshToken();
 
                 var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
-                rq = new RestSharp.RestRequest("/manga/search/"+Uri.EscapeUriString(query));
+                rq = new RestSharp.RestRequest("/manga/search/" + Uri.EscapeUriString(query));
                 rq.AddParameter("access_token", token);
-                
+
                 var smallObj = JArray.Parse(cl.Execute(rq).Content)[0];
 
                 rq = new RestSharp.RestRequest("manga/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
-                return JsonConvert.DeserializeObject<MangaResult> (cl.Execute(rq).Content);
-            }
-            catch (Exception ex)
-            {
+                return JsonConvert.DeserializeObject<MangaResult>(cl.Execute(rq).Content);
+            } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
                 return null;
             }
         }
 
-        private void RefreshToken()
-        {
+        private void RefreshToken() {
             var cl = new RestSharp.RestClient("http://anilist.co/api");
             var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
             rq.AddParameter("grant_type", "client_credentials");
@@ -211,9 +192,8 @@ namespace NadekoBot.Modules
             token = JObject.Parse(exec.Content)["access_token"].ToString();
         }
 
-        private static async Task<bool> ValidateQuery(Discord.Channel ch,string query) {
-            if (string.IsNullOrEmpty(query.Trim()))
-            {
+        private static async Task<bool> ValidateQuery(Discord.Channel ch, string query) {
+            if (string.IsNullOrEmpty(query.Trim())) {
                 await ch.Send("Please specify search parameters.");
                 return false;
             }
@@ -226,6 +206,14 @@ namespace NadekoBot.Modules
                 return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
             try {
+                //maybe it is already a youtube url, in which case we will just extract the id and prepend it with youtube.com?v=
+                var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(v);
+                if (match.Length > 1) {
+                    string str = $"http://www.youtube.com?v={ match.Groups["id"].Value }";
+                    return str;
+                }
+
+
                 WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
 
                 var sr = new StreamReader(wr.GetResponse().GetResponseStream());
@@ -233,7 +221,8 @@ namespace NadekoBot.Modules
                 dynamic obj = JObject.Parse(sr.ReadToEnd());
                 string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
                 return toReturn;
-            } catch (Exception) {
+            } catch (Exception ex) {
+                Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
                 return string.Empty;
             }
         }
@@ -245,7 +234,7 @@ namespace NadekoBot.Modules
                 if (tag == "loli") //loli doesn't work for some reason atm
                     tag = "flat_chest";
 
-                var webpage = MakeRequestAndGetResponse($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ","_") }");
+                var webpage = MakeRequestAndGetResponse($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ", "_") }");
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
                 return $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
@@ -270,30 +259,25 @@ namespace NadekoBot.Modules
             }
         }
 
-        public static string ShortenUrl(string url)
-        {
+        public static string ShortenUrl(string url) {
             if (NadekoBot.GoogleAPIKey == null || NadekoBot.GoogleAPIKey == "") return url;
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.GoogleAPIKey);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream())) {
                 string json = "{\"longUrl\":\"" + url + "\"}";
                 streamWriter.Write(json);
             }
-            try
-            {
+            try {
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream())) {
                     var responseText = streamReader.ReadToEnd();
                     string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
                     return Regex.Match(responseText, MATCH_PATTERN).Groups["id"].Value;
                 }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); return ""; }
+            } catch (Exception ex) { Console.WriteLine(ex.ToString()); return ""; }
         }
     }
 }
