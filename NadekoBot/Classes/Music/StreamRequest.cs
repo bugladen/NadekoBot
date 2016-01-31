@@ -69,7 +69,7 @@ namespace NadekoBot.Classes.Music {
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
 
-                Title = video.Title.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                Title = video.Title; //.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
             } catch (Exception ex) {
                 privateState = StreamState.Completed;
                 if (OnResolvingFailed != null)
