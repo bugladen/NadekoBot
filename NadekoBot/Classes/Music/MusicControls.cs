@@ -26,16 +26,13 @@ namespace NadekoBot.Classes.Music {
         public MusicControls() {
             Task.Run(async () => {
                 while (!Stopped) {
-                    lock (_voiceLock) {
-                        if (CurrentSong == null) {
-                            if (SongQueue.Count > 0)
-                                LoadNextSong().Wait();
+                    if (CurrentSong == null) {
+                        if (SongQueue.Count > 0)
+                            await LoadNextSong();
 
-                        } else if (CurrentSong.State == StreamState.Completed || NextSong) {
-                            NextSong = false;
-                            LoadNextSong().Wait();
-                        }
-
+                    } else if (CurrentSong.State == StreamState.Completed || NextSong) {
+                        NextSong = false;
+                        await LoadNextSong();
                     }
                     await Task.Delay(1000);
                 }
@@ -71,18 +68,16 @@ namespace NadekoBot.Classes.Music {
         }
 
         internal void Stop() {
-            lock (_voiceLock) {
-                Stopped = true;
-                foreach (var kvp in SongQueue) {
-                    if (kvp != null)
-                        kvp.Stop();
-                }
-                SongQueue.Clear();
-                CurrentSong?.Stop();
-                CurrentSong = null;
-                VoiceClient?.Disconnect();
-                VoiceClient = null;
+            Stopped = true;
+            foreach (var kvp in SongQueue) {
+                if (kvp != null)
+                    kvp.Stop();
             }
+            SongQueue.Clear();
+            CurrentSong?.Stop();
+            CurrentSong = null;
+            VoiceClient?.Disconnect();
+            VoiceClient = null;
         }
 
         internal bool TogglePause() => IsPaused = !IsPaused;
