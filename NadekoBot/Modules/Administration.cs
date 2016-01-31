@@ -13,8 +13,8 @@ using System.IO;
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
-           // commands.Add(new HelpCommand());
-           // commands.Add(new ServerGreetCommand());
+            commands.Add(new HelpCommand());
+            commands.Add(new ServerGreetCommand());
         }
 
         public override void Install(ModuleManager manager) {
