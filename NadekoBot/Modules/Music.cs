@@ -16,7 +16,7 @@ namespace NadekoBot.Modules {
         internal static string GetMusicStats() {
             var stats = musicPlayers.Where(kvp => kvp.Value?.SongQueue.Count > 0 || kvp.Value?.CurrentSong != null);
             int cnt;
-            return $"Playing {cnt = stats.Count()} songs".SnPl(cnt)+$", {stats.Sum(kvp => kvp.Value?.SongQueue?.Count ?? 0)} queued.";
+            return $"Playing {cnt = stats.Count()} songs".SnPl(cnt) + $", {stats.Sum(kvp => kvp.Value?.SongQueue?.Count ?? 0)} queued.";
         }
 
         public Music() : base() {
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules {
                         player.SongQueue.Shuffle();
                         await e.Send(":musical_note: Songs shuffled!");
                     });
-                bool setgameEnabled = false;
+                bool setgameEnabled = true;
                 Timer setgameTimer = new Timer();
                 setgameTimer.Interval = 20000;
                 setgameTimer.Elapsed += (s, e) => {
@@ -172,7 +172,7 @@ namespace NadekoBot.Modules {
                 setgameTimer.Start();
                 cgb.CreateCommand("setgame")
                     .Description("Sets the game of the bot to the number of songs playing.**Owner only**")
-                    .Do(e => {
+                    .Do(async e => {
                         if (NadekoBot.OwnerID != e.User.Id)
                             return;
                         setgameEnabled = !setgameEnabled;
@@ -180,6 +180,8 @@ namespace NadekoBot.Modules {
                             setgameTimer.Start();
                         else
                             setgameTimer.Stop();
+
+                        await e.Send("Music status " + (setgameEnabled ? "enabled" : "disabled"));
                     });
             });
         }
