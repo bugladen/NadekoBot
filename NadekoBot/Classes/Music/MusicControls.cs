@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.Commands;
+using MusicModule = NadekoBot.Modules.Music;
 
 namespace NadekoBot.Classes.Music {
     public class MusicControls {
+        private CommandEventArgs _e;
         public bool NextSong = false;
         public IAudioClient Voice;
 
@@ -17,7 +19,7 @@ namespace NadekoBot.Classes.Music {
         public bool IsPaused { get; internal set; } = false;
         public bool Stopped { get; private set; }
 
-        public Channel VoiceChannel;
+        public Channel VoiceChannel = null;
 
         public IAudioClient VoiceClient = null;
 
@@ -34,13 +36,16 @@ namespace NadekoBot.Classes.Music {
                         NextSong = false;
                         await LoadNextSong();
                     }
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                 }
             });
         }
 
-        public MusicControls(Channel voiceChannel) : this() {
+        public MusicControls(Channel voiceChannel, CommandEventArgs e) : this() {
+            if (voiceChannel == null)
+                throw new ArgumentNullException(nameof(voiceChannel));
             VoiceChannel = voiceChannel;
+            _e = e;
         }
 
         public async Task LoadNextSong() {
@@ -56,14 +61,13 @@ namespace NadekoBot.Classes.Music {
             }
 
             try {
-                if (VoiceChannel == null)
-                    VoiceChannel = CurrentSong.Channel;
                 if (VoiceClient == null)
                     VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
                 await CurrentSong.Start();
             } catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
+                CurrentSong = null;
             }
         }
 
@@ -78,6 +82,9 @@ namespace NadekoBot.Classes.Music {
             CurrentSong = null;
             VoiceClient?.Disconnect();
             VoiceClient = null;
+
+            MusicControls throwAwayValue;
+            MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
         }
 
         internal bool TogglePause() => IsPaused = !IsPaused;

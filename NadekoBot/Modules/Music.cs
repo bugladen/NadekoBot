@@ -55,10 +55,7 @@ namespace NadekoBot.Modules {
                     .Description("Completely stops the music and unbinds the bot from the channel and cleanes up files.")
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
-                        var player = musicPlayers[e.Server];
-                        MusicControls throwAwayValue;
-                        musicPlayers.TryRemove(e.Server, out throwAwayValue);
-                        player.Stop();
+                        musicPlayers[e.Server].Stop();
                     });
 
                 cgb.CreateCommand("p")
@@ -77,13 +74,16 @@ namespace NadekoBot.Modules {
                     .Description("Queue a song using keywords or link. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => {
-
+                        if (e.User.VoiceChannel?.Server != e.Server) {
+                            await e.Send(":anger: You need to be in the voice channel on this server.");
+                            return;
+                        }
                         if (musicPlayers.ContainsKey(e.Server) == false)
-                            if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel))) {
+                            if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e))) {
                                 await e.Send("Failed to create a music player for this server");
                                 return;
                             }
-                        if (e.GetArg("query") == null || e.GetArg("query").Length < 5)
+                        if (e.GetArg("query") == null || e.GetArg("query").Length < 4)
                             return;
 
                         var player = musicPlayers[e.Server];
@@ -93,8 +93,7 @@ namespace NadekoBot.Modules {
                         }
 
                         try {
-                            if (e.User.VoiceChannel?.Server != e.Server)
-                                throw new ArgumentException("You need to be in the voice channel on this server.");
+
                             Message qmsg = await e.Channel.SendMessage(":musical_note: **Searching...**");
 
                             var sr = new StreamRequest(e, e.GetArg("query"), player);
@@ -112,6 +111,11 @@ namespace NadekoBot.Modules {
                                 await qmsg.Edit($":musical_note:**Queued** {sr.Title.TrimTo(55)}");
                             };
                             sr.OnCompleted += async () => {
+                                MusicControls mc;
+                                if (musicPlayers.TryGetValue(e.Server, out mc)) {
+                                    if (mc.SongQueue.Count == 0)
+                                        mc.Stop();
+                                }
                                 await e.Send($":musical_note:**Finished playing** {sr.Title.TrimTo(55)}");
                             };
                             sr.OnStarted += async () => {
@@ -170,7 +174,7 @@ namespace NadekoBot.Modules {
                 Timer setgameTimer = new Timer();
                 setgameTimer.Interval = 20000;
                 setgameTimer.Elapsed += (s, e) => {
-                    int num = musicPlayers.Where(kvp=>kvp.Value.CurrentSong != null).Count();
+                    int num = musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
                     NadekoBot.client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.SongQueue.Count())} queued");
                 };
                 cgb.CreateCommand("setgame")
@@ -185,6 +189,14 @@ namespace NadekoBot.Modules {
                             setgameTimer.Stop();
 
                         await e.Send("Music status " + (setgameEnabled ? "enabled" : "disabled"));
+                    });
+
+                cgb.CreateCommand("debug")
+                    .Description("Writes some music data to console. **BOT OWNER ONLY**")
+                    .Do(e => {
+                        var output = "SERVER_NAME---SERVER_ID-----USERCOUNT----QUEUED\n" +
+                            string.Join("\n", musicPlayers.Select(kvp => kvp.Key.Name + "--" + kvp.Key.Id + " --" + kvp.Key.Users.Count() + "--" + kvp.Value.SongQueue.Count));
+                        Console.WriteLine(output);
                     });
             });
         }

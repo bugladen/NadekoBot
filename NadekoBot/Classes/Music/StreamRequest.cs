@@ -24,7 +24,6 @@ namespace NadekoBot.Classes.Music {
     }
 
     public class StreamRequest {
-        public Channel Channel { get; }
         public Server Server { get; }
         public User User { get; }
         public string Query { get; }
@@ -48,7 +47,6 @@ namespace NadekoBot.Classes.Music {
             this.Server = e.Server;
             this.Query = query;
             Task.Run(() => ResolveStreamLink());
-            Console.WriteLine("6");
             mc.SongQueue.Add(this);
         }
 
@@ -76,7 +74,7 @@ namespace NadekoBot.Classes.Music {
                 return;
             }
 
-            musicStreamer = new MusicStreamer(this, video.DownloadUrl, Channel);
+            musicStreamer = new MusicStreamer(this, video.DownloadUrl);
             if (OnQueued != null)
                 OnQueued();
             return;
@@ -126,7 +124,6 @@ namespace NadekoBot.Classes.Music {
     }
 
     public class MusicStreamer {
-        private Channel channel;
         private DualStream buffer;
 
         public StreamState State { get; internal set; }
@@ -138,9 +135,8 @@ namespace NadekoBot.Classes.Music {
         private readonly object _bufferLock = new object();
         private bool prebufferingComplete = false;
 
-        public MusicStreamer(StreamRequest parent, string directUrl, Channel channel) {
+        public MusicStreamer(StreamRequest parent, string directUrl) {
             this.parent = parent;
-            this.channel = channel;
             this.buffer = new DualStream();
             this.Url = directUrl;
             Console.WriteLine("Created new streamer");
@@ -206,7 +202,7 @@ namespace NadekoBot.Classes.Music {
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 1024);
                 //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
-                    if (attempt == 2) {
+                    if (attempt == 5) {
                         try {
                             p.CancelOutputRead();
                             p.Close();
@@ -216,7 +212,7 @@ namespace NadekoBot.Classes.Music {
                         return;
                     } else {
                         ++attempt;
-                        await Task.Delay(10);
+                        await Task.Delay(20);
                     }
                 } else {
                     attempt = 0;
@@ -296,9 +292,8 @@ namespace NadekoBot.Classes.Music {
         internal void Stop() {
             Console.WriteLine("Stopping playback");
             if (State != StreamState.Completed) {
-                if(State == StreamState.Playing)
-                    parent.OnCompleted();
                 State = StreamState.Completed;
+                parent.OnCompleted();
             }
         }
     }

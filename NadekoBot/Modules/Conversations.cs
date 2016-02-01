@@ -186,6 +186,16 @@ namespace NadekoBot.Modules {
                         await e.Send(u.Mention + praises[r.Next(0, praises.Count)]);
                     });
 
+                cgb.CreateCommand("pat")
+                  .Description("Pat someone ^_^")
+                  .Parameter("user", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var user = e.GetArg("user");
+                      if (user == null || e.Message.MentionedUsers.Count() == 0) return;
+
+                      await e.Send($"{e.Message.MentionedUsers.First().Mention} http://i.imgur.com/eOJlnwP.gif");
+                  });
+
                 cgb.CreateCommand("are you real")
                     .Description("Useless.")
                     .Do(async e => {
