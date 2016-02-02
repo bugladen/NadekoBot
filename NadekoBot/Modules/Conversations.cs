@@ -199,6 +199,16 @@ namespace NadekoBot.Modules {
                       await e.Send($"{e.Message.MentionedUsers.First().Mention} {pats[new Random().Next(0, pats.Length)]}");
                   });
 
+                cgb.CreateCommand("cry")
+                  .Description("Tell Nadeko to cry. You are a heartless monster if you use this command.")
+                  .Do(async e => {
+                      string[] pats = new string[] { "http://i.imgur.com/Xg3i1Qy.gif",
+                                                     "http://i.imgur.com/3K8DRrU.gif",
+                                                     "http://i.imgur.com/k58BcAv.gif",
+                                                     "http://i.imgur.com/I2fLXwo.gif" };
+                      await e.Send($"(•̥́ _•ૅ｡)\n{pats[new Random().Next(0, pats.Length)]}");
+                  });
+
                 cgb.CreateCommand("are you real")
                     .Description("Useless.")
                     .Do(async e => {

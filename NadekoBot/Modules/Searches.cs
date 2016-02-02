@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules {
     class Searches : DiscordModule {
@@ -125,6 +126,12 @@ namespace NadekoBot.Modules {
                             tag = "";
                         await e.Send(GetGelbooruImageLink(tag));
                     });
+                cgb.CreateCommand("~cp")
+                    .Description("We all know where this will lead you to.")
+                    .Parameter("anything", ParameterType.Unparsed)
+                    .Do(async e => {
+                        await e.Send("http://i.imgur.com/MZkY1md.jpg");
+                    });
                 cgb.CreateCommand("lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
@@ -229,6 +236,47 @@ namespace NadekoBot.Modules {
                 return string.Empty;
             }
         }
+
+        public static string GetPlaylistIdByKeyword(string v) {
+            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+                Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
+                return string.Empty;
+            }
+            try {
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={Uri.EscapeDataString(v)}&type=playlist&key={NadekoBot.creds.GoogleAPIKey}");
+
+                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+
+                dynamic obj = JObject.Parse(sr.ReadToEnd());
+                string toReturn = obj.items[0].id.playlistId.ToString();
+                return toReturn;
+            } catch (Exception ex) {
+                Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        public static List<string> GetVideoIDs(string v) {
+            List<string> toReturn = new List<string>();
+            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+                Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
+                return toReturn;
+            }
+            try {
+                
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={25}&playlistId=PL8lZieNFgOdmrNGTqwjqYJpJ_2nw_O_M2&key={ NadekoBot.creds.GoogleAPIKey }");
+
+                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+
+                dynamic obj = JObject.Parse(sr.ReadToEnd());
+                toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.playlistId.ToString();
+                return toReturn;
+            } catch (Exception ex) {
+                Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
+                return new List<string>();
+            }
+        }
+
 
         public string GetDanbooruImageLink(string tag) {
             try {
