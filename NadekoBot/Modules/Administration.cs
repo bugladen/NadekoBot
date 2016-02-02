@@ -480,8 +480,8 @@ namespace NadekoBot.Modules {
                     .Parameter("ch", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
-                        commsChannel = commsServer?.FindChannels(e.GetArg("ch")).FirstOrDefault();
-                        if (commsServer != null) {
+                        commsChannel = commsServer?.FindChannels(e.GetArg("ch"), ChannelType.Text).FirstOrDefault();
+                        if (commsChannel != null) {
                             commsUser = null;
                             await e.Send("Server for comms set.");
                         } else
@@ -493,14 +493,12 @@ namespace NadekoBot.Modules {
                     .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
-                        try {
-                            if (commsUser != null)
-                                await commsUser.SendMessage(e.GetArg("msg"));
-                            else if (commsChannel != null)
-                                await commsChannel.SendMessage(e.GetArg("msg"));
-                        } catch (Exception) {
-                            await e.Send("Sending failed.");
-                        }
+                        if (commsUser != null)
+                            await commsUser.SendMessage(e.GetArg("msg"));
+                        else if (commsChannel != null)
+                            await commsChannel.SendMessage(e.GetArg("msg"));
+                        else
+                            await e.Send("Failed. Make sure you've specified server and [channel or user]");
                     });
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
