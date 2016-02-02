@@ -113,6 +113,14 @@ namespace NadekoBot {
                         return;
                 }
 
+                client.ClientAPI.SendingRequest += (s, e) =>
+                {
+                    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                    if (request != null) {
+                        if (string.IsNullOrWhiteSpace(request.Content))
+                            e.Cancel = true;
+                    }
+                };
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
