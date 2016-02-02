@@ -136,14 +136,17 @@
   <ItemGroup>
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
+    <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\SParser.cs" />
+    <Compile Include="Classes\Trivia\TriviaGame.cs" />
+    <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
+    <Compile Include="Classes\Trivia\TriviaQuestionPool.cs" />
     <Compile Include="Commands\RequestsCommand.cs" />
     <Compile Include="Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />
     <Compile Include="Classes\_JSONModels.cs" />
     <Compile Include="Classes\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\Trivia.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Commands\DiceRollCommand.cs" />
     <Compile Include="Commands\DiscordCommand.cs" />

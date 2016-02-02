@@ -89,8 +89,6 @@ namespace NadekoBot.Classes.Music {
         public Action OnResolving = null;
         public Action<string> OnResolvingFailed = null;
 
-        //todo maybe add remove, in order to create remove at position command
-
         internal void Cancel() {
             musicStreamer?.Cancel();
         }
@@ -149,8 +147,7 @@ namespace NadekoBot.Classes.Music {
             $"Server: {parent.Server.Name}\n" +
             $"Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State}\n" +
             "--------------------------------\n";
-
-        //todo app will crash if song is too long, should load only next 20-ish seconds
+        
         private async Task BufferSong() {
             Console.WriteLine("Buffering...");
             //start feeding the buffer

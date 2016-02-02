@@ -10,7 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using Parse;
 
-namespace NadekoBot { 
+namespace NadekoBot.Commands { 
 
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
@@ -23,7 +23,6 @@ namespace NadekoBot {
         }
     }
 
-    //todo add leniency and stuff
     public class TypingGame {
         public static float WORD_VALUE { get; } = 4.5f;
         private Channel channel;

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Modules;
 using NadekoBot.Extensions;
-
+using NadekoBot.Commands;
+//🃏
+//🏁
 namespace NadekoBot.Modules
 {
     class Games : DiscordModule
