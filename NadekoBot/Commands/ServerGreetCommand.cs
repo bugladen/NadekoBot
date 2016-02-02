@@ -49,8 +49,10 @@ namespace NadekoBot.Commands {
             var controls = AnnouncementsDictionary[e.Server.Id];
             var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
             if (channel == null) return;
-
-            await channel.Send(controls.ByeText.Replace("%user%", e.User.Mention));
+            var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
+            if (msg == null || msg == "")
+                return;
+            await channel.Send(msg);
         }
 
         private async void UserJoined(object sender, Discord.UserEventArgs e) {
@@ -61,7 +63,10 @@ namespace NadekoBot.Commands {
             var channel = NadekoBot.client.GetChannel(controls.GreetChannel);
             if (channel == null) return;
 
-            await channel.Send(controls.GreetText.Replace("%user%", e.User.Mention));
+            var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
+            if (msg == null || msg == "")
+                return;
+            await channel.Send(msg);
         }
 
         public class AnnounceControls {
