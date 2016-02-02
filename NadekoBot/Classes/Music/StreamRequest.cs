@@ -12,7 +12,7 @@ using System.Diagnostics;
 using NadekoBot.Extensions;
 using System.Threading;
 using Timer = System.Timers.Timer;
-using YoutubeExtractor;
+using VideoLibrary;
 
 namespace NadekoBot.Classes.Music {
     public enum StreamState {
@@ -51,14 +51,14 @@ namespace NadekoBot.Classes.Music {
         }
 
         private void ResolveStreamLink() {
-            VideoInfo video = null;
+            Video video = null;
             try {
                 if (OnResolving != null)
                     OnResolving();
                 Console.WriteLine("Resolving video link");
 
-                video = DownloadUrlResolver.GetDownloadUrls(Searches.FindYoutubeUrlByKeywords(Query))
-                        .Where(v => v.AdaptiveType == AdaptiveType.Audio)
+                video = YouTube.Default.GetAllVideos(Searches.FindYoutubeUrlByKeywords(Query))
+                        .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
                         .OrderByDescending(v => v.AudioBitrate)
                         .FirstOrDefault();
 
@@ -74,7 +74,7 @@ namespace NadekoBot.Classes.Music {
                 return;
             }
 
-            musicStreamer = new MusicStreamer(this, video.DownloadUrl);
+            musicStreamer = new MusicStreamer(this, video.Uri);
             if (OnQueued != null)
                 OnQueued();
             return;
