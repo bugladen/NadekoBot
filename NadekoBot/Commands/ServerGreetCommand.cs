@@ -50,7 +50,7 @@ namespace NadekoBot.Commands {
             var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
             if (channel == null) return;
             var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
-            if (msg == null || msg == "")
+            if (string.IsNullOrEmpty(msg))
                 return;
             await channel.Send(msg);
         }
@@ -64,7 +64,7 @@ namespace NadekoBot.Commands {
             if (channel == null) return;
 
             var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
-            if (msg == null || msg == "")
+            if (string.IsNullOrEmpty(msg))
                 return;
             await channel.Send(msg);
         }
