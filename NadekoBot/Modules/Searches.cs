@@ -12,13 +12,16 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Modules {
     class Searches : DiscordModule {
         public Searches() : base() {
-
+            // commands.Add(new OsuCommands());
         }
 
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
 
             manager.CreateCommands("", cgb => {
+
+                commands.ForEach(cmd => cmd.Init(cgb));
+
                 cgb.CreateCommand("~yt")
                     .Parameter("query", Discord.Commands.ParameterType.Unparsed)
                     .Description("Queries youtubes and embeds the first result")

@@ -20,44 +20,48 @@ namespace NadekoBot {
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
+        public static Credentials creds;
 
         static void Main() {
             //load credentials from credentials.json
-            Credentials c;
             bool loadTrello = false;
             try {
-                c = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
-                botMention = c.BotMention;
-                if (c.GoogleAPIKey == null || c.GoogleAPIKey == "") {
+                creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
+                botMention = creds.BotMention;
+                if (string.IsNullOrWhiteSpace(creds.GoogleAPIKey)) {
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
                 } else {
                     Console.WriteLine("Google API key provided.");
-                    GoogleAPIKey = c.GoogleAPIKey;
+                    GoogleAPIKey = creds.GoogleAPIKey;
                 }
-                if (c.TrelloAppKey == null || c.TrelloAppKey == "") {
+                if (string.IsNullOrWhiteSpace(creds.TrelloAppKey)) {
                     Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
                 } else {
                     Console.WriteLine("Trello app key provided.");
-                    TrelloAppKey = c.TrelloAppKey;
+                    TrelloAppKey = creds.TrelloAppKey;
                     loadTrello = true;
                 }
-                if (c.ForwardMessages != true)
+                if (creds.ForwardMessages != true)
                     Console.WriteLine("Not forwarding messages.");
                 else {
                     ForwardMessages = true;
                     Console.WriteLine("Forwarding messages.");
                 }
-                if (c.ParseKey == null || c.ParseID == null || c.ParseID == "" || c.ParseKey == "") {
+                if (string.IsNullOrWhiteSpace(creds.ParseID) || string.IsNullOrWhiteSpace(creds.ParseKey)) {
                     Console.WriteLine("Parse key and/or ID not found. Those are mandatory.");
                     Console.ReadKey();
                     return;
                 }
+                if(string.IsNullOrWhiteSpace(creds.OsuApiKey))
+                    Console.WriteLine("No osu API key found. Osu functionality is disabled.");
+                else
+                    Console.WriteLine("Osu enabled.");
 
                 //init parse
-                ParseClient.Initialize(c.ParseID, c.ParseKey);
+                ParseClient.Initialize(creds.ParseID, creds.ParseKey);
 
-                OwnerID = c.OwnerID;
-                password = c.Password;
+                OwnerID = creds.OwnerID;
+                password = creds.Password;
             } catch (Exception ex) {
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
                 Console.ReadKey();
@@ -103,7 +107,7 @@ namespace NadekoBot {
 
             //run the bot
             client.ExecuteAndWait(async () => {
-                await client.Connect(c.Username, c.Password);
+                await client.Connect(creds.Username, creds.Password);
                 Console.WriteLine("-----------------");
                 Console.WriteLine(NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");

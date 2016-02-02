@@ -192,8 +192,11 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       var user = e.GetArg("user");
                       if (user == null || e.Message.MentionedUsers.Count() == 0) return;
-
-                      await e.Send($"{e.Message.MentionedUsers.First().Mention} http://i.imgur.com/eOJlnwP.gif");
+                      string[] pats = new string[] { "http://i.imgur.com/IiQwK12.gif",
+                                                     "http://i.imgur.com/JCXj8yD.gif",
+                                                     "http://i.imgur.com/qqBl2bm.gif",
+                                                     "http://i.imgur.com/eOJlnwP.gif" };
+                      await e.Send($"{e.Message.MentionedUsers.First().Mention} {pats[new Random().Next(0, pats.Length)]}");
                   });
 
                 cgb.CreateCommand("are you real")
@@ -341,7 +344,7 @@ namespace NadekoBot.Modules {
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e => {
-                        await e.Send("Calling " + e.Args[0] + "...");
+                        await e.Send("Calling " + e.Args[0].Replace("@everyone","[everyone]") + "...");
                     });
                 cgb.CreateCommand("hide")
                     .Description("Hides nadeko in plain sight!11!!")

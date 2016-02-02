@@ -448,17 +448,19 @@ namespace NadekoBot.Modules {
 
                 Server commsServer = null;
                 User commsUser = null;
+                Channel commsChannel = null;
 
                 cgb.CreateCommand(".commsuser")
-                    .Description("Sets a user for through-bot communication. Only works if server is set.**Owner only**.")
+                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.")
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
                         commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                        if (commsUser != null)
+                        if (commsUser != null) {
+                            commsChannel = null;
                             await e.Send("User for comms set.");
-                        else
-                            await e.Send("No such user.");
+                        } else
+                            await e.Send("No server specified or user.");
                     });
 
                 cgb.CreateCommand(".commsserver")
@@ -473,13 +475,29 @@ namespace NadekoBot.Modules {
                             await e.Send("No such server.");
                     });
 
+                cgb.CreateCommand(".commschannel")
+                    .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser.**Owner only**.")
+                    .Parameter("ch", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID) return;
+                        commsChannel = commsServer?.FindChannels(e.GetArg("ch")).FirstOrDefault();
+                        if (commsServer != null) {
+                            commsUser = null;
+                            await e.Send("Server for comms set.");
+                        } else
+                            await e.Send("No server specified or channel is invalid.");
+                    });
+
                 cgb.CreateCommand(".send")
                     .Description("Send a message to someone on a different server through the bot.**Owner only.**\n **Usage**: .send Message text multi word!")
                     .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
                         try {
-                            await commsUser.SendMessage(e.GetArg("msg"));
+                            if (commsUser != null)
+                                await commsUser.SendMessage(e.GetArg("msg"));
+                            else if (commsChannel != null)
+                                await commsChannel.SendMessage(e.GetArg("msg"));
                         } catch (Exception) {
                             await e.Send("Sending failed.");
                         }

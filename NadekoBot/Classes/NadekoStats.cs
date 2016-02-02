@@ -12,7 +12,7 @@ namespace NadekoBot
 {
     public class NadekoStats
     {
-        public string BotVersion = "0.8-beta4.2";
+        public string BotVersion = "0.8-beta5";
 
         private static readonly NadekoStats _instance = new NadekoStats();
         public static NadekoStats Instance => _instance;
@@ -57,8 +57,9 @@ namespace NadekoBot
             $"\n`Servers: {_client.Servers.Count()}`" +
             $"\n`Channels: {_client.Servers.Sum(s => s.AllChannels.Count())}`" +
             //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-            //$"\nHeap: {Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString()}MB" +
-            $"\n`Commands Ran this session: {_commandsRan}`";
+            $"\n`Heap: {Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString()} MB`" +
+            $"\n`Commands Ran this session: {_commandsRan}`" +
+            $"\n`Greeted/Byed {Commands.ServerGreetCommand.Greeted} times.`";
         }
 
         public string GetStats() {

@@ -28,6 +28,8 @@ namespace NadekoBot.Commands {
 
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
+        public static long Greeted = 0;
+
         public ServerGreetCommand() : base() {
             AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
@@ -52,6 +54,7 @@ namespace NadekoBot.Commands {
             var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
             if (string.IsNullOrEmpty(msg))
                 return;
+            Greeted++;
             await channel.Send(msg);
         }
 
@@ -66,6 +69,7 @@ namespace NadekoBot.Commands {
             var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
             if (string.IsNullOrEmpty(msg))
                 return;
+            Greeted++;
             await channel.Send(msg);
         }
 

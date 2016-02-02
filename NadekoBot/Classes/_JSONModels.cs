@@ -11,6 +11,7 @@
         public string ParseKey;
         public string TrelloAppKey;
         public bool? ForwardMessages;
+        public string OsuApiKey;
     }
     public class AnimeResult
     {
