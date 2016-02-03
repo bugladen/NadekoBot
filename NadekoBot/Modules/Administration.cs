@@ -505,16 +505,16 @@ namespace NadekoBot.Modules {
                             await e.Send("Failed. Make sure you've specified server and [channel or user]");
                     });
 
-                cgb.CreateCommand(".menrol")
+                cgb.CreateCommand(".menrole")
                     .Alias(".mentionrole")
                   .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.")
                   .Parameter("roles", ParameterType.Unparsed)
                   .Do(async e => {
                       if (!e.User.ServerPermissions.MentionEveryone) return;
-                      var arg = e.GetArg("roles");
+                      var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
                       string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
-                      foreach (var roleStr in e.Args) {
-                          if (roleStr == null) continue;
+                      foreach (var roleStr in arg) {
+                          if (string.IsNullOrWhiteSpace(roleStr)) continue;
                           var role = e.Server.FindRoles(roleStr).FirstOrDefault();
                           if (role == null) continue;
                           send += $"\n`{role.Name}`\n";
