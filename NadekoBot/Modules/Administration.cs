@@ -145,7 +145,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".roles")
                   .Description("List all roles on this server")
                   .Do(async e => {
-                      await e.Send("`List of roles:` " + string.Join(",",e.Server.Roles));
+                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone","[everyone]"));
                   });
 
                 cgb.CreateCommand(".b").Alias(".ban")
@@ -512,21 +512,21 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       if (!e.User.ServerPermissions.MentionEveryone) return;
                       var arg = e.GetArg("roles");
-                      string send = $"{e.User.Mention} has invoked a mention on the following roles:\n";
+                      string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
                       foreach (var roleStr in e.Args) {
                           if (roleStr == null) continue;
                           var role = e.Server.FindRoles(roleStr).FirstOrDefault();
                           if (role == null) continue;
-                          send += $"`{role.Name}`";
-                          send += string.Join(", ", role.Members.Select(r => r.Name));
+                          send += $"\n`{role.Name}`\n";
+                          send += string.Join(", ", role.Members.Select(r => r.Mention));
                       }
 
                       while (send.Length > 2000) {
                           var curstr = send.Substring(0, 2000);
-                          await e.User.Send(curstr.Substring(0, curstr.LastIndexOf(", ") + 1));
+                          await e.Channel.Send(curstr.Substring(0, curstr.LastIndexOf(", ") + 1));
                           send = curstr.Substring(curstr.LastIndexOf(", ") + 1) + send.Substring(2000);
                       }
-                      await e.User.Send(send);
+                      await e.Channel.Send(send);
                   });
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
