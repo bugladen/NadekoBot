@@ -61,8 +61,12 @@ namespace NadekoBot.Classes.Music {
             }
 
             try {
-                if (VoiceClient == null)
+                if (VoiceClient == null) {
+                    Console.WriteLine($"Joining voice channel [{DateTime.Now.Second}]");
+                    //todo add a new event, to tell people nadeko is trying to join
                     VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
+                    Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
+                }
                 await CurrentSong.Start();
             } catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");

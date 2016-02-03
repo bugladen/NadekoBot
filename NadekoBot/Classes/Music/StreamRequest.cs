@@ -156,6 +156,7 @@ namespace NadekoBot.Classes.Music {
                 Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
@@ -165,7 +166,7 @@ namespace NadekoBot.Classes.Music {
                 //wait for the read pos to catch up with write pos
                 while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
                     prebufferingComplete = true;
-                    await Task.Delay(500);
+                    await Task.Delay(200);
                 }
 
                 if (State == StreamState.Completed) {
@@ -258,7 +259,7 @@ namespace NadekoBot.Classes.Music {
 
                 if (readCount == 0) {
                     if (attempt == 2) {
-                        Console.WriteLine($"Failed to read {attempt} times. Stopping playback.");
+                        Console.WriteLine($"Failed to read {attempt} times. Breaking out. [{DateTime.Now.Second}]");
                         break;
                     } else {
                         ++attempt;
@@ -287,7 +288,7 @@ namespace NadekoBot.Classes.Music {
         }
 
         internal void Stop() {
-            Console.WriteLine("Stopping playback");
+            Console.WriteLine($"Stopping playback [{DateTime.Now.Second}]");
             if (State != StreamState.Completed) {
                 State = StreamState.Completed;
                 parent.OnCompleted();

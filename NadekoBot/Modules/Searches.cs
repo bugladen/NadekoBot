@@ -269,7 +269,10 @@ namespace NadekoBot.Modules {
                 var sr = new StreamReader(wr.GetResponse().GetResponseStream());
 
                 dynamic obj = JObject.Parse(sr.ReadToEnd());
-                toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.playlistId.ToString();
+
+                foreach (var item in obj.items) {
+                    toReturn.Add("http://www.youtube.com/watch?v=" + item.id.contentDetails.videoId);
+                }
                 return toReturn;
             } catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");

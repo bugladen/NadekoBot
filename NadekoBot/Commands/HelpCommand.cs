@@ -55,7 +55,7 @@ namespace NadekoBot
         public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("-h")
-                .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h" })
+                .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h", "~h" })
                 .Description("Help command")
                 .Do(DoFunc());
             cgb.CreateCommand("-hgit")
