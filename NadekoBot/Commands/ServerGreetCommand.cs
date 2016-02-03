@@ -51,7 +51,7 @@ namespace NadekoBot.Commands {
             var controls = AnnouncementsDictionary[e.Server.Id];
             var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
             if (channel == null) return;
-            var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
+            var msg = controls.ByeText.Replace("%user%", e.User.Mention).Trim();
             if (string.IsNullOrEmpty(msg))
                 return;
             Greeted++;
