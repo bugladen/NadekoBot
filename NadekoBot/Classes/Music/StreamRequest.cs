@@ -258,12 +258,12 @@ namespace NadekoBot.Classes.Music {
                 }
 
                 if (readCount == 0) {
-                    if (attempt == 2) {
+                    if (attempt == 4) {
                         Console.WriteLine($"Failed to read {attempt} times. Breaking out. [{DateTime.Now.Second}]");
                         break;
                     } else {
                         ++attempt;
-                        await Task.Delay(10);
+                        await Task.Delay(15);
                     }
                 } else
                     attempt = 0;
