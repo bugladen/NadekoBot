@@ -53,21 +53,31 @@ namespace NadekoBot.Classes.Music {
         }
 
         private async void ResolveStreamLink() {
-            Video video = null;
+            string uri = null;
             try {
-                if (OnResolving != null)
-                    OnResolving();
-                var links = await Searches.FindYoutubeUrlByKeywords(Query);
-                var videos = await YouTube.Default.GetAllVideosAsync(links);
-                video = videos
-                            .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
-                            .OrderByDescending(v => v.AudioBitrate)
-                            .FirstOrDefault();
+                if (SoundCloud.Default.IsSoundCloudLink(Query)) {
 
-                if (video == null) // do something with this error
-                    throw new Exception("Could not load any video elements based on the query.");
+                    var svideo = await SoundCloud.Default.GetVideoAsync(Query);
+                    Title = svideo.FullName + " - SoundCloud";
+                    uri = svideo.StreamLink;
+                    Console.WriteLine(uri);
+                } else {
 
-                Title = video.Title; //.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                    if (OnResolving != null)
+                        OnResolving();
+                    var links = await Searches.FindYoutubeUrlByKeywords(Query);
+                    var videos = await YouTube.Default.GetAllVideosAsync(links);
+                    var video = videos
+                                .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                                .OrderByDescending(v => v.AudioBitrate)
+                                .FirstOrDefault();
+
+                    if (video == null) // do something with this error
+                        throw new Exception("Could not load any video elements based on the query.");
+
+                    Title = video.Title; //.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                    uri = video.Uri;
+                }
             } catch (Exception ex) {
                 privateState = StreamState.Completed;
                 if (OnResolvingFailed != null)
@@ -76,7 +86,7 @@ namespace NadekoBot.Classes.Music {
                 return;
             }
 
-            musicStreamer = new MusicStreamer(this, video.Uri);
+            musicStreamer = new MusicStreamer(this, uri);
             if (OnQueued != null)
                 OnQueued();
         }

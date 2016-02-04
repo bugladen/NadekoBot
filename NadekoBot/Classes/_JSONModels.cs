@@ -12,6 +12,7 @@
         public string TrelloAppKey;
         public bool? ForwardMessages;
         public string OsuApiKey;
+        public string SoundCloudClientID;
     }
     public class AnimeResult
     {

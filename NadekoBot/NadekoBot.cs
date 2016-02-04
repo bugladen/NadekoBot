@@ -56,6 +56,10 @@ namespace NadekoBot {
                     Console.WriteLine("No osu API key found. Osu functionality is disabled.");
                 else
                     Console.WriteLine("Osu enabled.");
+                if(string.IsNullOrWhiteSpace(creds.SoundCloudClientID))
+                    Console.WriteLine("No soundcloud Client ID found. Soundcloud streaming is disabled.");
+                else
+                    Console.WriteLine("SoundCloud streaming enabled.");
 
                 //init parse
                 ParseClient.Initialize(creds.ParseID, creds.ParseKey);

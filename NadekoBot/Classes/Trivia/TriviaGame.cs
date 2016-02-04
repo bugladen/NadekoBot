@@ -28,7 +28,7 @@ namespace NadekoBot.Classes.Trivia {
         public bool GameActive { get; private set; } = false;
         public bool ShouldStopGame { get; private set; }
 
-        public int WinRequirement { get; } = 3;
+        public int WinRequirement { get; } = 10;
 
         public TriviaGame(CommandEventArgs e) {
             _server = e.Server;

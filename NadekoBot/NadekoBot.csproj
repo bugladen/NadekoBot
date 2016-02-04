@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
+    <Compile Include="Classes\Music\SoundCloud.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\SParser.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
