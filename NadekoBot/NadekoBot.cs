@@ -21,6 +21,7 @@ namespace NadekoBot {
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
         public static Credentials creds;
+        public static bool ParseActive = false;
 
         static void Main() {
             //load credentials from credentials.json
@@ -49,9 +50,9 @@ namespace NadekoBot {
                 }
                 if (string.IsNullOrWhiteSpace(creds.ParseID) || string.IsNullOrWhiteSpace(creds.ParseKey)) {
                     Console.WriteLine("Parse key and/or ID not found. Those are mandatory.");
-                    Console.ReadKey();
-                    return;
-                }
+                    ParseActive = false;
+                } else ParseActive = true;
+
                 if(string.IsNullOrWhiteSpace(creds.OsuApiKey))
                     Console.WriteLine("No osu API key found. Osu functionality is disabled.");
                 else

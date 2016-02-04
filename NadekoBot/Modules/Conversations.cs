@@ -20,7 +20,10 @@ namespace NadekoBot.Modules {
         private string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
         public Conversations() : base() {
             commands.Add(new CopyCommand());
-            commands.Add(new RequestsCommand());
+            if(NadekoBot.ParseActive)
+                commands.Add(new RequestsCommand());
+            else
+                Console.WriteLine("Requests don't work, parse not valid.");
         }
 
         public override void Install(ModuleManager manager) {

@@ -35,7 +35,7 @@ namespace NadekoBot
             _statsSW = new Stopwatch();
             _statsSW.Start();
             _service.CommandExecuted += StatsCollector_RanCommand;
-            
+                
             StartCollecting();
             Console.WriteLine("Logging enabled.");
         }
@@ -72,31 +72,40 @@ namespace NadekoBot
 
         private async Task StartCollecting() {
             while (true) {
-                var obj = new ParseObject("Stats");
-                obj["OnlineUsers"] = NadekoBot.client.Servers.Sum(x => x.Users.Count());
-                obj["ConnectedServers"] = NadekoBot.client.Servers.Count();
-
-                obj.SaveAsync();
                 await Task.Delay(new TimeSpan(1, 0, 0));
+                try {
+                    var obj = new ParseObject("Stats");
+                    obj["OnlineUsers"] = await Task.Run(() => NadekoBot.client.Servers.Sum(x => x.Users.Count()));
+                    obj["ConnectedServers"] = NadekoBot.client.Servers.Count();
+
+                    await obj.SaveAsync();
+                } catch (Exception) {
+                    Console.WriteLine("Parse exception in StartCollecting");
+                    break;
+                }
             }
         }
         //todo - batch save this
         private void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
-            _commandsRan++;
-            var obj = new ParseObject("CommandsRan");
+            try {
+                _commandsRan++;
+                var obj = new ParseObject("CommandsRan");
 
-            obj["ServerId"] = e.Server.Id;
-            obj["ServerName"] = e.Server.Name;
+                obj["ServerId"] = e.Server.Id;
+                obj["ServerName"] = e.Server.Name;
 
-            obj["ChannelId"] = e.Channel.Id;
-            obj["ChannelName"] = e.Channel.Name;
+                obj["ChannelId"] = e.Channel.Id;
+                obj["ChannelName"] = e.Channel.Name;
 
-            obj["UserId"] = e.User.Id;
-            obj["UserName"] = e.User.Name;
+                obj["UserId"] = e.User.Id;
+                obj["UserName"] = e.User.Name;
 
-            obj["CommandName"] = e.Command.Text;
-            obj.SaveAsync();
+                obj["CommandName"] = e.Command.Text;
+                obj.SaveAsync();
+            } catch (Exception) {
+                Console.WriteLine("Parse error in ran command.");
+            }
         }
     }
 }

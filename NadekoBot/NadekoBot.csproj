@@ -138,7 +138,6 @@
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\Music\SoundCloud.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
-    <Compile Include="Classes\SParser.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestionPool.cs" />

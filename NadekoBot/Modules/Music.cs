@@ -59,7 +59,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using keywords or link. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
+                    .Description("Queue a song using keywords or link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => await QueueSong(e,e.GetArg("query")));
 

@@ -14,7 +14,10 @@ namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
             commands.Add(new HelpCommand());
-            commands.Add(new ServerGreetCommand());
+            if(NadekoBot.ParseActive)
+                commands.Add(new ServerGreetCommand());
+            else
+                Console.WriteLine("Parse not active. Server greet disabled.");
         }
 
         public override void Install(ModuleManager manager) {

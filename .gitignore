@@ -25,6 +25,7 @@ obj/
 !**/Bin/Debug/WebSocket4Net.dll
 !**/Bin/Debug/data/*
 !**/Bin/Debug/data/
+Tests/
 
 # NuGet Packages
 *.nupkg
