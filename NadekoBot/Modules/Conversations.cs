@@ -266,44 +266,6 @@ namespace NadekoBot.Modules {
                             await e.Send("Invalid code.");
                         }
                     });
-
-                cgb.CreateCommand("save")
-                    .Description("Saves something for the owner in a file.")
-                    .Parameter("all", ParameterType.Unparsed)
-                    .Do(async e => {
-                        if (e.User.Id == NadekoBot.OwnerID) {
-                            string m = "";
-                            try {
-                                FileStream f = File.OpenWrite("saves.txt");
-                                m = e.Args[0];
-                                byte[] b = Encoding.ASCII.GetBytes(m + "\n");
-                                f.Seek(f.Length, SeekOrigin.Begin);
-                                f.Write(b, 0, b.Length);
-                                f.Close();
-                            } catch (Exception) {
-                                await e.Send("Error saving. Sorry :(");
-                            }
-                            if (m.Length > 0)
-                                await e.Send("I saved this for you: " + Environment.NewLine + "```" + m + "```");
-                            else
-                                await e.Send("No point in saving empty message...");
-                        } else await e.Send("Not for you, only my Master <3");
-                    });
-
-                cgb.CreateCommand("ls")
-                    .Description("Shows all saved items.")
-                    .Do(async e => {
-                        FileStream f = File.OpenRead("saves.txt");
-                        if (f.Length == 0) {
-                            await e.Send("Saves are empty.");
-                            return;
-                        }
-                        byte[] b = new byte[f.Length / sizeof(byte)];
-                        f.Read(b, 0, b.Length);
-                        f.Close();
-                        string str = Encoding.ASCII.GetString(b);
-                        await e.User.Send("```" + (str.Length < 1950 ? str : str.Substring(0, 1950)) + "```");
-                    });
                 cgb.CreateCommand("slm")
                     .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
                     .Do(async e => {
@@ -330,12 +292,6 @@ namespace NadekoBot.Modules {
                             await e.Send($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText.Replace("@everyone", "@everryone")}");
                         else
                             await e.Send("I can't find a message mentioning you.");
-                    });
-                cgb.CreateCommand("cs")
-                    .Description("Deletes all saves")
-                    .Do(async e => {
-                        File.Delete("saves.txt");
-                        await e.Send("Cleared all saves.");
                     });
 
                 cgb.CreateCommand("bb")
@@ -416,8 +372,7 @@ namespace NadekoBot.Modules {
                             await e.Send("Invalid user specified.");
                             return;
                         }
-                        string av = usr.AvatarUrl;
-                        await e.Send(Searches.ShortenUrl(av));
+                        await e.Send(await usr.AvatarUrl.ShortenUrl());
                     });
 
                 //TODO add eval

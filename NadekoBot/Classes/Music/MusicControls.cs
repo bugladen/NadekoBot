@@ -15,6 +15,7 @@ namespace NadekoBot.Classes.Music {
         public bool Pause = false;
         public List<StreamRequest> SongQueue = new List<StreamRequest>();
         public StreamRequest CurrentSong = null;
+        public float Volume { get; set; } = 1.0f;
 
         public bool IsPaused { get; internal set; } = false;
         public bool Stopped { get; private set; }
@@ -67,7 +68,7 @@ namespace NadekoBot.Classes.Music {
                     VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
                     Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
                 }
-                await CurrentSong.Start();
+                await Task.Factory.StartNew(async () => await CurrentSong.Start(), TaskCreationOptions.LongRunning).Unwrap();
             } catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
@@ -77,10 +78,6 @@ namespace NadekoBot.Classes.Music {
 
         internal void Stop() {
             Stopped = true;
-            foreach (var kvp in SongQueue) {
-                if (kvp != null)
-                    kvp.Stop();
-            }
             SongQueue.Clear();
             CurrentSong?.Stop();
             CurrentSong = null;
@@ -89,6 +86,14 @@ namespace NadekoBot.Classes.Music {
 
             MusicControls throwAwayValue;
             MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
+        }
+
+        public void SetVolume(int value) {
+            if (value < 0)
+                value = 0;
+            if (value > 150)
+                value = 150;
+            this.Volume = value/100f;
         }
 
         internal bool TogglePause() => IsPaused = !IsPaused;

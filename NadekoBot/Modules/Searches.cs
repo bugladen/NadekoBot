@@ -24,12 +24,12 @@ namespace NadekoBot.Modules {
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("~yt")
-                    .Parameter("query", Discord.Commands.ParameterType.Unparsed)
-                    .Description("Queries youtubes and embeds the first result")
+                    .Parameter("query", ParameterType.Unparsed)
+                    .Description("Searches youtubes and shows the first result")
                     .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
-                        var str = ShortenUrl(FindYoutubeUrlByKeywords(e.GetArg("query")));
+                        var str = await ShortenUrl(await FindYoutubeUrlByKeywords(e.GetArg("query")));
                         if (string.IsNullOrEmpty(str.Trim())) {
                             await e.Send("Query failed");
                             return;
@@ -39,12 +39,12 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("~ani")
                     .Alias("~anime").Alias("~aq")
-                    .Parameter("query", Discord.Commands.ParameterType.Unparsed)
+                    .Parameter("query", ParameterType.Unparsed)
                     .Description("Queries anilist for an anime and shows the first result.")
                     .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
-                        var result = GetAnimeQueryResultLink(e.GetArg("query"));
+                        var result = await GetAnimeQueryResultLink(e.GetArg("query"));
                         if (result == null) {
                             await e.Send("Failed to find that anime.");
                             return;
@@ -55,12 +55,12 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("~mang")
                     .Alias("~manga").Alias("~mq")
-                    .Parameter("query", Discord.Commands.ParameterType.Unparsed)
+                    .Parameter("query", ParameterType.Unparsed)
                     .Description("Queries anilist for a manga and shows the first result.")
                     .Do(async e => {
                         if (!(await ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
-                        var result = GetMangaQueryResultLink(e.GetArg("query"));
+                        var result = await GetMangaQueryResultLink(e.GetArg("query"));
                         if (result == null) {
                             await e.Send("Failed to find that anime.");
                             return;
@@ -105,8 +105,8 @@ namespace NadekoBot.Modules {
                         string tag = e.GetArg("tag");
                         if (tag == null)
                             tag = "";
-                        await e.Send(":heart: Gelbooru: " + GetGelbooruImageLink(tag));
-                        await e.Send(":heart: Danbooru: " + GetDanbooruImageLink(tag));
+                        await e.Send(":heart: Gelbooru: " + await GetGelbooruImageLink(tag));
+                        await e.Send(":heart: Danbooru: " + await GetDanbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~danbooru")
                     .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules {
                         string tag = e.GetArg("tag");
                         if (tag == null)
                             tag = "";
-                        await e.Send(GetDanbooruImageLink(tag));
+                        await e.Send(await GetDanbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~gelbooru")
                     .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules {
                         string tag = e.GetArg("tag");
                         if (tag == null)
                             tag = "";
-                        await e.Send(GetGelbooruImageLink(tag));
+                        await e.Send(await GetGelbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~cp")
                     .Description("We all know where this will lead you to.")
@@ -137,21 +137,21 @@ namespace NadekoBot.Modules {
                     .Parameter("ffs", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
-                        await e.Send($"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
+                        await e.Send(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
                     });
             });
         }
 
-        public static string MakeRequestAndGetResponse(string v) =>
-            new StreamReader(((HttpWebRequest)WebRequest.Create(v)).GetResponse().GetResponseStream()).ReadToEnd();
+        public static async Task<string> GetResponseAsync(string v) =>
+            await new StreamReader((await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
 
         private string token = "";
-        private AnimeResult GetAnimeQueryResultLink(string query) {
+        private async Task<AnimeResult> GetAnimeQueryResultLink(string query) {
             try {
                 var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
 
-                RefreshToken();
+                RefreshAnilistToken();
 
                 rq = new RestSharp.RestRequest("/anime/search/" + Uri.EscapeUriString(query));
                 rq.AddParameter("access_token", token);
@@ -160,15 +160,15 @@ namespace NadekoBot.Modules {
 
                 rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
-                return JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content);
+                return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content));
             } catch (Exception) {
                 return null;
             }
         }
-
-        private MangaResult GetMangaQueryResultLink(string query) {
+        //todo kick out RestSharp and make it truly async
+        private async Task<MangaResult> GetMangaQueryResultLink(string query) {
             try {
-                RefreshToken();
+                RefreshAnilistToken();
 
                 var cl = new RestSharp.RestClient("http://anilist.co/api");
                 var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
@@ -179,27 +179,31 @@ namespace NadekoBot.Modules {
 
                 rq = new RestSharp.RestRequest("manga/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
-                return JsonConvert.DeserializeObject<MangaResult>(cl.Execute(rq).Content);
+                return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(cl.Execute(rq).Content));
             } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
                 return null;
             }
         }
 
-        private void RefreshToken() {
-            var cl = new RestSharp.RestClient("http://anilist.co/api");
-            var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
-            rq.AddParameter("grant_type", "client_credentials");
-            rq.AddParameter("client_id", "kwoth-w0ki9");
-            rq.AddParameter("client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z");
-            var exec = cl.Execute(rq);
-            /*
-            Console.WriteLine($"Server gave me content: { exec.Content }\n{ exec.ResponseStatus } -> {exec.ErrorMessage} ");
-            Console.WriteLine($"Err exception: {exec.ErrorException}");
-            Console.WriteLine($"Inner: {exec.ErrorException.InnerException}");
-            */
+        private void RefreshAnilistToken() {
+            try {
+                var cl = new RestSharp.RestClient("http://anilist.co/api");
+                var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
+                rq.AddParameter("grant_type", "client_credentials");
+                rq.AddParameter("client_id", "kwoth-w0ki9");
+                rq.AddParameter("client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z");
+                var exec = cl.Execute(rq);
+                /*
+                Console.WriteLine($"Server gave me content: { exec.Content }\n{ exec.ResponseStatus } -> {exec.ErrorMessage} ");
+                Console.WriteLine($"Err exception: {exec.ErrorException}");
+                Console.WriteLine($"Inner: {exec.ErrorException.InnerException}");
+                */
 
-            token = JObject.Parse(exec.Content)["access_token"].ToString();
+                token = JObject.Parse(exec.Content)["access_token"].ToString();
+            } catch (Exception ex) {
+                Console.WriteLine($"Failed refreshing anilist token:\n {ex}");
+            }
         }
 
         private static async Task<bool> ValidateQuery(Discord.Channel ch, string query) {
@@ -210,7 +214,7 @@ namespace NadekoBot.Modules {
             return true;
         }
 
-        public static string FindYoutubeUrlByKeywords(string v) {
+        public static async Task<string> FindYoutubeUrlByKeywords(string v) {
             if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
@@ -223,21 +227,19 @@ namespace NadekoBot.Modules {
                     return str;
                 }
 
-
                 WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
 
-                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+                var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
 
-                dynamic obj = JObject.Parse(sr.ReadToEnd());
-                string toReturn = "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
-                return toReturn;
+                dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
+                return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
             } catch (Exception ex) {
                 Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
                 return string.Empty;
             }
         }
 
-        public static string GetPlaylistIdByKeyword(string v) {
+        public static async Task<string> GetPlaylistIdByKeyword(string v) {
             if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return string.Empty;
@@ -245,33 +247,32 @@ namespace NadekoBot.Modules {
             try {
                 WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={Uri.EscapeDataString(v)}&type=playlist&key={NadekoBot.creds.GoogleAPIKey}");
 
-                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+                var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
 
-                dynamic obj = JObject.Parse(sr.ReadToEnd());
-                string toReturn = obj.items[0].id.playlistId.ToString();
-                return toReturn;
+                dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
+                return obj.items[0].id.playlistId.ToString();
             } catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
                 return string.Empty;
             }
         }
 
-        public static List<string> GetVideoIDs(string v) {
+        public static async Task<List<string>> GetVideoIDs(string v) {
             List<string> toReturn = new List<string>();
             if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return toReturn;
             }
             try {
-                
-                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={25}&playlistId=PL8lZieNFgOdmrNGTqwjqYJpJ_2nw_O_M2&key={ NadekoBot.creds.GoogleAPIKey }");
 
-                var sr = new StreamReader(wr.GetResponse().GetResponseStream());
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={25}&playlistId={v}&key={ NadekoBot.creds.GoogleAPIKey }");
 
-                dynamic obj = JObject.Parse(sr.ReadToEnd());
+                var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
+
+                dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
 
                 foreach (var item in obj.items) {
-                    toReturn.Add("http://www.youtube.com/watch?v=" + item.id.contentDetails.videoId);
+                    toReturn.Add("http://www.youtube.com/watch?v=" + item.contentDetails.videoId);
                 }
                 return toReturn;
             } catch (Exception ex) {
@@ -281,30 +282,30 @@ namespace NadekoBot.Modules {
         }
 
 
-        public string GetDanbooruImageLink(string tag) {
+        public async Task<string> GetDanbooruImageLink(string tag) {
             try {
                 var rng = new Random();
 
                 if (tag == "loli") //loli doesn't work for some reason atm
                     tag = "flat_chest";
 
-                var webpage = MakeRequestAndGetResponse($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ", "_") }");
+                var webpage = await GetResponseAsync($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ", "_") }");
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
-                return $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
+                return await $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
             } catch (Exception) {
                 return null;
             }
         }
 
-        public string GetGelbooruImageLink(string tag) {
+        public async Task<string> GetGelbooruImageLink(string tag) {
             try {
                 var rng = new Random();
                 var url = $"http://gelbooru.com/index.php?page=post&s=list&pid={ rng.Next(0, 15) * 42 }&tags={ tag.Replace(" ", "_") }";
-                var webpage = MakeRequestAndGetResponse(url); // first extract the post id and go to that posts page
+                var webpage = await GetResponseAsync(url); // first extract the post id and go to that posts page
                 var matches = Regex.Matches(webpage, "span id=\"s(?<id>\\d*)\"");
                 var postLink = $"http://gelbooru.com/index.php?page=post&s=view&id={ matches[rng.Next(0, matches.Count)].Groups["id"].Value }";
-                webpage = MakeRequestAndGetResponse(postLink);
+                webpage = await GetResponseAsync(postLink);
                 //now extract the image from post page
                 var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
                 return match.Groups["url"].Value;
@@ -313,21 +314,21 @@ namespace NadekoBot.Modules {
             }
         }
 
-        public static string ShortenUrl(string url) {
+        public static async Task<string> ShortenUrl(string url) {
             if (NadekoBot.GoogleAPIKey == null || NadekoBot.GoogleAPIKey == "") return url;
-
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.GoogleAPIKey);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream())) {
-                string json = "{\"longUrl\":\"" + url + "\"}";
-                streamWriter.Write(json);
-            }
             try {
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.GoogleAPIKey);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync())) {
+                    string json = "{\"longUrl\":\"" + url + "\"}";
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (await httpWebRequest.GetResponseAsync()) as HttpWebResponse;
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream())) {
-                    var responseText = streamReader.ReadToEnd();
+                    string responseText = await streamReader.ReadToEndAsync();
                     string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
                     return Regex.Match(responseText, MATCH_PATTERN).Groups["id"].Value;
                 }

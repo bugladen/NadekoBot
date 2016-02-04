@@ -29,7 +29,6 @@ namespace NadekoBot.Extensions {
 
                 if (letters[i] != ' ')
                     letters[i] = '_';
-
             }
             return "`"+string.Join(" ", letters)+"`";
         }
@@ -153,7 +152,7 @@ namespace NadekoBot.Extensions {
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static string ShortenUrl(this string str) => Searches.ShortenUrl(str);
+        public static async Task<string> ShortenUrl(this string str) => await Searches.ShortenUrl(str);
 
         /// <summary>
         /// Gets the program runtime

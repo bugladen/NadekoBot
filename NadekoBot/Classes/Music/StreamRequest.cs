@@ -36,6 +36,8 @@ namespace NadekoBot.Classes.Music {
 
         public bool IsPaused => MusicControls.IsPaused;
 
+        public float Volume => MusicControls?.Volume ?? 1.0f;
+
         public MusicControls MusicControls;
 
         public StreamRequest(CommandEventArgs e, string query, MusicControls mc) {
@@ -50,17 +52,17 @@ namespace NadekoBot.Classes.Music {
             mc.SongQueue.Add(this);
         }
 
-        private void ResolveStreamLink() {
+        private async void ResolveStreamLink() {
             Video video = null;
             try {
                 if (OnResolving != null)
                     OnResolving();
-                Console.WriteLine("Resolving video link");
-
-                video = YouTube.Default.GetAllVideos(Searches.FindYoutubeUrlByKeywords(Query))
-                        .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
-                        .OrderByDescending(v => v.AudioBitrate)
-                        .FirstOrDefault();
+                var links = await Searches.FindYoutubeUrlByKeywords(Query);
+                var videos = await YouTube.Default.GetAllVideosAsync(links);
+                video = videos
+                            .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
+                            .OrderByDescending(v => v.AudioBitrate)
+                            .FirstOrDefault();
 
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
@@ -77,7 +79,6 @@ namespace NadekoBot.Classes.Music {
             musicStreamer = new MusicStreamer(this, video.Uri);
             if (OnQueued != null)
                 OnQueued();
-            return;
         }
 
         internal string PrintStats() => musicStreamer?.Stats();
@@ -98,14 +99,11 @@ namespace NadekoBot.Classes.Music {
         }
 
         internal async Task Start() {
-            Console.WriteLine("Start called.");
-
             int attemptsLeft = 4;
             //wait for up to 4 seconds to resolve a link
             try {
                 while (State == StreamState.Resolving) {
                     await Task.Delay(1000);
-                    Console.WriteLine("Resolving...");
                     if (--attemptsLeft == 0) {
                         throw new TimeoutException("Resolving timed out.");
                     }
@@ -137,7 +135,6 @@ namespace NadekoBot.Classes.Music {
             this.parent = parent;
             this.buffer = new DualStream();
             this.Url = directUrl;
-            Console.WriteLine("Created new streamer");
             State = StreamState.Queued;
         }
 
@@ -149,7 +146,6 @@ namespace NadekoBot.Classes.Music {
             "--------------------------------\n";
         
         private async Task BufferSong() {
-            Console.WriteLine("Buffering...");
             //start feeding the buffer
             var p = Process.Start(new ProcessStartInfo {
                 FileName = "ffmpeg",
@@ -162,11 +158,11 @@ namespace NadekoBot.Classes.Music {
             });
             int attempt = 0;
             while (true) {
-
+                int magickBuffer = 1;
                 //wait for the read pos to catch up with write pos
-                while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
+                while (buffer.writePos - buffer.readPos > 1.MB() && State != StreamState.Completed) {
                     prebufferingComplete = true;
-                    await Task.Delay(200);
+                    await Task.Delay(150);
                 }
 
                 if (State == StreamState.Completed) {
@@ -178,10 +174,8 @@ namespace NadekoBot.Classes.Music {
                     return;
                 }
 
-                if (buffer.readPos > 5.MiB()) { // if buffer is over 5 MiB, create new one
-                    Console.WriteLine("Buffer over 5 megs, clearing.");
-
-                    var skip = 5.MB(); //remove only 5 MB, just in case
+                if (buffer.readPos > 1.MiB() && buffer.writePos > 1.MiB()) { // if buffer is over 5 MiB, create new one
+                    var skip = 1.MB(); //remove only 5 MB, just in case
                     var newBuffer = new DualStream();
 
                     lock (_bufferLock) {
@@ -225,7 +219,10 @@ namespace NadekoBot.Classes.Music {
             State = StreamState.Playing;
             if (parent.OnBuffering != null)
                 parent.OnBuffering();
-            BufferSong();
+
+            Task.Factory.StartNew(async () => {
+                await BufferSong();
+            }, TaskCreationOptions.LongRunning).ConfigureAwait(false);
 
             // prebuffering wait stuff start
             int bufferAttempts = 0;
@@ -253,6 +250,8 @@ namespace NadekoBot.Classes.Music {
             int attempt = 0;
             while (!IsCanceled) {
                 int readCount = 0;
+                //adjust volume
+                
                 lock (_bufferLock) {
                     readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
                 }
@@ -272,7 +271,7 @@ namespace NadekoBot.Classes.Music {
                     Console.WriteLine("Canceled");
                     break;
                 }
-
+                voiceBuffer = adjustVolume(voiceBuffer, parent.Volume);
                 parent.MusicControls.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
 
                 while (IsPaused) {
@@ -288,11 +287,36 @@ namespace NadekoBot.Classes.Music {
         }
 
         internal void Stop() {
-            Console.WriteLine($"Stopping playback [{DateTime.Now.Second}]");
-            if (State != StreamState.Completed) {
-                State = StreamState.Completed;
-                parent.OnCompleted();
+            if (State == StreamState.Completed) return;
+            var oldState = State;
+            State = StreamState.Completed;
+            if (oldState == StreamState.Playing)
+                if (parent.OnCompleted != null)
+                    parent.OnCompleted();
+        }
+        //stackoverflow ftw
+        private byte[] adjustVolume(byte[] audioSamples, float volume) {
+            if (volume == 1.0f)
+                return audioSamples;
+            byte[] array = new byte[audioSamples.Length];
+            for (int i = 0; i < array.Length; i += 2) {
+
+                // convert byte pair to int
+                short buf1 = audioSamples[i + 1];
+                short buf2 = audioSamples[i];
+
+                buf1 = (short)((buf1 & 0xff) << 8);
+                buf2 = (short)(buf2 & 0xff);
+
+                short res = (short)(buf1 | buf2);
+                res = (short)(res * volume);
+
+                // convert back
+                array[i] = (byte)res;
+                array[i + 1] = (byte)(res >> 8);
+
             }
+            return array;
         }
     }
 
