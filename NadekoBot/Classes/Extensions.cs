@@ -76,6 +76,8 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Send(this MessageEventArgs e, string message)
         {
+            if (string.IsNullOrWhiteSpace(message))
+                return;
             await e.Channel.SendMessage(message);
         }
 

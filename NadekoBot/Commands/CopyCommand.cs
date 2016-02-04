@@ -19,6 +19,8 @@ namespace NadekoBot
 
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(e.Message.Text))
+                return;
             if (CopiedUsers.Contains(e.User.Id)) {
                 await e.Send( e.Message.Text.Replace("@everyone","@everryone"));
             }
