@@ -68,8 +68,7 @@ Command and aliases | Description | Usage
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name, and color. |  .r AwesomeRole Orange
-`.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 color value provided.
-**Usage*: .color Admin 255 200 100 or .color Admin ffba55
+`.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 color value provided. | **Usage*: .color Admin 255 200 100 or .color Admin ffba55
 `.roles`  |  List all roles on this server
 `.b`, `.ban`  |  Bans a mentioned user
 `.ub`, `.unban`  |  Unbans a mentioned user
@@ -98,8 +97,7 @@ Command and aliases | Description | Usage
 `.commsserver`  |  Sets a server for through-bot communication.**Owner only**.
 `.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser.**Owner only**.
 `.send`  |  Send a message to someone on a different server through the bot.**Owner only.**
-  |  .send Message text multi word!
-`.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.
+`.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a comma) on this server. Requires you to have mention @everyone permission.
 
 ### Conversations  
 Command and aliases | Description | Usage
