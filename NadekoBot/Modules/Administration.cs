@@ -415,14 +415,10 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".clr")
                     .Description("Clears some of nadeko's messages from the current channel.")
                     .Do(async e => {
-                        try {
-                            await e.Channel.DownloadMessages(100);
+                            var msgs = await e.Channel.DownloadMessages(100);
 
-                            e.Channel.Messages.Where(msg => msg.User.Id == client.CurrentUser.Id).ForEach(async m => await m.Delete());
-
-                        } catch (Exception) {
-                            await e.Send("I cant do it :(");
-                        }
+                            msgs.Where(msg => msg.User.Id == client.CurrentUser.Id)
+                                .ForEach(async m => { try { await m.Delete(); } catch (Exception) { } });
                     });
                 cgb.CreateCommand(".newname")
                     .Description("Give the bot a new name.")

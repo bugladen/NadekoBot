@@ -52,22 +52,31 @@ Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands   
-(may be incomplete) last updated: 22.1.2016
+(may be incomplete) last updated: 5.2.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`-h`, `-help`, `@BotName help`, `@BotName h`  |  Help command
+`-h`, `-help`, `@BotName help`, `@BotName h`, `~h`  |  Help command
 `-hgit`  |  Help command stylized for github readme
+`.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
+`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
+`.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
+`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name, and color. |  .r AwesomeRole Orange
-`.color`, `.c`  |  Set a role's color to the rgb(0-255 0-255 0-255) color value provided. |  .color Admin 255 255 255
+`.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 color value provided. | **Usage*: .color Admin 255 200 100 or .color Admin ffba55
+`.roles`  |  List all roles on this server
 `.b`, `.ban`  |  Bans a mentioned user
 `.ub`, `.unban`  |  Unbans a mentioned user
 `.k`, `.kick`  |  Kicks a mentioned user.
+`.mute`  |  Mutes mentioned user or users
+`.unmute`  |  Unmutes mentioned user or users
+`.deafen`, `.deaf`  |  Deafens mentioned user or users
+`.undeafen`, `.undeaf`  |  Undeafens mentioned user or users
 `.rvch`  |  Removes a voice channel with a given name.
 `.vch`, `.cvch`  |  Creates a new voice channel with a given name.
 `.rch`, `.rtch`  |  Removes a text channel with a given name.
@@ -79,19 +88,16 @@ Command and aliases | Description | Usage
 `.stats`  |  Shows some basic stats for nadeko
 `.leaveall`  |  Nadeko leaves all servers
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 50
-`.die`  |  Works only for the owner. Shuts the bot down.
+`.die`, `.graceful`  |  Works only for the owner. Shuts the bot down and notifies users about the restart.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`  |  Give the bot a new name.
-`.setgame`  |  Sets the bot's game.**Owner only**.
-`.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
-`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
-`.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
-`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
+`.setgame`  |  Sets the bots game.
 `.checkmyperms`  |  Checks your userspecific permissions on this channel.
-`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set.**Owner only**.
+`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.
 `.commsserver`  |  Sets a server for through-bot communication.**Owner only**.
+`.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser.**Owner only**.
 `.send`  |  Send a message to someone on a different server through the bot.**Owner only.**
-  |  .send Message text multi word!
+`.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a comma) on this server. Requires you to have mention @everyone permission.
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -100,6 +106,10 @@ Command and aliases | Description | Usage
 `/o/`  |  Nadeko replies with \o\
 `@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
 `@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
+`@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
+`@BotName lr`  |  PMs the user all current nadeko requests.
+`@BotName dr`  |  Deletes a request. Only owner is able to do this.
+`@BotName rr`  |  Resolves a request. Only owner is able to do this.
 `@BotName uptime`  |  Shows how long is Nadeko running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName randserver`  |  Generates an invite to a random server and prints some stats.
@@ -107,33 +117,32 @@ Command and aliases | Description | Usage
 `@BotName how are you`  |  Replies positive only if bot owner is online.
 `@BotName insult`  |  Only works for owner. Insults @X person. |  @NadekoBot insult @X.
 `@BotName praise`  |  Only works for owner. Praises @X person. |  @NadekoBot praise @X.
+`@BotName pat`  |  Pat someone ^_^
+`@BotName cry`  |  Tell Nadeko to cry. You are a heartless monster if you use this command.
 `@BotName are you real`  |  Useless.
 `@BotName are you there`, `@BotName !`, `@BotName ?`  |  Checks if nadeko is operational.
 `@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
-`@BotName rip`  |  Shows a grave image.Optional parameter [@X] instructs her to put X's name on the grave. |  @NadekoBot rip [@X]
+`@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
 `@BotName j`  |  Joins a server using a code.
-`@BotName save`  |  Saves something for the owner in a file.
-`@BotName ls`  |  Shows all saved items.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
-`@BotName cs`  |  Deletes all saves
 `@BotName bb`  |  Says bye to someone.  |  @NadekoBot bb @X
-`@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
-`@BotName lr`  |  PMs the user all current nadeko requests.
-`@BotName dr`  |  Deletes a request. Only owner is able to do this.
-`@BotName rr`  |  Resolves a request. Only owner is able to do this.
 `@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
 `@BotName hide`  |  Hides nadeko in plain sight!11!!
 `@BotName unhide`  |  Unhides nadeko in plain sight!1!!1
-`@BotName dump`  |  Dumps all of the invites it can to dump.txt
+`@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
+`@BotName ab`  |  Try to get 'abalabahaha'
 `@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar.  |  ~av @X
 
 ### Gambling  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `$draw`  |  Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. |  $draw [x]
-`$flip`  |  Flips a coin, heads or tails, and shows an image of it.
+`$shuffle`, `$reshuffle`  |  Reshuffles all cards back into the deck.
+`$flip`  |  Flips coin(s) - heads or tails, and shows an image. |  `$flip` or `$flip 3`
 `$roll`  |  Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice. |  $roll [x]
+`$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
+`$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
 
 ### Games  
 Command and aliases | Description | Usage
@@ -141,6 +150,9 @@ Command and aliases | Description | Usage
 `t`, `-t`  |  Starts a game of trivia.
 `tl`, `-tl`, `tlb`, `-tlb`  |  Shows a current trivia leaderboard.
 `tq`, `-tq`  |  Quits current trivia after current question.
+`typestart`  |  Starts a typing contest.
+`typestop`  |  Stops a typing contest on the current channel.
+`typeadd`  |  Adds a new article to the typing contest. Owner only.
 `>`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
 `poketype`  |  Gets the users element type. Use this to do more damage with strike
 
@@ -150,18 +162,30 @@ Command and aliases | Description | Usage
 `!m n`, `!m next`  |  Goes to the next song in the queue.
 `!m s`, `!m stop`  |  Completely stops the music and unbinds the bot from the channel and cleanes up files.
 `!m p`, `!m pause`  |  Pauses the song
-`!m q`, `!m yq`  |  Queue a song using keywords or link. **You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m np`, `!m playing`  |  Shows what song is playing.
+`!m q`, `!m yq`  |  Queue a song using keywords or link. Bot will join your voice channel. **You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
+`!m np`, `!m playing`  |  Shows the song currently playing.
+`!m vol`  |  Sets the music volume 0-150%
+`!m min`, `!m mute`  |  Sets the music volume to 0%
+`!m max`  |  Sets the music volume to 100% (real max is actually 150%).
+`!m half`  |  Sets the music volume to 50%.
 `!m sh`  |  Shuffles the current playlist.
+`!m setgame`  |  Sets the game of the bot to the number of songs playing.**Owner only**
+`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
+`!m debug`  |  Writes some music data to console. **BOT OWNER ONLY**
 
 ### Searches  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~yt`  |  Queries youtubes and embeds the first result
+`~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
 `~randomcat`  |  Shows a random cat image.
-`~i`, `img`  |  Pulls a first image using a search parameter. Does not work atm. |  @NadekoBot img Multiword_search_parameter
-`~ir`, `imgrandom`  |  Pulls a random image using a search parameter. Does not work atm. |  @NadekoBot img Multiword_search_parameter
+`~i`, `img`  |  Pulls a first image using a search parameter. |  @NadekoBot img Multiword_search_parameter
+`~ir`, `imgrandom`  |  Pulls a random image using a search parameter. |  @NadekoBot img Multiword_search_parameter
+`~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. |  ~hentai yuri
+`~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. |  ~hentai yuri
+`~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. |  ~hentai yuri
+`~cp`  |  We all know where this will lead you to.
 `lmgtfy`  |  Google something for an idiot.
+`~hs`  |  Searches for a Hearthstone card and shows its image.
