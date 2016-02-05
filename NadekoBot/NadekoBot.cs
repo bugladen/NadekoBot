@@ -63,7 +63,10 @@ namespace NadekoBot {
                     Console.WriteLine("SoundCloud streaming enabled.");
 
                 //init parse
-                ParseClient.Initialize(creds.ParseID, creds.ParseKey);
+                if (ParseActive)
+                    try {
+                        ParseClient.Initialize(creds.ParseID, creds.ParseKey);
+                    } catch (Exception) { Console.WriteLine("Parse exception. Probably wrong parse credentials."); }
 
                 OwnerID = creds.OwnerID;
                 password = creds.Password;
