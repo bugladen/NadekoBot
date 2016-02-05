@@ -377,7 +377,27 @@ namespace NadekoBot.Modules {
                         }
                         await e.Send(await usr.AvatarUrl.ShortenUrl());
                     });
+                /*
+                string saved = "";
+                cgb.CreateCommand("save")
+                  .Description("Saves up to 5 last messages as a quote")
+                  .Parameter("number", ParameterType.Required)
+                  .Do(e => {
+                      var arg = e.GetArg("number");
+                      int num;
+                      if (!int.TryParse(arg, out num) || num < 1 || num > 5)
+                          num = 1;
+                      saved = string.Join("\n", e.Channel.Messages.Skip(1).Take(num));
+                  });
 
+                cgb.CreateCommand("quote")
+                  .Description("Shows the previously saved quote")
+                  .Parameter("arg", ParameterType.Required)
+                  .Do(async e => {
+                      var arg = e.GetArg("arg");
+                      await e.Send("```"+saved+"```");
+                  });
+                  */
                 //TODO add eval
                 /*
                 cgb.CreateCommand(">")

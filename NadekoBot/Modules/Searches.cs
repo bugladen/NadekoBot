@@ -148,7 +148,10 @@ namespace NadekoBot.Modules {
                   .Parameter("name", ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("name");
-                      if (string.IsNullOrWhiteSpace(arg)) return;
+                      if (string.IsNullOrWhiteSpace(arg)) {
+                          await e.Send(":anger: Please enter a card name to search for.");
+                          return;
+                      }
                       var res = await GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}",
                           new Tuple<string, string>[] {
                               new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey),
@@ -159,6 +162,7 @@ namespace NadekoBot.Modules {
                           if (items == null)
                               throw new KeyNotFoundException("Cannot find a card by that name");
                           int cnt = 0;
+                          items.Shuffle();
                           foreach (var item in items) {
                               if (cnt >= 4)
                                   break;
