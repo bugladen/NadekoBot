@@ -9,12 +9,13 @@ using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using NadekoBot.Commands;
 using System.IO;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
             commands.Add(new HelpCommand());
-            if(NadekoBot.ParseActive)
+            if (NadekoBot.ParseActive)
                 commands.Add(new ServerGreetCommand());
             else
                 Console.WriteLine("Parse not active. Server greet disabled.");
@@ -148,7 +149,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".roles")
                   .Description("List all roles on this server")
                   .Do(async e => {
-                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone","[everyone]"));
+                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "[everyone]"));
                   });
 
                 cgb.CreateCommand(".b").Alias(".ban")
@@ -375,28 +376,37 @@ namespace NadekoBot.Modules {
                     });
 
 
+                ConcurrentDictionary<Server, bool> pruneDict = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
-
+                        if (pruneDict.ContainsKey(e.Server))
+                            return;
                         int num;
-
                         if (!Int32.TryParse(e.GetArg("num"), out num) || num < 1) {
                             await e.Send("Incorrect amount.");
                             return;
                         }
-                        try {
-                            Message last = null;
-                            while (num > 0) {
-                                var msgs = await e.Channel.DownloadMessages(num, last?.Id);
-                                last = msgs.LastOrDefault();
-                                msgs.ForEach(async m => await m.Delete());
-                                num -= 100;
-                            }
-                        } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
+                        pruneDict.TryAdd(e.Server, true);
+                        await Task.Factory.StartNew(async () => {
+                            try {
+                                Message last = null;
+                                while (num > 0) {
+                                    var msgs = await e.Channel.DownloadMessages(num, last?.Id);
+                                    last = msgs.LastOrDefault();
+                                    foreach (var m in msgs) {
+                                        await m.Delete();
+                                        await Task.Delay(500);
+                                    }
+                                    num -= 100;
+                                }
+                            } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
+                        }, TaskCreationOptions.LongRunning);
 
+                        bool throwAway;
+                        pruneDict.TryRemove(e.Server, out throwAway);
                     });
 
                 cgb.CreateCommand(".die")
@@ -412,13 +422,25 @@ namespace NadekoBot.Modules {
                         }
                     });
 
+                ConcurrentDictionary<Server, bool> clearDictionary = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".clr")
                     .Description("Clears some of nadeko's messages from the current channel.")
                     .Do(async e => {
+                        try {
+                            if (clearDictionary.ContainsKey(e.Server))
+                                return;
+                            clearDictionary.TryAdd(e.Server, true);
                             var msgs = await e.Channel.DownloadMessages(100);
-
-                            msgs.Where(msg => msg.User.Id == client.CurrentUser.Id)
-                                .ForEach(async m => { try { await m.Delete(); } catch (Exception) { } });
+                            await Task.Run(async () => {
+                                var ms = msgs.Where(msg => msg.User.Id == client.CurrentUser.Id);
+                                foreach (var m in ms) {
+                                    try { await m.Delete(); } catch (Exception) { }
+                                    await Task.Delay(500);
+                                }
+                            });
+                        } catch (Exception) {}
+                        bool throwaway;
+                        clearDictionary.TryRemove(e.Server, out throwaway);
                     });
                 cgb.CreateCommand(".newname")
                     .Description("Give the bot a new name.")
@@ -506,27 +528,27 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".menrole")
                     .Alias(".mentionrole")
-                  .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.")
-                  .Parameter("roles", ParameterType.Unparsed)
-                  .Do(async e => {
-                      if (!e.User.ServerPermissions.MentionEveryone) return;
-                      var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
-                      string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
-                      foreach (var roleStr in arg) {
-                          if (string.IsNullOrWhiteSpace(roleStr)) continue;
-                          var role = e.Server.FindRoles(roleStr).FirstOrDefault();
-                          if (role == null) continue;
-                          send += $"\n`{role.Name}`\n";
-                          send += string.Join(", ", role.Members.Select(r => r.Mention));
-                      }
+                    .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.")
+                    .Parameter("roles", ParameterType.Unparsed)
+                    .Do(async e => {
+                        if (!e.User.ServerPermissions.MentionEveryone) return;
+                        var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
+                        string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
+                        foreach (var roleStr in arg) {
+                            if (string.IsNullOrWhiteSpace(roleStr)) continue;
+                            var role = e.Server.FindRoles(roleStr).FirstOrDefault();
+                            if (role == null) continue;
+                            send += $"\n`{role.Name}`\n";
+                            send += string.Join(", ", role.Members.Select(r => r.Mention));
+                        }
 
-                      while (send.Length > 2000) {
-                          var curstr = send.Substring(0, 2000);
-                          await e.Channel.Send(curstr.Substring(0, curstr.LastIndexOf(", ") + 1));
-                          send = curstr.Substring(curstr.LastIndexOf(", ") + 1) + send.Substring(2000);
-                      }
-                      await e.Channel.Send(send);
-                  });
+                        while (send.Length > 2000) {
+                            var curstr = send.Substring(0, 2000);
+                            await e.Channel.Send(curstr.Substring(0, curstr.LastIndexOf(", ") + 1));
+                            send = curstr.Substring(curstr.LastIndexOf(", ") + 1) + send.Substring(2000);
+                        }
+                        await e.Channel.Send(send);
+                    });
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
                 

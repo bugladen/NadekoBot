@@ -183,14 +183,14 @@ namespace NadekoBot.Modules {
                           await e.Send($":anger: Error {ex}");
                       }
                   });
-
+                /*
                 cgb.CreateCommand("~osu")
                   .Description("desc")
                   .Parameter("arg", ParameterType.Required)
                   .Do(async e => {
                       var arg = e.GetArg("arg");
-                      //make request to osu
-                      //print useful data
+                      var res = await GetResponseStream($"http://lemmmy.pw/osusig/sig.php?uname=kwoth&flagshadow&xpbar&xpbarhex&pp=2");
+                      await e.Channel.SendFile($"_{e.GetArg("arg")}.png", res);
                   });
 
                 cgb.CreateCommand("~osubind")
@@ -209,11 +209,21 @@ namespace NadekoBot.Modules {
                       //if exists save bind pair to parse.com
                       //if not valid error
                   });
+                  */
             });
         }
 
-        public static async Task<Stream> GetResponseStream(string v) =>
-            (await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream();
+        public static async Task<Stream> GetResponseStream(string v) {
+            var wr = (HttpWebRequest)WebRequest.Create(v);
+            try {
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                wr.UserAgent = @"Mozilla/5.0 (Windows NT 6.2; Win64; x64)";
+                return (await (wr).GetResponseAsync()).GetResponseStream();
+            } catch (Exception ex) {
+                Console.WriteLine("error in getresponse stream " + ex);
+                return null;
+            }
+        }
 
         public static async Task<string> GetResponseAsync(string v) =>
             await new StreamReader((await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
