@@ -136,6 +136,7 @@ namespace NadekoBot.Modules {
                         await e.Send("http://i.imgur.com/MZkY1md.jpg");
                     });
                 cgb.CreateCommand("lmgtfy")
+                    .Alias("~lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
                     .Do(async e => {
@@ -152,6 +153,7 @@ namespace NadekoBot.Modules {
                           await e.Send(":anger: Please enter a card name to search for.");
                           return;
                       }
+                      await e.Channel.SendIsTyping();
                       var res = await GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}",
                           new Tuple<string, string>[] {
                               new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey),
@@ -180,6 +182,32 @@ namespace NadekoBot.Modules {
                       } catch (Exception ex) {
                           await e.Send($":anger: Error {ex}");
                       }
+                  });
+
+                cgb.CreateCommand("~osu")
+                  .Description("desc")
+                  .Parameter("arg", ParameterType.Required)
+                  .Do(async e => {
+                      var arg = e.GetArg("arg");
+                      //make request to osu
+                      //print useful data
+                  });
+
+                cgb.CreateCommand("~osubind")
+                  .Description("Bind discord user to osu name\n**Usage**: ~osubind @MyDiscordName My osu name")
+                  .Parameter("user_name", ParameterType.Required)
+                  .Parameter("osu_name", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var userName = e.GetArg("user_name");
+                      var osuName = e.GetArg("osu_name");
+                      var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                      if (usr == null) {
+                          await e.Send("Cannot find that discord user.");
+                          return;
+                      }
+                      //query for a username
+                      //if exists save bind pair to parse.com
+                      //if not valid error
                   });
             });
         }

@@ -88,12 +88,13 @@ namespace NadekoBot.Classes.Music {
             MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
         }
 
-        public void SetVolume(int value) {
+        public int SetVolume(int value) {
             if (value < 0)
                 value = 0;
             if (value > 150)
                 value = 150;
             this.Volume = value/100f;
+            return value;
         }
 
         internal bool TogglePause() => IsPaused = !IsPaused;

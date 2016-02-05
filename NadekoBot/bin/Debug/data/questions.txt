@@ -553,8 +553,8 @@
   },
   {
     "Category": "Acronym Soup",
-    "Question": " DBN;doing business",
-    "Answer": "not"
+    "Question": " DBN",
+    "Answer": "doing business not"
   },
   {
     "Category": "Acronym Soup",
@@ -823,7 +823,7 @@
   },
   {
     "Category": "Acronym Soup",
-    "Question": " RTS ;read the screen",
+    "Question": " RTS",
     "Answer": "real time strategy"
   },
   {
@@ -1053,12 +1053,12 @@
     "Answer": "elephant"
   },
   {
-    "Category": "Animal Trivia: ---------- may travel great distances on their migrations. The Arctic tern travels from the top of the world, the Arctic - to the bottom, the Antarctic. Round trip in a single year",
-    "Question": " 25,000 miles in all.",
+    "Category": "Animal Trivia: ",
+    "Question": "---------- may travel great distances on their migrations. The Arctic tern travels from the top of the world, the Arctic - to the bottom, the Antarctic. Round trip in a single year: 25,000 miles in all.",
     "Answer": "birds"
   },
   {
-    "Category": "Animal Trivia: A camel can shut its nostrils during a ----------;desert sandstormanimal trivia",
+    "Category": "Animal Trivia",
     "Question": " a camel with one hump is a dromedary, while a camel with two humps is a ----------",
     "Answer": "bactrian"
   },
@@ -1084,7 +1084,7 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " A mole can dig a tunnel ---------- feet long in one night.;three hundred",
+    "Question": " A mole can dig a tunnel ---------- feet long in one night.",
     "Answer": "300"
   },
   {
@@ -1144,7 +1144,7 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " If they are well treated, camels in captivity can live to the age of ----------;fifty",
+    "Question": " If they are well treated, camels in captivity can live to the age of -------",
     "Answer": "50"
   },
   {
@@ -1159,7 +1159,7 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " Javelinas are free-ranging, yet territorial animals that travel in small herds. One of the reasons they travel in numbers is so they can huddle to stay warm - they don't handle cold well and can ----------;to death quickly.",
+    "Question": " Javelinas are free-ranging, yet territorial animals that travel in small herds. One of the reasons they travel in numbers is so they can huddle to stay warm - they don't handle cold well and can ---------- to death quickly.",
     "Answer": "freeze"
   },
   {
@@ -1224,17 +1224,17 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " The electric eel lives in the Amazon River and its tributaries in South America. The rivers churn up a lot of mud and the eels cannot see well in them. Two less powerful electric fish are the electric catfish and ray. Electric rays live in warm ocean water, and they can give off a charge of sufficient force to stun a human. The biggest electric ray, the Atlantic torpedo ray, can weigh ---------- pounds.;two hundred",
+    "Question": " The electric eel lives in the Amazon River and its tributaries in South America. The rivers churn up a lot of mud and the eels cannot see well in them. Two less powerful electric fish are the electric catfish and ray. Electric rays live in warm ocean water, and they can give off a charge of sufficient force to stun a human. The biggest electric ray, the Atlantic torpedo ray, can weigh ---------- pounds.",
     "Answer": "200"
   },
   {
     "Category": "Animal Trivia",
-    "Question": " The fastest animal on four legs is the ----------;, which races at speeds up to 70 miles per hour in short distances. it can accelerate to 45 miles per hour in two seconds.",
+    "Question": " The fastest animal on four legs is the ----------, which races at speeds up to 70 miles per hour in short distances. it can accelerate to 45 miles per hour in two seconds.",
     "Answer": "cheetah"
   },
   {
     "Category": "Animal Trivia",
-    "Question": " The female condor lays a single egg once every ----------;two years",
+    "Question": " The female condor lays a single egg once every ---------- ",
     "Answer": "2 years"
   },
   {
@@ -1254,7 +1254,7 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " The largest species of seahorse measures ----------;eight inches",
+    "Question": " The largest species of seahorse measures ----------",
     "Answer": "8 inches"
   },
   {
@@ -1269,7 +1269,7 @@
   },
   {
     "Category": "Animal Trivia",
-    "Question": " The life expectancy of the average mockingbird is ----------;ten years",
+    "Question": " The life expectancy of the average mockingbird is ----------",
     "Answer": "10 years"
   },
   {
@@ -1431,15 +1431,11 @@
     "Answer": "sun king"
   },
   {
-    "Question": "As what was sony's video recorder known;beta-max;beta max",
-    "Answer": "beta"
-  },
-  {
     "Question": "Ashord/V. Simpson)",
     "Answer": "whitney houston"
   },
   {
-    "Question": "At what theme park are the Looney Toons associated with;Six Flags",
+    "Question": "At what theme park are the Looney Toons associated with",
     "Answer": "6 flags"
   },
   {
@@ -3420,7 +3416,7 @@
   },
   {
     "Category": "Trivia ",
-    "Question": " Chemically pure gold contains how many karats;twenty four",
+    "Question": " Chemically pure gold contains how many karats",
     "Answer": "24"
   },
   {
@@ -3445,12 +3441,12 @@
   },
   {
     "Category": "Trivia ",
-    "Question": " How many faces has an icosahedron;twenty",
+    "Question": " How many faces has an icosahedron",
     "Answer": "20"
   },
   {
     "Category": "Trivia ",
-    "Question": " How many gold medals did Jesse Owens win in the 1936 Berlin Olympics;four",
+    "Question": " How many gold medals did Jesse Owens win in the 1936 Berlin Olympics",
     "Answer": "4"
   },
   {
@@ -4088,7 +4084,7 @@
     "Answer": "tabulating machine company"
   },
   {
-    "Question": "Four European countries keep Greenwich Mean Time. The UK and Ireland are two, name either of the others;iceland",
+    "Question": "Four European countries keep Greenwich Mean Time. The UK, Iceland, and Ireland are three, name either of the others",
     "Answer": "Portugal"
   },
   {
@@ -4116,7 +4112,7 @@
     "Answer": "a day at the races"
   },
   {
-    "Question": "From which plant family do vanilla pods come;orchid",
+    "Question": "From which plant family do vanilla pods come",
     "Answer": "orchidaceae"
   },
   {
@@ -4301,15 +4297,15 @@
     "Answer": "3 days"
   },
   {
-    "Question": "How many blades are there on a kayak paddle;two",
+    "Question": "How many blades are there on a kayak paddle",
     "Answer": "2"
   },
   {
-    "Question": "How many bonus points in Scrabble if all seven tiles played at once;fifty",
+    "Question": "How many bonus points in Scrabble if all seven tiles played at once",
     "Answer": "50"
   },
   {
-    "Question": "How many cards are there in each suit of a standard deck;thirteen",
+    "Question": "How many cards are there in each suit of a standard deck",
     "Answer": "13"
   },
   {
@@ -4321,15 +4317,15 @@
     "Answer": "ten"
   },
   {
-    "Question": "How many cigars did Sir Winston Churchill ration himself to a day ;fifteen",
+    "Question": "How many cigars did Sir Winston Churchill ration himself to a day ",
     "Answer": "15"
   },
   {
-    "Question": "How many consecutive years was the ed sullivan show on tv;twenty three",
+    "Question": "How many consecutive years was the ed sullivan show on tv",
     "Answer": "23"
   },
   {
-    "Question": "How many days were the american hostages held in Iran;four hundred & forty four",
+    "Question": "How many days were the american hostages held in Iran",
     "Answer": "444"
   },
   {
@@ -4345,11 +4341,11 @@
     "Answer": "seven"
   },
   {
-    "Question": "How many member states are there in the United Arab Emirates;seven",
+    "Question": "How many member states are there in the United Arab Emirates",
     "Answer": "7"
   },
   {
-    "Question": "How many miles are there in a league;three",
+    "Question": "How many miles are there in a league",
     "Answer": "3"
   },
   {
@@ -4361,7 +4357,7 @@
     "Answer": "ten"
   },
   {
-    "Question": "How many sheets of paper are there in a ream;five hundred",
+    "Question": "How many sheets of paper are there in a ream",
     "Answer": "500"
   },
   {
@@ -4829,7 +4825,7 @@
     "Answer": "ivan"
   },
   {
-    "Question": "In 1849 Edgar Allen Poe dies in Baltimore at---------- . ;forty",
+    "Question": "In 1849 Edgar Allen Poe dies in Baltimore at---------- . ",
     "Answer": "40"
   },
   {
@@ -5041,7 +5037,7 @@
     "Answer": "broccoli"
   },
   {
-    "Question": "In 1909 Comte de Lambert of France sets airplane altitude record of ---------- m. ;three hundred",
+    "Question": "In 1909 Comte de Lambert of France sets airplane altitude record of ---------- m.",
     "Answer": "300"
   },
   {
@@ -5613,7 +5609,7 @@
     "Answer": "sierra leone"
   },
   {
-    "Question": "In 1962 E. E. Cummings poet, dies at---------- . ;sixty seven",
+    "Question": "In 1962 E. E. Cummings poet, dies at---------- .",
     "Answer": "67"
   },
   {
@@ -5893,7 +5889,7 @@
     "Answer": "cyndi lauper"
   },
   {
-    "Question": "In 1985 Walt Disney World's ---------- -millonth guest. ;two hundred",
+    "Question": "In 1985 Walt Disney World's ---------- -millonth guest. ",
     "Answer": "200"
   },
   {
@@ -8267,7 +8263,7 @@
     "Answer": "bones or cartilage"
   },
   {
-    "Question": "To what does the original term' cutty sark ' refer;short shift",
+    "Question": "To what does the original term' cutty sark ' refer",
     "Answer": "chemise"
   },
   {
@@ -9789,7 +9785,7 @@
   },
   {
     "Category": "Useless Facts",
-    "Question": " A Dutch study indicated that 50 percent of the adult Dutch population have never flown in an airplane, and ---------------- percent admitted a fear of flying.;twenty eight",
+    "Question": " A Dutch study indicated that 50 percent of the adult Dutch population have never flown in an airplane, and ---------------- percent admitted a fear of flying.",
     "Answer": "28"
   },
   {
@@ -9799,12 +9795,12 @@
   },
   {
     "Category": "Useless Facts",
-    "Question": " According to a recent survey, --------- percent of people who play the car radio while driving also sing along with it.;seventy five",
+    "Question": " According to a recent survey, --------- percent of people who play the car radio while driving also sing along with it.",
     "Answer": "75"
   },
   {
     "Category": "Useless Facts",
-    "Question": " An American Animal Hospital Association survey revealed that -------------- percent of dog owners sign letters or cards from themselves and their dogs.;sixty two",
+    "Question": " An American Animal Hospital Association survey revealed that -------------- percent of dog owners sign letters or cards from themselves and their dogs.",
     "Answer": "62"
   },
   {
@@ -10084,7 +10080,7 @@
   },
   {
     "Category": "Useless Trivia",
-    "Question": " By ---------- years old, Americans have watched more than nine years of television.;sixty five",
+    "Question": " By ---------- years old, Americans have watched more than nine years of television.",
     "Answer": "65"
   },
   {
@@ -10896,7 +10892,7 @@
     "Answer": "january river"
   },
   {
-    "Question": "What does 3 d mean;three dimensional",
+    "Question": "What does 3 d mean",
     "Answer": "3 dimensional"
   },
   {
@@ -12410,7 +12406,7 @@
     "Answer": "gum arabic"
   },
   {
-    "Question": "What is the sum of 2y + 32y + 56y;ninety y",
+    "Question": "What is the sum of 2y + 32y + 56y",
     "Answer": "90y"
   },
   {
@@ -12762,7 +12758,7 @@
     "Answer": "liver"
   },
   {
-    "Question": "What organ will most often suffer permanent damage if you have amoebic dysentery;the liver",
+    "Question": "What organ will most often suffer permanent damage if you have amoebic dysentery",
     "Answer": "liver"
   },
   {
@@ -12798,7 +12794,7 @@
     "Answer": "treaty of versailles"
   },
   {
-    "Question": "What peninsula does Mexico occupy;yucatan peninsula",
+    "Question": "What peninsula does Mexico occupy",
     "Answer": "yucatan"
   },
   {
@@ -12822,7 +12818,7 @@
     "Answer": "the dam busters"
   },
   {
-    "Question": "What plane did Aerospatiale of France & the British Aircraft Corp. develop;the concord",
+    "Question": "What plane did Aerospatiale of France & the British Aircraft Corp. develop",
     "Answer": "concord"
   },
   {
@@ -12939,7 +12935,7 @@
     "Answer": "even numbers"
   },
   {
-    "Question": "What serious umderwater ailment was named after a Victorian notion of chic posture;the bends",
+    "Question": "What serious umderwater ailment was named after a Victorian notion of chic posture",
     "Answer": "bends"
   },
   {
@@ -13007,7 +13003,7 @@
     "Answer": "salvador dali"
   },
   {
-    "Question": "What Spanish islands are Gomera, Hierro & Lanzarote a part of;canary islands",
+    "Question": "What Spanish islands are Gomera, Hierro & Lanzarote a part of",
     "Answer": "canary"
   },
   {
@@ -13103,7 +13099,7 @@
     "Answer": "japan & china"
   },
   {
-    "Question": "What type of animal was selected to test the first electric toothbrush;the dog",
+    "Question": "What type of animal was selected to test the first electric toothbrush",
     "Answer": "dog"
   },
   {
@@ -13640,7 +13636,7 @@
     "Answer": "juliet"
   },
   {
-    "Question": "What's the longest river in the U S;mississippi river",
+    "Question": "What's the longest river in the U S",
     "Answer": "mississippi"
   },
   {
@@ -15147,7 +15143,7 @@
     "Answer": "stevie wonder"
   },
   {
-    "Question": "Who sought to create the great society;lyndon johnson",
+    "Question": "Who sought to create the great society",
     "Answer": "johnson"
   },
   {
@@ -15567,7 +15563,7 @@
     "Answer": "Alfred Hitchcock"
   },
   {
-    "Question": "Who wrote the Father Brown crime stories;gk chesterton",
+    "Question": "Who wrote the Father Brown crime stories",
     "Answer": "chesterton"
   },
   {

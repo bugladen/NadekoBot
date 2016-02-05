@@ -38,9 +38,11 @@ namespace NadekoBot.Classes.Music {
 
         public float Volume => MusicControls?.Volume ?? 1.0f;
 
+        public bool RadioLink { get; private set; }
+
         public MusicControls MusicControls;
 
-        public StreamRequest(CommandEventArgs e, string query, MusicControls mc) {
+        public StreamRequest(CommandEventArgs e, string query, MusicControls mc, bool radio = false) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
@@ -48,6 +50,7 @@ namespace NadekoBot.Classes.Music {
             this.MusicControls = mc;
             this.Server = e.Server;
             this.Query = query;
+            this.RadioLink = radio;
             Task.Run(() => ResolveStreamLink());
             mc.SongQueue.Add(this);
         }
@@ -55,8 +58,13 @@ namespace NadekoBot.Classes.Music {
         private async void ResolveStreamLink() {
             string uri = null;
             try {
-                if (SoundCloud.Default.IsSoundCloudLink(Query)) {
-
+                if (RadioLink) {
+                    uri = Query;
+                    Title = $"Radio Stream - <{Query}>";
+                }
+                else if (SoundCloud.Default.IsSoundCloudLink(Query)) {
+                    if (OnResolving != null)
+                        OnResolving();
                     var svideo = await SoundCloud.Default.GetVideoAsync(Query);
                     Title = svideo.FullName + " - SoundCloud";
                     uri = svideo.StreamLink;
