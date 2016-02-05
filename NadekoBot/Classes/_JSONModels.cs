@@ -13,6 +13,7 @@
         public bool? ForwardMessages;
         public string OsuApiKey;
         public string SoundCloudClientID;
+        public string MashapeKey;
     }
     public class AnimeResult
     {

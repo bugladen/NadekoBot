@@ -9,11 +9,14 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NadekoBot.Modules {
     class Searches : DiscordModule {
+        private Random _r;
         public Searches() : base() {
             // commands.Add(new OsuCommands());
+            _r = new Random();
         }
 
         public override void Install(ModuleManager manager) {
@@ -139,11 +142,57 @@ namespace NadekoBot.Modules {
                         if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
                         await e.Send(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
                     });
+
+                cgb.CreateCommand("~hs")
+                  .Description("Searches for a Hearthstone card and shows its image.")
+                  .Parameter("name", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("name");
+                      if (string.IsNullOrWhiteSpace(arg)) return;
+                      var res = await GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}",
+                          new Tuple<string, string>[] {
+                              new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey),
+                          });
+                      try {
+                          var items = JArray.Parse(res);
+                          List<System.Drawing.Image> images = new List<System.Drawing.Image>();
+                          if (items == null)
+                              throw new KeyNotFoundException("Cannot find a card by that name");
+                          int cnt = 0;
+                          foreach (var item in items) {
+                              if (cnt >= 4)
+                                  break;
+                              if (!item.HasValues || item["img"] == null)
+                                  continue;
+                              cnt++;
+                              images.Add(System.Drawing.Bitmap.FromStream(await GetResponseStream(item["img"].ToString())));
+                          }
+                          if (items.Count > 4) {
+                              await e.Send(":exclamation: Found over 4 images. Showing random 4.");
+                          }
+                          Console.WriteLine("Start");
+                          await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
+                          Console.WriteLine("Finish");
+                      } catch (Exception ex) {
+                          await e.Send($":anger: Error {ex}");
+                      }
+                  });
             });
         }
 
+        public static async Task<Stream> GetResponseStream(string v) =>
+            (await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream();
+
         public static async Task<string> GetResponseAsync(string v) =>
             await new StreamReader((await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
+
+        public static async Task<string> GetResponseAsync(string v, IEnumerable<Tuple<string, string>> headers) {
+            var wr = (HttpWebRequest)WebRequest.Create(v);
+            foreach (var header in headers) {
+                wr.Headers.Add(header.Item1, header.Item2);
+            }
+            return await new StreamReader((await wr.GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
+        }
 
         private string token = "";
         private async Task<AnimeResult> GetAnimeQueryResultLink(string query) {

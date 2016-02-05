@@ -76,6 +76,9 @@ namespace NadekoBot
                 try {
                     var obj = new ParseObject("Stats");
                     obj["OnlineUsers"] = await Task.Run(() => NadekoBot.client.Servers.Sum(x => x.Users.Count()));
+                    obj["RealOnlineUsers"] = await Task.Run(() => NadekoBot
+                                                                        .client.Servers
+                                                                        .Sum(x => x.Users.Where(u => u.Status == UserStatus.Online).Count()));
                     obj["ConnectedServers"] = NadekoBot.client.Servers.Count();
 
                     await obj.SaveAsync();

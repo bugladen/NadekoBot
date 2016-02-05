@@ -74,7 +74,7 @@ namespace NadekoBot.Modules {
                             toSend += "**Song queue is full!**\n";
                         await e.Send(toSend);
                         int number = 1;
-                        await e.Send(string.Join("\n", player.SongQueue.Select(v => $"**#{number++}** {v.Title.TrimTo(60)}").Take(10)));
+                        await e.Send(string.Join("\n", player.SongQueue.Select(v => $"`{number++}.` {v.Title.TrimTo(60)}").Take(10)));
                     });
 
                 cgb.CreateCommand("np")
@@ -161,7 +161,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("pl")
-                    .Description("Queues up to 25 songs from a youtube playlist")
+                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
                         var ids = await Searches.GetVideoIDs(await Searches.GetPlaylistIdByKeyword(e.GetArg("playlist")));
