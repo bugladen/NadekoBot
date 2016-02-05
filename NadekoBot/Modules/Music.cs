@@ -98,7 +98,8 @@ namespace NadekoBot.Modules {
                           await e.Send("Volume number invalid.");
                           return;
                       }
-                      player.SetVolume(volume);
+                      volume = player.SetVolume(volume);
+                      await e.Send($":musical_note:Volume set to {volume}50%");
                   });
 
                 cgb.CreateCommand("min").Alias("mute")
@@ -164,13 +165,29 @@ namespace NadekoBot.Modules {
                     .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
+                        if (e.User.VoiceChannel?.Server != e.Server) {
+                            await e.Send(":anger: You need to be in the voice channel on this server.");
+                            return;
+                        }
                         var ids = await Searches.GetVideoIDs(await Searches.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        await e.Send($"Attempting to queue {ids.Count} songs".SnPl(ids.Count));
+                        var msg = await e.Send($":musical_note: Attempting to queue {ids.Count} songs".SnPl(ids.Count));
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
                         }
+                        msg?.Edit(":musical_note:Playlist queue complete.");
+                    });
+
+                cgb.CreateCommand("radio").Alias("ra")
+                    .Description("Queues a direct radio stream from a link.")
+                    .Parameter("radio_link", ParameterType.Required)
+                    .Do(async e => {
+                        if (e.User.VoiceChannel?.Server != e.Server) {
+                            await e.Send(":anger: You need to be in the voice channel on this server.");
+                            return;
+                        }
+                        await QueueSong(e, e.GetArg("radio_link"), radio: true);
                     });
 
                 cgb.CreateCommand("debug")
@@ -183,7 +200,7 @@ namespace NadekoBot.Modules {
             });
         }
 
-        private async Task QueueSong(CommandEventArgs e, string query, bool silent = false) {
+        private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
             if (e.User.VoiceChannel?.Server != e.Server) {
                 await e.Send(":anger: You need to be in the voice channel on this server.");
                 return;
@@ -201,7 +218,7 @@ namespace NadekoBot.Modules {
             if (player.SongQueue.Count >= 25) return;
 
             try {
-                var sr = await Task.Run(() => new StreamRequest(e, query, player));
+                var sr = await Task.Run(() => new StreamRequest(e, query, player, radio));
 
                 if (sr == null)
                     throw new NullReferenceException("StreamRequest is null.");

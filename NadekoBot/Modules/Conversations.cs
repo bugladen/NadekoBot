@@ -20,7 +20,7 @@ namespace NadekoBot.Modules {
         private string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
         public Conversations() : base() {
             commands.Add(new CopyCommand());
-            if(NadekoBot.ParseActive)
+            if (NadekoBot.ParseActive)
                 commands.Add(new RequestsCommand());
             else
                 Console.WriteLine("Requests don't work, parse not valid.");
@@ -82,11 +82,11 @@ namespace NadekoBot.Modules {
                             return;
                         }
 
-                        if (randServerSW.ElapsedMilliseconds / 1000 < 1800) {
-                            await e.Send("You have to wait " + (1800 - randServerSW.ElapsedMilliseconds / 1000) + " more seconds to use this function.");
+                        if (randServerSW.Elapsed.Seconds < 1800) {
+                            await e.Send("You have to wait " + (1800 - randServerSW.Elapsed.Seconds) + " more seconds to use this function.");
                             return;
                         }
-                        randServerSW.Reset();
+                        randServerSW.Restart();
                         while (true) {
                             var server = client.Servers.OrderBy(x => rng.Next()).FirstOrDefault();
                             if (server == null)
@@ -198,7 +198,13 @@ namespace NadekoBot.Modules {
                       string[] pats = new string[] { "http://i.imgur.com/IiQwK12.gif",
                                                      "http://i.imgur.com/JCXj8yD.gif",
                                                      "http://i.imgur.com/qqBl2bm.gif",
-                                                     "http://i.imgur.com/eOJlnwP.gif" };
+                                                     "http://i.imgur.com/eOJlnwP.gif",
+                                                     "https://45.media.tumblr.com/229ec0458891c4dcd847545c81e760a5/tumblr_mpfy232F4j1rxrpjzo1_r2_500.gif",
+                                                     "https://media.giphy.com/media/KZQlfylo73AMU/giphy.gif",
+                                                     "https://media.giphy.com/media/12hvLuZ7uzvCvK/giphy.gif",
+                                                     "http://gallery1.anivide.com/_full/65030_1382582341.gif",
+                                                     "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
+                      };
                       await e.Send($"{e.Message.MentionedUsers.First().Mention} {pats[new Random().Next(0, pats.Length)]}");
                   });
 
@@ -313,7 +319,7 @@ namespace NadekoBot.Modules {
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e => {
-                        await e.Send("Calling " + e.Args[0].Replace("@everyone","[everyone]") + "...");
+                        await e.Send("Calling " + e.Args[0].Replace("@everyone", "[everyone]") + "...");
                     });
                 cgb.CreateCommand("hide")
                     .Description("Hides nadeko in plain sight!11!!")
@@ -359,7 +365,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         string[] strings = { "ba", "la", "ha" };
                         string construct = "@a";
-                        int cnt = rng.Next(4,7);
+                        int cnt = rng.Next(4, 7);
                         while (cnt-- > 0) {
                             construct += strings[rng.Next(0, strings.Length)];
                         }

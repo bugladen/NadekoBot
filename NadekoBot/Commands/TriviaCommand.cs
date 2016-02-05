@@ -45,8 +45,6 @@ namespace NadekoBot.Commands {
                 .Do(async e=> {
                     if (runningTrivias.ContainsKey(e.Server)) {
                         runningTrivias[e.Server].StopGame();
-                        TriviaGame throwaway;
-                        runningTrivias.TryRemove(e.Server, out throwaway);
                     } else
                         await e.Send("No trivia is running on this server.");
                 });
