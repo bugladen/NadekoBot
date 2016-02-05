@@ -79,7 +79,6 @@ namespace NadekoBot {
             //create new discord client
             client = new DiscordClient();
 
-
             //create a command service
             var commandService = new CommandService(new CommandServiceConfig {
                 CommandChar = null,
