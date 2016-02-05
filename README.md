@@ -11,15 +11,18 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 **This is how the credentials.json should look like:**
 ```json
 {
-	"Username":"bot_email",
-	"BotMention":"<@bot_id>",
-	"Password":"bot_password",
-	"GoogleAPIKey":"google_api_key",
-	"OwnerID":123123123123,
-	"ParseID":"parse_app_id",
-	"ParseKey":"parse_api_key",
-	"TrelloAppKey": "your_trello_app_key",
-	"ForwardMessages": true,
+    "Username":"bot_email",
+    "BotMention":"<@bot_id>",
+    "Password":"bot_password",
+    "GoogleAPIKey":"google_api_key",
+    "OwnerID":123123123123,
+    "ParseID":"parse_app_id",
+    "ParseKey":"parse_api_key",
+    "TrelloAppKey": "your_trello_app_key (optional)",
+    "ForwardMessages": true,
+    "OsuApiKey": "your_osu_key (optional)",
+    "SoundCloudClientID": "your_soundcloud_key (optional)",
+    "MashapeKey": "your_mashape_key (optional)",
 }
 ```
 ##### You can omit:  
@@ -39,6 +42,10 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 - BotMention(bot\_id) and OwnerID are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.
 - For google api key, you need to enable URL shortner and Youtube video search in the [dev console](https://console.developers.google.com/).
 - For **ParseID** and **ParseKey**, you need to register on http://www.parse.com, get those values and create a **DATA** app with these 3 classes: `'CommandsRan', 'Requests' and 'Stats'` in order to make the logging work http://i.imgur.com/bXsL19z.png.
+For Osu Api key you need an Osu account, login then goto this site https://osu.ppy.sh/p/api create a new app and name as you like app url is not important after you created it you will see the Api Key just copy paste it into your credentials.json and you are set.
+For the Soundcloud Api key you also need an Soundcloud account after you created one head to this site http://soundcloud.com/you/apps/new create a new app after you done that go here http://soundcloud.com/you/apps click on the name of your created your app and copy the Client ID it will act as your Api Key just copy paste it in your credentials.json and you are all set.
+For Mashape Api Key you first create an account on their api marketplace here https://market.mashape.com/ after that you goto market.mashape.com/YOURNAMEHERE/applications/default-application and press GET THE KEYS in the right top corner copy paste it into your credentials.json and you are ready to race ! 
+
 - If you want to have music, you need to download FFMPEG from this link http://ffmpeg.zeranoe.com/builds/ (static build version) and add ffmpeg/bin folder to your PATH environment variable. You do that by opening explorer -> right click 'This PC' -> properties -> advanced system settings -> In the top part, there is a PATH field, add `;` to the end and then your ffmpeg install location /bin (for example ;C:\ffmpeg-5.6.7\bin) and save. Open command prompt and type ffmpeg to see if you added it correctly. If it says "command not found" then you made a mistake somewhere. There are a lot of guides on the internet on how to add stuff to your PATH, check them out if you are stuck.
 
 Download [this folder](http://s000.tinyupload.com/index.php?file_id=54172283263968075500) which contains images and add it next to your .exe in order to make the $draw, $flip, rip and similar functions work.
