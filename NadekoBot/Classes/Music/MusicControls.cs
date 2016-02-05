@@ -15,7 +15,7 @@ namespace NadekoBot.Classes.Music {
         public bool Pause = false;
         public List<StreamRequest> SongQueue = new List<StreamRequest>();
         public StreamRequest CurrentSong = null;
-        public float Volume { get; set; } = 1.0f;
+        public float Volume { get; set; } = .5f;
 
         public bool IsPaused { get; internal set; } = false;
         public bool Stopped { get; private set; }
