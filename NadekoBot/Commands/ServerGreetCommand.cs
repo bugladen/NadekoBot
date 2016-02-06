@@ -39,9 +39,9 @@ namespace NadekoBot.Commands {
             var data = new ParseQuery<ParseObject>("Announcements")
                                .FindAsync()
                                .Result;
-            if(data.Any())
-            foreach (var po in data)
-                AnnouncementsDictionary.TryAdd(po.Get<ulong>("serverId"), new AnnounceControls(po.Get<ulong>("serverId")).Initialize(po));
+            if (data.Any())
+                foreach (var po in data)
+                    AnnouncementsDictionary.TryAdd(po.Get<ulong>("serverId"), new AnnounceControls(po.Get<ulong>("serverId")).Initialize(po));
         }
 
         private async void UserLeft(object sender, UserEventArgs e) {
@@ -50,27 +50,38 @@ namespace NadekoBot.Commands {
 
             var controls = AnnouncementsDictionary[e.Server.Id];
             var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
-            if (channel == null) return;
-            var msg = controls.ByeText.Replace("%user%", "**"+e.User.Name+"**").Trim();
+            var msg = controls.ByeText.Replace("%user%", "**" + e.User.Name + "**").Trim();
             if (string.IsNullOrEmpty(msg))
                 return;
-            Greeted++;
-            await channel.Send(msg);
+
+            if (controls.ByePM) {
+                Greeted++;
+                await e.User.SendMessage($"`Farewell Message From {e.Server.Name}`\n" + msg);
+            } else {
+                if (channel == null) return;
+                Greeted++;
+                await channel.Send(msg);
+            }
         }
 
         private async void UserJoined(object sender, Discord.UserEventArgs e) {
-            if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) || 
+            if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
                 !AnnouncementsDictionary[e.Server.Id].Greet) return;
 
             var controls = AnnouncementsDictionary[e.Server.Id];
             var channel = NadekoBot.client.GetChannel(controls.GreetChannel);
-            if (channel == null) return;
 
             var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
             if (string.IsNullOrEmpty(msg))
                 return;
-            Greeted++;
-            await channel.Send(msg);
+            if (controls.GreetPM) {
+                Greeted++;
+                await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
+            } else {
+                if (channel == null) return;
+                Greeted++;
+                await channel.Send(msg);
+            }
         }
 
         public class AnnounceControls {
@@ -88,6 +99,20 @@ namespace NadekoBot.Commands {
             public ulong GreetChannel {
                 get { return greetChannel; }
                 set { greetChannel = value; }
+            }
+
+            private bool greetPM;
+
+            public bool GreetPM {
+                get { return greetPM; }
+                set { greetPM = value; Save(); }
+            }
+
+            private bool byePM;
+
+            public bool ByePM {
+                get { return byePM; }
+                set { byePM = value; Save(); }
             }
 
             private string greetText = "Welcome to the server %user%";
@@ -140,6 +165,8 @@ namespace NadekoBot.Commands {
                     return Greet = true;
                 }
             }
+            internal bool ToggleGreetPM() => GreetPM = !GreetPM;
+            internal bool ToggleByePM() => ByePM = !ByePM;
 
             private void Save() {
                 ParseObject p = null;
@@ -148,10 +175,12 @@ namespace NadekoBot.Commands {
                 else
                     p = ParseObj = new ParseObject("Announcements");
                 p["greet"] = greet;
+                p["greetPM"] = greetPM;
                 p["greetText"] = greetText;
                 p["greetChannel"] = greetChannel;
 
                 p["bye"] = bye;
+                p["byePM"] = byePM;
                 p["byeText"] = byeText;
                 p["byeChannel"] = byeChannel;
 
@@ -162,10 +191,12 @@ namespace NadekoBot.Commands {
 
             internal AnnounceControls Initialize(ParseObject po) {
                 greet = po.Get<bool>("greet");
+                greetPM = po.ContainsKey("greetPM") ? po.Get<bool>("greetPM") : false;
                 greetText = po.Get<string>("greetText");
                 greetChannel = po.Get<ulong>("greetChannel");
 
                 bye = po.Get<bool>("bye");
+                byePM = po.ContainsKey("byePM") ? po.Get<bool>("byePM") : false;
                 byeText = po.Get<string>("byeText");
                 byeChannel = po.Get<ulong>("byeChannel");
 
@@ -237,7 +268,39 @@ namespace NadekoBot.Commands {
                     AnnouncementsDictionary[e.Server.Id].ByeText = e.GetArg("msg");
                     await e.Send("New bye message set.");
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Send("Enable bye messsages by typing `.bye`");
+                        await e.Send("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
+                });
+
+            cgb.CreateCommand(".byepm")
+                .Description("Toggles whether the good bye messages will be sent in a PM or in the text channel.")
+                .Do(async e => {
+                    if (!e.User.ServerPermissions.ManageServer) return;
+                    if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
+                        AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
+
+                    AnnouncementsDictionary[e.Server.Id].ToggleByePM();
+                    if(AnnouncementsDictionary[e.Server.Id].ByePM)
+                        await e.Send("Bye messages will be sent in a PM from now on.\n :warning: Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
+                    else
+                        await e.Send("Bye messages will be sent in a bound channel from now on.");
+                    if (!AnnouncementsDictionary[e.Server.Id].Bye)
+                        await e.Send("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
+                });
+
+            cgb.CreateCommand(".greetpm")
+                .Description("Toggles whether the greet messages will be sent in a PM or in the text channel.")
+                .Do(async e => {
+                    if (!e.User.ServerPermissions.ManageServer) return;
+                    if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
+                        AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
+
+                    AnnouncementsDictionary[e.Server.Id].ToggleGreetPM();
+                    if (AnnouncementsDictionary[e.Server.Id].GreetPM)
+                        await e.Send("Greet messages will be sent in a PM from now on.");
+                    else
+                        await e.Send("Greet messages will be sent in a bound channel from now on.");
+                    if (!AnnouncementsDictionary[e.Server.Id].Greet)
+                        await e.Send("Enable greet messsages by typing `.greet`, and set the greet message using `.greetmsg`");
                 });
         }
     }
