@@ -84,22 +84,34 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("~i")
-                   .Description("Pulls a first image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
-                   .Alias("img")
-                   .Parameter("all", ParameterType.Unparsed)
+                   .Description("Pulls a first image using a search parameter. Use ~ir for different results.\n**Usage**: ~i cute kitten")
+                   .Parameter("query", ParameterType.Unparsed)
                        .Do(async e => {
-                           await e.Send("This feature is being reconstructed.");
-
+                           if (string.IsNullOrWhiteSpace(e.GetArg("query")))
+                               return;
+                           try {
+                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
+                               var obj = JObject.Parse(await GetResponseAsync(reqString));
+                               await e.Send(obj["items"][0]["link"].ToString());
+                           } catch (Exception ex) {
+                               await e.Send($":anger: {ex.Message}");
+                           }
                        });
 
                 cgb.CreateCommand("~ir")
-                    .Description("Pulls a random image using a search parameter.\n**Usage**: @NadekoBot img Multiword_search_parameter")
-                    .Alias("imgrandom")
-                    .Parameter("all", ParameterType.Unparsed)
-                    .Do(async e => {
-                        await e.Send("This feature is being reconstructed.");
-
-                    });
+                   .Description("Pulls a random image using a search parameter.\n**Usage**: ~ir cute kitten")
+                   .Parameter("query", ParameterType.Unparsed)
+                       .Do(async e => {
+                           if (string.IsNullOrWhiteSpace(e.GetArg("query")))
+                               return;
+                           try {
+                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ _r.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
+                               var obj = JObject.Parse(await GetResponseAsync(reqString));
+                               await e.Send(obj["items"][0]["link"].ToString());
+                           } catch (Exception ex) {
+                               await e.Send($":anger: {ex.Message}");
+                           }
+                       });
 
                 cgb.CreateCommand("~hentai")
                     .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
@@ -134,6 +146,16 @@ namespace NadekoBot.Modules {
                     .Parameter("anything", ParameterType.Unparsed)
                     .Do(async e => {
                         await e.Send("http://i.imgur.com/MZkY1md.jpg");
+                    });
+                cgb.CreateCommand("~boobs")
+                    .Description("Real adult content.")
+                    .Do(async e => {
+                        try {
+                            var obj = JArray.Parse(await GetResponseAsync($"http://api.oboobs.ru/boobs/{_r.Next(0, 9304)}"))[0];
+                            await e.Send($"http://media.oboobs.ru/{ obj["preview"].ToString() }");
+                        } catch (Exception ex) {
+                            await e.Send($":anger: {ex.Message}");
+                        }
                     });
                 cgb.CreateCommand("lmgtfy")
                     .Alias("~lmgtfy")
