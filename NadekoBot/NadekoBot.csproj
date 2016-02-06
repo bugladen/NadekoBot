@@ -159,6 +159,7 @@
     <Compile Include="Modules\Gambling.cs" />
     <Compile Include="Modules\Games.cs" />
     <Compile Include="Modules\Music.cs" />
+    <Compile Include="Commands\PollCommand.cs" />
     <Compile Include="Modules\Searches.cs" />
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
