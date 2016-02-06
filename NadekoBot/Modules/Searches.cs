@@ -145,7 +145,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("~hs")
-                  .Description("Searches for a Hearthstone card and shows its image.")
+                  .Description("Searches for a Hearthstone card and shows its image. Takes a while to complete.\n**Usage**:~hs Ysera")
                   .Parameter("name", ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("name");
@@ -174,50 +174,57 @@ namespace NadekoBot.Modules {
                               images.Add(System.Drawing.Bitmap.FromStream(await GetResponseStream(item["img"].ToString())));
                           }
                           if (items.Count > 4) {
-                              await e.Send(":exclamation: Found over 4 images. Showing random 4.");
+                              await e.Send(":warning: Found over 4 images. Showing random 4.");
                           }
                           Console.WriteLine("Start");
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
                           Console.WriteLine("Finish");
                       } catch (Exception ex) {
-                          await e.Send($":anger: Error {ex}");
+                          await e.Send($":anger: Error {ex.Message}");
                       }
-                  });
-                /*
-                cgb.CreateCommand("~osu")
-                  .Description("desc")
-                  .Parameter("arg", ParameterType.Required)
-                  .Do(async e => {
-                      var arg = e.GetArg("arg");
-                      var res = await GetResponseStream($"http://lemmmy.pw/osusig/sig.php?uname=kwoth&flagshadow&xpbar&xpbarhex&pp=2");
-                      await e.Channel.SendFile($"_{e.GetArg("arg")}.png", res);
                   });
 
-                cgb.CreateCommand("~osubind")
-                  .Description("Bind discord user to osu name\n**Usage**: ~osubind @MyDiscordName My osu name")
-                  .Parameter("user_name", ParameterType.Required)
-                  .Parameter("osu_name", ParameterType.Unparsed)
+                cgb.CreateCommand("~osu")
+                  .Description("Shows osu stats for a player\n**Usage**:~osu Name")
+                  .Parameter("usr",ParameterType.Unparsed)
                   .Do(async e => {
-                      var userName = e.GetArg("user_name");
-                      var osuName = e.GetArg("osu_name");
-                      var usr = e.Server.FindUsers(userName).FirstOrDefault();
-                      if (usr == null) {
-                          await e.Send("Cannot find that discord user.");
+                      if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
                           return;
+                      try {
+                          using (WebClient cl = new WebClient()) {
+                              cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+                              cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
+                              cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2"));
+                              cl.DownloadDataCompleted += async (s, cle) => {
+                                  await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                              };
+                          }
+                      } catch (Exception ex) {
+                          await e.Channel.SendMessage(":anger: " + ex.Message);
                       }
-                      //query for a username
-                      //if exists save bind pair to parse.com
-                      //if not valid error
                   });
-                  */
+
+                //todo when moved from parse
+                /*
+                cgb.CreateCommand("~osubind")
+                    .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
+                    .Parameter("osu_name", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var userName = e.GetArg("user_name");
+                        var osuName = e.GetArg("osu_name");
+                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                        if (usr == null) {
+                            await e.Send("Cannot find that discord user.");
+                            return;
+                        }
+                    });
+                */
             });
         }
 
         public static async Task<Stream> GetResponseStream(string v) {
             var wr = (HttpWebRequest)WebRequest.Create(v);
             try {
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                wr.UserAgent = @"Mozilla/5.0 (Windows NT 6.2; Win64; x64)";
                 return (await (wr).GetResponseAsync()).GetResponseStream();
             } catch (Exception ex) {
                 Console.WriteLine("error in getresponse stream " + ex);
