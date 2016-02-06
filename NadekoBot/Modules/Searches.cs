@@ -208,21 +208,25 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("~osu")
                   .Description("Shows osu stats for a player\n**Usage**:~osu Name")
-                  .Parameter("usr",ParameterType.Unparsed)
+                  .Parameter("usr", ParameterType.Unparsed)
                   .Do(async e => {
                       if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
                           return;
-                      try {
-                          using (WebClient cl = new WebClient()) {
+
+                      using (WebClient cl = new WebClient()) {
+                          try {
                               cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
                               cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
                               cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2"));
                               cl.DownloadDataCompleted += async (s, cle) => {
-                                  await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                                  try {
+                                      await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                                      await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
+                                  } catch (Exception) { }
                               };
+                          } catch (Exception ex) {
+                              await e.Channel.SendMessage(":anger: Failed retrieving osu signature :\\");
                           }
-                      } catch (Exception ex) {
-                          await e.Channel.SendMessage(":anger: " + ex.Message);
                       }
                   });
 

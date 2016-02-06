@@ -68,7 +68,7 @@ namespace NadekoBot.Classes.Music {
                     VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
                     Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
                 }
-                await Task.Factory.StartNew(async () => await CurrentSong.Start(), TaskCreationOptions.LongRunning).Unwrap();
+                await Task.Factory.StartNew(async () => await CurrentSong?.Start(), TaskCreationOptions.LongRunning).Unwrap();
             } catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
