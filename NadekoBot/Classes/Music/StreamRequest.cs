@@ -29,6 +29,9 @@ namespace NadekoBot.Classes.Music {
         public string Query { get; }
 
         public string Title { get; internal set; } = String.Empty;
+        private string Provider { get; set; }
+
+        public string FullPrettyName => $"**【 {Title.TrimTo(55)} 】**`{Provider}`";
 
         private MusicStreamer musicStreamer = null;
         public StreamState State => musicStreamer?.State ?? privateState;
@@ -60,13 +63,15 @@ namespace NadekoBot.Classes.Music {
             try {
                 if (RadioLink) {
                     uri = Query;
-                    Title = $"Radio Stream - <{Query}>";
+                    Title = $"{Query}";
+                    Provider = "Radio Stream";
                 }
                 else if (SoundCloud.Default.IsSoundCloudLink(Query)) {
                     if (OnResolving != null)
                         OnResolving();
                     var svideo = await SoundCloud.Default.GetVideoAsync(Query);
-                    Title = svideo.FullName + " - SoundCloud";
+                    Title = svideo.FullName;
+                    Provider = "SoundCloud";
                     uri = svideo.StreamLink;
                     Console.WriteLine(uri);
                 } else {
@@ -83,7 +88,8 @@ namespace NadekoBot.Classes.Music {
                     if (video == null) // do something with this error
                         throw new Exception("Could not load any video elements based on the query.");
 
-                    Title = video.Title; //.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                    Title = video.Title.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                    Provider = "YouTube";
                     uri = video.Uri;
                 }
             } catch (Exception ex) {
@@ -176,11 +182,9 @@ namespace NadekoBot.Classes.Music {
             });
             int attempt = 0;
             while (true) {
-                int magickBuffer = 1;
-                //wait for the read pos to catch up with write pos
-                while (buffer.writePos - buffer.readPos > 1.MB() && State != StreamState.Completed) {
+                while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
                     prebufferingComplete = true;
-                    await Task.Delay(150);
+                    await Task.Delay(200);
                 }
 
                 if (State == StreamState.Completed) {
@@ -192,8 +196,8 @@ namespace NadekoBot.Classes.Music {
                     return;
                 }
 
-                if (buffer.readPos > 1.MiB() && buffer.writePos > 1.MiB()) { // if buffer is over 5 MiB, create new one
-                    var skip = 1.MB(); //remove only 5 MB, just in case
+                if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) { // if buffer is over 5 MiB, create new one
+                    var skip = 5.MB(); //remove only 5 MB, just in case
                     var newBuffer = new DualStream();
 
                     lock (_bufferLock) {
@@ -205,11 +209,11 @@ namespace NadekoBot.Classes.Music {
                         buffer.readPos = newReadPos;
                         buffer.Position = newPos;
                     }
-                }             
+                }
 
-                var buf = new byte[1024];
+                var buf = new byte[2048];
                 int read = 0;
-                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 1024);
+                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 2048);
                 //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
                     if (attempt == 5) {
@@ -240,7 +244,7 @@ namespace NadekoBot.Classes.Music {
 
             Task.Factory.StartNew(async () => {
                 await BufferSong();
-            }, TaskCreationOptions.LongRunning).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             // prebuffering wait stuff start
             int bufferAttempts = 0;

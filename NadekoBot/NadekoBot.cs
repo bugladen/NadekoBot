@@ -9,6 +9,7 @@ using Discord.Modules;
 using Discord.Audio;
 using NadekoBot.Extensions;
 using System.Timers;
+using System.Linq;
 
 namespace NadekoBot {
     class NadekoBot {
@@ -49,7 +50,7 @@ namespace NadekoBot {
                     Console.WriteLine("Forwarding messages.");
                 }
                 if (string.IsNullOrWhiteSpace(creds.ParseID) || string.IsNullOrWhiteSpace(creds.ParseKey)) {
-                    Console.WriteLine("Parse key and/or ID not found. Those are mandatory.");
+                    Console.WriteLine("Parse key and/or ID not found. Some functionality will be missing.");
                     ParseActive = false;
                 } else ParseActive = true;
 
@@ -140,7 +141,7 @@ namespace NadekoBot {
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
-
+            if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u=>u.Id)).Contains(e.User.Id)) return;
             //just ban this trash AutoModerator
             if (e.User.Id == 105309315895693312)
                 return; // FU

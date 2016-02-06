@@ -52,9 +52,9 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         if (musicPlayers[e.Server].TogglePause())
-                            await e.Send("Music player paused.");
+                            await e.Send(":musical_note:`Music player paused.`");
                         else
-                            await e.Send("Music player unpaused.");
+                            await e.Send(":musical_note:`Music player unpaused.`");
                     });
 
                 cgb.CreateCommand("q")
@@ -67,14 +67,17 @@ namespace NadekoBot.Modules {
                     .Alias("ls").Alias("lp")
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e => {
-                        if (musicPlayers.ContainsKey(e.Server) == false) await e.Send(":musical_note: No active music player.");
+                        if (musicPlayers.ContainsKey(e.Server) == false) {
+                            await e.Send(":musical_note: No active music player.");
+                            return;
+                        }
                         var player = musicPlayers[e.Server];
-                        string toSend = ":musical_note: " + player.SongQueue.Count + " videos currently queued. ";
+                        string toSend = ":musical_note: **" + player.SongQueue.Count + "** `videos currently queued.` ";
                         if (player.SongQueue.Count >= 25)
                             toSend += "**Song queue is full!**\n";
                         await e.Send(toSend);
                         int number = 1;
-                        await e.Send(string.Join("\n", player.SongQueue.Select(v => $"`{number++}.` {v.Title.TrimTo(60)}").Take(10)));
+                        await e.Send(string.Join("\n", player.SongQueue.Take(10).Select(v => $"`{number++}.` {v.FullPrettyName}")));
                     });
 
                 cgb.CreateCommand("np")
@@ -83,7 +86,7 @@ namespace NadekoBot.Modules {
                  .Do(async e => {
                      if (musicPlayers.ContainsKey(e.Server) == false) return;
                      var player = musicPlayers[e.Server];
-                     await e.Send($"Now Playing **{player.CurrentSong.Title}**");
+                     await e.Send($":musical_note:`Now Playing` {player.CurrentSong.FullPrettyName}");
                  });
 
                 cgb.CreateCommand("vol")
@@ -99,7 +102,7 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       volume = player.SetVolume(volume);
-                      await e.Send($":musical_note:Volume set to {volume}50%");
+                      await e.Send($":musical_note: `Volume set to {volume}%`");
                   });
 
                 cgb.CreateCommand("min").Alias("mute")
@@ -137,7 +140,7 @@ namespace NadekoBot.Modules {
                         }
 
                         player.SongQueue.Shuffle();
-                        await e.Send(":musical_note: Songs shuffled!");
+                        await e.Send(":musical_note: `Songs shuffled.`");
                     });
 
                 bool setgameEnabled = false;
@@ -158,7 +161,7 @@ namespace NadekoBot.Modules {
                         else
                             setgameTimer.Stop();
 
-                        await e.Send("Music status " + (setgameEnabled ? "enabled" : "disabled"));
+                        await e.Send("`Music status " + (setgameEnabled ? "enabled`" : "disabled`"));
                     });
 
                 cgb.CreateCommand("pl")
@@ -171,12 +174,12 @@ namespace NadekoBot.Modules {
                         }
                         var ids = await Searches.GetVideoIDs(await Searches.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Send($":musical_note: Attempting to queue {ids.Count} songs".SnPl(ids.Count));
+                        var msg = await e.Send($":musical_note: Attempting to queue **{ids.Count}** songs".SnPl(ids.Count));
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
                         }
-                        msg?.Edit(":musical_note:Playlist queue complete.");
+                        msg?.Edit(":musical_note: `Playlist queue complete.`");
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
@@ -193,6 +196,8 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("debug")
                     .Description("Writes some music data to console. **BOT OWNER ONLY**")
                     .Do(e => {
+                        if (NadekoBot.OwnerID != e.User.Id)
+                            return;
                         var output = "SERVER_NAME---SERVER_ID-----USERCOUNT----QUEUED\n" +
                             string.Join("\n", musicPlayers.Select(kvp => kvp.Key.Name + "--" + kvp.Key.Id + " --" + kvp.Key.Users.Count() + "--" + kvp.Value.SongQueue.Count));
                         Console.WriteLine(output);
@@ -207,7 +212,7 @@ namespace NadekoBot.Modules {
             }
             if (musicPlayers.ContainsKey(e.Server) == false)
                 if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e))) {
-                    await e.Send("Failed to create a music player for this server");
+                    await e.Send("Failed to create a music player for this server.");
                     return;
                 }
             if (query == null || query.Length < 4)
@@ -226,15 +231,15 @@ namespace NadekoBot.Modules {
                 Message qmsg = null;
                 Message msg = null;
                 if (!silent) {
-                    qmsg = await e.Channel.SendMessage(":musical_note: **Searching...**");
+                    qmsg = await e.Channel.SendMessage(":musical_note: `Searching...`");
                     sr.OnResolving += async () => {
-                        await qmsg.Edit($":musical_note: **Resolving**... \"{query}\"");
+                        await qmsg.Edit($":musical_note: `Resolving`... \"{query}\"");
                     };
                     sr.OnResolvingFailed += async (err) => {
-                        await qmsg.Edit($":anger: :musical_note: **Resolving failed** for `{query}`");
+                        await qmsg.Edit($":anger: :musical_note: `Resolving failed` for **{query}**");
                     };
                     sr.OnQueued += async () => {
-                        await qmsg.Edit($":musical_note:**Queued** {sr.Title.TrimTo(55)}");
+                        await qmsg.Edit($":musical_note:`Queued`{sr.FullPrettyName}");
                     };
                 }
                 sr.OnCompleted += async () => {
@@ -243,17 +248,18 @@ namespace NadekoBot.Modules {
                         if (mc.SongQueue.Count == 0)
                             mc.Stop();
                     }
-                    await e.Send($":musical_note:**Finished playing** {sr.Title.TrimTo(55)}");
+                    await e.Send($":musical_note:`Finished`{sr.FullPrettyName}");
                 };
                 sr.OnStarted += async () => {
+                    var msgTxt = $":musical_note:`Playing`{sr.FullPrettyName} `Vol: {(int)(player.Volume * 100)}%`";
                     if (msg == null)
-                        await e.Send($":musical_note:**Playing ** {sr.Title.TrimTo(55)} **Volume:** {(int)(player.Volume * 100)}%");
+                        await e.Send(msgTxt);
                     else
-                        await msg.Edit($":musical_note:**Playing ** {sr.Title.TrimTo(55)} **Volume:** {(int)(player.Volume * 100)}%");
+                        await msg.Edit(msgTxt);
                     qmsg?.Delete();
                 };
                 sr.OnBuffering += async () => {
-                    msg = await e.Send($":musical_note:**Buffering...** {sr.Title.TrimTo(55)}");
+                    msg = await e.Send($":musical_note:`Buffering...`{sr.FullPrettyName}");
                 };
             } catch (Exception ex) {
                 Console.WriteLine();
