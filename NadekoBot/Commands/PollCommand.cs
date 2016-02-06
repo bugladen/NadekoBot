@@ -21,6 +21,8 @@ namespace NadekoBot.Modules {
                   .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll What is my question?;Answer1;Answer 2; Answer 3")
                   .Parameter("allargs", ParameterType.Unparsed)
                   .Do(e => {
+                      if (!e.User.ServerPermissions.ManageChannels)
+                          return;
                       if (ActivePolls.ContainsKey(e.Server))
                           return;
                       var arg = e.GetArg("allargs");
@@ -35,6 +37,8 @@ namespace NadekoBot.Modules {
             cgb.CreateCommand(">pollend")
                   .Description("Stops active poll on this server and prints the results in this channel.")
                   .Do(async e => {
+                      if (!e.User.ServerPermissions.ManageChannels)
+                          return;
                       if (!ActivePolls.ContainsKey(e.Server))
                           return;
                       await ActivePolls[e.Server].StopPoll(e.Channel);

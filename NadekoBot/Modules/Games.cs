@@ -23,6 +23,20 @@ namespace NadekoBot.Modules
             manager.CreateCommands("", cgb =>
             {
                 commands.ForEach(cmd => cmd.Init(cgb));
+
+                cgb.CreateCommand(">choose")
+                  .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep more;Sleep even more")
+                  .Parameter("list", Discord.Commands.ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("list");
+                      if (string.IsNullOrWhiteSpace(arg))
+                          return;
+                      var list = arg.Split(';');
+                      if (list.Count() < 2)
+                          return;
+                      await e.Send(list[new Random().Next(0, list.Length)]);
+                  });
+
                 cgb.CreateCommand(">")
                     .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")
                     .Parameter("attack_type",Discord.Commands.ParameterType.Required)
