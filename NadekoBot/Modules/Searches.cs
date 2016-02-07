@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NadekoBot.Modules {
     class Searches : DiscordModule {

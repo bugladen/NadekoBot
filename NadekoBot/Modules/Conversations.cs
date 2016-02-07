@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Drawing.Imaging;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;

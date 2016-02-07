@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using Discord;
-using System.ComponentModel;
 
 /* Voltana's legacy
 public class AsyncLazy<T> : Lazy<Task<T>> 
