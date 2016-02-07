@@ -40,6 +40,9 @@ namespace NadekoBot
             Console.WriteLine("Logging enabled.");
         }
 
+        public TimeSpan GetUptime() =>
+            DateTime.Now - Process.GetCurrentProcess().StartTime;
+
         public string GetUptimeString() {
             var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
             return time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
@@ -72,18 +75,22 @@ namespace NadekoBot
 
         private async Task StartCollecting() {
             while (true) {
-                await Task.Delay(new TimeSpan(1, 0, 0));
+                await Task.Delay(new TimeSpan(0, 30, 0));
                 try {
-                    var obj = new ParseObject("Stats");
-                    obj["OnlineUsers"] = await Task.Run(() => NadekoBot.client.Servers.Sum(x => x.Users.Count()));
-                    obj["RealOnlineUsers"] = await Task.Run(() => NadekoBot
-                                                                        .client.Servers
+                    var onlineUsers = await Task.Run(() => NadekoBot.client.Servers.Sum(x => x.Users.Count()));
+                    var realOnlineUsers = await Task.Run(() => NadekoBot.client.Servers
                                                                         .Sum(x => x.Users.Where(u => u.Status == UserStatus.Online).Count()));
-                    obj["ConnectedServers"] = NadekoBot.client.Servers.Count();
+                    var connectedServers = NadekoBot.client.Servers.Count();
 
-                    await obj.SaveAsync();
+                    Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Stats {
+                        OnlineUsers = onlineUsers,
+                        RealOnlineUsers = realOnlineUsers,
+                        Uptime = GetUptime(),
+                        ConnectedServers = connectedServers,
+                        DateAdded = DateTime.Now
+                    });
                 } catch (Exception) {
-                    Console.WriteLine("Parse exception in StartCollecting");
+                    Console.WriteLine("DB Exception in stats collecting.");
                     break;
                 }
             }
@@ -93,19 +100,16 @@ namespace NadekoBot
         {
             try {
                 _commandsRan++;
-                var obj = new ParseObject("CommandsRan");
-
-                obj["ServerId"] = e.Server.Id;
-                obj["ServerName"] = e.Server.Name;
-
-                obj["ChannelId"] = e.Channel.Id;
-                obj["ChannelName"] = e.Channel.Name;
-
-                obj["UserId"] = e.User.Id;
-                obj["UserName"] = e.User.Name;
-
-                obj["CommandName"] = e.Command.Text;
-                obj.SaveAsync();
+                Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Command {
+                    ServerId = (long)e.Server.Id,
+                    ServerName = e.Server.Name,
+                    ChannelId = (long)e.Channel.Id,
+                    ChannelName =e.Channel.Name,
+                    UserId = (long)e.User.Id,
+                    UserName = e.User.Name,
+                    CommandName = e.Command.Text,
+                    DateAdded = DateTime.Now
+                });
             } catch (Exception) {
                 Console.WriteLine("Parse error in ran command.");
             }

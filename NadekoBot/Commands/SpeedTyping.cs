@@ -151,13 +151,13 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand("typeadd")
                 .Description("Adds a new article to the typing contest. Owner only.")
                 .Parameter("text",ParameterType.Unparsed)
-                .Do(async e => {
-                    if (e.User.Id != NadekoBot.OwnerID || e.GetArg("text") == null) return;
+                .Do(e => {
+                    if (e.User.Id != NadekoBot.OwnerID || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    var obj = new ParseObject("TypingArticles");
-                    obj["text"] = e.GetArg("text");
-                    await obj.SaveAsync();
-                    await e.Send("Added new typing article.");
+                    Classes.DBHandler.Instance.InsertData(new Classes._DataModels.TypingArticle {
+                        Text = e.GetArg("text"),
+                        DateAdded = DateTime.Now
+                    });
                 });
 
             //todo add user submissions

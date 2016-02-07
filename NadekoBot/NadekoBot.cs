@@ -174,3 +174,5 @@ namespace NadekoBot {
         }
     }
 }
+
+//95520984584429568 meany

@@ -36,12 +36,11 @@ namespace NadekoBot.Commands {
             NadekoBot.client.UserJoined += UserJoined;
             NadekoBot.client.UserLeft += UserLeft;
 
-            var data = new ParseQuery<ParseObject>("Announcements")
-                               .FindAsync()
-                               .Result;
+            List<Classes._DataModels.Announcement> data = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
+
             if (data.Any())
-                foreach (var po in data)
-                    AnnouncementsDictionary.TryAdd(po.Get<ulong>("serverId"), new AnnounceControls(po.Get<ulong>("serverId")).Initialize(po));
+                foreach (var obj in data)
+                    AnnouncementsDictionary.TryAdd((ulong)obj.ServerId, new AnnounceControls(obj));
         }
 
         private async void UserLeft(object sender, UserEventArgs e) {
@@ -85,67 +84,59 @@ namespace NadekoBot.Commands {
         }
 
         public class AnnounceControls {
-            private ParseObject ParseObj = null;
-
-            private bool greet;
+            private Classes._DataModels.Announcement _model { get; }
 
             public bool Greet {
-                get { return greet; }
-                set { greet = value; Save(); }
+                get { return _model.Greet; }
+                set { _model.Greet = value; Save(); }
             }
-
-            private ulong greetChannel;
 
             public ulong GreetChannel {
-                get { return greetChannel; }
-                set { greetChannel = value; }
+                get { return (ulong)_model.GreetChannelId; }
+                set { _model.GreetChannelId = (long)value; Save(); }
             }
-
-            private bool greetPM;
 
             public bool GreetPM {
-                get { return greetPM; }
-                set { greetPM = value; Save(); }
+                get { return _model.GreetPM; }
+                set { _model.GreetPM = value; Save(); }
             }
-
-            private bool byePM;
 
             public bool ByePM {
-                get { return byePM; }
-                set { byePM = value; Save(); }
+                get { return _model.ByePM; }
+                set { _model.ByePM = value; Save(); }
             }
 
-            private string greetText = "Welcome to the server %user%";
             public string GreetText {
-                get { return greetText; }
-                set { greetText = value; Save(); }
+                get { return _model.GreetText; }
+                set { _model.GreetText = value; Save(); }
             }
-
-            private bool bye;
 
             public bool Bye {
-                get { return bye; }
-                set { bye = value; Save(); }
+                get { return _model.Bye; }
+                set { _model.Bye = value; Save(); }
             }
-
-            private ulong byeChannel;
-
             public ulong ByeChannel {
-                get { return byeChannel; }
-                set { byeChannel = value; }
+                get { return (ulong)_model.ByeChannelId; }
+                set { _model.ByeChannelId = (long)value; Save(); }
             }
 
-            private string byeText = "%user% has left the server";
             public string ByeText {
-                get { return byeText; }
-                set { byeText = value; Save(); }
+                get { return _model.ByeText; }
+                set { _model.ByeText = value; Save(); }
             }
 
-
-            public ulong ServerId { get; }
+            public ulong ServerId {
+                get { return (ulong)_model.ServerId; }
+                set { _model.ServerId = (long)value; }
+            }
+            
+            public AnnounceControls(Classes._DataModels.Announcement model) {
+                this._model = model;
+            }
 
             public AnnounceControls(ulong serverId) {
-                this.ServerId = serverId;
+                this._model = new Classes._DataModels.Announcement();
+                ServerId = serverId;
             }
 
             internal bool ToggleBye(ulong id) {
@@ -169,39 +160,7 @@ namespace NadekoBot.Commands {
             internal bool ToggleByePM() => ByePM = !ByePM;
 
             private void Save() {
-                ParseObject p = null;
-                if (this.ParseObj != null)
-                    p = ParseObj;
-                else
-                    p = ParseObj = new ParseObject("Announcements");
-                p["greet"] = greet;
-                p["greetPM"] = greetPM;
-                p["greetText"] = greetText;
-                p["greetChannel"] = greetChannel;
-
-                p["bye"] = bye;
-                p["byePM"] = byePM;
-                p["byeText"] = byeText;
-                p["byeChannel"] = byeChannel;
-
-                p["serverId"] = ServerId;
-
-                p.SaveAsync();
-            }
-
-            internal AnnounceControls Initialize(ParseObject po) {
-                greet = po.Get<bool>("greet");
-                greetPM = po.ContainsKey("greetPM") ? po.Get<bool>("greetPM") : false;
-                greetText = po.Get<string>("greetText");
-                greetChannel = po.Get<ulong>("greetChannel");
-
-                bye = po.Get<bool>("bye");
-                byePM = po.ContainsKey("byePM") ? po.Get<bool>("byePM") : false;
-                byeText = po.Get<string>("byeText");
-                byeChannel = po.Get<ulong>("byeChannel");
-
-                this.ParseObj = po;
-                return this;
+                Classes.DBHandler.Instance.Save(_model);
             }
         }
 
@@ -268,7 +227,7 @@ namespace NadekoBot.Commands {
                     AnnouncementsDictionary[e.Server.Id].ByeText = e.GetArg("msg");
                     await e.Send("New bye message set.");
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Send("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
+                        await e.Send("Enable bye messsages by typing `.bye`.");
                 });
 
             cgb.CreateCommand(".byepm")

@@ -1,76 +1,42 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Parse;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
     class RequestsCommand : DiscordCommand {
         public void SaveRequest(CommandEventArgs e, string text) {
-
-            var obj = new ParseObject("Requests");
-
-            obj["ServerId"] = e.Server.Id;
-            obj["ServerName"] = e.Server.Name;
-            obj["UserId"] = e.User.Id;
-            obj["UserName"] = e.User.Name;
-            obj["Request"] = text;
-
-            obj.SaveAsync();
+            Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Request {
+                RequestText = text,
+                UserName = e.User.Name,
+                UserId = (long)e.User.Id,
+                ServerId = (long)e.Server.Id,
+                ServerName = e.Server.Name,
+                DateAdded = DateTime.Now
+            });
         }
         // todo what if it's too long?
         public string GetRequests() {
-            var task = ParseObject.GetQuery("Requests")
-                .FindAsync().Result;
+            var task = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Request>();
 
             string str = "Here are all current requests for NadekoBot:\n\n";
             int i = 1;
             foreach (var reqObj in task) {
-                str += (i++) + ". by **" + reqObj["UserName"] + "** from **" + reqObj["ServerName"] + "**  at " + reqObj.CreatedAt.Value.ToLocalTime() + "\n";
-                str += "**" + reqObj["Request"] + "**\n----------\n";
+                str += $"{reqObj.Id}. by **{reqObj.UserName}** from **{reqObj.ServerName}** at {reqObj.DateAdded.ToLocalTime()}\n" +
+                       $"**{reqObj.RequestText}**\n----------\n";
             }
             return str + "\n__Type [@NadekoBot clr] to clear all of my messages.__";
         }
 
-        public bool DeleteRequest(int requestNumber) {
-            var task = ParseObject.GetQuery("Requests")
-                .FindAsync().Result;
-            int i = 1;
-            foreach (var reqObj in task) {
-                if (i == requestNumber) {
-                    reqObj.DeleteAsync();
-                    return true;
-                }
-                i++;
-            }
-            return false;
-        }
+        public bool DeleteRequest(int requestNumber) => 
+            Classes.DBHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber) != null;
 
-        public class ResolveRequestObject {
-            public ulong Id;
-            public ulong ServerId;
-            public string Text;
-        }
         /// <summary>
-        /// Resolves a request with a number and returns that users id.
+        /// Delete a request with a number and returns that request object.
         /// </summary>
         /// <returns>RequestObject of the request. Null if none</returns>
-        public ResolveRequestObject ResolveRequest(int requestNumber) {
-            var task = ParseObject.GetQuery("Requests")
-                .FindAsync().Result;
-            int i = 1;
-            foreach (var reqObj in task) {
-                if (i == requestNumber) {
-                    var txt = reqObj.Get<string>("Request");
-                    var id = reqObj.Get<ulong>("UserId");
-                    var sid = reqObj.Get<ulong>("ServerId");
-                    reqObj.DeleteAsync();
-                    return new ResolveRequestObject { Id = id, Text = txt, ServerId = sid };
-                }
-                i++;
-            }
-            return null;
-        }
+        public Classes._DataModels.Request ResolveRequest(int requestNumber) =>
+            Classes.DBHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
 
         public override Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();
@@ -130,7 +96,7 @@ namespace NadekoBot.Commands {
                             var sc = ResolveRequest(int.Parse(e.Args[0]));
                             if (sc != null) {
                                 await e.Send(e.User.Mention + " Request resolved, notice sent.");
-                                await client.GetServer(sc.ServerId).GetUser(sc.Id).Send("**This request of yours has been resolved:**\n" + sc.Text);
+                                await client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText);
                             } else {
                                 await e.Send("No request on that number.");
                             }
