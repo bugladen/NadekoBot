@@ -32,12 +32,8 @@ namespace NadekoBot.Classes {
         }
 
         internal void InsertMany<T>(T objects) where T : IEnumerable<IDataModel> {
-            try {
-                using (var _conn = new SQLiteConnection(_filePath)) {
-                    _conn.InsertAll(objects);
-                }
-            } catch (Exception ex) {
-                Console.WriteLine(ex);
+            using (var _conn = new SQLiteConnection(_filePath)) {
+                _conn.InsertAll(objects);
             }
         }
 
