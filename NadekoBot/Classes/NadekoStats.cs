@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Parse;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,8 +34,8 @@ namespace NadekoBot
             _statsSW = new Stopwatch();
             _statsSW.Start();
             _service.CommandExecuted += StatsCollector_RanCommand;
-                
-            StartCollecting();
+
+            Task.Run(() => StartCollecting());
             Console.WriteLine("Logging enabled.");
         }
 

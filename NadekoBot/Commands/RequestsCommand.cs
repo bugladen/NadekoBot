@@ -20,7 +20,6 @@ namespace NadekoBot.Commands {
             var task = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Request>();
 
             string str = "Here are all current requests for NadekoBot:\n\n";
-            int i = 1;
             foreach (var reqObj in task) {
                 str += $"{reqObj.Id}. by **{reqObj.UserName}** from **{reqObj.ServerName}** at {reqObj.DateAdded.ToLocalTime()}\n" +
                        $"**{reqObj.RequestText}**\n----------\n";

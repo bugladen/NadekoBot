@@ -7,7 +7,6 @@ using Discord.Commands;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using Discord;
-using Parse;
 using System.ComponentModel;
 
 /* Voltana's legacy
@@ -129,7 +128,7 @@ namespace NadekoBot.Commands {
                 get { return (ulong)_model.ServerId; }
                 set { _model.ServerId = (long)value; }
             }
-            
+
             public AnnounceControls(Classes._DataModels.Announcement model) {
                 this._model = model;
             }
@@ -238,7 +237,7 @@ namespace NadekoBot.Commands {
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
                     AnnouncementsDictionary[e.Server.Id].ToggleByePM();
-                    if(AnnouncementsDictionary[e.Server.Id].ByePM)
+                    if (AnnouncementsDictionary[e.Server.Id].ByePM)
                         await e.Send("Bye messages will be sent in a PM from now on.\n :warning: Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
                     else
                         await e.Send("Bye messages will be sent in a bound channel from now on.");

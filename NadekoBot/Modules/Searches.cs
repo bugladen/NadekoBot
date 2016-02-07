@@ -224,7 +224,7 @@ namespace NadekoBot.Modules {
                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
                                   } catch (Exception) { }
                               };
-                          } catch (Exception ex) {
+                          } catch {
                               await e.Channel.SendMessage(":anger: Failed retrieving osu signature :\\");
                           }
                       }

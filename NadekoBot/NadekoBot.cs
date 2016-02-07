@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using Parse;
 using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
@@ -22,7 +21,6 @@ namespace NadekoBot {
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
         public static Credentials creds;
-        public static bool ParseActive = false;
 
         static void Main() {
             //load credentials from credentials.json
@@ -49,25 +47,10 @@ namespace NadekoBot {
                     ForwardMessages = true;
                     Console.WriteLine("Forwarding messages.");
                 }
-                if (string.IsNullOrWhiteSpace(creds.ParseID) || string.IsNullOrWhiteSpace(creds.ParseKey)) {
-                    Console.WriteLine("Parse key and/or ID not found. Some functionality will be missing.");
-                    ParseActive = false;
-                } else ParseActive = true;
-
-                if(string.IsNullOrWhiteSpace(creds.OsuApiKey))
-                    Console.WriteLine("No osu API key found. Osu functionality is disabled.");
-                else
-                    Console.WriteLine("Osu enabled.");
                 if(string.IsNullOrWhiteSpace(creds.SoundCloudClientID))
                     Console.WriteLine("No soundcloud Client ID found. Soundcloud streaming is disabled.");
                 else
                     Console.WriteLine("SoundCloud streaming enabled.");
-
-                //init parse
-                if (ParseActive)
-                    try {
-                        ParseClient.Initialize(creds.ParseID, creds.ParseKey);
-                    } catch (Exception) { Console.WriteLine("Parse exception. Probably wrong parse credentials."); }
 
                 OwnerID = creds.OwnerID;
                 password = creds.Password;
