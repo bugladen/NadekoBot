@@ -14,6 +14,7 @@ namespace NadekoBot.Classes._DataModels {
         public long ChannelId { get; set; }
         public string ChannelName { get; set; }
         public string CommandName { get; set; }
+        [Newtonsoft.Json.JsonProperty("createdAt")]
         public DateTime DateAdded { get; set; }
     }
 }

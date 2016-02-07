@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 using NadekoBot.Commands;
 using System.IO;
 using System.Collections.Concurrent;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using NadekoBot.Classes._DataModels;
 
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
             commands.Add(new HelpCommand());
-            if (NadekoBot.ParseActive)
-                commands.Add(new ServerGreetCommand());
-            else
-                Console.WriteLine("Parse not active. Server greet disabled.");
+            commands.Add(new ServerGreetCommand());
         }
 
         public override void Install(ModuleManager manager) {
@@ -443,6 +443,7 @@ namespace NadekoBot.Modules {
                         clearDictionary.TryRemove(e.Server, out throwaway);
                     });
                 cgb.CreateCommand(".newname")
+                    .Alias(".setname")
                     .Description("Give the bot a new name.")
                     .Parameter("new_name", ParameterType.Unparsed)
                     .Do(async e => {
@@ -549,6 +550,21 @@ namespace NadekoBot.Modules {
                         }
                         await e.Channel.Send(send);
                     });
+
+                cgb.CreateCommand(".parsetosql")
+                  .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
+                  .Do(async e => {
+                      if (e.User.Id != NadekoBot.OwnerID)
+                          return;
+                      await Task.Run(() => {
+                          SaveParseToDb<Announcement>("data/parsedata/Announcements.json");
+                          SaveParseToDb<Classes._DataModels.Command>("data/parsedata/CommandsRan.json");
+                          SaveParseToDb<Request>("data/parsedata/Requests.json");
+                          SaveParseToDb<Stats>("data/parsedata/Stats.json");
+                          SaveParseToDb<TypingArticle>("data/parsedata/TypingArticles.json");
+                      });
+                  });
+
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
                 
@@ -582,6 +598,16 @@ namespace NadekoBot.Modules {
                    });
                */
             });
+        }
+
+        public void SaveParseToDb<T>(string where) where T : IDataModel {
+            var data = File.ReadAllText(where);
+            var arr = JObject.Parse(data)["results"] as JArray;
+            var objects = new List<T>();
+            foreach (JObject obj in arr) {
+                objects.Add(obj.ToObject<T>());
+            }
+            Classes.DBHandler.Instance.InsertMany(objects);
         }
     }
 }

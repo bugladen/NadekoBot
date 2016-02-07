@@ -155,7 +155,7 @@ namespace NadekoBot.Commands {
                         DateAdded = DateTime.Now
                     });
 
-                    await e.Send("Added new article for typing.");
+                    await e.Send("Added new article for typing game.");
                 });
 
             //todo add user submissions

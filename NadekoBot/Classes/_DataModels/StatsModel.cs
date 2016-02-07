@@ -11,6 +11,7 @@ namespace NadekoBot.Classes._DataModels {
         public int OnlineUsers { get; set; }
         public TimeSpan Uptime { get; set; }
         public int RealOnlineUsers { get; set; }
+        [Newtonsoft.Json.JsonProperty("createdAt")]
         public DateTime DateAdded { get; set; }
     }
 }
