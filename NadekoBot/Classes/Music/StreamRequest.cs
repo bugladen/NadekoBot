@@ -155,8 +155,6 @@ namespace NadekoBot.Classes.Music {
         private readonly object _bufferLock = new object();
         private bool prebufferingComplete = false;
 
-        private Process ffmpegProcess;
-
         public MusicStreamer(StreamRequest parent, string directUrl) {
             this.parent = parent;
             this.buffer = new DualStream();
@@ -182,18 +180,59 @@ namespace NadekoBot.Classes.Music {
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
             });
+            int attempt = 0;
+            while (true) {
+                while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
+                    prebufferingComplete = true;
+                    await Task.Delay(200);
+                }
 
-            ffmpegProcess = p;
-            await Task.Delay(1000);
-            prebufferingComplete = true;
+                if (State == StreamState.Completed) {
+                    try {
+                        p.CancelOutputRead();
+                        p.Close();
+                    } catch (Exception) { }
+                    Console.WriteLine("Buffering canceled, stream is completed.");
+                    return;
+                }
 
-            while (State != StreamState.Completed) {
-                await Task.Delay(500);
+                if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) { // if buffer is over 5 MiB, create new one
+                    var skip = 5.MB(); //remove only 5 MB, just in case
+                    var newBuffer = new DualStream();
+
+                    lock (_bufferLock) {
+                        byte[] data = buffer.ToArray().Skip(skip).ToArray();
+                        var newReadPos = buffer.readPos - skip;
+                        var newPos = buffer.Position - skip;
+                        buffer = newBuffer;
+                        buffer.Write(data, 0, data.Length);
+                        buffer.readPos = newReadPos;
+                        buffer.Position = newPos;
+                    }
+                }
+
+                var buf = new byte[2048];
+                int read = 0;
+                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 2048);
+                //Console.WriteLine($"Read: {read}");
+                if (read == 0) {
+                    if (attempt == 5) {
+                        try {
+                            p.CancelOutputRead();
+                            p.Close();
+                        } catch (Exception) { }
+
+                        Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length/1.MB()}MB length");
+                        return;
+                    } else {
+                        ++attempt;
+                        await Task.Delay(20);
+                    }
+                } else {
+                    attempt = 0;
+                    await buffer.WriteAsync(buf, 0, read);
+                }
             }
-            try {
-                p.CancelOutputRead();
-                p.Close();
-            } catch (Exception) { }
         }
 
         internal async Task StartPlayback() {
@@ -217,13 +256,13 @@ namespace NadekoBot.Classes.Music {
                 Console.WriteLine($"Prebuffering finished in {bufferAttempts*500}");
             }
             // prebuffering wait stuff end
-            /*
+            
             if (buffer.Length > 0) {
                 Console.WriteLine("Prebuffering complete.");
             } else {
                 Console.WriteLine("Didn't buffer jack shit.");
             }
-            */
+            
             int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;
             byte[] voiceBuffer = new byte[blockSize];
 
@@ -236,9 +275,7 @@ namespace NadekoBot.Classes.Music {
                 //adjust volume
                 
                 lock (_bufferLock) {
-                    readCount = ffmpegProcess.StandardOutput.BaseStream.Read(voiceBuffer, 0, voiceBuffer.Length);
-                    if(readCount!=3840)
-                        Console.WriteLine("Read: "+ readCount);
+                    readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
                 }
 
                 if (readCount == 0) {
