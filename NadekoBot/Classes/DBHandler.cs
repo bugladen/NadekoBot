@@ -41,13 +41,13 @@ namespace NadekoBot.Classes {
 
         internal List<T> GetAllRows<T>() where T : IDataModel, new() {
             using (var _conn = new SQLiteConnection(_filePath)) {
-                return _conn.Table<T>().Where(t => true).ToList();
+                return _conn.Table<T>().ToList();
             }
         }
 
         internal T Delete<T>(int Id) where T : IDataModel, new() {
             using (var _conn = new SQLiteConnection(_filePath)) {
-                var found = _conn.Table<T>().Where(t => t.Id == Id).FirstOrDefault();
+                var found = _conn.Find<T>(Id);
                 if (found != null)
                     _conn.Delete<T>(found.Id);
                 return found;
@@ -59,7 +59,7 @@ namespace NadekoBot.Classes {
         /// </summary>
         internal void Save<T>(T o) where T : IDataModel, new() {
             using (var _conn = new SQLiteConnection(_filePath)) {
-                var found = _conn.Table<T>().Where(t => t.Id == o.Id).FirstOrDefault();
+                var found = _conn.Find<T>(o.Id);
                 if (found == null)
                     _conn.Insert(o, typeof(T));
                 else

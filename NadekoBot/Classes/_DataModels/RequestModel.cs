@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NadekoBot.Classes._DataModels {
+﻿namespace NadekoBot.Classes._DataModels {
     class Request : IDataModel {
         public string UserName { get; set; }
         public long UserId { get; set; }
@@ -8,7 +6,5 @@ namespace NadekoBot.Classes._DataModels {
         public long ServerId { get; set; }
         [Newtonsoft.Json.JsonProperty("Request")]
         public string RequestText { get; set; }
-        [Newtonsoft.Json.JsonProperty("createdAt")]
-        public DateTime DateAdded { get; set; }
     }
 }

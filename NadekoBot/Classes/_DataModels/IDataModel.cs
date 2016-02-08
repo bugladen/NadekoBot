@@ -1,14 +1,12 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Classes._DataModels {
     class IDataModel {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        [Newtonsoft.Json.JsonProperty("createdAt")]
+        public DateTime DateAdded { get; set; } = DateTime.Now;
         public IDataModel() { }
     }
 }

@@ -14,7 +14,5 @@ namespace NadekoBot.Classes._DataModels {
         [JsonProperty("byeChannel")]
         public long ByeChannelId { get; set; } = 0;
         public string ByeText { get; set; } = "%user% has left the server.";
-        [JsonProperty("createdAt")]
-        public DateTime DateAdded { get; set; } = DateTime.Now;
     }
 }

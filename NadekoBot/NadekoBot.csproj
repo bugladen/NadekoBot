@@ -133,6 +133,8 @@
     <Compile Include="Classes\Music\SoundCloud.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
+    <Compile Include="Classes\_DataModels\Currency.cs" />
+    <Compile Include="Classes\_DataModels\CurrencyTransaction.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
