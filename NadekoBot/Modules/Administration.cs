@@ -452,6 +452,20 @@ namespace NadekoBot.Modules {
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
 
+                cgb.CreateCommand(".newavatar")
+                    .Alias(".setavatar")
+                    .Description("Sets the new avatar from the image URL. PNG and JPEG supported")
+                    .Parameter("new_avatar", ParameterType.Required)
+                    .Do(async e => {
+                        if (e.User.Id != NadekoBot.OwnerID || e.GetArg("new_avatar") == null) return;
+                        var arg = e.GetArg("new_avatar").Trim();
+                        ImageType imgType = ImageType.Jpeg;
+                        if (arg.EndsWith("png"))
+                            imgType = ImageType.Png;
+                        var res = await Searches.GetResponseStream(e.GetArg("new_avatar"));
+                        await client.CurrentUser.Edit(NadekoBot.password, avatar: res, avatarType: imgType);
+                    });
+
                 cgb.CreateCommand(".setgame")
                   .Description("Sets the bots game.")
                   .Parameter("set_game", ParameterType.Unparsed)

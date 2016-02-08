@@ -52,9 +52,9 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         if (musicPlayers[e.Server].TogglePause())
-                            await e.Send(":musical_note:`Music player paused.`");
+                            await e.Send("🎵`Music player paused.`");
                         else
-                            await e.Send(":musical_note:`Music player unpaused.`");
+                            await e.Send("🎵`Music player unpaused.`");
                     });
 
                 cgb.CreateCommand("q")
@@ -68,11 +68,11 @@ namespace NadekoBot.Modules {
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) {
-                            await e.Send(":musical_note: No active music player.");
+                            await e.Send("🎵 No active music player.");
                             return;
                         }
                         var player = musicPlayers[e.Server];
-                        string toSend = ":musical_note: **" + player.SongQueue.Count + "** `videos currently queued.` ";
+                        string toSend = "🎵 **" + player.SongQueue.Count + "** `videos currently queued.` ";
                         if (player.SongQueue.Count >= 25)
                             toSend += "**Song queue is full!**\n";
                         await e.Send(toSend);
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules {
                  .Do(async e => {
                      if (musicPlayers.ContainsKey(e.Server) == false) return;
                      var player = musicPlayers[e.Server];
-                     await e.Send($":musical_note:`Now Playing` {player.CurrentSong.FullPrettyName}");
+                     await e.Send($"🎵`Now Playing` {player.CurrentSong.FullPrettyName}");
                  });
 
                 cgb.CreateCommand("vol")
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       volume = player.SetVolume(volume);
-                      await e.Send($":musical_note: `Volume set to {volume}%`");
+                      await e.Send($"🎵 `Volume set to {volume}%`");
                   });
 
                 cgb.CreateCommand("min").Alias("mute")
@@ -140,7 +140,7 @@ namespace NadekoBot.Modules {
                         }
 
                         player.SongQueue.Shuffle();
-                        await e.Send(":musical_note: `Songs shuffled.`");
+                        await e.Send("🎵 `Songs shuffled.`");
                     });
 
                 bool setgameEnabled = false;
@@ -169,17 +169,17 @@ namespace NadekoBot.Modules {
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Send(":anger: You need to be in the voice channel on this server.");
+                            await e.Send("💢 You need to be in the voice channel on this server.");
                             return;
                         }
                         var ids = await Searches.GetVideoIDs(await Searches.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Send($":musical_note: Attempting to queue **{ids.Count}** songs".SnPl(ids.Count));
+                        var msg = await e.Send($"🎵 Attempting to queue **{ids.Count}** songs".SnPl(ids.Count));
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
                         }
-                        msg?.Edit(":musical_note: `Playlist queue complete.`");
+                        msg?.Edit("🎵 `Playlist queue complete.`");
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
@@ -187,7 +187,7 @@ namespace NadekoBot.Modules {
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Send(":anger: You need to be in the voice channel on this server.");
+                            await e.Send("💢 You need to be in the voice channel on this server.");
                             return;
                         }
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules {
 
         private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
             if (e.User.VoiceChannel?.Server != e.Server) {
-                await e.Send(":anger: You need to be in the voice channel on this server.");
+                await e.Send("💢 You need to be in the voice channel on this server.");
                 return;
             }
             if (musicPlayers.ContainsKey(e.Server) == false)
@@ -231,15 +231,15 @@ namespace NadekoBot.Modules {
                 Message qmsg = null;
                 Message msg = null;
                 if (!silent) {
-                    qmsg = await e.Channel.SendMessage(":musical_note: `Searching...`");
+                    qmsg = await e.Channel.SendMessage("🎵 `Searching...`");
                     sr.OnResolving += async () => {
-                        await qmsg.Edit($":musical_note: `Resolving`... \"{query}\"");
+                        await qmsg.Edit($"🎵 `Resolving`... \"{query}\"");
                     };
                     sr.OnResolvingFailed += async (err) => {
-                        await qmsg.Edit($":anger: :musical_note: `Resolving failed` for **{query}**");
+                        await qmsg.Edit($"💢 🎵 `Resolving failed` for **{query}**");
                     };
                     sr.OnQueued += async () => {
-                        await qmsg.Edit($":musical_note:`Queued`{sr.FullPrettyName}");
+                        await qmsg.Edit($"🎵`Queued`{sr.FullPrettyName}");
                     };
                 }
                 sr.OnCompleted += async () => {
@@ -248,10 +248,10 @@ namespace NadekoBot.Modules {
                         if (mc.SongQueue.Count == 0)
                             mc.Stop();
                     }
-                    await e.Send($":musical_note:`Finished`{sr.FullPrettyName}");
+                    await e.Send($"🎵`Finished`{sr.FullPrettyName}");
                 };
                 sr.OnStarted += async () => {
-                    var msgTxt = $":musical_note:`Playing`{sr.FullPrettyName} `Vol: {(int)(player.Volume * 100)}%`";
+                    var msgTxt = $"🎵`Playing`{sr.FullPrettyName} `Vol: {(int)(player.Volume * 100)}%`";
                     if (msg == null)
                         await e.Send(msgTxt);
                     else
@@ -259,11 +259,11 @@ namespace NadekoBot.Modules {
                     qmsg?.Delete();
                 };
                 sr.OnBuffering += async () => {
-                    msg = await e.Send($":musical_note:`Buffering...`{sr.FullPrettyName}");
+                    msg = await e.Send($"🎵`Buffering...`{sr.FullPrettyName}");
                 };
             } catch (Exception ex) {
                 Console.WriteLine();
-                await e.Send($":anger: {ex.Message}");
+                await e.Send($"💢 {ex.Message}");
                 return;
             }
         }

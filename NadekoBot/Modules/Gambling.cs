@@ -26,7 +26,7 @@ namespace NadekoBot.Modules
                       var arg = string.IsNullOrWhiteSpace(e.GetArg("role")) ? "@everyone" : e.GetArg("role");
                       var role = e.Server.FindRoles(arg).FirstOrDefault();
                       if (role == null) {
-                          await e.Channel.SendMessage(":anger: Role not found.");
+                          await e.Channel.SendMessage("💢 Role not found.");
                           return;
                       }
                       var members = role.Members.Where(u => u.Status == Discord.UserStatus.Online); // only online

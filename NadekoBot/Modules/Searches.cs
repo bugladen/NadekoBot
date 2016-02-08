@@ -93,7 +93,7 @@ namespace NadekoBot.Modules {
                                var obj = JObject.Parse(await GetResponseAsync(reqString));
                                await e.Send(obj["items"][0]["link"].ToString());
                            } catch (Exception ex) {
-                               await e.Send($":anger: {ex.Message}");
+                               await e.Send($"💢 {ex.Message}");
                            }
                        });
 
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules {
                                var obj = JObject.Parse(await GetResponseAsync(reqString));
                                await e.Send(obj["items"][0]["link"].ToString());
                            } catch (Exception ex) {
-                               await e.Send($":anger: {ex.Message}");
+                               await e.Send($"💢 {ex.Message}");
                            }
                        });
 
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules {
                             var obj = JArray.Parse(await GetResponseAsync($"http://api.oboobs.ru/boobs/{_r.Next(0, 9304)}"))[0];
                             await e.Send($"http://media.oboobs.ru/{ obj["preview"].ToString() }");
                         } catch (Exception ex) {
-                            await e.Send($":anger: {ex.Message}");
+                            await e.Send($"💢 {ex.Message}");
                         }
                     });
                 cgb.CreateCommand("lmgtfy")
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       var arg = e.GetArg("name");
                       if (string.IsNullOrWhiteSpace(arg)) {
-                          await e.Send(":anger: Please enter a card name to search for.");
+                          await e.Send("💢 Please enter a card name to search for.");
                           return;
                       }
                       await e.Channel.SendIsTyping();
@@ -201,7 +201,7 @@ namespace NadekoBot.Modules {
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
                           Console.WriteLine("Finish");
                       } catch (Exception ex) {
-                          await e.Send($":anger: Error {ex.Message}");
+                          await e.Send($"💢 Error {ex.Message}");
                       }
                   });
 
@@ -224,7 +224,7 @@ namespace NadekoBot.Modules {
                                   } catch (Exception) { }
                               };
                           } catch {
-                              await e.Channel.SendMessage(":anger: Failed retrieving osu signature :\\");
+                              await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
                           }
                       }
                   });
