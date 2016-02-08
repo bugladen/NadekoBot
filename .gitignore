@@ -23,6 +23,7 @@ obj/
 !**/Bin/Debug/Nito.AsyncEx.Enlightenment.dll
 !**/Bin/Debug/Nito.AsyncEx.dll
 !**/Bin/Debug/WebSocket4Net.dll
+!**/Bin/Debug/sqlite3.dll
 !**/Bin/Debug/data/*
 !**/Bin/Debug/data/
 Tests/
