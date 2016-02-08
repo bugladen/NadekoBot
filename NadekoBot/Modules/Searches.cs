@@ -195,7 +195,7 @@ namespace NadekoBot.Modules {
                               images.Add(System.Drawing.Bitmap.FromStream(await GetResponseStream(item["img"].ToString())));
                           }
                           if (items.Count > 4) {
-                              await e.Send(":warning: Found over 4 images. Showing random 4.");
+                              await e.Send("⚠ Found over 4 images. Showing random 4.");
                           }
                           Console.WriteLine("Start");
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));

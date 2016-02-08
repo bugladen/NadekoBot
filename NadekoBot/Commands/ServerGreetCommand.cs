@@ -236,7 +236,7 @@ namespace NadekoBot.Commands {
 
                     AnnouncementsDictionary[e.Server.Id].ToggleByePM();
                     if (AnnouncementsDictionary[e.Server.Id].ByePM)
-                        await e.Send("Bye messages will be sent in a PM from now on.\n :warning: Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
+                        await e.Send("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
                     else
                         await e.Send("Bye messages will be sent in a bound channel from now on.");
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)

@@ -82,28 +82,18 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(".r").Alias(".role").Alias(".cr")
-                    .Description("Creates a role with a given name, and color.\n**Usage**: .r AwesomeRole Orange")
-                    .Parameter("role_name", ParameterType.Required)
-                    .Parameter("role_color", ParameterType.Optional)
+                    .Description("Creates a role with a given name.**Usage**: .r Awesome Role")
+                    .Parameter("role_name", ParameterType.Unparsed)
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageRoles) return;
-
-                        var color = Color.Blue;
-                        if (e.GetArg("role_color") != null) {
-                            try {
-                                if (e.GetArg("role_color") != null && e.GetArg("role_color").Trim().Length > 0)
-                                    color = (typeof(Color)).GetField(e.GetArg("role_color")).GetValue(null) as Color;
-                            } catch (Exception ex) {
-                                Console.WriteLine(ex.ToString());
-                                await e.Send("Please supply a proper color.\n Example: DarkBlue, Orange, Teal");
-                                return;
-                            }
-                        }
+                        if (string.IsNullOrWhiteSpace(e.GetArg("role_name")))
+                            return;
                         try {
                             var r = await e.Server.CreateRole(e.GetArg("role_name"));
-                            await r.Edit(null, null, color);
-                            await e.Send($"Successfully created role **{r.ToString()}**.");
-                        } catch (Exception) { }
+                            await e.Send($"Successfully created role **{r.Name}**.");
+                        } catch (Exception ex) {
+                            await e.Send(":warning: Unspecified error.");
+                        }
                     });
 
                 cgb.CreateCommand(".rolecolor").Alias(".rc")
@@ -438,7 +428,7 @@ namespace NadekoBot.Modules {
                                     await Task.Delay(500);
                                 }
                             });
-                        } catch (Exception) {}
+                        } catch (Exception) { }
                         bool throwaway;
                         clearDictionary.TryRemove(e.Server, out throwaway);
                     });
