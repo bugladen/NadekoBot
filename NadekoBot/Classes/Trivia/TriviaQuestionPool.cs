@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Classes.Trivia {
     public class TriviaQuestionPool {
@@ -19,8 +20,8 @@ namespace NadekoBot.Classes.Trivia {
             Reload();
         }
 
-        public TriviaQuestion GetRandomQuestion(List<TriviaQuestion> exclude) =>
-            pool.Except(exclude).OrderBy(x => _r.Next()).FirstOrDefault();
+        public TriviaQuestion GetRandomQuestion(List<TriviaQuestion> exclude) => 
+            pool.Except(exclude).FirstOrDefault();
 
         internal void Reload() {
             JArray arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
@@ -28,9 +29,10 @@ namespace NadekoBot.Classes.Trivia {
             foreach (var item in arr) {
                 TriviaQuestion tq;
                 tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(),item["Category"]?.ToString());
-
                 pool.Add(tq);
             }
+            var r = new Random();
+            pool = pool.OrderBy(x => r.Next()).ToList();
         }
     }
 }
