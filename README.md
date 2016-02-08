@@ -3,10 +3,10 @@
 Nadeko Discord chatbot written in C# using Discord.net library.  
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBhxEi0X
 
-##This section will guide you through how to setup NadekoBot from the source code
-#### If you want to semi-easily setup the bot, go to [releases](https://github.com/Kwoth/NadekoBot/releases)
+##This section will guide you through how to setup NadekoBot
+#### For easy setup and no programming knowledge, you can download .exe from [releases](https://github.com/Kwoth/NadekoBot/releases)
 
-In your bin/debug folder (or next to your exe), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, where to store data, etc.
+In your bin/debug folder (or next to your exe if you are using release version), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, and your api keys.
 
 **This is how the credentials.json should look like:**
 ```json
@@ -16,11 +16,8 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
     "Password":"bot_password",
     "GoogleAPIKey":"google_api_key",
     "OwnerID":123123123123,
-    "ParseID":"parse_app_id",
-    "ParseKey":"parse_api_key",
     "TrelloAppKey": "your_trello_app_key (optional)",
     "ForwardMessages": true,
-    "OsuApiKey": "your_osu_key (optional)",
     "SoundCloudClientID": "your_soundcloud_key (optional)",
     "MashapeKey": "your_mashape_key (optional)",
 }
@@ -35,23 +32,18 @@ In your bin/debug folder (or next to your exe), you must have a file called 'cre
 	"BotMention":"<@bot_id>",
 	"Password":"bot_password",
 	"OwnerID":123123123123,
-	"ParseID":"parse_app_id",
-	"ParseKey":"parse_api_key",
 }
 ```
 - BotMention(bot\_id) and OwnerID are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.
 - For google api key, you need to enable URL shortner and Youtube video search in the [dev console](https://console.developers.google.com/).
-- For **ParseID** and **ParseKey**, you need to register on http://www.parse.com, get those values and create a **DATA** app with these 3 classes: `'CommandsRan', 'Requests' and 'Stats'` in order to make the logging work http://i.imgur.com/bXsL19z.png.
-- For Osu Api key you need an Osu account. Login then go to this link https://osu.ppy.sh/p/api, create a new app and give it any name you like. App url is not important. After creating your app, you will get your Api Key which you need to paste into your credentials.json.
 - For the Soundcloud Api key you need a Soundcloud account. You need to create a new app on http://soundcloud.com/you/apps/new and after that go here http://soundcloud.com/you/apps click on the name of your created your app and copy the Client ID. Paste it into credentials.json.
 - For Mashape Api Key you need to create an account on their api marketplace here https://market.mashape.com/. After that you need to go to market.mashape.com/YOURNAMEHERE/applications/default-application and press GET THE KEYS in the right top corner copy paste it into your credentials.json and you are ready to race! 
-
 - If you want to have music, you need to download FFMPEG from this link http://ffmpeg.zeranoe.com/builds/ (static build version) and add ffmpeg/bin folder to your PATH environment variable. You do that by opening explorer -> right click 'This PC' -> properties -> advanced system settings -> In the top part, there is a PATH field, add `;` to the end and then your ffmpeg install location /bin (for example ;C:\ffmpeg-5.6.7\bin) and save. Open command prompt and type ffmpeg to see if you added it correctly. If it says "command not found" then you made a mistake somewhere. There are a lot of guides on the internet on how to add stuff to your PATH, check them out if you are stuck.
+- **IF YOU HAVE BEEN USING THIS BOT BEFORE AND YOU HAVE DATA FROM PARSE THAT YOU WANT TO KEEP** you should export your parse data and extract it inside /data/parsedata in your bot's folder. Next time you start the bot, type `.parsetosql` and the bot will fill your local sqlite db with data from those .json files.
 
+**IF BUILDING FROM SOURCE**  
 You should **remove** Discord.Net projects from your solution, and use add reference to the Discord.NET DLLs in your bin/debug.  
-
-**You are all set.**
-Fire up visual studio, wait for it to resolve dependencies and start NadekoBot.
+Wait for it to resolve dependencies and start NadekoBot.
 
 Enjoy
 
