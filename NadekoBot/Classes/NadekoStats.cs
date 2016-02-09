@@ -11,7 +11,7 @@ namespace NadekoBot
 {
     public class NadekoStats
     {
-        public string BotVersion = "0.8-beta8";
+        public string BotVersion = "0.8-beta9";
 
         private static readonly NadekoStats _instance = new NadekoStats();
         public static NadekoStats Instance => _instance;
