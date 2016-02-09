@@ -49,10 +49,10 @@ namespace NadekoBot.Modules
                   });
                   */
                 cgb.CreateCommand("$$$")
-                  .Description("Check how many NadekoPoints you have.")
+                  .Description("Check how many NadekoFlowers you have.")
                   .Do(async e => {
                       var pts = Classes.DBHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
-                      string str = $"`You have {pts} NadekoPoints".SnPl((int)pts)+"`\n";
+                      string str = $"`You have {pts} NadekoFlowers".SnPl((int)pts)+"`\n";
                       for (int i = 0; i < pts; i++) {
                           str += "🌸";
                       }
