@@ -48,7 +48,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("p")
                     .Alias("pause")
-                    .Description("Pauses the song")
+                    .Description("Pauses or Unpauses the song")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         if (musicPlayers[e.Server].TogglePause())

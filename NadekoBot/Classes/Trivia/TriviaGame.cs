@@ -110,7 +110,16 @@ namespace NadekoBot.Classes.Trivia {
                 await _channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**");
                 if (users[e.User] == WinRequirement) {
                     ShouldStopGame = true;
-                    await _channel.Send($":exclamation: We have a winner! Its {e.User.Mention}");
+                    await _channel.Send($":exclamation: We have a winner! Its {e.User.Mention}.");
+                    // add points to the winner
+                    await Task.Run(async () => {
+                        DBHandler.Instance.InsertData(new _DataModels.CurrencyTransaction {
+                            Reason = "Won Trivia",
+                            UserId = (long)e.User.Id,
+                            Value = 2,
+                        });
+                        await e.User.SendMessage("👑Congratulations!👑\nYou got: 🌸🌸");
+                    });
                 }
             }
         }

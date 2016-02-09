@@ -567,6 +567,14 @@ namespace NadekoBot.Modules {
                       });
                   });
 
+                cgb.CreateCommand(".unstuck")
+                  .Description("Clears the message queue. **OWNER ONLY**")
+                  .Do(async e => {
+                      if (e.User.Id != NadekoBot.OwnerID)
+                          return;
+                      await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
+                  });
+
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
                 

@@ -18,6 +18,9 @@ namespace NadekoBot.Classes {
                 _conn.CreateTable<Announcement>();
                 _conn.CreateTable<Request>();
                 _conn.CreateTable<TypingArticle>();
+                _conn.CreateTable<CurrencyState>();
+                _conn.CreateTable<CurrencyTransaction>();
+                _conn.Execute(Queries.TransactionTriggerQuery);
             }
         }
 
@@ -45,6 +48,12 @@ namespace NadekoBot.Classes {
             }
         }
 
+        internal CurrencyState GetStateByUserId(long Id) {
+            using (var _conn = new SQLiteConnection(_filePath)) {
+                return _conn.Table<CurrencyState>().Where(x => x.UserId == Id).FirstOrDefault();
+            }
+        }
+
         internal T Delete<T>(int Id) where T : IDataModel, new() {
             using (var _conn = new SQLiteConnection(_filePath)) {
                 var found = _conn.Find<T>(Id);
@@ -67,4 +76,18 @@ namespace NadekoBot.Classes {
             }
         }
     }
+}
+
+public static class Queries {
+    public static string TransactionTriggerQuery = @"
+CREATE TRIGGER IF NOT EXISTS OnTransactionAdded
+AFTER INSERT ON CurrencyTransaction
+BEGIN
+INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded) 
+	VALUES (COALESCE((SELECT Id from CurrencyState where UserId = NEW.UserId),(SELECT COALESCE(MAX(Id),0)+1 from CurrencyState)),
+            NEW.UserId, 
+            COALESCE((SELECT Value+New.Value FROM CurrencyState Where UserId = NEW.UserId),NEW.Value),  
+            NEW.DateAdded);
+END
+";
 }

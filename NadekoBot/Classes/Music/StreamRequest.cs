@@ -260,7 +260,7 @@ namespace NadekoBot.Classes.Music {
             if (buffer.Length > 0) {
                 Console.WriteLine("Prebuffering complete.");
             } else {
-                Console.WriteLine("Didn't buffer jack shit.");
+                Console.WriteLine("Nothing was buffered, try another song and check your GoogleApikey.");
             }
             
             int blockSize = 1920 * NadekoBot.client.Audio().Config.Channels;

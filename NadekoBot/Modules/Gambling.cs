@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Extensions;
 using System.Linq;
 
 namespace NadekoBot.Modules
@@ -31,6 +32,31 @@ namespace NadekoBot.Modules
                       }
                       var members = role.Members.Where(u => u.Status == Discord.UserStatus.Online); // only online
                       await e.Channel.SendMessage($"**Raffled user:** {members.ToArray()[new System.Random().Next(0, members.Count())].Name}");
+                  });
+                /*
+                cgb.CreateCommand("$$")
+                  .Description("Add moneyz")
+                  .Parameter("val", ParameterType.Required)
+                  .Do(e => {
+                      var arg = e.GetArg("val");
+                      var num = int.Parse(arg);
+                      Classes.DBHandler.Instance.InsertData(
+                          new Classes._DataModels.CurrencyTransaction {
+                              Value = num,
+                              Reason = "Money plz",
+                              UserId = (long)e.User.Id,
+                          });
+                  });
+                  */
+                cgb.CreateCommand("$$$")
+                  .Description("Check how many NadekoPoints you have.")
+                  .Do(async e => {
+                      var pts = Classes.DBHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
+                      string str = $"`You have {pts} NadekoPoints".SnPl((int)pts)+"`\n";
+                      for (int i = 0; i < pts; i++) {
+                          str += "🌸";
+                      }
+                      await e.Channel.SendMessage(str);
                   });
             });
         }
