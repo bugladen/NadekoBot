@@ -359,17 +359,16 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(".leaveall")
-                    .Description("Nadeko leaves all servers")
+                    .Description("Nadeko leaves all servers **OWNER ONLY**")
                     .Do(e => {
                         if (e.User.Id == NadekoBot.OwnerID)
                             NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
-
-
+                
                 ConcurrentDictionary<Server, bool> pruneDict = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
-                    .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 50")
+                    .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
                         if (pruneDict.ContainsKey(e.Server))
@@ -379,24 +378,13 @@ namespace NadekoBot.Modules {
                             await e.Send("Incorrect amount.");
                             return;
                         }
-                        pruneDict.TryAdd(e.Server, true);
-                        await Task.Factory.StartNew(async () => {
-                            try {
-                                Message last = null;
-                                while (num > 0) {
-                                    var msgs = await e.Channel.DownloadMessages(num, last?.Id);
-                                    last = msgs.LastOrDefault();
-                                    foreach (var m in msgs) {
-                                        await m.Delete();
-                                        await Task.Delay(500);
-                                    }
-                                    num -= 100;
-                                }
-                            } catch (Exception) { await e.Send("Failed pruning. Make sure the bot has correct permissions."); }
-                        }, TaskCreationOptions.LongRunning);
-
-                        bool throwAway;
-                        pruneDict.TryRemove(e.Server, out throwAway);
+                        if (num > 10)
+                            num = 10;
+                        var msgs = await e.Channel.DownloadMessages(num);
+                        foreach (var m in msgs) {
+                            await m.Delete();
+                            await Task.Delay(500);
+                        }
                     });
 
                 cgb.CreateCommand(".die")
