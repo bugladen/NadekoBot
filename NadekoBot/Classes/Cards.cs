@@ -158,7 +158,7 @@ public class Cards
 
         Func<List<Card>, bool> isTwoPair =
                               cards => cards.GroupBy(card => card.number)
-                                            .Count(group => group.Count() >= 2) == 2;
+                                            .Count(group => group.Count() == 2) == 2;
 
         Func<List<Card>, bool> isStraight =
                               cards => cards.GroupBy(card => card.number)
