@@ -276,7 +276,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
 
                         Message msg = null;
-                        var msgs = e.Channel.Messages
+                        var msgs = (await e.Channel.DownloadMessages(100))
                                     .Where(m => m.MentionedUsers.Contains(e.User))
                                     .OrderByDescending(m => m.Timestamp);
                         if (msgs.Count() > 0)

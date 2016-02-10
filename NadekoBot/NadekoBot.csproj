@@ -139,6 +139,7 @@
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
     <Compile Include="Classes\_DataModels\CurrencyStateModel.cs" />
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
+    <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />

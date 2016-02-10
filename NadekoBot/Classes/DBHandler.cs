@@ -20,6 +20,7 @@ namespace NadekoBot.Classes {
                 _conn.CreateTable<TypingArticle>();
                 _conn.CreateTable<CurrencyState>();
                 _conn.CreateTable<CurrencyTransaction>();
+                _conn.CreateTable<Donator>();
                 _conn.Execute(Queries.TransactionTriggerQuery);
             }
         }

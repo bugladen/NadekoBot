@@ -562,6 +562,43 @@ namespace NadekoBot.Modules {
                           return;
                       await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
                   });
+                
+                cgb.CreateCommand(".donators")
+                    .Description("List of lovely people who donated to keep this project alive.")
+                    .Do(async e => {
+                        await Task.Run(async () => {
+                            var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
+                            var donatorsOrdered = rows.OrderBy(d => d.Amount);
+                            string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
+                            foreach (var don in donatorsOrdered) {
+                                str += don.UserName;
+                            }
+                            await e.Channel.SendMessage(str);
+                        });
+                    });
+
+                //THIS IS INTENTED TO BE USED ONLY BY THE ORIGINAL BOT OWNER
+                cgb.CreateCommand(".adddon")
+                  .Description("Add a donator to the database.")
+                  .Parameter("donator")
+                  .Parameter("amount")
+                  .Do(e => {
+                      try {
+                          if (NadekoBot.OwnerID != e.User.Id)
+                              return;
+                          var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
+                          var amount = int.Parse(e.GetArg("amount"));
+                          Classes.DBHandler.Instance.InsertData(new Donator {
+                              Amount = amount,
+                              UserName = donator.Name,
+                              UserId = (long)e.User.Id
+                          });
+                          e.Channel.SendMessage("Successfuly added a new donator. 👑");
+                      } catch (Exception ex) {
+                          Console.WriteLine(ex);
+                          Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
+                      }
+                  });
 
                 /*cgb.CreateCommand(".voicetext")
                     .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
