@@ -79,11 +79,12 @@ namespace NadekoBot.Classes.Music {
                     if (OnResolving != null)
                         OnResolving();
                     var links = await Searches.FindYoutubeUrlByKeywords(Query);
-                    var videos = await YouTube.Default.GetAllVideosAsync(links);
+                    var allVideos = await YouTube.Default.GetAllVideosAsync(links);
+                    var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                     var video = videos
-                                .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
-                                .OrderByDescending(v => v.AudioBitrate)
-                                .FirstOrDefault();
+                                    .Where(v => v.AudioBitrate < 256)
+                                    .OrderByDescending(v => v.AudioBitrate)
+                                    .FirstOrDefault();
 
                     if (video == null) // do something with this error
                         throw new Exception("Could not load any video elements based on the query.");
