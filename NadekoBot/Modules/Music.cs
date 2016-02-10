@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using NadekoBot.Classes.Music;
 using Timer = System.Timers.Timer;
 using System.Threading.Tasks;
+using NadekoBot.Classes;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
@@ -172,7 +173,7 @@ namespace NadekoBot.Modules {
                             await e.Send("💢 You need to be in the voice channel on this server.");
                             return;
                         }
-                        var ids = await Searches.GetVideoIDs(await Searches.GetPlaylistIdByKeyword(e.GetArg("playlist")));
+                        var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
                         var msg = await e.Send($"🎵 Attempting to queue **{ids.Count}** songs".SnPl(ids.Count));
                         foreach (var id in ids) {

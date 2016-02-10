@@ -19,7 +19,7 @@ namespace NadekoBot.Classes.Music {
             if (string.IsNullOrWhiteSpace(NadekoBot.creds.SoundCloudClientID))
                 throw new ArgumentNullException(nameof(NadekoBot.creds.SoundCloudClientID));
 
-            var response = await Modules.Searches.GetResponseAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.creds.SoundCloudClientID}");
+            var response = await SearchHelper.GetResponseAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.creds.SoundCloudClientID}");
 
             var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")

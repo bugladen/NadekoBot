@@ -8,6 +8,7 @@ using Discord;
 using NadekoBot.Modules;
 using System.IO;
 using System.Drawing;
+using NadekoBot.Classes;
 
 namespace NadekoBot.Extensions {
     public static class Extensions
@@ -152,7 +153,7 @@ namespace NadekoBot.Extensions {
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static async Task<string> ShortenUrl(this string str) => await Searches.ShortenUrl(str);
+        public static async Task<string> ShortenUrl(this string str) => await SearchHelper.ShortenUrl(str);
 
         /// <summary>
         /// Gets the program runtime

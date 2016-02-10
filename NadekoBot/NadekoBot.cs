@@ -95,6 +95,7 @@ namespace NadekoBot {
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
+            modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
 
             //run the bot
             client.ExecuteAndWait(async () => {
