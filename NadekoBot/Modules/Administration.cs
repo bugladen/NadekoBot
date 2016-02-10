@@ -13,6 +13,8 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Classes._DataModels;
+using System.Threading;
+using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
@@ -365,12 +367,14 @@ namespace NadekoBot.Modules {
                             NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
                 
-                ConcurrentDictionary<Server, bool> pruneDict = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
+
+                        e.Send("This feature is being reconstructed.");
+                        /*
                         if (pruneDict.ContainsKey(e.Server))
                             return;
                         int num;
@@ -385,6 +389,7 @@ namespace NadekoBot.Modules {
                             await m.Delete();
                             await Task.Delay(500);
                         }
+                        */
                     });
 
                 cgb.CreateCommand(".die")
@@ -404,6 +409,12 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".clr")
                     .Description("Clears some of nadeko's messages from the current channel.")
                     .Do(async e => {
+                        await Task.Run(async () => {
+                            var msgs = (await e.Channel.DownloadMessages(100)).Where(m => m.User.Id == NadekoBot.client.CurrentUser.Id);
+                            foreach (var m in msgs)
+                                await m.Delete();
+                        });
+                        /*
                         try {
                             if (clearDictionary.ContainsKey(e.Server))
                                 return;
@@ -419,6 +430,7 @@ namespace NadekoBot.Modules {
                         } catch (Exception) { }
                         bool throwaway;
                         clearDictionary.TryRemove(e.Server, out throwaway);
+                        */
                     });
                 cgb.CreateCommand(".newname")
                     .Alias(".setname")

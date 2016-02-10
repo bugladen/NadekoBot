@@ -61,6 +61,7 @@ namespace NadekoBot
             //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
             $"\n`Heap: {Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString()} MB`" +
             $"\n`Commands Ran this session: {_commandsRan}`" +
+            $"\n`Message queue size:{_client.MessageQueue.Count}`" +
             $"\n`Greeted/Byed {Commands.ServerGreetCommand.Greeted} times.`";
         }
 
