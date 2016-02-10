@@ -3,16 +3,23 @@ using System.Linq;
 using Discord.Modules;
 using NadekoBot.Extensions;
 using NadekoBot.Commands;
+using Newtonsoft.Json.Linq;
+using System.IO;
 //🃏
 //🏁
 namespace NadekoBot.Modules
 {
     class Games : DiscordModule
     {
+        private string[] _8BallAnswers;
+        private Random _r = new Random();
+
         public Games() : base() {
             commands.Add(new Trivia());
             commands.Add(new SpeedTyping());
             commands.Add(new PollCommand());
+
+            _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }
 
         public override void Install(ModuleManager manager)
@@ -33,6 +40,17 @@ namespace NadekoBot.Modules
                           return;
                       await e.Send(list[new Random().Next(0, list.Length)]);
                   });
+
+                cgb.CreateCommand(">8ball")
+                    .Description("Ask the 8ball a yes/no question.")
+                    .Parameter("question",Discord.Commands.ParameterType.Unparsed)
+                    .Do(async e => {
+                        string question = e.GetArg("question").Replace("@everyone","[everyone]");
+                        if (string.IsNullOrWhiteSpace(question))
+                            return;                                                
+                        await e.Channel.SendMessage(
+                            $":question: **Question:{question}**\n:crystal_ball: **8Ball Answers:**{_8BallAnswers[_r.Next(0, _8BallAnswers.Length)]}");
+                    });
 
                 cgb.CreateCommand(">")
                     .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")

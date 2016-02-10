@@ -113,6 +113,7 @@ public class Cards
             }
         }
     }
+    private Random r = new Random();
     /// <summary>
     /// Take a card from the pool, you either take it from the top if the deck is shuffled, or from a random place if the deck is in the default order.
     /// </summary>
@@ -122,7 +123,7 @@ public class Cards
         if (CardPool.Count == 0)
             Restart();
         //you can either do this if your deck is not shuffled
-        Random r = new Random((int)DateTime.Now.Ticks);
+        
         int num = r.Next(0, cardPool.Count);
         Card c = cardPool[num];
         cardPool.RemoveAt(num);
@@ -141,7 +142,6 @@ public class Cards
     private void Shuffle() {
         if (cardPool.Count > 1)
         {
-            Random r = new Random();
             cardPool.OrderBy(x => r.Next());
         }
     }
@@ -195,15 +195,15 @@ public class Cards
 
         handValues = new Dictionary<string, Func<List<Card>, bool>>
                      {
-                         { "A Pair", isPair },
-                         { "Two Pairs", isTwoPair },
-                         { "Three Of A Kind", isThreeOfKind },
-                         { "Straight", isStraight },
-                         { "Flush", isFlush },
-                         { "Full House", isFullHouse },
-                         { "Four Of A Kind", isFourOfKind },
+                         { "Royal Flush", isRoyalFlush },
                          { "Straight Flush", isStraightFlush },
-                         { "Royal Flush", isRoyalFlush }
+                         { "Four Of A Kind", isFourOfKind },
+                         { "Full House", isFullHouse },
+                         { "Flush", isFlush },
+                         { "Straight", isStraight },
+                         { "Three Of A Kind", isThreeOfKind },
+                         { "Two Pairs", isTwoPair },
+                         { "A Pair", isPair }
                      };
     }
 

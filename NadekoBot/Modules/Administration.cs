@@ -579,59 +579,68 @@ namespace NadekoBot.Modules {
 
                 //THIS IS INTENTED TO BE USED ONLY BY THE ORIGINAL BOT OWNER
                 cgb.CreateCommand(".adddon")
-                  .Description("Add a donator to the database.")
-                  .Parameter("donator")
-                  .Parameter("amount")
-                  .Do(e => {
-                      try {
-                          if (NadekoBot.OwnerID != e.User.Id)
-                              return;
-                          var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
-                          var amount = int.Parse(e.GetArg("amount"));
-                          Classes.DBHandler.Instance.InsertData(new Donator {
-                              Amount = amount,
-                              UserName = donator.Name,
-                              UserId = (long)e.User.Id
-                          });
-                          e.Channel.SendMessage("Successfuly added a new donator. 👑");
-                      } catch (Exception ex) {
-                          Console.WriteLine(ex);
-                          Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
-                      }
-                  });
+                    .Alias(".donadd")
+                    .Description("Add a donator to the database.")
+                    .Parameter("donator")
+                    .Parameter("amount")
+                    .Do(e => {
+                        try {
+                            if (NadekoBot.OwnerID != e.User.Id)
+                                return;
+                            var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
+                            var amount = int.Parse(e.GetArg("amount"));
+                            Classes.DBHandler.Instance.InsertData(new Donator {
+                                Amount = amount,
+                                UserName = donator.Name,
+                                UserId = (long)e.User.Id
+                            });
+                            e.Channel.SendMessage("Successfuly added a new donator. 👑");
+                        } catch (Exception ex) {
+                            Console.WriteLine(ex);
+                            Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
+                        }
+                    });
+                /*
+                               cgb.CreateCommand(".no")
+                                 .Description("desc")
+                                 .Parameter("arg", ParameterType.Required)
+                                 .Do(async e => {
+                                     var arg = e.GetArg("arg");
 
-                /*cgb.CreateCommand(".voicetext")
-                    .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
-                
-               cgb.CreateCommand(".jsontype")
-                   .Do(async e => {
-                       Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));
-                       if (data == null || data.Count == 0) return;
+                                 });
 
-                       var wer = data.Where(jt => jt["Description"].ToString().Length > 120);
-                       var list = wer.Select(jt => { 
-                           var obj = new Parse.ParseObject("TypingArticles");
-                           obj["text"] = jt["Description"].ToString();
-                           return obj;
-                       });
-                       await Parse.ParseObject.SaveAllAsync(list);
-                       await e.Send("saved to parse");
+                              cgb.CreateCommand(".voicetext")
+                                   .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
 
-                   });
+                              cgb.CreateCommand(".jsontype")
+                                  .Do(async e => {
+                                      Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));
+                                      if (data == null || data.Count == 0) return;
 
-               cgb.CreateCommand(".repeat")
-                   .Do(async e => {
-                       if (e.User.Id != NadekoBot.OwnerID) return;
+                                      var wer = data.Where(jt => jt["Description"].ToString().Length > 120);
+                                      var list = wer.Select(jt => { 
+                                          var obj = new Parse.ParseObject("TypingArticles");
+                                          obj["text"] = jt["Description"].ToString();
+                                          return obj;
+                                      });
+                                      await Parse.ParseObject.SaveAllAsync(list);
+                                      await e.Send("saved to parse");
 
-                       string[] notifs = { "Admin use .bye .greet", "Unstable - fixing", "fixing ~ani, ~mang", "join NadekoLog server", "-h is help, .stats",};
-                       int i = notifs.Length;
-                       while (true) {
-                           await e.Channel.SendMessage($".setgame {notifs[--i]}");
-                           await Task.Delay(20000);
-                           if (i == 0) i = notifs.Length;
-                       }
-                   });
-               */
+                                  });
+
+                              cgb.CreateCommand(".repeat")
+                                  .Do(async e => {
+                                      if (e.User.Id != NadekoBot.OwnerID) return;
+
+                                      string[] notifs = { "Admin use .bye .greet", "Unstable - fixing", "fixing ~ani, ~mang", "join NadekoLog server", "-h is help, .stats",};
+                                      int i = notifs.Length;
+                                      while (true) {
+                                          await e.Channel.SendMessage($".setgame {notifs[--i]}");
+                                          await Task.Delay(20000);
+                                          if (i == 0) i = notifs.Length;
+                                      }
+                                  });
+                              */
             });
         }
 
