@@ -373,7 +373,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
 
-                        e.Send("This feature is being reconstructed.");
+                        await e.Send("This feature is being reconstructed.");
                         /*
                         if (pruneDict.ContainsKey(e.Server))
                             return;
