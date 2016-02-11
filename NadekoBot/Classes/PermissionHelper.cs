@@ -1,4 +1,6 @@
-﻿using NadekoBot.Extensions;
+﻿using Discord.Commands;
+using Discord.Modules;
+using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +22,37 @@ namespace NadekoBot.Classes
             {
                 case "t":
                 case "true":
-                case "enabled":
+                case "enable":
                     return true;
                 case "f":
                 case "false":
-                case "disabled":
+                case "disable":
                     return false;
                 default:
                     throw new System.ArgumentException("Did not receive a valid boolean value");
             }
         }
 
-        internal static void ValidateModule(string v)
+        internal static bool ValidateModule(string mod)
         {
-            return;
+            if (string.IsNullOrWhiteSpace(mod))
+                throw new ArgumentNullException(nameof(mod));
+            foreach (var m in NadekoBot.client.Modules().Modules) {
+                if(m.Name.ToLower().Equals(mod))
+                    return true;
+            }
+            return false;
         }
 
-        internal static void ValidateCommand(string v)
+        internal static bool ValidateCommand(string commandText)
         {
-            return;
+            if (string.IsNullOrWhiteSpace(commandText))
+                throw new ArgumentNullException(nameof(commandText));
+            foreach (var com in NadekoBot.client.Commands().AllCommands) {
+                if (com.Text == commandText)
+                    return true;
+            }
+            return false;
         }
     }
 }

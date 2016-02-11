@@ -77,10 +77,10 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                cgb.CreateCommand(trigger + "srm").Alias(trigger + "setrollmodule")
+                cgb.CreateCommand(trigger + "srm").Alias(trigger + "setrolemodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a module's permission at the roll level.")
+                    .Description("Sets a module's permission at the role level.")
                     // .AddCheck() -> fix this
                     .Do(async e =>
                     {
@@ -101,10 +101,10 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                cgb.CreateCommand(trigger + "src").Alias(trigger + "setrollcommand")
+                cgb.CreateCommand(trigger + "src").Alias(trigger + "setrolecommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a command's permission at the roll level.")
+                    .Description("Sets a command's permission at the role level.")
                     // .AddCheck() -> fix this
                     .Do(async e =>
                     {
@@ -197,7 +197,7 @@ namespace NadekoBot.Modules
                         }
                     });
 
-                cgb.CreateCommand(trigger + "suc").Alias(trigger + "setuserchannel")
+                cgb.CreateCommand(trigger + "suc").Alias(trigger + "setusercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a command's permission at the user level.")
