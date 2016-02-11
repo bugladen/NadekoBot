@@ -82,7 +82,7 @@ namespace NadekoBot.Classes.Music {
                     var allVideos = await YouTube.Default.GetAllVideosAsync(links);
                     var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                     var video = videos
-                                    .Where(v => v.AudioBitrate < 256)
+                                    .Where(v => v.AudioBitrate < 192)
                                     .OrderByDescending(v => v.AudioBitrate)
                                     .FirstOrDefault();
 
