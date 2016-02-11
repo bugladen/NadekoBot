@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Discord.Modules;
 using NadekoBot.Extensions;
-using NadekoBot.Classes.PermissionCheckers;
 using Discord.Commands;
 using Newtonsoft.Json.Linq;
 using NadekoBot.Classes;

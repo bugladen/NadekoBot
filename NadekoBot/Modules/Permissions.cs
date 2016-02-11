@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Discord.Modules;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using System.Collections.Generic;
-using NadekoBot.Classes.PermissionCheckers;
 using NadekoBot.Classes;
 
-namespace NadekoBot.Modules
-{
+namespace NadekoBot.Modules {
     class PermissionModule : DiscordModule
     {
         string trigger = "*";
