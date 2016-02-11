@@ -134,6 +134,7 @@
     <Compile Include="Classes\Music\SoundCloud.cs" />
     <Compile Include="Classes\PermissionCheckers\NSWFPermissionChecker.cs" />
     <Compile Include="Classes\PermissionCheckers\PermissionChecker.cs" />
+    <Compile Include="Classes\PermissionsHandler.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
