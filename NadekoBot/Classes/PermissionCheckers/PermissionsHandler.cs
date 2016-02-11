@@ -28,7 +28,7 @@ namespace NadekoBot.Classes.Permissions {
 
         public static void SetServerModulePermission(Server server, string moduleName, bool value) {
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             var modules = _permissionsDict[server].Permissions.modules;
             if (modules.ContainsKey(moduleName))
@@ -40,7 +40,7 @@ namespace NadekoBot.Classes.Permissions {
 
         public static void SetServerCommandPermission(Server server, string commandName, bool value) {
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             var commands = _permissionsDict[server].Permissions.commands;
             if (commands.ContainsKey(commandName))
@@ -53,10 +53,10 @@ namespace NadekoBot.Classes.Permissions {
         public static void SetChannelModulePermission(Channel channel, string moduleName, bool value) {
             var server = channel.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if(!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id.ToString()))
-                _permissionsDict[server].ChannelPermissions.Add(channel.Id.ToString(), new Permissions());
+                _permissionsDict[server].ChannelPermissions.Add(channel.Id.ToString(), new Permissions(channel.Name));
 
             var modules = _permissionsDict[server].ChannelPermissions[channel.Id.ToString()].modules;
 
@@ -70,10 +70,10 @@ namespace NadekoBot.Classes.Permissions {
         public static void SetChannelCommandPermission(Channel channel, string commandName, bool value) {
             var server = channel.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if (!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id.ToString()))
-                _permissionsDict[server].ChannelPermissions.Add(channel.Id.ToString(), new Permissions());
+                _permissionsDict[server].ChannelPermissions.Add(channel.Id.ToString(), new Permissions(channel.Name));
 
             var commands = _permissionsDict[server].ChannelPermissions[channel.Id.ToString()].commands;
 
@@ -84,71 +84,71 @@ namespace NadekoBot.Classes.Permissions {
             WriteServerToJson(server);
         }
 
-        public static void SetRoleModulePermission(Role role, string roleName, bool value) {
+        public static void SetRoleModulePermission(Role role, string moduleName, bool value) {
             var server = role.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if (!_permissionsDict[server].RolePermissions.ContainsKey(role.Id.ToString()))
-                _permissionsDict[server].RolePermissions.Add(role.Id.ToString(), new Permissions());
+                _permissionsDict[server].RolePermissions.Add(role.Id.ToString(), new Permissions(role.Name));
 
             var modules = _permissionsDict[server].RolePermissions[role.Id.ToString()].modules;
 
-            if (modules.ContainsKey(roleName))
-                modules[roleName] = value;
+            if (modules.ContainsKey(moduleName))
+                modules[moduleName] = value;
             else
-                modules.Add(roleName, value);
+                modules.Add(moduleName, value);
             WriteServerToJson(server);
         }
 
-        public static void SetRoleCommandPermission(Role role, string roleName, bool value) {
+        public static void SetRoleCommandPermission(Role role, string commandName, bool value) {
             var server = role.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if (!_permissionsDict[server].RolePermissions.ContainsKey(role.Id.ToString()))
-                _permissionsDict[server].RolePermissions.Add(role.Id.ToString(), new Permissions());
+                _permissionsDict[server].RolePermissions.Add(role.Id.ToString(), new Permissions(role.Name));
 
             var commands = _permissionsDict[server].RolePermissions[role.Id.ToString()].commands;
 
-            if (commands.ContainsKey(roleName))
-                commands[roleName] = value;
+            if (commands.ContainsKey(commandName))
+                commands[commandName] = value;
             else
-                commands.Add(roleName, value);
+                commands.Add(commandName, value);
             WriteServerToJson(server);
         }
 
-        public static void SetUserModulePermission(User user, string userName, bool value) {
+        public static void SetUserModulePermission(User user, string moduleName, bool value) {
             var server = user.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if (!_permissionsDict[server].UserPermissions.ContainsKey(user.Id.ToString()))
-                _permissionsDict[server].UserPermissions.Add(user.Id.ToString(), new Permissions());
+                _permissionsDict[server].UserPermissions.Add(user.Id.ToString(), new Permissions(user.Name));
 
             var modules = _permissionsDict[server].UserPermissions[user.Id.ToString()].modules;
 
-            if (modules.ContainsKey(userName))
-                modules[userName] = value;
+            if (modules.ContainsKey(moduleName))
+                modules[moduleName] = value;
             else
-                modules.Add(userName, value);
+                modules.Add(moduleName, value);
             WriteServerToJson(server);
         }
 
-        public static void SetUserCommandPermission(User user, string userName, bool value) {
+        public static void SetUserCommandPermission(User user, string commandName, bool value) {
             var server = user.Server;
             if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString()));
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id.ToString(), server.Name));
             }
             if (!_permissionsDict[server].UserPermissions.ContainsKey(user.Id.ToString()))
-                _permissionsDict[server].UserPermissions.Add(user.Id.ToString(), new Permissions());
+                _permissionsDict[server].UserPermissions.Add(user.Id.ToString(), new Permissions(user.Name));
 
             var commands = _permissionsDict[server].UserPermissions[user.Id.ToString()].commands;
 
-            if (commands.ContainsKey(userName))
-                commands[userName] = value;
+            if (commands.ContainsKey(commandName))
+                commands[commandName] = value;
             else
-                commands.Add(userName, value);
+                commands.Add(commandName, value);
             WriteServerToJson(server);
         }
     }
@@ -156,6 +156,10 @@ namespace NadekoBot.Classes.Permissions {
     /// Holds a permission list
     /// </summary>
     public class Permissions {
+        /// <summary>
+        /// Name of the parent object whose permissions these are
+        /// </summary>
+        public string ParentName { get; set; }
         /// <summary>
         /// Module name with allowed/disallowed
         /// </summary>
@@ -165,13 +169,22 @@ namespace NadekoBot.Classes.Permissions {
         /// </summary>
         public Dictionary<string, bool> commands { get; set; }
 
-        public Permissions() {
+        public Permissions(string name) {
+            ParentName = name;
             modules = new Dictionary<string, bool>();
             commands = new Dictionary<string, bool>();
         }
     }
 
-    public class PermissionsContainer {
+    public class ServerPermissions {
+        /// <summary>
+        /// The guy who can edit the permissions
+        /// </summary>
+        public string PermissionsControllerRoleName { get; set; }
+        /// <summary>
+        /// Does it print the error when a restriction occurs
+        /// </summary>
+        public bool Verbose { get; set; }
         /// <summary>
         /// The id of the thing (user/server/channel)
         /// </summary>
@@ -181,29 +194,16 @@ namespace NadekoBot.Classes.Permissions {
         /// </summary>
         public Permissions Permissions { get; set; }
 
-        public PermissionsContainer(string id) {
-            Id = id;
-            Permissions = new Permissions();
-        }
-    }
-
-    public class ServerPermissions : PermissionsContainer {
-        /// <summary>
-        /// The guy who can edit the permissions
-        /// </summary>
-        public string PermissionsControllerRoleName { get; set; }
-        /// <summary>
-        /// Does it print the error when a restriction occurs
-        /// </summary>
-        public bool Verbose { get; set; }
-
         public Dictionary<string, Permissions> UserPermissions { get; set; }
         public Dictionary<string, Permissions> ChannelPermissions { get; set; }
         public Dictionary<string, Permissions> RolePermissions { get; set; }
 
-        public ServerPermissions(string id) : base(id) {
+        public ServerPermissions(string id, string name) {
+            Id = id;
             PermissionsControllerRoleName = "PermissionsKing";
             Verbose = true;
+
+            Permissions = new Permissions(name);
             UserPermissions = new Dictionary<string, Permissions>();
             ChannelPermissions = new Dictionary<string, Permissions>();
             RolePermissions = new Dictionary<string, Permissions>();
