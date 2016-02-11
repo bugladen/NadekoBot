@@ -16,7 +16,7 @@ namespace NadekoBot {
         public static string botMention;
         public static string GoogleAPIKey = null;
         public static ulong OwnerID;
-        public static User OwnerUser = null;
+        public static Channel OwnerPrivateChannel = null;
         public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
@@ -107,10 +107,13 @@ namespace NadekoBot {
                 Console.WriteLine(NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
 
-                foreach (var serv in client.Servers) {
-                    if ((OwnerUser = serv.GetUser(OwnerID)) != null)
-                        return;
+                try {
+                    OwnerPrivateChannel = await client.CreatePrivateChannel(OwnerID);
+                } catch (Exception) {
+                    Console.WriteLine("Failed creating private channel with the owner");
                 }
+
+                Classes.Permissions.PermissionsHandler.Initialize();
 
                 client.ClientAPI.SendingRequest += (s, e) =>
                 {
@@ -144,8 +147,8 @@ namespace NadekoBot {
                 }
             }
 
-            if (ForwardMessages && OwnerUser != null)
-                await OwnerUser.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
+            if (ForwardMessages && OwnerPrivateChannel != null)
+                await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
 
             if (!repliedRecently) {
                 await e.Send("**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nYou can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X");
