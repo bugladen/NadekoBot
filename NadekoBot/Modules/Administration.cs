@@ -29,6 +29,8 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 cgb.CreateCommand(".sr").Alias(".setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", ParameterType.Required)
@@ -143,6 +145,25 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "[everyone]"));
                   });
+
+                cgb.CreateCommand(".modules")
+                    .Description("List all bot modules")
+                    .Do(async e => {
+                        await e.Send("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.client.Modules().Modules.Select(m => m.Name)));
+                    });
+
+                cgb.CreateCommand(".commands")
+                    .Description("List all of the bot's commands from a certain module.")
+                    .Parameter("module",ParameterType.Unparsed)
+                    .Do(async e => {
+                        var commands = NadekoBot.client.Commands().AllCommands
+                                                    .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
+                        if (commands == null || commands.Count() == 0) {
+                            await e.Send("That module does not exist.");
+                            return;
+                        }
+                        await e.Send("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c=>c.Text)));
+                    });
 
                 cgb.CreateCommand(".b").Alias(".ban")
                     .Parameter("everything", ParameterType.Unparsed)
