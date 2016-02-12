@@ -6,16 +6,13 @@ using NadekoBot.Classes;
 using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 
 namespace NadekoBot.Modules {
-    class PermissionModule : DiscordModule
-    {
+    class PermissionModule : DiscordModule {
         string prefix = "*";
-        public PermissionModule() : base()
-        {
+        public PermissionModule() : base() {
             //Empty for now
         }
 
-        public override void Install(ModuleManager manager)
-        {
+        public override void Install(ModuleManager manager) {
             var client = NadekoBot.client;
             manager.CreateCommands("", cgb => {
 
@@ -80,22 +77,16 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a module's permission at the server level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             PermsHandler.SetServerModulePermission(e.Server, module, state);
                             await e.Send("I'm setting " + e.GetArg("module") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -104,22 +95,16 @@ namespace NadekoBot.Modules {
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a command's permission at the server level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             PermsHandler.SetServerCommandPermission(e.Server, command, state);
                             await e.Send("I'm setting " + e.GetArg("command") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -129,23 +114,17 @@ namespace NadekoBot.Modules {
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the role level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
                             PermsHandler.SetRoleModulePermission(role, module, state);
                             await e.Send("I'm setting " + e.GetArg("module") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -153,25 +132,19 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "rc").Alias(prefix + "rolecommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Parameter("role",ParameterType.Unparsed)
+                    .Parameter("role", ParameterType.Unparsed)
                     .Description("Sets a command's permission at the role level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
                             PermsHandler.SetRoleCommandPermission(role, command, state);
                             await e.Send("I'm setting " + e.GetArg("command") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -181,23 +154,17 @@ namespace NadekoBot.Modules {
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the channel level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
                             PermsHandler.SetChannelModulePermission(channel, module, state);
                             await e.Send("I'm setting " + e.GetArg("module") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -207,23 +174,17 @@ namespace NadekoBot.Modules {
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
                     .Description("Sets a command's permission at the channel level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
                             PermsHandler.SetChannelCommandPermission(channel, command, state);
                             await e.Send("I'm setting " + e.GetArg("command") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -233,23 +194,17 @@ namespace NadekoBot.Modules {
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the user level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.User user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
                             PermsHandler.SetUserModulePermission(user, module, state);
                             await e.Send("I'm setting " + e.GetArg("module") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -259,23 +214,17 @@ namespace NadekoBot.Modules {
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
                     .Description("Sets a command's permission at the user level.")
-                    .Do(async e =>
-                    {
-                        try
-                        {
+                    .Do(async e => {
+                        try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             Discord.User user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
                             PermsHandler.SetUserCommandPermission(user, command, state);
                             await e.Send("I'm setting " + e.GetArg("command") + " to " + state);
-                        }
-                        catch (ArgumentException exArg)
-                        {
+                        } catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });

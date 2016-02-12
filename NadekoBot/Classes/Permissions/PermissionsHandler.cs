@@ -35,7 +35,7 @@ namespace NadekoBot.Classes.Permissions {
 
                     var data = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerPermissions>(File.ReadAllText(file));
                     _permissionsDict.TryAdd(server, data);
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     Console.WriteLine($"Failed getting server with id: {file}\nReason: {ex.Message}");
                 }
             }
@@ -72,7 +72,7 @@ namespace NadekoBot.Classes.Permissions {
         internal static Permissions GetServerPermissions(Server server) {
             if (!_permissionsDict.ContainsKey(server))
                 return null;
-            
+
             return _permissionsDict[server].Permissions;
         }
 
@@ -95,7 +95,7 @@ namespace NadekoBot.Classes.Permissions {
             if (_permissionsDict[server].ChannelPermissions.TryGetValue(channel.Id, out perm) &&
                 perm.commands.TryGetValue(command.Text, out val) && val == false)
                 return PermissionBanType.ChannelBanCommand;
-            
+
             //ROLE PART - TWO CASES
             // FIRST CASE:
             // IF EVERY ROLE USER HAS IS BANNED FROM THE MODULE,
@@ -194,7 +194,7 @@ namespace NadekoBot.Classes.Permissions {
             if (!_permissionsDict.ContainsKey(server)) {
                 _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
             }
-            if(!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id))
+            if (!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id))
                 _permissionsDict[server].ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
 
             var modules = _permissionsDict[server].ChannelPermissions[channel.Id].modules;

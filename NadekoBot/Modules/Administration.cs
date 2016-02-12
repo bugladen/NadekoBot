@@ -154,7 +154,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".commands")
                     .Description("List all of the bot's commands from a certain module.")
-                    .Parameter("module",ParameterType.Unparsed)
+                    .Parameter("module", ParameterType.Unparsed)
                     .Do(async e => {
                         var commands = NadekoBot.client.Commands().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules {
                             await e.Send("That module does not exist.");
                             return;
                         }
-                        await e.Send("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c=>c.Text)));
+                        await e.Send("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c => c.Text)));
                     });
 
                 cgb.CreateCommand(".b").Alias(".ban")
@@ -387,7 +387,7 @@ namespace NadekoBot.Modules {
                         if (e.User.Id == NadekoBot.OwnerID)
                             NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
-                
+
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
@@ -595,7 +595,7 @@ namespace NadekoBot.Modules {
                           return;
                       await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
                   });
-                
+
                 cgb.CreateCommand(".donators")
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e => {
