@@ -20,8 +20,11 @@ namespace NadekoBot.Classes.Trivia {
             Reload();
         }
 
-        public TriviaQuestion GetRandomQuestion(List<TriviaQuestion> exclude) =>
-            pool.Except(exclude).ToList()[_r.Next(0, pool.Count)];
+        public TriviaQuestion GetRandomQuestion(List<TriviaQuestion> exclude) {
+            var list = pool.Except(exclude).ToList();
+            var rand = _r.Next(0, list.Count);
+            return list[rand];
+        }
 
         internal void Reload() {
             JArray arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
