@@ -18,6 +18,8 @@ namespace NadekoBot.Modules
         {
             manager.CreateCommands("", cgb =>
             {
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand("$raffle")

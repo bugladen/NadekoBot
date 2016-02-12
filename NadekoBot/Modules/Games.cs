@@ -28,6 +28,8 @@ namespace NadekoBot.Modules
             {
                 commands.ForEach(cmd => cmd.Init(cgb));
 
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 cgb.CreateCommand(">choose")
                   .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep more;Sleep even more")
                   .Parameter("list", Discord.Commands.ParameterType.Unparsed)

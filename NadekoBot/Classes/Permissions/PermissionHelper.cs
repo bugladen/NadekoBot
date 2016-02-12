@@ -59,6 +59,9 @@ namespace NadekoBot.Classes {
         internal static Role ValidateRole(Server server, string roleName) {
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentNullException(nameof(roleName));
+
+            if (roleName.Trim() == "everyone")
+                roleName = "@everyone";
             var role = server.FindRoles(roleName).FirstOrDefault();
             if (role == null)
                 throw new NullReferenceException("That role does not exist.");

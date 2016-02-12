@@ -28,7 +28,9 @@ namespace NadekoBot.Modules {
             var client = NadekoBot.client;
 
             manager.CreateCommands("!m", cgb => {
-                //queue all more complex commands
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("n")

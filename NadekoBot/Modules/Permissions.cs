@@ -8,7 +8,7 @@ using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 namespace NadekoBot.Modules {
     class PermissionModule : DiscordModule
     {
-        string trigger = "*";
+        string prefix = "*";
         public PermissionModule() : base()
         {
             //Empty for now
@@ -21,11 +21,65 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand(trigger + "ssm").Alias(trigger + "setservermodule")
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
+                cgb.CreateCommand(prefix + "serverperms")
+                  .Description("Shows banned permissions for this server.")
+                  .Do(async e => {
+
+                      var perms = PermsHandler.GetServerPermissions(e.Server);
+                      if (perms == null)
+                          await e.Send("No permissions set.");
+                      await e.Send(perms.ToString());
+                  });
+
+                cgb.CreateCommand(prefix + "roleperms")
+                  .Description("Shows banned permissions for a certain role. No argument means for everyone.")
+                  .Parameter("role", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("role");
+                      var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+
+                      var perms = PermsHandler.GetRolePermissionsById(e.Server, role.Id);
+                      if (perms == null)
+                          await e.Send("No permissions set.");
+                      await e.Send(perms.ToString());
+                  });
+
+                cgb.CreateCommand(prefix + "channelperms")
+                  .Description("Shows banned permissions for a certain channel. No argument means for this channel.")
+                  .Parameter("channel", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("channel");
+                      var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+
+                      var perms = PermsHandler.GetChannelPermissionsById(e.Server, channel.Id);
+                      if (perms == null)
+                          await e.Send("No permissions set.");
+                      await e.Send(perms.ToString());
+                  });
+
+                cgb.CreateCommand(prefix + "userperms")
+                  .Description("Shows banned permissions for a certain user. No argument means for yourself.")
+                  .Parameter("user", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("user");
+                      Discord.User user;
+                      if (string.IsNullOrWhiteSpace(e.GetArg("user")))
+                          user = e.User;
+                      else
+                          user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+
+                      var perms = PermsHandler.GetUserPermissionsById(e.Server, user.Id);
+                      if (perms == null)
+                          await e.Send("No permissions set.");
+                      await e.Send(perms.ToString());
+                  });
+
+                cgb.CreateCommand(prefix + "sm").Alias(prefix + "servermodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a module's permission at the server level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -46,11 +100,10 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "ssc").Alias(trigger + "setservercommand")
+                cgb.CreateCommand(prefix + "sc").Alias(prefix + "servercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a command's permission at the server level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -71,12 +124,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "srm").Alias(trigger + "setrolemodule")
+                cgb.CreateCommand(prefix + "rm").Alias(prefix + "rolemodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the role level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -98,12 +150,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "src").Alias(trigger + "setrolecommand")
+                cgb.CreateCommand(prefix + "rc").Alias(prefix + "rolecommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role",ParameterType.Unparsed)
                     .Description("Sets a command's permission at the role level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -125,12 +176,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "scm").Alias(trigger + "setchannelmodule")
+                cgb.CreateCommand(prefix + "cm").Alias(prefix + "channelmodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the channel level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -152,12 +202,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "scc").Alias(trigger + "setchannelcommand")
+                cgb.CreateCommand(prefix + "cc").Alias(prefix + "channelcommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
                     .Description("Sets a command's permission at the channel level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -179,12 +228,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "sum").Alias(trigger + "setusermodule")
+                cgb.CreateCommand(prefix + "um").Alias(prefix + "usermodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
                     .Description("Sets a module's permission at the user level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
@@ -206,12 +254,11 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(trigger + "suc").Alias(trigger + "setusercommand")
+                cgb.CreateCommand(prefix + "uc").Alias(prefix + "usercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
                     .Description("Sets a command's permission at the user level.")
-                    // .AddCheck() -> fix this
                     .Do(async e =>
                     {
                         try
