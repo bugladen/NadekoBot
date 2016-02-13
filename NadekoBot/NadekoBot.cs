@@ -121,6 +121,7 @@ namespace NadekoBot {
                     if (request != null) {
                         if (string.IsNullOrWhiteSpace(request.Content))
                             e.Cancel = true;
+                        request.Content = request.Content.Replace("@everyone", "@everyοne");
                     }
                 };
             });

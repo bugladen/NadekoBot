@@ -141,9 +141,18 @@ namespace NadekoBot.Modules {
 
                     });
                 cgb.CreateCommand(".roles")
-                  .Description("List all roles on this server")
+                  .Description("List all roles on this server or a single user if specified.")
+                  .Parameter("user", ParameterType.Unparsed)
                   .Do(async e => {
-                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "[everyone]"));
+
+                      if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) {
+                          var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
+                          if (usr != null) {
+                              await e.Send($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles).Replace("@everyone", "මeveryone"));
+                              return;
+                          }
+                      }
+                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "මeveryone"));
                   });
 
                 cgb.CreateCommand(".modules")
@@ -395,22 +404,6 @@ namespace NadekoBot.Modules {
                         if (!e.User.ServerPermissions.ManageMessages) return;
 
                         await e.Send("This feature is being reconstructed.");
-                        /*
-                        if (pruneDict.ContainsKey(e.Server))
-                            return;
-                        int num;
-                        if (!Int32.TryParse(e.GetArg("num"), out num) || num < 1) {
-                            await e.Send("Incorrect amount.");
-                            return;
-                        }
-                        if (num > 10)
-                            num = 10;
-                        var msgs = await e.Channel.DownloadMessages(num);
-                        foreach (var m in msgs) {
-                            await m.Delete();
-                            await Task.Delay(500);
-                        }
-                        */
                     });
 
                 cgb.CreateCommand(".die")
@@ -435,23 +428,6 @@ namespace NadekoBot.Modules {
                             foreach (var m in msgs)
                                 await m.Delete();
                         });
-                        /*
-                        try {
-                            if (clearDictionary.ContainsKey(e.Server))
-                                return;
-                            clearDictionary.TryAdd(e.Server, true);
-                            var msgs = await e.Channel.DownloadMessages(100);
-                            await Task.Run(async () => {
-                                var ms = msgs.Where(msg => msg.User.Id == client.CurrentUser.Id);
-                                foreach (var m in ms) {
-                                    try { await m.Delete(); } catch (Exception) { }
-                                    await Task.Delay(500);
-                                }
-                            });
-                        } catch (Exception) { }
-                        bool throwaway;
-                        clearDictionary.TryRemove(e.Server, out throwaway);
-                        */
                     });
                 cgb.CreateCommand(".newname")
                     .Alias(".setname")
@@ -552,7 +528,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".menrole")
                     .Alias(".mentionrole")
-                    .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.")
+                    .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e => {
                         if (!e.User.ServerPermissions.MentionEveryone) return;
@@ -603,10 +579,8 @@ namespace NadekoBot.Modules {
                             var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
                             var donatorsOrdered = rows.OrderBy(d => d.Amount);
                             string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
-                            foreach (var don in donatorsOrdered) {
-                                str += don.UserName;
-                            }
-                            await e.Channel.SendMessage(str);
+                            
+                            await e.Channel.SendMessage(string.Join(", ", donatorsOrdered));
                         });
                     });
 
@@ -633,47 +607,6 @@ namespace NadekoBot.Modules {
                             Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
                         }
                     });
-                /*
-                               cgb.CreateCommand(".no")
-                                 .Description("desc")
-                                 .Parameter("arg", ParameterType.Required)
-                                 .Do(async e => {
-                                     var arg = e.GetArg("arg");
-
-                                 });
-
-                              cgb.CreateCommand(".voicetext")
-                                   .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
-
-                              cgb.CreateCommand(".jsontype")
-                                  .Do(async e => {
-                                      Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));
-                                      if (data == null || data.Count == 0) return;
-
-                                      var wer = data.Where(jt => jt["Description"].ToString().Length > 120);
-                                      var list = wer.Select(jt => { 
-                                          var obj = new Parse.ParseObject("TypingArticles");
-                                          obj["text"] = jt["Description"].ToString();
-                                          return obj;
-                                      });
-                                      await Parse.ParseObject.SaveAllAsync(list);
-                                      await e.Send("saved to parse");
-
-                                  });
-
-                              cgb.CreateCommand(".repeat")
-                                  .Do(async e => {
-                                      if (e.User.Id != NadekoBot.OwnerID) return;
-
-                                      string[] notifs = { "Admin use .bye .greet", "Unstable - fixing", "fixing ~ani, ~mang", "join NadekoLog server", "-h is help, .stats",};
-                                      int i = notifs.Length;
-                                      while (true) {
-                                          await e.Channel.SendMessage($".setgame {notifs[--i]}");
-                                          await Task.Delay(20000);
-                                          if (i == 0) i = notifs.Length;
-                                      }
-                                  });
-                              */
             });
         }
 

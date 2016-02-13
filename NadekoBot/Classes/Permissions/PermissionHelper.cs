@@ -19,6 +19,7 @@ namespace NadekoBot.Classes {
                 case "t":
                 case "true":
                 case "enable":
+                case "enabled":
                 case "allow":
                 case "unban":
                     return true;
@@ -26,6 +27,7 @@ namespace NadekoBot.Classes {
                 case "f":
                 case "false":
                 case "disable":
+                case "disabled":
                 case "disallow":
                 case "ban":
                     return false;
