@@ -48,7 +48,7 @@ Wait for it to resolve dependencies and start NadekoBot.
 Enjoy
 
 ##List of commands   
-(may be incomplete) last updated: 5.2.2016
+(may be incomplete) last updated: 13.2.2016
 
 Official repo: **github.com/Kwoth/NadekoBot/** 
 
