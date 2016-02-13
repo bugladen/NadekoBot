@@ -24,11 +24,11 @@ namespace NadekoBot.Modules
 
         public override void Install(ModuleManager manager)
         {
-            manager.CreateCommands("", cgb =>
-            {
-                commands.ForEach(cmd => cmd.Init(cgb));
+            manager.CreateCommands("", cgb => {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
+                commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(">choose")
                   .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep more;Sleep even more")

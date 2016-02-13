@@ -26,6 +26,9 @@ namespace NadekoBot.Modules {
             Random rng = new Random();
 
             manager.CreateCommands("", cgb => {
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 var client = manager.Client;
 
                 cgb.CreateCommand("\\o\\")
@@ -43,8 +46,6 @@ namespace NadekoBot.Modules {
 
             manager.CreateCommands(NadekoBot.botMention, cgb => {
                 var client = manager.Client;
-
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 

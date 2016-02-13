@@ -25,11 +25,12 @@ namespace NadekoBot.Modules {
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
+                
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 var client = manager.Client;
 
                 commands.ForEach(cmd => cmd.Init(cgb));
-
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand(".sr").Alias(".setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")

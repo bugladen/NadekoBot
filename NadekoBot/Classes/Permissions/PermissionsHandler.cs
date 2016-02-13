@@ -42,6 +42,13 @@ namespace NadekoBot.Classes.Permissions {
             Console.WriteLine("Permission initialization complete.");
         }
 
+        internal static void SetVerbosity(Server server, bool val) {
+            if (!_permissionsDict.ContainsKey(server)) {
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
+            }
+            _permissionsDict[server].Verbose = val;
+        }
+
         internal static Permissions GetRolePermissionsById(Server server, ulong id) {
             if (!_permissionsDict.ContainsKey(server))
                 return null;

@@ -57,6 +57,9 @@ namespace NadekoBot.Modules {
             };
 
             manager.CreateCommands("", cgb => {
+                
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 cgb.CreateCommand("join")
                     .Alias("j")
                     .Description("Joins a server")
