@@ -20,7 +20,7 @@ namespace NadekoBot.Modules {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand("~hentai")
-                    .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~hentai yuri")
+                    .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~hentai yuri")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         string tag = e.GetArg("tag");
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules {
                         await e.Send(":heart: Danbooru: " + await SearchHelper.GetDanbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~danbooru")
-                    .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~danbooru yuri")
+                    .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~danbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         string tag = e.GetArg("tag");
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules {
                         await e.Send(await SearchHelper.GetDanbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~gelbooru")
-                    .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered.\n**Usage**: ~gelbooru yuri")
+                    .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         string tag = e.GetArg("tag");

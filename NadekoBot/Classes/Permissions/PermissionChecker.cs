@@ -25,11 +25,15 @@ namespace NadekoBot.Classes.Permissions {
                 //is it a permission command?
                 // if it is, check if the user has the correct role
                 // if yes return true, if no return false
-                if (command.Category == "Permissions")
-                    if (user.Server.IsOwner || user.HasRole(PermissionHelper.ValidateRole(user.Server, PermissionsHandler.GetServerPermissionsRoleName(user.Server))))
+                if (command.Category == "Permissions") {
+                    Discord.Role role = null;
+                    try {
+                        role = PermissionHelper.ValidateRole(user.Server, PermissionsHandler.GetServerPermissionsRoleName(user.Server));
+                    } catch { }
+                    if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
-                    else
-                        throw new Exception($"You don't have the necessary role (**{PermissionsHandler._permissionsDict[user.Server].PermissionsControllerRole}**) to change permissions.");
+                    throw new Exception($"You don't have the necessary role (**{PermissionsHandler._permissionsDict[user.Server].PermissionsControllerRole}**) to change permissions.");
+                }
 
                 var permissionType = PermissionsHandler.GetPermissionBanType(command, user, channel);
 

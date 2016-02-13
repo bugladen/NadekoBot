@@ -21,15 +21,39 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
+                cgb.CreateCommand(prefix + "permrole")
+                    .Alias(prefix + "pr")
+                    .Description("Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.")
+                    .Parameter("role", ParameterType.Unparsed)
+                     .Do(async e => {
+                         if (string.IsNullOrWhiteSpace(e.GetArg("role"))) {
+                             await e.Send($"Current permissions role is `{PermsHandler.GetServerPermissionsRoleName(e.Server)}`");
+                             return;
+                         }
+
+                         var arg = e.GetArg("role");
+                         Discord.Role role = null;
+                         try {
+                             role = PermissionHelper.ValidateRole(e.Server, arg);
+                         } catch (Exception ex) {
+                             Console.WriteLine(ex.Message);
+                             await e.Send($"Role `{arg}` probably doesn't exist. Create the role with that name first.");
+                             return;
+                         }
+                         PermsHandler.SetPermissionsRole(e.Server, role.Name);
+                         await e.Send($"Role `{role.Name}` is now required in order to change permissions.");
+                     });
+
                 cgb.CreateCommand(prefix + "verbose")
-                  .Description("Sets whether to show when a command/module is blocked.\n**Usage**: ;verbose true")
-                  .Parameter("arg", ParameterType.Required)
-                  .Do(async e => {
-                      var arg = e.GetArg("arg");
-                      bool val = PermissionHelper.ValidateBool(arg);
-                      PermsHandler.SetVerbosity(e.Server, val);
-                      await e.Send($"Verbosity set to {val}.");
-                  });
+                    .Alias(prefix + "v")
+                    .Description("Sets whether to show when a command/module is blocked.\n**Usage**: ;verbose true")
+                    .Parameter("arg", ParameterType.Required)
+                    .Do(async e => {
+                        var arg = e.GetArg("arg");
+                        bool val = PermissionHelper.ValidateBool(arg);
+                        PermsHandler.SetVerbosity(e.Server, val);
+                        await e.Send($"Verbosity set to {val}.");
+                    });
 
                 cgb.CreateCommand(prefix + "serverperms")
                     .Alias(prefix + "sp")

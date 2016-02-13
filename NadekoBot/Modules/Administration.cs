@@ -580,8 +580,8 @@ namespace NadekoBot.Modules {
                             var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
                             var donatorsOrdered = rows.OrderBy(d => d.Amount);
                             string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
-                            
-                            await e.Channel.SendMessage(string.Join(", ", donatorsOrdered));
+
+                            await e.Channel.SendMessage(string.Join(", ", donatorsOrdered.Select(d => d.UserName)));
                         });
                     });
 

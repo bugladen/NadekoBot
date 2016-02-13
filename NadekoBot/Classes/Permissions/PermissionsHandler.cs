@@ -14,7 +14,6 @@ namespace NadekoBot.Classes.Permissions {
         public static ConcurrentDictionary<Server, ServerPermissions> _permissionsDict =
             new ConcurrentDictionary<Server, ServerPermissions>();
 
-
         public enum PermissionBanType {
             None, ServerBanCommand, ServerBanModule,
             ChannelBanCommand, ChannelBanModule, RoleBanCommand,
@@ -40,13 +39,6 @@ namespace NadekoBot.Classes.Permissions {
                 }
             }
             Console.WriteLine("Permission initialization complete.");
-        }
-
-        internal static void SetVerbosity(Server server, bool val) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            _permissionsDict[server].Verbose = val;
         }
 
         internal static Permissions GetRolePermissionsById(Server server, ulong id) {
@@ -172,6 +164,22 @@ namespace NadekoBot.Classes.Permissions {
             return _permissionsDict[server].PermissionsControllerRole;
         }
 
+        internal static void SetPermissionsRole(Server server, string roleName) {
+            if (!_permissionsDict.ContainsKey(server)) {
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
+            }
+            _permissionsDict[server].PermissionsControllerRole = roleName;
+            Task.Run(() => WriteServerToJson(server));
+        }
+
+        internal static void SetVerbosity(Server server, bool val) {
+            if (!_permissionsDict.ContainsKey(server)) {
+                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
+            }
+            _permissionsDict[server].Verbose = val;
+            Task.Run(() => WriteServerToJson(server));
+        }
+
         public static void SetServerModulePermission(Server server, string moduleName, bool value) {
             if (!_permissionsDict.ContainsKey(server)) {
                 _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
@@ -181,7 +189,7 @@ namespace NadekoBot.Classes.Permissions {
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetServerCommandPermission(Server server, string commandName, bool value) {
@@ -193,7 +201,7 @@ namespace NadekoBot.Classes.Permissions {
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetChannelModulePermission(Channel channel, string moduleName, bool value) {
@@ -210,7 +218,7 @@ namespace NadekoBot.Classes.Permissions {
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetChannelCommandPermission(Channel channel, string commandName, bool value) {
@@ -227,7 +235,7 @@ namespace NadekoBot.Classes.Permissions {
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetRoleModulePermission(Role role, string moduleName, bool value) {
@@ -244,7 +252,7 @@ namespace NadekoBot.Classes.Permissions {
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetRoleCommandPermission(Role role, string commandName, bool value) {
@@ -261,7 +269,7 @@ namespace NadekoBot.Classes.Permissions {
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetUserModulePermission(User user, string moduleName, bool value) {
@@ -278,7 +286,7 @@ namespace NadekoBot.Classes.Permissions {
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
 
         public static void SetUserCommandPermission(User user, string commandName, bool value) {
@@ -295,7 +303,7 @@ namespace NadekoBot.Classes.Permissions {
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            WriteServerToJson(server);
+            Task.Run(() => WriteServerToJson(server));
         }
     }
     /// <summary>
