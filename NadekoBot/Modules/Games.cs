@@ -31,7 +31,7 @@ namespace NadekoBot.Modules
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(">choose")
-                  .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep more;Sleep even more")
+                  .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep;Sleep more")
                   .Parameter("list", Discord.Commands.ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("list");

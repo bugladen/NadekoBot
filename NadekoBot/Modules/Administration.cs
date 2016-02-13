@@ -35,7 +35,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".sr").Alias(".setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", ParameterType.Required)
-                    .Parameter("role_name", ParameterType.Required)
+                    .Parameter("role_name", ParameterType.Unparsed)
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageRoles) return;
                         var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules {
 
                         try {
                             await usr.AddRoles(new Role[] { role });
-                            await e.Send($"Successfully added role **{role.Name}** to user **{usr.Mention}**");
+                            await e.Send($"Successfully added role **{role.Name}** to user **{usr.Name}**");
                         } catch (Exception ex) {
                             await e.Send("Failed to add roles. Most likely reason: Insufficient permissions.\n");
                             Console.WriteLine(ex.ToString());
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules {
 
                         try {
                             await usr.RemoveRoles(new Role[] { role });
-                            await e.Send($"Successfully removed role **{role.Name}** from user **{usr.Mention}**");
+                            await e.Send($"Successfully removed role **{role.Name}** from user **{usr.Name}**");
                         } catch (InvalidOperationException) {
                         } catch (Exception) {
                             await e.Send("Failed to remove roles. Most likely reason: Insufficient permissions.");
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules {
                     .Parameter("r", ParameterType.Optional)
                     .Parameter("g", ParameterType.Optional)
                     .Parameter("b", ParameterType.Optional)
-                    .Description("Set a role's color to the hex or 0-255 color value provided.\n**Usage*: .color Admin 255 200 100 or .color Admin ffba55")
+                    .Description("Set a role's color to the hex or 0-255 color value provided.\n**Usage**: .color Admin 255 200 100 or .color Admin ffba55")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageRoles) {
                             await e.Channel.SendMessage("You don't have permission to use this!");

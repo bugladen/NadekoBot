@@ -302,7 +302,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "acm").Alias(prefix + "allchannelmodules")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all modules at the server level.\n**Usage**: ;acm <enable/disable> <channel_name>")
+                    .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm <enable/disable> <channel_name>")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -323,7 +323,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;acc <module_name> <enable/disable> <channel_name>")
+                    .Description("Sets permissions for all commands from a certain module at the channel level.\n**Usage**: ;acc <module_name> <enable/disable> <channel_name>")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));

@@ -18,7 +18,7 @@ namespace NadekoBot.Modules {
 
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(">poll")
-                  .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll What is my question?;Answer1;Answer 2; Answer 3")
+                  .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll Question?;Answer1;Answ 2;A_3")
                   .Parameter("allargs", ParameterType.Unparsed)
                   .Do(e => {
                       if (!e.User.ServerPermissions.ManageChannels)
