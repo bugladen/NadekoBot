@@ -61,14 +61,15 @@ namespace NadekoBot {
             }
 
             //create new discord client
-            client = new DiscordClient(new DiscordConfig {
+            client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 0
             });
 
             //create a command service
-            var commandService = new CommandService(new CommandServiceConfig {
-                CommandChar = null,
-                HelpMode = HelpMode.Disable
+            var commandService = new CommandService(new CommandServiceConfigBuilder {
+                AllowMentionPrefix = false,
+                CustomPrefixHandler = m => 0,
+                HelpMode = HelpMode.Disabled
             });
             
             //reply to personal messages and forward if enabled.
@@ -81,7 +82,7 @@ namespace NadekoBot {
             var modules = client.Services.Add<ModuleService>(new ModuleService());
 
             //add audio service
-            var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
+            var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfigBuilder()  {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,

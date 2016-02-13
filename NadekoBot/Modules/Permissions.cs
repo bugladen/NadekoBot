@@ -312,7 +312,7 @@ namespace NadekoBot.Modules {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
 
-                            foreach (var command in NadekoBot.client.Commands().AllCommands.Where(c => c.Category == module)) {
+                            foreach (var command in NadekoBot.client.Services.Get<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetServerCommandPermission(e.Server, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** on this server.");
@@ -353,7 +353,7 @@ namespace NadekoBot.Modules {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
-                            foreach (var command in NadekoBot.client.Commands().AllCommands.Where(c => c.Category == module)) {
+                            foreach (var command in NadekoBot.client.Services.Get<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetChannelCommandPermission(channel, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
@@ -394,7 +394,7 @@ namespace NadekoBot.Modules {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
-                            foreach (var command in NadekoBot.client.Commands().AllCommands.Where(c => c.Category == module)) {
+                            foreach (var command in NadekoBot.client.Services.Get<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetRoleCommandPermission(role, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");

@@ -47,6 +47,8 @@ namespace NadekoBot.Modules {
             manager.CreateCommands(NadekoBot.botMention, cgb => {
                 var client = manager.Client;
 
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("uptime")

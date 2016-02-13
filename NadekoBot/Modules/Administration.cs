@@ -166,7 +166,7 @@ namespace NadekoBot.Modules {
                     .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e => {
-                        var commands = NadekoBot.client.Commands().AllCommands
+                        var commands = NadekoBot.client.Services.Get<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
                         if (commands == null || commands.Count() == 0) {
                             await e.Send("That module does not exist.");
@@ -403,8 +403,14 @@ namespace NadekoBot.Modules {
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
+                        int val;
+                        if (string.IsNullOrWhiteSpace(e.GetArg("num")) || !int.TryParse(e.GetArg("num"), out val) || val < 0)
+                            return;
 
-                        await e.Send("This feature is being reconstructed.");
+                        foreach (var msg in await e.Channel.DownloadMessages(val)) {
+                            await msg.Delete();
+                            await Task.Delay(100);
+                        }
                     });
 
                 cgb.CreateCommand(".die")

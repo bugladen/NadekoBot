@@ -51,7 +51,7 @@ namespace NadekoBot.Classes {
             if (string.IsNullOrWhiteSpace(commandText))
                 throw new ArgumentNullException(nameof(commandText));
 
-            foreach (var com in NadekoBot.client.Commands().AllCommands) {
+            foreach (var com in NadekoBot.client.Services.Get<CommandService>().AllCommands) {
                 if (com.Text.ToLower().Equals(commandText.ToLower()))
                     return com.Text;
             }
@@ -73,7 +73,7 @@ namespace NadekoBot.Classes {
         internal static Channel ValidateChannel(Server server, string channelName) {
             if (string.IsNullOrWhiteSpace(channelName))
                 throw new ArgumentNullException(nameof(channelName));
-            var channel = server.FindChannels(channelName).FirstOrDefault();
+            var channel = server.FindChannels(channelName, ChannelType.Text).FirstOrDefault();
             if (channel == null)
                 throw new NullReferenceException("That channel does not exist.");
             return channel;

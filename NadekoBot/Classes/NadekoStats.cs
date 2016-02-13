@@ -28,7 +28,7 @@ namespace NadekoBot
         static NadekoStats() { }
 
         private NadekoStats() {
-            _service = NadekoBot.client.Commands();
+            _service = NadekoBot.client.Services.Get<CommandService>();
             _client = NadekoBot.client;
 
             _statsSW = new Stopwatch();
