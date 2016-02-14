@@ -9,20 +9,20 @@ using MusicModule = NadekoBot.Modules.Music;
 namespace NadekoBot.Classes.Music {
     public class MusicControls {
         private CommandEventArgs _e;
-        public bool NextSong = false;
-        public IAudioClient Voice;
+        public bool NextSong { get; set; } = false;
+        public IAudioClient Voice { get; set; }
 
-        public bool Pause = false;
-        public List<StreamRequest> SongQueue = new List<StreamRequest>();
-        public StreamRequest CurrentSong = null;
+        public bool Pause { get; set; } = false;
+        public List<StreamRequest> SongQueue { get; set; } = new List<StreamRequest>();
+        public StreamRequest CurrentSong { get; set; } = null;
         public float Volume { get; set; } = .5f;
 
         public bool IsPaused { get; internal set; } = false;
         public bool Stopped { get; private set; }
 
-        public Channel VoiceChannel = null;
+        public Channel VoiceChannel { get; set; } = null;
 
-        public IAudioClient VoiceClient = null;
+        public IAudioClient VoiceClient { get; set; } = null;
 
         private readonly object _voiceLock = new object();
 

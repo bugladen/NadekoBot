@@ -9,6 +9,7 @@ using NadekoBot.Classes.Music;
 using Timer = System.Timers.Timer;
 using System.Threading.Tasks;
 using NadekoBot.Classes;
+using Discord.Audio;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
@@ -195,6 +196,16 @@ namespace NadekoBot.Modules {
                         }
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
                     });
+
+                cgb.CreateCommand("mv")
+                  .Description("Moves the bot to your voice channel. (works only if music is already playing)")
+                  .Do(async e => {
+                      MusicControls mc;
+                      if (e.User.VoiceChannel == null || e.User.VoiceChannel.Server != e.Server || !musicPlayers.TryGetValue(e.Server,out mc))
+                          return;
+                      mc.VoiceChannel = e.User.VoiceChannel;
+                      mc.VoiceClient = await mc.VoiceChannel.JoinAudio();
+                  });
 
                 cgb.CreateCommand("debug")
                     .Description("Writes some music data to console. **BOT OWNER ONLY**")
