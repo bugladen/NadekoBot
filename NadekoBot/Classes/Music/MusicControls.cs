@@ -42,9 +42,11 @@ namespace NadekoBot.Classes.Music {
             });
         }
 
-        public MusicControls(Channel voiceChannel, CommandEventArgs e) : this() {
+        public MusicControls(Channel voiceChannel, CommandEventArgs e, float? vol) : this() {
             if (voiceChannel == null)
                 throw new ArgumentNullException(nameof(voiceChannel));
+            if (vol != null)
+                Volume = (float)vol;
             VoiceChannel = voiceChannel;
             _e = e;
         }
