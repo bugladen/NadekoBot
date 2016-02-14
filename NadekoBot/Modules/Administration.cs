@@ -436,6 +436,7 @@ namespace NadekoBot.Modules {
                                 await m.Delete();
                         });
                     });
+
                 cgb.CreateCommand(".newname")
                     .Alias(".setname")
                     .Description("Give the bot a new name.")
@@ -445,6 +446,7 @@ namespace NadekoBot.Modules {
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
+
                 cgb.CreateCommand(".newavatar")
                     .Alias(".setavatar")
                     .Description("Sets a new avatar image for the NadekoBot.")
@@ -468,6 +470,7 @@ namespace NadekoBot.Modules {
                         // Send confirm.
                         await e.Send("New avatar set.");
                     });
+
                 cgb.CreateCommand(".setgame")
                   .Description("Sets the bots game.")
                   .Parameter("set_game", ParameterType.Unparsed)

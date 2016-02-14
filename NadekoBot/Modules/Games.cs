@@ -51,7 +51,7 @@ namespace NadekoBot.Modules
                         if (string.IsNullOrWhiteSpace(question))
                             return;                                                
                         await e.Channel.SendMessage(
-                            $":question: **Question:{question}**\n:crystal_ball: **8Ball Answers:**{_8BallAnswers[_r.Next(0, _8BallAnswers.Length)]}");
+                            $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[_r.Next(0, _8BallAnswers.Length)]}`");
                     });
 
                 cgb.CreateCommand(">")
