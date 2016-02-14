@@ -47,6 +47,15 @@ namespace NadekoBot.Modules {
                             tag = "";
                         await e.Send(await SearchHelper.GetGelbooruImageLink(tag));
                     });
+                cgb.CreateCommand("~e621")
+                    .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri kissing")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e => {
+                        string tag = e.GetArg("tag");
+                        if (tag == null)
+                            tag = "";
+                        await e.Send(await SearchHelper.GetE621ImageLink(tag));
+                    });
                 cgb.CreateCommand("~cp")
                     .Description("We all know where this will lead you to.")
                     .Parameter("anything", ParameterType.Unparsed)

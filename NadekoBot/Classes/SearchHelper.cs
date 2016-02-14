@@ -170,7 +170,7 @@ namespace NadekoBot.Classes {
                 if (tag == "loli") //loli doesn't work for some reason atm
                     tag = "flat_chest";
 
-                var webpage = await GetResponseAsync($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 30) }&tags={ tag.Replace(" ", "_") }");
+                var webpage = await GetResponseAsync($"http://danbooru.donmai.us/posts?page={ rng.Next(0, 15) }&tags={ tag.Replace(" ", "_") }");
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
                 return await $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
@@ -182,7 +182,7 @@ namespace NadekoBot.Classes {
         public static async Task<string> GetGelbooruImageLink(string tag) {
             try {
                 var rng = new Random();
-                var url = $"http://gelbooru.com/index.php?page=post&s=list&pid={ rng.Next(0, 15) * 42 }&tags={ tag.Replace(" ", "_") }";
+                var url = $"http://gelbooru.com/index.php?page=post&s=list&pid={ rng.Next(0, 10) * 42 }&tags={ tag.Replace(" ", "_") }";
                 var webpage = await GetResponseAsync(url); // first extract the post id and go to that posts page
                 var matches = Regex.Matches(webpage, "span id=\"s(?<id>\\d*)\"");
                 var postLink = $"http://gelbooru.com/index.php?page=post&s=view&id={ matches[rng.Next(0, matches.Count)].Groups["id"].Value }";
@@ -191,6 +191,18 @@ namespace NadekoBot.Classes {
                 var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
                 return match.Groups["url"].Value;
             } catch (Exception) {
+                return null;
+            }
+        }
+
+        internal static async Task<string> GetE621ImageLink(string tags) {
+            try {
+                var rng = new Random();
+                var url = $"https://e621.net/post/index/{rng.Next(0, 5)}/{Uri.EscapeUriString(tags)}";
+                var webpage = await GetResponseAsync(url); // first extract the post id and go to that posts page
+                var matches = Regex.Matches(webpage, "\"file_url\":\"(?<url>.*?)\"");
+                return matches[rng.Next(0,matches.Count)].Groups["url"].Value;
+            } catch {
                 return null;
             }
         }

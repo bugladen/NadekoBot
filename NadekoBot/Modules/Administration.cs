@@ -141,6 +141,7 @@ namespace NadekoBot.Modules {
                         }
 
                     });
+
                 cgb.CreateCommand(".roles")
                   .Description("List all roles on this server or a single user if specified.")
                   .Parameter("user", ParameterType.Unparsed)
@@ -597,10 +598,10 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         await Task.Run(async () => {
                             var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
-                            var donatorsOrdered = rows.OrderBy(d => d.Amount);
+                            var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
                             string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
 
-                            await e.Channel.SendMessage(string.Join(", ", donatorsOrdered.Select(d => d.UserName)));
+                            await e.Channel.SendMessage(str + string.Join(", ", donatorsOrdered.Select(d => d.UserName)));
                         });
                     });
 
