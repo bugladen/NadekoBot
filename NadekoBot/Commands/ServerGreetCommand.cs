@@ -52,7 +52,10 @@ namespace NadekoBot.Commands {
 
             if (controls.ByePM) {
                 Greeted++;
-                await e.User.SendMessage($"`Farewell Message From {e.Server.Name}`\n" + msg);
+                try {
+                    await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
+                }
+                catch { }
             } else {
                 if (channel == null) return;
                 Greeted++;

@@ -31,7 +31,7 @@ namespace NadekoBot.Classes.Music {
         public string Title { get; internal set; } = String.Empty;
         private string Provider { get; set; }
 
-        public string FullPrettyName => $"**【 {Title.TrimTo(55)} 】**`{Provider}`";
+        public string FullPrettyName => $"**【 {Title.TrimTo(55)} 】**`{(Provider == null ? "-" : Provider)}`";
 
         private MusicStreamer musicStreamer = null;
         public StreamState State => musicStreamer?.State ?? privateState;
@@ -74,7 +74,8 @@ namespace NadekoBot.Classes.Music {
                     Provider = "SoundCloud";
                     uri = svideo.StreamLink;
                     Console.WriteLine(uri);
-                } else {
+                }
+                else {
 
                     if (OnResolving != null)
                         OnResolving();
@@ -89,11 +90,12 @@ namespace NadekoBot.Classes.Music {
                     if (video == null) // do something with this error
                         throw new Exception("Could not load any video elements based on the query.");
 
-                    Title = video.Title.Substring(0,video.Title.Length-10); // removing trailing "- You Tube"
+                    Title = video.Title.Substring(0, video.Title.Length - 10); // removing trailing "- You Tube"
                     Provider = "YouTube";
                     uri = video.Uri;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 privateState = StreamState.Completed;
                 if (OnResolvingFailed != null)
                     OnResolvingFailed(ex.Message);
@@ -134,10 +136,12 @@ namespace NadekoBot.Classes.Music {
                     }
                 }
                 await musicStreamer.StartPlayback();
-            } catch (TimeoutException) {
+            }
+            catch (TimeoutException) {
                 Console.WriteLine("Resolving timed out.");
                 privateState = StreamState.Completed;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine("Error in start playback." + ex.Message);
                 privateState = StreamState.Completed;
             }
@@ -169,7 +173,7 @@ namespace NadekoBot.Classes.Music {
             $"Server: {parent.Server.Name}\n" +
             $"Length:{buffer.Length * 1.0f / 1.MB()}MB Status: {State}\n" +
             "--------------------------------\n";
-        
+
         private async Task BufferSong() {
             //start feeding the buffer
             var p = Process.Start(new ProcessStartInfo {
@@ -192,7 +196,8 @@ namespace NadekoBot.Classes.Music {
                     try {
                         p.CancelOutputRead();
                         p.Close();
-                    } catch  { }
+                    }
+                    catch { }
                     Console.WriteLine("Buffering canceled, stream is completed.");
                     return;
                 }
@@ -221,15 +226,18 @@ namespace NadekoBot.Classes.Music {
                         try {
                             p.CancelOutputRead();
                             p.Close();
-                        } catch  { }
+                        }
+                        catch { }
 
-                        Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length/1.MB()}MB length");
+                        Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length / 1.MB()}MB length");
                         return;
-                    } else {
+                    }
+                    else {
                         ++attempt;
                         await Task.Delay(20);
                     }
-                } else {
+                }
+                else {
                     attempt = 0;
                     await buffer.WriteAsync(buf, 0, read);
                 }
@@ -254,16 +262,17 @@ namespace NadekoBot.Classes.Music {
                 await Task.Delay(waitPerAttempt);
             }
             if (prebufferingComplete) {
-                Console.WriteLine($"Prebuffering finished in {bufferAttempts*500}");
+                Console.WriteLine($"Prebuffering finished in {bufferAttempts * 500}");
             }
             // prebuffering wait stuff end
-            
+
             if (buffer.Length > 0) {
                 Console.WriteLine("Prebuffering complete.");
-            } else {
+            }
+            else {
                 Console.WriteLine("Nothing was buffered, try another song and check your GoogleApikey.");
             }
-            
+
             int blockSize = 1920 * NadekoBot.client.Services.Get<AudioService>().Config.Channels;
             byte[] voiceBuffer = new byte[blockSize];
 
@@ -274,7 +283,7 @@ namespace NadekoBot.Classes.Music {
             while (!IsCanceled) {
                 int readCount = 0;
                 //adjust volume
-                
+
                 lock (_bufferLock) {
                     readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
                 }
@@ -283,11 +292,13 @@ namespace NadekoBot.Classes.Music {
                     if (attempt == 4) {
                         Console.WriteLine($"Failed to read {attempt} times. Breaking out. [{DateTime.Now.Second}]");
                         break;
-                    } else {
+                    }
+                    else {
                         ++attempt;
                         await Task.Delay(15);
                     }
-                } else
+                }
+                else
                     attempt = 0;
 
                 if (State == StreamState.Completed) {

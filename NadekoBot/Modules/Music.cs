@@ -207,6 +207,23 @@ namespace NadekoBot.Modules {
                       mc.VoiceClient = await mc.VoiceChannel.JoinAudio();
                   });
 
+                cgb.CreateCommand("rm")
+                    .Description("Removes a song by a # from the queue")
+                    .Parameter("num",ParameterType.Required)
+                    .Do(async e => {
+                        var arg = e.GetArg("num");
+                        int num;
+                        MusicControls mc;
+                        if (!musicPlayers.TryGetValue(e.Server, out mc) || !int.TryParse(arg, out num)) {
+                            return;
+                        }
+                        if (num <= 0 || num > mc.SongQueue.Count)
+                            return;
+
+                        mc.SongQueue.RemoveAt(num - 1);
+                        await e.Send($"🎵Song at position `{num}` has been removed.");
+                    });
+
                 cgb.CreateCommand("debug")
                     .Description("Writes some music data to console. **BOT OWNER ONLY**")
                     .Do(e => {
@@ -229,7 +246,7 @@ namespace NadekoBot.Modules {
                     await e.Send("Failed to create a music player for this server.");
                     return;
                 }
-            if (query == null || query.Length < 4)
+            if (query == null || query.Length < 3)
                 return;
 
             var player = musicPlayers[e.Server];
