@@ -81,7 +81,7 @@ namespace NadekoBot.Modules {
                             await usr.RemoveRoles(new Role[] { role });
                             await e.Send($"Successfully removed role **{role.Name}** from user **{usr.Name}**");
                         } catch (InvalidOperationException) {
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("Failed to remove roles. Most likely reason: Insufficient permissions.");
                         }
                     });
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules {
                                     await usr.Server.Unban(usr);
                                     await e.Send("Unbanned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            } catch (Exception) { }
+                            } catch  { }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
@@ -212,7 +212,7 @@ namespace NadekoBot.Modules {
                                 await e.Message.MentionedUsers.First().Kick();
                                 await e.Send("Kicked user " + usr.Name + " Id: " + usr.Id);
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -231,7 +231,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: true);
                             }
                             await e.Send("Mute successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -251,7 +251,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: false);
                             }
                             await e.Send("Unmute successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -272,7 +272,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: true);
                             }
                             await e.Send("Deafen successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -293,7 +293,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: false);
                             }
                             await e.Send("Undeafen successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -307,7 +307,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Voice).FirstOrDefault()?.Delete();
                                 await e.Send($"Removed channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -321,7 +321,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Voice);
                                 await e.Send($"Created voice channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -335,7 +335,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault()?.Delete();
                                 await e.Send($"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -349,7 +349,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Text);
                                 await e.Send($"Added text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -361,7 +361,7 @@ namespace NadekoBot.Modules {
                         try {
                             if (e.User.ServerPermissions.ManageChannels)
                                 await e.Channel.Edit(topic: e.GetArg("topic"));
-                        } catch (Exception) { }
+                        } catch  { }
                     });
 
                 cgb.CreateCommand(".uid").Alias(".userid")

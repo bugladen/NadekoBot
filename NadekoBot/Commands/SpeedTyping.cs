@@ -14,7 +14,7 @@ namespace NadekoBot.Commands {
             var data = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.TypingArticle>();
             try {
                 return data.ToList()[new Random().Next(0, data.Count())].Text;
-            } catch (Exception) {
+            } catch  {
                 return "Failed retrieving data from parse. Owner didn't add any articles to type using `typeadd`.";
             }
         }

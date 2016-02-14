@@ -101,7 +101,7 @@ namespace NadekoBot.Modules {
                                             "\n**Online Members:** " + server.Users.Where(u => u.Status == UserStatus.Online).Count() +
                                             "\n**Invite:** " + inv.Url);
                                 break;
-                            } catch (Exception) { continue; }
+                            } catch  { continue; }
                         }
                     });
                 /*
@@ -272,7 +272,7 @@ namespace NadekoBot.Modules {
                         try {
                             await (await client.GetInvite(e.Args[0])).Accept();
                             await e.Send("I got in!");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("Invalid code.");
                         }
                     });
@@ -352,7 +352,7 @@ namespace NadekoBot.Modules {
                                 var invite = await s.CreateInvite(0);
                                 invites += invite.Url + "\n";
                                 i++;
-                            } catch (Exception) {
+                            } catch  {
                                 j++;
                                 continue;
                             }

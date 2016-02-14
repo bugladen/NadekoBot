@@ -192,7 +192,7 @@ namespace NadekoBot.Classes.Music {
                     try {
                         p.CancelOutputRead();
                         p.Close();
-                    } catch (Exception) { }
+                    } catch  { }
                     Console.WriteLine("Buffering canceled, stream is completed.");
                     return;
                 }
@@ -221,7 +221,7 @@ namespace NadekoBot.Classes.Music {
                         try {
                             p.CancelOutputRead();
                             p.Close();
-                        } catch (Exception) { }
+                        } catch  { }
 
                         Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length/1.MB()}MB length");
                         return;

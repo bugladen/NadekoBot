@@ -110,7 +110,7 @@ namespace NadekoBot {
 
                 try {
                     OwnerPrivateChannel = await client.CreatePrivateChannel(OwnerID);
-                } catch (Exception) {
+                } catch  {
                     Console.WriteLine("Failed creating private channel with the owner");
                 }
 
@@ -146,7 +146,7 @@ namespace NadekoBot {
                 await (await client.GetInvite(e.Message.Text)).Accept();
                 await e.Send("I got in!");
                 return;
-            } catch (Exception) {
+            } catch  {
                 if (e.User.Id == 109338686889476096) { //carbonitex invite
                     await e.Send("Failed to join the server.");
                     return;

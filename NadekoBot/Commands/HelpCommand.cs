@@ -61,6 +61,11 @@ namespace NadekoBot
             cgb.CreateCommand("-hgit")
                 .Description("Help command stylized for github readme")
                 .Do(DoGitFunc());
+            cgb.CreateCommand("-readme")
+                .Alias("-guide")
+                .Description("Sends a readme and a guide links to the channel.")
+                .Do(async e =>
+                    await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/readme.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
         }
 
         private string PrintCommandHelp(Command com)

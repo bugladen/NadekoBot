@@ -79,7 +79,7 @@ namespace NadekoBot.Modules {
                                     .GetResponse()
                                     .GetResponseStream())
                                 .ReadToEnd())["file"].ToString());
-                        } catch (Exception) { }
+                        } catch  { }
                     });
 
                 cgb.CreateCommand("~i")
@@ -176,7 +176,7 @@ namespace NadekoBot.Modules {
                                   try {
                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
-                                  } catch (Exception) { }
+                                  } catch  { }
                               };
                           } catch {
                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");

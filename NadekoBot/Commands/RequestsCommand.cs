@@ -52,7 +52,7 @@ namespace NadekoBot.Commands {
 
                     try {
                         SaveRequest(e, str);
-                    } catch (Exception) {
+                    } catch  {
                         await e.Send("Something went wrong.");
                         return;
                     }

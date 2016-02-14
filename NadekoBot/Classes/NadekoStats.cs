@@ -89,7 +89,7 @@ namespace NadekoBot
                         ConnectedServers = connectedServers,
                         DateAdded = DateTime.Now
                     });
-                } catch (Exception) {
+                } catch  {
                     Console.WriteLine("DB Exception in stats collecting.");
                     break;
                 }
@@ -110,7 +110,7 @@ namespace NadekoBot
                     CommandName = e.Command.Text,
                     DateAdded = DateTime.Now
                 });
-            } catch (Exception) {
+            } catch  {
                 Console.WriteLine("Parse error in ran command.");
             }
         }

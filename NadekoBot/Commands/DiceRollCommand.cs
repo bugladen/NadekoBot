@@ -58,7 +58,7 @@ namespace NadekoBot {
                         Bitmap bitmap = dices.Merge();
                         await e.Send(values.Count + " Dies rolled. Total: **" + values.Sum() + "** Average: **" + (values.Sum() / (1.0f * values.Count)).ToString("N2") + "**");
                         await e.Channel.SendFile("dices.png", bitmap.ToStream(ImageFormat.Png));
-                    } catch (Exception) {
+                    } catch  {
                         await e.Send("Please enter a number of dices to roll.");
                         return;
                     }

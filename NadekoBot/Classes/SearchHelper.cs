@@ -47,7 +47,7 @@ namespace NadekoBot.Classes {
                 rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content));
-            } catch (Exception) {
+            } catch  {
                 return null;
             }
         }
@@ -174,7 +174,7 @@ namespace NadekoBot.Classes {
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
                 return await $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
-            } catch (Exception) {
+            } catch  {
                 return null;
             }
         }
@@ -190,7 +190,7 @@ namespace NadekoBot.Classes {
                 //now extract the image from post page
                 var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
                 return match.Groups["url"].Value;
-            } catch (Exception) {
+            } catch  {
                 return null;
             }
         }
