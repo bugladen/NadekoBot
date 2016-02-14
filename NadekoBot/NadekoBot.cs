@@ -62,7 +62,8 @@ namespace NadekoBot {
 
             //create new discord client
             client = new DiscordClient(new DiscordConfigBuilder() {
-                MessageCacheSize = 0
+                MessageCacheSize = 0,
+                ConnectionTimeout = 60000,
             });
 
             //create a command service
