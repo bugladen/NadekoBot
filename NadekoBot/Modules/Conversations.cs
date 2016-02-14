@@ -334,8 +334,8 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("unhide")
                     .Description("Unhides nadeko in plain sight!1!!1")
                     .Do(async e => {
-                        using (Stream ms = Resources.nadeko.ToStream()) {
-                            await client.CurrentUser.Edit(NadekoBot.password, avatar: ms, avatarType: ImageType.Jpeg);
+                        using (FileStream fs = new FileStream("data/avatar.png", FileMode.Open)) {
+                            await client.CurrentUser.Edit(NadekoBot.password, avatar: fs);
                         }
                         await e.Send("*unhides*");
                     });

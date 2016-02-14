@@ -445,19 +445,29 @@ namespace NadekoBot.Modules {
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
-                /*
                 cgb.CreateCommand(".newavatar")
                     .Alias(".setavatar")
-                    .Description("Sets the new avatar from the image URL. PNG and JPEG supported")
-                    .Parameter("new_avatar", ParameterType.Required)
+                    .Description("Sets a new avatar image for the NadekoBot.")
+                    .Parameter("img", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID || e.GetArg("new_avatar") == null) return;
-                        var arg = e.GetArg("new_avatar").Trim();
-                        ImageType imgType = arg.EndsWith("png") ? ImageType.Png: ImageType.Jpeg;
-                        var res = await Searches.GetResponseStream(e.GetArg("new_avatar"));
-                        await client.CurrentUser.Edit(NadekoBot.password, avatar: res, avatarType: imgType);
+                        if (e.User.Id != NadekoBot.OwnerID || string.IsNullOrWhiteSpace(e.GetArg("img")))
+                            return;
+                        // Gather user provided URL.
+                        string avatarAddress = e.GetArg("img");
+                        // Creates an HTTPWebRequest object, which references the URL given by the user.
+                        System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(Uri.EscapeUriString(avatarAddress));
+                        // Discard the response if image isnt downloaded in 5 s as to not lock Nadeko. Prevents loading from faulty links.
+                        webRequest.Timeout = 5000;
+                        // Gathers the webRequest response as a Stream object.
+                        System.Net.WebResponse webResponse = await webRequest.GetResponseAsync();
+                        // Create image object from the response we got from the webRequest stream. This is because there is no "GetResponseStream".
+                        System.Drawing.Image image = System.Drawing.Image.FromStream(webResponse.GetResponseStream());
+                        // Save the image to disk.
+                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
+                        await client.CurrentUser.Edit(NadekoBot.password, avatar: image.ToStream());
+                        // Send confirm.
+                        await e.Send("New avatar set.");
                     });
-                */
                 cgb.CreateCommand(".setgame")
                   .Description("Sets the bots game.")
                   .Parameter("set_game", ParameterType.Unparsed)
