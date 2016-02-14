@@ -5,6 +5,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Classes;
 using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
+using System.Text;
 
 namespace NadekoBot.Modules {
     class PermissionModule : DiscordModule {
@@ -35,7 +36,8 @@ namespace NadekoBot.Modules {
                          Discord.Role role = null;
                          try {
                              role = PermissionHelper.ValidateRole(e.Server, arg);
-                         } catch (Exception ex) {
+                         }
+                         catch (Exception ex) {
                              Console.WriteLine(ex.Message);
                              await e.Send($"Role `{arg}` probably doesn't exist. Create the role with that name first.");
                              return;
@@ -75,7 +77,8 @@ namespace NadekoBot.Modules {
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
                                 role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
-                            } catch (Exception ex) {
+                            }
+                            catch (Exception ex) {
                                 await e.Send("💢 Error: " + ex.Message);
                                 return;
                             }
@@ -97,7 +100,8 @@ namespace NadekoBot.Modules {
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
                                 channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
-                            } catch (Exception ex) {
+                            }
+                            catch (Exception ex) {
                                 await e.Send("💢 Error: " + ex.Message);
                                 return;
                             }
@@ -118,7 +122,8 @@ namespace NadekoBot.Modules {
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")))
                             try {
                                 user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
-                            } catch (Exception ex) {
+                            }
+                            catch (Exception ex) {
                                 await e.Send("💢 Error: " + ex.Message);
                                 return;
                             }
@@ -140,9 +145,11 @@ namespace NadekoBot.Modules {
 
                             PermsHandler.SetServerModulePermission(e.Server, module, state);
                             await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on this server.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -158,9 +165,11 @@ namespace NadekoBot.Modules {
 
                             PermsHandler.SetServerCommandPermission(e.Server, command, state);
                             await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on this server.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -174,13 +183,24 @@ namespace NadekoBot.Modules {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
-                            PermsHandler.SetRoleModulePermission(role, module, state);
-                            await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
-                        } catch (ArgumentException exArg) {
+                            if (e.GetArg("role")?.ToLower() == "all") {
+                                foreach (var role in e.Server.Roles) {
+                                    PermsHandler.SetRoleModulePermission(role, module, state);
+                                }
+                                await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
+                            }
+                            else {
+                                Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+
+                                PermsHandler.SetRoleModulePermission(role, module, state);
+                                await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
+                            }
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -194,13 +214,24 @@ namespace NadekoBot.Modules {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
-                            PermsHandler.SetRoleCommandPermission(role, command, state);
-                            await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
-                        } catch (ArgumentException exArg) {
+                            if (e.GetArg("role")?.ToLower() == "all") {
+                                foreach (var role in e.Server.Roles) {
+                                    PermsHandler.SetRoleCommandPermission(role, command, state);
+                                }
+                                await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
+                            }
+                            else {
+                                Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+
+                                PermsHandler.SetRoleCommandPermission(role, command, state);
+                                await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
+                            }
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -214,13 +245,24 @@ namespace NadekoBot.Modules {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
-                            PermsHandler.SetChannelModulePermission(channel, module, state);
-                            await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
-                        } catch (ArgumentException exArg) {
+                            if (e.GetArg("channel")?.ToLower() == "all") {
+                                foreach (var channel in e.Server.TextChannels) {
+                                    PermsHandler.SetChannelModulePermission(channel, module, state);
+                                }
+                                await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
+                            }
+                            else {
+                                Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+
+                                PermsHandler.SetChannelModulePermission(channel, module, state);
+                                await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
+                            }
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -234,13 +276,24 @@ namespace NadekoBot.Modules {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
-                            PermsHandler.SetChannelCommandPermission(channel, command, state);
-                            await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
-                        } catch (ArgumentException exArg) {
+                            if (e.GetArg("channel")?.ToLower() == "all") {
+                                foreach (var channel in e.Server.TextChannels) {
+                                    PermsHandler.SetChannelCommandPermission(channel, command, state);
+                                }
+                                await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
+                            }
+                            else {
+                                Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+
+                                PermsHandler.SetChannelCommandPermission(channel, command, state);
+                                await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
+                            }
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -258,9 +311,11 @@ namespace NadekoBot.Modules {
 
                             PermsHandler.SetUserModulePermission(user, module, state);
                             await e.Send($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -278,9 +333,11 @@ namespace NadekoBot.Modules {
 
                             PermsHandler.SetUserCommandPermission(user, command, state);
                             await e.Send($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -296,9 +353,11 @@ namespace NadekoBot.Modules {
                                 PermsHandler.SetServerModulePermission(e.Server, module.Name, state);
                             }
                             await e.Send($"All modules have been **{(state ? "enabled" : "disabled")}** on this server.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -316,9 +375,11 @@ namespace NadekoBot.Modules {
                                 PermsHandler.SetServerCommandPermission(e.Server, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** on this server.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -336,9 +397,11 @@ namespace NadekoBot.Modules {
                             }
 
                             await e.Send($"All modules have been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -357,9 +420,11 @@ namespace NadekoBot.Modules {
                                 PermsHandler.SetChannelCommandPermission(channel, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -377,9 +442,11 @@ namespace NadekoBot.Modules {
                             }
 
                             await e.Send($"All modules have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
@@ -398,9 +465,11 @@ namespace NadekoBot.Modules {
                                 PermsHandler.SetRoleCommandPermission(role, command.Text, state);
                             }
                             await e.Send($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
-                        } catch (ArgumentException exArg) {
+                        }
+                        catch (ArgumentException exArg) {
                             await e.Send(exArg.Message);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Send("Something went terribly wrong - " + ex.Message);
                         }
                     });
