@@ -66,6 +66,17 @@ namespace NadekoBot
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
                     await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/readme.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
+            cgb.CreateCommand("-donate")
+                .Description("Instructions for helping the project!")
+                .Do(async e => {
+                    await e.Send(
+@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
+Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
+You can join nadekobot server by simply private messaging NadekoBot, and you will get an invite.
+
+*If you want to support in some other way or on a different platform, please message me there*"
+                    );
+                });
         }
 
         private string PrintCommandHelp(Command com)
