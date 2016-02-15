@@ -217,14 +217,12 @@ namespace NadekoBot.Extensions {
         public static int GiB(this int value) => value.MiB() * 1024;
         public static int GB(this int value) => value.MB() * 1000;
 
-        public static Stream ToStream(this System.Drawing.Image img, System.Drawing.Imaging.ImageFormat format = null) {
-            Console.WriteLine("To stream");
+        public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null) {
             if (format == null)
                 format = System.Drawing.Imaging.ImageFormat.Jpeg;
             MemoryStream stream = new MemoryStream();
             img.Save(stream, format);
             stream.Position = 0;
-            Console.WriteLine("To stream finished");
             return stream;
         }
 
@@ -234,7 +232,6 @@ namespace NadekoBot.Extensions {
         /// <param name="images">The Images you want to merge.</param>
         /// <returns>Merged bitmap</returns>
         public static Bitmap Merge(this IEnumerable<Image> images,int reverseScaleFactor = 1) {
-            Console.WriteLine("Start merge");
             if (images.Count() == 0) return null;
             int width = images.Sum(i => i.Width);
             int height = images.First().Height ;
@@ -250,7 +247,6 @@ namespace NadekoBot.Extensions {
                 }
                 offsetx += img.Width/reverseScaleFactor;
             }
-            Console.WriteLine("Finish merge");
             return bitmap;
         }
         /// <summary>
