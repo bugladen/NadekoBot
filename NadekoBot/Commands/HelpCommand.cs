@@ -65,7 +65,7 @@ namespace NadekoBot
                 .Alias("-guide")
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
-                    await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/readme.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
+                    await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
             cgb.CreateCommand("-donate")
                 .Description("Instructions for helping the project!")
                 .Do(async e => {
