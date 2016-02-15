@@ -92,6 +92,7 @@ namespace NadekoBot {
 
             //install modules
             modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new Help(), "Help", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new Gambling(), "Gambling", ModuleFilter.None);

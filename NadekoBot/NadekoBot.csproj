@@ -167,6 +167,7 @@
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling.cs" />
     <Compile Include="Modules\Games.cs" />
+    <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
     <Compile Include="Commands\PollCommand.cs" />
     <Compile Include="Modules\NSFW.cs" />

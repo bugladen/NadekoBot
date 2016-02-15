@@ -19,7 +19,6 @@ using Timer = System.Timers.Timer;
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
-            commands.Add(new HelpCommand());
             commands.Add(new ServerGreetCommand());
         }
 
