@@ -200,25 +200,22 @@ namespace NadekoBot.Classes.Music {
                     Console.WriteLine("Buffering canceled, stream is completed.");
                     return;
                 }
-
-                if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) { // if buffer is over 5 MiB, create new one
-                    var skip = 5.MB(); //remove only 5 MB, just in case
-                    var newBuffer = new DualStream();
-
+                if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) {
+                    var skip = 5.MB();
                     lock (_bufferLock) {
-                        byte[] data = buffer.ToArray().Skip(skip).ToArray();
+                        byte[] data = new byte[buffer.Length - skip];
+                        Buffer.BlockCopy(buffer.GetBuffer(), skip, data, 0, (int)(buffer.Length - skip));
                         var newReadPos = buffer.readPos - skip;
                         var newPos = buffer.Position - skip;
-                        buffer = newBuffer;
+                        buffer = new DualStream();
                         buffer.Write(data, 0, data.Length);
                         buffer.readPos = newReadPos;
                         buffer.Position = newPos;
                     }
                 }
-
-                var buf = new byte[2048];
+                var buf = new byte[4096];
                 int read = 0;
-                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, 2048);
+                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, buf.Length);
                 //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
                     if (attempt == 5) {

@@ -105,7 +105,16 @@ namespace NadekoBot {
 
             //run the bot
             client.ExecuteAndWait(async () => {
-                await client.Connect(creds.Username, creds.Password);
+                try {
+                    await client.Connect(creds.Username, creds.Password);
+                }
+                catch (Exception ex) {
+                    Console.WriteLine($"Probably wrong EMAIL or PASSWORD.\n{ex.Message}");
+                    Console.ReadKey();
+                    Console.WriteLine(ex);
+                    Console.ReadKey();
+                    return;
+                }
                 Console.WriteLine("-----------------");
                 Console.WriteLine(NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
