@@ -195,7 +195,7 @@ namespace NadekoBot.Modules {
                         }
                         var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Send($"🎵 Attempting to queue **{ids.Count}** songs".SnPl(ids.Count));
+                        var msg = await e.Send($"🎵 `Attempting to queue **{ids.Count}** songs".SnPl(ids.Count)+"...`");
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
@@ -321,7 +321,7 @@ namespace NadekoBot.Modules {
                 sr.OnBuffering += async () => {
                     msg = await e.Send($"🎵`Buffering...`{sr.FullPrettyName}");
                 };
-                sr.Resolve();
+                await sr.Resolve();
             } catch (Exception ex) {
                 Console.WriteLine();
                 await e.Send($"💢 {ex.Message}");
@@ -365,7 +365,7 @@ namespace NadekoBot.Modules {
                    C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
                 */
                 try {
-                    var m = Regex.Match(file, "(?<url>^[^#].*)");
+                    var m = Regex.Match(file, "(?<url>^[^#].*)", RegexOptions.Multiline);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
                 }

@@ -18,6 +18,7 @@ namespace NadekoBot.Modules
             commands.Add(new Trivia());
             commands.Add(new SpeedTyping());
             commands.Add(new PollCommand());
+            commands.Add(new ClashOfClans());
 
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }

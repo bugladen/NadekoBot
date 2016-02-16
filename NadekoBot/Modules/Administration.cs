@@ -600,9 +600,9 @@ namespace NadekoBot.Modules {
                         await Task.Run(async () => {
                             var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
                             var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
-                            string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
+                            string str = $"**Thanks to the people listed below for making this project happen!**\n";
 
-                            await e.Channel.SendMessage(str + string.Join(", ", donatorsOrdered.Select(d => d.UserName)));
+                            await e.Channel.SendMessage(str + string.Join("⭐", donatorsOrdered.Select(d => d.UserName)));
                         });
                     });
 

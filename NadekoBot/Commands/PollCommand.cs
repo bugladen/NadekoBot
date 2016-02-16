@@ -74,7 +74,7 @@ namespace NadekoBot.Modules {
             foreach (var answ in answers) {
                 msgToSend += $"`{num++}.` **{answ}**\n";
             }
-            msgToSend += "\n**Private Message me with the corresponding number of the answer.\n @everyone**";
+            msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
             await e.Channel.SendMessage(msgToSend);
         }
 
