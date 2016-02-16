@@ -54,11 +54,10 @@ namespace NadekoBot.Classes.Music {
             this.Server = e.Server;
             this.Query = query;
             this.RadioLink = radio;
-            Task.Run(() => ResolveStreamLink());
             mc.SongQueue.Add(this);
         }
 
-        private async void ResolveStreamLink() {
+        public async Task Resolve() {
             string uri = null;
             try {
                 if (RadioLink) {

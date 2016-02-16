@@ -262,6 +262,8 @@ namespace NadekoBot.Modules {
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
                 return;
 
+            query = query.Trim();
+
             if (IsRadioLink(query)) {
                 radio = true;
                 query = await HandleStreamContainers(query);
@@ -284,7 +286,7 @@ namespace NadekoBot.Modules {
             if (player.SongQueue.Count >= 25) return;
 
             try {
-                var sr = await Task.Run(() => new StreamRequest(e, query, player, radio));
+                var sr = new StreamRequest(e, query, player, radio);
 
                 if (sr == null)
                     throw new NullReferenceException("StreamRequest is null.");
@@ -292,15 +294,12 @@ namespace NadekoBot.Modules {
                 Message qmsg = null;
                 Message msg = null;
                 if (!silent) {
-                    qmsg = await e.Channel.SendMessage("🎵 `Searching...`");
-                    sr.OnResolving += async () => {
-                        await qmsg.Edit($"🎵 `Resolving`... \"{query}\"");
-                    };
+                    qmsg = await e.Channel.SendMessage("🎵 `Searching / Resolving...`");
                     sr.OnResolvingFailed += async (err) => {
-                        await qmsg.Edit($"💢 🎵 `Resolving failed` for **{query}**");
+                        await qmsg?.Edit($"💢 🎵 `Resolving failed` for **{query}**");
                     };
                     sr.OnQueued += async () => {
-                        await qmsg.Edit($"🎵`Queued`{sr.FullPrettyName}");
+                        await qmsg?.Edit($"🎵`Queued`{sr.FullPrettyName}");
                     };
                 }
                 sr.OnCompleted += async () => {
@@ -322,6 +321,7 @@ namespace NadekoBot.Modules {
                 sr.OnBuffering += async () => {
                     msg = await e.Send($"🎵`Buffering...`{sr.FullPrettyName}");
                 };
+                sr.Resolve();
             } catch (Exception ex) {
                 Console.WriteLine();
                 await e.Send($"💢 {ex.Message}");
@@ -351,7 +351,7 @@ namespace NadekoBot.Modules {
                 try {
                     var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
                     var res = m.Groups["url"]?.ToString();
-                    return res;
+                    return res?.Trim();
                 }
                 catch {
                     Console.WriteLine($"Failed reading .pls:\n{file}");
@@ -365,9 +365,9 @@ namespace NadekoBot.Modules {
                    C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
                 */
                 try {
-                    var m = Regex.Match(file, "^[^#](?<url>.*)");
+                    var m = Regex.Match(file, "(?<url>^[^#].*)");
                     var res = m.Groups["url"]?.ToString();
-                    return res;
+                    return res?.Trim();
                 }
                 catch {
                     Console.WriteLine($"Failed reading .m3u:\n{file}");
@@ -380,7 +380,7 @@ namespace NadekoBot.Modules {
                 try {
                     var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
                     var res = m.Groups["url"]?.ToString();
-                    return res;
+                    return res?.Trim();
                 }
                 catch {
                     Console.WriteLine($"Failed reading .asx:\n{file}");
