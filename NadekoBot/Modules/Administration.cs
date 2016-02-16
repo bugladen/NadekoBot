@@ -36,7 +36,8 @@ namespace NadekoBot.Modules {
                     .Parameter("user_name", ParameterType.Required)
                     .Parameter("role_name", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (!e.User.ServerPermissions.ManageRoles) return;
+                        if (!e.User.ServerPermissions.ManageRoles ||
+                            string.IsNullOrWhiteSpace(e.GetArg("role_name"))) return;
                         var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
                         if (usr == null) {
                             await e.Send("You failed to supply a valid username");
@@ -61,9 +62,10 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".rr").Alias(".removerole")
                     .Description("Removes a role from a given user.\n**Usage**: .rr @User Admin")
                     .Parameter("user_name", ParameterType.Required)
-                    .Parameter("role_name", ParameterType.Required)
+                    .Parameter("role_name", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (!e.User.ServerPermissions.ManageRoles) return;
+                        if (!e.User.ServerPermissions.ManageRoles ||
+                            string.IsNullOrWhiteSpace("role_name")) return;
 
                         var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
                         if (usr == null) {

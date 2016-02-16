@@ -208,9 +208,9 @@ namespace NadekoBot.Classes {
         }
 
         public static async Task<string> ShortenUrl(string url) {
-            if (NadekoBot.GoogleAPIKey == null || NadekoBot.GoogleAPIKey == "") return url;
+            if (NadekoBot.creds.GoogleAPIKey == null || NadekoBot.creds.GoogleAPIKey == "") return url;
             try {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.GoogleAPIKey);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.creds.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
@@ -225,7 +225,7 @@ namespace NadekoBot.Classes {
                     string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
                     return Regex.Match(responseText, MATCH_PATTERN).Groups["id"].Value;
                 }
-            } catch (Exception ex) { Console.WriteLine(ex.ToString()); return ""; }
+            } catch (Exception ex) { Console.WriteLine(ex.ToString()); return url; }
         }
     }
 }

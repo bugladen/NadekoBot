@@ -258,7 +258,8 @@ namespace NadekoBot.Classes.Music {
             // prebuffering wait stuff start
             int bufferAttempts = 0;
             int waitPerAttempt = 500;
-            while (!prebufferingComplete && bufferAttempts++ < 15) {
+            int toAttemptTimes = parent.RadioLink ? 4 : 8;
+            while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt);
             }
             if (prebufferingComplete) {
