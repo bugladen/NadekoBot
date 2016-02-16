@@ -10,6 +10,7 @@ using Timer = System.Timers.Timer;
 using System.Threading.Tasks;
 using NadekoBot.Classes;
 using Discord.Audio;
+using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
@@ -257,6 +258,15 @@ namespace NadekoBot.Modules {
                 await e.Send("💢 You need to be in the voice channel on this server.");
                 return;
             }
+            
+            if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
+                return;
+
+            if (IsRadioLink(query)) {
+                radio = true;
+                query = await HandleStreamContainers(query);
+            }
+
             if (musicPlayers.ContainsKey(e.Server) == false) {
                 float? vol = null;
                 float throwAway;
@@ -268,8 +278,6 @@ namespace NadekoBot.Modules {
                     return;
                 }
             }
-            if (query == null || query.Length < 3)
-                return;
 
             var player = musicPlayers[e.Server];
 
@@ -319,6 +327,67 @@ namespace NadekoBot.Modules {
                 await e.Send($"💢 {ex.Message}");
                 return;
             }
+        }
+
+        private bool IsRadioLink(string query) =>
+            (query.StartsWith("http") ||
+            query.StartsWith("ww")) 
+            &&
+            (query.Contains(".pls") ||
+            query.Contains(".m3u") ||
+            query.Contains(".asx"));
+
+        private async Task<string> HandleStreamContainers(string query) {
+            string file = null;
+            try {
+                 file = await SearchHelper.GetResponseAsync(query);
+            }
+            catch {
+                return query;
+            }
+            if (query.Contains(".pls")) {
+                //File1=http://armitunes.com:8000/
+                //Regex.Match(query)
+                try {
+                    var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
+                    var res = m.Groups["url"]?.ToString();
+                    return res;
+                }
+                catch {
+                    Console.WriteLine($"Failed reading .pls:\n{file}");
+                    return null;
+                }
+            }
+            else if (query.Contains(".m3u")) {
+                /* 
+                    # This is a comment
+                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
+                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
+                */
+                try {
+                    var m = Regex.Match(file, "^[^#](?<url>.*)");
+                    var res = m.Groups["url"]?.ToString();
+                    return res;
+                }
+                catch {
+                    Console.WriteLine($"Failed reading .m3u:\n{file}");
+                    return null;
+                }
+
+            }
+            else if (query.Contains(".asx")) {
+                //<ref href="http://armitunes.com:8000"/>
+                try {
+                    var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
+                    var res = m.Groups["url"]?.ToString();
+                    return res;
+                }
+                catch {
+                    Console.WriteLine($"Failed reading .asx:\n{file}");
+                    return null;
+                }
+            }
+            return query;
         }
     }
 }
