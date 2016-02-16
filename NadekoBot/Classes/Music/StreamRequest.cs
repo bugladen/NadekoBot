@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Audio;
-using NadekoBot.Modules;
 using System.IO;
 using System.Diagnostics;
 using NadekoBot.Extensions;
-using System.Threading;
-using Timer = System.Timers.Timer;
 using VideoLibrary;
 
 namespace NadekoBot.Classes.Music {

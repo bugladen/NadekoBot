@@ -29,6 +29,7 @@ namespace NadekoBot
                 var curstr = helpstr.Substring(0, 2000);
                 await e.User.Send(curstr.Substring(0, curstr.LastIndexOf("\n") + 1));
                 helpstr = curstr.Substring(curstr.LastIndexOf("\n") + 1) + helpstr.Substring(2000);
+                await Task.Delay(200);
             }
             await e.User.Send(helpstr);
         };
@@ -67,6 +68,7 @@ namespace NadekoBot
                 .Do(async e =>
                     await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
             cgb.CreateCommand("-donate")
+                .Alias("~donate")
                 .Description("Instructions for helping the project!")
                 .Do(async e => {
                     await e.Send(
