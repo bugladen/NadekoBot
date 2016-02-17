@@ -55,8 +55,6 @@ Official repo: **github.com/Kwoth/NadekoBot/**
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`-h`, `-help`, `@BotName help`, `@BotName h`, `~h`  |  Help command
-`-hgit`  |  Help command stylized for github readme
 `.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
 `.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
 `.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
@@ -91,6 +89,7 @@ Command and aliases | Description | Usage
 `.die`, `.graceful`  |  Works only for the owner. Shuts the bot down and notifies users about the restart.
 `.clr`  |  Clears some of nadeko's messages from the current channel.
 `.newname`, `.setname`  |  Give the bot a new name.
+`.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot.
 `.setgame`  |  Sets the bots game.
 `.checkmyperms`  |  Checks your userspecific permissions on this channel.
 `.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.
@@ -104,10 +103,19 @@ Command and aliases | Description | Usage
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.adddon`, `.donadd`  |  Add a donator to the database.
 
+### Help  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`-h`, `-help`, `@BotName help`, `@BotName h`, `~h`  |  Help command
+`-hgit`  |  Help command stylized for github readme
+`-readme`, `-guide`  |  Sends a readme and a guide links to the channel.
+`-donate`, `~donate`  |  Instructions for helping the project!
+
 ### Permissions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`;verbose`  |  Sets whether to show when a command/module is blocked. |  ;verbose true
+`;permrole`, `;pr`  |  Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.
+`;verbose`, `;v`  |  Sets whether to show when a command/module is blocked. |  ;verbose true
 `;serverperms`, `;sp`  |  Shows banned permissions for this server.
 `;roleperms`, `;rp`  |  Shows banned permissions for a certain role. No argument means for everyone. |  ;rp AwesomeRole
 `;channelperms`, `;cp`  |  Shows banned permissions for a certain channel. No argument means for this channel. |  ;cp #dev
@@ -122,8 +130,8 @@ Command and aliases | Description | Usage
 `;uc`, `;usercommand`  |  Sets a command's permission at the user level. |  ;uc <module_command> enable <user_name>
 `;asm`, `;allservermodules`  |  Sets permissions for all modules at the server level. |  ;asm <enable/disable>
 `;asc`, `;allservercommands`  |  Sets permissions for all commands from a certain module at the server level. |  ;asc <module_name> <enable/disable>
-`;acm`, `;allchannelmodules`  |  Sets permissions for all modules at the server level. |  ;acm <enable/disable> <channel_name>
-`;acc`, `;allchannelcommands`  |  Sets permissions for all commands from a certain module at the server level. |  ;acc <module_name> <enable/disable> <channel_name>
+`;acm`, `;allchannelmodules`  |  Sets permissions for all modules at the channel level. |  ;acm <enable/disable> <channel_name>
+`;acc`, `;allchannelcommands`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc <module_name> <enable/disable> <channel_name>
 `;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm <enable/disable> <role_name>
 `;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc <module_name> <enable/disable> <channel_name>
 
@@ -184,6 +192,12 @@ Command and aliases | Description | Usage
 `typeadd`  |  Adds a new article to the typing contest. Owner only.
 `>poll`  |  Creates a poll, only person who has manage server permission can do it. |  >poll Question?;Answer1;Answ 2;A_3
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
+`,startwar`, `,sw`  |  Starts a new war by specifying a size (>10 and multiple of 5) and enemy clan name. War ends in 23 hours. You need manage channels permission to use this. | ,sw 15 The Enemy Clan
+`,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
+`,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. |  ,call [war_number] [base_number]
+`,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. |  ,cf [war_number]
+`,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. |  ,uc [war_number] [base_number]
+`,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
@@ -199,6 +213,7 @@ Command and aliases | Description | Usage
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
 `!m np`, `!m playing`  |  Shows the song currently playing.
 `!m vol`  |  Sets the music volume 0-150%
+`!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  !m dv 80
 `!m min`, `!m mute`  |  Sets the music volume to 0%
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%).
 `!m half`  |  Sets the music volume to 50%.
@@ -206,6 +221,8 @@ Command and aliases | Description | Usage
 `!m setgame`  |  Sets the game of the bot to the number of songs playing.**Owner only**
 `!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
 `!m radio`, `!m ra`  |  Queues a direct radio stream from a link.
+`!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
+`!m rm`  |  Removes a song by a # from the queue
 `!m debug`  |  Writes some music data to console. **BOT OWNER ONLY**
 
 ### Searches  
@@ -220,12 +237,15 @@ Command and aliases | Description | Usage
 `lmgtfy`, `~lmgtfy`  |  Google something for an idiot.
 `~hs`  |  Searches for a Hearthstone card and shows its image. Takes a while to complete. | ~hs Ysera
 `~osu`  |  Shows osu stats for a player | ~osu Name
+`~ud`  |  Searches Urban Dictionary for a word | ~ud Pineapple
 
 ### NSFW  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. |  ~hentai yuri
-`~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. |  ~danbooru yuri
-`~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. |  ~gelbooru yuri
+`~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri
+`~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
+`~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
+`~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri kissing
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
+
