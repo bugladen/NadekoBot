@@ -40,25 +40,45 @@ namespace NadekoBot.Commands {
                 return;
             }
             var cw = new ClashWar(enemyClan, size, e);
-            cw.Start();
+            //cw.Start();
             wars.Add(cw);
             cw.OnUserTimeExpired += async (u) => {
-                await e.Channel.SendMessage($"❗🔰**Claim from {u.Mention} for a war against {cw.ShortPrint()} has expired.**");
+                await e.Channel.SendMessage($"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**");
             };
             cw.OnWarEnded += async () => {
                 await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**");
             };
-            await e.Channel.SendMessage($"❗🔰**STARTED** `{size} v {size}` **CLAN WAR AGAINST** `{enemyClan}`");
+            await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**");
             //war with the index X started.
         };
 
         public override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(prefix + "startwar")
-                .Alias(prefix + "sw")
-                .Description($"Starts a new war by specifying a size (>10 and multiple of 5) and enemy clan name. War ends in 23 hours. You need manage channels permission to use this.\n**Usage**:{prefix}sw 15 The Enemy Clan")
+            cgb.CreateCommand(prefix + "createwar")
+                .Alias(prefix + "cw")
+                .Description($"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name.\n**Usage**:{prefix}cw 15 The Enemy Clan")
                 .Parameter("size")
                 .Parameter("enemy_clan", ParameterType.Unparsed)
                 .Do(DoFunc());
+
+            cgb.CreateCommand(prefix + "sw")
+                .Alias(prefix + "startwar")
+                .Description("Starts a war with a given number.")
+                .Parameter("number", ParameterType.Required)
+                .Do(async e => {
+                    var warsInfo = GetInfo(e);
+                    if (warsInfo == null) {
+                        await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                        return;
+                    }
+                    var war = warsInfo.Item1[warsInfo.Item2];
+                    try {
+                        war.Start();
+                        await e.Channel.SendMessage($"🔰**STARTED WAR AGAINST {war.ShortPrint()}**");
+                    }
+                    catch {
+                        await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} IS ALREADY STARTED**");
+                    }
+                });
 
             cgb.CreateCommand(prefix + "listwar")
                 .Alias(prefix + "lw")
@@ -98,9 +118,10 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(prefix + "claim")
                 .Alias(prefix + "call")
                 .Alias(prefix + "c")
-                .Description($"Claims a certain base from a certain war.\n**Usage**: {prefix}call [war_number] [base_number]")
+                .Description($"Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. \n**Usage**: {prefix}call [war_number] [base_number] (optional_otheruser)")
                 .Parameter("number")
                 .Parameter("baseNumber")
+                .Parameter("other_name", ParameterType.Unparsed)
                 .Do(async e => {
                     var warsInfo = GetInfo(e);
                     if (warsInfo == null || warsInfo.Item1.Count == 0) {
@@ -112,10 +133,14 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("💢🔰 **Invalid base number.**");
                         return;
                     }
+                    string usr =
+                        string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
+                        e.User.Name :
+                        e.GetArg("other_name");
                     try {
                         var war = warsInfo.Item1[warsInfo.Item2];
-                        await war.Call(e.User, baseNum - 1);
-                        await e.Channel.SendMessage($"🔰{e.User.Mention} claimed a base #{baseNum} for a war against {war.ShortPrint()}");
+                        await war.Call(usr, baseNum - 1);
+                        await e.Channel.SendMessage($"🔰**{usr}** claimed a base #{baseNum} for a war against {war.ShortPrint()}");
                     }
                     catch (Exception ex) {
                         await e.Channel.SendMessage($"💢🔰 {ex.Message}");
@@ -123,63 +148,98 @@ namespace NadekoBot.Commands {
                 });
 
             cgb.CreateCommand(prefix + "cf")
-                    .Alias(prefix + "claimfinish")
-                  .Description($"Finish your claim if you destroyed a base.\n**Usage**: {prefix}cf [war_number]")
-                  .Parameter("number", ParameterType.Required)
-                  .Do(async e => {
-                      var warInfo = GetInfo(e);
-                      if (warInfo == null || warInfo.Item1.Count == 0) {
-                          await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
-                          return;
-                      }
-                      var war = warInfo.Item1[warInfo.Item2];
-                      try {
-                          var baseNum = war.FinishClaim(e.User);
-                          await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum} in a war against {war.ShortPrint()}");
-                      }
-                      catch (Exception ex) {
-                          await e.Channel.SendMessage($"💢🔰 {ex.Message}");
-                      }
-                  });
+                .Alias(prefix + "claimfinish")
+                .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {prefix}cf [war_number]")
+                .Parameter("number", ParameterType.Required)
+                .Parameter("other_name", ParameterType.Unparsed)
+                .Do(async e => {
+                    var warInfo = GetInfo(e);
+                    if (warInfo == null || warInfo.Item1.Count == 0) {
+                        await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                        return;
+                    }
+                    string usr =
+                        string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
+                        e.User.Name :
+                        e.GetArg("other_name");
+
+                    var war = warInfo.Item1[warInfo.Item2];
+                    try {
+                        var baseNum = war.FinishClaim(usr);
+                        await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}");
+                    }
+                    catch (Exception ex) {
+                        await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                    }
+                });
 
             cgb.CreateCommand(prefix + "unclaim")
                 .Alias(prefix + "uncall")
-                    .Alias(prefix + "uc")
-                  .Description($"Removes your claim from a certain war.\n**Usage**: {prefix}uc [war_number] [base_number]")
-                  .Parameter("number", ParameterType.Required)
-                  .Do(async e => {
-                      var warsInfo = GetInfo(e);
-                      if (warsInfo == null || warsInfo.Item1.Count == 0) {
-                          await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
-                          return;
-                      }
-                      try {
-                          var war = warsInfo.Item1[warsInfo.Item2];
-                          int baseNumber = war.Uncall(e.User);
-                          await e.Channel.SendMessage($"🔰 {e.User.Mention} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}");
-                      }
-                      catch (Exception ex) {
-                          await e.Channel.SendMessage($"💢🔰 {ex.Message}");
-                      }
-                  });
+                .Alias(prefix + "uc")
+                .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim\n**Usage**: {prefix}uc [war_number] (optional_other_name)")
+                .Parameter("number", ParameterType.Required)
+                .Parameter("other_name", ParameterType.Unparsed)
+                .Do(async e => {
+                    var warsInfo = GetInfo(e);
+                    if (warsInfo == null || warsInfo.Item1.Count == 0) {
+                        await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                        return;
+                    }
+                    string usr =
+                        string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
+                        e.User.Name :
+                        e.GetArg("other_name");
+                    try {
+                        var war = warsInfo.Item1[warsInfo.Item2];
+                        int baseNumber = war.Uncall(usr);
+                        await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}");
+                    }
+                    catch (Exception ex) {
+                        await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                    }
+                });
+
+            cgb.CreateCommand(prefix + "forceunclaim")
+                .Alias(prefix + "forceuncall")
+                .Alias(prefix + "fuc")
+                .Description($"Force removes a base claim from a certain war from a certain base. \n**Usage**: {prefix}fuc [war_number] [base_number]")
+                .Parameter("number", ParameterType.Required)
+                .Parameter("other_name", ParameterType.Unparsed)
+                .Do(async e => {
+                    var warsInfo = GetInfo(e);
+                    if (warsInfo == null || warsInfo.Item1.Count == 0) {
+                        await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                        return;
+                    }
+                    string usr =
+                        string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
+                        e.User.Name :
+                        e.GetArg("other_name");
+                    try {
+                        var war = warsInfo.Item1[warsInfo.Item2];
+                        int baseNumber = war.Uncall(usr);
+                        await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}");
+                    }
+                    catch (Exception ex) {
+                        await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                    }
+                });
 
             cgb.CreateCommand(prefix + "endwar")
-                    .Alias(prefix + "ew")
-                    .Description($"Ends the war with a given index.\n**Usage**:{prefix}ew [war_number]")
-                    .Parameter("number")
-                    .Do(async e => {
-                        if (!e.User.ServerPermissions.ManageChannels)
-                            return;
-                        var warsInfo = GetInfo(e);
-                        if (warsInfo == null) {
-                            await e.Channel.SendMessage("💢🔰 That war does not exist.");
-                            return;
-                        }
-                        warsInfo.Item1[warsInfo.Item2].End();
+                .Alias(prefix + "ew")
+                .Description($"Ends the war with a given index.\n**Usage**:{prefix}ew [war_number]")
+                .Parameter("number")
+                .Do(async e => {
+                    var warsInfo = GetInfo(e);
+                    if (warsInfo == null) {
+                        await e.Channel.SendMessage("💢🔰 That war does not exist.");
+                        return;
+                    }
+                    warsInfo.Item1[warsInfo.Item2].End();
 
-                        int size = warsInfo.Item1[warsInfo.Item2].Size;
-                        warsInfo.Item1.RemoveAt(warsInfo.Item2);
-                    });
+                    int size = warsInfo.Item1[warsInfo.Item2].Size;
+                    warsInfo.Item1.RemoveAt(warsInfo.Item2);
+                });
         }
 
         private Tuple<List<ClashWar>, int> GetInfo(CommandEventArgs e) {
@@ -203,9 +263,9 @@ namespace NadekoBot.Commands {
     }
 
     internal class Caller {
-        private User _user;
+        private string _user;
 
-        public User CallUser
+        public string CallUser
         {
             get { return _user; }
             set { _user = value; }
@@ -234,8 +294,9 @@ namespace NadekoBot.Commands {
         private Caller[] bases;
         private CancellationTokenSource[] baseCancelTokens;
         private CancellationTokenSource endTokenSource = new CancellationTokenSource();
-        public Action<User> OnUserTimeExpired { get; set; } = null;
+        public Action<string> OnUserTimeExpired { get; set; } = null;
         public Action OnWarEnded { get; set; } = null;
+        public bool Started { get; set; } = false;
 
         public ClashWar(string enemyClan, int size, CommandEventArgs e) {
             this.enemyClan = enemyClan;
@@ -252,21 +313,28 @@ namespace NadekoBot.Commands {
             }
         }
 
-        internal async Task Call(User u, int baseNumber) {
+        internal async Task Call(string u, int baseNumber) {
             if (baseNumber < 0 || baseNumber >= bases.Length)
                 throw new ArgumentException("Invalid base number");
             if (bases[baseNumber] != null)
                 throw new ArgumentException("That base is already claimed.");
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i]?.BaseDestroyed == false && bases[i]?.CallUser == u)
-                    throw new ArgumentException($"💢 {u.Mention} You already claimed a base #{i + 1}. You can't claim a new one.");
+                    throw new ArgumentException($"@{u} You already claimed a base #{i + 1}. You can't claim a new one.");
             }
 
             bases[baseNumber] = new Caller { CallUser = u, TimeAdded = DateTime.Now, BaseDestroyed = false };
         }
 
         internal async void Start() {
+            if (Started)
+                throw new InvalidOperationException();
             try {
+                Started = true;
+                for (int i = 0; i < bases.Length; i++) {
+                    if (bases[i] != null)
+                        bases[i].TimeAdded = DateTime.Now;
+                }
                 Task.Run(async () => await ClearArray());
                 await Task.Delay(new TimeSpan(23, 0, 0), endTokenSource.Token);
             }
@@ -275,7 +343,7 @@ namespace NadekoBot.Commands {
                 End();
             }
         }
-        internal int Uncall(User user) {
+        internal int Uncall(string user) {
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i]?.CallUser == user) {
                     bases[i] = null;
@@ -291,7 +359,7 @@ namespace NadekoBot.Commands {
                 for (int i = 0; i < bases.Length; i++) {
                     if (bases[i] == null) continue;
                     if (!bases[i].BaseDestroyed && DateTime.Now - bases[i].TimeAdded >= callExpire) {
-                        Console.WriteLine($"Removing user {bases[i].CallUser.Name}");
+                        Console.WriteLine($"Removing user {bases[i].CallUser}");
                         if (OnUserTimeExpired != null)
                             OnUserTimeExpired(bases[i].CallUser);
                         bases[i] = null;
@@ -306,18 +374,21 @@ namespace NadekoBot.Commands {
 
         public override string ToString() {
             var sb = new StringBuilder();
+            
             sb.AppendLine($"🔰**WAR AGAINST `{enemyClan}` ({size} v {size}) INFO:**");
+            if (!Started)
+                sb.AppendLine("`not started`");
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i] == null) {
                     sb.AppendLine($"`{i + 1}.` ❌*unclaimed*");
                 }
                 else {
                     if (bases[i].BaseDestroyed) {
-                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser.Name}` ⭐ ⭐ ⭐");
+                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` ⭐ ⭐ ⭐");
                     }
                     else {
-                        var left = callExpire - (DateTime.Now - bases[i].TimeAdded);
-                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser.Name}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
+                        var left = Started ? callExpire - (DateTime.Now - bases[i].TimeAdded) : callExpire;
+                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
                 }
 
@@ -325,14 +396,14 @@ namespace NadekoBot.Commands {
             return sb.ToString();
         }
 
-        internal int FinishClaim(User user) {
+        internal int FinishClaim(string user) {
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i]?.BaseDestroyed == false && bases[i]?.CallUser == user) {
                     bases[i].BaseDestroyed = true;
                     return i;
                 }
             }
-            throw new InvalidOperationException($"{user.Mention} You are either not participating in that war, or you already destroyed a base.");
+            throw new InvalidOperationException($"@{user} You are either not participating in that war, or you already destroyed a base.");
         }
     }
 }
