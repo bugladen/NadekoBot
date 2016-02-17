@@ -265,7 +265,7 @@ namespace NadekoBot.Classes.Music {
                 Console.WriteLine("Nothing was buffered, try another song and check your GoogleApikey.");
             }
 
-            int blockSize = 1920 * NadekoBot.client.Services.Get<AudioService>().Config.Channels;
+            int blockSize = 1920 * NadekoBot.client.GetService<AudioService>().Config.Channels;
             byte[] voiceBuffer = new byte[blockSize];
 
             if (parent.OnStarted != null)

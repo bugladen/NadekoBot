@@ -20,6 +20,7 @@ namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
             commands.Add(new ServerGreetCommand());
+            commands.Add(new LogCommand());
         }
 
         public override void Install(ModuleManager manager) {
@@ -161,14 +162,14 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".modules")
                     .Description("List all bot modules")
                     .Do(async e => {
-                        await e.Send("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.client.Modules().Modules.Select(m => m.Name)));
+                        await e.Send("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.client.GetService<ModuleService>().Modules.Select(m => m.Name)));
                     });
 
                 cgb.CreateCommand(".commands")
                     .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e => {
-                        var commands = NadekoBot.client.Services.Get<CommandService>().AllCommands
+                        var commands = NadekoBot.client.GetService<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
                         if (commands == null || commands.Count() == 0) {
                             await e.Send("That module does not exist.");
@@ -430,12 +431,25 @@ namespace NadekoBot.Modules {
 
                 ConcurrentDictionary<Server, bool> clearDictionary = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".clr")
-                    .Description("Clears some of nadeko's messages from the current channel.")
+                    .Description("Clears some of nadeko's (or some other user's if supplied) messages from the current channel.\n**Usage**: .clr @X")
+                    .Parameter("user",ParameterType.Unparsed)
                     .Do(async e => {
+                        var usrId = NadekoBot.client.CurrentUser.Id;
+                        if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) {
+                            var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
+                            if (usr != null)
+                                usrId = usr.Id;
+                        }
                         await Task.Run(async () => {
-                            var msgs = (await e.Channel.DownloadMessages(100)).Where(m => m.User.Id == NadekoBot.client.CurrentUser.Id);
-                            foreach (var m in msgs)
-                                await m.Delete();
+                            var msgs = (await e.Channel.DownloadMessages(100)).Where(m => m.User.Id == usrId);
+                            foreach (var m in msgs) {
+                                try {
+                                    await m.Delete();
+                                }
+                                catch { }
+                                await Task.Delay(200);
+                            }
+                                
                         });
                     });
 
@@ -629,6 +643,26 @@ namespace NadekoBot.Modules {
                             Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
                         }
                     });
+
+                cgb.CreateCommand(".videocall")
+                  .Description("Creates a private appear.in video call link for you and other mentioned people and sends it in private messages")
+                  .Parameter("arg", ParameterType.Unparsed)
+                  .Do(async e => {
+                      try {
+                          string str = "http://appear.in/";
+                          var allUsrs = e.Message.MentionedUsers.Union(new User[] { e.User });
+                          foreach (var usr in allUsrs) {
+                              str += Uri.EscapeUriString(usr.Name[0].ToString());
+                          }
+                          str += new Random().Next(100000, 1000000);
+                          foreach (var usr in allUsrs) {
+                              await usr.SendMessage(str);
+                          }
+                      }
+                      catch (Exception ex) {
+                          Console.WriteLine(ex);
+                      }
+                  });
             });
         }
 

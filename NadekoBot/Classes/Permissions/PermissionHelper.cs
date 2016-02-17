@@ -40,7 +40,7 @@ namespace NadekoBot.Classes {
             if (string.IsNullOrWhiteSpace(mod))
                 throw new ArgumentNullException(nameof(mod));
 
-            foreach (var m in NadekoBot.client.Modules().Modules) {
+            foreach (var m in NadekoBot.client.GetService<ModuleService>().Modules) {
                 if (m.Name.ToLower().Equals(mod.ToLower()))
                     return m.Name;
             }
@@ -51,7 +51,7 @@ namespace NadekoBot.Classes {
             if (string.IsNullOrWhiteSpace(commandText))
                 throw new ArgumentNullException(nameof(commandText));
 
-            foreach (var com in NadekoBot.client.Services.Get<CommandService>().AllCommands) {
+            foreach (var com in NadekoBot.client.GetService<CommandService>().AllCommands) {
                 if (com.Text.ToLower().Equals(commandText.ToLower()))
                     return com.Text;
             }

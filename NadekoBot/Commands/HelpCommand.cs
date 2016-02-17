@@ -13,7 +13,7 @@ namespace NadekoBot
             string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
 
             string lastCategory = "";
-            foreach (var com in client.Services.Get<CommandService>().AllCommands)
+            foreach (var com in client.GetService<CommandService>().AllCommands)
             {
                 if (com.Category != lastCategory)
                 {
@@ -38,7 +38,7 @@ namespace NadekoBot
             string helpstr = "Official repo: **github.com/Kwoth/NadekoBot/** \n";
 
             string lastCategory = "";
-            foreach (var com in client.Services.Get<CommandService>().AllCommands) {
+            foreach (var com in client.GetService<CommandService>().AllCommands) {
                 if (com.Category != lastCategory) {
                     helpstr += "\n### " + com.Category + "  \n";
                     helpstr += "Command and aliases | Description | Usage\n";

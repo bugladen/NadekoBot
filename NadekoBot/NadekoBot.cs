@@ -62,7 +62,7 @@ namespace NadekoBot {
 
             //create new discord client
             client = new DiscordClient(new DiscordConfigBuilder() {
-                MessageCacheSize = 0,
+                MessageCacheSize = 20,
                 ConnectionTimeout = 60000,
             });
 
@@ -77,13 +77,13 @@ namespace NadekoBot {
             client.MessageReceived += Client_MessageReceived;
 
             //add command service
-            var commands = client.Services.Add<CommandService>(commandService);
+            var commands = client.AddService<CommandService>(commandService);
 
             //create module service
-            var modules = client.Services.Add<ModuleService>(new ModuleService());
+            var modules = client.AddService<ModuleService>(new ModuleService());
 
             //add audio service
-            var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfigBuilder()  {
+            var audio = client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder()  {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,
