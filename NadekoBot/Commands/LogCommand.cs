@@ -15,7 +15,8 @@ namespace NadekoBot.Commands {
         }
 
         ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
-
+        ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
+        
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (e.User.Id != NadekoBot.OwnerID ||
                e.User.Server.Owner.Id != e.User.Id)
@@ -66,15 +67,31 @@ namespace NadekoBot.Commands {
         private async void UsrUpdtd(object sender, UserUpdatedEventArgs e) {
             try {
                 Channel ch;
+                if (loggingPresences.TryGetValue(e.Server, out ch))
+                    if (e.Before.Status != e.After.Status) {
+                        var msg = await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.");
+                        Task.Run(async () => {
+                            try {
+                                Task.Delay(4000);
+                                msg.Delete();
+                            }
+                            catch { }
+                        });
+                    }
+            }
+            catch { }
+
+            try {
+                Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                string str = $"`Type:` **User updated** `Time:` **{DateTime.Now}**\n";
+                string str = $"`Type:` **User updated** `Time:` **{DateTime.Now}** `User:` **{e.Before.Name}**\n";
                 if (e.Before.Name != e.After.Name)
-                    str += $"**Name changed** `FROM` **{e.Before.Name}** `TO` **{e.After.Name}**";
+                    str += $"`New name:` **{e.After.Name}**";
                 else if (e.Before.AvatarUrl != e.After.AvatarUrl)
-                    str += $"**Avatar url changed**\n `FROM`\n {e.Before.AvatarUrl}\n `TO` {e.After.AvatarUrl}";
+                    str += $"`New Avatar:` {e.After.AvatarUrl}";
                 else if (e.Before.Status != e.After.Status)
-                    str += $"**Status changed FROM** `{e.Before.Status}` **TO** `{e.After.Status}`";
+                    str += $"Status `{e.Before.Status}` -> `{e.After.Status}`";
                 else
                     return;
                 await ch.SendMessage(str);
@@ -85,6 +102,22 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(".logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(DoFunc());
+
+            cgb.CreateCommand(".userpresence")
+                  .Description("Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.")
+                  .Do(async e => {
+                      if (e.User.Id != NadekoBot.OwnerID ||
+                          e.User.Server.Owner.Id != e.User.Id)
+                          return;
+                      Channel ch;
+                      if (!loggingPresences.TryRemove(e.Server, out ch)) {
+                          loggingPresences.TryAdd(e.Server, e.Channel);
+                          await e.Channel.SendMessage($"**User presence notifications enabled.**");
+                          return;
+                      }
+
+                      await e.Channel.SendMessage($"**User presence notifications disabled.**");
+                  });
         }
     }
 }
