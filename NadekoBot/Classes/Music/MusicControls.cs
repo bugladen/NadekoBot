@@ -33,7 +33,8 @@ namespace NadekoBot.Classes.Music {
                         if (SongQueue.Count > 0)
                             await LoadNextSong();
 
-                    } else if (CurrentSong.State == StreamState.Completed || NextSong) {
+                    }
+                    else if (CurrentSong.State == StreamState.Completed || NextSong) {
                         NextSong = false;
                         await LoadNextSong();
                     }
@@ -57,7 +58,8 @@ namespace NadekoBot.Classes.Music {
             if (SongQueue.Count != 0) {
                 CurrentSong = SongQueue[0];
                 SongQueue.RemoveAt(0);
-            } else {
+            }
+            else {
                 VoiceClient?.Disconnect();
                 VoiceClient = null;
                 return;
@@ -71,7 +73,8 @@ namespace NadekoBot.Classes.Music {
                     Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
                 }
                 await Task.Factory.StartNew(async () => await CurrentSong?.Start(), TaskCreationOptions.LongRunning).Unwrap();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
                 CurrentSong = null;
@@ -95,7 +98,7 @@ namespace NadekoBot.Classes.Music {
                 value = 0;
             if (value > 150)
                 value = 150;
-            this.Volume = value/100f;
+            this.Volume = value / 100f;
             return value;
         }
 

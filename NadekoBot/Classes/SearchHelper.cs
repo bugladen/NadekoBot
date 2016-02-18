@@ -14,7 +14,8 @@ namespace NadekoBot.Classes {
             var wr = (HttpWebRequest)WebRequest.Create(v);
             try {
                 return (await (wr).GetResponseAsync()).GetResponseStream();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine("error in getresponse stream " + ex);
                 return null;
             }
@@ -23,11 +24,9 @@ namespace NadekoBot.Classes {
         public static async Task<string> GetResponseAsync(string v) =>
             await new StreamReader((await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
 
-        public static async Task<string> GetResponseAsync(string v, IEnumerable<Tuple<string, string>> headers) {
+        public static async Task<string> GetResponseAsync(string v, WebHeaderCollection headers) {
             var wr = (HttpWebRequest)WebRequest.Create(v);
-            foreach (var header in headers) {
-                wr.Headers.Add(header.Item1, header.Item2);
-            }
+            wr.Headers = headers;
             return await new StreamReader((await wr.GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
         }
 
@@ -47,7 +46,8 @@ namespace NadekoBot.Classes {
                 rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content));
-            } catch  {
+            }
+            catch {
                 return null;
             }
         }
@@ -66,7 +66,8 @@ namespace NadekoBot.Classes {
                 rq = new RestSharp.RestRequest("manga/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(cl.Execute(rq).Content));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
                 return null;
             }
@@ -82,7 +83,8 @@ namespace NadekoBot.Classes {
                 var exec = cl.Execute(rq);
 
                 token = JObject.Parse(exec.Content)["access_token"].ToString();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Failed refreshing anilist token:\n {ex}");
             }
         }
@@ -114,7 +116,8 @@ namespace NadekoBot.Classes {
 
                 dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
                 return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
                 return string.Empty;
             }
@@ -132,7 +135,8 @@ namespace NadekoBot.Classes {
 
                 dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
                 return obj.items[0].id.playlistId.ToString();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
                 return string.Empty;
             }
@@ -156,7 +160,8 @@ namespace NadekoBot.Classes {
                     toReturn.Add("http://www.youtube.com/watch?v=" + item.contentDetails.videoId);
                 }
                 return toReturn;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
                 return new List<string>();
             }
@@ -174,7 +179,8 @@ namespace NadekoBot.Classes {
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
                 return await $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
-            } catch  {
+            }
+            catch {
                 return null;
             }
         }
@@ -190,7 +196,8 @@ namespace NadekoBot.Classes {
                 //now extract the image from post page
                 var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
                 return match.Groups["url"].Value;
-            } catch  {
+            }
+            catch {
                 return null;
             }
         }
@@ -201,8 +208,9 @@ namespace NadekoBot.Classes {
                 var url = $"https://e621.net/post/index/{rng.Next(0, 5)}/{Uri.EscapeUriString(tags)}";
                 var webpage = await GetResponseAsync(url); // first extract the post id and go to that posts page
                 var matches = Regex.Matches(webpage, "\"file_url\":\"(?<url>.*?)\"");
-                return matches[rng.Next(0,matches.Count)].Groups["url"].Value;
-            } catch {
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
+            catch {
                 return null;
             }
         }
@@ -225,7 +233,8 @@ namespace NadekoBot.Classes {
                     string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
                     return Regex.Match(responseText, MATCH_PATTERN).Groups["id"].Value;
                 }
-            } catch (Exception ex) { Console.WriteLine(ex.ToString()); return url; }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); return url; }
         }
     }
 }

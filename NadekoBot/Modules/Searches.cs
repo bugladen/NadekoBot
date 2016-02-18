@@ -7,12 +7,13 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Classes;
+using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
     class Searches : DiscordModule {
         private Random _r;
         public Searches() : base() {
-            // commands.Add(new OsuCommands());
+            // commands.Add(new LoLCommands());
             _r = new Random();
         }
 
@@ -79,7 +80,8 @@ namespace NadekoBot.Modules {
                                     .GetResponse()
                                     .GetResponseStream())
                                 .ReadToEnd())["file"].ToString());
-                        } catch  { }
+                        }
+                        catch { }
                     });
 
                 cgb.CreateCommand("~i")
@@ -92,7 +94,8 @@ namespace NadekoBot.Modules {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
                                await e.Send(obj["items"][0]["link"].ToString());
-                           } catch (Exception ex) {
+                           }
+                           catch (Exception ex) {
                                await e.Send($"💢 {ex.Message}");
                            }
                        });
@@ -107,7 +110,8 @@ namespace NadekoBot.Modules {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ _r.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
                                await e.Send(obj["items"][0]["link"].ToString());
-                           } catch (Exception ex) {
+                           }
+                           catch (Exception ex) {
                                await e.Send($"💢 {ex.Message}");
                            }
                        });
@@ -130,10 +134,9 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var res = await SearchHelper.GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}",
-                          new Tuple<string, string>[] {
-                              new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey),
-                          });
+                      var headers = new WebHeaderCollection();
+                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      var res = await SearchHelper.GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JArray.Parse(res);
                           List<System.Drawing.Image> images = new List<System.Drawing.Image>();
@@ -155,7 +158,8 @@ namespace NadekoBot.Modules {
                           Console.WriteLine("Start");
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
                           Console.WriteLine("Finish");
-                      } catch (Exception ex) {
+                      }
+                      catch (Exception ex) {
                           await e.Send($"💢 Error {ex.Message}");
                       }
                   });
@@ -176,59 +180,83 @@ namespace NadekoBot.Modules {
                                   try {
                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
-                                  } catch  { }
+                                  }
+                                  catch { }
                               };
-                          } catch {
+                          }
+                          catch {
                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
                           }
                       }
                   });
-
 
                 cgb.CreateCommand("~ud")
                   .Description("Searches Urban Dictionary for a word\n**Usage**:~ud Pineapple")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("query");
-                      if (string.IsNullOrWhiteSpace(arg))
-                      {
+                      if (string.IsNullOrWhiteSpace(arg)) {
                           await e.Send("💢 Please enter a search term.");
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var res = await SearchHelper.GetResponseAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}",
-                          new Tuple<string, string>[] {
-                                  new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey)
-                          });
-                      try
-                      {
+                      var headers = new WebHeaderCollection();
+                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      var res = await SearchHelper.GetResponseAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers);
+                      try {
                           var items = JObject.Parse(res);
-                          await e.Send($"`Term:` {items["list"][0]["word"].ToString()}\n");
-                          await e.Send($"`Definition:` {items["list"][0]["definition"].ToString()}\n");
-                          await e.Send($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl()}>");
+                          var sb = new System.Text.StringBuilder();
+                          sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
+                          sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
+                          sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl()}>");
+                          await e.Send(sb.ToString());
                       }
-                      catch (Exception ex)
-                      {
-                          await e.Channel.SendMessage("💢 Exception: " + ex.Message);
+                      catch {
+                          await e.Channel.SendMessage("💢 Failed finding a definition for that term.");
                       }
-                      });
-
-                      //todo when moved from parse
-                      /*
-                      cgb.CreateCommand("~osubind")
-                          .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
-                          .Parameter("osu_name", ParameterType.Unparsed)
-                          .Do(async e => {
-                              var userName = e.GetArg("user_name");
-                              var osuName = e.GetArg("osu_name");
-                              var usr = e.Server.FindUsers(userName).FirstOrDefault();
-                              if (usr == null) {
-                                  await e.Send("Cannot find that discord user.");
-                                  return;
-                              }
-                          });
-                      */
                   });
+                // thanks to Blaubeerwald
+                cgb.CreateCommand("~#")
+                 .Description("Searches Tagdef.com for a hashtag\n**Usage**:~# ff")
+                  .Parameter("query", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("query");
+                      if (string.IsNullOrWhiteSpace(arg)) {
+                          await e.Send("💢 Please enter a search term.");
+                          return;
+                      }
+                      await e.Channel.SendIsTyping();
+                      var headers = new WebHeaderCollection();
+                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      var res = await SearchHelper.GetResponseAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json", headers);
+                      try {
+                          var items = JObject.Parse(res);
+                          var sb = new System.Text.StringBuilder();
+                          sb.AppendLine($"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}");
+                          sb.AppendLine($"`Definition:` {items["defs"]["def"]["text"].ToString()}");
+                          sb.Append($"`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl()}>");
+                          await e.Send(sb.ToString());
+                      }
+                      catch {
+                          await e.Channel.SendMessage("💢 Failed finidng a definition for that tag");
+                      }
+                  });
+                //todo when moved from parse
+                /*
+                cgb.CreateCommand("~osubind")
+                    .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
+                    .Parameter("osu_name", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var userName = e.GetArg("user_name");
+                        var osuName = e.GetArg("osu_name");
+                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                        if (usr == null) {
+                            await e.Send("Cannot find that discord user.");
+                            return;
+                        }
+                    });
+                */
+            });
         }
     }
 }
