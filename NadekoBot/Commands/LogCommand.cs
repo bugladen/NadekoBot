@@ -27,41 +27,59 @@ namespace NadekoBot.Commands {
                 return;
             }
 
-            await e.Channel.SendMessage($"**NO LONGER LOGGIN IN {ch.Mention} CHANNEL**");
+            await e.Channel.SendMessage($"**NO LONGER LOGGING IN {ch.Mention} CHANNEL**");
         };
 
         private async void MsgRecivd(object sender, MessageEventArgs e) {
-            if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
-                return;
-            Channel ch;
-            if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
-                return;
-            await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+            try {
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                    return;
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                    return;
+                await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+            }
+            catch { }
         }
         private async void MsgDltd(object sender, MessageEventArgs e) {
-            if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
-                return;
-            Channel ch;
-            if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
-                return;
-            await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+            try {
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                    return;
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                    return;
+                await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+            }
+            catch { }
         }
         private async void MsgUpdtd(object sender, MessageUpdatedEventArgs e) {
-            if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
-                return;
-            Channel ch;
-            if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
-                return;
-            await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.Before.Text}");
+            try {
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                    return;
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                    return;
+                await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.Before.Text}");
+            }
+            catch { }
         }
         private async void UsrUpdtd(object sender, UserUpdatedEventArgs e) {
-            string str = $"`Type:` **User updated** `Time:` **{DateTime.Now}**\n";
-            if (e.Before.Name != e.After.Name)
-                str += $"Name changed from `{e.Before.Name}` to `{e.After.Name}`";
-            else if (e.Before.AvatarUrl != e.After.AvatarUrl)
-                str += $"Avatar url changed from `{e.Before.AvatarUrl}` to `{e.After.AvatarUrl}`";
-            else if (e.Before.Status != e.After.Status)
-                str += $"Status changed from `{e.Before.AvatarUrl}` to `{e.After.AvatarUrl}`";
+            try {
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch))
+                    return;
+                string str = $"`Type:` **User updated** `Time:` **{DateTime.Now}**\n";
+                if (e.Before.Name != e.After.Name)
+                    str += $"**Name changed** `FROM` **{e.Before.Name}** `TO` **{e.After.Name}**";
+                else if (e.Before.AvatarUrl != e.After.AvatarUrl)
+                    str += $"**Avatar url changed**\n `FROM`\n {e.Before.AvatarUrl}\n `TO` {e.After.AvatarUrl}";
+                else if (e.Before.Status != e.After.Status)
+                    str += $"**Status changed FROM** `{e.Before.Status}` **TO** `{e.After.Status}`";
+                else
+                    return;
+                await ch.SendMessage(str);
+            }
+            catch { }
         }
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".logserver")
