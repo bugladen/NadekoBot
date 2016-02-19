@@ -30,13 +30,15 @@ namespace NadekoBot {
                 botMention = creds.BotMention;
                 if (string.IsNullOrWhiteSpace(creds.GoogleAPIKey)) {
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
-                } else {
+                }
+                else {
                     Console.WriteLine("Google API key provided.");
                     GoogleAPIKey = creds.GoogleAPIKey;
                 }
                 if (string.IsNullOrWhiteSpace(creds.TrelloAppKey)) {
                     Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
-                } else {
+                }
+                else {
                     Console.WriteLine("Trello app key provided.");
                     TrelloAppKey = creds.TrelloAppKey;
                     loadTrello = true;
@@ -47,14 +49,15 @@ namespace NadekoBot {
                     ForwardMessages = true;
                     Console.WriteLine("Forwarding messages.");
                 }
-                if(string.IsNullOrWhiteSpace(creds.SoundCloudClientID))
+                if (string.IsNullOrWhiteSpace(creds.SoundCloudClientID))
                     Console.WriteLine("No soundcloud Client ID found. Soundcloud streaming is disabled.");
                 else
                     Console.WriteLine("SoundCloud streaming enabled.");
 
                 OwnerID = creds.OwnerID;
                 password = creds.Password;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
                 Console.ReadKey();
                 return;
@@ -70,9 +73,9 @@ namespace NadekoBot {
             var commandService = new CommandService(new CommandServiceConfigBuilder {
                 AllowMentionPrefix = false,
                 CustomPrefixHandler = m => 0,
-                HelpMode = HelpMode.Disabled
+                HelpMode = HelpMode.Disabled,
             });
-            
+
             //reply to personal messages and forward if enabled.
             client.MessageReceived += Client_MessageReceived;
 
@@ -83,7 +86,7 @@ namespace NadekoBot {
             var modules = client.AddService<ModuleService>(new ModuleService());
 
             //add audio service
-            var audio = client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder()  {
+            var audio = client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,
@@ -121,14 +124,14 @@ namespace NadekoBot {
 
                 try {
                     OwnerPrivateChannel = await client.CreatePrivateChannel(OwnerID);
-                } catch  {
+                }
+                catch {
                     Console.WriteLine("Failed creating private channel with the owner");
                 }
 
                 Classes.Permissions.PermissionsHandler.Initialize();
 
-                client.ClientAPI.SendingRequest += (s, e) =>
-                {
+                client.ClientAPI.SendingRequest += (s, e) => {
                     var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                     if (request != null) {
                         if (string.IsNullOrWhiteSpace(request.Content))
@@ -139,12 +142,12 @@ namespace NadekoBot {
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
-        }        
+        }
 
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
-            if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u=>u.Id)).Contains(e.User.Id)) return;
+            if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
             // just ban this trash AutoModerator
             // and cancer christmass spirit
             // and crappy shotaslave
@@ -157,7 +160,8 @@ namespace NadekoBot {
                 await (await client.GetInvite(e.Message.Text)).Accept();
                 await e.Send("I got in!");
                 return;
-            } catch  {
+            }
+            catch {
                 if (e.User.Id == 109338686889476096) { //carbonitex invite
                     await e.Send("Failed to join the server.");
                     return;

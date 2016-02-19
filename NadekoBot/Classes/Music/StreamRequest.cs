@@ -172,12 +172,9 @@ namespace NadekoBot.Classes.Music {
             //start feeding the buffer
             var p = Process.Start(new ProcessStartInfo {
                 FileName = "ffmpeg",
-                Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1",
+                Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet", //+ (NadekoBot.IsLinux ? "2> /dev/null" : "2>NUL"),
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
             });
             int attempt = 0;
             while (true) {
