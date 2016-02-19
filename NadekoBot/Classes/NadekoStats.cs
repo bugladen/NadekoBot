@@ -11,7 +11,7 @@ namespace NadekoBot
 {
     public class NadekoStats
     {
-        public string BotVersion = "0.8-beta13";
+        public string BotVersion = "NadekoBot 0.8-beta13";
 
         private static readonly NadekoStats _instance = new NadekoStats();
         public static NadekoStats Instance => _instance;
@@ -49,7 +49,7 @@ namespace NadekoBot
 
         public void LoadStats() {
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine("`Author: Kwoth`");
+            sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
             //$"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
             //$"\nRuntime: {_client.GetRuntime()}" +
             sb.AppendLine($"`Bot Version: {BotVersion}`");

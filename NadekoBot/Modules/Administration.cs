@@ -667,13 +667,16 @@ namespace NadekoBot.Modules {
         }
 
         public void SaveParseToDb<T>(string where) where T : IDataModel {
-            var data = File.ReadAllText(where);
-            var arr = JObject.Parse(data)["results"] as JArray;
-            var objects = new List<T>();
-            foreach (JObject obj in arr) {
-                objects.Add(obj.ToObject<T>());
+            try {
+                var data = File.ReadAllText(where);
+                var arr = JObject.Parse(data)["results"] as JArray;
+                var objects = new List<T>();
+                foreach (JObject obj in arr) {
+                    objects.Add(obj.ToObject<T>());
+                }
+                Classes.DBHandler.Instance.InsertMany(objects);
             }
-            Classes.DBHandler.Instance.InsertMany(objects);
+            catch { }
         }
     }
 }
