@@ -10,6 +10,7 @@ namespace NadekoBot
     {
         public override Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
+            /*
             string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
 
             string lastCategory = "";
@@ -31,7 +32,8 @@ namespace NadekoBot
                 helpstr = curstr.Substring(curstr.LastIndexOf("\n") + 1) + helpstr.Substring(2000);
                 await Task.Delay(200);
             }
-            await e.User.Send(helpstr);
+            */
+            await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://gist.github.com/Kwoth/1ab3a38424f208802b74>");
         };
 
         public Action<CommandEventArgs> DoGitFunc() => e => {
@@ -66,7 +68,13 @@ namespace NadekoBot
                 .Alias("-guide")
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
-                    await e.Send("**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>\n\n**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>"));
+                    await e.Send(
+@"**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>
+
+**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
+
+**LIST OF COMMANDS**: <https://gist.github.com/Kwoth/1ab3a38424f208802b74>"));
+
             cgb.CreateCommand("-donate")
                 .Alias("~donate")
                 .Description("Instructions for helping the project!")

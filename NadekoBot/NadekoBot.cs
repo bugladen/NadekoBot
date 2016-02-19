@@ -173,7 +173,7 @@ namespace NadekoBot {
 
             if (!repliedRecently) {
                 repliedRecently = true;
-                await e.Send("**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nYou can type `-h` or `-help` or `@MyName help` in any of the channels I am in and I will send you a message with my commands.\n Or you can find out what i do here: https://github.com/Kwoth/NadekoBot\nYou can also just send me an invite link to a server and I will join it.\nIf you don't want me on your server, you can simply ban me ;(\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X");
+                await e.Send("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBhxEi0X>");
                 Timer t = new Timer();
                 t.Interval = 2000;
                 t.Start();
