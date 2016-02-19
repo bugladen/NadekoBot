@@ -6,17 +6,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Classes.Permissions {
     class PermissionChecker : IPermissionChecker {
         public static readonly PermissionChecker _instance = new PermissionChecker();
         public static PermissionChecker Instance => _instance;
 
+        private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
+
         static PermissionChecker() { }
-        public PermissionChecker() { }
+        public PermissionChecker() {
+            Task.Run(async () => {
+                while (true) {
+                    //blacklist is cleared every 1.3 seconds. That is the most time anyone will be blocked for ever
+                    await Task.Delay(1300);
+                    timeBlackList.Clear();
+                }
+            });
+        }
 
         public bool CanRun(Command command, User user, Channel channel, out string error) {
             error = null;
+
+            if (timeBlackList.ContainsKey(user))
+                return false;
+
+            timeBlackList.TryAdd(user, DateTime.Now);
 
             if (channel.IsPrivate)
                 return true;
