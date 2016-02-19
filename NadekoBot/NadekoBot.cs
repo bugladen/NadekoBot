@@ -156,15 +156,17 @@ namespace NadekoBot {
                 e.User.Id == 143515953525817344)
                 return; // FU
 
-            try {
-                await (await client.GetInvite(e.Message.Text)).Accept();
-                await e.Send("I got in!");
-                return;
-            }
-            catch {
-                if (e.User.Id == 109338686889476096) { //carbonitex invite
-                    await e.Send("Failed to join the server.");
+            if (!NadekoBot.creds.DontJoinServers) {
+                try {
+                    await (await client.GetInvite(e.Message.Text)).Accept();
+                    await e.Send("I got in!");
                     return;
+                }
+                catch {
+                    if (e.User.Id == 109338686889476096) { //carbonitex invite
+                        await e.Send("Failed to join the server.");
+                        return;
+                    }
                 }
             }
 

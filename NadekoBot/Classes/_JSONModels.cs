@@ -11,6 +11,8 @@
         public bool? ForwardMessages;
         public string SoundCloudClientID;
         public string MashapeKey;
+        public string LOLAPIKey;
+        public bool DontJoinServers = false;
     }
     public class AnimeResult
     {

@@ -74,7 +74,7 @@ namespace NadekoBot.Modules {
 
                 Stopwatch randServerSW = new Stopwatch();
                 randServerSW.Start();
-
+                
                 cgb.CreateCommand("randserver")
                     .Description("Generates an invite to a random server and prints some stats.")
                     .Do(async e => {
@@ -264,18 +264,21 @@ namespace NadekoBot.Modules {
                         text = usr?.Name;
                         await e.Channel.SendFile("ripzor_m8.png", RipName(text, e.GetArg("year") == "" ? null : e.GetArg("year")));
                     });
-
-                cgb.CreateCommand("j")
-                    .Description("Joins a server using a code.")
-                    .Parameter("id", ParameterType.Required)
-                    .Do(async e => {
-                        try {
-                            await (await client.GetInvite(e.Args[0])).Accept();
-                            await e.Send("I got in!");
-                        } catch  {
-                            await e.Send("Invalid code.");
-                        }
-                    });
+                if (!NadekoBot.creds.DontJoinServers) {
+                    cgb.CreateCommand("j")
+                        .Description("Joins a server using a code.")
+                        .Parameter("id", ParameterType.Required)
+                        .Do(async e => {
+                            try {
+                                await (await client.GetInvite(e.Args[0])).Accept();
+                                await e.Send("I got in!");
+                            }
+                            catch {
+                                await e.Send("Invalid code.");
+                            }
+                        });
+                }
+                
                 cgb.CreateCommand("slm")
                     .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
                     .Do(async e => {
