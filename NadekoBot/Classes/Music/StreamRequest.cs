@@ -208,9 +208,10 @@ namespace NadekoBot.Classes.Music {
                         buffer.Position = newPos;
                     }
                 }
-                var buf = new byte[4096];
+                int blockSize = 1024;
+                var buf = new byte[blockSize];
                 int read = 0;
-                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, buf.Length);
+                read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, blockSize);
                 //Console.WriteLine($"Read: {read}");
                 if (read == 0) {
                     if (attempt == 5) {
@@ -230,7 +231,9 @@ namespace NadekoBot.Classes.Music {
                 }
                 else {
                     attempt = 0;
-                    await buffer.WriteAsync(buf, 0, read);
+                    lock (_bufferLock) {
+                        buffer.Write(buf, 0, read);
+                    }
                 }
             }
         }
@@ -277,12 +280,12 @@ namespace NadekoBot.Classes.Music {
                 //adjust volume
 
                 lock (_bufferLock) {
-                    readCount = buffer.Read(voiceBuffer, 0, voiceBuffer.Length);
+                    readCount = buffer.Read(voiceBuffer, 0, blockSize);
                 }
 
                 if (readCount == 0) {
                     if (attempt == 4) {
-                        Console.WriteLine($"Failed to read {attempt} times. Breaking out. [{DateTime.Now.Second}]");
+                        Console.WriteLine($"Failed to read {attempt} times. Breaking out.");
                         break;
                     }
                     else {
@@ -298,7 +301,7 @@ namespace NadekoBot.Classes.Music {
                     break;
                 }
                 voiceBuffer = adjustVolume(voiceBuffer, parent.Volume);
-                parent.MusicControls.VoiceClient.Send(voiceBuffer, 0, voiceBuffer.Length);
+                parent.MusicControls.VoiceClient.Send(voiceBuffer, 0, readCount);
 
                 while (IsPaused) {
                     await Task.Delay(50);
@@ -355,21 +358,15 @@ namespace NadekoBot.Classes.Music {
         }
 
         public override int Read(byte[] buffer, int offset, int count) {
-            int read;
-            lock (this) {
-                Position = readPos;
-                read = base.Read(buffer, offset, count);
-                readPos = Position;
-            }
+            Position = readPos;
+            int read = base.Read(buffer, offset, count);
+            readPos = Position;
             return read;
         }
         public override void Write(byte[] buffer, int offset, int count) {
-            lock (this) {
-                Position = writePos;
-                base.Write(buffer, offset, count);
-                writePos = Position;
-            }
+            Position = writePos;
+            base.Write(buffer, offset, count);
+            writePos = Position;
         }
     }
-
 }
