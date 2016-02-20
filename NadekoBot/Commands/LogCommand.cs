@@ -19,7 +19,7 @@ namespace NadekoBot.Commands {
         
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (e.User.Id != NadekoBot.OwnerID ||
-               e.User.Server.Owner.Id != e.User.Id)
+                          !e.User.ServerPermissions.ManageServer)
                 return;
             Channel ch;
             if (!logs.TryRemove(e.Server, out ch)) {
@@ -107,7 +107,7 @@ namespace NadekoBot.Commands {
                   .Description("Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(async e => {
                       if (e.User.Id != NadekoBot.OwnerID ||
-                          e.User.Server.Owner.Id != e.User.Id)
+                          !e.User.ServerPermissions.ManageServer)
                           return;
                       Channel ch;
                       if (!loggingPresences.TryRemove(e.Server, out ch)) {
