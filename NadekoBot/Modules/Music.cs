@@ -225,13 +225,21 @@ namespace NadekoBot.Modules {
                   });
 
                 cgb.CreateCommand("rm")
-                    .Description("Removes a song by a # from the queue")
+                    .Description("Removes a song by a # from the queue or 'all' to remove whole queue.")
                     .Parameter("num",ParameterType.Required)
                     .Do(async e => {
                         var arg = e.GetArg("num");
-                        int num;
                         MusicControls mc;
-                        if (!musicPlayers.TryGetValue(e.Server, out mc) || !int.TryParse(arg, out num)) {
+                        if (!musicPlayers.TryGetValue(e.Server, out mc)) {
+                            return;
+                        }
+                        if (arg?.ToLower() == "all") {
+                            mc.SongQueue?.Clear();
+                            await e.Send($"🎵Queue cleared!");
+                            return;
+                        }
+                        int num;
+                        if (!int.TryParse(arg, out num)) {
                             return;
                         }
                         if (num <= 0 || num > mc.SongQueue.Count)

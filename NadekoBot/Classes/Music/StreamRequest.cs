@@ -205,7 +205,7 @@ namespace NadekoBot.Classes.Music {
                         buffer.Position = newPos;
                     }
                 }
-                int blockSize = 1024;
+                int blockSize = 2048;
                 var buf = new byte[blockSize];
                 int read = 0;
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, blockSize);
@@ -213,8 +213,7 @@ namespace NadekoBot.Classes.Music {
                 if (read == 0) {
                     if (attempt == 5) {
                         try {
-                            p.CancelOutputRead();
-                            p.Close();
+                            p.Dispose();
                         }
                         catch { }
 
@@ -242,7 +241,7 @@ namespace NadekoBot.Classes.Music {
             if (parent.OnBuffering != null)
                 parent.OnBuffering();
 
-            Task.Factory.StartNew(async () => {
+            Task.Run(async () => {
                 await BufferSong();
             }).ConfigureAwait(false);
 
@@ -301,7 +300,7 @@ namespace NadekoBot.Classes.Music {
                 parent.MusicControls.VoiceClient.Send(voiceBuffer, 0, readCount);
 
                 while (IsPaused) {
-                    await Task.Delay(50);
+                    await Task.Delay(100);
                 }
             }
             parent.MusicControls.VoiceClient.Wait();
