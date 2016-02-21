@@ -32,10 +32,10 @@ namespace NadekoBot.Classes.Permissions {
             if (timeBlackList.ContainsKey(user))
                 return false;
 
-            timeBlackList.TryAdd(user, DateTime.Now);
-
             if (channel.IsPrivate)
-                return true;
+                return false;
+
+            timeBlackList.TryAdd(user, DateTime.Now);
 
             try {
                 //is it a permission command?
