@@ -205,7 +205,7 @@ namespace NadekoBot.Classes.Music {
                         buffer.Position = newPos;
                     }
                 }
-                int blockSize = 2048;
+                int blockSize = 1920 * NadekoBot.client.GetService<AudioService>()?.Config?.Channels ?? 3840;
                 var buf = new byte[blockSize];
                 int read = 0;
                 read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, blockSize);
@@ -264,7 +264,7 @@ namespace NadekoBot.Classes.Music {
                 Console.WriteLine("Nothing was buffered, try another song and check your GoogleApikey.");
             }
 
-            int blockSize = 1920 * NadekoBot.client.GetService<AudioService>().Config.Channels;
+            int blockSize = 1920 * NadekoBot.client.GetService<AudioService>()?.Config?.Channels ?? 3840;
             byte[] voiceBuffer = new byte[blockSize];
 
             if (parent.OnStarted != null)
@@ -354,15 +354,19 @@ namespace NadekoBot.Classes.Music {
         }
 
         public override int Read(byte[] buffer, int offset, int count) {
-            Position = readPos;
-            int read = base.Read(buffer, offset, count);
-            readPos = Position;
-            return read;
+            lock (this) {
+                Position = readPos;
+                int read = base.Read(buffer, offset, count);
+                readPos = Position;
+                return read;
+            }
         }
         public override void Write(byte[] buffer, int offset, int count) {
-            Position = writePos;
-            base.Write(buffer, offset, count);
-            writePos = Position;
+            lock (this) {
+                Position = writePos;
+                base.Write(buffer, offset, count);
+                writePos = Position;
+            }
         }
     }
 }
