@@ -13,9 +13,9 @@ namespace NadekoBot.Commands {
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (!runningTrivias.ContainsKey(e.Server)) {
                 runningTrivias.TryAdd(e.Server, new TriviaGame(e));
-                await e.Send("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
+                await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
             } else
-                await e.Send("Trivia game is already running on this server.\n" + runningTrivias[e.Server].CurrentQuestion);
+                await e.Channel.SendMessage("Trivia game is already running on this server.\n" + runningTrivias[e.Server].CurrentQuestion);
         };
 
         public override void Init(CommandGroupBuilder cgb) {
@@ -31,9 +31,9 @@ namespace NadekoBot.Commands {
                 .Alias("-tlb")
                 .Do(async e=> {
                     if (runningTrivias.ContainsKey(e.Server))
-                        await e.Send(runningTrivias[e.Server].GetLeaderboard());
+                        await e.Channel.SendMessage(runningTrivias[e.Server].GetLeaderboard());
                     else
-                        await e.Send("No trivia is running on this server.");
+                        await e.Channel.SendMessage("No trivia is running on this server.");
                 });
 
             cgb.CreateCommand("tq")
@@ -43,7 +43,7 @@ namespace NadekoBot.Commands {
                     if (runningTrivias.ContainsKey(e.Server)) {
                         runningTrivias[e.Server].StopGame();
                     } else
-                        await e.Send("No trivia is running on this server.");
+                        await e.Channel.SendMessage("No trivia is running on this server.");
                 });
         }
     }

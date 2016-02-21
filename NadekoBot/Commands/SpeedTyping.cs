@@ -92,7 +92,7 @@ namespace NadekoBot.Commands {
                 finishedUserIds.Add(e.User.Id);
                 await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
                 if (finishedUserIds.Count % 2 == 0) {
-                    await e.Send($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
+                    await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
                 }
 
             }
@@ -113,7 +113,7 @@ namespace NadekoBot.Commands {
         public override Func<CommandEventArgs, Task> DoFunc() =>
             async e => {
                 if (runningContests.ContainsKey(e.User.Server.Id) && runningContests[e.User.Server.Id].IsActive) {
-                    await e.Send($"Contest already running in { runningContests[e.User.Server.Id].Channell.Mention } channel.");
+                    await e.Channel.SendMessage($"Contest already running in { runningContests[e.User.Server.Id].Channell.Mention } channel.");
                     return;
                 }
                 if (runningContests.ContainsKey(e.User.Server.Id) && !runningContests[e.User.Server.Id].IsActive) {
@@ -132,7 +132,7 @@ namespace NadekoBot.Commands {
                     runningContests.Remove(e.User.Server.Id);
                     return;
                 }
-                await e.Send("No contest to stop on this channel.");
+                await e.Channel.SendMessage("No contest to stop on this channel.");
             };
 
         public override void Init(CommandGroupBuilder cgb) {
@@ -155,7 +155,7 @@ namespace NadekoBot.Commands {
                         DateAdded = DateTime.Now
                     });
 
-                    await e.Send("Added new article for typing game.");
+                    await e.Channel.SendMessage("Added new article for typing game.");
                 });
 
             //todo add user submissions

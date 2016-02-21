@@ -354,19 +354,15 @@ namespace NadekoBot.Classes.Music {
         }
 
         public override int Read(byte[] buffer, int offset, int count) {
-            lock (this) {
-                Position = readPos;
-                int read = base.Read(buffer, offset, count);
-                readPos = Position;
-                return read;
-            }
+            Position = readPos;
+            int read = base.Read(buffer, offset, count);
+            readPos = Position;
+            return read;
         }
         public override void Write(byte[] buffer, int offset, int count) {
-            lock (this) {
-                Position = writePos;
-                base.Write(buffer, offset, count);
-                writePos = Position;
-            }
+            Position = writePos;
+            base.Write(buffer, offset, count);
+            writePos = Position;
         }
     }
 }

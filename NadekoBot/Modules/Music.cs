@@ -58,9 +58,9 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         if (musicPlayers[e.Server].TogglePause())
-                            await e.Send("🎵`Music player paused.`");
+                            await e.Channel.SendMessage("🎵`Music player paused.`");
                         else
-                            await e.Send("🎵`Music player unpaused.`");
+                            await e.Channel.SendMessage("🎵`Music player unpaused.`");
                     });
 
                 cgb.CreateCommand("q")
@@ -74,16 +74,16 @@ namespace NadekoBot.Modules {
                     .Description("Lists up to 10 currently queued songs.")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) {
-                            await e.Send("🎵 No active music player.");
+                            await e.Channel.SendMessage("🎵 No active music player.");
                             return;
                         }
                         var player = musicPlayers[e.Server];
                         string toSend = "🎵 **" + player.SongQueue.Count + "** `videos currently queued.` ";
                         if (player.SongQueue.Count >= 25)
                             toSend += "**Song queue is full!**\n";
-                        await e.Send(toSend);
+                        await e.Channel.SendMessage(toSend);
                         int number = 1;
-                        await e.Send(string.Join("\n", player.SongQueue.Take(10).Select(v => $"`{number++}.` {v.FullPrettyName}")));
+                        await e.Channel.SendMessage(string.Join("\n", player.SongQueue.Take(10).Select(v => $"`{number++}.` {v.FullPrettyName}")));
                     });
 
                 cgb.CreateCommand("np")
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules {
                  .Do(async e => {
                      if (musicPlayers.ContainsKey(e.Server) == false) return;
                      var player = musicPlayers[e.Server];
-                     await e.Send($"🎵`Now Playing` {player.CurrentSong.FullPrettyName}");
+                     await e.Channel.SendMessage($"🎵`Now Playing` {player.CurrentSong.FullPrettyName}");
                  });
 
                 cgb.CreateCommand("vol")
@@ -104,11 +104,11 @@ namespace NadekoBot.Modules {
                       var arg = e.GetArg("val");
                       int volume;
                       if (!int.TryParse(arg, out volume)) {
-                          await e.Send("Volume number invalid.");
+                          await e.Channel.SendMessage("Volume number invalid.");
                           return;
                       }
                       volume = player.SetVolume(volume);
-                      await e.Send($"🎵 `Volume set to {volume}%`");
+                      await e.Channel.SendMessage($"🎵 `Volume set to {volume}%`");
                   });
 
                 cgb.CreateCommand("dv")
@@ -119,11 +119,11 @@ namespace NadekoBot.Modules {
                         var arg = e.GetArg("val");
                         float volume;
                         if (!float.TryParse(arg, out volume) || volume < 0 || volume > 100) {
-                            await e.Send("Volume number invalid.");
+                            await e.Channel.SendMessage("Volume number invalid.");
                             return;
                         }
                         musicVolumes.AddOrUpdate(e.Server.Id, volume / 100, (key, newval) => volume / 100);
-                        await e.Send($"🎵 `Default volume set to {volume}%`");
+                        await e.Channel.SendMessage($"🎵 `Default volume set to {volume}%`");
                     });
 
                 cgb.CreateCommand("min").Alias("mute")
@@ -156,12 +156,12 @@ namespace NadekoBot.Modules {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         var player = musicPlayers[e.Server];
                         if (player.SongQueue.Count < 2) {
-                            await e.Send("Not enough songs in order to perform the shuffle.");
+                            await e.Channel.SendMessage("Not enough songs in order to perform the shuffle.");
                             return;
                         }
 
                         player.SongQueue.Shuffle();
-                        await e.Send("🎵 `Songs shuffled.`");
+                        await e.Channel.SendMessage("🎵 `Songs shuffled.`");
                     });
 
                 bool setgameEnabled = false;
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules {
                         else
                             setgameTimer.Stop();
 
-                        await e.Send("`Music status " + (setgameEnabled ? "enabled`" : "disabled`"));
+                        await e.Channel.SendMessage("`Music status " + (setgameEnabled ? "enabled`" : "disabled`"));
                     });
 
                 cgb.CreateCommand("pl")
@@ -190,12 +190,12 @@ namespace NadekoBot.Modules {
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Send("💢 You need to be in the voice channel on this server.");
+                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
                             return;
                         }
                         var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Send($"🎵 `Attempting to queue **{ids.Count}** songs".SnPl(ids.Count)+"...`");
+                        var msg = await e.Channel.SendMessage($"🎵 `Attempting to queue **{ids.Count}** songs".SnPl(ids.Count)+"...`");
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules {
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Send("💢 You need to be in the voice channel on this server.");
+                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
                             return;
                         }
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
@@ -235,7 +235,7 @@ namespace NadekoBot.Modules {
                         }
                         if (arg?.ToLower() == "all") {
                             mc.SongQueue?.Clear();
-                            await e.Send($"🎵Queue cleared!");
+                            await e.Channel.SendMessage($"🎵Queue cleared!");
                             return;
                         }
                         int num;
@@ -246,7 +246,7 @@ namespace NadekoBot.Modules {
                             return;
 
                         mc.SongQueue.RemoveAt(num - 1);
-                        await e.Send($"🎵Song at position `{num}` has been removed.");
+                        await e.Channel.SendMessage($"🎵Song at position `{num}` has been removed.");
                     });
 
                 cgb.CreateCommand("debug")
@@ -263,7 +263,7 @@ namespace NadekoBot.Modules {
 
         private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
             if (e.User.VoiceChannel?.Server != e.Server) {
-                await e.Send("💢 You need to be in the voice channel on this server.");
+                await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
                 return;
             }
             
@@ -284,7 +284,7 @@ namespace NadekoBot.Modules {
                     vol = throwAway;
 
                 if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e, vol))) {
-                    await e.Send("Failed to create a music player for this server.");
+                    await e.Channel.SendMessage("Failed to create a music player for this server.");
                     return;
                 }
             }
@@ -316,23 +316,23 @@ namespace NadekoBot.Modules {
                         if (mc.SongQueue.Count == 0)
                             mc.Stop();
                     }
-                    await e.Send($"🎵`Finished`{sr.FullPrettyName}");
+                    await e.Channel.SendMessage($"🎵`Finished`{sr.FullPrettyName}");
                 };
                 sr.OnStarted += async () => {
                     var msgTxt = $"🎵`Playing`{sr.FullPrettyName} `Vol: {(int)(player.Volume * 100)}%`";
                     if (msg == null)
-                        await e.Send(msgTxt);
+                        await e.Channel.SendMessage(msgTxt);
                     else
                         await msg.Edit(msgTxt);
                     qmsg?.Delete();
                 };
                 sr.OnBuffering += async () => {
-                    msg = await e.Send($"🎵`Buffering...`{sr.FullPrettyName}");
+                    msg = await e.Channel.SendMessage($"🎵`Buffering...`{sr.FullPrettyName}");
                 };
                 await sr.Resolve();
             } catch (Exception ex) {
                 Console.WriteLine();
-                await e.Send($"💢 {ex.Message}");
+                await e.Channel.SendMessage($"💢 {ex.Message}");
                 return;
             }
         }

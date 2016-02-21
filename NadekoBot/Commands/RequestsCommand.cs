@@ -53,10 +53,10 @@ namespace NadekoBot.Commands {
                     try {
                         SaveRequest(e, str);
                     } catch  {
-                        await e.Send("Something went wrong.");
+                        await e.Channel.SendMessage("Something went wrong.");
                         return;
                     }
-                    await e.Send("Thank you for your request.");
+                    await e.Channel.SendMessage("Thank you for your request.");
                 });
 
             cgb.CreateCommand("lr")
@@ -76,14 +76,14 @@ namespace NadekoBot.Commands {
                     if (e.User.Id == NadekoBot.OwnerID) {
                         try {
                             if (DeleteRequest(int.Parse(e.Args[0]))) {
-                                await e.Send(e.User.Mention + " Request deleted.");
+                                await e.Channel.SendMessage(e.User.Mention + " Request deleted.");
                             } else {
-                                await e.Send("No request on that number.");
+                                await e.Channel.SendMessage("No request on that number.");
                             }
                         } catch {
-                            await e.Send("Error deleting request, probably NaN error.");
+                            await e.Channel.SendMessage("Error deleting request, probably NaN error.");
                         }
-                    } else await e.Send("You don't have permission to do that.");
+                    } else await e.Channel.SendMessage("You don't have permission to do that.");
                 });
 
             cgb.CreateCommand("rr")
@@ -94,15 +94,15 @@ namespace NadekoBot.Commands {
                         try {
                             var sc = ResolveRequest(int.Parse(e.Args[0]));
                             if (sc != null) {
-                                await e.Send(e.User.Mention + " Request resolved, notice sent.");
+                                await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.");
                                 await client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText);
                             } else {
-                                await e.Send("No request on that number.");
+                                await e.Channel.SendMessage("No request on that number.");
                             }
                         } catch {
-                            await e.Send("Error resolving request, probably NaN error.");
+                            await e.Channel.SendMessage("Error resolving request, probably NaN error.");
                         }
-                    } else await e.Send("You don't have permission to do that.");
+                    } else await e.Channel.SendMessage("You don't have permission to do that.");
                 });
         }
     }

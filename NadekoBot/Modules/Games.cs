@@ -41,7 +41,7 @@ namespace NadekoBot.Modules
                       var list = arg.Split(';');
                       if (list.Count() < 2)
                           return;
-                      await e.Send(list[new Random().Next(0, list.Length)]);
+                      await e.Channel.SendMessage(list[new Random().Next(0, list.Length)]);
                   });
 
                 cgb.CreateCommand(">8ball")
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules
                         else if (dmg <= 35) {
                             response += "Ineffective!";
                         }
-                        await e.Send($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
+                        await e.Channel.SendMessage($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
                     });
 
                 cgb.CreateCommand("poketype")
@@ -83,10 +83,10 @@ namespace NadekoBot.Modules
                     {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         if (usr == null) {
-                            await e.Send("No such person.");
+                            await e.Channel.SendMessage("No such person.");
                         }
                         var t = GetType(usr.Id);
-                        await e.Send($"{usr.Name}'s type is {GetImage(t)} {t}");
+                        await e.Channel.SendMessage($"{usr.Name}'s type is {GetImage(t)} {t}");
                     });
             });
         }

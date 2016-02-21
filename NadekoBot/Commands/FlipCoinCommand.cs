@@ -35,7 +35,7 @@ namespace NadekoBot {
                     return;
                 }
 
-                await e.Send("Invalid number");
+                await e.Channel.SendMessage("Invalid number");
             }
 
         };

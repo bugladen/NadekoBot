@@ -34,13 +34,13 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("\\o\\")
                     .Description("Nadeko replies with /o/")
                     .Do(async e => {
-                        await e.Send(e.User.Mention + "/o/");
+                        await e.Channel.SendMessage(e.User.Mention + "/o/");
                     });
 
                 cgb.CreateCommand("/o/")
                     .Description("Nadeko replies with \\o\\")
                     .Do(async e => {
-                        await e.Send(e.User.Mention + "\\o\\");
+                        await e.Channel.SendMessage(e.User.Mention + "\\o\\");
                     });
             });
 
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
                         string str = "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
-                        await e.Send(str);
+                        await e.Channel.SendMessage(str);
                     });
 
                 cgb.CreateCommand("die")
@@ -67,9 +67,9 @@ namespace NadekoBot.Modules {
                             t.Interval = 2000;
                             t.Elapsed += (s, ev) => { Environment.Exit(0); };
                             t.Start();
-                            await e.Send(e.User.Mention + ", Yes, my love.");
+                            await e.Channel.SendMessage(e.User.Mention + ", Yes, my love.");
                         } else
-                            await e.Send(e.User.Mention + ", No.");
+                            await e.Channel.SendMessage(e.User.Mention + ", No.");
                     });
 
                 Stopwatch randServerSW = new Stopwatch();
@@ -79,12 +79,12 @@ namespace NadekoBot.Modules {
                     .Description("Generates an invite to a random server and prints some stats.")
                     .Do(async e => {
                         if (client.Servers.Count() < 10) {
-                            await e.Send("I need to be connected to at least 10 servers for this command to work.");
+                            await e.Channel.SendMessage("I need to be connected to at least 10 servers for this command to work.");
                             return;
                         }
 
                         if (randServerSW.Elapsed.Seconds < 1800) {
-                            await e.Send("You have to wait " + (1800 - randServerSW.Elapsed.Seconds) + " more seconds to use this function.");
+                            await e.Channel.SendMessage("You have to wait " + (1800 - randServerSW.Elapsed.Seconds) + " more seconds to use this function.");
                             return;
                         }
                         randServerSW.Restart();
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules {
                                 continue;
                             try {
                                 var inv = await server.CreateInvite(100, 5);
-                                await e.Send("**Server:** " + server.Name +
+                                await e.Channel.SendMessage("**Server:** " + server.Name +
                                             "\n**Owner:** " + server.Owner.Name +
                                             "\n**Channels:** " + server.AllChannels.Count() +
                                             "\n**Total Members:** " + server.Users.Count() +
@@ -125,22 +125,22 @@ namespace NadekoBot.Modules {
                     .Description("Replies with positive answer only to the bot owner.")
                     .Do(async e => {
                         if (e.User.Id == NadekoBot.OwnerID)
-                            await e.Send(e.User.Mention + ", Of course I do, my Master.");
+                            await e.Channel.SendMessage(e.User.Mention + ", Of course I do, my Master.");
                         else
-                            await e.Send(e.User.Mention + ", Don't be silly.");
+                            await e.Channel.SendMessage(e.User.Mention + ", Don't be silly.");
                     });
 
                 cgb.CreateCommand("how are you")
                     .Description("Replies positive only if bot owner is online.")
                     .Do(async e => {
                         if (e.User.Id == NadekoBot.OwnerID) {
-                            await e.Send(e.User.Mention + " I am great as long as you are here.");
+                            await e.Channel.SendMessage(e.User.Mention + " I am great as long as you are here.");
                         } else {
                             var kw = e.Server.GetUser(NadekoBot.OwnerID);
                             if (kw != null && kw.Status == UserStatus.Online) {
-                                await e.Send(e.User.Mention + " I am great as long as " + kw.Mention + " is with me.");
+                                await e.Channel.SendMessage(e.User.Mention + " I am great as long as " + kw.Mention + " is with me.");
                             } else {
-                                await e.Send(e.User.Mention + " I am sad. My Master is not with me.");
+                                await e.Channel.SendMessage(e.User.Mention + " I am sad. My Master is not with me.");
                             }
                         }
                     });
@@ -153,15 +153,15 @@ namespace NadekoBot.Modules {
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (u == null) {
-                            await e.Send("Invalid user specified.");
+                            await e.Channel.SendMessage("Invalid user specified.");
                             return;
                         }
 
                         if (u.Id == NadekoBot.OwnerID) {
-                            await e.Send("I would never insult my master <3");
+                            await e.Channel.SendMessage("I would never insult my master <3");
                             return;
                         }
-                        await e.Send(u.Mention + insults[r.Next(0, insults.Count)]);
+                        await e.Channel.SendMessage(u.Mention + insults[r.Next(0, insults.Count)]);
                     });
 
                 cgb.CreateCommand("praise")
@@ -179,15 +179,15 @@ namespace NadekoBot.Modules {
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
                         if (u == null) {
-                            await e.Send("Invalid user specified.");
+                            await e.Channel.SendMessage("Invalid user specified.");
                             return;
                         }
 
                         if (u.Id == NadekoBot.OwnerID) {
-                            await e.Send(e.User.Mention + " I don't need your permission to praise my beloved Master <3");
+                            await e.Channel.SendMessage(e.User.Mention + " I don't need your permission to praise my beloved Master <3");
                             return;
                         }
-                        await e.Send(u.Mention + praises[r.Next(0, praises.Count)]);
+                        await e.Channel.SendMessage(u.Mention + praises[r.Next(0, praises.Count)]);
                     });
 
                 cgb.CreateCommand("pat")
@@ -206,7 +206,7 @@ namespace NadekoBot.Modules {
                                                      "http://gallery1.anivide.com/_full/65030_1382582341.gif",
                                                      "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
                       };
-                      await e.Send($"{e.Message.MentionedUsers.First().Mention} {pats[new Random().Next(0, pats.Length)]}");
+                      await e.Channel.SendMessage($"{e.Message.MentionedUsers.First().Mention} {pats[new Random().Next(0, pats.Length)]}");
                   });
 
                 cgb.CreateCommand("cry")
@@ -216,13 +216,13 @@ namespace NadekoBot.Modules {
                                                      "http://i.imgur.com/3K8DRrU.gif",
                                                      "http://i.imgur.com/k58BcAv.gif",
                                                      "http://i.imgur.com/I2fLXwo.gif" };
-                      await e.Send($"(•̥́ _•ૅ｡)\n{pats[new Random().Next(0, pats.Length)]}");
+                      await e.Channel.SendMessage($"(•̥́ _•ૅ｡)\n{pats[new Random().Next(0, pats.Length)]}");
                   });
 
                 cgb.CreateCommand("are you real")
                     .Description("Useless.")
                     .Do(async e => {
-                        await e.Send(e.User.Mention + " I will be soon.");
+                        await e.Channel.SendMessage(e.User.Mention + " I will be soon.");
                     });
 
                 cgb.CreateCommand("are you there")
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("draw")
                     .Description("Nadeko instructs you to type $draw. Gambling functions start with $")
                     .Do(async e => {
-                        await e.Send("Sorry, I don't gamble, type $draw for that function.");
+                        await e.Channel.SendMessage("Sorry, I don't gamble, type $draw for that function.");
                     });
                 cgb.CreateCommand("fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
@@ -251,7 +251,7 @@ namespace NadekoBot.Modules {
                         for (int i = 0; i < count; i++) {
                             str += firestr;
                         }
-                        await e.Send(str);
+                        await e.Channel.SendMessage(str);
                     });
 
                 cgb.CreateCommand("rip")
@@ -271,10 +271,10 @@ namespace NadekoBot.Modules {
                         .Do(async e => {
                             try {
                                 await (await client.GetInvite(e.Args[0])).Accept();
-                                await e.Send("I got in!");
+                                await e.Channel.SendMessage("I got in!");
                             }
                             catch {
-                                await e.Send("Invalid code.");
+                                await e.Channel.SendMessage("Invalid code.");
                             }
                         });
                 }
@@ -302,9 +302,9 @@ namespace NadekoBot.Modules {
                             }
                         }
                         if (msg != null)
-                            await e.Send($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText.Replace("@everyone", "@everryone")}");
+                            await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText.Replace("@everyone", "@everryone")}");
                         else
-                            await e.Send("I can't find a message mentioning you.");
+                            await e.Channel.SendMessage("I can't find a message mentioning you.");
                     });
 
                 cgb.CreateCommand("bb")
@@ -316,14 +316,14 @@ namespace NadekoBot.Modules {
                             if (u.Id != NadekoBot.client.CurrentUser.Id)
                                 str += " " + u.Mention;
                         }
-                        await e.Send(str);
+                        await e.Channel.SendMessage(str);
                     });
 
                 cgb.CreateCommand("call")
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e => {
-                        await e.Send("Calling " + e.Args[0].Replace("@everyone", "[everyone]") + "...");
+                        await e.Channel.SendMessage("Calling " + e.Args[0].Replace("@everyone", "[everyone]") + "...");
                     });
                 cgb.CreateCommand("hide")
                     .Description("Hides nadeko in plain sight!11!!")
@@ -331,7 +331,7 @@ namespace NadekoBot.Modules {
                         using (Stream ms = Resources.hidden.ToStream(ImageFormat.Png)) {
                             await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
                         }
-                        await e.Send("*hides*");
+                        await e.Channel.SendMessage("*hides*");
                     });
 
                 cgb.CreateCommand("unhide")
@@ -340,7 +340,7 @@ namespace NadekoBot.Modules {
                         using (FileStream fs = new FileStream("data/avatar.png", FileMode.Open)) {
                             await client.CurrentUser.Edit(NadekoBot.password, avatar: fs);
                         }
-                        await e.Send("*unhides*");
+                        await e.Channel.SendMessage("*unhides*");
                     });
 
                 cgb.CreateCommand("dump")
@@ -361,7 +361,7 @@ namespace NadekoBot.Modules {
                             }
                         }
                         File.WriteAllText("dump.txt", invites);
-                        await e.Send($"Got invites for {i} servers and failed to get invites for {j} servers");
+                        await e.Channel.SendMessage($"Got invites for {i} servers and failed to get invites for {j} servers");
                     });
 
                 cgb.CreateCommand("ab")
@@ -373,7 +373,7 @@ namespace NadekoBot.Modules {
                         while (cnt-- > 0) {
                             construct += strings[rng.Next(0, strings.Length)];
                         }
-                        await e.Send(construct);
+                        await e.Channel.SendMessage(construct);
                     });
 
                 cgb.CreateCommand("av").Alias("avatar")
@@ -382,10 +382,10 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (usr == null) {
-                            await e.Send("Invalid user specified.");
+                            await e.Channel.SendMessage("Invalid user specified.");
                             return;
                         }
-                        await e.Send(await usr.AvatarUrl.ShortenUrl());
+                        await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl());
                     });
                 /*
                 string saved = "";
@@ -405,7 +405,7 @@ namespace NadekoBot.Modules {
                   .Parameter("arg", ParameterType.Required)
                   .Do(async e => {
                       var arg = e.GetArg("arg");
-                      await e.Send("```"+saved+"```");
+                      await e.Channel.SendMessage("```"+saved+"```");
                   });
                   */
                 //TODO add eval
@@ -417,7 +417,7 @@ namespace NadekoBot.Modules {
                         if (e.Message.User.Id == NadekoBot.OwnerId)
                         {
                             var result = await CSharpScript.EvaluateAsync(e.Args[0]);
-                            await e.Send( result?.ToString() ?? "null");
+                            await e.Channel.SendMessage( result?.ToString() ?? "null");
                             return;
                         }
                     });*/
@@ -446,6 +446,6 @@ namespace NadekoBot.Modules {
         }
 
         private Func<CommandEventArgs, Task> SayYes()
-            => async e => await e.Send("Yes. :)");
+            => async e => await e.Channel.SendMessage("Yes. :)");
     }
 }

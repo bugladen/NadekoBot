@@ -83,7 +83,7 @@ namespace NadekoBot.Modules {
                             bound = e.Channel;
                             board = new Board(e.GetArg("board_id").Trim());
                             board.Refresh();
-                            await e.Send("Successfully bound to this channel and board " + board.Name);
+                            await e.Channel.SendMessage("Successfully bound to this channel and board " + board.Name);
                             t.Start();
                         } catch (Exception ex) {
                             Console.WriteLine("Failed to join the board. " + ex.ToString());
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules {
                         t.Stop();
                         bound = null;
                         board = null;
-                        await e.Send("Successfully unbound trello from this channel.");
+                        await e.Channel.SendMessage("Successfully unbound trello from this channel.");
 
                     });
 
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (e.User.Id != NadekoBot.OwnerID) return;
                         if (bound == null || board == null || bound != e.Channel) return;
-                        await e.Send("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")));
+                        await e.Channel.SendMessage("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")));
                     });
 
                 cgb.CreateCommand("cards")
@@ -128,9 +128,9 @@ namespace NadekoBot.Modules {
 
 
                         if (list != null)
-                            await e.Send("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")));
+                            await e.Channel.SendMessage("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")));
                         else
-                            await e.Send("No such list.");
+                            await e.Channel.SendMessage("No such list.");
                     });
             });
         }

@@ -21,7 +21,7 @@ namespace NadekoBot
             if (string.IsNullOrWhiteSpace(e.Message.Text))
                 return;
             if (CopiedUsers.Contains(e.User.Id)) {
-                await e.Send( e.Message.Text.Replace("@everyone","@everryone"));
+                await e.Channel.SendMessage( e.Message.Text.Replace("@everyone","@everryone"));
             }
         }
 
@@ -30,7 +30,7 @@ namespace NadekoBot
             if (CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Add(e.User.Id);
-            await e.Send(" I'll start copying you now.");
+            await e.Channel.SendMessage(" I'll start copying you now.");
             return;
         };
 
@@ -52,7 +52,7 @@ namespace NadekoBot
             if (!CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Remove(e.User.Id);
-            await e.Send(" I wont copy anymore.");
+            await e.Channel.SendMessage(" I wont copy anymore.");
             return;
         };
     }

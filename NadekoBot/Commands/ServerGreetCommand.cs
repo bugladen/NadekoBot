@@ -180,9 +180,9 @@ namespace NadekoBot.Commands {
                     var controls = AnnouncementsDictionary[e.Server.Id];
 
                     if (controls.ToggleGreet(e.Channel.Id))
-                        await e.Send("Greet announcements enabled on this channel.");
+                        await e.Channel.SendMessage("Greet announcements enabled on this channel.");
                     else
-                        await e.Send("Greet announcements disabled.");
+                        await e.Channel.SendMessage("Greet announcements disabled.");
                 });
 
             cgb.CreateCommand(".greetmsg")
@@ -195,9 +195,9 @@ namespace NadekoBot.Commands {
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
                     AnnouncementsDictionary[e.Server.Id].GreetText = e.GetArg("msg");
-                    await e.Send("New greet message set.");
+                    await e.Channel.SendMessage("New greet message set.");
                     if (!AnnouncementsDictionary[e.Server.Id].Greet)
-                        await e.Send("Enable greet messsages by typing `.greet`");
+                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`");
                 });
 
             cgb.CreateCommand(".bye")
@@ -210,9 +210,9 @@ namespace NadekoBot.Commands {
                     var controls = AnnouncementsDictionary[e.Server.Id];
 
                     if (controls.ToggleBye(e.Channel.Id))
-                        await e.Send("Bye announcements enabled on this channel.");
+                        await e.Channel.SendMessage("Bye announcements enabled on this channel.");
                     else
-                        await e.Send("Bye announcements disabled.");
+                        await e.Channel.SendMessage("Bye announcements disabled.");
                 });
 
             cgb.CreateCommand(".byemsg")
@@ -225,9 +225,9 @@ namespace NadekoBot.Commands {
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
                     AnnouncementsDictionary[e.Server.Id].ByeText = e.GetArg("msg");
-                    await e.Send("New bye message set.");
+                    await e.Channel.SendMessage("New bye message set.");
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Send("Enable bye messsages by typing `.bye`.");
+                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`.");
                 });
 
             cgb.CreateCommand(".byepm")
@@ -239,11 +239,11 @@ namespace NadekoBot.Commands {
 
                     AnnouncementsDictionary[e.Server.Id].ToggleByePM();
                     if (AnnouncementsDictionary[e.Server.Id].ByePM)
-                        await e.Send("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
+                        await e.Channel.SendMessage("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
                     else
-                        await e.Send("Bye messages will be sent in a bound channel from now on.");
+                        await e.Channel.SendMessage("Bye messages will be sent in a bound channel from now on.");
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Send("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
+                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
                 });
 
             cgb.CreateCommand(".greetpm")
@@ -255,11 +255,11 @@ namespace NadekoBot.Commands {
 
                     AnnouncementsDictionary[e.Server.Id].ToggleGreetPM();
                     if (AnnouncementsDictionary[e.Server.Id].GreetPM)
-                        await e.Send("Greet messages will be sent in a PM from now on.");
+                        await e.Channel.SendMessage("Greet messages will be sent in a PM from now on.");
                     else
-                        await e.Send("Greet messages will be sent in a bound channel from now on.");
+                        await e.Channel.SendMessage("Greet messages will be sent in a bound channel from now on.");
                     if (!AnnouncementsDictionary[e.Server.Id].Greet)
-                        await e.Send("Enable greet messsages by typing `.greet`, and set the greet message using `.greetmsg`");
+                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`, and set the greet message using `.greetmsg`");
                 });
         }
     }

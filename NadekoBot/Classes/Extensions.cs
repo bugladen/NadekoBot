@@ -111,7 +111,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Reply(this CommandEventArgs e, string message)
         {
-            await e.Send(e.User.Mention + " " + message);
+            await e.Channel.SendMessage(e.User.Mention + " " + message);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Reply(this MessageEventArgs e, string message)
         {
-            await e.Send(e.User.Mention + " " + message);
+            await e.Channel.SendMessage(e.User.Mention + " " + message);
         }
 
         /// <summary>

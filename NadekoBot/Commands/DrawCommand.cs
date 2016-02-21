@@ -16,7 +16,7 @@ namespace NadekoBot {
 
         public override Func<CommandEventArgs, Task> DoFunc() => async (e) => {
             if (!AllDecks.ContainsKey(e.Server)) {
-                await e.Send("Shuffling cards...");
+                await e.Channel.SendMessage("Shuffling cards...");
                 AllDecks.TryAdd(e.Server, new Cards());
             }
 
@@ -36,7 +36,7 @@ namespace NadekoBot {
                 List<Cards.Card> cardObjects = new List<Cards.Card>();
                 for (int i = 0; i < num; i++) {
                     if (cards.CardPool.Count == 0 && i != 0) {
-                        await e.Send("No more cards in a deck.");
+                        await e.Channel.SendMessage("No more cards in a deck.");
                         break;
                     }
                     var currentCard = cards.DrawACard();
@@ -46,7 +46,7 @@ namespace NadekoBot {
                 Bitmap bitmap = images.Merge();
                 await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream());
                 if (cardObjects.Count == 5) {
-                    await e.Send(Cards.GetHandValue(cardObjects));
+                    await e.Channel.SendMessage(Cards.GetHandValue(cardObjects));
                 }
             } catch (Exception ex) {
                 Console.WriteLine("Error drawing (a) card(s) " + ex.ToString());
@@ -66,7 +66,7 @@ namespace NadekoBot {
                     if (!AllDecks.ContainsKey(e.Server))
                         AllDecks.TryAdd(e.Server, new Cards());
                     AllDecks[e.Server].Restart();
-                    await e.Send("Deck reshuffled.");
+                    await e.Channel.SendMessage("Deck reshuffled.");
                 });
         }
 

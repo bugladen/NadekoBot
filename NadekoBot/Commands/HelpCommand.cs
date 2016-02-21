@@ -73,7 +73,7 @@ namespace NadekoBot
                 .Alias("-guide")
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
-                    await e.Send(
+                    await e.Channel.SendMessage(
 @"**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>
 
 **GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
@@ -84,7 +84,7 @@ namespace NadekoBot
                 .Alias("~donate")
                 .Description("Instructions for helping the project!")
                 .Do(async e => {
-                    await e.Send(
+                    await e.Channel.SendMessage(
 @"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
 You can join nadekobot server by simply private messaging NadekoBot, and you will get an invite.

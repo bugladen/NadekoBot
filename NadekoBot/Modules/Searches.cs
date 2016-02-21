@@ -34,10 +34,10 @@ namespace NadekoBot.Modules {
 
                         var str = await SearchHelper.ShortenUrl(await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")));
                         if (string.IsNullOrEmpty(str.Trim())) {
-                            await e.Send("Query failed");
+                            await e.Channel.SendMessage("Query failed");
                             return;
                         }
-                        await e.Send(str);
+                        await e.Channel.SendMessage(str);
                     });
 
                 cgb.CreateCommand("~ani")
@@ -49,11 +49,11 @@ namespace NadekoBot.Modules {
 
                         var result = await SearchHelper.GetAnimeQueryResultLink(e.GetArg("query"));
                         if (result == null) {
-                            await e.Send("Failed to find that anime.");
+                            await e.Channel.SendMessage("Failed to find that anime.");
                             return;
                         }
 
-                        await e.Send(result.ToString());
+                        await e.Channel.SendMessage(result.ToString());
                     });
 
                 cgb.CreateCommand("~mang")
@@ -65,17 +65,17 @@ namespace NadekoBot.Modules {
 
                         var result = await SearchHelper.GetMangaQueryResultLink(e.GetArg("query"));
                         if (result == null) {
-                            await e.Send("Failed to find that anime.");
+                            await e.Channel.SendMessage("Failed to find that anime.");
                             return;
                         }
-                        await e.Send(result.ToString());
+                        await e.Channel.SendMessage(result.ToString());
                     });
 
                 cgb.CreateCommand("~randomcat")
                     .Description("Shows a random cat image.")
                     .Do(async e => {
                         try {
-                            await e.Send(JObject.Parse(new StreamReader(
+                            await e.Channel.SendMessage(JObject.Parse(new StreamReader(
                                 WebRequest.Create("http://www.random.cat/meow")
                                     .GetResponse()
                                     .GetResponseStream())
@@ -93,10 +93,10 @@ namespace NadekoBot.Modules {
                            try {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
-                               await e.Send(obj["items"][0]["link"].ToString());
+                               await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
                            }
                            catch (Exception ex) {
-                               await e.Send($"💢 {ex.Message}");
+                               await e.Channel.SendMessage($"💢 {ex.Message}");
                            }
                        });
 
@@ -109,10 +109,10 @@ namespace NadekoBot.Modules {
                            try {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ _r.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
-                               await e.Send(obj["items"][0]["link"].ToString());
+                               await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
                            }
                            catch (Exception ex) {
-                               await e.Send($"💢 {ex.Message}");
+                               await e.Channel.SendMessage($"💢 {ex.Message}");
                            }
                        });
                 cgb.CreateCommand("lmgtfy")
@@ -121,7 +121,7 @@ namespace NadekoBot.Modules {
                     .Parameter("ffs", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
-                        await e.Send(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
+                        await e.Channel.SendMessage(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
                     });
 
                 cgb.CreateCommand("~hs")
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       var arg = e.GetArg("name");
                       if (string.IsNullOrWhiteSpace(arg)) {
-                          await e.Send("💢 Please enter a card name to search for.");
+                          await e.Channel.SendMessage("💢 Please enter a card name to search for.");
                           return;
                       }
                       await e.Channel.SendIsTyping();
@@ -153,14 +153,14 @@ namespace NadekoBot.Modules {
                               images.Add(System.Drawing.Bitmap.FromStream(await SearchHelper.GetResponseStream(item["img"].ToString())));
                           }
                           if (items.Count > 4) {
-                              await e.Send("⚠ Found over 4 images. Showing random 4.");
+                              await e.Channel.SendMessage("⚠ Found over 4 images. Showing random 4.");
                           }
                           Console.WriteLine("Start");
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
                           Console.WriteLine("Finish");
                       }
                       catch (Exception ex) {
-                          await e.Send($"💢 Error {ex.Message}");
+                          await e.Channel.SendMessage($"💢 Error {ex.Message}");
                       }
                   });
 
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules {
                               cl.DownloadDataCompleted += async (s, cle) => {
                                   try {
                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
-                                      await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
+                                      await e.Channel.SendMessage($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
                                   }
                                   catch { }
                               };
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       var arg = e.GetArg("query");
                       if (string.IsNullOrWhiteSpace(arg)) {
-                          await e.Send("💢 Please enter a search term.");
+                          await e.Channel.SendMessage("💢 Please enter a search term.");
                           return;
                       }
                       await e.Channel.SendIsTyping();
@@ -209,7 +209,7 @@ namespace NadekoBot.Modules {
                           sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                           sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
                           sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl()}>");
-                          await e.Send(sb.ToString());
+                          await e.Channel.SendMessage(sb.ToString());
                       }
                       catch {
                           await e.Channel.SendMessage("💢 Failed finding a definition for that term.");
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules {
                   .Do(async e => {
                       var arg = e.GetArg("query");
                       if (string.IsNullOrWhiteSpace(arg)) {
-                          await e.Send("💢 Please enter a search term.");
+                          await e.Channel.SendMessage("💢 Please enter a search term.");
                           return;
                       }
                       await e.Channel.SendIsTyping();
@@ -235,7 +235,7 @@ namespace NadekoBot.Modules {
                           sb.AppendLine($"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}");
                           sb.AppendLine($"`Definition:` {items["defs"]["def"]["text"].ToString()}");
                           sb.Append($"`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl()}>");
-                          await e.Send(sb.ToString());
+                          await e.Channel.SendMessage(sb.ToString());
                       }
                       catch {
                           await e.Channel.SendMessage("💢 Failed finidng a definition for that tag");
@@ -251,7 +251,7 @@ namespace NadekoBot.Modules {
                         var osuName = e.GetArg("osu_name");
                         var usr = e.Server.FindUsers(userName).FirstOrDefault();
                         if (usr == null) {
-                            await e.Send("Cannot find that discord user.");
+                            await e.Channel.SendMessage("Cannot find that discord user.");
                             return;
                         }
                     });

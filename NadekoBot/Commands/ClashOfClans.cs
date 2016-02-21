@@ -198,7 +198,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage($"💢🔰 {ex.Message}");
                     }
                 });
-
+            /*
             cgb.CreateCommand(prefix + "forceunclaim")
                 .Alias(prefix + "forceuncall")
                 .Alias(prefix + "fuc")
@@ -214,7 +214,7 @@ namespace NadekoBot.Commands {
                     string usr =
                         string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
                         e.User.Name :
-                        e.GetArg("other_name");
+                        e.GetArg("other_name").Trim();
                     try {
                         var war = warsInfo.Item1[warsInfo.Item2];
                         int baseNumber = war.Uncall(usr);
@@ -224,6 +224,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage($"💢🔰 {ex.Message}");
                     }
                 });
+            */
 
             cgb.CreateCommand(prefix + "endwar")
                 .Alias(prefix + "ew")
@@ -323,7 +324,7 @@ namespace NadekoBot.Commands {
                     throw new ArgumentException($"@{u} You already claimed a base #{i + 1}. You can't claim a new one.");
             }
 
-            bases[baseNumber] = new Caller { CallUser = u, TimeAdded = DateTime.Now, BaseDestroyed = false };
+            bases[baseNumber] = new Caller { CallUser = u.Trim(), TimeAdded = DateTime.Now, BaseDestroyed = false };
         }
 
         internal async void Start() {
@@ -344,6 +345,7 @@ namespace NadekoBot.Commands {
             }
         }
         internal int Uncall(string user) {
+            user = user.Trim();
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i]?.CallUser == user) {
                     bases[i] = null;
@@ -397,6 +399,7 @@ namespace NadekoBot.Commands {
         }
 
         internal int FinishClaim(string user) {
+            user = user.Trim();
             for (int i = 0; i < bases.Length; i++) {
                 if (bases[i]?.BaseDestroyed == false && bases[i]?.CallUser == user) {
                     bases[i].BaseDestroyed = true;
