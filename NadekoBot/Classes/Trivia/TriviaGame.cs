@@ -43,7 +43,7 @@ namespace NadekoBot.Classes.Trivia {
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
                 if (CurrentQuestion == null) {
                     await _channel.SendMessage($":exclamation: Failed loading a trivia question");
-                    End();
+                    End().Wait();
                     return;
                 }
                 oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
@@ -64,7 +64,6 @@ namespace NadekoBot.Classes.Trivia {
                     //timeout
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, triviaCancelSource.Token);
 
-
                 } catch (TaskCanceledException) {
                     Console.WriteLine("Trivia cancelled");
                     
@@ -81,6 +80,7 @@ namespace NadekoBot.Classes.Trivia {
         }
 
         private async Task End() {
+            ShouldStopGame = true;
             await _channel.SendMessage("**Trivia game ended**");
             await _channel.SendMessage(GetLeaderboard());
             TriviaGame throwAwayValue;

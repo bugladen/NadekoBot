@@ -13,7 +13,7 @@ namespace NadekoBot.Modules {
     class Searches : DiscordModule {
         private Random _r;
         public Searches() : base() {
-            //commands.Add(new LoLCommands());
+            commands.Add(new LoLCommands());
             _r = new Random();
         }
 
