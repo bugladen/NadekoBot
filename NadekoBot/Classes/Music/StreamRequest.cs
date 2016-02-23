@@ -74,6 +74,8 @@ namespace NadekoBot.Classes.Music {
                     if (OnResolving != null)
                         OnResolving();
                     var links = await SearchHelper.FindYoutubeUrlByKeywords(Query);
+                    if (links == String.Empty)
+                        throw new OperationCanceledException("Not a valid youtube query.");
                     var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(links)).Unwrap();
                     var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                     var video = videos

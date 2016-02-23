@@ -69,7 +69,7 @@ namespace NadekoBot.Classes.Music {
                 if (VoiceClient == null) {
                     Console.WriteLine($"Joining voice channel [{DateTime.Now.Second}]");
                     //todo add a new event, to tell people nadeko is trying to join
-                    VoiceClient = await VoiceChannel.JoinAudio();
+                    VoiceClient = await Task.Run(async () => await VoiceChannel.JoinAudio());
                     Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
                 }
                 await Task.Factory.StartNew(async () => await CurrentSong?.Start(), TaskCreationOptions.LongRunning).Unwrap();

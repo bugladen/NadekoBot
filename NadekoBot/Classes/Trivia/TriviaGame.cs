@@ -77,12 +77,12 @@ namespace NadekoBot.Classes.Trivia {
                 // load next question if game is still running
                 await Task.Delay(2000);
             }
-            End();
+            End().Wait();
         }
 
-        private void End() {
-            _channel.SendMessage("**Trivia game ended**");
-            _channel.SendMessage(GetLeaderboard());
+        private async Task End() {
+            await _channel.SendMessage("**Trivia game ended**");
+            await _channel.SendMessage(GetLeaderboard());
             TriviaGame throwAwayValue;
             Commands.Trivia.runningTrivias.TryRemove(_server, out throwAwayValue);
         }

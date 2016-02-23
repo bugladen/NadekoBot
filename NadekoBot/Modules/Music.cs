@@ -79,7 +79,7 @@ namespace NadekoBot.Modules {
                         }
                         var player = musicPlayers[e.Server];
                         string toSend = "🎵 **" + player.SongQueue.Count + "** `videos currently queued.` ";
-                        if (player.SongQueue.Count >= 25)
+                        if (player.SongQueue.Count >= 50)
                             toSend += "**Song queue is full!**\n";
                         await e.Channel.SendMessage(toSend);
                         int number = 1;
@@ -190,12 +190,12 @@ namespace NadekoBot.Modules {
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
+                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you already are in a voice channel, try rejoining it.");
                             return;
                         }
                         var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Channel.SendMessage($"🎵 `Attempting to queue **{ids.Count}** songs".SnPl(ids.Count)+"...`");
+                        var msg = await e.Channel.SendMessage($"🎵 `Attempting to queue {ids.Count} songs".SnPl(ids.Count)+"...`");
                         foreach (var id in ids) {
                             Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
                             await Task.Delay(150);
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules {
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
+                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you already are in a voice channel, try rejoining it.");
                             return;
                         }
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
@@ -235,7 +235,7 @@ namespace NadekoBot.Modules {
                         }
                         if (arg?.ToLower() == "all") {
                             mc.SongQueue?.Clear();
-                            await e.Channel.SendMessage($"🎵Queue cleared!");
+                            await e.Channel.SendMessage($"🎵`Queue cleared!`");
                             return;
                         }
                         int num;
@@ -246,7 +246,7 @@ namespace NadekoBot.Modules {
                             return;
 
                         mc.SongQueue.RemoveAt(num - 1);
-                        await e.Channel.SendMessage($"🎵Song at position `{num}` has been removed.");
+                        await e.Channel.SendMessage($"🎵**Track at position `#{num}` has been removed.**");
                     });
 
                 cgb.CreateCommand("debug")
@@ -263,7 +263,7 @@ namespace NadekoBot.Modules {
 
         private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
             if (e.User.VoiceChannel?.Server != e.Server) {
-                await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.");
+                await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you are already in a voice channel, try rejoining.");
                 return;
             }
             
@@ -291,7 +291,7 @@ namespace NadekoBot.Modules {
 
             var player = musicPlayers[e.Server];
 
-            if (player.SongQueue.Count >= 25) return;
+            if (player.SongQueue.Count >= 50) return;
 
             try {
                 var sr = new StreamRequest(e, query, player, radio);

@@ -337,7 +337,7 @@ namespace NadekoBot.Commands {
                         bases[i].TimeAdded = DateTime.Now;
                 }
                 Task.Run(async () => await ClearArray());
-                await Task.Delay(new TimeSpan(23, 0, 0), endTokenSource.Token);
+                await Task.Delay(new TimeSpan(24, 0, 0), endTokenSource.Token);
             }
             catch (Exception) { }
             finally {

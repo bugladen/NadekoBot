@@ -21,13 +21,13 @@ namespace NadekoBot.Classes {
             }
         }
 
-        public static async Task<string> GetResponseAsync(string v) =>
-            await new StreamReader((await ((HttpWebRequest)WebRequest.Create(v)).GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
-
-        public static async Task<string> GetResponseAsync(string v, WebHeaderCollection headers) {
+        public static async Task<string> GetResponseAsync(string v, WebHeaderCollection headers = null) {
             var wr = (HttpWebRequest)WebRequest.Create(v);
-            wr.Headers = headers;
-            return await new StreamReader((await wr.GetResponseAsync()).GetResponseStream()).ReadToEndAsync();
+            if (headers != null)
+                wr.Headers = headers;
+            using (var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream())) {
+                return await sr.ReadToEndAsync();
+            }
         }
 
         private static string token = "";
@@ -112,10 +112,11 @@ namespace NadekoBot.Classes {
 
                 WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
 
-                var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
+                using (var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream())) {
 
-                dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
-                return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+                    dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
+                    return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+                }
             }
             catch (Exception ex) {
                 Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
@@ -150,7 +151,7 @@ namespace NadekoBot.Classes {
             }
             try {
 
-                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={25}&playlistId={v}&key={ NadekoBot.creds.GoogleAPIKey }");
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={30}&playlistId={v}&key={ NadekoBot.creds.GoogleAPIKey }");
 
                 var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
 
