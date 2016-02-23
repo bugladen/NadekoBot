@@ -256,12 +256,14 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("rip")
                     .Description("Shows a grave image of someone with a start year\n**Usage**: @NadekoBot rip @Someone 2000")
-                    .Parameter("user", ParameterType.Optional)
+                    .Parameter("user", ParameterType.Required)
                     .Parameter("year", ParameterType.Optional)
                     .Do(async e => {
+                        if (string.IsNullOrWhiteSpace(e.GetArg("user")))
+                            return;
                         var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         string text = "";
-                        text = usr?.Name;
+                        text = usr?.Name ?? e.GetArg("user");
                         await e.Channel.SendFile("ripzor_m8.png", RipName(text, e.GetArg("year") == "" ? null : e.GetArg("year")));
                     });
                 if (!NadekoBot.creds.DontJoinServers) {

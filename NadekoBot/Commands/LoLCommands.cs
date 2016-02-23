@@ -88,11 +88,11 @@ namespace NadekoBot.Commands {
                           if (matchupDataIE == null)
                               return;
                           var matchupData = matchupDataIE.OrderBy(m => m.StatScore).ToArray();
-                          //matchupData.OrderBy(mm => mm.WinRate);
 
                           var countered = new[] { matchupData[0].Name, matchupData[1].Name, matchupData[2].Name };
                           var counters = new[] { matchupData[matchupData.Length - 1].Name, matchupData[matchupData.Length - 2].Name, matchupData[matchupData.Length - 3].Name };
 
+                          //get runes data
                           var runeDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/runes/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
                           JToken runeData = null;
                           for (int i = 0; i < runeDatas.Count; i++) {
@@ -106,29 +106,62 @@ namespace NadekoBot.Commands {
                           var runesJArray = runeData["runes"] as JArray;
                           var runes = string.Join("\n", runesJArray.OrderBy(jt => int.Parse(jt["number"].ToString())).Select(jt => jt["number"].ToString() + "x" + jt["name"]));
 
+                          //get skill order data<API_KEY>
+                          var skillDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/skills/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
+                          JToken skillData = null;
+                          for (int i = 0; i < skillDatas.Count; i++) {
+                              if (skillDatas[i]["role"].ToString() == role) {
+                                  skillData = skillDatas[i];
+                              }
+                          }
+                          if (skillData == null)
+                              return;
+
+                          var orderArr = (skillData["order"] as JArray);
+                          
+
                           //todo save this for at least 1 hour
                           Image img = Image.FromFile("data/lol/bg.png");
                           using (Graphics g = Graphics.FromImage(img)) {
+                              g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                              //g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
                               int statsFontSize = 15;
                               int margin = 5;
                               int imageSize = 75;
-                              var normalFont = new Font("Times New Roman", 9, FontStyle.Regular);
-                              var smallFont = new Font("Times New Roman", 8, FontStyle.Regular);
+                              var normalFont = new Font("Monaco", 8, FontStyle.Regular);
+                              var smallFont = new Font("Monaco", 7, FontStyle.Regular);
                               //draw champ image
                               g.DrawImage(Image.FromFile($"data/lol/champions/{name}.png"), new Rectangle(margin, margin, imageSize, imageSize));
                               //draw champ name
                               g.DrawString($"{data["title"]}", new Font("Times New Roman", 25, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
                               //draw champ surname
                               //todo
-                              //draw roles
+                              //draw skill order
+                              float orderFormula = 120 / orderArr.Count;
+                              float orderVerticalSpacing = 10;
+                              for (int i = 0; i < orderArr.Count; i++) {
+                                  float orderX = margin + margin + imageSize + orderFormula * i + i;
+                                  float orderY = margin + 35;
+                                  string spellName = orderArr[i].ToString().ToLowerInvariant();
 
+                                  if (spellName == "w")
+                                      orderY += orderVerticalSpacing;
+                                  else if (spellName == "e")
+                                      orderY += orderVerticalSpacing * 2;
+                                  else if (spellName == "r")
+                                      orderY += orderVerticalSpacing * 3;
+
+                                  g.DrawString(spellName.ToUpperInvariant(), new Font("Monaco", 7), Brushes.LimeGreen, orderX, orderY);
+                              }
+                              //draw roles
                               g.DrawString("Roles: " + string.Join(", ", roles), normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin);
+
                               //draw average stats
                               g.DrawString(
 $@"    Average Stats
 
-Kills: {general["kills"]}     CS: {general["minionsKilled"]}
-Deaths: {general["deaths"]}  Win: {general["winPercent"]}%
+Kills: {general["kills"]}       CS: {general["minionsKilled"]}
+Deaths: {general["deaths"]}   Win: {general["winPercent"]}%
 Assists: {general["assists"]}  Ban: {general["banRate"]}%
 ", normalFont, Brushes.WhiteSmoke, img.Width - 150, margin);
                               //draw masteries
@@ -162,18 +195,13 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                   var inverse_i = 5 - i;
                                   var j = inverse_i % 3 + 1;
                                   var k = inverse_i / 3;
-                                  Console.WriteLine(k);
                                   g.DrawImage(Image.FromFile("data/lol/items/" + items[i] + ".png"),
                                               new Rectangle(img.Width - (j * (smallImgSize + margin) + margin), 92 + k * (smallImgSize + margin),
                                               smallImgSize,
                                               smallImgSize));
                               }
-
-                              /*
-                              
-                                  */
                           }
-                          await e.Channel.SendFile(data["title"] + "_stats.png", img.ToStream());
+                          await e.Channel.SendFile(data["title"] + "_stats.png", img.ToStream(System.Drawing.Imaging.ImageFormat.Png));
                       }
                       catch (Exception ex) {
                           await e.Channel.SendMessage("💢 Failed retreiving data for that champion.");
