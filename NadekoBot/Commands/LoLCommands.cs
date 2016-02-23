@@ -33,8 +33,7 @@ namespace NadekoBot.Commands {
                           string role = ResolvePos(e.GetArg("position"));
                           var name = e.GetArg("champ").Replace(" ","");
 
-                          //get basic champion stats
-                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.creds.LOLAPIKey}"));
+                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"));
                           JToken data = null;
                           if (role != null) {
                               for (int i = 0; i < allData.Count; i++) {
@@ -60,66 +59,40 @@ namespace NadekoBot.Commands {
                               if (roles[i] == role)
                                   roles[i] = ">" + roles[i] + "<";
                           }
-                          var general = data["general"];
-
-                          //get build data for this role
-                          var buildDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/items/finished/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
-                          JToken buildData = null;
-                          for (int i = 0; i < buildDatas.Count; i++) {
-                              if (buildDatas[i]["role"].ToString() == role) {
-                                  buildData = buildDatas[i];
-                              }
+                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
+                                              .Where(jt => jt["role"].ToString() == role)
+                                              .FirstOrDefault()?["general"];
+                          if (general == null) {
+                              Console.WriteLine("General is null.");
+                              return;
                           }
-                          if (buildData == null)
-                              return; // wtf would cause this tho?
+                          //get build data for this role
+                          var buildData = data["items"]["mostGames"]["items"];
                           var items = new string[6];
                           for (int i = 0; i < 6; i++) {
-                              items[i] = buildData["items"][i].ToString();
+                              items[i] = buildData[i]["id"].ToString();
                           }
 
                           //get matchup data to show counters and countered champions
-                          var matchupDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/matchup?api_key={NadekoBot.creds.LOLAPIKey}"));
-                          List<MatchupModel> matchupDataIE = null;
-                          for (int i = 0; i < matchupDatas.Count; i++) {
-                              if (matchupDatas[i]["role"].ToString() == role) {
-                                  matchupDataIE = matchupDatas[i]["matchups"].ToObject<List<MatchupModel>>();
-                              }
-                          }
-                          if (matchupDataIE == null)
-                              return;
+                          var matchupDataIE = data["matchups"].ToObject<List<MatchupModel>>();
+
                           var matchupData = matchupDataIE.OrderBy(m => m.StatScore).ToArray();
 
                           var countered = new[] { matchupData[0].Name, matchupData[1].Name, matchupData[2].Name };
                           var counters = new[] { matchupData[matchupData.Length - 1].Name, matchupData[matchupData.Length - 2].Name, matchupData[matchupData.Length - 3].Name };
 
                           //get runes data
-                          var runeDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/runes/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
-                          JToken runeData = null;
-                          for (int i = 0; i < runeDatas.Count; i++) {
-                              if (runeDatas[i]["role"].ToString() == role) {
-                                  runeData = runeDatas[i];
-                              }
-                          }
-                          if (runeData == null)
-                              return;
-
-                          var runesJArray = runeData["runes"] as JArray;
+                          var runesJArray = data["runes"]["mostGames"]["runes"] as JArray;
                           var runes = string.Join("\n", runesJArray.OrderBy(jt => int.Parse(jt["number"].ToString())).Select(jt => jt["number"].ToString() + "x" + jt["name"]));
 
+                          // get masteries data
+
+                          var masteries = (data["masteries"]["mostGames"]["masteries"] as JArray);
+
                           //get skill order data<API_KEY>
-                          var skillDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/skills/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
-                          JToken skillData = null;
-                          for (int i = 0; i < skillDatas.Count; i++) {
-                              if (skillDatas[i]["role"].ToString() == role) {
-                                  skillData = skillDatas[i];
-                              }
-                          }
-                          if (skillData == null)
-                              return;
 
-                          var orderArr = (skillData["order"] as JArray);
+                          var orderArr = (data["skills"]["mostGames"]["order"] as JArray);
                           
-
                           //todo save this for at least 1 hour
                           Image img = Image.FromFile("data/lol/bg.png");
                           using (Graphics g = Graphics.FromImage(img)) {
@@ -133,7 +106,7 @@ namespace NadekoBot.Commands {
                               //draw champ image
                               g.DrawImage(Image.FromFile($"data/lol/champions/{name}.png"), new Rectangle(margin, margin, imageSize, imageSize));
                               //draw champ name
-                              g.DrawString($"{data["title"]}", new Font("Times New Roman", 25, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
+                              g.DrawString($"{data["key"]}", new Font("Times New Roman", 25, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
                               //draw champ surname
                               //todo
                               //draw skill order
@@ -165,7 +138,7 @@ Deaths: {general["deaths"]}   Win: {general["winPercent"]}%
 Assists: {general["assists"]}  Ban: {general["banRate"]}%
 ", normalFont, Brushes.WhiteSmoke, img.Width - 150, margin);
                               //draw masteries
-                              g.DrawString($"MASTERIES: 18 / 0 / 12", normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 20);
+                              g.DrawString($"Masteries: {string.Join(" / ", masteries?.Select(jt => jt["total"]))}", normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 20);
                               //draw runes
                               g.DrawString($"{runes}", smallFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 40);
                               //draw counters
