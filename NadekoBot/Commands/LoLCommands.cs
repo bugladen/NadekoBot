@@ -76,6 +76,8 @@ namespace NadekoBot.Commands {
                           for (int i = 0; i < 6; i++) {
                               items[i] = buildData["items"][i].ToString();
                           }
+
+                          //get matchup data to show counters and countered champions
                           var matchupDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/matchup?api_key={NadekoBot.creds.LOLAPIKey}"));
                           List<MatchupModel> matchupDataIE = null;
                           for (int i = 0; i < matchupDatas.Count; i++) {
@@ -90,6 +92,19 @@ namespace NadekoBot.Commands {
 
                           var countered = new[] { matchupData[0].Name, matchupData[1].Name, matchupData[2].Name };
                           var counters = new[] { matchupData[matchupData.Length - 1].Name, matchupData[matchupData.Length - 2].Name, matchupData[matchupData.Length - 3].Name };
+
+                          var runeDatas = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}/runes/mostPopular?api_key={NadekoBot.creds.LOLAPIKey}"));
+                          JToken runeData = null;
+                          for (int i = 0; i < runeDatas.Count; i++) {
+                              if (runeDatas[i]["role"].ToString() == role) {
+                                  runeData = runeDatas[i];
+                              }
+                          }
+                          if (runeData == null)
+                              return;
+
+                          var runesJArray = runeData["runes"] as JArray;
+                          var runes = string.Join("\n", runesJArray.OrderBy(jt => int.Parse(jt["number"].ToString())).Select(jt => jt["number"].ToString() + "x" + jt["name"]));
 
                           //todo save this for at least 1 hour
                           Image img = Image.FromFile("data/lol/bg.png");
@@ -119,11 +134,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                               //draw masteries
                               g.DrawString($"MASTERIES: 18 / 0 / 12", normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 20);
                               //draw runes
-                              g.DrawString(@"RUNES
-9 x Greater Mark of Attack Damage
-9 x Greater Glyph of Scaling Magic Resist
-9 x Greater Seal of Armor
-3 x Greater Quintessence of Attack Speed", normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 40);
+                              g.DrawString($"{runes}", smallFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin + 40);
                               //draw counters
                               g.DrawString($"Best against", smallFont, Brushes.WhiteSmoke, margin, img.Height - imageSize + margin);
                               int smallImgSize = 50;
