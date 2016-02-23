@@ -31,7 +31,7 @@ namespace NadekoBot.Commands {
                       try {
                           //get role
                           string role = ResolvePos(e.GetArg("position"));
-                          var name = e.GetArg("champ").Replace(" ","");
+                          var name = e.GetArg("champ").Replace(" ", "");
 
                           var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"));
                           JToken data = null;
@@ -92,7 +92,7 @@ namespace NadekoBot.Commands {
                           //get skill order data<API_KEY>
 
                           var orderArr = (data["skills"]["mostGames"]["order"] as JArray);
-                          
+
                           //todo save this for at least 1 hour
                           Image img = Image.FromFile("data/lol/bg.png");
                           using (Graphics g = Graphics.FromImage(img)) {
@@ -104,7 +104,7 @@ namespace NadekoBot.Commands {
                               var normalFont = new Font("Monaco", 8, FontStyle.Regular);
                               var smallFont = new Font("Monaco", 7, FontStyle.Regular);
                               //draw champ image
-                              g.DrawImage(Image.FromFile($"data/lol/champions/{name}.png"), new Rectangle(margin, margin, imageSize, imageSize));
+                              g.DrawImage(GetImage(name), new Rectangle(margin, margin, imageSize, imageSize));
                               //draw champ name
                               g.DrawString($"{data["key"]}", new Font("Times New Roman", 25, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
                               //draw champ surname
@@ -146,7 +146,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                               int smallImgSize = 50;
 
                               for (int i = 0; i < counters.Length; i++) {
-                                  g.DrawImage(Image.FromFile("data/lol/champions/" + counters[i] + ".png"),
+                                  g.DrawImage(GetImage(counters[i]),
                                               new Rectangle(i * (smallImgSize + margin) + margin, img.Height - smallImgSize - margin,
                                               smallImgSize,
                                               smallImgSize));
@@ -156,7 +156,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
 
                               for (int i = 0; i < countered.Length; i++) {
                                   int j = countered.Length - i;
-                                  g.DrawImage(Image.FromFile("data/lol/champions/" + countered[i] + ".png"),
+                                  g.DrawImage(GetImage(countered[i]),
                                               new Rectangle(img.Width - (j * (smallImgSize + margin) + margin), img.Height - smallImgSize - margin,
                                               smallImgSize,
                                               smallImgSize));
@@ -168,7 +168,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                   var inverse_i = 5 - i;
                                   var j = inverse_i % 3 + 1;
                                   var k = inverse_i / 3;
-                                  g.DrawImage(Image.FromFile("data/lol/items/" + items[i] + ".png"),
+                                  g.DrawImage(GetImage(items[i], GetImageType.Item),
                                               new Rectangle(img.Width - (j * (smallImgSize + margin) + margin), 92 + k * (smallImgSize + margin),
                                               smallImgSize,
                                               smallImgSize));
@@ -181,6 +181,24 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                           return;
                       }
                   });
+        }
+        enum GetImageType {
+            Champion,
+            Item
+        }
+        private Image GetImage(string id, GetImageType imageType = GetImageType.Champion) {
+            try {
+                switch (imageType) {
+                    case GetImageType.Champion:
+                        return Image.FromFile($"data/lol/champions/{id}.png");
+                    case GetImageType.Item:
+                    default:
+                        return Image.FromFile($"data/lol/items/{id}.png");
+                }
+            }
+            catch (Exception) {
+                return Image.FromFile("data/lol/_ERROR.png");
+            }
         }
 
         private string ResolvePos(string pos) {
