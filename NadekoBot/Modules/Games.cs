@@ -78,7 +78,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
-                    .Description("Gets the users element type. Use this to do more damage with strike")
+                    .Description("Gets the users element type. Use this to do more damage with strike!")
                     .Do(async e =>
                     {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();

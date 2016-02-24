@@ -46,7 +46,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("s")
                     .Alias("stop")
-                    .Description("Completely stops the music and unbinds the bot from the channel and cleanes up files.")
+                    .Description("Completely stops the music, unbinds the bot from the channel, and cleans up files.")
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         musicPlayers[e.Server].Stop();
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("p")
                     .Alias("pause")
-                    .Description("Pauses or Unpauses the song")
+                    .Description("Pauses or Unpauses the song.")
                     .Do(async e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         if (musicPlayers[e.Server].TogglePause())
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using keywords or link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
+                    .Description("Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => await QueueSong(e,e.GetArg("query")));
 
@@ -190,7 +190,7 @@ namespace NadekoBot.Modules {
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you already are in a voice channel, try rejoining it.");
+                            await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.");
                             return;
                         }
                         var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules {
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e => {
                         if (e.User.VoiceChannel?.Server != e.Server) {
-                            await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you already are in a voice channel, try rejoining it.");
+                            await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.");
                             return;
                         }
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
@@ -225,7 +225,7 @@ namespace NadekoBot.Modules {
                   });
 
                 cgb.CreateCommand("rm")
-                    .Description("Removes a song by a # from the queue or 'all' to remove whole queue.")
+                    .Description("Remove a song by its # in the queue, or 'all' to remove whole queue.")
                     .Parameter("num",ParameterType.Required)
                     .Do(async e => {
                         var arg = e.GetArg("num");
@@ -263,7 +263,7 @@ namespace NadekoBot.Modules {
 
         private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
             if (e.User.VoiceChannel?.Server != e.Server) {
-                await e.Channel.SendMessage("💢 You need to be in the voice channel on this server.\n If you are already in a voice channel, try rejoining.");
+                await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
                 return;
             }
             
