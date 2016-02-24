@@ -21,6 +21,7 @@ namespace NadekoBot.Modules {
         public Administration() : base() {
             commands.Add(new ServerGreetCommand());
             commands.Add(new LogCommand());
+            commands.Add(new PlayingRotate());
         }
 
         public override void Install(ModuleManager manager) {

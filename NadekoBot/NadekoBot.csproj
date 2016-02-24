@@ -63,7 +63,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PRIVATE|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -135,6 +135,7 @@
     <Compile Include="Classes\Permissions\PermissionChecker.cs" />
     <Compile Include="Classes\Permissions\PermissionHelper.cs" />
     <Compile Include="Classes\Permissions\PermissionsHandler.cs" />
+    <Compile Include="Classes\Permissions\SimpleCheckers.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Commands\ClashOfClans.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
+    <Compile Include="Commands\PlayingRotate.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestion.cs" />

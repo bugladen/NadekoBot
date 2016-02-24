@@ -49,7 +49,7 @@ namespace NadekoBot.Modules {
                     });
                 cgb.CreateCommand("~e621")
                     .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri+kissing")
-                    .Parameter("tag", ParameterType.Unparsed
+                    .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         string tag = e.GetArg("tag");
                         if (tag == null)
