@@ -10,6 +10,14 @@ using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
 namespace NadekoBot.Commands {
     class LoLCommands : DiscordCommand {
+
+        string[] trashTalk = new[] { "Better ban your counters. You are going to carry the game anyway.",
+                                        "Go with the flow. Don't think. Just ban one of these.",
+                                        "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
+                                        "Ask your teammates what would they like to play, and ban that.",
+                                        "If you consider playing teemo, do it. If you consider teemo, you deserve him.",
+                                        "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
+
         public override Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();
         }
@@ -24,7 +32,7 @@ namespace NadekoBot.Commands {
 
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("~lolchamp")
-                  .Description("Checks champion statistic for a lol champion.")
+                  .Description("Shows League Of Legends champion statistics. Optional second parameter is a role.\n**Usage:**~lolchamp Riven or ~lolchamp Annie sup")
                   .Parameter("champ", ParameterType.Required)
                   .Parameter("position", ParameterType.Unparsed)
                   .Do(async e => {
@@ -59,7 +67,7 @@ namespace NadekoBot.Commands {
                               if (roles[i] == role)
                                   roles[i] = ">" + roles[i] + "<";
                           }
-                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
+                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
                                               .Where(jt => jt["role"].ToString() == role)
                                               .FirstOrDefault()?["general"];
                           if (general == null) {
@@ -179,6 +187,35 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                       catch (Exception ex) {
                           await e.Channel.SendMessage("💢 Failed retreiving data for that champion.");
                           return;
+                      }
+                  });
+
+            cgb.CreateCommand("~lolban")
+                  .Description("Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.")
+                  .Do(async e => {
+                      
+                      int showCount = 6;
+                      //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
+                      try {
+                          var data = JObject.Parse(
+                              await Classes
+                                  .SearchHelper
+                                  .GetResponseAsync($"http://api.champion.gg/stats/champs/mostBanned?api_key={NadekoBot.creds.LOLAPIKey}&page=1&limit={showCount}"))["data"] as JArray;
+
+                          StringBuilder sb = new StringBuilder();
+                          sb.AppendLine($"**Showing {showCount} top banned champions.**");
+                          sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
+                          for (int i = 0; i < data.Count; i++) {
+                              if (i % 2 == 0 && i != 0)
+                                  sb.AppendLine();
+                              sb.Append($"`{i + 1}.` **{data[i]["name"]}**  ");
+                              //sb.AppendLine($" ({data[i]["general"]["banRate"]}%)");
+                          }
+                          
+                          await e.Channel.SendMessage(sb.ToString());
+                      }
+                      catch (Exception ex) {
+                          await e.Channel.SendMessage($"Fail:\n{ex}");
                       }
                   });
         }

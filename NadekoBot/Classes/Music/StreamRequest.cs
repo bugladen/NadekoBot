@@ -172,58 +172,72 @@ namespace NadekoBot.Classes.Music {
 
         private async Task BufferSong() {
             //start feeding the buffer
-            var psi = new ProcessStartInfo {
-                FileName = "ffmpeg",
-                Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet", //+ (NadekoBot.IsLinux ? "2> /dev/null" : "2>NUL"),
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-            };
-            using (var p = Process.Start(psi)) {
-                int attempt = 0;
-                while (true) {
-                    while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
-                        prebufferingComplete = true;
-                        await Task.Delay(200);
-                    }
 
-                    if (State == StreamState.Completed) {
-                        Console.WriteLine("Buffering canceled, stream is completed.");
-                        return;
-                    }
-                    if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) {
-                        var skip = 5.MB();
-                        lock (_bufferLock) {
-                            byte[] data = new byte[buffer.Length - skip];
-                            Buffer.BlockCopy(buffer.GetBuffer(), skip, data, 0, (int)(buffer.Length - skip));
-                            var newReadPos = buffer.readPos - skip;
-                            var newPos = buffer.Position - skip;
-                            buffer = new DualStream();
-                            buffer.Write(data, 0, data.Length);
-                            buffer.readPos = newReadPos;
-                            buffer.Position = newPos;
+            Process p = null;
+            try {
+                var psi = new ProcessStartInfo {
+                    FileName = "ffmpeg",
+                    Arguments = $"-i {Url} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet", //+ (NadekoBot.IsLinux ? "2> /dev/null" : "2>NUL"),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                };
+                using (p = Process.Start(psi)) {
+                    int attempt = 0;
+                    while (true) {
+                        while (buffer.writePos - buffer.readPos > 5.MB() && State != StreamState.Completed) {
+                            prebufferingComplete = true;
+                            await Task.Delay(200);
                         }
-                    }
-                    int blockSize = 1920 * NadekoBot.client.GetService<AudioService>()?.Config?.Channels ?? 3840;
-                    var buf = new byte[blockSize];
-                    int read = 0;
-                    read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, blockSize);
-                    //Console.WriteLine($"Read: {read}");
-                    if (read == 0) {
-                        if (attempt == 5) {
-                            Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length / 1.MB()}MB length");
+
+                        if (State == StreamState.Completed) {
+                            Console.WriteLine("Buffering canceled, stream is completed.");
+                            p.Close();
                             return;
                         }
+                        if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) {
+                            var skip = 5.MB();
+                            lock (_bufferLock) {
+                                byte[] data = new byte[buffer.Length - skip];
+                                Buffer.BlockCopy(buffer.GetBuffer(), skip, data, 0, (int)(buffer.Length - skip));
+                                var newReadPos = buffer.readPos - skip;
+                                var newPos = buffer.Position - skip;
+                                buffer = new DualStream();
+                                buffer.Write(data, 0, data.Length);
+                                buffer.readPos = newReadPos;
+                                buffer.Position = newPos;
+                            }
+                        }
+                        int blockSize = 1920 * NadekoBot.client.GetService<AudioService>()?.Config?.Channels ?? 3840;
+                        var buf = new byte[blockSize];
+                        int read = 0;
+                        read = await p.StandardOutput.BaseStream.ReadAsync(buf, 0, blockSize);
+                        //Console.WriteLine($"Read: {read}");
+                        if (read == 0) {
+                            if (attempt == 5) {
+                                Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length / 1.MB()}MB length");
+                                p.Close();
+                                return;
+                            }
+                            else {
+                                ++attempt;
+                                await Task.Delay(20);
+                            }
+                        }
                         else {
-                            ++attempt;
-                            await Task.Delay(20);
+                            attempt = 0;
+                            lock (_bufferLock) {
+                                buffer.Write(buf, 0, read);
+                            }
                         }
                     }
-                    else {
-                        attempt = 0;
-                        lock (_bufferLock) {
-                            buffer.Write(buf, 0, read);
-                        }
-                    }
+                }
+            }
+            catch { }
+            finally {
+                if (p != null) {
+                    p.Close();
+                    p.Dispose();
+                    p = null;
                 }
             }
         }
