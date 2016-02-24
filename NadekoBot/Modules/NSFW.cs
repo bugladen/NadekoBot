@@ -20,7 +20,7 @@ namespace NadekoBot.Modules {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand("~hentai")
-                    .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~hentai yuri")
+                    .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~hentai yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         string tag = e.GetArg("tag");
@@ -48,8 +48,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(await SearchHelper.GetGelbooruImageLink(tag));
                     });
                 cgb.CreateCommand("~e621")
-                    .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri kissing")
-                    .Parameter("tag", ParameterType.Unparsed)
+                    .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri+kissing")
+                    .Parameter("tag", ParameterType.Unparsed
                     .Do(async e => {
                         string tag = e.GetArg("tag");
                         if (tag == null)
