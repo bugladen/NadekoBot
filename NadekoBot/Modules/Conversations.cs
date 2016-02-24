@@ -52,10 +52,10 @@ namespace NadekoBot.Modules {
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("uptime")
-                    .Description("Shows how long is Nadeko running for.")
+                    .Description("Shows how long Nadeko has been running for.")
                     .Do(async e => {
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        string str = "I am online for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+                        string str = "I have been running for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
                         await e.Channel.SendMessage(str);
                     });
 
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules {
                     .Parameter("mention", ParameterType.Required)
                     .Description("Only works for owner. Insults @X person.\n**Usage**: @NadekoBot insult @X.")
                     .Do(async e => {
-                        List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
+                        List<string> insults = new List<string> { " You are a poop.", " You're a jerk.", " I will eat you when I get my powers back." };
                         Random r = new Random();
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (u == null) {
@@ -226,7 +226,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("are you there")
-                    .Description("Checks if nadeko is operational.")
+                    .Description("Checks if Nadeko is operational.")
                     .Alias(new string[] { "!", "?" })
                     .Do(SayYes());
 
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage("Calling " + e.Args[0].Replace("@everyone", "[everyone]") + "...");
                     });
                 cgb.CreateCommand("hide")
-                    .Description("Hides nadeko in plain sight!11!!")
+                    .Description("Hides Nadeko in plain sight!11!!")
                     .Do(async e => {
                         using (Stream ms = Resources.hidden.ToStream(ImageFormat.Png)) {
                             await client.CurrentUser.Edit(NadekoBot.password, avatar: ms);
@@ -337,7 +337,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("unhide")
-                    .Description("Unhides nadeko in plain sight!1!!1")
+                    .Description("Unhides Nadeko in plain sight!1!!1")
                     .Do(async e => {
                         using (FileStream fs = new FileStream("data/avatar.png", FileMode.Open)) {
                             await client.CurrentUser.Edit(NadekoBot.password, avatar: fs);
