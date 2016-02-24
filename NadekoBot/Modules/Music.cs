@@ -46,7 +46,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("s")
                     .Alias("stop")
-                    .Description("Completely stops the music and unbinds the bot from the channel and cleanes up files.")
+                    .Description("Completely stops the music, unbinds the bot from the channel, and cleanes up files.")
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
                         musicPlayers[e.Server].Stop();
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using keywords or link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
+                    .Description("Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e => await QueueSong(e,e.GetArg("query")));
 
