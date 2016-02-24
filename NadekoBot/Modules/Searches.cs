@@ -85,7 +85,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("~i")
-                   .Description("Pulls a first image using a search parameter. Use ~ir for different results.\n**Usage**: ~i cute kitten")
+                   .Description("Pulls the first image found using a search parameter. Use ~ir for different results.\n**Usage**: ~i cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
                        .Do(async e => {
                            if (string.IsNullOrWhiteSpace(e.GetArg("query")))
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules {
                   });
 
                 cgb.CreateCommand("~osu")
-                  .Description("Shows osu stats for a player\n**Usage**:~osu Name")
+                  .Description("Shows osu stats for a player.\n**Usage**:~osu Name")
                   .Parameter("usr", ParameterType.Unparsed)
                   .Do(async e => {
                       if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules {
                   });
 
                 cgb.CreateCommand("~ud")
-                  .Description("Searches Urban Dictionary for a word\n**Usage**:~ud Pineapple")
+                  .Description("Searches Urban Dictionary for a word.\n**Usage**:~ud Pineapple")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("query");
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules {
                   });
                 // thanks to Blaubeerwald
                 cgb.CreateCommand("~#")
-                 .Description("Searches Tagdef.com for a hashtag\n**Usage**:~# ff")
+                 .Description("Searches Tagdef.com for a hashtag.\n**Usage**:~# ff")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e => {
                       var arg = e.GetArg("query");
@@ -238,7 +238,7 @@ namespace NadekoBot.Modules {
                           await e.Channel.SendMessage(sb.ToString());
                       }
                       catch {
-                          await e.Channel.SendMessage("💢 Failed finidng a definition for that tag");
+                          await e.Channel.SendMessage("💢 Failed finidng a definition for that tag.");
                       }
                   });
                 //todo when moved from parse
