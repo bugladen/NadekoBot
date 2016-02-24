@@ -147,7 +147,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("insult")
                     .Parameter("mention", ParameterType.Required)
-                    .Description("Only works for owner. Insults @X person.\n**Usage**: @NadekoBot insult @X.")
+                    .Description("Insults @X person.\n**Usage**: @NadekoBot insult @X.")
                     .Do(async e => {
                         List<string> insults = new List<string> { " you are a poop.", " you jerk.", " i will eat you when i get my powers back." };
                         Random r = new Random();
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("praise")
-                    .Description("Only works for owner. Praises @X person.\n**Usage**: @NadekoBot praise @X.")
+                    .Description("Praises @X person.\n**Usage**: @NadekoBot praise @X.")
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e => {
                         List<string> praises = new List<string> { " You are cool.",
