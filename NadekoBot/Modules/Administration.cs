@@ -367,7 +367,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(".uid").Alias(".userid")
-                    .Description("Shows user id.")
+                    .Description("Shows user ID.")
                     .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
                         var usr = e.User;
@@ -376,12 +376,12 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(".cid").Alias(".channelid")
-                    .Description("Shows current channel id.")
-                    .Do(async e => await e.Channel.SendMessage("This channel's id is " + e.Channel.Id));
+                    .Description("Shows current channel ID.")
+                    .Do(async e => await e.Channel.SendMessage("This channel's ID is " + e.Channel.Id));
 
                 cgb.CreateCommand(".sid").Alias(".serverid")
-                    .Description("Shows current server id")
-                    .Do(async e => await e.Channel.SendMessage("This server's id is " + e.Server.Id));
+                    .Description("Shows current server ID.")
+                    .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id));
 
                 cgb.CreateCommand(".stats")
                     .Description("Shows some basic stats for Nadeko.")
