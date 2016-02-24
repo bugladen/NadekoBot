@@ -149,7 +149,7 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(prefix + "cf")
                 .Alias(prefix + "claimfinish")
-                .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {prefix}cf [war_number]")
+                .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {prefix}cf [war_number] (optional_other_name)")
                 .Parameter("number", ParameterType.Required)
                 .Parameter("other_name", ParameterType.Unparsed)
                 .Do(async e => {
