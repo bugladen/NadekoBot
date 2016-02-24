@@ -274,7 +274,7 @@ namespace NadekoBot.Modules {
 
             if (IsRadioLink(query)) {
                 radio = true;
-                query = await HandleStreamContainers(query);
+                query = await HandleStreamContainers(query) ?? query;
             }
 
             if (musicPlayers.ContainsKey(e.Server) == false) {
@@ -343,7 +343,8 @@ namespace NadekoBot.Modules {
             &&
             (query.Contains(".pls") ||
             query.Contains(".m3u") ||
-            query.Contains(".asx"));
+            query.Contains(".asx") ||
+            query.Contains(".xspf"));
 
         private async Task<string> HandleStreamContainers(string query) {
             string file = null;
@@ -395,6 +396,24 @@ namespace NadekoBot.Modules {
                     return null;
                 }
             }
+            else if (query.Contains(".xspf")) {
+                /*
+                <?xml version="1.0" encoding="UTF-8"?>
+                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
+                        <trackList>
+                            <track><location>file:///mp3s/song_1.mp3</location></track>
+                */
+                try {
+                    var m = Regex.Match(file, "<location>(?<url>.*?)</location>");
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch {
+                    Console.WriteLine($"Failed reading .xspf:\n{file}");
+                    return null;
+                }
+            }
+
             return query;
         }
     }

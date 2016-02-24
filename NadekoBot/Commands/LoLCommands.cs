@@ -8,8 +8,30 @@ using NadekoBot;
 using System.Drawing;
 using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
+
 namespace NadekoBot.Commands {
     class LoLCommands : DiscordCommand {
+
+        private class CachedChampion {
+            public System.IO.Stream ImageStream { get; set; }
+            public DateTime AddedAt { get; set; }
+            public string Name { get; set; }
+        }
+
+        private static List<CachedChampion> CachedChampionImages = new List<CachedChampion>();
+        private readonly object cacheLock = new object();
+
+        public LoLCommands() : base() {
+            Task.Run(async () => {
+                while (true) {
+                    lock (cacheLock) {
+                        CachedChampionImages = CachedChampionImages.Where(cc => DateTime.Now - cc.AddedAt < new TimeSpan(1, 0, 0)).ToList();
+                    }
+                    await Task.Delay(new TimeSpan(0, 10, 0));
+                }
+            });
+        }
 
         string[] trashTalk = new[] { "Better ban your counters. You are going to carry the game anyway.",
                                         "Go with the flow. Don't think. Just ban one of these.",
@@ -32,7 +54,7 @@ namespace NadekoBot.Commands {
 
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("~lolchamp")
-                  .Description("Shows League Of Legends champion statistics. Optional second parameter is a role.\n**Usage:**~lolchamp Riven or ~lolchamp Annie sup")
+                  .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.\n**Usage:**~lolchamp Riven or ~lolchamp Annie sup")
                   .Parameter("champ", ParameterType.Required)
                   .Parameter("position", ParameterType.Unparsed)
                   .Do(async e => {
@@ -40,7 +62,16 @@ namespace NadekoBot.Commands {
                           //get role
                           string role = ResolvePos(e.GetArg("position"));
                           var name = e.GetArg("champ").Replace(" ", "");
-
+                          CachedChampion champ;
+                          lock (cacheLock) {
+                               champ = CachedChampionImages.Where(cc => cc.Name == name.ToLower()).FirstOrDefault();
+                          }
+                          if (champ != null) {
+                              Console.WriteLine("Sending lol image from cache.");
+                              champ.ImageStream.Position = 0;
+                              await e.Channel.SendFile("champ.png", champ.ImageStream);
+                              return;
+                          }
                           var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"));
                           JToken data = null;
                           if (role != null) {
@@ -67,7 +98,7 @@ namespace NadekoBot.Commands {
                               if (roles[i] == role)
                                   roles[i] = ">" + roles[i] + "<";
                           }
-                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
+                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
                                               .Where(jt => jt["role"].ToString() == role)
                                               .FirstOrDefault()?["general"];
                           if (general == null) {
@@ -182,7 +213,9 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                               smallImgSize));
                               }
                           }
-                          await e.Channel.SendFile(data["title"] + "_stats.png", img.ToStream(System.Drawing.Imaging.ImageFormat.Png));
+                          var cachedChamp = new CachedChampion { AddedAt = DateTime.Now, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() };
+                          CachedChampionImages.Add(cachedChamp);
+                          await e.Channel.SendFile(data["title"] + "_stats.png", cachedChamp.ImageStream);
                       }
                       catch (Exception ex) {
                           await e.Channel.SendMessage("💢 Failed retreiving data for that champion.");
