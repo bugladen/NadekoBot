@@ -65,7 +65,7 @@ namespace NadekoBot.Modules {
 
                         var result = await SearchHelper.GetMangaQueryResultLink(e.GetArg("query"));
                         if (result == null) {
-                            await e.Channel.SendMessage("Failed to find that anime.");
+                            await e.Channel.SendMessage("Failed to find that manga.");
                             return;
                         }
                         await e.Channel.SendMessage(result.ToString());
