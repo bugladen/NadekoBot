@@ -49,7 +49,7 @@ namespace NadekoBot.Modules {
                     .Description("Completely stops the music, unbinds the bot from the channel, and cleans up files.")
                     .Do(e => {
                         if (musicPlayers.ContainsKey(e.Server) == false) return;
-                        musicPlayers[e.Server].Stop();
+                        musicPlayers[e.Server].Stop(true);
                     });
 
                 cgb.CreateCommand("p")
