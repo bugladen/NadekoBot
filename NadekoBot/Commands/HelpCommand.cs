@@ -5,10 +5,8 @@ using NadekoBot.Extensions;
 using System.IO;
 using System.Linq;
 
-namespace NadekoBot
-{
-    class HelpCommand : DiscordCommand
-    {
+namespace NadekoBot {
+    class HelpCommand : DiscordCommand {
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             #region OldHelp
             /*
@@ -55,10 +53,11 @@ namespace NadekoBot
 
         public Action<CommandEventArgs> DoGitFunc() => e => {
             string helpstr =
-@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
+$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
-#NadekoBot List Of Commands";
+#NadekoBot List Of Commands  
+Version: `{NadekoStats.Instance.BotVersion}`";
 
 
             string lastCategory = "";
@@ -73,19 +72,23 @@ namespace NadekoBot
             }
             helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
             helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
-            File.WriteAllText("readme.md",helpstr);
+#if DEBUG
+            File.WriteAllText("../../../commandlist.md", helpstr);
+#else
+            File.WriteAllText("commandlist.md", helpstr);
+#endif
             return;
         };
 
-        public override void Init(CommandGroupBuilder cgb)
-        {
+        public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("-h")
                 .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h", "~h" })
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
-                .Parameter("command",ParameterType.Unparsed)
+                .Parameter("command", ParameterType.Unparsed)
                 .Do(DoFunc());
             cgb.CreateCommand("-hgit")
-                .Description("Help command stylized for github readme")
+                .Description("OWNER ONLY commandlist.md file generation.")
+                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand("-readme")
                 .Alias("-guide")
@@ -112,8 +115,7 @@ You can join nadekobot server by simply private messaging NadekoBot, and you wil
                 });
         }
 
-        private string PrintCommandHelp(Command com)
-        {
+        private string PrintCommandHelp(Command com) {
             var str = "`" + com.Text + "`";
             foreach (var a in com.Aliases)
                 str += ", `" + a + "`";
