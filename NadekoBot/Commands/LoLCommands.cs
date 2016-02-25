@@ -143,9 +143,13 @@ namespace NadekoBot.Commands {
                               var normalFont = new Font("Monaco", 8, FontStyle.Regular);
                               var smallFont = new Font("Monaco", 7, FontStyle.Regular);
                               //draw champ image
-                              g.DrawImage(GetImage(name), new Rectangle(margin, margin, imageSize, imageSize));
+                              var champName = data["key"].ToString().Replace(" ", "");
+                              
+                              g.DrawImage(GetImage(champName), new Rectangle(margin, margin, imageSize, imageSize));
                               //draw champ name
-                              g.DrawString($"{data["key"]}", new Font("Times New Roman", 25, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
+                              if (champName == "MonkeyKing")
+                                  champName = "Wukong";
+                              g.DrawString($"{champName}", new Font("Times New Roman", 24, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
                               //draw champ surname
                               //todo
                               //draw skill order
