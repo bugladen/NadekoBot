@@ -54,7 +54,7 @@ namespace NadekoBot.Commands {
 
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("~lolchamp")
-                  .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.\n**Usage:**~lolchamp Riven or ~lolchamp Annie sup")
+                  .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.\n**Usage**:~lolchamp Riven or ~lolchamp Annie sup")
                   .Parameter("champ", ParameterType.Required)
                   .Parameter("position", ParameterType.Unparsed)
                   .Do(async e => {
