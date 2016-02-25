@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.IO;
+using System.Linq;
 
 namespace NadekoBot
 {
     class HelpCommand : DiscordCommand
     {
-        public override Func<CommandEventArgs, Task> DoFunc() => async e =>
-        {
+        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+            #region OldHelp
             /*
             string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
 
@@ -33,7 +34,23 @@ namespace NadekoBot
                 await Task.Delay(200);
             }
             */
-            await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://gist.github.com/Kwoth/1ab3a38424f208802b74>");
+            #endregion OldHelp
+
+            if (string.IsNullOrWhiteSpace(e.GetArg("command"))) {
+                await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://gist.github.com/Kwoth/1ab3a38424f208802b74>");
+                return;
+            }
+            else {
+                await Task.Run(async () => {
+                    var comToFind = e.GetArg("command");
+
+                    var com = NadekoBot.client.GetService<CommandService>().AllCommands
+                                            .Where(c => c.Text.ToLower().Equals(comToFind))
+                                            .FirstOrDefault();
+                    if (com != null)
+                        await e.Channel.SendMessage($"`Help for '{com.Text}:'` **{com.Description}**");
+                });
+            }
         };
 
         public Action<CommandEventArgs> DoGitFunc() => e => {
@@ -64,7 +81,8 @@ namespace NadekoBot
         {
             cgb.CreateCommand("-h")
                 .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h", "~h" })
-                .Description("Help command")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
+                .Parameter("command",ParameterType.Unparsed)
                 .Do(DoFunc());
             cgb.CreateCommand("-hgit")
                 .Description("Help command stylized for github readme")

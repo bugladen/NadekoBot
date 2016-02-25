@@ -36,7 +36,7 @@ namespace NadekoBot.Classes.Music {
 
         public float Volume => MusicControls?.Volume ?? 1.0f;
 
-        public bool RadioLink { get; private set; }
+        public bool RadioLink { get; }
 
         public MusicControls MusicControls;
 

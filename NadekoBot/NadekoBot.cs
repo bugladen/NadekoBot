@@ -74,6 +74,11 @@ namespace NadekoBot {
                 AllowMentionPrefix = false,
                 CustomPrefixHandler = m => 0,
                 HelpMode = HelpMode.Disabled,
+                ErrorHandler = async (s, e) => {
+                    if (e.ErrorType != CommandErrorType.BadPermissions)
+                        return;
+                    await e.Channel.SendMessage(e.Exception.Message);
+                }
             });
 
             //reply to personal messages and forward if enabled.

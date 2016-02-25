@@ -27,7 +27,7 @@ namespace NadekoBot.Classes.Permissions {
         }
 
         public bool CanRun(Command command, User user, Channel channel, out string error) {
-            error = null;
+            error = String.Empty;
 
             if (timeBlackList.ContainsKey(user))
                 return false;
@@ -86,11 +86,11 @@ namespace NadekoBot.Classes.Permissions {
                         return true;
                 }
                 if (PermissionsHandler._permissionsDict[user.Server].Verbose) //if verbose - print errors
-                    Task.Run(() => channel.SendMessage(msg));
+                    error = msg;
                 return false;
             } catch (Exception ex) {
                 if (PermissionsHandler._permissionsDict[user.Server].Verbose) //if verbose - print errors
-                    Task.Run(() => channel.SendMessage(ex.Message));
+                    error = ex.Message;
                 return false;
             }
         }

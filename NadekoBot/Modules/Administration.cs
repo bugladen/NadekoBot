@@ -160,25 +160,6 @@ namespace NadekoBot.Modules {
                       await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "මeveryone"));
                   });
 
-                cgb.CreateCommand(".modules")
-                    .Description("List all bot modules.")
-                    .Do(async e => {
-                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.client.GetService<ModuleService>().Modules.Select(m => m.Name)));
-                    });
-
-                cgb.CreateCommand(".commands")
-                    .Description("List all of the bot's commands from a certain module.")
-                    .Parameter("module", ParameterType.Unparsed)
-                    .Do(async e => {
-                        var commands = NadekoBot.client.GetService<CommandService>().AllCommands
-                                                    .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
-                        if (commands == null || commands.Count() == 0) {
-                            await e.Channel.SendMessage("That module does not exist.");
-                            return;
-                        }
-                        await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c => c.Text)));
-                    });
-
                 cgb.CreateCommand(".b").Alias(".ban")
                     .Parameter("everything", ParameterType.Unparsed)
                     .Description("Bans a mentioned user.")

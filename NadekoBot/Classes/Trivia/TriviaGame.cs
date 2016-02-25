@@ -81,15 +81,14 @@ namespace NadekoBot.Classes.Trivia {
 
         private async Task End() {
             ShouldStopGame = true;
-            await _channel.SendMessage("**Trivia game ended**");
-            await _channel.SendMessage(GetLeaderboard());
+            await _channel.SendMessage("**Trivia game ended**\n"+GetLeaderboard());
             TriviaGame throwAwayValue;
             Commands.Trivia.runningTrivias.TryRemove(_server, out throwAwayValue);
         }
 
-        public void StopGame() {
+        public async void StopGame() {
             if (!ShouldStopGame)
-                _channel.SendMessage(":exclamation: Trivia will stop after this question.");
+                await _channel.SendMessage(":exclamation: Trivia will stop after this question.");
             ShouldStopGame = true;
         }
 
