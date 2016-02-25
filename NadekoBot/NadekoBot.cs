@@ -75,9 +75,14 @@ namespace NadekoBot {
                 CustomPrefixHandler = m => 0,
                 HelpMode = HelpMode.Disabled,
                 ErrorHandler = async (s, e) => {
-                    if (e.ErrorType != CommandErrorType.BadPermissions)
-                        return;
-                    await e.Channel.SendMessage(e.Exception.Message);
+                    try {
+                        if (e.ErrorType != CommandErrorType.BadPermissions)
+                            return;
+                        if (string.IsNullOrWhiteSpace(e.Exception.Message))
+                            return;
+                        await e.Channel.SendMessage(e.Exception.Message);
+                    }
+                    catch { }
                 }
             });
 
@@ -141,9 +146,18 @@ namespace NadekoBot {
                     if (request != null) {
                         if (string.IsNullOrWhiteSpace(request.Content))
                             e.Cancel = true;
+                        //else
+                        //    Console.WriteLine("Sending request.");
                         request.Content = request.Content.Replace("@everyone", "@everyοne");
                     }
                 };
+
+                //client.ClientAPI.SentRequest += (s, e) => {
+                //    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                //    if (request != null) {
+                //        Console.WriteLine("Sent.");
+                //    }
+                //};
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -151,45 +165,48 @@ namespace NadekoBot {
 
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
-            if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
-            if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
-            // just ban this trash AutoModerator
-            // and cancer christmass spirit
-            // and crappy shotaslave
-            if (e.User.Id == 105309315895693312 ||
-                e.User.Id == 119174277298782216 ||
-                e.User.Id == 143515953525817344)
-                return; // FU
+            try {
+                if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
+                if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
+                // just ban this trash AutoModerator
+                // and cancer christmass spirit
+                // and crappy shotaslave
+                if (e.User.Id == 105309315895693312 ||
+                    e.User.Id == 119174277298782216 ||
+                    e.User.Id == 143515953525817344)
+                    return; // FU
 
-            if (!NadekoBot.creds.DontJoinServers) {
-                try {
-                    await (await client.GetInvite(e.Message.Text)).Accept();
-                    await e.Channel.SendMessage("I got in!");
-                    return;
-                }
-                catch {
-                    if (e.User.Id == 109338686889476096) { //carbonitex invite
-                        await e.Channel.SendMessage("Failed to join the server.");
+                if (!NadekoBot.creds.DontJoinServers) {
+                    try {
+                        await (await client.GetInvite(e.Message.Text)).Accept();
+                        await e.Channel.SendMessage("I got in!");
                         return;
                     }
+                    catch {
+                        if (e.User.Id == 109338686889476096) { //carbonitex invite
+                            await e.Channel.SendMessage("Failed to join the server.");
+                            return;
+                        }
+                    }
+                }
+
+                if (ForwardMessages && OwnerPrivateChannel != null)
+                    await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
+
+                if (!repliedRecently) {
+                    repliedRecently = true;
+                    await e.Channel.SendMessage("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBjAxzEY>");
+                    Timer t = new Timer();
+                    t.Interval = 2000;
+                    t.Start();
+                    t.Elapsed += (s, ev) => {
+                        repliedRecently = false;
+                        t.Stop();
+                        t.Dispose();
+                    };
                 }
             }
-
-            if (ForwardMessages && OwnerPrivateChannel != null)
-                await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
-
-            if (!repliedRecently) {
-                repliedRecently = true;
-                await e.Channel.SendMessage("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBjAxzEY>");
-                Timer t = new Timer();
-                t.Interval = 2000;
-                t.Start();
-                t.Elapsed += (s, ev) => {
-                    repliedRecently = false;
-                    t.Stop();
-                    t.Dispose();
-                };
-            }
+            catch { }
         }
     }
 }

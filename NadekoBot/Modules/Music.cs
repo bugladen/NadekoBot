@@ -206,6 +206,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("lopl")
                   .Description("Queues up to 50 songs from a directory.")
                   .Parameter("directory", ParameterType.Unparsed)
+                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                   .Do(async e => {
                       var arg = e.GetArg("directory");
                       if(string.IsNullOrWhiteSpace(e.GetArg("directory")))
@@ -234,6 +235,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("lo")
                   .Description("Queues a local file by specifying a full path. BOT OWNER ONLY.")
                   .Parameter("path", ParameterType.Unparsed)
+                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                   .Do(async e => {
                       var arg = e.GetArg("path");
                       if (string.IsNullOrWhiteSpace(arg))
