@@ -35,7 +35,7 @@ namespace NadekoBot {
             #endregion OldHelp
 
             if (string.IsNullOrWhiteSpace(e.GetArg("command"))) {
-                await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://gist.github.com/Kwoth/1ab3a38424f208802b74>");
+                await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>");
                 return;
             }
             else {
@@ -99,7 +99,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
 **GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
 
-**LIST OF COMMANDS**: <https://gist.github.com/Kwoth/1ab3a38424f208802b74>"));
+**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>"));
 
             cgb.CreateCommand("-donate")
                 .Alias("~donate")

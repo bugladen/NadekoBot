@@ -66,7 +66,7 @@ namespace NadekoBot.Commands {
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".rotateplaying")
                 .Alias(".ropl")
-                .Alias("Toggles rotation of playing status of the dynamic strings you specified earlier.")
+                .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(DoFunc());
 
