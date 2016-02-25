@@ -180,7 +180,7 @@ namespace NadekoBot {
 
             if (!repliedRecently) {
                 repliedRecently = true;
-                await e.Channel.SendMessage("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBhxEi0X>");
+                await e.Channel.SendMessage("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBjAxzEY>");
                 Timer t = new Timer();
                 t.Interval = 2000;
                 t.Start();

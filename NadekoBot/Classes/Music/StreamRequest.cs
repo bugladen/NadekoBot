@@ -36,11 +36,11 @@ namespace NadekoBot.Classes.Music {
 
         public float Volume => MusicControls?.Volume ?? 1.0f;
 
-        public bool RadioLink { get; }
+        public MusicType LinkType { get; }
 
         public MusicControls MusicControls;
 
-        public StreamRequest(CommandEventArgs e, string query, MusicControls mc, bool radio = false) {
+        public StreamRequest(CommandEventArgs e, string query, MusicControls mc, MusicType musicType = MusicType.Normal) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
@@ -48,14 +48,19 @@ namespace NadekoBot.Classes.Music {
             this.MusicControls = mc;
             this.Server = e.Server;
             this.Query = query;
-            this.RadioLink = radio;
+            this.LinkType = musicType;
             mc.AddSong(this);
         }
 
         public async Task Resolve() {
             string uri = null;
             try {
-                if (RadioLink) {
+                if (this.LinkType == MusicType.Local) {
+                    uri = "\"" + Path.GetFullPath(Query) + "\"";
+                    Title = Path.GetFileNameWithoutExtension(Query);
+                    Provider = "Local File";
+                }
+                else if (this.LinkType == MusicType.Radio) {
                     uri = Query;
                     Title = $"{Query}";
                     Provider = "Radio Stream";
@@ -259,7 +264,7 @@ namespace NadekoBot.Classes.Music {
             // prebuffering wait stuff start
             int bufferAttempts = 0;
             int waitPerAttempt = 500;
-            int toAttemptTimes = parent.RadioLink ? 4 : 8;
+            int toAttemptTimes = parent.LinkType != MusicType.Normal ? 4 : 8;
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt);
             }

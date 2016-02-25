@@ -203,6 +203,23 @@ namespace NadekoBot.Modules {
                         msg?.Edit("🎵 `Playlist queue complete.`");
                     });
 
+                cgb.CreateCommand("lopl")
+                  .Description("Queues up to 50 songs from a directory.")
+                  .Parameter("directory", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("directory");
+                      if(string.IsNullOrWhiteSpace(e.GetArg("directory")))
+                        return;
+                      try {
+                          var fileEnum = System.IO.Directory.EnumerateFiles(e.GetArg("directory")).Take(50);
+                          foreach (var file in fileEnum) {
+                              await Task.Run(async() => await QueueSong(e, file, true, MusicType.Local)).ConfigureAwait(false);
+                          }
+                          await e.Channel.SendMessage("🎵 `Directory queue complete.`");
+                      }
+                      catch { }
+                  });
+
                 cgb.CreateCommand("radio").Alias("ra")
                     .Description("Queues a direct radio stream from a link.")
                     .Parameter("radio_link", ParameterType.Required)
@@ -211,8 +228,18 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.");
                             return;
                         }
-                        await QueueSong(e, e.GetArg("radio_link"), radio: true);
+                        await QueueSong(e, e.GetArg("radio_link"), musicType: MusicType.Radio);
                     });
+
+                cgb.CreateCommand("lo")
+                  .Description("Queues a local file by specifying a full path. BOT OWNER ONLY.")
+                  .Parameter("path", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("path");
+                      if (string.IsNullOrWhiteSpace(arg))
+                          return;
+                      await QueueSong(e, e.GetArg("path"), musicType: MusicType.Local);
+                  });
 
                 cgb.CreateCommand("mv")
                   .Description("Moves the bot to your voice channel. (works only if music is already playing)")
@@ -261,9 +288,10 @@ namespace NadekoBot.Modules {
             });
         }
 
-        private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, bool radio = false) {
+        private async Task QueueSong(CommandEventArgs e, string query, bool silent = false, MusicType musicType = MusicType.Normal) {
             if (e.User.VoiceChannel?.Server != e.Server) {
-                await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
+                if(!silent)
+                    await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
                 return;
             }
             
@@ -271,9 +299,8 @@ namespace NadekoBot.Modules {
                 return;
 
             query = query.Trim();
-
-            if (IsRadioLink(query)) {
-                radio = true;
+            if (musicType != MusicType.Local && IsRadioLink(query)) {
+                musicType = MusicType.Radio;
                 query = await HandleStreamContainers(query) ?? query;
             }
 
@@ -294,7 +321,7 @@ namespace NadekoBot.Modules {
             if (player.SongQueue.Count >= 50) return;
 
             try {
-                var sr = new StreamRequest(e, query, player, radio);
+                var sr = new StreamRequest(e, query, player, musicType);
 
                 if (sr == null)
                     throw new NullReferenceException("StreamRequest is null.");
