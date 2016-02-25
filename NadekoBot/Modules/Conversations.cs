@@ -42,6 +42,43 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         await e.Channel.SendMessage(e.User.Mention + "\\o\\");
                     });
+
+                cgb.CreateCommand("..")
+                    .Description("Adds a new quote with the specified name (single word) and message (no limit).\n**Usage**: .. abc My message")
+                    .Parameter("keyword", ParameterType.Required)
+                    .Parameter("text", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var keyword = e.GetArg("keyword");
+                        var text = e.GetArg("text");
+                        if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(keyword))
+                            return;
+
+                        Classes.DBHandler.Instance.InsertData(new Classes._DataModels.UserQuote() {
+                            DateAdded = DateTime.Now,
+                            Keyword = keyword.ToLowerInvariant(),
+                            Text = text,
+                            UserName = e.User.Name,
+                        });
+
+                        await e.Channel.SendMessage("`New quote added.`");
+                    });
+
+                cgb.CreateCommand("...")
+                    .Description("Shows a random quote with a specified name.\n**Usage**: .. abc")
+                    .Parameter("keyword", ParameterType.Required)
+                    .Do(async e => {
+                        var keyword = e.GetArg("keyword")?.ToLowerInvariant();
+                        if (string.IsNullOrWhiteSpace(keyword))
+                            return;
+
+                        var quote = Classes.DBHandler.Instance.GetRandom<Classes._DataModels.UserQuote>(uqm => uqm.Keyword == keyword);
+
+                        if (quote != null)
+                            await e.Channel.SendMessage($"📣 {quote.Text}");
+                        else
+                            await e.Channel.SendMessage("💢`No quote found.`");
+                    });
+
             });
 
             manager.CreateCommands(NadekoBot.botMention, cgb => {

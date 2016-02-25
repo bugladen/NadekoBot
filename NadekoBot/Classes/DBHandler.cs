@@ -2,6 +2,8 @@
 using System.Linq;
 using SQLite;
 using NadekoBot.Classes._DataModels;
+using System;
+using System.Linq.Expressions;
 
 namespace NadekoBot.Classes {
     class DBHandler {
@@ -21,6 +23,7 @@ namespace NadekoBot.Classes {
                 _conn.CreateTable<CurrencyState>();
                 _conn.CreateTable<CurrencyTransaction>();
                 _conn.CreateTable<Donator>();
+                _conn.CreateTable<UserQuote>();
                 _conn.Execute(Queries.TransactionTriggerQuery);
             }
         }
@@ -74,6 +77,13 @@ namespace NadekoBot.Classes {
                     _conn.Insert(o, typeof(T));
                 else
                     _conn.Update(o, typeof(T));
+            }
+        }
+
+        internal T GetRandom<T>(Expression<Func<T, bool>> p) where T : IDataModel, new() {
+            using (var _conn = new SQLiteConnection(_filePath)) {
+                var r = new Random();
+                return _conn.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
             }
         }
     }
