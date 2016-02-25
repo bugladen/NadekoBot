@@ -49,7 +49,7 @@ namespace NadekoBot.Classes.Music {
             this.Server = e.Server;
             this.Query = query;
             this.RadioLink = radio;
-            mc.SongQueue.Add(this);
+            mc.AddSong(this);
         }
 
         public async Task Resolve() {

@@ -16,7 +16,7 @@ namespace NadekoBot.Commands {
             {"%servers%", ()=> NadekoBot.client.Servers.Count().ToString() },
             {"%users%", () => NadekoBot.client.Servers.SelectMany(s=>s.Users).Count().ToString() },
             {"%playing%", () => {
-                    var cnt = Modules.Music.musicPlayers.Count;
+                    var cnt = Modules.Music.musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
                     if(cnt == 1) {
                         try {
                             var mp = Modules.Music.musicPlayers.FirstOrDefault();

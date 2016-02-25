@@ -28,19 +28,28 @@ namespace NadekoBot.Classes.Music {
 
         public MusicControls() {
             Task.Run(async () => {
-                while (!Stopped) {
-                    if (CurrentSong == null) {
-                        if (SongQueue.Count > 0)
-                            await LoadNextSong();
+                while (true) {
+                    if (!Stopped) {
+                        if (CurrentSong == null) {
+                            if (SongQueue.Count > 0)
+                                await LoadNextSong();
 
+                        }
+                        else if (CurrentSong.State == StreamState.Completed || NextSong) {
+                            NextSong = false;
+                            await LoadNextSong();
+                        }
                     }
-                    else if (CurrentSong.State == StreamState.Completed || NextSong) {
-                        NextSong = false;
-                        await LoadNextSong();
-                    }
+                    else if (VoiceClient == null)
+                        break;
                     await Task.Delay(500);
                 }
             });
+        }
+
+        internal void AddSong(StreamRequest streamRequest) {
+            Stopped = false;
+            this.SongQueue.Add(streamRequest);
         }
 
         public MusicControls(Channel voiceChannel, CommandEventArgs e, float? vol) : this() {
@@ -60,8 +69,7 @@ namespace NadekoBot.Classes.Music {
                 SongQueue.RemoveAt(0);
             }
             else {
-                VoiceClient?.Disconnect();
-                VoiceClient = null;
+                Stop();
                 return;
             }
 
@@ -81,16 +89,18 @@ namespace NadekoBot.Classes.Music {
             }
         }
 
-        internal void Stop() {
+        internal void Stop(bool leave = false) {
             Stopped = true;
             SongQueue.Clear();
             CurrentSong?.Stop();
             CurrentSong = null;
-            VoiceClient?.Disconnect();
-            VoiceClient = null;
+            if (leave) {
+                VoiceClient?.Disconnect();
+                VoiceClient = null;
 
-            MusicControls throwAwayValue;
-            MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
+                MusicControls throwAwayValue;
+                MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
+            }
         }
 
         public int SetVolume(int value) {
