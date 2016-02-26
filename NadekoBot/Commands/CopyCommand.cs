@@ -18,11 +18,14 @@ namespace NadekoBot
 
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(e.Message.Text))
-                return;
-            if (CopiedUsers.Contains(e.User.Id)) {
-                await e.Channel.SendMessage( e.Message.Text.Replace("@everyone","@everryone"));
+            try {
+                if (string.IsNullOrWhiteSpace(e.Message.Text))
+                    return;
+                if (CopiedUsers.Contains(e.User.Id)) {
+                    await e.Channel.SendMessage(e.Message.Text);
+                }
             }
+            catch { }
         }
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e =>

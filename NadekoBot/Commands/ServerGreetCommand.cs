@@ -41,46 +41,54 @@ namespace NadekoBot.Commands {
         }
 
         private async void UserLeft(object sender, UserEventArgs e) {
-            if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
-                !AnnouncementsDictionary[e.Server.Id].Bye) return;
+            try {
+                if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
+                    !AnnouncementsDictionary[e.Server.Id].Bye) return;
 
-            var controls = AnnouncementsDictionary[e.Server.Id];
-            var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
-            var msg = controls.ByeText.Replace("%user%", "**" + e.User.Name + "**").Trim();
-            if (string.IsNullOrEmpty(msg))
-                return;
+                var controls = AnnouncementsDictionary[e.Server.Id];
+                var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
+                var msg = controls.ByeText.Replace("%user%", "**" + e.User.Name + "**").Trim();
+                if (string.IsNullOrEmpty(msg))
+                    return;
 
-            if (controls.ByePM) {
-                Greeted++;
-                try {
-                    await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
+                if (controls.ByePM) {
+                    Greeted++;
+                    try {
+                        await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
+                    }
+                    catch { }
                 }
-                catch { }
-            } else {
-                if (channel == null) return;
-                Greeted++;
-                await channel.Send(msg);
+                else {
+                    if (channel == null) return;
+                    Greeted++;
+                    await channel.Send(msg);
+                }
             }
+            catch { }
         }
 
         private async void UserJoined(object sender, Discord.UserEventArgs e) {
-            if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
-                !AnnouncementsDictionary[e.Server.Id].Greet) return;
+            try {
+                if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
+                    !AnnouncementsDictionary[e.Server.Id].Greet) return;
 
-            var controls = AnnouncementsDictionary[e.Server.Id];
-            var channel = NadekoBot.client.GetChannel(controls.GreetChannel);
+                var controls = AnnouncementsDictionary[e.Server.Id];
+                var channel = NadekoBot.client.GetChannel(controls.GreetChannel);
 
-            var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
-            if (string.IsNullOrEmpty(msg))
-                return;
-            if (controls.GreetPM) {
-                Greeted++;
-                await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
-            } else {
-                if (channel == null) return;
-                Greeted++;
-                await channel.Send(msg);
+                var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
+                if (string.IsNullOrEmpty(msg))
+                    return;
+                if (controls.GreetPM) {
+                    Greeted++;
+                    await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
+                }
+                else {
+                    if (channel == null) return;
+                    Greeted++;
+                    await channel.Send(msg);
+                }
             }
+            catch { }
         }
 
         public class AnnounceControls {

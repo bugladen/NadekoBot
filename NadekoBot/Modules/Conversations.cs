@@ -341,7 +341,7 @@ namespace NadekoBot.Modules {
                             }
                         }
                         if (msg != null)
-                            await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText.Replace("@everyone", "@everryone")}");
+                            await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText}");
                         else
                             await e.Channel.SendMessage("I can't find a message mentioning you.");
                     });
@@ -362,7 +362,7 @@ namespace NadekoBot.Modules {
                     .Description("Useless. Writes calling @X to chat.\n**Usage**: @NadekoBot call @X ")
                     .Parameter("who", ParameterType.Required)
                     .Do(async e => {
-                        await e.Channel.SendMessage("Calling " + e.Args[0].Replace("@everyone", "[everyone]") + "...");
+                        await e.Channel.SendMessage("Calling " + e.Args[0] + "...");
                     });
                 cgb.CreateCommand("hide")
                     .Description("Hides Nadeko in plain sight!11!!")

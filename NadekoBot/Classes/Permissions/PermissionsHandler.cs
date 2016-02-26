@@ -35,7 +35,7 @@ namespace NadekoBot.Classes.Permissions {
                     var data = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerPermissions>(File.ReadAllText(file));
                     _permissionsDict.TryAdd(server, data);
                 } catch (Exception ex) {
-                    Console.WriteLine($"Failed getting server with id: {file}\nReason: {ex.Message}");
+                    //Console.WriteLine($"Failed getting server with id: {file}\nReason: {ex.Message}");
                 }
             }
             Console.WriteLine("Permission initialization complete.");

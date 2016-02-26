@@ -34,24 +34,26 @@ namespace NadekoBot.Commands {
         public PlayingRotate() {
             int i = -1;
             timer.Elapsed += (s, e) => {
-                i++;
-                Console.WriteLine("elapsed");
-                string status = "";
-                lock (playingPlaceholderLock) {
-                    if (playingPlaceholders.Count == 0)
-                        return;
-                    if (i >= playingPlaceholders.Count) {
-                        i = -1;
-                        return;
+                try {
+                    i++;
+                    string status = "";
+                    lock (playingPlaceholderLock) {
+                        if (playingPlaceholders.Count == 0)
+                            return;
+                        if (i >= playingPlaceholders.Count) {
+                            i = -1;
+                            return;
+                        }
+                        status = rotatingStatuses[i];
+                        foreach (var kvp in playingPlaceholders) {
+                            status = status.Replace(kvp.Key, kvp.Value());
+                        }
                     }
-                    status = rotatingStatuses[i];
-                    foreach (var kvp in playingPlaceholders) {
-                        status = status.Replace(kvp.Key, kvp.Value());
-                    }
+                    if (string.IsNullOrWhiteSpace(status))
+                        return;
+                    Task.Run(() => { try { NadekoBot.client.SetGame(status); } catch { } });
                 }
-                if (string.IsNullOrWhiteSpace(status))
-                    return;
-                NadekoBot.client.SetGame(status);
+                catch { }
             };
         }
 
@@ -74,6 +76,7 @@ namespace NadekoBot.Commands {
                 .Alias(".adpl")
                 .Description("Adds a specified string to the list of playing strings to rotate. Supported placeholders: " + string.Join(", ", playingPlaceholders.Keys))
                 .Parameter("text", ParameterType.Unparsed)
+                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(async e => {
                     var arg = e.GetArg("text");
                     if (string.IsNullOrWhiteSpace(arg))
@@ -110,7 +113,7 @@ namespace NadekoBot.Commands {
                       lock (playingPlaceholderLock) {
                           if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > rotatingStatuses.Count)
                               return;
-                          str = rotatingStatuses[num];
+                          str = rotatingStatuses[num - 1];
                           rotatingStatuses.RemoveAt(num - 1);
                       }
                       await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");

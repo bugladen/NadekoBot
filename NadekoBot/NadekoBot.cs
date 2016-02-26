@@ -66,7 +66,6 @@ namespace NadekoBot {
             //create new discord client
             client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 20,
-                ConnectionTimeout = 60000,
             });
 
             //create a command service
@@ -110,7 +109,7 @@ namespace NadekoBot {
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
             modules.Add(new Games(), "Games", ModuleFilter.None);
-            modules.Add(new Music(), "Music", ModuleFilter.None);
+            //modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
@@ -142,22 +141,30 @@ namespace NadekoBot {
                 Classes.Permissions.PermissionsHandler.Initialize();
 
                 client.ClientAPI.SendingRequest += (s, e) => {
-                    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
-                    if (request != null) {
-                        if (string.IsNullOrWhiteSpace(request.Content))
-                            e.Cancel = true;
-                        //else
-                        //    Console.WriteLine("Sending request.");
-                        request.Content = request.Content.Replace("@everyone", "@everyοne");
+                    try {
+                        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                        if (request != null) {
+                            if (string.IsNullOrWhiteSpace(request.Content))
+                                e.Cancel = true;
+                            else
+                                Console.WriteLine("Sending request.");
+                            request.Content = request.Content.Replace("@everyone", "@everyοne");
+                        }
+                    }
+                    catch {
+                        Console.WriteLine("SENDING REQUEST ERRORED!!!!");
                     }
                 };
 
-                //client.ClientAPI.SentRequest += (s, e) => {
-                //    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
-                //    if (request != null) {
-                //        Console.WriteLine("Sent.");
-                //    }
-                //};
+                client.ClientAPI.SentRequest += (s, e) => {
+                    try {
+                        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                        if (request != null) {
+                            Console.WriteLine("Sent.");
+                        }
+                    }
+                    catch { Console.WriteLine("SENT REQUEST ERRORED!!!"); }
+                };
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -200,9 +207,12 @@ namespace NadekoBot {
                     t.Interval = 2000;
                     t.Start();
                     t.Elapsed += (s, ev) => {
-                        repliedRecently = false;
-                        t.Stop();
-                        t.Dispose();
+                        try {
+                            repliedRecently = false;
+                            t.Stop();
+                            t.Dispose();
+                        }
+                        catch { }
                     };
                 }
             }

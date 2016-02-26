@@ -48,11 +48,14 @@ namespace NadekoBot.Modules
                     .Description("Ask the 8ball a yes/no question.")
                     .Parameter("question",Discord.Commands.ParameterType.Unparsed)
                     .Do(async e => {
-                        string question = e.GetArg("question").Replace("@everyone","[everyone]");
+                        string question = e.GetArg("question");
                         if (string.IsNullOrWhiteSpace(question))
-                            return;                                                
-                        await e.Channel.SendMessage(
-                            $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[_r.Next(0, _8BallAnswers.Length)]}`");
+                            return;
+                        try {
+                            await e.Channel.SendMessage(
+                                $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[new Random().Next(0, _8BallAnswers.Length)]}`");
+                        }
+                        catch { }
                     });
 
                 cgb.CreateCommand(">")

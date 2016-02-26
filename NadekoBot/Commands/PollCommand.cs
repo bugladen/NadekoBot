@@ -105,19 +105,22 @@ namespace NadekoBot.Modules {
         }
 
         private async void Vote(object sender, MessageEventArgs e) {
-            if (!e.Channel.IsPrivate)
-                return;
-            if (participants.ContainsKey(e.User))
-                return;
-
-            int vote;
-            if (int.TryParse(e.Message.Text, out vote)) {
-                if (vote < 1 || vote > answers.Length)
+            try {
+                if (!e.Channel.IsPrivate)
                     return;
-                if (participants.TryAdd(e.User, vote)) {
-                    await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
+                if (participants.ContainsKey(e.User))
+                    return;
+
+                int vote;
+                if (int.TryParse(e.Message.Text, out vote)) {
+                    if (vote < 1 || vote > answers.Length)
+                        return;
+                    if (participants.TryAdd(e.User, vote)) {
+                        await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
+                    }
                 }
             }
+            catch { }
         }
     }
 }

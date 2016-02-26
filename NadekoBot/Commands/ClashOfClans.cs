@@ -327,7 +327,7 @@ namespace NadekoBot.Commands {
             bases[baseNumber] = new Caller { CallUser = u.Trim(), TimeAdded = DateTime.Now, BaseDestroyed = false };
         }
 
-        internal async void Start() {
+        internal async Task Start() {
             if (Started)
                 throw new InvalidOperationException();
             try {

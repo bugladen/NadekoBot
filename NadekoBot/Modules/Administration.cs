@@ -153,11 +153,11 @@ namespace NadekoBot.Modules {
                       if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) {
                           var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
                           if (usr != null) {
-                              await e.Channel.SendMessage($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles).Replace("@everyone", "මeveryone"));
+                              await e.Channel.SendMessage($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles));
                               return;
                           }
                       }
-                      await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "මeveryone"));
+                      await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles));
                   });
 
                 cgb.CreateCommand(".b").Alias(".ban")

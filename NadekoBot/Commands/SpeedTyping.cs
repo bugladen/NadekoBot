@@ -82,20 +82,23 @@ namespace NadekoBot.Commands {
         }
 
         private async void AnswerReceived(object sender, MessageEventArgs e) {
-            if (e.Channel == null || e.Channel.Id != channel.Id) return;
+            try {
+                if (e.Channel == null || e.Channel.Id != channel.Id) return;
 
-            var guess = e.Message.RawText;
+                var guess = e.Message.RawText;
 
-            var distance = currentSentence.LevenshteinDistance(guess);
-            var decision = Judge(distance, guess.Length);
-            if (decision && !finishedUserIds.Contains(e.User.Id)) {
-                finishedUserIds.Add(e.User.Id);
-                await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
-                if (finishedUserIds.Count % 2 == 0) {
-                    await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
+                var distance = currentSentence.LevenshteinDistance(guess);
+                var decision = Judge(distance, guess.Length);
+                if (decision && !finishedUserIds.Contains(e.User.Id)) {
+                    finishedUserIds.Add(e.User.Id);
+                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                    if (finishedUserIds.Count % 2 == 0) {
+                        await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
+                    }
+
                 }
-
             }
+            catch { }
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;

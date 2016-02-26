@@ -66,8 +66,6 @@ namespace NadekoBot.Classes.Music {
                     Provider = "Radio Stream";
                 }
                 else if (SoundCloud.Default.IsSoundCloudLink(Query)) {
-                    if (OnResolving != null)
-                        OnResolving();
                     var svideo = await SoundCloud.Default.GetVideoAsync(Query);
                     Title = svideo.FullName;
                     Provider = "SoundCloud";
@@ -75,9 +73,6 @@ namespace NadekoBot.Classes.Music {
                     Console.WriteLine(uri);
                 }
                 else {
-
-                    if (OnResolving != null)
-                        OnResolving();
                     var links = await SearchHelper.FindYoutubeUrlByKeywords(Query);
                     if (links == String.Empty)
                         throw new OperationCanceledException("Not a valid youtube query.");
@@ -105,18 +100,18 @@ namespace NadekoBot.Classes.Music {
             }
 
             musicStreamer = new MusicStreamer(this, uri);
-            if (OnQueued != null)
-                OnQueued();
+            musicStreamer.OnCompleted += () => {
+                OnCompleted();
+            };
+            OnQueued();
         }
 
         internal string PrintStats() => musicStreamer?.Stats();
 
-        public Action OnQueued = null;
-        public Action OnBuffering = null;
-        public Action OnStarted = null;
-        public Action OnCompleted = null;
-        public Action OnResolving = null;
-        public Action<string> OnResolvingFailed = null;
+        public event Action OnQueued = delegate { };
+        public event Action OnStarted = delegate { };
+        public event Action OnCompleted = delegate { };
+        public event Action<string> OnResolvingFailed = delegate { };
 
         internal void Cancel() {
             musicStreamer?.Cancel();
@@ -124,6 +119,10 @@ namespace NadekoBot.Classes.Music {
 
         internal void Stop() {
             musicStreamer?.Stop();
+        }
+
+        protected void Complete() {
+            OnCompleted();
         }
 
         internal async Task Start() {
@@ -136,6 +135,7 @@ namespace NadekoBot.Classes.Music {
                         throw new TimeoutException("Resolving timed out.");
                     }
                 }
+                OnStarted();
                 await musicStreamer.StartPlayback();
             }
             catch (TimeoutException) {
@@ -156,6 +156,8 @@ namespace NadekoBot.Classes.Music {
         public string Url { get; }
         private bool IsCanceled { get; set; }
         public bool IsPaused => parent.IsPaused;
+
+        public event Action OnCompleted = delegate { };
 
         StreamRequest parent;
         private readonly object _bufferLock = new object();
@@ -196,8 +198,15 @@ namespace NadekoBot.Classes.Music {
 
                         if (State == StreamState.Completed) {
                             Console.WriteLine("Buffering canceled, stream is completed.");
-                            p.CancelOutputRead();
-                            p.Close();
+                            try {
+                                p.CancelOutputRead();
+                            }
+                            catch { }
+                            try {
+                                p.Close();
+                            }
+                            catch { }
+                            p.Dispose();
                             return;
                         }
                         if (buffer.readPos > 5.MiB() && buffer.writePos > 5.MiB()) {
@@ -221,8 +230,15 @@ namespace NadekoBot.Classes.Music {
                         if (read == 0) {
                             if (attempt == 5) {
                                 Console.WriteLine($"Didn't read anything from the stream for {attempt} attempts. {buffer.Length / 1.MB()}MB length");
-                                p.CancelOutputRead();
-                                p.Close();
+                                try {
+                                    p.CancelOutputRead();
+                                }
+                                catch { }
+                                try {
+                                    p.Close();
+                                }
+                                catch { }
+                                p.Dispose();
                                 return;
                             }
                             else {
@@ -242,8 +258,6 @@ namespace NadekoBot.Classes.Music {
             catch { }
             finally {
                 if (p != null) {
-                    p.CancelOutputRead();
-                    p.Close();
                     p.Dispose();
                     p = null;
                 }
@@ -254,8 +268,6 @@ namespace NadekoBot.Classes.Music {
             Console.WriteLine("Starting playback.");
             if (State == StreamState.Playing) return;
             State = StreamState.Playing;
-            if (parent.OnBuffering != null)
-                parent.OnBuffering();
 
             Task.Factory.StartNew(async () => {
                 await BufferSong();
@@ -282,9 +294,6 @@ namespace NadekoBot.Classes.Music {
 
             int blockSize = 1920 * NadekoBot.client.GetService<AudioService>()?.Config?.Channels ?? 3840;
             byte[] voiceBuffer = new byte[blockSize];
-
-            if (parent.OnStarted != null)
-                parent.OnStarted();
 
             int attempt = 0;
             while (!IsCanceled) {
@@ -319,7 +328,6 @@ namespace NadekoBot.Classes.Music {
                     await Task.Delay(100);
                 }
             }
-            parent.MusicControls.VoiceClient.Wait();
             Stop();
         }
 
@@ -332,8 +340,7 @@ namespace NadekoBot.Classes.Music {
             var oldState = State;
             State = StreamState.Completed;
             if (oldState == StreamState.Playing)
-                if (parent.OnCompleted != null)
-                    parent.OnCompleted();
+                OnCompleted();
         }
         //stackoverflow ftw
         private byte[] adjustVolume(byte[] audioSamples, float volume) {
