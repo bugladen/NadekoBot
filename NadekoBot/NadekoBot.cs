@@ -109,7 +109,7 @@ namespace NadekoBot {
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
             modules.Add(new Games(), "Games", ModuleFilter.None);
-            //modules.Add(new Music(), "Music", ModuleFilter.None);
+            modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             if (loadTrello)
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);

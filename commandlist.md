@@ -15,7 +15,7 @@ Command and aliases | Description | Usage
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.
-`.rotateplaying`, `.ropl`, `Toggles rotation of playing status of the dynamic strings you specified earlier.`  |  
+`.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
 `.removeplaying`, `.repl`  |  Removes a playing string on a given number.
@@ -99,6 +99,8 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
+`..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
+`...`  |  Shows a random quote with a specified name. |  .. abc
 `@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
 `@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
 `@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
@@ -170,7 +172,7 @@ Command and aliases | Description | Usage
 `!m s`, `!m stop`  |  Completely stops the music, unbinds the bot from the channel, and cleans up files.
 `!m p`, `!m pause`  |  Pauses or Unpauses the song.
 `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m lq`, `!m ls`, `!m lp`  |  Lists up to 10 currently queued songs.
+`!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs.
 `!m np`, `!m playing`  |  Shows the song currently playing.
 `!m vol`  |  Sets the music volume 0-150%
 `!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  !m dv 80
@@ -180,7 +182,9 @@ Command and aliases | Description | Usage
 `!m sh`  |  Shuffles the current playlist.
 `!m setgame`  |  Sets the game of the bot to the number of songs playing.**Owner only**
 `!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
+`!m lopl`  |  Queues up to 50 songs from a directory.
 `!m radio`, `!m ra`  |  Queues a direct radio stream from a link.
+`!m lo`  |  Queues a local file by specifying a full path. BOT OWNER ONLY.
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
 `!m debug`  |  Writes some music data to console. **BOT OWNER ONLY**
