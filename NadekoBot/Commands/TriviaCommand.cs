@@ -41,7 +41,7 @@ namespace NadekoBot.Commands {
                 .Alias("-tq")
                 .Do(async e=> {
                     if (runningTrivias.ContainsKey(e.Server)) {
-                        runningTrivias[e.Server].StopGame();
+                        await runningTrivias[e.Server].StopGame();
                     } else
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });

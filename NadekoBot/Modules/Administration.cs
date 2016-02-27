@@ -417,7 +417,7 @@ namespace NadekoBot.Modules {
                     .Parameter("user",ParameterType.Unparsed)
                     .Do(async e => {
                         var usrId = NadekoBot.client.CurrentUser.Id;
-                        if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) {
+                        if (!string.IsNullOrWhiteSpace(e.GetArg("user")) && e.User.ServerPermissions.ManageMessages) {
                             var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
                             if (usr != null)
                                 usrId = usr.Id;

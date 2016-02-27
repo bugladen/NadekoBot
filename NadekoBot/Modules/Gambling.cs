@@ -33,7 +33,11 @@ namespace NadekoBot.Modules
                           return;
                       }
                       var members = role.Members.Where(u => u.Status == Discord.UserStatus.Online); // only online
-                      await e.Channel.SendMessage($"**Raffled user:** {members.ToArray()[new System.Random().Next(0, members.Count())].Name}");
+                      try {
+                          var usr = members.ToArray()[new System.Random().Next(0, members.Count())];
+                          await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})");
+                      }
+                      catch { }
                   });
                 /*
                 cgb.CreateCommand("$$")

@@ -76,7 +76,7 @@ namespace NadekoBot.Classes.Trivia {
                 // load next question if game is still running
                 await Task.Delay(2000);
             }
-            End().Wait();
+            await End();
         }
 
         private async Task End() {

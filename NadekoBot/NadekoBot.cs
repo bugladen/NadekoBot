@@ -144,11 +144,12 @@ namespace NadekoBot {
                     try {
                         var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                         if (request != null) {
+                            request.Content = request.Content?.Replace("@everyone", "@everyοne");
                             if (string.IsNullOrWhiteSpace(request.Content))
                                 e.Cancel = true;
                             else
                                 Console.WriteLine("Sending request.");
-                            request.Content = request.Content.Replace("@everyone", "@everyοne");
+                            var content = request.Content;
                         }
                     }
                     catch {
