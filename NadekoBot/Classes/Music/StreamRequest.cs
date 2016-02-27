@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -10,13 +11,6 @@ using NadekoBot.Extensions;
 using VideoLibrary;
 
 namespace NadekoBot.Classes.Music {
-    public enum StreamState {
-        Resolving,
-        Queued,
-        Buffering, //not using it atm
-        Playing,
-        Completed
-    }
 
     public class StreamRequest {
         public Server Server { get; }
@@ -54,50 +48,7 @@ namespace NadekoBot.Classes.Music {
 
         public async Task Resolve() {
             string uri = null;
-            try {
-                if (this.LinkType == MusicType.Local) {
-                    uri = "\"" + Path.GetFullPath(Query) + "\"";
-                    Title = Path.GetFileNameWithoutExtension(Query);
-                    Provider = "Local File";
-                }
-                else if (this.LinkType == MusicType.Radio) {
-                    uri = Query;
-                    Title = $"{Query}";
-                    Provider = "Radio Stream";
-                }
-                else if (SoundCloud.Default.IsSoundCloudLink(Query)) {
-                    var svideo = await SoundCloud.Default.GetVideoAsync(Query);
-                    Title = svideo.FullName;
-                    Provider = "SoundCloud";
-                    uri = svideo.StreamLink;
-                    Console.WriteLine(uri);
-                }
-                else {
-                    var links = await SearchHelper.FindYoutubeUrlByKeywords(Query);
-                    if (links == String.Empty)
-                        throw new OperationCanceledException("Not a valid youtube query.");
-                    var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(links)).Unwrap();
-                    var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-                    var video = videos
-                                    .Where(v => v.AudioBitrate < 192)
-                                    .OrderByDescending(v => v.AudioBitrate)
-                                    .FirstOrDefault();
-
-                    if (video == null) // do something with this error
-                        throw new Exception("Could not load any video elements based on the query.");
-
-                    Title = video.Title.Substring(0, video.Title.Length - 10); // removing trailing "- You Tube"
-                    Provider = "YouTube";
-                    uri = video.Uri;
-                }
-            }
-            catch (Exception ex) {
-                privateState = StreamState.Completed;
-                if (OnResolvingFailed != null)
-                    OnResolvingFailed(ex.Message);
-                Console.WriteLine($"Failed resolving the link.{ex.Message}");
-                return;
-            }
+            
 
             musicStreamer = new MusicStreamer(this, uri);
             musicStreamer.OnCompleted += () => {
@@ -389,3 +340,4 @@ namespace NadekoBot.Classes.Music {
         }
     }
 }
+*/

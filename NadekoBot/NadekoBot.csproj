@@ -118,6 +118,7 @@
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
+    <Compile Include="Classes\Music\Song.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\Music\SoundCloud.cs" />
     <Compile Include="Classes\Permissions\PermissionChecker.cs" />

@@ -20,13 +20,13 @@ namespace NadekoBot.Commands {
                     if(cnt == 1) {
                         try {
                             var mp = Modules.Music.musicPlayers.FirstOrDefault();
-                            return mp.Value.CurrentSong.Title;
+                            return mp.Value.CurrentSong.SongInfo.Title;
                         } catch { }
                     }
                     return cnt.ToString();
                 }
             },
-            {"%queued%", () => Modules.Music.musicPlayers.Sum(kvp=>kvp.Value.SongQueue.Count).ToString() },
+            {"%queued%", () => Modules.Music.musicPlayers.Sum(kvp=>kvp.Value.Playlist.Count).ToString() },
             {"%trivia%", () => Commands.Trivia.runningTrivias.Count.ToString() }
         };
         private object playingPlaceholderLock => new object();

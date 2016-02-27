@@ -369,7 +369,7 @@ namespace NadekoBot.Modules {
                     .Description("Shows some basic stats for Nadeko.")
                     .Do(async e => {
                         var t = Task.Run(() => {
-                            return NadekoStats.Instance.GetStats() + "`" + Music.GetMusicStats() + "`";
+                            return NadekoStats.Instance.GetStats(); //+ "`" + Music.GetMusicStats() + "`";
                         });
 
                         await e.Channel.SendMessage(await t);
