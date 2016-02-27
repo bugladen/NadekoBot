@@ -15,7 +15,7 @@ using Timer = System.Timers.Timer;
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
 
-        public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server, MusicControls>();
+        public static ConcurrentDictionary<Server, MusicPlayer> musicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
         public static ConcurrentDictionary<ulong, float> musicVolumes = new ConcurrentDictionary<ulong, float>();
 
         internal static string GetMusicStats() {
@@ -24,7 +24,21 @@ namespace NadekoBot.Modules {
             return $"Playing {cnt = stats.Count()} songs".SnPl(cnt) + $", {stats.Sum(kvp => kvp.Value?.SongQueue?.Count ?? 0)} queued.";
         }
 
+        Timer setgameTimer => new Timer();
+
+        bool setgameEnabled = false;
+
         public Music() : base() {
+
+            setgameTimer.Interval = 20000;
+            setgameTimer.Elapsed += (s, e) => {
+                try {
+                    int num = musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
+                    NadekoBot.client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.SongQueue.Count())} queued");
+                }
+                catch { }
+            };
+
         }
 
         public override void Install(ModuleManager manager) {
@@ -164,17 +178,6 @@ namespace NadekoBot.Modules {
                         player.SongQueue.Shuffle();
                         await e.Channel.SendMessage("🎵 `Songs shuffled.`");
                     });
-
-                bool setgameEnabled = false;
-                Timer setgameTimer = new Timer();
-                setgameTimer.Interval = 20000;
-                setgameTimer.Elapsed += (s, e) => {
-                    try {
-                        int num = musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
-                        NadekoBot.client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.SongQueue.Count())} queued");
-                    }
-                    catch { }
-                };
                 cgb.CreateCommand("setgame")
                     .Description("Sets the game of the bot to the number of songs playing.**Owner only**")
                     .Do(async e => {
@@ -201,7 +204,7 @@ namespace NadekoBot.Modules {
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
                         var msg = await e.Channel.SendMessage($"🎵 `Attempting to queue {ids.Count} songs".SnPl(ids.Count) + "...`");
                         foreach (var id in ids) {
-                            Task.Run(async () => await QueueSong(e, id, true)).ConfigureAwait(false);
+                            Task.Run(async () => await QueueSong(e, id, true));
                             await Task.Delay(150);
                         }
                         msg?.Edit("🎵 `Playlist queue complete.`");
@@ -250,7 +253,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("mv")
                   .Description("Moves the bot to your voice channel. (works only if music is already playing)")
                   .Do(async e => {
-                      MusicControls mc;
+                      MusicPlayer mc;
                       if (e.User.VoiceChannel == null || e.User.VoiceChannel.Server != e.Server || !musicPlayers.TryGetValue(e.Server, out mc))
                           return;
                       mc.VoiceChannel = e.User.VoiceChannel;
@@ -262,7 +265,7 @@ namespace NadekoBot.Modules {
                     .Parameter("num", ParameterType.Required)
                     .Do(async e => {
                         var arg = e.GetArg("num");
-                        MusicControls mc;
+                        MusicPlayer mc;
                         if (!musicPlayers.TryGetValue(e.Server, out mc)) {
                             return;
                         }
@@ -316,7 +319,7 @@ namespace NadekoBot.Modules {
                 if (musicVolumes.TryGetValue(e.Server.Id, out throwAway))
                     vol = throwAway;
 
-                if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e, vol))) {
+                if (!musicPlayers.TryAdd(e.Server, new MusicPlayer(e.User.VoiceChannel, e, vol))) {
                     await e.Channel.SendMessage("Failed to create a music player for this server.");
                     return;
                 }
@@ -339,13 +342,15 @@ namespace NadekoBot.Modules {
                         qmsg = await e.Channel.SendMessage("🎵 `Searching / Resolving...`");
                         sr.OnResolvingFailed += async (err) => {
                             try {
-                                await qmsg.Edit($"💢 🎵 `Resolving failed` for **{query}**");
+                                await qmsg.Delete();
+                                await e.Channel.Send($"💢 🎵 `Resolving failed` for **{query}**");
                             }
                             catch { }
                         };
                         sr.OnQueued += async () => {
                             try {
-                                await qmsg.Edit($"🎵`Queued`{sr.FullPrettyName}");
+                                await qmsg.Delete();
+                                await e.Channel.Send($"🎵`Queued`{sr.FullPrettyName}");
                             }
                             catch { }
                         };
@@ -354,7 +359,7 @@ namespace NadekoBot.Modules {
                 }
                 sr.OnCompleted += async () => {
                     try {
-                        MusicControls mc;
+                        MusicPlayer mc;
                         if (musicPlayers.TryGetValue(e.Server, out mc)) {
                             if (mc.SongQueue.Count == 0)
                                 mc.Stop();
@@ -363,13 +368,13 @@ namespace NadekoBot.Modules {
                     }
                     catch { }
                 };
+
                 sr.OnStarted += async () => {
                     try {
                         var msgTxt = $"🎵`Playing`{sr.FullPrettyName} `Vol: {(int)(player.Volume * 100)}%`";
                         if (qmsg != null)
-                            await qmsg.Edit(msgTxt);
-                        else
-                            await e.Channel.SendMessage(msgTxt);
+                            await qmsg.Delete();
+                        await e.Channel.SendMessage(msgTxt);
                     }
                     catch { }
                 };

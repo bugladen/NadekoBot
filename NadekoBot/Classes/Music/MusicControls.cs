@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.Commands;
 using MusicModule = NadekoBot.Modules.Music;
+using System.Collections;
+using NadekoBot.Extensions;
+using System.Threading;
 
 namespace NadekoBot.Classes.Music {
 
@@ -13,8 +16,130 @@ namespace NadekoBot.Classes.Music {
         Normal,
         Local
     }
+    public class Song {
+        public StreamState State { get; internal set; }
 
-    public class MusicControls {
+        private Song() { }
+
+        internal Task Play(CancellationToken cancelToken) {
+            throw new NotImplementedException();
+        }
+    }
+    public class MusicPlayer {
+        private IAudioClient _client { get; set; }
+
+        private List<Song> _playlist = new List<Song>();
+        public IReadOnlyCollection<Song> Playlist => _playlist;
+        private object playlistLock = new object();
+
+        public Song CurrentSong { get; set; } = default(Song);
+        private CancellationTokenSource SongCancelSource { get; set; }
+        private CancellationToken cancelToken { get; set; }
+
+        public bool Paused { get; set; }
+
+        public float Volume { get; private set; }
+
+        public MusicPlayer(IAudioClient client) {
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+            _client = client;
+            SongCancelSource = new CancellationTokenSource();
+            cancelToken = SongCancelSource.Token;
+            Task.Run(async () => {
+                while (_client?.State == ConnectionState.Connected) {
+                    CurrentSong = GetNextSong();
+                    if (CurrentSong != null) {
+                        try {
+                            await CurrentSong.Play(cancelToken);
+                        }
+                        catch (OperationCanceledException) {
+                            Console.WriteLine("Song canceled");
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine($"Exception in PlaySong: {ex}");
+                        }
+                        SongCancelSource = new CancellationTokenSource();
+                        cancelToken = SongCancelSource.Token;
+                    }
+                    else {
+                        await Task.Delay(1000);
+                    }
+                }
+                await Stop();
+            });
+        }
+
+        public void Next() {
+            if(!SongCancelSource.IsCancellationRequested)
+                SongCancelSource.Cancel();
+        }
+
+        public async Task Stop() {
+
+            lock (_playlist) {
+                _playlist.Clear();
+            }
+            try {
+                if (!SongCancelSource.IsCancellationRequested)
+                    SongCancelSource.Cancel();
+            }
+            catch {
+                Console.WriteLine("This shouldn't happen");
+            }
+            await _client?.Disconnect();
+        }
+
+        public void Shuffle() {
+            lock (_playlist) {
+                _playlist.Shuffle();
+            }
+        }
+
+        public void SetVolume(float volume) {
+            if (volume < 0)
+                volume = 0;
+            if (volume > 150)
+                volume = 150;
+
+            Volume = volume / 100.0f;
+        }
+
+        private Song GetNextSong() {
+            lock (playlistLock) {
+                if (_playlist.Count == 0)
+                    return null;
+                var toReturn = _playlist[0];
+                _playlist.RemoveAt(0);
+                return toReturn;
+            }
+        }
+
+        public void AddSong(Song s) {
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
+            lock (playlistLock) {
+                _playlist.Add(s);
+            }
+        }
+
+        public void RemoveSong(Song s) {
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
+            lock (playlistLock) {
+                _playlist.Remove(s);
+            }
+        }
+
+        public void RemoveSongAt(int index) {
+            lock (playlistLock) {
+                if (index < 0 || index >= _playlist.Count)
+                    throw new ArgumentException("Invalid index");
+                _playlist.RemoveAt(index);
+            }
+        }
+
+        /*
         private CommandEventArgs _e;
         public bool NextSong { get; set; } = false;
         public IAudioClient Voice { get; set; }
@@ -33,7 +158,7 @@ namespace NadekoBot.Classes.Music {
 
         private readonly object _voiceLock = new object();
 
-        public MusicControls() {
+        public MusicPlayer() {
             Task.Run(async () => {
                 while (true) {
                     if (!Stopped) {
@@ -61,7 +186,7 @@ namespace NadekoBot.Classes.Music {
             }
         }
 
-        public MusicControls(Channel voiceChannel, CommandEventArgs e, float? vol) : this() {
+        public MusicPlayer(Channel voiceChannel, CommandEventArgs e, float? vol) : this() {
             if (voiceChannel == null)
                 throw new ArgumentNullException(nameof(voiceChannel));
             if (vol != null)
@@ -96,7 +221,6 @@ namespace NadekoBot.Classes.Music {
             catch (Exception ex) {
                 Console.WriteLine($"Starting failed: {ex}");
                 CurrentSong?.Stop();
-                CurrentSong = null;
             }
         }
 
@@ -112,7 +236,7 @@ namespace NadekoBot.Classes.Music {
                 VoiceClient?.Disconnect();
                 VoiceClient = null;
 
-                MusicControls throwAwayValue;
+                MusicPlayer throwAwayValue;
                 MusicModule.musicPlayers.TryRemove(_e.Server, out throwAwayValue);
             }
         }
@@ -127,5 +251,6 @@ namespace NadekoBot.Classes.Music {
         }
 
         internal bool TogglePause() => IsPaused = !IsPaused;
+        */
     }
 }

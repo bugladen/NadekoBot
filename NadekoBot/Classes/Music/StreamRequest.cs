@@ -38,9 +38,9 @@ namespace NadekoBot.Classes.Music {
 
         public MusicType LinkType { get; }
 
-        public MusicControls MusicControls;
+        public MusicPlayer MusicControls;
 
-        public StreamRequest(CommandEventArgs e, string query, MusicControls mc, MusicType musicType = MusicType.Normal) {
+        public StreamRequest(CommandEventArgs e, string query, MusicPlayer mc, MusicType musicType = MusicType.Normal) {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             if (query == null)
