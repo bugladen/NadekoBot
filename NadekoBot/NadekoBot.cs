@@ -144,7 +144,7 @@ namespace NadekoBot {
                     try {
                         var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                         if (request != null) {
-                            request.Content = request.Content?.Replace("@everyone", "@everyοne");
+                            request.Content = request.Content?.Replace("@everyone", "@everyοne") ?? "_error_";
                             if (string.IsNullOrWhiteSpace(request.Content))
                                 e.Cancel = true;
                             else
