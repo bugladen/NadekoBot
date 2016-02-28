@@ -66,6 +66,13 @@ namespace NadekoBot {
             //create new discord client
             client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 20,
+                LogLevel = LogSeverity.Warning,
+                LogHandler = (s, e) => {
+                    try {
+                        Console.WriteLine($"Severity: {e.Severity}\nMessage: {e.Message}\nExceptionMessage: {e.Exception?.Message ?? "-"}\nException: {(e.Exception?.ToString() ?? "-")}");
+                    }
+                    catch { }
+                }
             });
 
             //create a command service
@@ -139,17 +146,18 @@ namespace NadekoBot {
                 }
 
                 Classes.Permissions.PermissionsHandler.Initialize();
-
+                
                 client.ClientAPI.SendingRequest += (s, e) => {
+
                     try {
                         var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                         if (request != null) {
-                            request.Content = request.Content?.Replace("@everyone", "@everyοne") ?? "_error_";
+                            //@everyοne
+                            request.Content = request.Content?.Replace("@everyone", "@everryone") ?? "_error_";
                             if (string.IsNullOrWhiteSpace(request.Content))
                                 e.Cancel = true;
-                            else
-                                Console.WriteLine("Sending request.");
-                            var content = request.Content;
+                            //else
+                            //    Console.WriteLine("Sending request");
                         }
                     }
                     catch {
@@ -157,15 +165,15 @@ namespace NadekoBot {
                     }
                 };
 
-                client.ClientAPI.SentRequest += (s, e) => {
-                    try {
-                        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
-                        if (request != null) {
-                            Console.WriteLine("Sent.");
-                        }
-                    }
-                    catch { Console.WriteLine("SENT REQUEST ERRORED!!!"); }
-                };
+                //client.ClientAPI.SentRequest += (s, e) => {
+                //    try {
+                //        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                //        if (request != null) {
+                //            Console.WriteLine("Sent.");
+                //        }
+                //    }
+                //    catch { Console.WriteLine("SENT REQUEST ERRORED!!!"); }
+                //};
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();

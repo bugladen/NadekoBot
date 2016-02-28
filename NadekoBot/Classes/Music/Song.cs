@@ -10,42 +10,157 @@ using System.Threading.Tasks;
 using VideoLibrary;
 
 namespace NadekoBot.Classes.Music {
-
-
     public class SongInfo {
         public string Provider { get; internal set; }
+        public MusicType ProviderType { get; internal set; }
         public string Title { get; internal set; }
         public string Uri { get; internal set; }
     }
+    /// <summary>
+    /// 💩
+    /// </summary>
+    public class PoopyBuffer {
 
+        private byte[] ringBuffer;
+
+        public int WritePosition { get; private set; } = 0;
+
+        public PoopyBuffer(int size) {
+            ringBuffer = new byte[size];
+        }
+
+        public int Read(byte[] buffer, int count) {
+            lock (this) {
+                if (count > WritePosition)
+                    count = WritePosition;
+                if (count == 0)
+                    return 0;
+
+                Buffer.BlockCopy(ringBuffer, 0, buffer, 0, count);
+                Buffer.BlockCopy(ringBuffer, count, ringBuffer, 0, WritePosition -= count);
+
+                return count;
+            }
+        }
+
+        public async Task WriteAsync(byte[] buffer, int count, CancellationToken cancelToken) {
+            if (count > buffer.Length)
+                throw new ArgumentException();
+            while (count + WritePosition > ringBuffer.Length) {
+                await Task.Delay(20);
+                if (cancelToken.IsCancellationRequested)
+                    return;
+            }
+            lock (this) {
+                Buffer.BlockCopy(buffer, 0, ringBuffer, WritePosition, count);
+                WritePosition += count;
+            }
+        }
+    }
     public class Song {
         public StreamState State { get; internal set; }
-        public object PrettyName =>
+        public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
+        
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(10.MB());
+
+        private bool prebufferingComplete { get; set; } = false;
+        public MusicPlayer MusicPlayer { get; set; }
 
         private Song(SongInfo songInfo) {
             this.SongInfo = songInfo;
         }
 
-        internal void Play(IAudioClient voiceClient, CancellationToken cancelToken) {
-            var p = Process.Start(new ProcessStartInfo {
-                FileName = "ffmpeg",
-                Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
+        private Task BufferSong(CancellationToken cancelToken) =>
+            Task.Run(async () => {
+                var p = Process.Start(new ProcessStartInfo {
+                    FileName = "ffmpeg",
+                    Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                });
+
+                int blockSize = 512;
+                byte[] buffer = new byte[blockSize];
+                int attempt = 0;
+                while (!cancelToken.IsCancellationRequested) {
+                    int read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize);
+                    if (read == 0)
+                        if (attempt++ == 10)
+                            break;
+                        else
+                            await Task.Delay(50);
+                    else
+                        attempt = 0;
+                    await songBuffer.WriteAsync(buffer, read, cancelToken);
+                    if (songBuffer.WritePosition > 5.MB())
+                        prebufferingComplete = true;
+                }
+                Console.WriteLine("Buffering done.");
             });
-            Task.Delay(2000); //give it 2 seconds to get some dataz
-            int blockSize = 3840; // 1920 for mono
+
+        internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
+            var t = BufferSong(cancelToken).ConfigureAwait(false);
+            int bufferAttempts = 0;
+            int waitPerAttempt = 500;
+            int toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 4 : 8;
+            while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
+                await Task.Delay(waitPerAttempt);
+            }
+            int blockSize = 3840;
             byte[] buffer = new byte[blockSize];
-            int read;
+            int attempt = 0;
             while (!cancelToken.IsCancellationRequested) {
-                read = p.StandardOutput.BaseStream.Read(buffer, 0, blockSize);
+                int read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
-                    break; //nothing to read
+                    if (attempt++ == 10) {
+                        voiceClient.Wait();
+                        Console.WriteLine("Playing done.");
+                        return;
+                    }
+                    else
+                        await Task.Delay(50);
+                else
+                    attempt = 0;
+
+                while (this.MusicPlayer.Paused)
+                    await Task.Delay(200);
+                buffer = adjustVolume(buffer, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
-            voiceClient.Wait();
+            //try {
+            //    voiceClient.Clear();
+            //    Console.WriteLine("CLEARED");
+            //}
+            //catch {
+            //    Console.WriteLine("CLEAR FAILED!!!");
+            //}
+        }
+
+        //stackoverflow ftw
+        private byte[] adjustVolume(byte[] audioSamples, float volume) {
+            if (volume == 1.0f)
+                return audioSamples;
+            byte[] array = new byte[audioSamples.Length];
+            for (int i = 0; i < array.Length; i += 2) {
+
+                // convert byte pair to int
+                short buf1 = audioSamples[i + 1];
+                short buf2 = audioSamples[i];
+
+                buf1 = (short)((buf1 & 0xff) << 8);
+                buf2 = (short)(buf2 & 0xff);
+
+                short res = (short)(buf1 | buf2);
+                res = (short)(res * volume);
+
+                // convert back
+                array[i] = (byte)res;
+                array[i + 1] = (byte)(res >> 8);
+
+            }
+            return array;
         }
 
         public static async Task<Song> ResolveSong(string query, MusicType musicType = MusicType.Normal) {
@@ -63,6 +178,7 @@ namespace NadekoBot.Classes.Music {
                         Uri = "\"" + Path.GetFullPath(query) + "\"",
                         Title = Path.GetFileNameWithoutExtension(query),
                         Provider = "Local File",
+                        ProviderType = musicType,
                     });
                 }
                 else if (musicType == MusicType.Radio) {
@@ -70,6 +186,7 @@ namespace NadekoBot.Classes.Music {
                         Uri = query,
                         Title = $"{query}",
                         Provider = "Radio Stream",
+                        ProviderType = musicType,
                     });
                 }
                 else if (SoundCloud.Default.IsSoundCloudLink(query)) {
@@ -78,6 +195,7 @@ namespace NadekoBot.Classes.Music {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
                         Uri = svideo.StreamLink,
+                        ProviderType = musicType,
                     });
                 }
                 else {
@@ -97,6 +215,7 @@ namespace NadekoBot.Classes.Music {
                         Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                         Provider = "YouTube",
                         Uri = video.Uri,
+                        ProviderType = musicType,
                     });
 
                 }

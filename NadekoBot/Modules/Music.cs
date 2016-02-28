@@ -58,8 +58,14 @@ namespace NadekoBot.Modules {
                     .Description("Completely stops the music, unbinds the bot from the channel, and cleans up files.")
                     .Do(async e => {
                         MusicPlayer musicPlayer;
-                        if (!musicPlayers.TryRemove(e.Server, out musicPlayer)) return;
-                        await musicPlayer.Stop();
+                        if (!musicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
+                        musicPlayer.Stop();
+                        var msg = await e.Channel.SendMessage("⚠Due to music issues, NadekoBot is unable to leave voice channels at this moment.\nIf this presents inconvenience, you can use `!m mv` command to make her join your current voice channel.");
+                        await Task.Delay(5000);
+                        try {
+                            await msg.Delete();
+                        }
+                        catch { }
                     });
 
                 cgb.CreateCommand("p")
@@ -95,6 +101,8 @@ namespace NadekoBot.Modules {
                         string toSend = "🎵 **" + musicPlayer.Playlist.Count + "** `videos currently queued.` ";
                         if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
                             toSend += "**Song queue is full!**\n";
+                        else
+                            toSend += "\n";
                         int number = 1;
                         await e.Channel.SendMessage(toSend + string.Join("\n", musicPlayer.Playlist.Take(15).Select(v => $"`{number++}.` {v.PrettyName}")));
                     });
@@ -313,7 +321,7 @@ namespace NadekoBot.Modules {
                 float throwAway;
                 if (defaultMusicVolumes.TryGetValue(TextCh.Server.Id, out throwAway))
                     vol = throwAway;
-                musicPlayer = new MusicPlayer(VoiceCh) {
+                musicPlayer = new MusicPlayer(VoiceCh, vol) {
                     OnCompleted = async (song) => {
                         try {
                             await TextCh.SendMessage($"🎵`Finished`{song.PrettyName}");
@@ -331,7 +339,7 @@ namespace NadekoBot.Modules {
                 musicPlayers.TryAdd(TextCh.Server, musicPlayer);
             }
             var resolvedSong = await Song.ResolveSong(query, musicType);
-
+            resolvedSong.MusicPlayer = musicPlayer;
             if(!silent)
                 await TextCh.Send($"🎵`Queued`{resolvedSong.PrettyName}");
             musicPlayer.AddSong(resolvedSong);

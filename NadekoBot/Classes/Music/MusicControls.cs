@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
 namespace NadekoBot.Classes.Music {
 
     public enum MusicType {
@@ -29,7 +28,7 @@ namespace NadekoBot.Classes.Music {
 
         private List<Song> _playlist = new List<Song>();
         public IReadOnlyCollection<Song> Playlist => _playlist;
-        private object playlistLock = new object();
+        private readonly object playlistLock = new object();
 
         public Song CurrentSong { get; set; } = default(Song);
         private CancellationTokenSource SongCancelSource { get; set; }
@@ -44,26 +43,31 @@ namespace NadekoBot.Classes.Music {
 
         public Channel PlaybackVoiceChannel { get; private set; }
 
-        public MusicPlayer(Channel startingVoiceChannel, float defaultVolume) {
+        public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume) {
             if (startingVoiceChannel == null)
                 throw new ArgumentNullException(nameof(startingVoiceChannel));
             if (startingVoiceChannel.Type != ChannelType.Voice)
                 throw new ArgumentException("Channel must be of type voice");
+            Volume = defaultVolume ?? 1.0f;
 
             PlaybackVoiceChannel = startingVoiceChannel;
             SongCancelSource = new CancellationTokenSource();
             cancelToken = SongCancelSource.Token;
 
             Task.Run(async () => {
-                while (_client?.State != ConnectionState.Disconnected && 
-                       _client?.State != ConnectionState.Disconnecting) {
-
+                while (true) {
+                    try {
+                        _client = await PlaybackVoiceChannel.JoinAudio();
+                    }
+                    catch {
+                        await Task.Delay(1000);
+                        continue;
+                    }
                     CurrentSong = GetNextSong();
                     if (CurrentSong != null) {
                         try {
-                            _client = await PlaybackVoiceChannel.JoinAudio();
                             OnStarted(CurrentSong);
-                            CurrentSong.Play(_client, cancelToken);
+                            await CurrentSong.Play(_client, cancelToken);
                         }
                         catch (OperationCanceledException) {
                             Console.WriteLine("Song canceled");
@@ -71,7 +75,10 @@ namespace NadekoBot.Classes.Music {
                         catch (Exception ex) {
                             Console.WriteLine($"Exception in PlaySong: {ex}");
                         }
-                        OnCompleted(CurrentSong);
+                        try {
+                            OnCompleted(CurrentSong);
+                        }
+                        catch { }
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                     }
@@ -81,30 +88,31 @@ namespace NadekoBot.Classes.Music {
         }
 
         public void Next() {
-            if (!SongCancelSource.IsCancellationRequested)
-                SongCancelSource.Cancel();
+            lock (playlistLock) {
+                if (!SongCancelSource.IsCancellationRequested) {
+                    Paused = false;
+                    SongCancelSource.Cancel();
+                }
+            }
         }
 
-        public async Task Stop() {
-
-            lock (_playlist) {
+        public void Stop() {
+            lock (playlistLock) {
                 _playlist.Clear();
+                try {
+                    if (!SongCancelSource.IsCancellationRequested)
+                        SongCancelSource.Cancel();
+                }
+                catch {
+                    Console.WriteLine("STOP");
+                }
             }
-            try {
-                if (!SongCancelSource.IsCancellationRequested)
-                    SongCancelSource.Cancel();
-            }
-            catch {
-                Console.WriteLine("This shouldn't happen");
-            }
-            Console.WriteLine("Disconnecting");
-            await _client?.Disconnect();
         }
 
         public void TogglePause() => Paused = !Paused;
 
         public void Shuffle() {
-            lock (_playlist) {
+            lock (playlistLock) {
                 _playlist.Shuffle();
             }
         }
@@ -115,7 +123,8 @@ namespace NadekoBot.Classes.Music {
             if (volume > 150)
                 volume = 150;
 
-            return (int)(Volume = volume / 100.0f);
+            Volume = volume / 100.0f;
+            return volume;
         }
 
         private Song GetNextSong() {
