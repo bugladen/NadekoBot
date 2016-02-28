@@ -11,11 +11,12 @@ namespace NadekoBot.Commands {
         public static ConcurrentDictionary<Server, TriviaGame> runningTrivias = new ConcurrentDictionary<Server, TriviaGame>();
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
-            if (!runningTrivias.ContainsKey(e.Server)) {
-                runningTrivias.TryAdd(e.Server, new TriviaGame(e));
-                await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
+            TriviaGame trivia;
+            if (!runningTrivias.TryGetValue(e.Server, out trivia)) { 
+                if(runningTrivias.TryAdd(e.Server, new TriviaGame(e)))
+                    await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
             } else
-                await e.Channel.SendMessage("Trivia game is already running on this server.\n" + runningTrivias[e.Server].CurrentQuestion);
+                await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
         };
 
         public override void Init(CommandGroupBuilder cgb) {
@@ -30,8 +31,9 @@ namespace NadekoBot.Commands {
                 .Alias("tlb")
                 .Alias("-tlb")
                 .Do(async e=> {
-                    if (runningTrivias.ContainsKey(e.Server))
-                        await e.Channel.SendMessage(runningTrivias[e.Server].GetLeaderboard());
+                    TriviaGame trivia;
+                    if (runningTrivias.TryGetValue(e.Server, out trivia))
+                        await e.Channel.SendMessage(trivia.GetLeaderboard());
                     else
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });
@@ -40,8 +42,9 @@ namespace NadekoBot.Commands {
                 .Description("Quits current trivia after current question.")
                 .Alias("-tq")
                 .Do(async e=> {
-                    if (runningTrivias.ContainsKey(e.Server)) {
-                        await runningTrivias[e.Server].StopGame();
+                    TriviaGame trivia;
+                    if (runningTrivias.TryGetValue(e.Server, out trivia)) {
+                        await trivia.StopGame();
                     } else
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });

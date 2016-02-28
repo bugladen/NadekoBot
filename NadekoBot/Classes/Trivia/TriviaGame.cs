@@ -39,6 +39,7 @@ namespace NadekoBot.Classes.Trivia {
             while (!ShouldStopGame) {
                 // reset the cancellation source
                 triviaCancelSource = new CancellationTokenSource();
+                var token = triviaCancelSource.Token;
                 // load question
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
                 if (CurrentQuestion == null) {
@@ -58,21 +59,19 @@ namespace NadekoBot.Classes.Trivia {
 
                 try {
                     //hint
-                    await Task.Delay(HintTimeoutMiliseconds, triviaCancelSource.Token);
+                    await Task.Delay(HintTimeoutMiliseconds, token);
                     await _channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}");
 
                     //timeout
-                    await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, triviaCancelSource.Token);
+                    await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token);
 
                 } catch (TaskCanceledException) {
                     Console.WriteLine("Trivia cancelled");
-                    
-                } finally {
-                    GameActive = false;
-                    if (!triviaCancelSource.IsCancellationRequested)
-                        await _channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**");
-                    NadekoBot.client.MessageReceived -= PotentialGuess;
                 }
+                GameActive = false;
+                if (!triviaCancelSource.IsCancellationRequested)
+                    await _channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**");
+                NadekoBot.client.MessageReceived -= PotentialGuess;
                 // load next question if game is still running
                 await Task.Delay(2000);
             }
@@ -103,10 +102,10 @@ namespace NadekoBot.Classes.Trivia {
                         users.TryAdd(e.User, 0); //add if not exists
                         users[e.User]++; //add 1 point to the winner
                         guess = true;
-                        triviaCancelSource.Cancel();
                     }
                 }
                 if (guess) {
+                    triviaCancelSource.Cancel();
                     await _channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**");
                     if (users[e.User] == WinRequirement) {
                         ShouldStopGame = true;
