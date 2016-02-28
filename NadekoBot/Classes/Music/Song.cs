@@ -124,7 +124,7 @@ namespace NadekoBot.Classes.Music {
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
 
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(2.MB());
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(10.MB());
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
@@ -148,24 +148,24 @@ namespace NadekoBot.Classes.Music {
                 while (!cancelToken.IsCancellationRequested) {
                     int read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize);
                     if (read == 0)
-                        if (attempt++ == 10)
+                        if (attempt++ == 20)
                             break;
                         else
                             await Task.Delay(50);
                     else
                         attempt = 0;
                     await songBuffer.WriteAsync(buffer, read, cancelToken);
-                    if (songBuffer.ContentLength > 1.MB())
+                    if (songBuffer.ContentLength > 2.MB())
                         prebufferingComplete = true;
                 }
-                Console.WriteLine("Buffering done.");
+                Console.WriteLine($"Buffering done. [{songBuffer.ContentLength}]");
             });
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
             var t = BufferSong(cancelToken).ConfigureAwait(false);
             int bufferAttempts = 0;
             int waitPerAttempt = 500;
-            int toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 4 : 8;
+            int toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt);
             }

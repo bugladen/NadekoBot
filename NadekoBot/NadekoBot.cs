@@ -69,7 +69,7 @@ namespace NadekoBot {
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) => {
                     try {
-                        Console.WriteLine($"Severity: {e.Severity}\nMessage: {e.Message}\nExceptionMessage: {e.Exception?.Message ?? "-"}\nException: {(e.Exception?.ToString() ?? "-")}");
+                        Console.WriteLine($"Severity: {e.Severity}\nMessage: {e.Message}\nExceptionMessage: {e.Exception?.Message ?? "-"}");//\nException: {(e.Exception?.ToString() ?? "-")}");
                     }
                     catch { }
                 }
@@ -135,7 +135,7 @@ namespace NadekoBot {
                     return;
                 }
                 Console.WriteLine("-----------------");
-                Console.WriteLine(NadekoStats.Instance.GetStats());
+                Console.WriteLine(await NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
 
                 try {

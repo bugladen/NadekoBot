@@ -368,21 +368,16 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".stats")
                     .Description("Shows some basic stats for Nadeko.")
                     .Do(async e => {
-                        var t = Task.Run(() => {
-                            return NadekoStats.Instance.GetStats(); //+ "`" + Music.GetMusicStats() + "`";
-                        });
-
-                        await e.Channel.SendMessage(await t);
-
+                        await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
                     });
-
+                /*
                 cgb.CreateCommand(".leaveall")
                     .Description("Nadeko leaves all servers **OWNER ONLY**")
                     .Do(e => {
                         if (e.User.Id == NadekoBot.OwnerID)
                             NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
-
+                    */
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
