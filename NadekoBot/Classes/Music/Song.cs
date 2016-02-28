@@ -24,21 +24,62 @@ namespace NadekoBot.Classes.Music {
         private byte[] ringBuffer;
 
         public int WritePosition { get; private set; } = 0;
+        public int ReadPosition { get; private set; } = 0;
+
+        public int ContentLength => (WritePosition >= ReadPosition ?
+                                     WritePosition - ReadPosition :
+                                     (BufferSize - ReadPosition) + WritePosition);
+
+        public int BufferSize { get; }
+
+        private readonly object readWriteLock = new object();
 
         public PoopyBuffer(int size) {
+            if (size <= 0)
+                throw new ArgumentException();
+            BufferSize = size;
             ringBuffer = new byte[size];
         }
 
         public int Read(byte[] buffer, int count) {
-            lock (this) {
-                if (count > WritePosition)
-                    count = WritePosition;
-                if (count == 0)
+            if (buffer.Length < count)
+                throw new ArgumentException();
+            //Console.WriteLine($"***\nRead: {ReadPosition}\nWrite: {WritePosition}\nContentLength:{ContentLength}\n***");
+            lock (readWriteLock) {
+                //read as much as you can if you're reading too much
+                if (count > ContentLength)
+                    count = ContentLength;
+                //if nothing to read, return 0
+                if (WritePosition == ReadPosition)
                     return 0;
+                // if buffer is in the "normal" state, just read
+                if (WritePosition > ReadPosition) {
+                    Buffer.BlockCopy(ringBuffer, ReadPosition, buffer, 0, count);
+                    ReadPosition += count;
+                    //Console.WriteLine($"Read only normally1 {count}[{ReadPosition - count} to {ReadPosition}]");
+                    return count;
+                }
+                //else ReadPos <Writepos
+                // buffer is in its inverted state
+                // A: if i can read as much as possible without hitting the buffer.length, read that
 
-                Buffer.BlockCopy(ringBuffer, 0, buffer, 0, count);
-                Buffer.BlockCopy(ringBuffer, count, ringBuffer, 0, WritePosition -= count);
+                if (count + ReadPosition <= BufferSize) {
+                    Buffer.BlockCopy(ringBuffer, ReadPosition, buffer, 0, count);
+                    ReadPosition += count;
+                    //Console.WriteLine($"Read only normally2 {count}[{ReadPosition - count} to {ReadPosition}]");
+                    return count;
+                }
+                // B: if i can't read as much, read to the end,
+                int readNormaly = BufferSize - ReadPosition;
+                Buffer.BlockCopy(ringBuffer, ReadPosition, buffer, 0, readNormaly);
 
+                //Console.WriteLine($"Read normaly {count}[{ReadPosition} to {ReadPosition + readNormaly}]");
+                //then read the remaining amount from the start
+
+                int readFromStart = count - readNormaly;
+                Buffer.BlockCopy(ringBuffer, 0, buffer, readNormaly, readFromStart);
+                //Console.WriteLine($"Read From start {readFromStart}[{0} to {readFromStart}]");
+                ReadPosition = readFromStart;
                 return count;
             }
         }
@@ -46,14 +87,34 @@ namespace NadekoBot.Classes.Music {
         public async Task WriteAsync(byte[] buffer, int count, CancellationToken cancelToken) {
             if (count > buffer.Length)
                 throw new ArgumentException();
-            while (count + WritePosition > ringBuffer.Length) {
+            while (ContentLength + count > BufferSize) {
                 await Task.Delay(20);
                 if (cancelToken.IsCancellationRequested)
                     return;
             }
-            lock (this) {
-                Buffer.BlockCopy(buffer, 0, ringBuffer, WritePosition, count);
-                WritePosition += count;
+            //the while above assures that i cannot write past readposition with my write, so i don't have to check
+            // *unless its multithreaded or task is not awaited
+            lock (readWriteLock) {
+                // if i can just write without hitting buffer.length, do it
+                if (WritePosition + count < BufferSize) {
+                    Buffer.BlockCopy(buffer, 0, ringBuffer, WritePosition, count);
+                    WritePosition += count;
+                    //Console.WriteLine($"Wrote only normally {count}[{WritePosition - count} to {WritePosition}]");
+                    return;
+                }
+                // otherwise, i have to write to the end, then write the rest from the start
+
+                int wroteNormaly = BufferSize - WritePosition;
+                Buffer.BlockCopy(buffer, 0, ringBuffer, WritePosition, wroteNormaly);
+
+                //Console.WriteLine($"Wrote normally {wroteNormaly}[{WritePosition} to {BufferSize}]");
+
+                int wroteFromStart = count - wroteNormaly;
+                Buffer.BlockCopy(buffer, wroteNormaly, ringBuffer, 0, wroteFromStart);
+
+                //Console.WriteLine($"and from start {wroteFromStart} [0 to {wroteFromStart}");
+
+                WritePosition = wroteFromStart;
             }
         }
     }
@@ -62,8 +123,8 @@ namespace NadekoBot.Classes.Music {
         public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
-        
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(10.MB());
+
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(2.MB());
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
@@ -81,7 +142,7 @@ namespace NadekoBot.Classes.Music {
                     RedirectStandardOutput = true,
                 });
 
-                int blockSize = 512;
+                int blockSize = 3840;
                 byte[] buffer = new byte[blockSize];
                 int attempt = 0;
                 while (!cancelToken.IsCancellationRequested) {
@@ -94,7 +155,7 @@ namespace NadekoBot.Classes.Music {
                     else
                         attempt = 0;
                     await songBuffer.WriteAsync(buffer, read, cancelToken);
-                    if (songBuffer.WritePosition > 5.MB())
+                    if (songBuffer.ContentLength > 1.MB())
                         prebufferingComplete = true;
                 }
                 Console.WriteLine("Buffering done.");
@@ -112,6 +173,7 @@ namespace NadekoBot.Classes.Music {
             byte[] buffer = new byte[blockSize];
             int attempt = 0;
             while (!cancelToken.IsCancellationRequested) {
+                //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                 int read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 10) {
