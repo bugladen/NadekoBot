@@ -135,28 +135,37 @@ namespace NadekoBot.Classes.Music {
 
         private Task BufferSong(CancellationToken cancelToken) =>
             Task.Run(async () => {
-                var p = Process.Start(new ProcessStartInfo {
-                    FileName = "ffmpeg",
-                    Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                });
-
-                int blockSize = 3840;
-                byte[] buffer = new byte[blockSize];
-                int attempt = 0;
-                while (!cancelToken.IsCancellationRequested) {
-                    int read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize);
-                    if (read == 0)
-                        if (attempt++ == 20)
-                            break;
+                Process p = null;
+                try {
+                    p = Process.Start(new ProcessStartInfo {
+                        FileName = "ffmpeg",
+                        Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                    });
+                    int blockSize = 3840;
+                    byte[] buffer = new byte[blockSize];
+                    int attempt = 0;
+                    while (!cancelToken.IsCancellationRequested) {
+                        int read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize);
+                        if (read == 0)
+                            if (attempt++ == 20)
+                                break;
+                            else
+                                await Task.Delay(50);
                         else
-                            await Task.Delay(50);
-                    else
-                        attempt = 0;
-                    await songBuffer.WriteAsync(buffer, read, cancelToken);
-                    if (songBuffer.ContentLength > 2.MB())
-                        prebufferingComplete = true;
+                            attempt = 0;
+                        await songBuffer.WriteAsync(buffer, read, cancelToken);
+                        if (songBuffer.ContentLength > 2.MB())
+                            prebufferingComplete = true;
+                    }
+                }
+                finally {
+                    if (p != null) {
+                        p.CancelOutputRead();
+                        p.Close();
+                        p.Dispose();
+                    }
                 }
                 Console.WriteLine($"Buffering done. [{songBuffer.ContentLength}]");
             });
@@ -169,6 +178,7 @@ namespace NadekoBot.Classes.Music {
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt);
             }
+            Console.WriteLine($"Prebuffering done? in {waitPerAttempt*bufferAttempts}");
             int blockSize = 3840;
             byte[] buffer = new byte[blockSize];
             int attempt = 0;
