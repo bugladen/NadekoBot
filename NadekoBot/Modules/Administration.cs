@@ -26,7 +26,7 @@ namespace NadekoBot.Modules {
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
-                
+
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 var client = manager.Client;
@@ -55,7 +55,8 @@ namespace NadekoBot.Modules {
                         try {
                             await usr.AddRoles(new Role[] { role });
                             await e.Channel.SendMessage($"Successfully added role **{role.Name}** to user **{usr.Name}**");
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Channel.SendMessage("Failed to add roles. Most likely reason: Insufficient permissions.\n");
                             Console.WriteLine(ex.ToString());
                         }
@@ -83,8 +84,10 @@ namespace NadekoBot.Modules {
                         try {
                             await usr.RemoveRoles(new Role[] { role });
                             await e.Channel.SendMessage($"Successfully removed role **{role.Name}** from user **{usr.Name}**");
-                        } catch (InvalidOperationException) {
-                        } catch  {
+                        }
+                        catch (InvalidOperationException) {
+                        }
+                        catch {
                             await e.Channel.SendMessage("Failed to remove roles. Most likely reason: Insufficient permissions.");
                         }
                     });
@@ -99,7 +102,8 @@ namespace NadekoBot.Modules {
                         try {
                             var r = await e.Server.CreateRole(e.GetArg("role_name"));
                             await e.Channel.SendMessage($"Successfully created role **{r.Name}**.");
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Channel.SendMessage(":warning: Unspecified error.");
                         }
                     });
@@ -138,7 +142,8 @@ namespace NadekoBot.Modules {
 
                             await role.Edit(color: new Color(red, green, blue));
                             await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             await e.Channel.SendMessage(":warning: Unspecified error, please report this.");
                             Console.WriteLine($".rolecolor error: {ex}");
                         }
@@ -170,7 +175,8 @@ namespace NadekoBot.Modules {
                                     await usr.Server.Ban(usr);
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            } catch (Exception ex) { }
+                            }
+                            catch (Exception ex) { }
                         });
 
                 cgb.CreateCommand(".ub").Alias(".unban")
@@ -183,7 +189,8 @@ namespace NadekoBot.Modules {
                                     await usr.Server.Unban(usr);
                                     await e.Channel.SendMessage("Unbanned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            } catch  { }
+                            }
+                            catch { }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
@@ -196,7 +203,8 @@ namespace NadekoBot.Modules {
                                 await e.Message.MentionedUsers.First().Kick();
                                 await e.Channel.SendMessage("Kicked user " + usr.Name + " Id: " + usr.Id);
                             }
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("No sufficient permissions.");
                         }
                     });
@@ -215,7 +223,8 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: true);
                             }
                             await e.Channel.SendMessage("Mute successful");
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("I do not have permission to do that most likely.");
                         }
                     });
@@ -235,7 +244,8 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: false);
                             }
                             await e.Channel.SendMessage("Unmute successful");
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("I do not have permission to do that most likely.");
                         }
                     });
@@ -256,7 +266,8 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: true);
                             }
                             await e.Channel.SendMessage("Deafen successful");
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("I do not have permission to do that most likely.");
                         }
                     });
@@ -277,7 +288,8 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: false);
                             }
                             await e.Channel.SendMessage("Undeafen successful");
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("I do not have permission to do that most likely.");
                         }
                     });
@@ -291,7 +303,8 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Voice).FirstOrDefault()?.Delete();
                                 await e.Channel.SendMessage($"Removed channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("Insufficient permissions.");
                         }
                     });
@@ -305,7 +318,8 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Voice);
                                 await e.Channel.SendMessage($"Created voice channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("Insufficient permissions.");
                         }
                     });
@@ -319,7 +333,8 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault()?.Delete();
                                 await e.Channel.SendMessage($"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("Insufficient permissions.");
                         }
                     });
@@ -333,7 +348,8 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Text);
                                 await e.Channel.SendMessage($"Added text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch  {
+                        }
+                        catch {
                             await e.Channel.SendMessage("Insufficient permissions.");
                         }
                     });
@@ -345,7 +361,8 @@ namespace NadekoBot.Modules {
                         try {
                             if (e.User.ServerPermissions.ManageChannels)
                                 await e.Channel.Edit(topic: e.GetArg("topic"));
-                        } catch  { }
+                        }
+                        catch { }
                     });
 
                 cgb.CreateCommand(".uid").Alias(".userid")
@@ -370,6 +387,14 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
                     });
+                cgb.CreateCommand(".heap")
+                  .Description("Shows allocated memory - OWNER ONLY")
+                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                  .Do(async e => {
+                      var heap = Task.Run(() => NadekoStats.Instance.Heap());
+                      await e.Channel.SendMessage($"`Heap Size:` {heap}");
+                  });
+
                 /*
                 cgb.CreateCommand(".leaveall")
                     .Description("Nadeko leaves all servers **OWNER ONLY**")
@@ -409,7 +434,7 @@ namespace NadekoBot.Modules {
                 ConcurrentDictionary<Server, bool> clearDictionary = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".clr")
                     .Description("Clears some of Nadeko's (or some other user's if supplied) messages from the current channel.\n**Usage**: .clr @X")
-                    .Parameter("user",ParameterType.Unparsed)
+                    .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
                         var usrId = NadekoBot.client.CurrentUser.Id;
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")) && e.User.ServerPermissions.ManageMessages) {
@@ -426,7 +451,7 @@ namespace NadekoBot.Modules {
                                 catch { }
                                 await Task.Delay(200);
                             }
-                                
+
                         });
                     });
 
@@ -497,7 +522,8 @@ namespace NadekoBot.Modules {
                         if (commsUser != null) {
                             commsChannel = null;
                             await e.Channel.SendMessage("User for comms set.");
-                        } else
+                        }
+                        else
                             await e.Channel.SendMessage("No server specified or user.");
                     });
 
@@ -522,7 +548,8 @@ namespace NadekoBot.Modules {
                         if (commsChannel != null) {
                             commsUser = null;
                             await e.Channel.SendMessage("Server for comms set.");
-                        } else
+                        }
+                        else
                             await e.Channel.SendMessage("No server specified or channel is invalid.");
                     });
 
@@ -579,10 +606,9 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".unstuck")
                   .Description("Clears the message queue. **OWNER ONLY**")
-                  .Do(async e => {
-                      if (e.User.Id != NadekoBot.OwnerID)
-                          return;
-                      await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
+                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                  .Do(e => {
+                      NadekoBot.client.MessageQueue.Clear();
                   });
 
                 cgb.CreateCommand(".donators")
@@ -615,7 +641,8 @@ namespace NadekoBot.Modules {
                                 UserId = (long)e.User.Id
                             });
                             e.Channel.SendMessage("Successfuly added a new donator. 👑");
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             Console.WriteLine(ex);
                             Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
                         }
