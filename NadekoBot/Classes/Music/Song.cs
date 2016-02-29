@@ -142,6 +142,8 @@ namespace NadekoBot.Classes.Music {
                         Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
+                        RedirectStandardError = false,
+                        CreateNoWindow = true,
                     });
                     int blockSize = 3840;
                     byte[] buffer = new byte[blockSize];
@@ -163,6 +165,8 @@ namespace NadekoBot.Classes.Music {
                 finally {
                     if (p != null) {
                         p.CancelOutputRead();
+                        p.StandardOutput.Dispose();
+                        p.CloseMainWindow();
                         p.Close();
                         p.Dispose();
                     }
@@ -178,7 +182,7 @@ namespace NadekoBot.Classes.Music {
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt);
             }
-            Console.WriteLine($"Prebuffering done? in {waitPerAttempt*bufferAttempts}");
+            Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
             int blockSize = 3840;
             byte[] buffer = new byte[blockSize];
             int attempt = 0;

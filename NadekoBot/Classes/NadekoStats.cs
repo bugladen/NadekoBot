@@ -108,12 +108,14 @@ namespace NadekoBot {
                 sb.Append($" | TextChannels: {TextChannelsCount}");
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
                 //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-                sb.AppendLine($"`Heap: {Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString()} MB`");
+                //sb.AppendLine($"`Heap: {} MB`");
                 sb.AppendLine($"`Commands Ran this session: {_commandsRan}`");
                 sb.AppendLine($"`Message queue size:{_client.MessageQueue.Count}`");
                 sb.AppendLine($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
                 _statsCache = sb.ToString();
             });
+
+        public string Heap() => Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString();
 
         public async Task<string> GetStats() {
             if (_statsSW.Elapsed.Seconds > 5) {
