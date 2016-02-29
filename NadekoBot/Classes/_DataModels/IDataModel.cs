@@ -2,7 +2,7 @@
 using System;
 
 namespace NadekoBot.Classes._DataModels {
-    abstract class IDataModel {
+    internal abstract class IDataModel {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         [Newtonsoft.Json.JsonProperty("createdAt")]

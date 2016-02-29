@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NadekoBot.Extensions;
@@ -10,43 +9,38 @@ using System.Reflection;
 
 namespace NadekoBot {
     public class NadekoStats {
-        public string BotVersion { get; } = $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
+        public static NadekoStats Instance { get; } = new NadekoStats();
 
-        private static readonly NadekoStats _instance = new NadekoStats();
-        public static NadekoStats Instance => _instance;
+        private readonly CommandService commandService;
 
-        private CommandService _service;
-        private DiscordClient _client;
+        public string BotVersion => $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version}";
 
         private int _commandsRan = 0;
         private string _statsCache = "";
-        private Stopwatch _statsSW = new Stopwatch();
+        private readonly Stopwatch statsStopwatch = new Stopwatch();
 
         public int ServerCount { get; private set; } = 0;
         public int TextChannelsCount { get; private set; } = 0;
         public int VoiceChannelsCount { get; private set; } = 0;
 
-        List<string> messages = new List<string>();
-
         static NadekoStats() { }
 
         private NadekoStats() {
-            _service = NadekoBot.Client.GetService<CommandService>();
-            _client = NadekoBot.Client;
+            commandService = NadekoBot.Client.GetService<CommandService>();
 
-            _statsSW = new Stopwatch();
-            _statsSW.Start();
-            _service.CommandExecuted += StatsCollector_RanCommand;
+            statsStopwatch = new Stopwatch();
+            statsStopwatch.Start();
+            commandService.CommandExecuted += StatsCollector_RanCommand;
 
-            Task.Run(() => StartCollecting());
+            Task.Run(StartCollecting);
             Console.WriteLine("Logging enabled.");
 
-            ServerCount = _client.Servers.Count();
-            var channels = _client.Servers.SelectMany(s => s.AllChannels);
-            TextChannelsCount = channels.Where(c => c.Type == ChannelType.Text).Count();
+            ServerCount = NadekoBot.Client.Servers.Count();
+            var channels = NadekoBot.Client.Servers.SelectMany(s => s.AllChannels);
+            TextChannelsCount = channels.Count(c => c.Type == ChannelType.Text);
             VoiceChannelsCount = channels.Count() - TextChannelsCount;
 
-            _client.JoinedServer += (s, e) => {
+            NadekoBot.Client.JoinedServer += (s, e) => {
                 try {
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
@@ -54,7 +48,7 @@ namespace NadekoBot {
                 }
                 catch { }
             };
-            _client.LeftServer += (s, e) => {
+            NadekoBot.Client.LeftServer += (s, e) => {
                 try {
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
@@ -62,7 +56,7 @@ namespace NadekoBot {
                 }
                 catch { }
             };
-            _client.ChannelCreated += (s, e) => {
+            NadekoBot.Client.ChannelCreated += (s, e) => {
                 try {
                     if (e.Channel.IsPrivate)
                         return;
@@ -73,7 +67,7 @@ namespace NadekoBot {
                 }
                 catch { }
             };
-            _client.ChannelDestroyed += (s, e) => {
+            NadekoBot.Client.ChannelDestroyed += (s, e) => {
                 try {
                     if (e.Channel.IsPrivate)
                         return;
@@ -98,20 +92,15 @@ namespace NadekoBot {
             Task.Run(() => {
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
-                //$"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
-                //$"\nRuntime: {_client.GetRuntime()}" +
                 sb.AppendLine($"`Bot Version: {BotVersion}`");
-                //$"\nLogged in as: {_client.CurrentUser.Name}" +
-                sb.AppendLine($"`Bot id: {_client.CurrentUser.Id}`");
-                sb.AppendLine($"`Owner id: {NadekoBot.OwnerID}`");
+                sb.AppendLine($"`Bot id: {NadekoBot.Client.CurrentUser.Id}`");
+                sb.AppendLine($"`Owner id: {(NadekoBot.Creds.OwnerIds.FirstOrDefault())}`");
                 sb.AppendLine($"`Uptime: {GetUptimeString()}`");
                 sb.Append($"`Servers: {ServerCount}");
                 sb.Append($" | TextChannels: {TextChannelsCount}");
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
-                //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-                //sb.AppendLine($"`Heap: {} MB`");
                 sb.AppendLine($"`Commands Ran this session: {_commandsRan}`");
-                sb.AppendLine($"`Message queue size:{_client.MessageQueue.Count}`");
+                sb.AppendLine($"`Message queue size:{NadekoBot.Client.MessageQueue.Count}`");
                 sb.AppendLine($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
                 _statsCache = sb.ToString();
             });
@@ -119,10 +108,9 @@ namespace NadekoBot {
         public string Heap() => Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString();
 
         public async Task<string> GetStats() {
-            if (_statsSW.Elapsed.Seconds > 5) {
-                await LoadStats();
-                _statsSW.Restart();
-            }
+            if (statsStopwatch.Elapsed.Seconds <= 5) return _statsCache;
+            await LoadStats();
+            statsStopwatch.Restart();
             return _statsCache;
         }
 
@@ -132,7 +120,7 @@ namespace NadekoBot {
                 try {
                     var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count()));
                     var realOnlineUsers = await Task.Run(() => NadekoBot.Client.Servers
-                                                                        .Sum(x => x.Users.Where(u => u.Status == UserStatus.Online).Count()));
+                                                                        .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)));
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
                     Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Stats {
@@ -165,7 +153,7 @@ namespace NadekoBot {
                 });
             }
             catch {
-                Console.WriteLine("Parse error in ran command.");
+                Console.WriteLine("Error in ran command DB write.");
             }
         }
     }

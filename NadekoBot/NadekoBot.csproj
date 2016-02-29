@@ -117,6 +117,9 @@
   <ItemGroup>
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Classes\JSONModels\AnimeResult.cs" />
+    <Compile Include="Classes\JSONModels\MangaResult.cs" />
+    <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\Song.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
@@ -147,7 +150,6 @@
     <Compile Include="Commands\RequestsCommand.cs" />
     <Compile Include="Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />
-    <Compile Include="Classes\_JSONModels.cs" />
     <Compile Include="Classes\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Commands\CopyCommand.cs" />

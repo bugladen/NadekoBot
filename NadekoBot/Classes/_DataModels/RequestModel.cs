@@ -1,5 +1,5 @@
 ﻿namespace NadekoBot.Classes._DataModels {
-    class Request : IDataModel {
+    internal class Request : IDataModel {
         public string UserName { get; set; }
         public long UserId { get; set; }
         public string ServerName { get; set; }

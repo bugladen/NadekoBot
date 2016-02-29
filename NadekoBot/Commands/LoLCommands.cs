@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
-using NadekoBot;
 using System.Drawing;
 using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
-using System.Collections.Concurrent;
 
 namespace NadekoBot.Commands {
     class LoLCommands : DiscordCommand {

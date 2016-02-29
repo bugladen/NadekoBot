@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Audio;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
@@ -8,7 +7,6 @@ using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Timer = System.Timers.Timer;
 

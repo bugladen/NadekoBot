@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
-using System.Collections.Generic;
 
 namespace NadekoBot.Commands {
     class LogCommand : DiscordCommand {
@@ -21,7 +20,7 @@ namespace NadekoBot.Commands {
         ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
-            if (e.User.Id != NadekoBot.OwnerID ||
+            if (!NadekoBot.IsOwner(e.User.Id) ||
                           !e.User.ServerPermissions.ManageServer)
                 return;
             Channel ch;
@@ -116,7 +115,7 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(".userpresence")
                   .Description("Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(async e => {
-                      if (e.User.Id != NadekoBot.OwnerID ||
+                      if (!NadekoBot.IsOwner(e.User.Id) ||
                           !e.User.ServerPermissions.ManageServer)
                           return;
                       Channel ch;
@@ -130,9 +129,9 @@ namespace NadekoBot.Commands {
                   });
 
             cgb.CreateCommand(".voicepresence")
-                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.")
+                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(async e => {
-                      if (e.User.Id != NadekoBot.OwnerID ||
+                      if (!NadekoBot.IsOwner(e.User.Id) ||
                           !e.User.ServerPermissions.ManageServer)
                           return;                    
 

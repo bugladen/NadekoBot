@@ -6,69 +6,54 @@ using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
 using Discord.Audio;
-using NadekoBot.Extensions;
 using System.Timers;
 using System.Linq;
+using System.Threading.Tasks;
 using NadekoBot.Classes;
+using NadekoBot.Classes.JSONModels;
 
 namespace NadekoBot {
     public class NadekoBot {
         public static DiscordClient Client;
-        public static string botMention;
-        public static string GoogleAPIKey = null;
-        public static Channel OwnerPrivateChannel = null;
-        public static string TrelloAppKey;
         public static bool ForwardMessages = false;
         public static Credentials Creds { get; set; }
+        public static string BotMention { get; set; } = "";
+
+        private static Channel OwnerPrivateChannel { get; set; }
 
         static void Main() {
-            //load credentials from credentials.json
-            bool loadTrello = false;
             try {
+                //load credentials from credentials.json
                 Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
-                botMention = Creds.BotMention;
-                if (string.IsNullOrWhiteSpace(Creds.GoogleAPIKey)) {
-                    Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
-                }
-                else {
-                    Console.WriteLine("Google API key provided.");
-                    GoogleAPIKey = Creds.GoogleAPIKey;
-                }
-                if (string.IsNullOrWhiteSpace(Creds.TrelloAppKey)) {
-                    Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
-                }
-                else {
-                    Console.WriteLine("Trello app key provided.");
-                    TrelloAppKey = Creds.TrelloAppKey;
-                    loadTrello = true;
-                }
-                if (Creds.ForwardMessages != true)
-                    Console.WriteLine("Not forwarding messages.");
-                else {
-                    ForwardMessages = true;
-                    Console.WriteLine("Forwarding messages.");
-                }
-                if (string.IsNullOrWhiteSpace(Creds.SoundCloudClientID))
-                    Console.WriteLine("No soundcloud Client ID found. Soundcloud streaming is disabled.");
-                else
-                    Console.WriteLine("SoundCloud streaming enabled.");
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
                 Console.ReadKey();
                 return;
             }
 
-            //create new discord client
+            Console.WriteLine(string.IsNullOrWhiteSpace(Creds.GoogleAPIKey)
+                ? "No google api key found. You will not be able to use music and links won't be shortened."
+                : "Google API key provided.");
+            Console.WriteLine(string.IsNullOrWhiteSpace(Creds.TrelloAppKey)
+                ? "No trello appkey found. You will not be able to use trello commands."
+                : "Trello app key provided.");
+            Console.WriteLine(Creds.ForwardMessages != true
+                ? "Not forwarding messages."
+                : "Forwarding private messages to owner.");
+            Console.WriteLine(string.IsNullOrWhiteSpace(Creds.SoundCloudClientID)
+                ? "No soundcloud Client ID found. Soundcloud streaming is disabled."
+                : "SoundCloud streaming enabled.");
+
+            BotMention = $"<@{Creds.BotId}>";
+
+            //create new discord client and log
             Client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 20,
                 LogLevel = LogSeverity.Warning,
-                LogHandler = (s, e) => {
-                    try {
-                        Console.WriteLine($"Severity: {e.Severity}\nMessage: {e.Message}\nExceptionMessage: {e.Exception?.Message ?? "-"}");//\nException: {(e.Exception?.ToString() ?? "-")}");
-                    }
-                    catch { }
-                }
+                LogHandler = (s, e) =>
+                    Console.WriteLine($"Severity: {e.Severity}" +
+                                      $"Message: {e.Message}" +
+                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}"),
             });
 
             //create a command service
@@ -77,14 +62,13 @@ namespace NadekoBot {
                 CustomPrefixHandler = m => 0,
                 HelpMode = HelpMode.Disabled,
                 ErrorHandler = async (s, e) => {
+                    if (e.ErrorType != CommandErrorType.BadPermissions)
+                        return;
+                    if (string.IsNullOrWhiteSpace(e.Exception?.Message))
+                        return;
                     try {
-                        if (e.ErrorType != CommandErrorType.BadPermissions)
-                            return;
-                        if (string.IsNullOrWhiteSpace(e.Exception.Message))
-                            return;
                         await e.Channel.SendMessage(e.Exception.Message);
-                    }
-                    catch { }
+                    } catch { }
                 }
             });
 
@@ -92,13 +76,13 @@ namespace NadekoBot {
             Client.MessageReceived += Client_MessageReceived;
 
             //add command service
-            var commands = Client.AddService<CommandService>(commandService);
+            Client.AddService<CommandService>(commandService);
 
             //create module service
             var modules = Client.AddService<ModuleService>(new ModuleService());
 
             //add audio service
-            var audio = Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
+            Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,
@@ -114,16 +98,15 @@ namespace NadekoBot {
             modules.Add(new Games(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
-            if (loadTrello)
-                modules.Add(new Trello(), "Trello", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
+            if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
+                modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
             //run the bot
             Client.ExecuteAndWait(async () => {
                 try {
                     await Client.Connect(Creds.Username, Creds.Password);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Console.WriteLine($"Probably wrong EMAIL or PASSWORD.\n{ex.Message}");
                     Console.ReadKey();
                     Console.WriteLine(ex);
@@ -135,47 +118,36 @@ namespace NadekoBot {
                 Console.WriteLine("-----------------");
 
                 try {
-                    OwnerPrivateChannel = await Client.CreatePrivateChannel(OwnerId);
-                }
-                catch {
-                    Console.WriteLine("Failed creating private channel with the owner");
+                    OwnerPrivateChannel = await Client.CreatePrivateChannel(Creds.OwnerIds[0]);
+                } catch {
+                    Console.WriteLine("Failed creating private channel with the first owner listed in credentials.json");
                 }
 
                 Classes.Permissions.PermissionsHandler.Initialize();
-                
+
                 Client.ClientAPI.SendingRequest += (s, e) => {
-
-                    try {
-                        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
-                        if (request != null) {
-                            //@everyοne
-                            request.Content = request.Content?.Replace("@everyone", "@everryone") ?? "_error_";
-                            if (string.IsNullOrWhiteSpace(request.Content))
-                                e.Cancel = true;
-                            //else
-                            //    Console.WriteLine("Sending request");
-                        }
-                    }
-                    catch {
-                        Console.WriteLine("SENDING REQUEST ERRORED!!!!");
-                    }
+                    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                    if (request == null) return;
+                    request.Content = request.Content?.Replace("@everyone", "@everyοne") ?? "_error_";
+                    if (string.IsNullOrWhiteSpace(request.Content))
+                        e.Cancel = true;
                 };
-
-                //client.ClientAPI.SentRequest += (s, e) => {
-                //    try {
-                //        var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
-                //        if (request != null) {
-                //            Console.WriteLine("Sent.");
-                //        }
-                //    }
-                //    catch { Console.WriteLine("SENT REQUEST ERRORED!!!"); }
-                //};
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
         }
 
-        static bool repliedRecently = false;
+        public static bool IsOwner(ulong id) => Creds.OwnerIds.Contains(id);
+
+        public static bool IsOwner(User u) => IsOwner(u.Id);
+
+        public async Task SendMessageToOwner(string message) {
+            if (ForwardMessages && OwnerPrivateChannel != null)
+                await OwnerPrivateChannel.SendMessage(message);
+        }
+
+        private static bool repliedRecently = false;
+
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             try {
                 if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
@@ -187,14 +159,13 @@ namespace NadekoBot {
                     e.User.Id == 119174277298782216 ||
                     e.User.Id == 143515953525817344)
                     return; // FU
-
+                
                 if (!NadekoBot.Creds.DontJoinServers) {
                     try {
                         await (await Client.GetInvite(e.Message.Text)).Accept();
                         await e.Channel.SendMessage("I got in!");
                         return;
-                    }
-                    catch {
+                    } catch {
                         if (e.User.Id == 109338686889476096) { //carbonitex invite
                             await e.Channel.SendMessage("Failed to join the server.");
                             return;
@@ -205,23 +176,15 @@ namespace NadekoBot {
                 if (ForwardMessages && OwnerPrivateChannel != null)
                     await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
 
-                if (!repliedRecently) {
+                if (repliedRecently) return;
+
+                repliedRecently = true;
+                await e.Channel.SendMessage(HelpCommand.HelpString);
+                await Task.Run(async () => {
+                    await Task.Delay(2000);
                     repliedRecently = true;
-                    await e.Channel.SendMessage("**FULL LIST OF COMMANDS**:\n❤ <https://gist.github.com/Kwoth/1ab3a38424f208802b74> ❤\n\n⚠**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\n\n\n**Bot Creator's server:** <https://discord.gg/0ehQwTK2RBjAxzEY>");
-                    Timer t = new Timer();
-                    t.Interval = 2000;
-                    t.Start();
-                    t.Elapsed += (s, ev) => {
-                        try {
-                            repliedRecently = false;
-                            t.Stop();
-                            t.Dispose();
-                        }
-                        catch { }
-                    };
-                }
-            }
-            catch { }
+                });
+            } catch { }
         }
     }
 }

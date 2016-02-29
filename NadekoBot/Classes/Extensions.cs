@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Discord.Commands;
 using Discord;
-using NadekoBot.Modules;
 using System.IO;
 using System.Drawing;
 using NadekoBot.Classes;

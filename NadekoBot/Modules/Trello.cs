@@ -65,7 +65,7 @@ namespace NadekoBot.Modules {
                     .Description("Joins a server")
                     .Parameter("code", Discord.Commands.ParameterType.Required)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerId) return;
+                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         try {
                             await (await client.GetInvite(e.GetArg("code"))).Accept();
                         } catch (Exception ex) {
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules {
                     .Description("Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited.")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerId) return;
+                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound != null) return;
                         try {
                             bound = e.Channel;
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("unbind")
                     .Description("Unbinds a bot from the channel and board.")
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerId) return;
+                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound == null || bound != e.Channel) return;
                         t.Stop();
                         bound = null;
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules {
                     .Alias("list")
                     .Description("Lists all lists yo ;)")
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerId) return;
+                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound == null || board == null || bound != e.Channel) return;
                         await e.Channel.SendMessage("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")));
                     });
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules {
                     .Description("Lists all cards from the supplied list. You can supply either a name or an index.")
                     .Parameter("list_name", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerId) return;
+                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound == null || board == null || bound != e.Channel || e.GetArg("list_name") == null) return;
 
                         int num;

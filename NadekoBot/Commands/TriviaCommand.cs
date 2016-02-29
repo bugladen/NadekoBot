@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using Discord;
 using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;

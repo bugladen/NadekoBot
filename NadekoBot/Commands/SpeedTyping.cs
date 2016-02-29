@@ -151,7 +151,7 @@ namespace NadekoBot.Commands {
                 .Description("Adds a new article to the typing contest. Owner only.")
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(async e => {
-                    if (e.User.Id != NadekoBot.OwnerID || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
+                    if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
                     Classes.DBHandler.Instance.InsertData(new Classes._DataModels.TypingArticle {
                         Text = e.GetArg("text"),

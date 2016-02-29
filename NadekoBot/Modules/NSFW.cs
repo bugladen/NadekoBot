@@ -1,6 +1,5 @@
 ﻿using System;
 using Discord.Modules;
-using NadekoBot.Extensions;
 using Discord.Commands;
 using Newtonsoft.Json.Linq;
 using NadekoBot.Classes;

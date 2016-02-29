@@ -73,7 +73,7 @@ namespace NadekoBot.Commands {
                 .Description("Deletes a request. Only owner is able to do this.")
                 .Parameter("reqNumber", ParameterType.Required)
                 .Do(async e => {
-                    if (e.User.Id == NadekoBot.OwnerId) {
+                    if (NadekoBot.IsOwner(e.User.Id)) {
                         try {
                             if (DeleteRequest(int.Parse(e.Args[0]))) {
                                 await e.Channel.SendMessage(e.User.Mention + " Request deleted.");
@@ -90,7 +90,7 @@ namespace NadekoBot.Commands {
                 .Description("Resolves a request. Only owner is able to do this.")
                 .Parameter("reqNumber", ParameterType.Required)
                 .Do(async e => {
-                    if (e.User.Id == NadekoBot.OwnerId) {
+                    if (NadekoBot.IsOwner(e.User.Id)) {
                         try {
                             var sc = ResolveRequest(int.Parse(e.Args[0]));
                             if (sc != null) {

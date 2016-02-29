@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.Legacy;
 using NadekoBot.Extensions;
 using System.Drawing;
 

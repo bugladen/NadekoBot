@@ -35,21 +35,20 @@ namespace NadekoBot {
             #endregion OldHelp
 
             if (string.IsNullOrWhiteSpace(e.GetArg("command"))) {
-                await e.User.Send("**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>");
+                await e.User.Send(HelpString);
                 return;
             }
-            else {
-                await Task.Run(async () => {
-                    var comToFind = e.GetArg("command");
+            await Task.Run(async () => {
+                var comToFind = e.GetArg("command");
 
-                    var com = NadekoBot.Client.GetService<CommandService>().AllCommands
-                                            .Where(c => c.Text.ToLower().Equals(comToFind))
-                                            .FirstOrDefault();
-                    if (com != null)
-                        await e.Channel.SendMessage($"`Help for '{com.Text}:'` **{com.Description}**");
-                });
-            }
+                var com = NadekoBot.Client.GetService<CommandService>().AllCommands
+                    .FirstOrDefault(c => c.Text.ToLower().Equals(comToFind));
+                if (com != null)
+                    await e.Channel.SendMessage($"`Help for '{com.Text}:'` **{com.Description}**");
+            });
         };
+
+        public static string HelpString => "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>";
 
         public Action<CommandEventArgs> DoGitFunc() => e => {
             string helpstr =

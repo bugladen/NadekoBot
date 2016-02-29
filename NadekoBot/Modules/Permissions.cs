@@ -1,11 +1,9 @@
 ﻿using System;
 using Discord.Modules;
 using Discord.Commands;
-using NadekoBot.Extensions;
 using NadekoBot.Classes;
 using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
-using System.Text;
 
 namespace NadekoBot.Modules {
     class PermissionModule : DiscordModule {
