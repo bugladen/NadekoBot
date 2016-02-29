@@ -8,8 +8,6 @@ using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using System.Reflection;
 
-
-
 namespace NadekoBot {
     public class NadekoStats {
         public string BotVersion { get; } = $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";

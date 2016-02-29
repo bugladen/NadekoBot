@@ -48,7 +48,9 @@ namespace NadekoBot.Classes.Permissions {
                     } catch { }
                     if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
-                    throw new Exception($"You don't have the necessary role (**{PermissionsHandler._permissionsDict[user.Server].PermissionsControllerRole}**) to change permissions.");
+                    ServerPermissions perms;
+                    PermissionsHandler._permissionsDict.TryGetValue(user.Server.Id, out perms);
+                    throw new Exception($"You don't have the necessary role (**{(perms?.PermissionsControllerRole ?? "Nadeko")}**) to change permissions.");
                 }
 
                 var permissionType = PermissionsHandler.GetPermissionBanType(command, user, channel);
@@ -85,11 +87,11 @@ namespace NadekoBot.Classes.Permissions {
                     default:
                         return true;
                 }
-                if (PermissionsHandler._permissionsDict[user.Server].Verbose) //if verbose - print errors
+                if (PermissionsHandler._permissionsDict[user.Server.Id].Verbose) //if verbose - print errors
                     error = msg;
                 return false;
             } catch (Exception ex) {
-                if (PermissionsHandler._permissionsDict[user.Server].Verbose) //if verbose - print errors
+                if (PermissionsHandler._permissionsDict[user.Server.Id].Verbose) //if verbose - print errors
                     error = ex.Message;
                 return false;
             }

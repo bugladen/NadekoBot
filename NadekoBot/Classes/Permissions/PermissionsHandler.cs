@@ -11,8 +11,8 @@ using Discord.Commands;
 
 namespace NadekoBot.Classes.Permissions {
     public static class PermissionsHandler {
-        public static ConcurrentDictionary<Server, ServerPermissions> _permissionsDict =
-            new ConcurrentDictionary<Server, ServerPermissions>();
+        public static ConcurrentDictionary<ulong, ServerPermissions> _permissionsDict =
+            new ConcurrentDictionary<ulong, ServerPermissions>();
 
         public enum PermissionBanType {
             None, ServerBanCommand, ServerBanModule,
@@ -28,12 +28,8 @@ namespace NadekoBot.Classes.Permissions {
                 try {
                     var strippedFileName = Path.GetFileNameWithoutExtension(file);
                     var id = ulong.Parse(strippedFileName);
-                    var server = NadekoBot.client.GetServer(id);
-                    if (server == null)
-                        throw new ArgumentException("Server does not exist");
-
                     var data = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerPermissions>(File.ReadAllText(file));
-                    _permissionsDict.TryAdd(server, data);
+                    _permissionsDict.TryAdd(id, data);
                 } catch (Exception ex) {
                     //Console.WriteLine($"Failed getting server with id: {file}\nReason: {ex.Message}");
                 }
@@ -42,56 +38,62 @@ namespace NadekoBot.Classes.Permissions {
         }
 
         internal static Permissions GetRolePermissionsById(Server server, ulong id) {
-            if (!_permissionsDict.ContainsKey(server))
+            ServerPermissions serverPerms;
+            if (!_permissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
 
             Permissions toReturn;
-            _permissionsDict[server].RolePermissions.TryGetValue(id, out toReturn);
+            serverPerms.RolePermissions.TryGetValue(id, out toReturn);
             return toReturn;
         }
 
         internal static Permissions GetUserPermissionsById(Server server, ulong id) {
-            if (!_permissionsDict.ContainsKey(server))
+            ServerPermissions serverPerms;
+            if (!_permissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
 
             Permissions toReturn;
-            _permissionsDict[server].UserPermissions.TryGetValue(id, out toReturn);
+            serverPerms.UserPermissions.TryGetValue(id, out toReturn);
             return toReturn;
         }
 
         internal static Permissions GetChannelPermissionsById(Server server, ulong id) {
-            if (!_permissionsDict.ContainsKey(server))
+            ServerPermissions serverPerms;
+            if (!_permissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
 
             Permissions toReturn;
-            _permissionsDict[server].ChannelPermissions.TryGetValue(id, out toReturn);
+            serverPerms.ChannelPermissions.TryGetValue(id, out toReturn);
             return toReturn;
         }
 
         internal static Permissions GetServerPermissions(Server server) {
-            if (!_permissionsDict.ContainsKey(server))
+            ServerPermissions serverPerms;
+            if (!_permissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
 
-            return _permissionsDict[server].Permissions;
+            return serverPerms.Permissions;
         }
 
         internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel) {
             var server = user.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
+            ServerPermissions serverPerms;
+            if (!_permissionsDict.TryGetValue(server.Id,out serverPerms)) {
+                serverPerms = new ServerPermissions(server.Id, server.Name);
+                _permissionsDict.TryAdd(server.Id, serverPerms);
             }
             bool val;
             Permissions perm;
             //server
-            if (_permissionsDict[server].Permissions.modules.TryGetValue(command.Category, out val) && val == false)
+            if (serverPerms.Permissions.modules.TryGetValue(command.Category, out val) && val == false)
                 return PermissionBanType.ServerBanModule;
-            if (_permissionsDict[server].Permissions.commands.TryGetValue(command.Text, out val) && val == false)
+            if (serverPerms.Permissions.commands.TryGetValue(command.Text, out val) && val == false)
                 return PermissionBanType.ServerBanCommand;
             //channel
-            if (_permissionsDict[server].ChannelPermissions.TryGetValue(channel.Id, out perm) &&
+            if (serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perm) &&
                 perm.modules.TryGetValue(command.Category, out val) && val == false)
                 return PermissionBanType.ChannelBanModule;
-            if (_permissionsDict[server].ChannelPermissions.TryGetValue(channel.Id, out perm) &&
+            if (serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perm) &&
                 perm.commands.TryGetValue(command.Text, out val) && val == false)
                 return PermissionBanType.ChannelBanCommand;
 
@@ -104,7 +106,7 @@ namespace NadekoBot.Classes.Permissions {
             bool foundNotBannedRole = false;
             foreach (var role in user.Roles) {
                 //if every role is banned from using the module -> rolebanmodule
-                if (_permissionsDict[server].RolePermissions.TryGetValue(role.Id, out perm) &&
+                if (serverPerms.RolePermissions.TryGetValue(role.Id, out perm) &&
                 perm.modules.TryGetValue(command.Category, out val) && val == false)
                     continue;
                 else {
@@ -123,7 +125,7 @@ namespace NadekoBot.Classes.Permissions {
             foundNotBannedRole = false;
             foreach (var role in user.Roles) {
                 //if every role is banned from using the module -> rolebanmodule
-                if (_permissionsDict[server].RolePermissions.TryGetValue(role.Id, out perm) &&
+                if (serverPerms.RolePermissions.TryGetValue(role.Id, out perm) &&
                 perm.commands.TryGetValue(command.Text, out val) && val == false)
                     continue;
                 else {
@@ -135,19 +137,19 @@ namespace NadekoBot.Classes.Permissions {
                 return PermissionBanType.RoleBanCommand;
 
             //user
-            if (_permissionsDict[server].UserPermissions.TryGetValue(user.Id, out perm) &&
+            if (serverPerms.UserPermissions.TryGetValue(user.Id, out perm) &&
                 perm.modules.TryGetValue(command.Category, out val) && val == false)
                 return PermissionBanType.UserBanModule;
-            if (_permissionsDict[server].UserPermissions.TryGetValue(user.Id, out perm) &&
+            if (serverPerms.UserPermissions.TryGetValue(user.Id, out perm) &&
                 perm.commands.TryGetValue(command.Text, out val) && val == false)
                 return PermissionBanType.UserBanCommand;
 
             return PermissionBanType.None;
         }
 
-        private static void WriteServerToJson(Server server) {
-            string pathToFile = $"data/permissions/{server.Id}.json";
-            File.WriteAllText(pathToFile, Newtonsoft.Json.JsonConvert.SerializeObject(_permissionsDict[server], Newtonsoft.Json.Formatting.Indented));
+        private static void WriteServerToJson(ulong serverId) {
+            string pathToFile = $"data/permissions/{serverId}.json";
+            File.WriteAllText(pathToFile, Newtonsoft.Json.JsonConvert.SerializeObject(_permissionsDict[serverId], Newtonsoft.Json.Formatting.Indented));
         }
 
         public static void WriteToJson() {
@@ -158,152 +160,147 @@ namespace NadekoBot.Classes.Permissions {
         }
 
         public static string GetServerPermissionsRoleName(Server server) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            return _permissionsDict[server].PermissionsControllerRole;
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            return serverPerms.PermissionsControllerRole;
         }
 
         internal static void SetPermissionsRole(Server server, string roleName) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            _permissionsDict[server].PermissionsControllerRole = roleName;
-            Task.Run(() => WriteServerToJson(server));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            serverPerms.PermissionsControllerRole = roleName;
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         internal static void SetVerbosity(Server server, bool val) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            _permissionsDict[server].Verbose = val;
-            Task.Run(() => WriteServerToJson(server));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            serverPerms.Verbose = val;
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetServerModulePermission(Server server, string moduleName, bool value) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            var modules = _permissionsDict[server].Permissions.modules;
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            var modules = serverPerms.Permissions.modules;
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetServerCommandPermission(Server server, string commandName, bool value) {
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            var commands = _permissionsDict[server].Permissions.commands;
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            var commands = serverPerms.Permissions.commands;
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetChannelModulePermission(Channel channel, string moduleName, bool value) {
             var server = channel.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id))
-                _permissionsDict[server].ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
 
-            var modules = _permissionsDict[server].ChannelPermissions[channel.Id].modules;
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+
+            if (!serverPerms.ChannelPermissions.ContainsKey(channel.Id))
+                serverPerms.ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
+
+            var modules = serverPerms.ChannelPermissions[channel.Id].modules;
 
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetChannelCommandPermission(Channel channel, string commandName, bool value) {
             var server = channel.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].ChannelPermissions.ContainsKey(channel.Id))
-                _permissionsDict[server].ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
 
-            var commands = _permissionsDict[server].ChannelPermissions[channel.Id].commands;
+            if (!serverPerms.ChannelPermissions.ContainsKey(channel.Id))
+                serverPerms.ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
+
+            var commands = serverPerms.ChannelPermissions[channel.Id].commands;
 
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetRoleModulePermission(Role role, string moduleName, bool value) {
             var server = role.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].RolePermissions.ContainsKey(role.Id))
-                _permissionsDict[server].RolePermissions.Add(role.Id, new Permissions(role.Name));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
 
-            var modules = _permissionsDict[server].RolePermissions[role.Id].modules;
+            if (!serverPerms.RolePermissions.ContainsKey(role.Id))
+                serverPerms.RolePermissions.Add(role.Id, new Permissions(role.Name));
+
+            var modules = serverPerms.RolePermissions[role.Id].modules;
 
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetRoleCommandPermission(Role role, string commandName, bool value) {
             var server = role.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].RolePermissions.ContainsKey(role.Id))
-                _permissionsDict[server].RolePermissions.Add(role.Id, new Permissions(role.Name));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
 
-            var commands = _permissionsDict[server].RolePermissions[role.Id].commands;
+            if (!serverPerms.RolePermissions.ContainsKey(role.Id))
+                serverPerms.RolePermissions.Add(role.Id, new Permissions(role.Name));
+
+            var commands = serverPerms.RolePermissions[role.Id].commands;
 
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetUserModulePermission(User user, string moduleName, bool value) {
             var server = user.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].UserPermissions.ContainsKey(user.Id))
-                _permissionsDict[server].UserPermissions.Add(user.Id, new Permissions(user.Name));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
 
-            var modules = _permissionsDict[server].UserPermissions[user.Id].modules;
+            if (!serverPerms.UserPermissions.ContainsKey(user.Id))
+                serverPerms.UserPermissions.Add(user.Id, new Permissions(user.Name));
+
+            var modules = serverPerms.UserPermissions[user.Id].modules;
 
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
                 modules.Add(moduleName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
 
         public static void SetUserCommandPermission(User user, string commandName, bool value) {
             var server = user.Server;
-            if (!_permissionsDict.ContainsKey(server)) {
-                _permissionsDict.TryAdd(server, new ServerPermissions(server.Id, server.Name));
-            }
-            if (!_permissionsDict[server].UserPermissions.ContainsKey(user.Id))
-                _permissionsDict[server].UserPermissions.Add(user.Id, new Permissions(user.Name));
+            ServerPermissions serverPerms = _permissionsDict.GetOrAdd(server.Id,
+                serverPerms = new ServerPermissions(server.Id, server.Name));
+            if (!serverPerms.UserPermissions.ContainsKey(user.Id))
+                serverPerms.UserPermissions.Add(user.Id, new Permissions(user.Name));
 
-            var commands = _permissionsDict[server].UserPermissions[user.Id].commands;
+            var commands = serverPerms.UserPermissions[user.Id].commands;
 
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
                 commands.Add(commandName, value);
-            Task.Run(() => WriteServerToJson(server));
+            Task.Run(() => WriteServerToJson(server.Id));
         }
     }
     /// <summary>
