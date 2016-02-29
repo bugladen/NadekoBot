@@ -579,10 +579,9 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".unstuck")
                   .Description("Clears the message queue. **OWNER ONLY**")
-                  .Do(async e => {
-                      if (e.User.Id != NadekoBot.OwnerID)
-                          return;
-                      await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
+                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                  .Do(e => {
+                      NadekoBot.client.MessageQueue.Clear();
                   });
 
                 cgb.CreateCommand(".donators")

@@ -19,18 +19,23 @@ namespace NadekoBot.Commands {
             public string Name { get; set; }
         }
 
-        private static List<CachedChampion> CachedChampionImages = new List<CachedChampion>();
+        private static Dictionary<string, CachedChampion> CachedChampionImages = new Dictionary<string, CachedChampion>();
         private readonly object cacheLock = new object();
 
+
+        private System.Timers.Timer clearTimer { get; } = new System.Timers.Timer();
         public LoLCommands() : base() {
-            Task.Run(async () => {
-                while (true) {
-                    lock (cacheLock) {
-                        CachedChampionImages = CachedChampionImages.Where(cc => DateTime.Now - cc.AddedAt < new TimeSpan(1, 0, 0)).ToList();
-                    }
-                    await Task.Delay(new TimeSpan(0, 10, 0));
+            clearTimer.Interval = new TimeSpan(0, 10, 0).TotalMilliseconds;
+            clearTimer.Start();
+            clearTimer.Elapsed += (s, e) => {
+                try {
+                    lock (cacheLock)
+                        CachedChampionImages = CachedChampionImages
+                            .Where(kvp => DateTime.Now - kvp.Value.AddedAt > new TimeSpan(1, 0, 0))
+                            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 }
-            });
+                catch { }
+            };
         }
 
         string[] trashTalk = new[] { "Better ban your counters. You are going to carry the game anyway.",
@@ -61,10 +66,11 @@ namespace NadekoBot.Commands {
                       try {
                           //get role
                           string role = ResolvePos(e.GetArg("position"));
+                          string resolvedRole = role;
                           var name = e.GetArg("champ").Replace(" ", "");
-                          CachedChampion champ;
+                          CachedChampion champ = null;
                           lock (cacheLock) {
-                               champ = CachedChampionImages.Where(cc => cc.Name == name.ToLower()).FirstOrDefault();
+                              CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ);
                           }
                           if (champ != null) {
                               Console.WriteLine("Sending lol image from cache.");
@@ -89,6 +95,16 @@ namespace NadekoBot.Commands {
                           else {
                               data = allData[0];
                               role = allData[0]["role"].ToString();
+                              resolvedRole = ResolvePos(role);
+                          }
+                          lock (cacheLock) {
+                              CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ);
+                          }
+                          if (champ != null) {
+                              Console.WriteLine("Sending lol image from cache.");
+                              champ.ImageStream.Position = 0;
+                              await e.Channel.SendFile("champ.png", champ.ImageStream);
+                              return;
                           }
                           //name = data["title"].ToString();
                           // get all possible roles, and "select" the shown one
@@ -144,7 +160,7 @@ namespace NadekoBot.Commands {
                               var smallFont = new Font("Monaco", 7, FontStyle.Regular);
                               //draw champ image
                               var champName = data["key"].ToString().Replace(" ", "");
-                              
+
                               g.DrawImage(GetImage(champName), new Rectangle(margin, margin, imageSize, imageSize));
                               //draw champ name
                               if (champName == "MonkeyKing")
@@ -217,8 +233,8 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                               smallImgSize));
                               }
                           }
-                          var cachedChamp = new CachedChampion { AddedAt = DateTime.Now, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() };
-                          CachedChampionImages.Add(cachedChamp);
+                          var cachedChamp = new CachedChampion { AddedAt = DateTime.Now, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() + "_" + resolvedRole };
+                          CachedChampionImages.Add(cachedChamp.Name, cachedChamp);
                           await e.Channel.SendFile(data["title"] + "_stats.png", cachedChamp.ImageStream);
                       }
                       catch (Exception ex) {
@@ -230,7 +246,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
             cgb.CreateCommand("~lolban")
                   .Description("Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.")
                   .Do(async e => {
-                      
+
                       int showCount = 6;
                       //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
                       try {
@@ -248,7 +264,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                               sb.Append($"`{i + 1}.` **{data[i]["name"]}**  ");
                               //sb.AppendLine($" ({data[i]["general"]["banRate"]}%)");
                           }
-                          
+
                           await e.Channel.SendMessage(sb.ToString());
                       }
                       catch (Exception ex) {
