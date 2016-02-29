@@ -6,10 +6,13 @@ using System.Diagnostics;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
+using System.Reflection;
+
+
 
 namespace NadekoBot {
     public class NadekoStats {
-        public string BotVersion = "NadekoBot 0.8-beta14";
+        public string BotVersion { get; } = $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
 
         private static readonly NadekoStats _instance = new NadekoStats();
         public static NadekoStats Instance => _instance;

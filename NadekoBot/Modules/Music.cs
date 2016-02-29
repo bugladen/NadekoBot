@@ -296,14 +296,13 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage($"🎵**Track at position `#{num}` has been removed.**");
                     });
 
-                cgb.CreateCommand("debug")
-                    .Description("Writes some music data to console. **BOT OWNER ONLY**")
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                    .Do(e => {
-                        var output = "SERVER_NAME---SERVER_ID-----USERCOUNT----QUEUED\n" +
-                            string.Join("\n", musicPlayers.Select(kvp => kvp.Key.Name + "--" + kvp.Key.Id + " --" + kvp.Key.Users.Count() + "--" + kvp.Value.Playlist.Count));
-                        Console.WriteLine(output);
-                    });
+                //cgb.CreateCommand("debug")
+                //    .Description("Does something magical. **BOT OWNER ONLY**")
+                //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                //    .Do(e => {
+                //        var inactivePlayers = 
+                //        Console.WriteLine("");
+                //    });
             });
         }
 
