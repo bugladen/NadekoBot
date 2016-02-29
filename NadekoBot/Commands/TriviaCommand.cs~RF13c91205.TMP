@@ -12,12 +12,9 @@ namespace NadekoBot.Commands {
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             TriviaGame trivia;
-            if (!runningTrivias.TryGetValue(e.Server, out trivia)) {
-                var triviaGame = new TriviaGame(e);
-                if (runningTrivias.TryAdd(e.Server, triviaGame))
+            if (!runningTrivias.TryGetValue(e.Server, out trivia)) { 
+                if(runningTrivias.TryAdd(e.Server, new TriviaGame(e)))
                     await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
-                else
-                    await triviaGame.StopGame();
             } else
                 await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
         };
