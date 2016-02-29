@@ -31,8 +31,8 @@ namespace NadekoBot {
         static NadekoStats() { }
 
         private NadekoStats() {
-            _service = NadekoBot.client.GetService<CommandService>();
-            _client = NadekoBot.client;
+            _service = NadekoBot.Client.GetService<CommandService>();
+            _client = NadekoBot.Client;
 
             _statsSW = new Stopwatch();
             _statsSW.Start();
@@ -130,10 +130,10 @@ namespace NadekoBot {
             while (true) {
                 await Task.Delay(new TimeSpan(0, 30, 0));
                 try {
-                    var onlineUsers = await Task.Run(() => NadekoBot.client.Servers.Sum(x => x.Users.Count()));
-                    var realOnlineUsers = await Task.Run(() => NadekoBot.client.Servers
+                    var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count()));
+                    var realOnlineUsers = await Task.Run(() => NadekoBot.Client.Servers
                                                                         .Sum(x => x.Users.Where(u => u.Status == UserStatus.Online).Count()));
-                    var connectedServers = NadekoBot.client.Servers.Count();
+                    var connectedServers = NadekoBot.Client.Servers.Count();
 
                     Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Stats {
                         OnlineUsers = onlineUsers,

@@ -436,7 +436,7 @@ namespace NadekoBot.Modules {
                     .Description("Clears some of Nadeko's (or some other user's if supplied) messages from the current channel.\n**Usage**: .clr @X")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
-                        var usrId = NadekoBot.client.CurrentUser.Id;
+                        var usrId = NadekoBot.Client.CurrentUser.Id;
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")) && e.User.ServerPermissions.ManageMessages) {
                             var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
                             if (usr != null)
@@ -608,7 +608,7 @@ namespace NadekoBot.Modules {
                   .Description("Clears the message queue. **OWNER ONLY**")
                   .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                   .Do(e => {
-                      NadekoBot.client.MessageQueue.Clear();
+                      NadekoBot.Client.MessageQueue.Clear();
                   });
 
                 cgb.CreateCommand(".donators")

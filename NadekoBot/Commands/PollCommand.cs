@@ -66,7 +66,7 @@ namespace NadekoBot.Modules {
 
         private async Task StartPoll() {
             started = DateTime.Now;
-            NadekoBot.client.MessageReceived += Vote;
+            NadekoBot.Client.MessageReceived += Vote;
             var msgToSend =
                     $"📃**{e.User.Name}** from **{e.Server.Name}** server has created a poll which requires your attention:\n\n" +
                     $"**{question}**\n";
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules {
         }
 
         public async Task StopPoll(Channel ch) {
-            NadekoBot.client.MessageReceived -= Vote;
+            NadekoBot.Client.MessageReceived -= Vote;
             Poll throwaway;
             PollCommand.ActivePolls.TryRemove(e.Server, out throwaway);
             try {

@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 namespace NadekoBot.Classes.Permissions {
     static class SimpleCheckers {
         public static Func<Command, User, Channel, bool> OwnerOnly() =>
-            (com, user, ch) => user.Id == NadekoBot.creds.OwnerID;
+            (com, user, ch) => user.Id == NadekoBot.Creds.OwnerID;
     }
 }

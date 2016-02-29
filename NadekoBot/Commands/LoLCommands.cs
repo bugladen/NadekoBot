@@ -78,7 +78,7 @@ namespace NadekoBot.Commands {
                               await e.Channel.SendFile("champ.png", champ.ImageStream);
                               return;
                           }
-                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.creds.LOLAPIKey}"));
+                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}"));
                           JToken data = null;
                           if (role != null) {
                               for (int i = 0; i < allData.Count; i++) {
@@ -114,7 +114,7 @@ namespace NadekoBot.Commands {
                               if (roles[i] == role)
                                   roles[i] = ">" + roles[i] + "<";
                           }
-                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.creds.LOLAPIKey}"))
+                          var general = JArray.Parse(await Classes.SearchHelper.GetResponseAsync($"http://api.champion.gg/stats/champs/{name}?api_key={NadekoBot.Creds.LOLAPIKey}"))
                                               .Where(jt => jt["role"].ToString() == role)
                                               .FirstOrDefault()?["general"];
                           if (general == null) {
@@ -253,7 +253,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                           var data = JObject.Parse(
                               await Classes
                                   .SearchHelper
-                                  .GetResponseAsync($"http://api.champion.gg/stats/champs/mostBanned?api_key={NadekoBot.creds.LOLAPIKey}&page=1&limit={showCount}"))["data"] as JArray;
+                                  .GetResponseAsync($"http://api.champion.gg/stats/champs/mostBanned?api_key={NadekoBot.Creds.LOLAPIKey}&page=1&limit={showCount}"))["data"] as JArray;
 
                           StringBuilder sb = new StringBuilder();
                           sb.AppendLine($"**Showing {showCount} top banned champions.**");

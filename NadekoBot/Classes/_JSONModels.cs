@@ -1,4 +1,5 @@
-﻿namespace NadekoBot
+﻿// ReSharper disable InconsistentNaming
+namespace NadekoBot.Classes
 {
     public class Credentials
     {
@@ -31,7 +32,8 @@
             "\n`Synopsis:` " + description.Substring(0, description.Length > 500 ? 500 : description.Length) + "..." +
             "\n`img:` " + image_url_lge;
     }
-    class MangaResult
+
+    public class MangaResult
     {
         public int id;
         public string publishing_status;

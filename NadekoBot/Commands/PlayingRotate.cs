@@ -13,8 +13,8 @@ namespace NadekoBot.Commands {
         private static Timer timer = new Timer(12000);
 
         private Dictionary<string, Func<string>> playingPlaceholders => new Dictionary<string, Func<string>> {
-            {"%servers%", ()=> NadekoBot.client.Servers.Count().ToString() },
-            {"%users%", () => NadekoBot.client.Servers.SelectMany(s=>s.Users).Count().ToString() },
+            {"%servers%", ()=> NadekoBot.Client.Servers.Count().ToString() },
+            {"%users%", () => NadekoBot.Client.Servers.SelectMany(s=>s.Users).Count().ToString() },
             {"%playing%", () => {
                     var cnt = Modules.Music.musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
                     if(cnt == 1) {
@@ -51,7 +51,7 @@ namespace NadekoBot.Commands {
                     }
                     if (string.IsNullOrWhiteSpace(status))
                         return;
-                    Task.Run(() => { try { NadekoBot.client.SetGame(status); } catch { } });
+                    Task.Run(() => { try { NadekoBot.Client.SetGame(status); } catch { } });
                 }
                 catch { }
             };

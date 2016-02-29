@@ -18,7 +18,7 @@ namespace NadekoBot.Modules {
         }
 
         public override void Install(ModuleManager manager) {
-            var client = NadekoBot.client;
+            var client = NadekoBot.Client;
 
             manager.CreateCommands("", cgb => {
 

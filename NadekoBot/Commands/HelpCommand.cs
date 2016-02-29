@@ -42,7 +42,7 @@ namespace NadekoBot {
                 await Task.Run(async () => {
                     var comToFind = e.GetArg("command");
 
-                    var com = NadekoBot.client.GetService<CommandService>().AllCommands
+                    var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                                             .Where(c => c.Text.ToLower().Equals(comToFind))
                                             .FirstOrDefault();
                     if (com != null)

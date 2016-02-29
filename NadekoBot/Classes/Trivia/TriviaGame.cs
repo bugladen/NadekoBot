@@ -52,7 +52,7 @@ namespace NadekoBot.Classes.Trivia {
                 await _channel.SendMessage($":question: **{CurrentQuestion.Question}**");
 
                 //receive messages
-                NadekoBot.client.MessageReceived += PotentialGuess;
+                NadekoBot.Client.MessageReceived += PotentialGuess;
 
                 //allow people to guess
                 GameActive = true;
@@ -71,7 +71,7 @@ namespace NadekoBot.Classes.Trivia {
                 GameActive = false;
                 if (!triviaCancelSource.IsCancellationRequested)
                     await _channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**");
-                NadekoBot.client.MessageReceived -= PotentialGuess;
+                NadekoBot.Client.MessageReceived -= PotentialGuess;
                 // load next question if game is still running
                 await Task.Delay(2000);
             }

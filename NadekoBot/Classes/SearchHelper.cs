@@ -9,23 +9,19 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Classes {
-    static class SearchHelper {
+    public static class SearchHelper {
         public static async Task<Stream> GetResponseStream(string v) {
             var wr = (HttpWebRequest)WebRequest.Create(v);
-            try {
-                return (await (wr).GetResponseAsync()).GetResponseStream();
-            }
-            catch (Exception ex) {
-                Console.WriteLine("error in getresponse stream " + ex);
-                return null;
-            }
+            return (await (wr).GetResponseAsync()).GetResponseStream();
         }
 
         public static async Task<string> GetResponseAsync(string v, WebHeaderCollection headers = null) {
             var wr = (HttpWebRequest)WebRequest.Create(v);
             if (headers != null)
                 wr.Headers = headers;
-            using (var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream())) {
+            var stream = (await wr.GetResponseAsync()).GetResponseStream();
+            if (stream == null) return "";
+            using (var sr = new StreamReader(stream)) {
                 return await sr.ReadToEndAsync();
             }
         }
@@ -46,8 +42,7 @@ namespace NadekoBot.Classes {
                 rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content));
-            }
-            catch {
+            } catch {
                 return null;
             }
         }
@@ -66,8 +61,7 @@ namespace NadekoBot.Classes {
                 rq = new RestSharp.RestRequest("manga/" + smallObj["id"]);
                 rq.AddParameter("access_token", token);
                 return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(cl.Execute(rq).Content));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
                 return null;
             }
@@ -83,8 +77,7 @@ namespace NadekoBot.Classes {
                 var exec = cl.Execute(rq);
 
                 token = JObject.Parse(exec.Content)["access_token"].ToString();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($"Failed refreshing anilist token:\n {ex}");
             }
         }
@@ -98,7 +91,7 @@ namespace NadekoBot.Classes {
         }
 
         public static async Task<string> FindYoutubeUrlByKeywords(string v) {
-            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
@@ -117,15 +110,14 @@ namespace NadekoBot.Classes {
                     dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
                     return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
                 return string.Empty;
             }
         }
 
         public static async Task<string> GetPlaylistIdByKeyword(string v) {
-            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return string.Empty;
             }
@@ -136,8 +128,7 @@ namespace NadekoBot.Classes {
 
                 dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
                 return obj.items[0].id.playlistId.ToString();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
                 return string.Empty;
             }
@@ -145,15 +136,17 @@ namespace NadekoBot.Classes {
 
         public static async Task<List<string>> GetVideoIDs(string v) {
             List<string> toReturn = new List<string>();
-            if (NadekoBot.GoogleAPIKey == "" || NadekoBot.GoogleAPIKey == null) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return toReturn;
             }
             try {
-
                 WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={30}&playlistId={v}&key={ NadekoBot.creds.GoogleAPIKey }");
-
-                var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
+                var response = await wr.GetResponseAsync();
+                if (response == null) return toReturn;
+                var responseStream = response.GetResponseStream();
+                if (responseStream == null) return toReturn;
+                var sr = new StreamReader(responseStream);
 
                 dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
 
@@ -161,8 +154,7 @@ namespace NadekoBot.Classes {
                     toReturn.Add("http://www.youtube.com/watch?v=" + item.contentDetails.videoId);
                 }
                 return toReturn;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($"Error in GetPlaylistId: {ex.Message}");
                 return new List<string>();
             }
@@ -180,8 +172,7 @@ namespace NadekoBot.Classes {
                 var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
                 return await $"http://danbooru.donmai.us{ matches[rng.Next(0, matches.Count)].Groups["id"].Value }".ShortenUrl();
-            }
-            catch {
+            } catch {
                 return null;
             }
         }
@@ -197,8 +188,7 @@ namespace NadekoBot.Classes {
                 //now extract the image from post page
                 var match = Regex.Match(webpage, "\"(?<url>http://simg4.gelbooru.com//images.*?)\"");
                 return match.Groups["url"].Value;
-            }
-            catch {
+            } catch {
                 return null;
             }
         }
@@ -210,32 +200,32 @@ namespace NadekoBot.Classes {
                 var webpage = await GetResponseAsync(url); // first extract the post id and go to that posts page
                 var matches = Regex.Matches(webpage, "\"file_url\":\"(?<url>.*?)\"");
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-            catch {
+            } catch {
                 return null;
             }
         }
 
         public static async Task<string> ShortenUrl(string url) {
-            if (NadekoBot.creds.GoogleAPIKey == null || NadekoBot.creds.GoogleAPIKey == "") return url;
+            if (string.IsNullOrWhiteSpace(NadekoBot.creds.GoogleAPIKey)) return url;
             try {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.creds.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
                 using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync())) {
-                    string json = "{\"longUrl\":\"" + url + "\"}";
+                    var json = "{\"longUrl\":\"" + url + "\"}";
                     streamWriter.Write(json);
                 }
 
                 var httpResponse = (await httpWebRequest.GetResponseAsync()) as HttpWebResponse;
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream())) {
-                    string responseText = await streamReader.ReadToEndAsync();
-                    string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
-                    return Regex.Match(responseText, MATCH_PATTERN).Groups["id"].Value;
+                if (httpResponse == null) return "HTTP_RESPONSE_ERROR";
+                var responseStream = httpResponse.GetResponseStream();
+                if (responseStream == null) return "RESPONSE_STREAM ERROR";
+                using (var streamReader = new StreamReader(responseStream)) {
+                    var responseText = await streamReader.ReadToEndAsync();
+                    return Regex.Match(responseText, @"""id"": ?""(?<id>.+)""").Groups["id"].Value;
                 }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); return url; }
+            } catch (Exception ex) { Console.WriteLine(ex.ToString()); return url; }
         }
     }
 }

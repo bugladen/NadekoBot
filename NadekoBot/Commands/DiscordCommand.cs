@@ -22,7 +22,7 @@ namespace NadekoBot
         /// <param name="cb">CommandBuilder which will be modified</param>
         protected DiscordCommand()
         {
-            client = NadekoBot.client;
+            client = NadekoBot.Client;
         }
         /// <summary>
         /// Function containing the behaviour of the command.

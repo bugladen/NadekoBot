@@ -9,53 +9,49 @@ using Discord.Audio;
 using NadekoBot.Extensions;
 using System.Timers;
 using System.Linq;
+using NadekoBot.Classes;
 
 namespace NadekoBot {
-    class NadekoBot {
-        public static DiscordClient client;
+    public class NadekoBot {
+        public static DiscordClient Client;
         public static string botMention;
         public static string GoogleAPIKey = null;
-        public static ulong OwnerID;
         public static Channel OwnerPrivateChannel = null;
-        public static string password;
         public static string TrelloAppKey;
         public static bool ForwardMessages = false;
-        public static Credentials creds;
+        public static Credentials Creds { get; set; }
 
         static void Main() {
             //load credentials from credentials.json
             bool loadTrello = false;
             try {
-                creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
-                botMention = creds.BotMention;
-                if (string.IsNullOrWhiteSpace(creds.GoogleAPIKey)) {
+                Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
+                botMention = Creds.BotMention;
+                if (string.IsNullOrWhiteSpace(Creds.GoogleAPIKey)) {
                     Console.WriteLine("No google api key found. You will not be able to use music and links won't be shortened.");
                 }
                 else {
                     Console.WriteLine("Google API key provided.");
-                    GoogleAPIKey = creds.GoogleAPIKey;
+                    GoogleAPIKey = Creds.GoogleAPIKey;
                 }
-                if (string.IsNullOrWhiteSpace(creds.TrelloAppKey)) {
+                if (string.IsNullOrWhiteSpace(Creds.TrelloAppKey)) {
                     Console.WriteLine("No trello appkey found. You will not be able to use trello commands.");
                 }
                 else {
                     Console.WriteLine("Trello app key provided.");
-                    TrelloAppKey = creds.TrelloAppKey;
+                    TrelloAppKey = Creds.TrelloAppKey;
                     loadTrello = true;
                 }
-                if (creds.ForwardMessages != true)
+                if (Creds.ForwardMessages != true)
                     Console.WriteLine("Not forwarding messages.");
                 else {
                     ForwardMessages = true;
                     Console.WriteLine("Forwarding messages.");
                 }
-                if (string.IsNullOrWhiteSpace(creds.SoundCloudClientID))
+                if (string.IsNullOrWhiteSpace(Creds.SoundCloudClientID))
                     Console.WriteLine("No soundcloud Client ID found. Soundcloud streaming is disabled.");
                 else
                     Console.WriteLine("SoundCloud streaming enabled.");
-
-                OwnerID = creds.OwnerID;
-                password = creds.Password;
             }
             catch (Exception ex) {
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
@@ -64,7 +60,7 @@ namespace NadekoBot {
             }
 
             //create new discord client
-            client = new DiscordClient(new DiscordConfigBuilder() {
+            Client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 20,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) => {
@@ -93,16 +89,16 @@ namespace NadekoBot {
             });
 
             //reply to personal messages and forward if enabled.
-            client.MessageReceived += Client_MessageReceived;
+            Client.MessageReceived += Client_MessageReceived;
 
             //add command service
-            var commands = client.AddService<CommandService>(commandService);
+            var commands = Client.AddService<CommandService>(commandService);
 
             //create module service
-            var modules = client.AddService<ModuleService>(new ModuleService());
+            var modules = Client.AddService<ModuleService>(new ModuleService());
 
             //add audio service
-            var audio = client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
+            var audio = Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,
@@ -123,9 +119,9 @@ namespace NadekoBot {
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
 
             //run the bot
-            client.ExecuteAndWait(async () => {
+            Client.ExecuteAndWait(async () => {
                 try {
-                    await client.Connect(creds.Username, creds.Password);
+                    await Client.Connect(Creds.Username, Creds.Password);
                 }
                 catch (Exception ex) {
                     Console.WriteLine($"Probably wrong EMAIL or PASSWORD.\n{ex.Message}");
@@ -139,7 +135,7 @@ namespace NadekoBot {
                 Console.WriteLine("-----------------");
 
                 try {
-                    OwnerPrivateChannel = await client.CreatePrivateChannel(OwnerID);
+                    OwnerPrivateChannel = await Client.CreatePrivateChannel(OwnerId);
                 }
                 catch {
                     Console.WriteLine("Failed creating private channel with the owner");
@@ -147,7 +143,7 @@ namespace NadekoBot {
 
                 Classes.Permissions.PermissionsHandler.Initialize();
                 
-                client.ClientAPI.SendingRequest += (s, e) => {
+                Client.ClientAPI.SendingRequest += (s, e) => {
 
                     try {
                         var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
@@ -182,7 +178,7 @@ namespace NadekoBot {
         static bool repliedRecently = false;
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             try {
-                if (e.Server != null || e.User.Id == client.CurrentUser.Id) return;
+                if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
                 if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
                 // just ban this trash AutoModerator
                 // and cancer christmass spirit
@@ -192,9 +188,9 @@ namespace NadekoBot {
                     e.User.Id == 143515953525817344)
                     return; // FU
 
-                if (!NadekoBot.creds.DontJoinServers) {
+                if (!NadekoBot.Creds.DontJoinServers) {
                     try {
-                        await (await client.GetInvite(e.Message.Text)).Accept();
+                        await (await Client.GetInvite(e.Message.Text)).Accept();
                         await e.Channel.SendMessage("I got in!");
                         return;
                     }

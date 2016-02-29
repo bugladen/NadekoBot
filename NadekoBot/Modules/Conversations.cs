@@ -352,7 +352,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         string str = "Bye";
                         foreach (var u in e.Message.MentionedUsers) {
-                            if (u.Id != NadekoBot.client.CurrentUser.Id)
+                            if (u.Id != NadekoBot.Client.CurrentUser.Id)
                                 str += " " + u.Mention;
                         }
                         await e.Channel.SendMessage(str);

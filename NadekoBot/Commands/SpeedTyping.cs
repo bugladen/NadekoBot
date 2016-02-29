@@ -39,7 +39,7 @@ namespace NadekoBot.Commands {
 
         internal async Task<bool> Stop() {
             if (!IsActive) return false;
-            NadekoBot.client.MessageReceived -= AnswerReceived;
+            NadekoBot.Client.MessageReceived -= AnswerReceived;
             finishedUserIds.Clear();
             IsActive = false;
             sw.Stop();
@@ -78,7 +78,7 @@ namespace NadekoBot.Commands {
         }
 
         private void HandleAnswers() {
-            NadekoBot.client.MessageReceived += AnswerReceived;
+            NadekoBot.Client.MessageReceived += AnswerReceived;
         }
 
         private async void AnswerReceived(object sender, MessageEventArgs e) {

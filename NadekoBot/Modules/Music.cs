@@ -28,7 +28,7 @@ namespace NadekoBot.Modules {
             setgameTimer.Elapsed += (s, e) => {
                 try {
                     int num = musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
-                    NadekoBot.client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.Playlist.Count())} queued");
+                    NadekoBot.Client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.Playlist.Count())} queued");
                 }
                 catch { }
             };
@@ -36,7 +36,7 @@ namespace NadekoBot.Modules {
         }
 
         public override void Install(ModuleManager manager) {
-            var client = NadekoBot.client;
+            var client = NadekoBot.Client;
 
             manager.CreateCommands("!m", cgb => {
 

@@ -16,10 +16,10 @@ namespace NadekoBot.Classes.Music {
         public async Task<SoundCloudVideo> GetVideoAsync(string url) {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            if (string.IsNullOrWhiteSpace(NadekoBot.creds.SoundCloudClientID))
-                throw new ArgumentNullException(nameof(NadekoBot.creds.SoundCloudClientID));
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
+                throw new ArgumentNullException(nameof(NadekoBot.Creds.SoundCloudClientID));
 
-            var response = await SearchHelper.GetResponseAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.creds.SoundCloudClientID}");
+            var response = await SearchHelper.GetResponseAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Creds.SoundCloudClientID}");
 
             var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
@@ -39,7 +39,7 @@ namespace NadekoBot.Classes.Music {
         public string Title = "";
         public string FullName => User.Name + " - " + Title;
         public bool Streamable = false;
-        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.creds.SoundCloudClientID}";
+        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Creds.SoundCloudClientID}";
     }
     public class SoundCloudUser {
         [Newtonsoft.Json.JsonProperty("username")]

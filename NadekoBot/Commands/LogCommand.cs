@@ -9,10 +9,10 @@ namespace NadekoBot.Commands {
     class LogCommand : DiscordCommand {
 
         public LogCommand() : base() {
-            NadekoBot.client.MessageReceived += MsgRecivd;
-            NadekoBot.client.MessageDeleted += MsgDltd;
-            NadekoBot.client.MessageUpdated += MsgUpdtd;
-            NadekoBot.client.UserUpdated += UsrUpdtd;
+            NadekoBot.Client.MessageReceived += MsgRecivd;
+            NadekoBot.Client.MessageDeleted += MsgDltd;
+            NadekoBot.Client.MessageUpdated += MsgUpdtd;
+            NadekoBot.Client.UserUpdated += UsrUpdtd;
         }
 
         ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
@@ -36,7 +36,7 @@ namespace NadekoBot.Commands {
 
         private async void MsgRecivd(object sender, MessageEventArgs e) {
             try {
-                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
@@ -47,7 +47,7 @@ namespace NadekoBot.Commands {
         }
         private async void MsgDltd(object sender, MessageEventArgs e) {
             try {
-                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
@@ -58,7 +58,7 @@ namespace NadekoBot.Commands {
         }
         private async void MsgUpdtd(object sender, MessageUpdatedEventArgs e) {
             try {
-                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)

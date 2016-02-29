@@ -30,8 +30,8 @@ namespace NadekoBot.Commands {
         public ServerGreetCommand() : base() {
             AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
-            NadekoBot.client.UserJoined += UserJoined;
-            NadekoBot.client.UserLeft += UserLeft;
+            NadekoBot.Client.UserJoined += UserJoined;
+            NadekoBot.Client.UserLeft += UserLeft;
 
             List<Classes._DataModels.Announcement> data = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
 
@@ -46,7 +46,7 @@ namespace NadekoBot.Commands {
                     !AnnouncementsDictionary[e.Server.Id].Bye) return;
 
                 var controls = AnnouncementsDictionary[e.Server.Id];
-                var channel = NadekoBot.client.GetChannel(controls.ByeChannel);
+                var channel = NadekoBot.Client.GetChannel(controls.ByeChannel);
                 var msg = controls.ByeText.Replace("%user%", "**" + e.User.Name + "**").Trim();
                 if (string.IsNullOrEmpty(msg))
                     return;
@@ -73,7 +73,7 @@ namespace NadekoBot.Commands {
                     !AnnouncementsDictionary[e.Server.Id].Greet) return;
 
                 var controls = AnnouncementsDictionary[e.Server.Id];
-                var channel = NadekoBot.client.GetChannel(controls.GreetChannel);
+                var channel = NadekoBot.Client.GetChannel(controls.GreetChannel);
 
                 var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
                 if (string.IsNullOrEmpty(msg))
