@@ -7,7 +7,7 @@ using Discord.Commands;
 using System.Timers;
 
 namespace NadekoBot.Commands {
-    class PlayingRotate : DiscordCommand {
+    internal class PlayingRotate : DiscordCommand {
 
         private static List<string> rotatingStatuses = new List<string>();
         private static Timer timer = new Timer(12000);

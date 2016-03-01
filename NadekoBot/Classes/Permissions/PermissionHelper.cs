@@ -5,7 +5,7 @@ using System.Linq;
 using Discord;
 
 namespace NadekoBot.Classes {
-    static class PermissionHelper {
+    internal static class PermissionHelper {
         public static bool ValidateBool(string passedArg) {
             if (string.IsNullOrWhiteSpace(passedArg)) {
                 throw new ArgumentException("No value supplied! Missing argument");

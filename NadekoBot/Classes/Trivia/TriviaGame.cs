@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Classes.Trivia {
-    class TriviaGame {
+    internal class TriviaGame {
         private readonly object _guessLock = new object();
 
         private Server _server { get; }

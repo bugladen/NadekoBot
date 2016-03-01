@@ -2,10 +2,11 @@
 using Discord.Modules;
 using NadekoBot.Extensions;
 using System.Linq;
+using Discord;
 
 namespace NadekoBot.Modules
 {
-    class Gambling : DiscordModule
+    internal class Gambling : DiscordModule
     {
 
         public Gambling() {
@@ -33,33 +34,16 @@ namespace NadekoBot.Modules
                           return;
                       }
                       var members = role.Members.Where(u => u.Status == Discord.UserStatus.Online); // only online
-                      try {
-                          var usr = members.ToArray()[new System.Random().Next(0, members.Count())];
-                          await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})");
-                      }
-                      catch { }
+                      var membersArray = members as User[] ?? members.ToArray();
+                      var usr = membersArray[new System.Random().Next(0, membersArray.Length)];
+                      await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})");
                   });
-                /*
-                cgb.CreateCommand("$$")
-                  .Description("Add moneyz")
-                  .Parameter("val", ParameterType.Required)
-                  .Do(e => {
-                      var arg = e.GetArg("val");
-                      var num = int.Parse(arg);
-                      Classes.DBHandler.Instance.InsertData(
-                          new Classes._DataModels.CurrencyTransaction {
-                              Value = num,
-                              Reason = "Money plz",
-                              UserId = (long)e.User.Id,
-                          });
-                  });
-                  */
                 cgb.CreateCommand("$$$")
                   .Description("Check how many NadekoFlowers you have.")
                   .Do(async e => {
                       var pts = Classes.DBHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
-                      string str = $"`You have {pts} NadekoFlowers".SnPl((int)pts)+"`\n";
-                      for (int i = 0; i < pts; i++) {
+                      var str = $"`You have {pts} NadekoFlowers".SnPl((int)pts)+"`\n";
+                      for (var i = 0; i < pts; i++) {
                           str += "🌸";
                       }
                       await e.Channel.SendMessage(str);

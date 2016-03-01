@@ -6,7 +6,7 @@ using Discord.Commands;
 using System.Collections.Concurrent;
 
 namespace NadekoBot.Classes.Permissions {
-    class PermissionChecker : IPermissionChecker {
+    internal class PermissionChecker : IPermissionChecker {
         public static readonly PermissionChecker _instance = new PermissionChecker();
         public static PermissionChecker Instance => _instance;
 

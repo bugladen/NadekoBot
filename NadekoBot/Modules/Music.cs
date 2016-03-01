@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules {
-    class Music : DiscordModule {
+    internal class Music : DiscordModule {
 
         public static ConcurrentDictionary<Server, MusicPlayer> musicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
         public static ConcurrentDictionary<ulong, float> defaultMusicVolumes = new ConcurrentDictionary<ulong, float>();
 
-        Timer setgameTimer => new Timer();
+        private Timer setgameTimer => new Timer();
 
-        bool setgameEnabled = false;
+        private bool setgameEnabled = false;
 
-        public Music() : base() {
+        public Music()  {
 
             setgameTimer.Interval = 20000;
             setgameTimer.Elapsed += (s, e) => {

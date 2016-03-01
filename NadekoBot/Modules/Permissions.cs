@@ -6,9 +6,10 @@ using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
 
 namespace NadekoBot.Modules {
-    class PermissionModule : DiscordModule {
-        string prefix = ";";
-        public PermissionModule() : base() {
+    internal class PermissionModule : DiscordModule {
+        private const string prefix = ";";
+
+        public PermissionModule()  {
             //Empty for now
         }
 
@@ -135,7 +136,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "sm").Alias(prefix + "servermodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a module's permission at the server level.\n**Usage**: ;sm <module_name> enable")
+                    .Description("Sets a module's permission at the server level.\n**Usage**: ;sm [module_name] enable")
                     .Do(async e => {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
@@ -155,7 +156,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "sc").Alias(prefix + "servercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a command's permission at the server level.\n**Usage**: ;sc <command_name> disable")
+                    .Description("Sets a command's permission at the server level.\n**Usage**: ;sc [command_name] disable")
                     .Do(async e => {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
@@ -176,7 +177,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the role level.\n**Usage**: ;rm <module_name> enable <role_name>")
+                    .Description("Sets a module's permission at the role level.\n**Usage**: ;rm [module_name] enable [role_name]")
                     .Do(async e => {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
@@ -207,7 +208,7 @@ namespace NadekoBot.Modules {
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the role level.\n**Usage**: ;rc <command_name> disable <role_name>")
+                    .Description("Sets a command's permission at the role level.\n**Usage**: ;rc [command_name] disable [role_name]")
                     .Do(async e => {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
@@ -238,7 +239,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the channel level.\n**Usage**: ;cm <module_name> enable <channel_name>")
+                    .Description("Sets a module's permission at the channel level.\n**Usage**: ;cm [module_name] enable [channel_name]")
                     .Do(async e => {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
@@ -269,7 +270,7 @@ namespace NadekoBot.Modules {
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the channel level.\n**Usage**: ;cm enable <channel_name>")
+                    .Description("Sets a command's permission at the channel level.\n**Usage**: ;cc [command_name] enable [channel_name]")
                     .Do(async e => {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
@@ -300,7 +301,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the user level.\n**Usage**: ;um <module_name> enable <user_name>")
+                    .Description("Sets a module's permission at the user level.\n**Usage**: ;um [module_name] enable [user_name]")
                     .Do(async e => {
                         try {
                             string module = PermissionHelper.ValidateModule(e.GetArg("module"));
@@ -322,7 +323,7 @@ namespace NadekoBot.Modules {
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the user level.\n**Usage**: ;uc <module_command> enable <user_name>")
+                    .Description("Sets a command's permission at the user level.\n**Usage**: ;uc [command_name] enable [user_name]")
                     .Do(async e => {
                         try {
                             string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
@@ -342,7 +343,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(prefix + "asm").Alias(prefix + "allservermodules")
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets permissions for all modules at the server level.\n**Usage**: ;asm <enable/disable>")
+                    .Description("Sets permissions for all modules at the server level.\n**Usage**: ;asm [enable/disable]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -363,7 +364,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "asc").Alias(prefix + "allservercommands")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;asc <module_name> <enable/disable>")
+                    .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;asc [module_name] [enable/disable]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -385,7 +386,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "acm").Alias(prefix + "allchannelmodules")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm <enable/disable> <channel_name>")
+                    .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -408,7 +409,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the channel level.\n**Usage**: ;acc <module_name> <enable/disable> <channel_name>")
+                    .Description("Sets permissions for all commands from a certain module at the channel level.\n**Usage**: ;acc [module_name] [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -430,7 +431,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(prefix + "arm").Alias(prefix + "allrolemodules")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets permissions for all modules at the role level.\n**Usage**: ;arm <enable/disable> <role_name>")
+                    .Description("Sets permissions for all modules at the role level.\n**Usage**: ;arm [enable/disable] [role_name]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -453,7 +454,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc <module_name> <enable/disable> <channel_name>")
+                    .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
                             bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));

@@ -5,46 +5,57 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NadekoBot.Classes.JSONModels;
 
 namespace NadekoBot.Classes {
+    public enum RequestHttpMethod {
+        Get, Post
+    }
+
     public static class SearchHelper {
-        public static async Task<Stream> GetResponseStream(string v) {
-            var wr = (HttpWebRequest)WebRequest.Create(v);
-            return (await (wr).GetResponseAsync()).GetResponseStream();
+
+        public static async Task<Stream> GetResponseStream(string query, RequestHttpMethod method = RequestHttpMethod.Get) {
+            if (string.IsNullOrWhiteSpace(query))
+                throw new ArgumentNullException(nameof(query));
+            var wr = (HttpWebRequest)WebRequest.Create(query);
+            using (var response = await wr.GetResponseAsync()) {
+                var stream = response?.GetResponseStream();
+                if (stream == null)
+                    throw new InvalidOperationException("Did not receive a response.");
+                return stream;
+            }
         }
 
-        public static async Task<string> GetResponseAsync(string v, WebHeaderCollection headers = null) {
-            var wr = (HttpWebRequest)WebRequest.Create(v);
-            if (headers != null)
-                wr.Headers = headers;
-            var stream = (await wr.GetResponseAsync()).GetResponseStream();
-            if (stream == null) return "";
-            using (var sr = new StreamReader(stream)) {
-                return await sr.ReadToEndAsync();
+        public static async Task<string> GetResponseAsync(string url, RequestHttpMethod method = RequestHttpMethod.Get, params Tuple<string,string>[] headers) {
+            using (var httpClient = new HttpClient()) {
+                if (headers != null) {
+                    foreach (var header in headers) {
+                        httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+                    }
+                }
+                return await httpClient.GetStringAsync(url);
             }
         }
 
         private static string token = "";
         public static async Task<AnimeResult> GetAnimeQueryResultLink(string query) {
-            try {
-                var cl = new RestSharp.RestClient("http://anilist.co/api");
-                var rq = new RestSharp.RestRequest("/auth/access_token", RestSharp.Method.POST);
+            if (string.IsNullOrWhiteSpace(query))
+                throw new ArgumentNullException(nameof(query));
 
-                RefreshAnilistToken();
+            RefreshAnilistToken();
 
-                rq = new RestSharp.RestRequest("/anime/search/" + Uri.EscapeUriString(query));
-                rq.AddParameter("access_token", token);
+            var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
 
-                var smallObj = JArray.Parse(cl.Execute(rq).Content)[0];
+            Dictionary<string, string> headers = new {"access_token" = token};
+            var smallContent = await GetResponseAsync(link, headers);
+            var smallObj = JArray.Parse(await httpClient.GetStringAsync(link))[0];
+            var content = await httpClient.GetStringAsync("anime/" + smallObj["id"]);
 
-                rq = new RestSharp.RestRequest("anime/" + smallObj["id"]);
-                rq.AddParameter("access_token", token);
-                return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(cl.Execute(rq).Content));
-            } catch {
-                return null;
-            }
+            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
         }
         //todo kick out RestSharp and make it truly async
         public static async Task<MangaResult> GetMangaQueryResultLink(string query) {
@@ -83,32 +94,36 @@ namespace NadekoBot.Classes {
         }
 
         public static async Task<bool> ValidateQuery(Discord.Channel ch, string query) {
-            if (string.IsNullOrEmpty(query.Trim())) {
-                await ch.Send("Please specify search parameters.");
-                return false;
-            }
-            return true;
+            if (!string.IsNullOrEmpty(query.Trim())) return true;
+            await ch.Send("Please specify search parameters.");
+            return false;
         }
 
-        public static async Task<string> FindYoutubeUrlByKeywords(string v) {
-            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
-                Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
-                return @"https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        public static async Task<string> FindYoutubeUrlByKeywords(string keywords) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+                throw new InvalidCredentialException("Google API Key is missing.");
+            if (keywords.Length > 150)
+                throw new ArgumentException("Query is too long.");
+
+            //maybe it is already a youtube url, in which case we will just extract the id and prepend it with youtube.com?v=
+            var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
+            if (match.Length > 1) {
+                return $"http://www.youtube.com?v={ match.Groups["id"].Value }";
             }
+            var wr =
+                WebRequest.Create(
+                    $"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={Uri.EscapeDataString(keywords)}&key={NadekoBot.Creds.GoogleAPIKey}");
             try {
-                //maybe it is already a youtube url, in which case we will just extract the id and prepend it with youtube.com?v=
-                var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(v);
-                if (match.Length > 1) {
-                    string str = $"http://www.youtube.com?v={ match.Groups["id"].Value }";
-                    return str;
-                }
-
-                WebRequest wr = WebRequest.Create("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + Uri.EscapeDataString(v) + "&key=" + NadekoBot.GoogleAPIKey);
-
-                using (var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream())) {
-
-                    dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
-                    return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+                using (var response = await wr.GetResponseAsync())
+                using (var stream = response.GetResponseStream()) {
+                    try {
+                        using (var sr = new StreamReader(stream)) {
+                            dynamic obj = JObject.Parse(await sr.ReadToEndAsync());
+                            return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+                        }
+                    } catch (Exception ex) {
+                        ex.Message
+                      }
                 }
             } catch (Exception ex) {
                 Console.WriteLine($"Error in findyoutubeurl: {ex.Message}");
@@ -117,12 +132,12 @@ namespace NadekoBot.Classes {
         }
 
         public static async Task<string> GetPlaylistIdByKeyword(string v) {
-            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return string.Empty;
             }
             try {
-                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={Uri.EscapeDataString(v)}&type=playlist&key={NadekoBot.creds.GoogleAPIKey}");
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={Uri.EscapeDataString(v)}&type=playlist&key={NadekoBot.Creds.GoogleAPIKey}");
 
                 var sr = new StreamReader((await wr.GetResponseAsync()).GetResponseStream());
 
@@ -136,12 +151,12 @@ namespace NadekoBot.Classes {
 
         public static async Task<List<string>> GetVideoIDs(string v) {
             List<string> toReturn = new List<string>();
-            if (string.IsNullOrWhiteSpace(NadekoBot.GoogleAPIKey)) {
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) {
                 Console.WriteLine("ERROR: No google api key found. Playing `Never gonna give you up`.");
                 return toReturn;
             }
             try {
-                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={30}&playlistId={v}&key={ NadekoBot.creds.GoogleAPIKey }");
+                WebRequest wr = WebRequest.Create($"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={30}&playlistId={v}&key={ NadekoBot.Creds.GoogleAPIKey }");
                 var response = await wr.GetResponseAsync();
                 if (response == null) return toReturn;
                 var responseStream = response.GetResponseStream();
@@ -206,9 +221,9 @@ namespace NadekoBot.Classes {
         }
 
         public static async Task<string> ShortenUrl(string url) {
-            if (string.IsNullOrWhiteSpace(NadekoBot.creds.GoogleAPIKey)) return url;
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) return url;
             try {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.creds.GoogleAPIKey);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" + NadekoBot.Creds.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

@@ -6,7 +6,7 @@ using Discord;
 using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Commands {
-    class Trivia : DiscordCommand {
+    internal class Trivia : DiscordCommand {
         public static ConcurrentDictionary<Server, TriviaGame> runningTrivias = new ConcurrentDictionary<Server, TriviaGame>();
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {

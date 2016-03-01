@@ -5,19 +5,19 @@ using Discord.Commands;
 using Discord;
 
 namespace NadekoBot.Commands {
-    class LogCommand : DiscordCommand {
+    internal class LogCommand : DiscordCommand {
 
-        public LogCommand() : base() {
+        public LogCommand()  {
             NadekoBot.Client.MessageReceived += MsgRecivd;
             NadekoBot.Client.MessageDeleted += MsgDltd;
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
         }
 
-        ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
-        ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
+        private ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
+        private ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
         //
-        ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
+        private ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (!NadekoBot.IsOwner(e.User.Id) ||

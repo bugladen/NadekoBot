@@ -8,7 +8,7 @@ using System.Timers;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
-    class Trello : DiscordModule {
+    internal class Trello : DiscordModule {
         public override void Install(ModuleManager manager) {
 
             var client = manager.Client;

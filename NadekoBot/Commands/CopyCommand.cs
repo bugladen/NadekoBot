@@ -5,11 +5,11 @@ using Discord.Commands;
 
 namespace NadekoBot
 {
-    class CopyCommand : DiscordCommand
+    internal class CopyCommand : DiscordCommand
     {
         private List<ulong> CopiedUsers;
 
-        public CopyCommand() : base()
+        public CopyCommand() 
         {
             CopiedUsers = new List<ulong>();
             client.MessageReceived += Client_MessageReceived;

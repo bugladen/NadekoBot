@@ -21,7 +21,7 @@ namespace NadekoBot {
 
         private static Channel OwnerPrivateChannel { get; set; }
 
-        static void Main() {
+        private static void Main() {
             try {
                 //load credentials from credentials.json
                 Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));

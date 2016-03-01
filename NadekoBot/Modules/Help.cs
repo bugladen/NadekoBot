@@ -3,9 +3,9 @@ using Discord.Modules;
 using Discord.Commands;
 
 namespace NadekoBot.Modules {
-    class Help : DiscordModule {
+    internal class Help : DiscordModule {
 
-        public Help() : base() {
+        public Help()  {
             commands.Add(new HelpCommand());
         }
 

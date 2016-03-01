@@ -9,7 +9,7 @@ using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace NadekoBot.Commands {
-    class LoLCommands : DiscordCommand {
+    internal class LoLCommands : DiscordCommand {
 
         private class CachedChampion {
             public System.IO.Stream ImageStream { get; set; }
@@ -22,7 +22,7 @@ namespace NadekoBot.Commands {
 
 
         private System.Timers.Timer clearTimer { get; } = new System.Timers.Timer();
-        public LoLCommands() : base() {
+        public LoLCommands()  {
             clearTimer.Interval = new TimeSpan(0, 10, 0).TotalMilliseconds;
             clearTimer.Start();
             clearTimer.Elapsed += (s, e) => {
@@ -36,7 +36,7 @@ namespace NadekoBot.Commands {
             };
         }
 
-        string[] trashTalk = new[] { "Better ban your counters. You are going to carry the game anyway.",
+        private string[] trashTalk = new[] { "Better ban your counters. You are going to carry the game anyway.",
                                         "Go with the flow. Don't think. Just ban one of these.",
                                         "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
                                         "Ask your teammates what would they like to play, and ban that.",
@@ -47,7 +47,7 @@ namespace NadekoBot.Commands {
             throw new NotImplementedException();
         }
 
-        class MatchupModel {
+        private class MatchupModel {
             public int Games { get; set; }
             public float WinRate { get; set; }
             [Newtonsoft.Json.JsonProperty("key")]
@@ -270,7 +270,8 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                       }
                   });
         }
-        enum GetImageType {
+
+        private enum GetImageType {
             Champion,
             Item
         }

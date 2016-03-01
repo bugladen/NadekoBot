@@ -8,8 +8,8 @@ using System.Drawing.Imaging;
 using NadekoBot.Extensions;
 
 namespace NadekoBot {
-    class DiceRollCommand : DiscordCommand {
-        public DiceRollCommand() : base() { }
+    internal class DiceRollCommand : DiscordCommand {
+        public DiceRollCommand()  { }
 
         public override Func<CommandEventArgs, Task> DoFunc() {
             Random r = new Random();

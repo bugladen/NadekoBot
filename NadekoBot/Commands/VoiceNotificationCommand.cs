@@ -6,15 +6,15 @@ using System.Collections.Concurrent;
 using Discord;
 
 namespace NadekoBot.Commands {
-    class VoiceNotificationCommand : DiscordCommand {
+    internal class VoiceNotificationCommand : DiscordCommand {
 
 
-        public VoiceNotificationCommand() : base() {
+        public VoiceNotificationCommand()  {
             //NadekoBot.client.
         }
 
         //voicechannel/text channel
-        ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
+        private ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
 
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             var arg = e.GetArg("voice_name");

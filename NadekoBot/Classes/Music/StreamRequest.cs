@@ -299,7 +299,7 @@ namespace NadekoBot.Classes.Music {
         public long readPos;
         public long writePos;
 
-        public DualStream() : base() {
+        public DualStream()  {
             readPos = writePos = 0;
         }
 

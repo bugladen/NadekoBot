@@ -4,7 +4,7 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
-    class RequestsCommand : DiscordCommand {
+    internal class RequestsCommand : DiscordCommand {
         public void SaveRequest(CommandEventArgs e, string text) {
             Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Request {
                 RequestText = text,

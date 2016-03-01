@@ -7,10 +7,10 @@ using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 
 namespace NadekoBot {
-    class DrawCommand : DiscordCommand {
+    internal class DrawCommand : DiscordCommand {
         private static ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
 
-        public DrawCommand() : base() {
+        public DrawCommand()  {
 
         }
 

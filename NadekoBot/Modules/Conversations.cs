@@ -15,9 +15,9 @@ using NadekoBot.Properties;
 using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
-    class Conversations : DiscordModule {
+    internal class Conversations : DiscordModule {
         private string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
-        public Conversations() : base() {
+        public Conversations()  {
             commands.Add(new CopyCommand());
             commands.Add(new RequestsCommand());
         }

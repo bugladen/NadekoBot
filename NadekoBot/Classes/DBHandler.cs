@@ -6,7 +6,7 @@ using System;
 using System.Linq.Expressions;
 
 namespace NadekoBot.Classes {
-    class DBHandler {
+    internal class DBHandler {
         private static readonly DBHandler _instance = new DBHandler();
         public static DBHandler Instance => _instance;
 

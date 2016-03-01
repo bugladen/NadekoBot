@@ -105,11 +105,11 @@ namespace NadekoBot.Commands {
 
     }
 
-    class SpeedTyping : DiscordCommand {
+    internal class SpeedTyping : DiscordCommand {
 
         private static Dictionary<ulong, TypingGame> runningContests;
 
-        public SpeedTyping() : base() {
+        public SpeedTyping()  {
             runningContests = new Dictionary<ulong, TypingGame>();
         }
 

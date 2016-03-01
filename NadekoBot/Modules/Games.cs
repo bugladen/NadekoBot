@@ -6,14 +6,12 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 //🃏
 //🏁
-namespace NadekoBot.Modules
-{
-    class Games : DiscordModule
-    {
-        private string[] _8BallAnswers;
-        private Random _r = new Random();
+namespace NadekoBot.Modules {
+    internal class Games : DiscordModule {
+        private readonly string[] _8BallAnswers;
+        private Random rng = new Random();
 
-        public Games() : base() {
+        public Games()  {
             commands.Add(new Trivia());
             commands.Add(new SpeedTyping());
             commands.Add(new PollCommand());
@@ -22,8 +20,7 @@ namespace NadekoBot.Modules
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }
 
-        public override void Install(ModuleManager manager)
-        {
+        public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
@@ -40,39 +37,35 @@ namespace NadekoBot.Modules
                       var list = arg.Split(';');
                       if (list.Count() < 2)
                           return;
-                      await e.Channel.SendMessage(list[new Random().Next(0, list.Length)]);
+                      await e.Channel.SendMessage(list[rng.Next(0, list.Length)]);
                   });
 
                 cgb.CreateCommand(">8ball")
                     .Description("Ask the 8ball a yes/no question.")
-                    .Parameter("question",Discord.Commands.ParameterType.Unparsed)
+                    .Parameter("question", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e => {
-                        string question = e.GetArg("question");
+                        var question = e.GetArg("question");
                         if (string.IsNullOrWhiteSpace(question))
                             return;
                         try {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[new Random().Next(0, _8BallAnswers.Length)]}`");
-                        }
-                        catch { }
+                                $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[rng.Next(0, _8BallAnswers.Length)]}`");
+                        } catch { }
                     });
 
                 cgb.CreateCommand(">")
                     .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")
-                    .Parameter("attack_type",Discord.Commands.ParameterType.Required)
-                    .Parameter("target",Discord.Commands.ParameterType.Required)
-                    .Do(async e =>
-                    {
+                    .Parameter("attack_type", Discord.Commands.ParameterType.Required)
+                    .Parameter("target", Discord.Commands.ParameterType.Required)
+                    .Do(async e => {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         var usrType = GetType(usr.Id);
-                        string response = "";
-                        int dmg = GetDamage(usrType, e.GetArg("attack_type").ToLowerInvariant());
+                        var response = "";
+                        var dmg = GetDamage(usrType, e.GetArg("attack_type").ToLowerInvariant());
                         response = e.GetArg("attack_type") + (e.GetArg("attack_type") == "splash" ? "es " : "s ") + $"{usr.Mention}{GetImage(usrType)} for {dmg}\n";
-                        if (dmg >= 65)
-                        {
+                        if (dmg >= 65) {
                             response += "It's super effective!";
-                        }
-                        else if (dmg <= 35) {
+                        } else if (dmg <= 35) {
                             response += "Ineffective!";
                         }
                         await e.Channel.SendMessage($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
@@ -81,11 +74,11 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Description("Gets the users element type. Use this to do more damage with strike!")
-                    .Do(async e =>
-                    {
+                    .Do(async e => {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
                         if (usr == null) {
                             await e.Channel.SendMessage("No such person.");
+                            return;
                         }
                         var t = GetType(usr.Id);
                         await e.Channel.SendMessage($"{usr.Name}'s type is {GetImage(t)} {t}");
@@ -104,7 +97,8 @@ namespace NadekoBot.Modules
 🐛 Insect
 🌟 or 💫 or ✨ Fairy
     */
-        string GetImage(PokeType t) {
+
+        private string GetImage(PokeType t) {
             switch (t) {
                 case PokeType.WATER:
                     return "💦";
@@ -119,11 +113,9 @@ namespace NadekoBot.Modules
             }
         }
 
-        private int GetDamage(PokeType targetType, string v)
-        {
+        private int GetDamage(PokeType targetType, string v) {
             var rng = new Random();
-            switch (v)
-            {
+            switch (v) {
                 case "splash": //water
                     if (targetType == PokeType.FIRE)
                         return rng.Next(65, 100);
@@ -166,21 +158,16 @@ namespace NadekoBot.Modules
             var remainder = id % 10;
             if (remainder < 3)
                 return PokeType.WATER;
-            else if (remainder >= 3 && remainder < 5)
-            {
+            else if (remainder >= 3 && remainder < 5) {
                 return PokeType.GRASS;
-            }
-            else if (remainder >= 5 && remainder < 8)
-            {
+            } else if (remainder >= 5 && remainder < 8) {
                 return PokeType.FIRE;
-            }
-            else {
+            } else {
                 return PokeType.ELECTRICAL;
             }
         }
 
-        private enum PokeType
-        {
+        private enum PokeType {
             WATER, GRASS, FIRE, ELECTRICAL
         }
     }

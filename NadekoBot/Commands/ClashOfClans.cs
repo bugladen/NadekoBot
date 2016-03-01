@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 
 namespace NadekoBot.Commands {
-    class ClashOfClans : DiscordCommand {
+    internal class ClashOfClans : DiscordCommand {
 
         private static string prefix = ",";
 
@@ -15,7 +15,7 @@ namespace NadekoBot.Commands {
 
         private object writeLock { get; } = new object();
 
-        public ClashOfClans() : base() {
+        public ClashOfClans()  {
 
         }
 

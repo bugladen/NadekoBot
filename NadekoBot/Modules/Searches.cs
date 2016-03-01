@@ -10,16 +10,14 @@ using NadekoBot.Classes;
 using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
-    class Searches : DiscordModule {
-        private Random _r;
-        public Searches() : base() {
+    internal class Searches : DiscordModule {
+        private readonly Random rng;
+        public Searches() {
             commands.Add(new LoLCommands());
-            _r = new Random();
+            rng = new Random();
         }
 
         public override void Install(ModuleManager manager) {
-            var client = NadekoBot.Client;
-
             manager.CreateCommands("", cgb => {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
@@ -34,14 +32,14 @@ namespace NadekoBot.Modules {
 
                         var str = await SearchHelper.ShortenUrl(await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")));
                         if (string.IsNullOrEmpty(str.Trim())) {
-                            await e.Channel.SendMessage("Query failed");
+                            await e.Channel.SendMessage("Query failed.");
                             return;
                         }
                         await e.Channel.SendMessage(str);
                     });
 
                 cgb.CreateCommand("~ani")
-                    .Alias("~anime").Alias("~aq")
+                    .Alias("~anime", "~aq")
                     .Parameter("query", ParameterType.Unparsed)
                     .Description("Queries anilist for an anime and shows the first result.")
                     .Do(async e => {
@@ -75,13 +73,10 @@ namespace NadekoBot.Modules {
                     .Description("Shows a random cat image.")
                     .Do(async e => {
                         try {
-                            await e.Channel.SendMessage(JObject.Parse(new StreamReader(
-                                WebRequest.Create("http://www.random.cat/meow")
-                                    .GetResponse()
-                                    .GetResponseStream())
-                                .ReadToEnd())["file"].ToString());
+                            await e.Channel.SendMessage(JObject.Parse(
+                                await SearchHelper.GetResponseAsync("http://www.random.cat/meow"))["file"].ToString());
                         }
-                        catch { }
+                        catch {}
                     });
 
                 cgb.CreateCommand("~i")
@@ -91,11 +86,10 @@ namespace NadekoBot.Modules {
                            if (string.IsNullOrWhiteSpace(e.GetArg("query")))
                                return;
                            try {
-                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
+                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
-                           }
-                           catch (Exception ex) {
+                           } catch (Exception ex) {
                                await e.Channel.SendMessage($"💢 {ex.Message}");
                            }
                        });
@@ -107,11 +101,10 @@ namespace NadekoBot.Modules {
                            if (string.IsNullOrWhiteSpace(e.GetArg("query")))
                                return;
                            try {
-                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ _r.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.creds.GoogleAPIKey}";
+                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
-                           }
-                           catch (Exception ex) {
+                           } catch (Exception ex) {
                                await e.Channel.SendMessage($"💢 {ex.Message}");
                            }
                        });
@@ -134,8 +127,7 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var headers = new WebHeaderCollection();
-                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      var headers = new WebHeaderCollection {{"X-Mashape-Key", NadekoBot.Creds.MashapeKey}};
                       var res = await SearchHelper.GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JArray.Parse(res);
@@ -155,11 +147,8 @@ namespace NadekoBot.Modules {
                           if (items.Count > 4) {
                               await e.Channel.SendMessage("⚠ Found over 4 images. Showing random 4.");
                           }
-                          Console.WriteLine("Start");
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png));
-                          Console.WriteLine("Finish");
-                      }
-                      catch (Exception ex) {
+                      } catch (Exception ex) {
                           await e.Channel.SendMessage($"💢 Error {ex.Message}");
                       }
                   });
@@ -180,11 +169,9 @@ namespace NadekoBot.Modules {
                                   try {
                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
                                       await e.Channel.SendMessage($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
-                                  }
-                                  catch { }
+                                  } catch { }
                               };
-                          }
-                          catch {
+                          } catch {
                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
                           }
                       }
@@ -201,7 +188,7 @@ namespace NadekoBot.Modules {
                       }
                       await e.Channel.SendIsTyping();
                       var headers = new WebHeaderCollection();
-                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
                       var res = await SearchHelper.GetResponseAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JObject.Parse(res);
@@ -210,8 +197,7 @@ namespace NadekoBot.Modules {
                           sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
                           sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl()}>");
                           await e.Channel.SendMessage(sb.ToString());
-                      }
-                      catch {
+                      } catch {
                           await e.Channel.SendMessage("💢 Failed finding a definition for that term.");
                       }
                   });
@@ -227,7 +213,7 @@ namespace NadekoBot.Modules {
                       }
                       await e.Channel.SendIsTyping();
                       var headers = new WebHeaderCollection();
-                      headers.Add("X-Mashape-Key", NadekoBot.creds.MashapeKey);
+                      headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
                       var res = await SearchHelper.GetResponseAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json", headers);
                       try {
                           var items = JObject.Parse(res);
@@ -236,8 +222,7 @@ namespace NadekoBot.Modules {
                           sb.AppendLine($"`Definition:` {items["defs"]["def"]["text"].ToString()}");
                           sb.Append($"`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl()}>");
                           await e.Channel.SendMessage(sb.ToString());
-                      }
-                      catch {
+                      } catch {
                           await e.Channel.SendMessage("💢 Failed finidng a definition for that tag.");
                       }
                   });

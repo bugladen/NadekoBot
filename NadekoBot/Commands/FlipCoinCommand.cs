@@ -5,10 +5,10 @@ using NadekoBot.Extensions;
 using System.Drawing;
 
 namespace NadekoBot {
-    class FlipCoinCommand : DiscordCommand {
+    internal class FlipCoinCommand : DiscordCommand {
 
         private Random _r;
-        public FlipCoinCommand() : base() {
+        public FlipCoinCommand()  {
             _r = new Random();
         }
 

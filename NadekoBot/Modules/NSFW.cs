@@ -5,11 +5,11 @@ using Newtonsoft.Json.Linq;
 using NadekoBot.Classes;
 
 namespace NadekoBot.Modules {
-    class NSFW : DiscordModule {
+    internal class NSFW : DiscordModule {
 
         private Random _r = new Random();
 
-        public NSFW() : base() {
+        public NSFW()  {
 
         }
 

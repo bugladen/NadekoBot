@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 namespace NadekoBot.Classes {
-    static class FlowersHandler {
+    internal static class FlowersHandler {
         public static async Task AddFlowersAsync(Discord.User u, string reason, int amount) {
             if (amount <= 0)
                 return;

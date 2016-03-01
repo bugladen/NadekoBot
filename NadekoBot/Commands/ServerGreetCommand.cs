@@ -21,13 +21,13 @@ public class AsyncLazy<T> : Lazy<Task<T>>
 */
 
 namespace NadekoBot.Commands {
-    class ServerGreetCommand : DiscordCommand {
+    internal class ServerGreetCommand : DiscordCommand {
 
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
         public static long Greeted = 0;
 
-        public ServerGreetCommand() : base() {
+        public ServerGreetCommand()  {
             AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
             NadekoBot.Client.UserJoined += UserJoined;

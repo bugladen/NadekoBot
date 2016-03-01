@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 
 namespace NadekoBot {
-    class HelpCommand : DiscordCommand {
+    internal class HelpCommand : DiscordCommand {
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             #region OldHelp
             /*
