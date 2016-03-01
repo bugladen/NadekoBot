@@ -310,7 +310,7 @@ namespace NadekoBot.Classes.Music {
         private static async Task<string> HandleStreamContainers(string query) {
             string file = null;
             try {
-                file = await SearchHelper.GetResponseAsync(query);
+                file = await SearchHelper.GetResponseStringAsync(query);
             }
             catch {
                 return query;

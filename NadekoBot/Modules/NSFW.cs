@@ -65,7 +65,7 @@ namespace NadekoBot.Modules {
                     .Description("Real adult content.")
                     .Do(async e => {
                         try {
-                            var obj = JArray.Parse(await SearchHelper.GetResponseAsync($"http://api.oboobs.ru/boobs/{_r.Next(0, 9304)}"))[0];
+                            var obj = JArray.Parse(await SearchHelper.GetResponseStringAsync($"http://api.oboobs.ru/boobs/{_r.Next(0, 9304)}"))[0];
                             await e.Channel.SendMessage($"http://media.oboobs.ru/{ obj["preview"].ToString() }");
                         } catch (Exception ex) {
                             await e.Channel.SendMessage($"💢 {ex.Message}");

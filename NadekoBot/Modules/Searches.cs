@@ -74,7 +74,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         try {
                             await e.Channel.SendMessage(JObject.Parse(
-                                await SearchHelper.GetResponseAsync("http://www.random.cat/meow"))["file"].ToString());
+                                await SearchHelper.GetResponseStringAsync("http://www.random.cat/meow"))["file"].ToString());
                         }
                         catch {}
                     });
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules {
                                return;
                            try {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
-                               var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
+                               var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
                            } catch (Exception ex) {
                                await e.Channel.SendMessage($"💢 {ex.Message}");
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules {
                                return;
                            try {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
-                               var obj = JObject.Parse(await SearchHelper.GetResponseAsync(reqString));
+                               var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString());
                            } catch (Exception ex) {
                                await e.Channel.SendMessage($"💢 {ex.Message}");
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules {
                       }
                       await e.Channel.SendIsTyping();
                       var headers = new WebHeaderCollection {{"X-Mashape-Key", NadekoBot.Creds.MashapeKey}};
-                      var res = await SearchHelper.GetResponseAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
+                      var res = await SearchHelper.GetResponseStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JArray.Parse(res);
                           List<System.Drawing.Image> images = new List<System.Drawing.Image>();
@@ -142,7 +142,7 @@ namespace NadekoBot.Modules {
                               if (!item.HasValues || item["img"] == null)
                                   continue;
                               cnt++;
-                              images.Add(System.Drawing.Bitmap.FromStream(await SearchHelper.GetResponseStream(item["img"].ToString())));
+                              images.Add(System.Drawing.Bitmap.FromStream(await SearchHelper.GetResponseStreamAsync(item["img"].ToString())));
                           }
                           if (items.Count > 4) {
                               await e.Channel.SendMessage("⚠ Found over 4 images. Showing random 4.");
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules {
                       await e.Channel.SendIsTyping();
                       var headers = new WebHeaderCollection();
                       headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
-                      var res = await SearchHelper.GetResponseAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers);
+                      var res = await SearchHelper.GetResponseStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JObject.Parse(res);
                           var sb = new System.Text.StringBuilder();
@@ -214,7 +214,7 @@ namespace NadekoBot.Modules {
                       await e.Channel.SendIsTyping();
                       var headers = new WebHeaderCollection();
                       headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
-                      var res = await SearchHelper.GetResponseAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json", headers);
+                      var res = await SearchHelper.GetResponseStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json", headers);
                       try {
                           var items = JObject.Parse(res);
                           var sb = new System.Text.StringBuilder();
