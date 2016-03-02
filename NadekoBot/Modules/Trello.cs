@@ -18,7 +18,7 @@ namespace NadekoBot.Modules {
             TrelloConfiguration.Deserializer = serializer;
             TrelloConfiguration.JsonFactory = new ManateeFactory();
             TrelloConfiguration.RestClientProvider = new Manatee.Trello.WebApi.WebApiClientProvider();
-            TrelloAuthorization.Default.AppKey = NadekoBot.TrelloAppKey;
+            TrelloAuthorization.Default.AppKey = NadekoBot.Creds.TrelloAppKey;
             //TrelloAuthorization.Default.UserToken = "[your user token]";
 
             Discord.Channel bound = null;

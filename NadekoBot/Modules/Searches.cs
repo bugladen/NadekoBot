@@ -6,6 +6,8 @@ using Newtonsoft.Json.Linq;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using NadekoBot.Classes;
 using NadekoBot.Commands;
 
@@ -30,12 +32,8 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
 
-                        var str = await SearchHelper.ShortenUrl(await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")));
-                        if (string.IsNullOrEmpty(str.Trim())) {
-                            await e.Channel.SendMessage("Query failed.");
-                            return;
-                        }
-                        await e.Channel.SendMessage(str);
+                        var shortUrl = await SearchHelper.ShortenUrl(await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")));
+                        await e.Channel.SendMessage(shortUrl);
                     });
 
                 cgb.CreateCommand("~ani")
@@ -44,9 +42,10 @@ namespace NadekoBot.Modules {
                     .Description("Queries anilist for an anime and shows the first result.")
                     .Do(async e => {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
-
-                        var result = await SearchHelper.GetAnimeQueryResultLink(e.GetArg("query"));
-                        if (result == null) {
+                        string result;
+                        try {
+                            result = (await SearchHelper.GetAnimeQueryResultLink(e.GetArg("query"))).ToString();
+                        } catch {
                             await e.Channel.SendMessage("Failed to find that anime.");
                             return;
                         }
@@ -60,23 +59,21 @@ namespace NadekoBot.Modules {
                     .Description("Queries anilist for a manga and shows the first result.")
                     .Do(async e => {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
-
-                        var result = await SearchHelper.GetMangaQueryResultLink(e.GetArg("query"));
-                        if (result == null) {
-                            await e.Channel.SendMessage("Failed to find that manga.");
+                        string result;
+                        try {
+                            result = (await SearchHelper.GetMangaQueryResultLink(e.GetArg("query"))).ToString();
+                        } catch {
+                            await e.Channel.SendMessage("Failed to find that anime.");
                             return;
                         }
-                        await e.Channel.SendMessage(result.ToString());
+                        await e.Channel.SendMessage(result);
                     });
 
                 cgb.CreateCommand("~randomcat")
                     .Description("Shows a random cat image.")
                     .Do(async e => {
-                        try {
-                            await e.Channel.SendMessage(JObject.Parse(
-                                await SearchHelper.GetResponseStringAsync("http://www.random.cat/meow"))["file"].ToString());
-                        }
-                        catch {}
+                        await e.Channel.SendMessage(JObject.Parse(
+                            await SearchHelper.GetResponseStringAsync("http://www.random.cat/meow"))["file"].ToString());
                     });
 
                 cgb.CreateCommand("~i")
@@ -127,22 +124,18 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var headers = new WebHeaderCollection {{"X-Mashape-Key", NadekoBot.Creds.MashapeKey}};
+                      var headers = new Dictionary<string, string> { { "X-Mashape-Key", NadekoBot.Creds.MashapeKey } };
                       var res = await SearchHelper.GetResponseStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
                       try {
-                          var items = JArray.Parse(res);
-                          List<System.Drawing.Image> images = new List<System.Drawing.Image>();
+                          var items = JArray.Parse(res) as JArray;
+                          var images = new List<System.Drawing.Image>();
                           if (items == null)
                               throw new KeyNotFoundException("Cannot find a card by that name");
-                          int cnt = 0;
+                          var cnt = 0;
                           items.Shuffle();
-                          foreach (var item in items) {
-                              if (cnt >= 4)
-                                  break;
-                              if (!item.HasValues || item["img"] == null)
-                                  continue;
-                              cnt++;
-                              images.Add(System.Drawing.Bitmap.FromStream(await SearchHelper.GetResponseStreamAsync(item["img"].ToString())));
+                          foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null)) {
+                              images.Add(
+                                  Image.FromStream(await SearchHelper.GetResponseStreamAsync(item["img"].ToString())));
                           }
                           if (items.Count > 4) {
                               await e.Channel.SendMessage("⚠ Found over 4 images. Showing random 4.");
@@ -187,8 +180,7 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var headers = new WebHeaderCollection();
-                      headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
+                      var headers = new Dictionary<string, string> { { "X-Mashape-Key", NadekoBot.Creds.MashapeKey } };
                       var res = await SearchHelper.GetResponseStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers);
                       try {
                           var items = JObject.Parse(res);
@@ -212,8 +204,7 @@ namespace NadekoBot.Modules {
                           return;
                       }
                       await e.Channel.SendIsTyping();
-                      var headers = new WebHeaderCollection();
-                      headers.Add("X-Mashape-Key", NadekoBot.Creds.MashapeKey);
+                      var headers = new Dictionary<string, string> { { "X-Mashape-Key", NadekoBot.Creds.MashapeKey } };
                       var res = await SearchHelper.GetResponseStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json", headers);
                       try {
                           var items = JObject.Parse(res);

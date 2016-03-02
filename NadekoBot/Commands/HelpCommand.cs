@@ -69,7 +69,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 }
                 helpstr += PrintCommandHelp(com);
             }
-            helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
+            helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
             helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
             File.WriteAllText("../../../commandlist.md", helpstr);
@@ -81,7 +81,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
         public override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("-h")
-                .Alias(new string[] { "-help", NadekoBot.botMention + " help", NadekoBot.botMention + " h", "~h" })
+                .Alias(new string[] { "-help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h" })
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(DoFunc());
@@ -114,10 +114,9 @@ You can join nadekobot server by simply private messaging NadekoBot, and you wil
                 });
         }
 
-        private string PrintCommandHelp(Command com) {
+        private static string PrintCommandHelp(Command com) {
             var str = "`" + com.Text + "`";
-            foreach (var a in com.Aliases)
-                str += ", `" + a + "`";
+            str = com.Aliases.Aggregate(str, (current, a) => current + (", `" + a + "`"));
             str += " **Description:** " + com.Description + "\n";
             return str;
         }

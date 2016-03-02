@@ -20,15 +20,14 @@ namespace NadekoBot.Modules {
 
         private bool setgameEnabled = false;
 
-        public Music()  {
+        public Music() {
 
             setgameTimer.Interval = 20000;
             setgameTimer.Elapsed += (s, e) => {
                 try {
                     int num = musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
                     NadekoBot.Client.SetGame($"{num} songs".SnPl(num) + $", {musicPlayers.Sum(kvp => kvp.Value.Playlist.Count())} queued");
-                }
-                catch { }
+                } catch { }
             };
 
         }
@@ -62,8 +61,7 @@ namespace NadekoBot.Modules {
                         await Task.Delay(5000);
                         try {
                             await msg.Delete();
-                        }
-                        catch { }
+                        } catch { }
                     });
 
                 cgb.CreateCommand("p")
@@ -212,9 +210,14 @@ namespace NadekoBot.Modules {
                         }
                         var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
-                        var msg = await e.Channel.SendMessage($"🎵 `Attempting to queue {ids.Count} songs".SnPl(ids.Count) + "...`");
-                        foreach (var id in ids) {
-                            await QueueSong(e.Channel, e.User.VoiceChannel, id, true);
+                        var idArray = ids as string[] ?? ids.ToArray();
+                        var count = idArray.Count();
+                        var msg =
+                            await e.Channel.SendMessage($"🎵 `Attempting to queue {count} songs".SnPl(count) + "...`");
+                        foreach (var id in idArray) {
+                            try {
+                                await QueueSong(e.Channel, e.User.VoiceChannel, id, true);
+                            } catch { }
                         }
                         await msg.Edit("🎵 `Playlist queue complete.`");
                     });
@@ -233,8 +236,7 @@ namespace NadekoBot.Modules {
                                 await QueueSong(e.Channel, e.User.VoiceChannel, file, true, MusicType.Local);
                             }
                             await e.Channel.SendMessage("🎵 `Directory queue complete.`");
-                        }
-                        catch { }
+                        } catch { }
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
@@ -306,7 +308,7 @@ namespace NadekoBot.Modules {
 
         private async Task QueueSong(Channel TextCh, Channel VoiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal) {
             if (VoiceCh == null || VoiceCh.Server != TextCh.Server) {
-                if(!silent)
+                if (!silent)
                     await TextCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
                 throw new ArgumentNullException(nameof(VoiceCh));
             }
@@ -322,22 +324,20 @@ namespace NadekoBot.Modules {
                     OnCompleted = async (song) => {
                         try {
                             await TextCh.SendMessage($"🎵`Finished`{song.PrettyName}");
-                        }
-                        catch { }
+                        } catch { }
                     },
                     OnStarted = async (song) => {
                         try {
                             var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(musicPlayer.Volume * 100)}%`";
                             await TextCh.SendMessage(msgTxt);
-                        }
-                        catch { }
+                        } catch { }
                     },
                 };
                 musicPlayers.TryAdd(TextCh.Server, musicPlayer);
             }
             var resolvedSong = await Song.ResolveSong(query, musicType);
             resolvedSong.MusicPlayer = musicPlayer;
-            if(!silent)
+            if (!silent)
                 await TextCh.Send($"🎵`Queued`{resolvedSong.PrettyName}");
             musicPlayer.AddSong(resolvedSong);
         }
