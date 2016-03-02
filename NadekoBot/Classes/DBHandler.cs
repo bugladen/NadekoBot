@@ -6,63 +6,62 @@ using System;
 using System.Linq.Expressions;
 
 namespace NadekoBot.Classes {
-    internal class DBHandler {
-        private static readonly DBHandler _instance = new DBHandler();
-        public static DBHandler Instance => _instance;
+    internal class DbHandler {
+        public static DbHandler Instance { get; } = new DbHandler();
 
-        private string _filePath { get; } = "data/nadekobot.sqlite";
+        private string FilePath { get; } = "data/nadekobot.sqlite";
 
-        static DBHandler() { }
-        public DBHandler() {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                _conn.CreateTable<Stats>();
-                _conn.CreateTable<Command>();
-                _conn.CreateTable<Announcement>();
-                _conn.CreateTable<Request>();
-                _conn.CreateTable<TypingArticle>();
-                _conn.CreateTable<CurrencyState>();
-                _conn.CreateTable<CurrencyTransaction>();
-                _conn.CreateTable<Donator>();
-                _conn.CreateTable<UserQuote>();
-                _conn.Execute(Queries.TransactionTriggerQuery);
+        static DbHandler() { }
+        public DbHandler() {
+            using (var conn = new SQLiteConnection(FilePath)) {
+                conn.CreateTable<Stats>();
+                conn.CreateTable<Command>();
+                conn.CreateTable<Announcement>();
+                conn.CreateTable<Request>();
+                conn.CreateTable<TypingArticle>();
+                conn.CreateTable<CurrencyState>();
+                conn.CreateTable<CurrencyTransaction>();
+                conn.CreateTable<Donator>();
+                conn.CreateTable<UserQuote>();
+                conn.Execute(Queries.TransactionTriggerQuery);
             }
         }
 
         internal void InsertData<T>(T o) where T : IDataModel {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                _conn.Insert(o, typeof(T));
+            using (var conn = new SQLiteConnection(FilePath)) {
+                conn.Insert(o, typeof(T));
             }
         }
 
         internal void InsertMany<T>(T objects) where T : IEnumerable<IDataModel> {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                _conn.InsertAll(objects);
+            using (var conn = new SQLiteConnection(FilePath)) {
+                conn.InsertAll(objects);
             }
         }
 
         internal void UpdateData<T>(T o) where T : IDataModel {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                _conn.Update(o, typeof(T));
+            using (var conn = new SQLiteConnection(FilePath)) {
+                conn.Update(o, typeof(T));
             }
         }
 
         internal List<T> GetAllRows<T>() where T : IDataModel, new() {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                return _conn.Table<T>().ToList();
+            using (var conn = new SQLiteConnection(FilePath)) {
+                return conn.Table<T>().ToList();
             }
         }
 
-        internal CurrencyState GetStateByUserId(long Id) {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                return _conn.Table<CurrencyState>().Where(x => x.UserId == Id).FirstOrDefault();
+        internal CurrencyState GetStateByUserId(long id) {
+            using (var conn = new SQLiteConnection(FilePath)) {
+                return conn.Table<CurrencyState>().Where(x => x.UserId == id).FirstOrDefault();
             }
         }
 
-        internal T Delete<T>(int Id) where T : IDataModel, new() {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                var found = _conn.Find<T>(Id);
+        internal T Delete<T>(int id) where T : IDataModel, new() {
+            using (var conn = new SQLiteConnection(FilePath)) {
+                var found = conn.Find<T>(id);
                 if (found != null)
-                    _conn.Delete<T>(found.Id);
+                    conn.Delete<T>(found.Id);
                 return found;
             }
         }
@@ -71,19 +70,19 @@ namespace NadekoBot.Classes {
         /// Updates an existing object or creates a new one
         /// </summary>
         internal void Save<T>(T o) where T : IDataModel, new() {
-            using (var _conn = new SQLiteConnection(_filePath)) {
-                var found = _conn.Find<T>(o.Id);
+            using (var conn = new SQLiteConnection(FilePath)) {
+                var found = conn.Find<T>(o.Id);
                 if (found == null)
-                    _conn.Insert(o, typeof(T));
+                    conn.Insert(o, typeof(T));
                 else
-                    _conn.Update(o, typeof(T));
+                    conn.Update(o, typeof(T));
             }
         }
 
         internal T GetRandom<T>(Expression<Func<T, bool>> p) where T : IDataModel, new() {
-            using (var _conn = new SQLiteConnection(_filePath)) {
+            using (var conn = new SQLiteConnection(FilePath)) {
                 var r = new Random();
-                return _conn.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
+                return conn.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
             }
         }
     }

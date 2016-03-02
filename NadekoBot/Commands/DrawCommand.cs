@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 using Discord.Commands;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 
-namespace NadekoBot {
+namespace NadekoBot.Commands {
     internal class DrawCommand : DiscordCommand {
         private static ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
 

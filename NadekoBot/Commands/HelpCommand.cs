@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using System.IO;
-using System.Linq;
 
-namespace NadekoBot {
+namespace NadekoBot.Commands {
     internal class HelpCommand : DiscordCommand {
         public override Func<CommandEventArgs, Task> DoFunc() => async e => {
             #region OldHelp

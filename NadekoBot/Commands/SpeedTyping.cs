@@ -11,7 +11,7 @@ namespace NadekoBot.Commands {
 
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
-            var data = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.TypingArticle>();
+            var data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.TypingArticle>();
             try {
                 return data.ToList()[new Random().Next(0, data.Count())].Text;
             } catch  {
@@ -153,7 +153,7 @@ namespace NadekoBot.Commands {
                 .Do(async e => {
                     if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    Classes.DBHandler.Instance.InsertData(new Classes._DataModels.TypingArticle {
+                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.TypingArticle {
                         Text = e.GetArg("text"),
                         DateAdded = DateTime.Now
                     });

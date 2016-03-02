@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
-namespace NadekoBot
+namespace NadekoBot.Commands
 {
     /// <summary>
     /// Base DiscordCommand Class.

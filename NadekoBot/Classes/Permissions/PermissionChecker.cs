@@ -7,8 +7,7 @@ using System.Collections.Concurrent;
 
 namespace NadekoBot.Classes.Permissions {
     internal class PermissionChecker : IPermissionChecker {
-        public static readonly PermissionChecker _instance = new PermissionChecker();
-        public static PermissionChecker Instance => _instance;
+        public static PermissionChecker Instance { get; } = new PermissionChecker();
 
         private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
 

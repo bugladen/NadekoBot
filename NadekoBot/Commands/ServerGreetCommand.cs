@@ -33,7 +33,7 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.UserJoined += UserJoined;
             NadekoBot.Client.UserLeft += UserLeft;
 
-            List<Classes._DataModels.Announcement> data = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
+            List<Classes._DataModels.Announcement> data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
 
             if (data.Any())
                 foreach (var obj in data)
@@ -168,7 +168,7 @@ namespace NadekoBot.Commands {
             internal bool ToggleByePM() => ByePM = !ByePM;
 
             private void Save() {
-                Classes.DBHandler.Instance.Save(_model);
+                Classes.DbHandler.Instance.Save(_model);
             }
         }
 

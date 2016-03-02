@@ -1,10 +1,10 @@
 using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using System.Drawing;
 
-namespace NadekoBot {
+namespace NadekoBot.Commands {
     internal class FlipCoinCommand : DiscordCommand {
 
         private Random _r;

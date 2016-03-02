@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Discord.Commands;
-using System.Linq;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Discord;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 
-namespace NadekoBot.Modules {
+namespace NadekoBot.Commands {
     internal class PollCommand : DiscordCommand {
 
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();

@@ -45,7 +45,7 @@ namespace NadekoBot.Modules {
                         if (string.IsNullOrWhiteSpace(text))
                             return;
                         await Task.Run(() =>
-                            Classes.DBHandler.Instance.InsertData(new Classes._DataModels.UserQuote() {
+                            Classes.DbHandler.Instance.InsertData(new Classes._DataModels.UserQuote() {
                                 DateAdded = DateTime.Now,
                                 Keyword = e.GetArg("keyword").ToLowerInvariant(),
                                 Text = text,
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules {
                             return;
 
                         var quote =
-                            Classes.DBHandler.Instance.GetRandom<Classes._DataModels.UserQuote>(
+                            Classes.DbHandler.Instance.GetRandom<Classes._DataModels.UserQuote>(
                                 uqm => uqm.Keyword == keyword);
 
                         if (quote != null)

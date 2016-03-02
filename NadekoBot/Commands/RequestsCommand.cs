@@ -6,7 +6,7 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Commands {
     internal class RequestsCommand : DiscordCommand {
         public void SaveRequest(CommandEventArgs e, string text) {
-            Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Request {
+            Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Request {
                 RequestText = text,
                 UserName = e.User.Name,
                 UserId = (long)e.User.Id,
@@ -17,7 +17,7 @@ namespace NadekoBot.Commands {
         }
         // todo what if it's too long?
         public string GetRequests() {
-            var task = Classes.DBHandler.Instance.GetAllRows<Classes._DataModels.Request>();
+            var task = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Request>();
 
             string str = "Here are all current requests for NadekoBot:\n\n";
             foreach (var reqObj in task) {
@@ -28,14 +28,14 @@ namespace NadekoBot.Commands {
         }
 
         public bool DeleteRequest(int requestNumber) => 
-            Classes.DBHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber) != null;
+            Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber) != null;
 
         /// <summary>
         /// Delete a request with a number and returns that request object.
         /// </summary>
         /// <returns>RequestObject of the request. Null if none</returns>
         public Classes._DataModels.Request ResolveRequest(int requestNumber) =>
-            Classes.DBHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
+            Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
 
         public override Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();

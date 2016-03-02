@@ -146,10 +146,12 @@ namespace NadekoBot.Classes {
             return obj.items[0].id.playlistId.ToString();
         }
 
-        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist) {
+        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 30) {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) {
                 throw new ArgumentNullException(nameof(playlist));
             }
+            if (number < 1 || number > 100)
+                throw new ArgumentOutOfRangeException();
             var link =
                 $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
                 $"&maxResults={30}" +

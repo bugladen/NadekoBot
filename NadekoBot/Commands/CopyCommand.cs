@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.Commands;
 
-namespace NadekoBot
+namespace NadekoBot.Commands
 {
     internal class CopyCommand : DiscordCommand
     {

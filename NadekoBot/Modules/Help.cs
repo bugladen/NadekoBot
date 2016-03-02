@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Discord.Modules;
 using Discord.Commands;
+using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
     internal class Help : DiscordModule {

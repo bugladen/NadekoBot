@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
+using NadekoBot.Commands;
 
 namespace NadekoBot {
     public class NadekoBot {

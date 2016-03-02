@@ -10,6 +10,7 @@ using System.IO;
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Classes._DataModels;
 using Timer = System.Timers.Timer;
@@ -199,8 +200,10 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         try {
                             if (e.User.ServerPermissions.KickMembers && e.Message.MentionedUsers.Any()) {
-                                var usr = e.Message.MentionedUsers.First();
-                                await e.Message.MentionedUsers.First().Kick();
+                                var usr = e.Message.MentionedUsers.FirstOrDefault();
+                                if (usr == null)
+                                    return;
+                                await usr.Kick();
                                 await e.Channel.SendMessage("Kicked user " + usr.Name + " Id: " + usr.Id);
                             }
                         } catch {
@@ -215,7 +218,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("You do not have permission to do that.");
                             return;
                         }
-                        if (e.Message.MentionedUsers.Count() == 0)
+                        if (!e.Message.MentionedUsers.Any())
                             return;
                         try {
                             foreach (var u in e.Message.MentionedUsers) {
@@ -235,7 +238,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("You do not have permission to do that.");
                             return;
                         }
-                        if (e.Message.MentionedUsers.Count() == 0)
+                        if (!e.Message.MentionedUsers.Any())
                             return;
                         try {
                             foreach (var u in e.Message.MentionedUsers) {
@@ -256,7 +259,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("You do not have permission to do that.");
                             return;
                         }
-                        if (e.Message.MentionedUsers.Count() == 0)
+                        if (!e.Message.MentionedUsers.Any())
                             return;
                         try {
                             foreach (var u in e.Message.MentionedUsers) {
@@ -277,7 +280,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("You do not have permission to do that.");
                             return;
                         }
-                        if (e.Message.MentionedUsers.Count() == 0)
+                        if (!e.Message.MentionedUsers.Any())
                             return;
                         try {
                             foreach (var u in e.Message.MentionedUsers) {
@@ -323,7 +326,9 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         try {
                             if (e.User.ServerPermissions.ManageChannels) {
-                                await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault()?.Delete();
+                                var channel = e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault();
+                                if (channel == null) return;
+                                await channel.Delete();
                                 await e.Channel.SendMessage($"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
                         } catch {
@@ -413,15 +418,12 @@ namespace NadekoBot.Modules {
                     .Description("Works only for the owner. Shuts the bot down and notifies users about the restart.")
                     .Do(async e => {
                         if (NadekoBot.IsOwner(e.User.Id)) {
-                            Timer t = new Timer();
-                            t.Interval = 2000;
-                            t.Elapsed += (s, ev) => { Environment.Exit(0); };
-                            t.Start();
                             await e.Channel.SendMessage("`Shutting down.`");
+                            await Task.Delay(2000);
+                            Environment.Exit(0);
                         }
                     });
 
-                ConcurrentDictionary<Server, bool> clearDictionary = new ConcurrentDictionary<Server, bool>();
                 cgb.CreateCommand(".clr")
                     .Description("Clears some of Nadeko's (or some other user's if supplied) messages from the current channel.\n**Usage**: .clr @X")
                     .Parameter("user", ParameterType.Unparsed)
@@ -462,18 +464,13 @@ namespace NadekoBot.Modules {
                         if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("img")))
                             return;
                         // Gather user provided URL.
-                        string avatarAddress = e.GetArg("img");
-                        // Creates an HTTPWebRequest object, which references the URL given by the user.
-                        System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(Uri.EscapeUriString(avatarAddress));
-                        // Discard the response if image isnt downloaded in 5 s as to not lock Nadeko. Prevents loading from faulty links.
-                        webRequest.Timeout = 5000;
-                        // Gathers the webRequest response as a Stream object.
-                        System.Net.WebResponse webResponse = await webRequest.GetResponseAsync();
-                        // Create image object from the response we got from the webRequest stream. This is because there is no "GetResponseStream".
-                        System.Drawing.Image image = System.Drawing.Image.FromStream(webResponse.GetResponseStream());
+                        var avatarAddress = e.GetArg("img");
+                        var imageStream = await SearchHelper.GetResponseStreamAsync(avatarAddress);
+                        var image = System.Drawing.Image.FromStream(imageStream);
                         // Save the image to disk.
                         image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream());
+                        imageStream.Position = 0;
+                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: imageStream);
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.");
                     });
@@ -490,8 +487,8 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".checkmyperms")
                     .Description("Checks your userspecific permissions on this channel.")
                     .Do(async e => {
-                        string output = "```\n";
-                        foreach (var p in e.User.ServerPermissions.GetType().GetProperties().Where(p => p.GetGetMethod().GetParameters().Count() == 0)) {
+                        var output = "```\n";
+                        foreach (var p in e.User.ServerPermissions.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any())) {
                             output += p.Name + ": " + p.GetValue(e.User.ServerPermissions, null).ToString() + "\n";
                         }
                         output += "```";
@@ -558,23 +555,27 @@ namespace NadekoBot.Modules {
                     .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (!e.User.ServerPermissions.MentionEveryone) return;
-                        var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
-                        string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
-                        foreach (var roleStr in arg) {
-                            if (string.IsNullOrWhiteSpace(roleStr)) continue;
-                            var role = e.Server.FindRoles(roleStr).FirstOrDefault();
-                            if (role == null) continue;
-                            send += $"\n`{role.Name}`\n";
-                            send += string.Join(", ", role.Members.Select(r => r.Mention));
-                        }
+                        await Task.Run(async () => {
+                            if (!e.User.ServerPermissions.MentionEveryone) return;
+                            var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
+                            string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
+                            foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str))) {
+                                var role = e.Server.FindRoles(roleStr).FirstOrDefault();
+                                if (role == null) continue;
+                                send += $"\n`{role.Name}`\n";
+                                send += string.Join(", ", role.Members.Select(r => r.Mention));
+                            }
 
-                        while (send.Length > 2000) {
-                            var curstr = send.Substring(0, 2000);
-                            await e.Channel.Send(curstr.Substring(0, curstr.LastIndexOf(", ") + 1));
-                            send = curstr.Substring(curstr.LastIndexOf(", ") + 1) + send.Substring(2000);
-                        }
-                        await e.Channel.Send(send);
+                            while (send.Length > 2000) {
+                                var curstr = send.Substring(0, 2000);
+                                await
+                                    e.Channel.Send(curstr.Substring(0,
+                                        curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1));
+                                send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
+                                       send.Substring(2000);
+                            }
+                            await e.Channel.Send(send);
+                        });
                     });
 
                 cgb.CreateCommand(".parsetosql")
@@ -593,7 +594,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".unstuck")
                   .Description("Clears the message queue. **OWNER ONLY**")
-                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                  .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e => {
                       NadekoBot.Client.MessageQueue.Clear();
                   });
@@ -602,7 +603,7 @@ namespace NadekoBot.Modules {
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e => {
                         await Task.Run(async () => {
-                            var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
+                            var rows = Classes.DbHandler.Instance.GetAllRows<Donator>();
                             var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
                             string str = $"**Thanks to the people listed below for making this project happen!**\n";
 
@@ -616,22 +617,22 @@ namespace NadekoBot.Modules {
                     .Description("Add a donator to the database.")
                     .Parameter("donator")
                     .Parameter("amount")
-                    .Do(e => {
-                        try {
+                    .Do(async e => {
+                        await Task.Run(() => {
                             if (!NadekoBot.IsOwner(e.User.Id))
                                 return;
                             var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
                             var amount = int.Parse(e.GetArg("amount"));
-                            Classes.DBHandler.Instance.InsertData(new Donator {
-                                Amount = amount,
-                                UserName = donator.Name,
-                                UserId = (long)e.User.Id
-                            });
-                            e.Channel.SendMessage("Successfuly added a new donator. 👑");
-                        } catch (Exception ex) {
-                            Console.WriteLine(ex);
-                            Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
-                        }
+                            if (donator == null) return;
+                            try {
+                                Classes.DbHandler.Instance.InsertData(new Donator {
+                                    Amount = amount,
+                                    UserName = donator.Name,
+                                    UserId = (long)e.User.Id
+                                });
+                                e.Channel.SendMessage("Successfuly added a new donator. 👑");
+                            } catch { }
+                        });
                     });
 
                 cgb.CreateCommand(".videocall")
@@ -639,13 +640,11 @@ namespace NadekoBot.Modules {
                   .Parameter("arg", ParameterType.Unparsed)
                   .Do(async e => {
                       try {
-                          string str = "http://appear.in/";
                           var allUsrs = e.Message.MentionedUsers.Union(new User[] { e.User });
-                          foreach (var usr in allUsrs) {
-                              str += Uri.EscapeUriString(usr.Name[0].ToString());
-                          }
-                          str += new Random().Next(100000, 1000000);
-                          foreach (var usr in allUsrs) {
+                          var allUsrsArray = allUsrs as User[] ?? allUsrs.ToArray();
+                          var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Name[0].ToString()));
+                          str += new Random().Next();
+                          foreach (var usr in allUsrsArray) {
                               await usr.SendMessage(str);
                           }
                       } catch (Exception ex) {
@@ -659,11 +658,10 @@ namespace NadekoBot.Modules {
             try {
                 var data = File.ReadAllText(where);
                 var arr = JObject.Parse(data)["results"] as JArray;
-                var objects = new List<T>();
-                foreach (JObject obj in arr) {
-                    objects.Add(obj.ToObject<T>());
-                }
-                Classes.DBHandler.Instance.InsertMany(objects);
+                if (arr == null)
+                    return;
+                var objects = arr.Select(x => x.ToObject<T>());
+                Classes.DbHandler.Instance.InsertMany(objects);
             } catch { }
         }
     }

@@ -4,7 +4,7 @@ using System;
 
 public class Cards
 {
-    private static Dictionary<int, string> cardNames = new Dictionary<int, string>() {
+    private static readonly Dictionary<int, string> cardNames = new Dictionary<int, string>() {
         { 1, "Ace" },
         { 2, "Two" },
         { 3, "Three" },
@@ -17,13 +17,13 @@ public class Cards
         { 10, "Ten" },
         { 11, "Jack" },
         { 12, "Queen" },
-        { 13, "King" },
+        { 13, "King" }
     };
 
     private static Dictionary<string, Func<List<Card>, bool>> handValues;
 
 
-    public enum CARD_SUIT
+    public enum CardSuit
     {
         Spades = 1,
         Hearts = 2,
@@ -33,41 +33,41 @@ public class Cards
 
     public class Card : IComparable
     {
-        public CARD_SUIT suit;
-		public int number;
-        
+        public CardSuit Suit { get; }
+        public int Number { get; }
+
         public string Name
         {
             get
             {
-                string str = "";
+                var str = "";
 
-                if (number <= 10 && number > 1)
+                if (Number <= 10 && Number > 1)
                 {
-                    str += "_"+number;
+                    str += "_"+Number;
                 }
                 else
                 {
                     str += GetName().ToLower();
                 }
-                return str + "_of_" + suit.ToString().ToLower();
+                return str + "_of_" + Suit.ToString().ToLower();
             }
         }
 
-        public Card(CARD_SUIT s, int card_num) {
-            this.suit = s;
-            this.number = card_num;
+        public Card(CardSuit s, int cardNum) {
+            this.Suit = s;
+            this.Number = cardNum;
         }
 
-        public string GetName() => cardNames[number];
+        public string GetName() => cardNames[Number];
 
-        public override string ToString() => cardNames[number] + " Of " + suit;
+        public override string ToString() => cardNames[Number] + " Of " + Suit;
 
         public int CompareTo(object obj)
         {
             if (!(obj is Card)) return 0;
             var c = (Card)obj;
-            return this.number - c.number;
+            return this.Number - c.Number;
         }
     }
 
@@ -101,15 +101,15 @@ public class Cards
     {
         cardPool.Clear();
         //foreach suit
-        for (int j = 1; j < 14; j++)
+        for (var j = 1; j < 14; j++)
         {
             // and number
-            for (int i = 1; i < 5; i++)
+            for (var i = 1; i < 5; i++)
             {
                 //generate a card of that suit and number and add it to the pool
 
                 // the pool will go from ace of spades,hears,diamonds,clubs all the way to the king of spades. hearts, ...
-                cardPool.Add(new Card((CARD_SUIT)i, j));
+                cardPool.Add(new Card((CardSuit)i, j));
             }
         }
     }
@@ -124,8 +124,8 @@ public class Cards
             Restart();
         //you can either do this if your deck is not shuffled
         
-        int num = r.Next(0, cardPool.Count);
-        Card c = cardPool[num];
+        var num = r.Next(0, cardPool.Count);
+        var c = cardPool[num];
         cardPool.RemoveAt(num);
         return c;
 
@@ -140,44 +140,43 @@ public class Cards
     /// Shuffles the deck. Use this if you want to take cards from the top of the deck, instead of randomly. See DrawACard method.
     /// </summary>
     private void Shuffle() {
-        if (cardPool.Count > 1)
-        {
-            cardPool.OrderBy(x => r.Next());
-        }
+        if (cardPool.Count <= 1) return;
+        var orderedPool = cardPool.OrderBy(x => r.Next());
+        cardPool = cardPool as List<Card> ?? orderedPool.ToList();
     }
     public override string ToString() => string.Join("", cardPool.Select(c => c.ToString())) + Environment.NewLine;
 
     public void InitHandValues() {
         Func<List<Card>, bool> hasPair =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Count(group => group.Count() == 2) == 1;
         Func<List<Card>, bool> isPair =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Count(group => group.Count() == 3) == 0
                                        && hasPair(cards);
 
         Func<List<Card>, bool> isTwoPair =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Count(group => group.Count() == 2) == 2;
 
         Func<List<Card>, bool> isStraight =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Count() == cards.Count()
-                                       && cards.Max(card => (int)card.number)
-                                        - cards.Min(card => (int)card.number) == 4;
+                                       && cards.Max(card => (int)card.Number)
+                                        - cards.Min(card => (int)card.Number) == 4;
 
         Func<List<Card>, bool> hasThreeOfKind =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Any(group => group.Count() == 3);
 
         Func<List<Card>, bool> isThreeOfKind =
                               cards => hasThreeOfKind(cards) && !hasPair(cards);
 
         Func<List<Card>, bool> isFlush =
-                              cards => cards.GroupBy(card => card.suit).Count() == 1;
+                              cards => cards.GroupBy(card => card.Suit).Count() == 1;
 
         Func<List<Card>, bool> isFourOfKind =
-                              cards => cards.GroupBy(card => card.number)
+                              cards => cards.GroupBy(card => card.Number)
                                             .Any(group => group.Count() == 4);
 
         Func<List<Card>, bool> isFullHouse =
@@ -187,7 +186,7 @@ public class Cards
                               cards => isFlush(cards) && isStraight(cards);
 
         Func<List<Card>, bool> isRoyalFlush =
-                              cards => cards.Min(card => (int)card.number) == 10
+                              cards => cards.Min(card => card.Number) == 10
                                        && hasStraightFlush(cards);
 
         Func<List<Card>, bool> isStraightFlush =
@@ -207,13 +206,9 @@ public class Cards
                      };
     }
 
-    public static string GetHandValue(List<Card> cards)
-    {
-        foreach (var KVP in handValues)
-        {
-            if (KVP.Value(cards)) {
-                return KVP.Key;
-            }
+    public static string GetHandValue(List<Card> cards) {
+        foreach (var kvp in handValues.Where(x => x.Value(cards))) {
+            return kvp.Key;
         }
         return "High card "+cards.Max().GetName();
     }

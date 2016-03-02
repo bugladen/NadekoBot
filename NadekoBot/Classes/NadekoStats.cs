@@ -11,8 +11,6 @@ namespace NadekoBot {
     public class NadekoStats {
         public static NadekoStats Instance { get; } = new NadekoStats();
 
-        private readonly CommandService commandService;
-
         public string BotVersion => $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version}";
 
         private int _commandsRan = 0;
@@ -26,7 +24,7 @@ namespace NadekoBot {
         static NadekoStats() { }
 
         private NadekoStats() {
-            commandService = NadekoBot.Client.GetService<CommandService>();
+            var commandService = NadekoBot.Client.GetService<CommandService>();
 
             statsStopwatch = new Stopwatch();
             statsStopwatch.Start();
@@ -37,8 +35,9 @@ namespace NadekoBot {
 
             ServerCount = NadekoBot.Client.Servers.Count();
             var channels = NadekoBot.Client.Servers.SelectMany(s => s.AllChannels);
-            TextChannelsCount = channels.Count(c => c.Type == ChannelType.Text);
-            VoiceChannelsCount = channels.Count() - TextChannelsCount;
+            var channelsArray = channels as Channel[] ?? channels.ToArray();
+            TextChannelsCount = channelsArray.Count(c => c.Type == ChannelType.Text);
+            VoiceChannelsCount = channelsArray.Count() - TextChannelsCount;
 
             NadekoBot.Client.JoinedServer += (s, e) => {
                 try {
@@ -123,7 +122,7 @@ namespace NadekoBot {
                                                                         .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)));
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Stats {
+                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Stats {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
                         Uptime = GetUptime(),
@@ -141,7 +140,7 @@ namespace NadekoBot {
         private void StatsCollector_RanCommand(object sender, CommandEventArgs e) {
             try {
                 _commandsRan++;
-                Classes.DBHandler.Instance.InsertData(new Classes._DataModels.Command {
+                Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command {
                     ServerId = (long)e.Server.Id,
                     ServerName = e.Server.Name,
                     ChannelId = (long)e.Channel.Id,

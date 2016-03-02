@@ -3,6 +3,7 @@ using Discord.Modules;
 using NadekoBot.Extensions;
 using System.Linq;
 using Discord;
+using NadekoBot.Commands;
 
 namespace NadekoBot.Modules
 {
@@ -41,7 +42,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("$$$")
                   .Description("Check how many NadekoFlowers you have.")
                   .Do(async e => {
-                      var pts = Classes.DBHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
+                      var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                       var str = $"`You have {pts} NadekoFlowers".SnPl((int)pts)+"`\n";
                       for (var i = 0; i < pts; i++) {
                           str += "🌸";

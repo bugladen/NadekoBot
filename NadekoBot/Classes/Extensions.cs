@@ -15,8 +15,8 @@ namespace NadekoBot.Extensions {
         public static string Scramble(this string word) {
 
             var letters = word.ToArray();
-            int count = 0;
-            for (int i = 0; i < letters.Length; i++) {
+            var count = 0;
+            for (var i = 0; i < letters.Length; i++) {
                 if (letters[i] == ' ')
                     continue;
 
@@ -34,11 +34,11 @@ namespace NadekoBot.Extensions {
         }
         public static string TrimTo(this string str, int num) {
             if (num < 0)
-                throw new ArgumentException("TrimTo argument cannot be less than 0");
+                throw new ArgumentOutOfRangeException(nameof(num), "TrimTo argument cannot be less than 0");
             if (num == 0)
-                return String.Empty;
+                return string.Empty;
             if (num <= 3)
-                return String.Join("", str.Select(c => '.'));
+                return string.Join("", str.Select(c => '.'));
             if (str.Length < num)
                 return str;
             return string.Join("", str.Take(num - 3)) + "...";
@@ -131,16 +131,16 @@ namespace NadekoBot.Extensions {
         /// <param name="list"></param>
         public static void Shuffle<T>(this IList<T> list)
         {
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            int n = list.Count;
+            var provider = new RNGCryptoServiceProvider();
+            var n = list.Count;
             while (n > 1)
             {
-                byte[] box = new byte[1];
+                var box = new byte[1];
                 do provider.GetBytes(box);
-                while (!(box[0] < n * (Byte.MaxValue / n)));
-                int k = (box[0] % n);
+                while (!(box[0] < n * (byte.MaxValue / n)));
+                var k = (box[0] % n);
                 n--;
-                T value = list[k];
+                var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
@@ -163,16 +163,16 @@ namespace NadekoBot.Extensions {
         public static string GetRuntime(this DiscordClient c) => ".Net Framework 4.5.2";
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
-            foreach (T element in source) {
+            foreach (var element in source) {
                 action(element);
             }
         }
 
         //http://www.dotnetperls.com/levenshtein
         public static int LevenshteinDistance(this string s, string t) {
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
+            var n = s.Length;
+            var m = t.Length;
+            var d = new int[n + 1, m + 1];
 
             // Step 1
             if (n == 0) {
@@ -184,18 +184,18 @@ namespace NadekoBot.Extensions {
             }
 
             // Step 2
-            for (int i = 0; i <= n; d[i, 0] = i++) {
+            for (var i = 0; i <= n; d[i, 0] = i++) {
             }
 
-            for (int j = 0; j <= m; d[0, j] = j++) {
+            for (var j = 0; j <= m; d[0, j] = j++) {
             }
 
             // Step 3
-            for (int i = 1; i <= n; i++) {
+            for (var i = 1; i <= n; i++) {
                 //Step 4
-                for (int j = 1; j <= m; j++) {
+                for (var j = 1; j <= m; j++) {
                     // Step 5
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+                    var cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
 
                     // Step 6
                     d[i, j] = Math.Min(
@@ -219,7 +219,7 @@ namespace NadekoBot.Extensions {
         public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null) {
             if (format == null)
                 format = System.Drawing.Imaging.ImageFormat.Jpeg;
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             img.Save(stream, format);
             stream.Position = 0;
             return stream;
@@ -231,16 +231,17 @@ namespace NadekoBot.Extensions {
         /// <param name="images">The Images you want to merge.</param>
         /// <returns>Merged bitmap</returns>
         public static Bitmap Merge(this IEnumerable<Image> images,int reverseScaleFactor = 1) {
-            if (images.Count() == 0) return null;
-            int width = images.Sum(i => i.Width);
-            int height = images.First().Height ;
-            Bitmap bitmap = new Bitmap(width / reverseScaleFactor, height / reverseScaleFactor);
+            var imageArray = images as Image[] ?? images.ToArray();
+            if (!imageArray.Any()) return null;
+            var width = imageArray.Sum(i => i.Width);
+            var height = imageArray.First().Height ;
+            var bitmap = new Bitmap(width / reverseScaleFactor, height / reverseScaleFactor);
             var r = new Random();
-            int offsetx = 0;
-            foreach (var img in images) {
-                Bitmap bm = new Bitmap(img);
-                for (int w = 0; w < img.Width; w++) {
-                    for (int h = 0; h < bitmap.Height; h++) {
+            var offsetx = 0;
+            foreach (var img in imageArray) {
+                var bm = new Bitmap(img);
+                for (var w = 0; w < img.Width; w++) {
+                    for (var h = 0; h < bitmap.Height; h++) {
                         bitmap.SetPixel(w / reverseScaleFactor + offsetx, h , bm.GetPixel(w, h *reverseScaleFactor));
                     }
                 }
@@ -248,10 +249,12 @@ namespace NadekoBot.Extensions {
             }
             return bitmap;
         }
+
         /// <summary>
         /// Merges Images into 1 Image and returns a bitmap asynchronously.
         /// </summary>
         /// <param name="images">The Images you want to merge.</param>
+        /// <param name="reverseScaleFactor"></param>
         /// <returns>Merged bitmap</returns>
         public static async Task<Bitmap> MergeAsync(this IEnumerable<Image> images, int reverseScaleFactor = 1) =>
             await Task.Run(() => images.Merge(reverseScaleFactor));
