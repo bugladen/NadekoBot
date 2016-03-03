@@ -20,19 +20,24 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(">poll")
                   .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll Question?;Answer1;Answ 2;A_3")
                   .Parameter("allargs", ParameterType.Unparsed)
-                  .Do(e => {
-                      if (!e.User.ServerPermissions.ManageChannels)
-                          return;
-                      if (ActivePolls.ContainsKey(e.Server))
-                          return;
-                      var arg = e.GetArg("allargs");
-                      if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
-                          return;
-                      var data = arg.Split(';');
-                      if (data.Length < 3)
-                          return;
+                  .Do(async e => {
+                      await Task.Run(async () => {
+                          if (!e.User.ServerPermissions.ManageChannels)
+                              return;
+                          if (ActivePolls.ContainsKey(e.Server))
+                              return;
+                          var arg = e.GetArg("allargs");
+                          if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
+                              return;
+                          var data = arg.Split(';');
+                          if (data.Length < 3)
+                              return;
 
-                      new Poll(e, data[0], data.Skip(1));
+                          var poll = new Poll(e, data[0], data.Skip(1));
+                          if (PollCommand.ActivePolls.TryAdd(e.Server, poll)) {
+                              await poll.StartPoll();
+                          }
+                      });
                   });
             cgb.CreateCommand(">pollend")
                   .Description("Stops active poll on this server and prints the results in this channel.")
@@ -47,33 +52,27 @@ namespace NadekoBot.Commands {
     }
 
     internal class Poll {
-        private CommandEventArgs e;
-        private string[] answers;
+        private readonly CommandEventArgs e;
+        private readonly string[] answers;
         private ConcurrentDictionary<User, int> participants = new ConcurrentDictionary<User, int>();
-        private string question;
+        private readonly string question;
         private DateTime started;
         private CancellationTokenSource pollCancellationSource = new CancellationTokenSource();
 
-        public Poll(CommandEventArgs e, string v, IEnumerable<string> enumerable) {
+        public Poll(CommandEventArgs e, string question, IEnumerable<string> enumerable) {
             this.e = e;
-            this.question = v;
-            this.answers = enumerable.ToArray();
-
-            if (PollCommand.ActivePolls.TryAdd(e.Server, this)) {
-                Task.Factory.StartNew(async () => await StartPoll());
-            }
+            this.question = question;
+            this.answers = enumerable as string[] ?? enumerable.ToArray();
         }
 
-        private async Task StartPoll() {
+        public async Task StartPoll() {
             started = DateTime.Now;
             NadekoBot.Client.MessageReceived += Vote;
             var msgToSend =
                     $"📃**{e.User.Name}** from **{e.Server.Name}** server has created a poll which requires your attention:\n\n" +
                     $"**{question}**\n";
-            int num = 1;
-            foreach (var answ in answers) {
-                msgToSend += $"`{num++}.` **{answ}**\n";
-            }
+            var num = 1;
+            msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
             msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
             await e.Channel.SendMessage(msgToSend);
         }
@@ -87,16 +86,16 @@ namespace NadekoBot.Commands {
                                 .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
                                 .OrderBy(kvp => kvp.Value);
 
-                int totalVotesCast = results.Sum(kvp => kvp.Value);
+                var totalVotesCast = results.Sum(kvp => kvp.Value);
                 if (totalVotesCast == 0) {
                     await ch.SendMessage("📄 **No votes have been cast.**");
                     return;
                 }
                 var closeMessage = $"--------------**POLL CLOSED**--------------\n" +
                                    $"📄 , here are the results:\n";
-                foreach (var kvp in results) {
-                    closeMessage += $"`{kvp.Key}.` **[{answers[kvp.Key - 1]}]** has {kvp.Value} votes.({kvp.Value * 1.0f / totalVotesCast * 100}%)\n";
-                }
+                closeMessage = results.Aggregate(closeMessage, (current, kvp) => current + $"`{kvp.Key}.` **[{answers[kvp.Key - 1]}]**" +
+                                                                                 $" has {kvp.Value} votes." +
+                                                                                 $"({kvp.Value*1.0f/totalVotesCast*100}%)\n");
 
                 await ch.SendMessage($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}");
             } catch (Exception ex) {
@@ -112,12 +111,11 @@ namespace NadekoBot.Commands {
                     return;
 
                 int vote;
-                if (int.TryParse(e.Message.Text, out vote)) {
-                    if (vote < 1 || vote > answers.Length)
-                        return;
-                    if (participants.TryAdd(e.User, vote)) {
-                        await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
-                    }
+                if (!int.TryParse(e.Message.Text, out vote)) return;
+                if (vote < 1 || vote > answers.Length)
+                    return;
+                if (participants.TryAdd(e.User, vote)) {
+                    await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
                 }
             }
             catch { }

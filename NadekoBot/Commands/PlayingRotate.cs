@@ -5,55 +5,58 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Timers;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
     internal class PlayingRotate : DiscordCommand {
 
         private static List<string> rotatingStatuses = new List<string>();
-        private static Timer timer = new Timer(12000);
+        private static readonly Timer timer = new Timer(12000);
 
-        private Dictionary<string, Func<string>> playingPlaceholders => new Dictionary<string, Func<string>> {
-            {"%servers%", ()=> NadekoBot.Client.Servers.Count().ToString() },
-            {"%users%", () => NadekoBot.Client.Servers.SelectMany(s=>s.Users).Count().ToString() },
-            {"%playing%", () => {
-                    var cnt = Modules.Music.musicPlayers.Where(kvp => kvp.Value.CurrentSong != null).Count();
-                    if(cnt == 1) {
+        public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
+            new Dictionary<string, Func<string>> {
+                {"%servers%", () => NadekoBot.Client.Servers.Count().ToString()},
+                {"%users%", () => NadekoBot.Client.Servers.SelectMany(s => s.Users).Count().ToString()}, {
+                    "%playing%", () => {
+                        var cnt = Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
+                        if (cnt != 1) return cnt.ToString();
                         try {
-                            var mp = Modules.Music.musicPlayers.FirstOrDefault();
+                            var mp = Music.MusicPlayers.FirstOrDefault();
                             return mp.Value.CurrentSong.SongInfo.Title;
-                        } catch { }
+                        }
+                        catch {
+                            return "No songs";
+                        }
                     }
-                    return cnt.ToString();
-                }
-            },
-            {"%queued%", () => Modules.Music.musicPlayers.Sum(kvp=>kvp.Value.Playlist.Count).ToString() },
-            {"%trivia%", () => Commands.Trivia.runningTrivias.Count.ToString() }
-        };
-        private object playingPlaceholderLock => new object();
+                },
+                {"%queued%", () => Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
+                {"%trivia%", () => Trivia.runningTrivias.Count.ToString()}
+            };
+
+        private readonly object playingPlaceholderLock = new object();
 
         public PlayingRotate() {
-            int i = -1;
+            var i = -1;
             timer.Elapsed += (s, e) => {
                 try {
                     i++;
-                    string status = "";
+                    var status = "";
                     lock (playingPlaceholderLock) {
-                        if (playingPlaceholders.Count == 0)
+                        if (PlayingPlaceholders.Count == 0)
                             return;
-                        if (i >= playingPlaceholders.Count) {
+                        if (i >= PlayingPlaceholders.Count) {
                             i = -1;
                             return;
                         }
                         status = rotatingStatuses[i];
-                        foreach (var kvp in playingPlaceholders) {
-                            status = status.Replace(kvp.Key, kvp.Value());
-                        }
+                        status = PlayingPlaceholders.Aggregate(status,
+                            (current, kvp) => current.Replace(kvp.Key, kvp.Value()));
                     }
                     if (string.IsNullOrWhiteSpace(status))
                         return;
-                    Task.Run(() => { try { NadekoBot.Client.SetGame(status); } catch { } });
+                    Task.Run(() => { NadekoBot.Client.SetGame(status); });
                 }
-                catch { }
+                catch {}
             };
         }
 
@@ -74,7 +77,8 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(".addplaying")
                 .Alias(".adpl")
-                .Description("Adds a specified string to the list of playing strings to rotate. Supported placeholders: " + string.Join(", ", playingPlaceholders.Keys))
+                .Description("Adds a specified string to the list of playing strings to rotate. " +
+                             "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys))
                 .Parameter("text", ParameterType.Unparsed)
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(async e => {
@@ -93,31 +97,32 @@ namespace NadekoBot.Commands {
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(async e => {
                     if (rotatingStatuses.Count == 0)
-                        await e.Channel.SendMessage("`There are no playing strings. Add some with .addplaying [text] command.`");
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < rotatingStatuses.Count; i++) {
+                        await e.Channel.SendMessage("`There are no playing strings. " +
+                                                    "Add some with .addplaying [text] command.`");
+                    var sb = new StringBuilder();
+                    for (var i = 0; i < rotatingStatuses.Count; i++) {
                         sb.AppendLine($"`{i + 1}.` {rotatingStatuses[i]}");
                     }
                     await e.Channel.SendMessage(sb.ToString());
                 });
 
             cgb.CreateCommand(".removeplaying")
-                .Alias(".repl")
-                  .Description("Removes a playing string on a given number.")
-                  .Parameter("number", ParameterType.Required)
-                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                  .Do(async e => {
-                      var arg = e.GetArg("number");
-                      int num;
-                      string str;
-                      lock (playingPlaceholderLock) {
-                          if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > rotatingStatuses.Count)
-                              return;
-                          str = rotatingStatuses[num - 1];
-                          rotatingStatuses.RemoveAt(num - 1);
-                      }
-                      await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");
-                  });
+                .Alias(".repl", ".rmpl")
+                .Description("Removes a playing string on a given number.")
+                .Parameter("number", ParameterType.Required)
+                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .Do(async e => {
+                    var arg = e.GetArg("number");
+                    int num;
+                    string str;
+                    lock (playingPlaceholderLock) {
+                        if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > rotatingStatuses.Count)
+                            return;
+                        str = rotatingStatuses[num - 1];
+                        rotatingStatuses.RemoveAt(num - 1);
+                    }
+                    await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");
+                });
         }
     }
 }

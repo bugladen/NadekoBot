@@ -21,7 +21,7 @@ namespace NadekoBot.Classes.Music {
     /// </summary>
     public class PoopyBuffer {
 
-        private byte[] ringBuffer;
+        private readonly byte[] ringBuffer;
 
         public int WritePosition { get; private set; } = 0;
         public int ReadPosition { get; private set; } = 0;
@@ -70,13 +70,13 @@ namespace NadekoBot.Classes.Music {
                     return count;
                 }
                 // B: if i can't read as much, read to the end,
-                int readNormaly = BufferSize - ReadPosition;
+                var readNormaly = BufferSize - ReadPosition;
                 Buffer.BlockCopy(ringBuffer, ReadPosition, buffer, 0, readNormaly);
 
                 //Console.WriteLine($"Read normaly {count}[{ReadPosition} to {ReadPosition + readNormaly}]");
                 //then read the remaining amount from the start
 
-                int readFromStart = count - readNormaly;
+                var readFromStart = count - readNormaly;
                 Buffer.BlockCopy(ringBuffer, 0, buffer, readNormaly, readFromStart);
                 //Console.WriteLine($"Read From start {readFromStart}[{0} to {readFromStart}]");
                 ReadPosition = readFromStart;
@@ -88,7 +88,7 @@ namespace NadekoBot.Classes.Music {
             if (count > buffer.Length)
                 throw new ArgumentException();
             while (ContentLength + count > BufferSize) {
-                await Task.Delay(20);
+                await Task.Delay(20, cancelToken);
                 if (cancelToken.IsCancellationRequested)
                     return;
             }
@@ -104,12 +104,12 @@ namespace NadekoBot.Classes.Music {
                 }
                 // otherwise, i have to write to the end, then write the rest from the start
 
-                int wroteNormaly = BufferSize - WritePosition;
+                var wroteNormaly = BufferSize - WritePosition;
                 Buffer.BlockCopy(buffer, 0, ringBuffer, WritePosition, wroteNormaly);
 
                 //Console.WriteLine($"Wrote normally {wroteNormaly}[{WritePosition} to {BufferSize}]");
 
-                int wroteFromStart = count - wroteNormaly;
+                var wroteFromStart = count - wroteNormaly;
                 Buffer.BlockCopy(buffer, wroteNormaly, ringBuffer, 0, wroteFromStart);
 
                 //Console.WriteLine($"and from start {wroteFromStart} [0 to {wroteFromStart}");
@@ -145,27 +145,25 @@ namespace NadekoBot.Classes.Music {
                         RedirectStandardError = false,
                         CreateNoWindow = true,
                     });
-                    int blockSize = 3840;
-                    byte[] buffer = new byte[blockSize];
-                    int attempt = 0;
+                    var blockSize = 3840;
+                    var buffer = new byte[blockSize];
+                    var attempt = 0;
                     while (!cancelToken.IsCancellationRequested) {
-                        int read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize, cancelToken);
+                        var read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize, cancelToken);
                         if (read == 0)
                             if (attempt++ == 20)
                                 break;
                             else
-                                await Task.Delay(50);
+                                await Task.Delay(50, cancelToken);
                         else
                             attempt = 0;
                         await songBuffer.WriteAsync(buffer, read, cancelToken);
                         if (songBuffer.ContentLength > 2.MB())
                             prebufferingComplete = true;
                     }
-                }
-                catch {
+                } catch {
                     Console.WriteLine("Buffering errored");
-                }
-                finally {
+                } finally {
                     if (p != null) {
                         p.CancelOutputRead();
                         p.StandardOutput.Dispose();
@@ -179,34 +177,33 @@ namespace NadekoBot.Classes.Music {
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
             var t = BufferSong(cancelToken).ConfigureAwait(false);
-            int bufferAttempts = 0;
-            int waitPerAttempt = 500;
-            int toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
+            var bufferAttempts = 0;
+            const int waitPerAttempt = 500;
+            var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes) {
                 await Task.Delay(waitPerAttempt, cancelToken);
             }
             cancelToken.ThrowIfCancellationRequested();
             Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
-            int blockSize = 3840;
-            byte[] buffer = new byte[blockSize];
-            int attempt = 0;
+            var blockSize = 3840;
+            var buffer = new byte[blockSize];
+            var attempt = 0;
             while (!cancelToken.IsCancellationRequested) {
                 //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
-                int read = songBuffer.Read(buffer, blockSize);
+                var read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 20) {
                         voiceClient.Wait();
                         Console.WriteLine("Nothing to read.");
                         return;
-                    }
-                    else
-                        await Task.Delay(50);
+                    } else
+                        await Task.Delay(50, cancelToken);
                 else
                     attempt = 0;
 
                 while (this.MusicPlayer.Paused)
                     await Task.Delay(200, cancelToken);
-                buffer = adjustVolume(buffer, MusicPlayer.Volume);
+                buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
             cancelToken.ThrowIfCancellationRequested();
@@ -220,11 +217,11 @@ namespace NadekoBot.Classes.Music {
         }
 
         //stackoverflow ftw
-        private byte[] adjustVolume(byte[] audioSamples, float volume) {
-            if (volume == 1.0f)
+        private static byte[] AdjustVolume(byte[] audioSamples, float volume) {
+            if (Math.Abs(volume - 1.0f) < 0.01f)
                 return audioSamples;
-            byte[] array = new byte[audioSamples.Length];
-            for (int i = 0; i < array.Length; i += 2) {
+            var array = new byte[audioSamples.Length];
+            for (var i = 0; i < array.Length; i += 2) {
 
                 // convert byte pair to int
                 short buf1 = audioSamples[i + 1];
@@ -233,7 +230,7 @@ namespace NadekoBot.Classes.Music {
                 buf1 = (short)((buf1 & 0xff) << 8);
                 buf2 = (short)(buf2 & 0xff);
 
-                short res = (short)(buf1 | buf2);
+                var res = (short)(buf1 | buf2);
                 res = (short)(res * volume);
 
                 // convert back
@@ -254,23 +251,23 @@ namespace NadekoBot.Classes.Music {
             }
 
             try {
-                if (musicType == MusicType.Local) {
-                    return new Song(new SongInfo {
-                        Uri = "\"" + Path.GetFullPath(query) + "\"",
-                        Title = Path.GetFileNameWithoutExtension(query),
-                        Provider = "Local File",
-                        ProviderType = musicType,
-                    });
+                switch (musicType) {
+                    case MusicType.Local:
+                        return new Song(new SongInfo {
+                            Uri = "\"" + Path.GetFullPath(query) + "\"",
+                            Title = Path.GetFileNameWithoutExtension(query),
+                            Provider = "Local File",
+                            ProviderType = musicType,
+                        });
+                    case MusicType.Radio:
+                        return new Song(new SongInfo {
+                            Uri = query,
+                            Title = $"{query}",
+                            Provider = "Radio Stream",
+                            ProviderType = musicType,
+                        });
                 }
-                else if (musicType == MusicType.Radio) {
-                    return new Song(new SongInfo {
-                        Uri = query,
-                        Title = $"{query}",
-                        Provider = "Radio Stream",
-                        ProviderType = musicType,
-                    });
-                }
-                else if (SoundCloud.Default.IsSoundCloudLink(query)) {
+                if (SoundCloud.Default.IsSoundCloudLink(query)) {
                     var svideo = await SoundCloud.Default.GetVideoAsync(query);
                     return new Song(new SongInfo {
                         Title = svideo.FullName,
@@ -279,29 +276,25 @@ namespace NadekoBot.Classes.Music {
                         ProviderType = musicType,
                     });
                 }
-                else {
-                    var links = await SearchHelper.FindYoutubeUrlByKeywords(query);
-                    if (links == String.Empty)
-                        throw new OperationCanceledException("Not a valid youtube query.");
-                    var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(links)).Unwrap();
-                    var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-                    var video = videos
-                                    .Where(v => v.AudioBitrate < 192)
-                                    .OrderByDescending(v => v.AudioBitrate)
-                                    .FirstOrDefault();
+                var links = await SearchHelper.FindYoutubeUrlByKeywords(query);
+                if (links == String.Empty)
+                    throw new OperationCanceledException("Not a valid youtube query.");
+                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(links)).Unwrap();
+                var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
+                var video = videos
+                    .Where(v => v.AudioBitrate < 192)
+                    .OrderByDescending(v => v.AudioBitrate)
+                    .FirstOrDefault();
 
-                    if (video == null) // do something with this error
-                        throw new Exception("Could not load any video elements based on the query.");
-                    return new Song(new SongInfo {
-                        Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
-                        Provider = "YouTube",
-                        Uri = video.Uri,
-                        ProviderType = musicType,
-                    });
-
-                }
-            }
-            catch (Exception ex) {
+                if (video == null) // do something with this error
+                    throw new Exception("Could not load any video elements based on the query.");
+                return new Song(new SongInfo {
+                    Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
+                    Provider = "YouTube",
+                    Uri = video.Uri,
+                    ProviderType = musicType,
+                });
+            } catch (Exception ex) {
                 Console.WriteLine($"Failed resolving the link.{ex.Message}");
                 return null;
             }
@@ -311,8 +304,7 @@ namespace NadekoBot.Classes.Music {
             string file = null;
             try {
                 file = await SearchHelper.GetResponseStringAsync(query);
-            }
-            catch {
+            } catch {
                 return query;
             }
             if (query.Contains(".pls")) {
@@ -322,13 +314,12 @@ namespace NadekoBot.Classes.Music {
                     var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
-                }
-                catch {
+                } catch {
                     Console.WriteLine($"Failed reading .pls:\n{file}");
                     return null;
                 }
             }
-            else if (query.Contains(".m3u")) {
+            if (query.Contains(".m3u")) {
                 /* 
                     # This is a comment
                    C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
@@ -338,26 +329,24 @@ namespace NadekoBot.Classes.Music {
                     var m = Regex.Match(file, "(?<url>^[^#].*)", RegexOptions.Multiline);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
-                }
-                catch {
+                } catch {
                     Console.WriteLine($"Failed reading .m3u:\n{file}");
                     return null;
                 }
 
             }
-            else if (query.Contains(".asx")) {
+            if (query.Contains(".asx")) {
                 //<ref href="http://armitunes.com:8000"/>
                 try {
                     var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
-                }
-                catch {
+                } catch {
                     Console.WriteLine($"Failed reading .asx:\n{file}");
                     return null;
                 }
             }
-            else if (query.Contains(".xspf")) {
+            if (query.Contains(".xspf")) {
                 /*
                 <?xml version="1.0" encoding="UTF-8"?>
                     <playlist version="1" xmlns="http://xspf.org/ns/0/">
@@ -368,8 +357,7 @@ namespace NadekoBot.Classes.Music {
                     var m = Regex.Match(file, "<location>(?<url>.*?)</location>");
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
-                }
-                catch {
+                } catch {
                     Console.WriteLine($"Failed reading .xspf:\n{file}");
                     return null;
                 }

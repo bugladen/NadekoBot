@@ -12,7 +12,7 @@ namespace NadekoBot.Modules {
         public PermissionModule()  {
             //Empty for now
         }
-
+        //todo word filtering/invite bans (?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.Client;
             manager.CreateCommands("", cgb => {
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules {
                     .Parameter("arg", ParameterType.Required)
                     .Do(async e => {
                         var arg = e.GetArg("arg");
-                        bool val = PermissionHelper.ValidateBool(arg);
+                        var val = PermissionHelper.ValidateBool(arg);
                         PermsHandler.SetVerbosity(e.Server, val);
                         await e.Channel.SendMessage($"Verbosity set to {val}.");
                     });
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules {
                     .Parameter("role", ParameterType.Unparsed)
                     .Do(async e => {
                         var arg = e.GetArg("role");
-                        Discord.Role role = e.Server.EveryoneRole;
+                        var role = e.Server.EveryoneRole;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
                                 role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules {
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e => {
                         var arg = e.GetArg("channel");
-                        Discord.Channel channel = e.Channel;
+                        var channel = e.Channel;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
                                 channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules {
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
                         var arg = e.GetArg("user");
-                        Discord.User user = e.User;
+                        var user = e.User;
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")))
                             try {
                                 user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
@@ -139,8 +139,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a module's permission at the server level.\n**Usage**: ;sm [module_name] enable")
                     .Do(async e => {
                         try {
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             PermsHandler.SetServerModulePermission(e.Server, module, state);
                             await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on this server.");
@@ -159,8 +159,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a command's permission at the server level.\n**Usage**: ;sc [command_name] disable")
                     .Do(async e => {
                         try {
-                            string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             PermsHandler.SetServerCommandPermission(e.Server, command, state);
                             await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on this server.");
@@ -180,8 +180,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a module's permission at the role level.\n**Usage**: ;rm [module_name] enable [role_name]")
                     .Do(async e => {
                         try {
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             if (e.GetArg("role")?.ToLower() == "all") {
                                 foreach (var role in e.Server.Roles) {
@@ -190,7 +190,7 @@ namespace NadekoBot.Modules {
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
                             }
                             else {
-                                Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
                                 PermsHandler.SetRoleModulePermission(role, module, state);
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
@@ -211,8 +211,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a command's permission at the role level.\n**Usage**: ;rc [command_name] disable [role_name]")
                     .Do(async e => {
                         try {
-                            string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             if (e.GetArg("role")?.ToLower() == "all") {
                                 foreach (var role in e.Server.Roles) {
@@ -221,7 +221,7 @@ namespace NadekoBot.Modules {
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
                             }
                             else {
-                                Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
                                 PermsHandler.SetRoleCommandPermission(role, command, state);
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
@@ -242,8 +242,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a module's permission at the channel level.\n**Usage**: ;cm [module_name] enable [channel_name]")
                     .Do(async e => {
                         try {
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             if (e.GetArg("channel")?.ToLower() == "all") {
                                 foreach (var channel in e.Server.TextChannels) {
@@ -252,7 +252,7 @@ namespace NadekoBot.Modules {
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
                             }
                             else {
-                                Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                                var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
                                 PermsHandler.SetChannelModulePermission(channel, module, state);
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
@@ -273,8 +273,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets a command's permission at the channel level.\n**Usage**: ;cc [command_name] enable [channel_name]")
                     .Do(async e => {
                         try {
-                            string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             if (e.GetArg("channel")?.ToLower() == "all") {
                                 foreach (var channel in e.Server.TextChannels) {
@@ -283,7 +283,7 @@ namespace NadekoBot.Modules {
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
                             }
                             else {
-                                Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                                var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
                                 PermsHandler.SetChannelCommandPermission(channel, command, state);
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
@@ -304,9 +304,9 @@ namespace NadekoBot.Modules {
                     .Description("Sets a module's permission at the user level.\n**Usage**: ;um [module_name] enable [user_name]")
                     .Do(async e => {
                         try {
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.User user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
                             PermsHandler.SetUserModulePermission(user, module, state);
                             await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
@@ -326,9 +326,9 @@ namespace NadekoBot.Modules {
                     .Description("Sets a command's permission at the user level.\n**Usage**: ;uc [command_name] enable [user_name]")
                     .Do(async e => {
                         try {
-                            string command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.User user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
                             PermsHandler.SetUserCommandPermission(user, command, state);
                             await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
@@ -346,7 +346,7 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all modules at the server level.\n**Usage**: ;asm [enable/disable]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules) {
                                 PermsHandler.SetServerModulePermission(e.Server, module.Name, state);
@@ -367,8 +367,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;asc [module_name] [enable/disable]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
 
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetServerCommandPermission(e.Server, command.Text, state);
@@ -389,8 +389,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules) {
                                 PermsHandler.SetChannelModulePermission(channel, module.Name, state);
                             }
@@ -412,9 +412,9 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all commands from a certain module at the channel level.\n**Usage**: ;acc [module_name] [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            Discord.Channel channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetChannelCommandPermission(channel, command.Text, state);
                             }
@@ -434,8 +434,8 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all modules at the role level.\n**Usage**: ;arm [enable/disable] [role_name]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules) {
                                 PermsHandler.SetRoleModulePermission(role, module.Name, state);
                             }
@@ -457,9 +457,9 @@ namespace NadekoBot.Modules {
                     .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [channel_name]")
                     .Do(async e => {
                         try {
-                            bool state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            string module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            Discord.Role role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
+                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module)) {
                                 PermsHandler.SetRoleCommandPermission(role, command.Text, state);
                             }

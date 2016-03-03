@@ -17,7 +17,7 @@ using NadekoBot.Commands;
 namespace NadekoBot.Modules {
     internal class Conversations : DiscordModule {
         private string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
-        public Conversations()  {
+        public Conversations() {
             commands.Add(new CopyCommand());
             commands.Add(new RequestsCommand());
         }
@@ -221,7 +221,8 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         var count = 1;
                         int.TryParse(e.Args[0], out count);
-
+                        if (count == 0)
+                            count = 1;
                         if (count < 1 || count > 12) {
                             await e.Channel.SendMessage("Number must be between 0 and 12");
                             return;
@@ -257,8 +258,7 @@ namespace NadekoBot.Modules {
                             if (invite != null) {
                                 try {
                                     await invite.Accept();
-                                }
-                                catch {
+                                } catch {
                                     await e.Channel.SendMessage("Failed to accept invite.");
                                 }
                                 await e.Channel.SendMessage("I got in!");

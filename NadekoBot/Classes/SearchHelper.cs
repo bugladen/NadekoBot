@@ -20,31 +20,30 @@ namespace NadekoBot.Classes {
 
     public static class SearchHelper {
         private static DateTime lastRefreshed = DateTime.MinValue;
-        private static string token = "";
+        private static string token { get; set; } = "";
 
         public static async Task<Stream> GetResponseStreamAsync(string url,
             IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get) {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            using (var httpClient = new HttpClient()) {
-                switch (method) {
-                    case RequestHttpMethod.Get:
-                        if (headers != null) {
-                            foreach (var header in headers) {
-                                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                            }
+            var httpClient = new HttpClient();
+            switch (method) {
+                case RequestHttpMethod.Get:
+                    if (headers != null) {
+                        foreach (var header in headers) {
+                            httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                         }
-                        return await httpClient.GetStreamAsync(url);
-                    case RequestHttpMethod.Post:
-                        FormUrlEncodedContent formContent = null;
-                        if (headers != null) {
-                            formContent = new FormUrlEncodedContent(headers);
-                        }
-                        var message = await httpClient.PostAsync(url, formContent);
-                        return await message.Content.ReadAsStreamAsync();
-                    default:
-                        throw new NotImplementedException("That type of request is unsupported.");
-                }
+                    }
+                    return await httpClient.GetStreamAsync(url);
+                case RequestHttpMethod.Post:
+                    FormUrlEncodedContent formContent = null;
+                    if (headers != null) {
+                        formContent = new FormUrlEncodedContent(headers);
+                    }
+                    var message = await httpClient.PostAsync(url, formContent);
+                    return await message.Content.ReadAsStreamAsync();
+                default:
+                    throw new NotImplementedException("That type of request is unsupported.");
             }
         }
 
@@ -64,13 +63,19 @@ namespace NadekoBot.Classes {
             await RefreshAnilistToken();
 
             var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
+            try {
+                var headers = new Dictionary<string, string> {{"'access_token'", "'"+token+"'"}};
+                var smallContent = await GetResponseStringAsync(link, headers);
+                var smallObj = JArray.Parse(smallContent)[0];
+                var content = await GetResponseStringAsync("http://anilist.co/api/anime/" + smallObj["id"], headers);
 
-            var headers = new Dictionary<string, string> { { "access_token", token } };
-            var smallContent = await GetResponseStringAsync(link, headers);
-            var smallObj = JArray.Parse(smallContent)[0];
-            var content = await GetResponseStringAsync("http://anilist.co/api/anime/" + smallObj["id"], headers);
+                return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
 
-            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+                return new AnimeResult();
+            }
         }
 
         public static async Task<MangaResult> GetMangaQueryResultLink(string query) {
@@ -90,6 +95,11 @@ namespace NadekoBot.Classes {
         }
 
         private static async Task RefreshAnilistToken() {
+            if (DateTime.Now - lastRefreshed > TimeSpan.FromMinutes(29)) 
+                lastRefreshed=DateTime.Now;
+            else {
+                return;
+            }
             var headers = new Dictionary<string, string> {
                 {"grant_type", "client_credentials"},
                 {"client_id", "kwoth-w0ki9"},

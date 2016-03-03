@@ -8,6 +8,7 @@ using Discord.Modules;
 using Discord.Audio;
 using System.Timers;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
@@ -23,6 +24,7 @@ namespace NadekoBot {
         private static Channel OwnerPrivateChannel { get; set; }
 
         private static void Main() {
+            Console.OutputEncoding = Encoding.Unicode;
             try {
                 //load credentials from credentials.json
                 Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));

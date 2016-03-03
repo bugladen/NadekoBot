@@ -15,8 +15,8 @@ namespace NadekoBot.Classes.Permissions {
         public PermissionChecker() {
             Task.Run(async () => {
                 while (true) {
-                    //blacklist is cleared every 1.3 seconds. That is the most time anyone will be blocked for ever
-                    await Task.Delay(1300);
+                    //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked for ever
+                    await Task.Delay(1750);
                     timeBlackList.Clear();
                 }
             });
@@ -45,7 +45,7 @@ namespace NadekoBot.Classes.Permissions {
                     if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
                     ServerPermissions perms;
-                    PermissionsHandler._permissionsDict.TryGetValue(user.Server.Id, out perms);
+                    PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms);
                     throw new Exception($"You don't have the necessary role (**{(perms?.PermissionsControllerRole ?? "Nadeko")}**) to change permissions.");
                 }
 
@@ -83,11 +83,11 @@ namespace NadekoBot.Classes.Permissions {
                     default:
                         return true;
                 }
-                if (PermissionsHandler._permissionsDict[user.Server.Id].Verbose) //if verbose - print errors
+                if (PermissionsHandler.PermissionsDict[user.Server.Id].Verbose) //if verbose - print errors
                     error = msg;
                 return false;
             } catch (Exception ex) {
-                if (PermissionsHandler._permissionsDict[user.Server.Id].Verbose) //if verbose - print errors
+                if (PermissionsHandler.PermissionsDict[user.Server.Id].Verbose) //if verbose - print errors
                     error = ex.Message;
                 return false;
             }
