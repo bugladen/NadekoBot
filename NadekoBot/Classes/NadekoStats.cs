@@ -13,8 +13,8 @@ namespace NadekoBot {
 
         public string BotVersion => $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version}";
 
-        private int _commandsRan = 0;
-        private string _statsCache = "";
+        private int commandsRan = 0;
+        private string statsCache = "";
         private readonly Stopwatch statsStopwatch = new Stopwatch();
 
         public int ServerCount { get; private set; } = 0;
@@ -98,19 +98,19 @@ namespace NadekoBot {
                 sb.Append($"`Servers: {ServerCount}");
                 sb.Append($" | TextChannels: {TextChannelsCount}");
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
-                sb.AppendLine($"`Commands Ran this session: {_commandsRan}`");
+                sb.AppendLine($"`Commands Ran this session: {commandsRan}`");
                 sb.AppendLine($"`Message queue size:{NadekoBot.Client.MessageQueue.Count}`");
                 sb.AppendLine($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
-                _statsCache = sb.ToString();
+                statsCache = sb.ToString();
             });
 
         public string Heap() => Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString();
 
         public async Task<string> GetStats() {
-            if (statsStopwatch.Elapsed.Seconds <= 5) return _statsCache;
+            if (statsStopwatch.Elapsed.Seconds <= 5) return statsCache;
             await LoadStats();
             statsStopwatch.Restart();
-            return _statsCache;
+            return statsCache;
         }
 
         private async Task StartCollecting() {
@@ -136,24 +136,26 @@ namespace NadekoBot {
                 }
             }
         }
-        //todo - batch save this
-        private void StatsCollector_RanCommand(object sender, CommandEventArgs e) {
-            try {
-                _commandsRan++;
-                Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command {
-                    ServerId = (long)e.Server.Id,
-                    ServerName = e.Server.Name,
-                    ChannelId = (long)e.Channel.Id,
-                    ChannelName = e.Channel.Name,
-                    UserId = (long)e.User.Id,
-                    UserName = e.User.Name,
-                    CommandName = e.Command.Text,
-                    DateAdded = DateTime.Now
-                });
-            }
-            catch {
-                Console.WriteLine("Error in ran command DB write.");
-            }
+
+        private async void StatsCollector_RanCommand(object sender, CommandEventArgs e) {
+            await Task.Run(() => {
+                try {
+                    commandsRan++;
+                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command {
+                        ServerId = (long) e.Server.Id,
+                        ServerName = e.Server.Name,
+                        ChannelId = (long) e.Channel.Id,
+                        ChannelName = e.Channel.Name,
+                        UserId = (long) e.User.Id,
+                        UserName = e.User.Name,
+                        CommandName = e.Command.Text,
+                        DateAdded = DateTime.Now
+                    });
+                }
+                catch {
+                    Console.WriteLine("Error in ran command DB write.");
+                }
+            });
         }
     }
 }

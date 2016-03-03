@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -56,47 +57,51 @@ namespace NadekoBot.Classes {
             }
         }
 
-        public static async Task<AnimeResult> GetAnimeQueryResultLink(string query) {
+        public static async Task<AnimeResult> GetAnimeData(string query) {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
             await RefreshAnilistToken();
 
             var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
-            try {
-                var headers = new Dictionary<string, string> {{"'access_token'", "'"+token+"'"}};
-                var smallContent = await GetResponseStringAsync(link, headers);
-                var smallObj = JArray.Parse(smallContent)[0];
-                var content = await GetResponseStringAsync("http://anilist.co/api/anime/" + smallObj["id"], headers);
+            var smallContent = "";
+            var cl = new RestSharp.RestClient("http://anilist.co/api");
+            var rq = new RestSharp.RestRequest("/anime/search/" + Uri.EscapeUriString(query));
+            rq.AddParameter("access_token", token);
+            smallContent = cl.Execute(rq).Content;
+            var smallObj = JArray.Parse(smallContent)[0];
 
-                return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
+            rq = new RestSharp.RestRequest("/anime/" + smallObj["id"]);
+            rq.AddParameter("access_token", token);
+            var content = cl.Execute(rq).Content;
 
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex);
-                return new AnimeResult();
-            }
+            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
         }
 
-        public static async Task<MangaResult> GetMangaQueryResultLink(string query) {
+        public static async Task<MangaResult> GetMangaData(string query) {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
             await RefreshAnilistToken();
 
-            var link = "http://anilist.co/api/manga/search/" + Uri.EscapeUriString(query);
-
-            var headers = new Dictionary<string, string> { { "access_token", token } };
-            var smallContent = await GetResponseStringAsync(link, headers);
+            var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
+            var smallContent = "";
+            var cl = new RestSharp.RestClient("http://anilist.co/api");
+            var rq = new RestSharp.RestRequest("/manga/search/" + Uri.EscapeUriString(query));
+            rq.AddParameter("access_token", token);
+            smallContent = cl.Execute(rq).Content;
             var smallObj = JArray.Parse(smallContent)[0];
-            var content = await GetResponseStringAsync("http://anilist.co/api/manga/" + smallObj["id"], headers);
+
+            rq = new RestSharp.RestRequest("/manga/" + smallObj["id"]);
+            rq.AddParameter("access_token", token);
+            var content = cl.Execute(rq).Content;
 
             return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(content));
         }
 
         private static async Task RefreshAnilistToken() {
-            if (DateTime.Now - lastRefreshed > TimeSpan.FromMinutes(29)) 
-                lastRefreshed=DateTime.Now;
+            if (DateTime.Now - lastRefreshed > TimeSpan.FromMinutes(29))
+                lastRefreshed = DateTime.Now;
             else {
                 return;
             }
@@ -144,10 +149,9 @@ namespace NadekoBot.Classes {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
 
-            var link = $"https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                       $"&maxResults=1" +
+            var link = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                        "&maxResults=1&type=playlist" +
                        $"&q={Uri.EscapeDataString(query)}" +
-                       $"&type=playlist" +
                        $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link);

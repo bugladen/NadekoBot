@@ -44,7 +44,7 @@ namespace NadekoBot.Modules {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
                         string result;
                         try {
-                            result = (await SearchHelper.GetAnimeQueryResultLink(e.GetArg("query"))).ToString();
+                            result = (await SearchHelper.GetAnimeData(e.GetArg("query"))).ToString();
                         } catch {
                             await e.Channel.SendMessage("Failed to find that anime.");
                             return;
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
                         string result;
                         try {
-                            result = (await SearchHelper.GetMangaQueryResultLink(e.GetArg("query"))).ToString();
+                            result = (await SearchHelper.GetMangaData(e.GetArg("query"))).ToString();
                         } catch {
                             await e.Channel.SendMessage("Failed to find that anime.");
                             return;

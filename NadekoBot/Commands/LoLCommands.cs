@@ -143,8 +143,7 @@ namespace NadekoBot.Commands {
                           //get skill order data<API_KEY>
 
                           var orderArr = (data["skills"]["mostGames"]["order"] as JArray);
-
-                          //todo save this for at least 1 hour
+                          
                           var img = Image.FromFile("data/lol/bg.png");
                           using (var g = Graphics.FromImage(img)) {
                               g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
@@ -162,7 +161,7 @@ namespace NadekoBot.Commands {
                                   champName = "Wukong";
                               g.DrawString($"{champName}", new Font("Times New Roman", 24, FontStyle.Regular), Brushes.WhiteSmoke, margin + imageSize + margin, margin);
                               //draw champ surname
-                              //todo
+
                               //draw skill order
                               float orderFormula = 120 / orderArr.Count;
                               const float orderVerticalSpacing = 10;

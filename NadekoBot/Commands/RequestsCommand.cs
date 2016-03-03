@@ -19,7 +19,7 @@ namespace NadekoBot.Commands {
         public string GetRequests() {
             var task = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Request>();
 
-            string str = "Here are all current requests for NadekoBot:\n\n";
+            var str = "Here are all current requests for NadekoBot:\n\n";
             foreach (var reqObj in task) {
                 str += $"{reqObj.Id}. by **{reqObj.UserName}** from **{reqObj.ServerName}** at {reqObj.DateAdded.ToLocalTime()}\n" +
                        $"**{reqObj.RequestText}**\n----------\n";
@@ -48,7 +48,7 @@ namespace NadekoBot.Commands {
                 .Description("Requests a feature for nadeko.\n**Usage**: @NadekoBot req new_feature")
                 .Parameter("all", ParameterType.Unparsed)
                 .Do(async e => {
-                    string str = e.Args[0];
+                    var str = e.Args[0];
 
                     try {
                         SaveRequest(e, str);
@@ -62,7 +62,7 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand("lr")
                 .Description("PMs the user all current nadeko requests.")
                 .Do(async e => {
-                    string str = GetRequests();
+                    var str = await Task.Run(() => GetRequests());
                     if (str.Trim().Length > 110)
                         await e.User.Send(str);
                     else
