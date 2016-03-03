@@ -7,13 +7,10 @@ using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using NadekoBot.Commands;
 using System.IO;
-using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Classes._DataModels;
-using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules {
     internal class Administration : DiscordModule {
@@ -178,20 +175,10 @@ namespace NadekoBot.Modules {
                                     await usr.Server.Ban(usr);
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            } catch (Exception ex) { }
-                        });
-
-                cgb.CreateCommand(".ub").Alias(".unban")
-                    .Parameter("everything", ParameterType.Unparsed)
-                    .Description("Unbans a mentioned user.")
-                        .Do(async e => {
-                            try {
-                                if (e.User.ServerPermissions.BanMembers && e.Message.MentionedUsers.Any()) {
-                                    var usr = e.Message.MentionedUsers.First();
-                                    await usr.Server.Unban(usr);
-                                    await e.Channel.SendMessage("Unbanned user " + usr.Name + " Id: " + usr.Id);
-                                }
-                            } catch { }
+                            }
+                            catch (Exception ex) {
+                                
+                            }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
@@ -389,15 +376,6 @@ namespace NadekoBot.Modules {
                       var heap = Task.Run(() => NadekoStats.Instance.Heap());
                       await e.Channel.SendMessage($"`Heap Size:` {heap}");
                   });
-
-                /*
-                cgb.CreateCommand(".leaveall")
-                    .Description("Nadeko leaves all servers **OWNER ONLY**")
-                    .Do(e => {
-                        if (NadekoBot.IsOwner(e.User.Id))
-                            NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
-                    });
-                    */
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")

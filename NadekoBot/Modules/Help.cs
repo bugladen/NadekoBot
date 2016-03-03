@@ -6,7 +6,7 @@ using NadekoBot.Commands;
 namespace NadekoBot.Modules {
     internal class Help : DiscordModule {
 
-        public Help()  {
+        public Help() {
             commands.Add(new HelpCommand());
         }
 
@@ -27,13 +27,14 @@ namespace NadekoBot.Modules {
                     .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e => {
-                        var commands = NadekoBot.Client.GetService<CommandService>().AllCommands
+                        var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
-                        if (commands == null || commands.Count() == 0) {
+                        var cmdsArray = cmds as Command[] ?? cmds.ToArray();
+                        if (!cmdsArray.Any()) {
                             await e.Channel.SendMessage("That module does not exist.");
                             return;
                         }
-                        await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c => c.Text)));
+                        await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", cmdsArray.Select(c => c.Text)));
                     });
             });
         }

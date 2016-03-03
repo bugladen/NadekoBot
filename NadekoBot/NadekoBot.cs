@@ -6,11 +6,9 @@ using Discord.Commands;
 using NadekoBot.Modules;
 using Discord.Modules;
 using Discord.Audio;
-using System.Timers;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 

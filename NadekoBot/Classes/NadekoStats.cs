@@ -26,7 +26,6 @@ namespace NadekoBot {
         private NadekoStats() {
             var commandService = NadekoBot.Client.GetService<CommandService>();
 
-            statsStopwatch = new Stopwatch();
             statsStopwatch.Start();
             commandService.CommandExecuted += StatsCollector_RanCommand;
 
@@ -44,16 +43,14 @@ namespace NadekoBot {
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
                     VoiceChannelsCount += e.Server.VoiceChannels.Count();
-                }
-                catch { }
+                } catch { }
             };
             NadekoBot.Client.LeftServer += (s, e) => {
                 try {
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
                     VoiceChannelsCount -= e.Server.VoiceChannels.Count();
-                }
-                catch { }
+                } catch { }
             };
             NadekoBot.Client.ChannelCreated += (s, e) => {
                 try {
@@ -63,8 +60,7 @@ namespace NadekoBot {
                         TextChannelsCount++;
                     else if (e.Channel.Type == ChannelType.Voice)
                         VoiceChannelsCount++;
-                }
-                catch { }
+                } catch { }
             };
             NadekoBot.Client.ChannelDestroyed += (s, e) => {
                 try {
@@ -74,8 +70,7 @@ namespace NadekoBot {
                         VoiceChannelsCount++;
                     else if (e.Channel.Type == ChannelType.Voice)
                         VoiceChannelsCount--;
-                }
-                catch { }
+                } catch { }
             };
         }
 
@@ -129,8 +124,7 @@ namespace NadekoBot {
                         ConnectedServers = connectedServers,
                         DateAdded = DateTime.Now
                     });
-                }
-                catch {
+                } catch {
                     Console.WriteLine("DB Exception in stats collecting.");
                     break;
                 }
@@ -142,17 +136,16 @@ namespace NadekoBot {
                 try {
                     commandsRan++;
                     Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command {
-                        ServerId = (long) e.Server.Id,
+                        ServerId = (long)e.Server.Id,
                         ServerName = e.Server.Name,
-                        ChannelId = (long) e.Channel.Id,
+                        ChannelId = (long)e.Channel.Id,
                         ChannelName = e.Channel.Name,
-                        UserId = (long) e.User.Id,
+                        UserId = (long)e.User.Id,
                         UserName = e.User.Name,
                         CommandName = e.Command.Text,
                         DateAdded = DateTime.Now
                     });
-                }
-                catch {
+                } catch {
                     Console.WriteLine("Error in ran command DB write.");
                 }
             });

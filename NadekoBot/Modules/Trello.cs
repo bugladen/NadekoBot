@@ -6,9 +6,11 @@ using Manatee.Trello.ManateeJson;
 using Manatee.Trello;
 using System.Timers;
 using NadekoBot.Extensions;
+using Action = Manatee.Trello.Action;
 
 namespace NadekoBot.Modules {
     internal class Trello : DiscordModule {
+        private readonly Timer t = new Timer() { Interval = 2000 };
         public override void Install(ModuleManager manager) {
 
             var client = manager.Client;
@@ -24,8 +26,6 @@ namespace NadekoBot.Modules {
             Discord.Channel bound = null;
             Board board = null;
 
-            Timer t = new Timer();
-            t.Interval = 2000;
             List<string> last5ActionIDs = null;
             t.Elapsed += async (s, e) => {
                 try {
@@ -33,31 +33,26 @@ namespace NadekoBot.Modules {
                         return; //do nothing if there is no bound board
 
                     board.Refresh();
-                    IEnumerable<Manatee.Trello.Action> cur5Actions;
-                    if (board.Actions.Count() < 5)
-                        cur5Actions = board.Actions.Take(board.Actions.Count());
-                    else
-                        cur5Actions = board.Actions.Take(5);
+                    var cur5Actions = board.Actions.Take(board.Actions.Count() < 5 ? board.Actions.Count() : 5);
+                    var cur5ActionsArray = cur5Actions as Action[] ?? cur5Actions.ToArray();
 
                     if (last5ActionIDs == null) {
-                        last5ActionIDs = new List<string>();
-                        foreach (var a in cur5Actions)
-                            last5ActionIDs.Add(a.Id);
+                        last5ActionIDs = cur5ActionsArray.Select(a => a.Id).ToList();
                         return;
                     }
-                    foreach (var a in cur5Actions.Where(ca => !last5ActionIDs.Contains(ca.Id))) {
+
+                    foreach (var a in cur5ActionsArray.Where(ca => !last5ActionIDs.Contains(ca.Id))) {
                         await bound.Send("**--TRELLO NOTIFICATION--**\n" + a.ToString());
                     }
                     last5ActionIDs.Clear();
-                    foreach (var a in cur5Actions)
-                        last5ActionIDs.Add(a.Id);
+                    last5ActionIDs.AddRange(cur5ActionsArray.Select(a => a.Id));
                 } catch (Exception ex) {
                     Console.WriteLine("Timer failed " + ex.ToString());
                 }
             };
 
-            manager.CreateCommands("", cgb => {
-                
+            manager.CreateCommands("trello ", cgb => {
+
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand("join")
@@ -124,7 +119,7 @@ namespace NadekoBot.Modules {
                         if (success && num <= board.Lists.Count() && num > 0)
                             list = board.Lists[num - 1];
                         else
-                            list = board.Lists.Where(l => l.Name == e.GetArg("list_name")).FirstOrDefault();
+                            list = board.Lists.FirstOrDefault(l => l.Name == e.GetArg("list_name"));
 
 
                         if (list != null)
