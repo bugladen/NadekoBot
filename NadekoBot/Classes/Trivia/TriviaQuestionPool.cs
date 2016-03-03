@@ -6,12 +6,11 @@ using System.Linq;
 
 namespace NadekoBot.Classes.Trivia {
     public class TriviaQuestionPool {
-        private static readonly TriviaQuestionPool _instance = new TriviaQuestionPool();
-        public static TriviaQuestionPool Instance => _instance;
+        public static TriviaQuestionPool Instance { get; } = new TriviaQuestionPool();
 
-        public List<TriviaQuestion> pool = new List<TriviaQuestion>();
+        public HashSet<TriviaQuestion> pool = new HashSet<TriviaQuestion>();
 
-        private Random _r { get; } = new Random();
+        private Random rng { get; } = new Random();
 
         static TriviaQuestionPool() { }
 
@@ -19,22 +18,21 @@ namespace NadekoBot.Classes.Trivia {
             Reload();
         }
 
-        public TriviaQuestion GetRandomQuestion(List<TriviaQuestion> exclude) {
+        public TriviaQuestion GetRandomQuestion(IEnumerable<TriviaQuestion> exclude) {
             var list = pool.Except(exclude).ToList();
-            var rand = _r.Next(0, list.Count);
+            var rand = rng.Next(0, list.Count);
             return list[rand];
         }
 
         internal void Reload() {
-            JArray arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
+            var arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
 
             foreach (var item in arr) {
-                TriviaQuestion tq;
-                tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());
+                var tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());
                 pool.Add(tq);
             }
             var r = new Random();
-            pool = pool.OrderBy(x => r.Next()).ToList();
+            pool = new HashSet<TriviaQuestion>(pool.OrderBy(x => r.Next()));
         }
     }
 }

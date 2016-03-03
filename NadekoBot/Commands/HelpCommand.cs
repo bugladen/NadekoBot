@@ -6,8 +6,8 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
-    internal class HelpCommand : DiscordCommand {
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+    internal class HelpCommand : IDiscordCommand {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             #region OldHelp
             /*
             string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
@@ -60,7 +60,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
 
             string lastCategory = "";
-            foreach (var com in client.GetService<CommandService>().AllCommands) {
+            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands) {
                 if (com.Category != lastCategory) {
                     helpstr += "\n### " + com.Category + "  \n";
                     helpstr += "Command and aliases | Description | Usage\n";
@@ -76,10 +76,9 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 #else
             File.WriteAllText("commandlist.md", helpstr);
 #endif
-            return;
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("-h")
                 .Alias(new string[] { "-help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h" })
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")

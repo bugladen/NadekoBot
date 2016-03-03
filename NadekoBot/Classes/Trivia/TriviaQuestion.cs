@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace NadekoBot.Classes.Trivia {
     public class TriviaQuestion {
         //represents the min size to judge levDistance with
-        public static List<Tuple<int, int>> strictness = new List<Tuple<int, int>>() {
+        private static readonly HashSet<Tuple<int, int>> strictness = new HashSet<Tuple<int, int>> {
             new Tuple<int, int>(6, 0),
             new Tuple<int, int>(7, 1),
             new Tuple<int, int>(12, 2),

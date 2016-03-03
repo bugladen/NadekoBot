@@ -6,6 +6,7 @@ using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using System.Reflection;
+using NadekoBot.Modules;
 
 namespace NadekoBot {
     public class NadekoStats {
@@ -84,22 +85,27 @@ namespace NadekoBot {
 
         public Task LoadStats() =>
             Task.Run(() => {
+                var songs = Music.MusicPlayers.Count;
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
                 sb.AppendLine($"`Bot Version: {BotVersion}`");
                 sb.AppendLine($"`Bot id: {NadekoBot.Client.CurrentUser.Id}`");
-                sb.AppendLine($"`Owner id: {(NadekoBot.Creds.OwnerIds.FirstOrDefault())}`");
+                sb.Append("`Owners' Ids:` ");
+                sb.AppendLine("`" + String.Join(", ", NadekoBot.Creds.OwnerIds) + "`");
                 sb.AppendLine($"`Uptime: {GetUptimeString()}`");
                 sb.Append($"`Servers: {ServerCount}");
                 sb.Append($" | TextChannels: {TextChannelsCount}");
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
                 sb.AppendLine($"`Commands Ran this session: {commandsRan}`");
-                sb.AppendLine($"`Message queue size:{NadekoBot.Client.MessageQueue.Count}`");
-                sb.AppendLine($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
+                sb.AppendLine($"`Message queue size: {NadekoBot.Client.MessageQueue.Count}`");
+                sb.Append($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
+                sb.AppendLine($" `| Playing {songs} songs, ".SnPl(songs) +
+                              $"{Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count)} queued.`");
+                sb.AppendLine($"`Heap: {Heap(false)}`");
                 statsCache = sb.ToString();
             });
 
-        public string Heap() => Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString();
+        public string Heap(bool pass = true) => Math.Round((double)GC.GetTotalMemory(pass) / 1.MiB(), 2).ToString();
 
         public async Task<string> GetStats() {
             if (statsStopwatch.Elapsed.Seconds <= 5) return statsCache;

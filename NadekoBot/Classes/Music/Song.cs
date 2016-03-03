@@ -124,7 +124,7 @@ namespace NadekoBot.Classes.Music {
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
 
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(10.MB());
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(4.MiB());
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
@@ -145,7 +145,7 @@ namespace NadekoBot.Classes.Music {
                         RedirectStandardError = false,
                         CreateNoWindow = true,
                     });
-                    var blockSize = 3840;
+                    const int blockSize = 3840;
                     var buffer = new byte[blockSize];
                     var attempt = 0;
                     while (!cancelToken.IsCancellationRequested) {
@@ -164,6 +164,7 @@ namespace NadekoBot.Classes.Music {
                 } catch {
                     Console.WriteLine("Buffering errored");
                 } finally {
+                    Console.WriteLine($"Buffering done." + $" [{songBuffer.ContentLength}]");
                     if (p != null) {
                         p.CancelOutputRead();
                         p.StandardOutput.Dispose();
@@ -172,11 +173,10 @@ namespace NadekoBot.Classes.Music {
                         p.Dispose();
                     }
                 }
-                Console.WriteLine($"Buffering done." + $" [{songBuffer.ContentLength}]");
             });
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
-            var t = BufferSong(cancelToken).ConfigureAwait(false);
+            var bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
             var bufferAttempts = 0;
             const int waitPerAttempt = 500;
             var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
@@ -185,7 +185,7 @@ namespace NadekoBot.Classes.Music {
             }
             cancelToken.ThrowIfCancellationRequested();
             Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
-            var blockSize = 3840;
+            const int blockSize = 3840;
             var buffer = new byte[blockSize];
             var attempt = 0;
             while (!cancelToken.IsCancellationRequested) {
@@ -206,6 +206,7 @@ namespace NadekoBot.Classes.Music {
                 buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
+            await bufferTask;
             cancelToken.ThrowIfCancellationRequested();
             //try {
             //    voiceClient.Clear();
@@ -366,14 +367,13 @@ namespace NadekoBot.Classes.Music {
             return query;
         }
 
-        private static bool IsRadioLink(string query) {
-            return (query.StartsWith("http") ||
-                    query.StartsWith("ww"))
-                    &&
-                    (query.Contains(".pls") ||
-                    query.Contains(".m3u") ||
-                    query.Contains(".asx") ||
-                    query.Contains(".xspf"));
-        }
+        private static bool IsRadioLink(string query) =>
+            (query.StartsWith("http") ||
+            query.StartsWith("ww"))
+            &&
+            (query.Contains(".pls") ||
+            query.Contains(".m3u") ||
+            query.Contains(".asx") ||
+            query.Contains(".xspf"));
     }
 }

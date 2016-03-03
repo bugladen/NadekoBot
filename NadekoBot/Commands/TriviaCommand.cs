@@ -6,10 +6,10 @@ using Discord;
 using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Commands {
-    internal class Trivia : DiscordCommand {
+    internal class Trivia : IDiscordCommand {
         public static ConcurrentDictionary<Server, TriviaGame> runningTrivias = new ConcurrentDictionary<Server, TriviaGame>();
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             TriviaGame trivia;
             if (!runningTrivias.TryGetValue(e.Server, out trivia)) {
                 var triviaGame = new TriviaGame(e);
@@ -21,7 +21,7 @@ namespace NadekoBot.Commands {
                 await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("t")
                 .Description("Starts a game of trivia.")
                 .Alias("-t")

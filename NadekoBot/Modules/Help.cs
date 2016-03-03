@@ -2,6 +2,7 @@
 using Discord.Modules;
 using Discord.Commands;
 using NadekoBot.Commands;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     internal class Help : DiscordModule {

@@ -4,7 +4,7 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
-    internal class RequestsCommand : DiscordCommand {
+    internal class RequestsCommand : IDiscordCommand {
         public void SaveRequest(CommandEventArgs e, string text) {
             Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Request {
                 RequestText = text,
@@ -37,11 +37,7 @@ namespace NadekoBot.Commands {
         public Classes._DataModels.Request ResolveRequest(int requestNumber) =>
             Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
 
-        public override Func<CommandEventArgs, Task> DoFunc() {
-            throw new NotImplementedException();
-        }
-
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand("req")
                 .Alias("request")
@@ -95,7 +91,7 @@ namespace NadekoBot.Commands {
                             var sc = ResolveRequest(int.Parse(e.Args[0]));
                             if (sc != null) {
                                 await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.");
-                                await client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText);
+                                await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText);
                             } else {
                                 await e.Channel.SendMessage("No request on that number.");
                             }

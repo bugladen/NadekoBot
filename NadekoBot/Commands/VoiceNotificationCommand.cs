@@ -6,17 +6,12 @@ using System.Collections.Concurrent;
 using Discord;
 
 namespace NadekoBot.Commands {
-    internal class VoiceNotificationCommand : DiscordCommand {
-
-
-        public VoiceNotificationCommand()  {
-            //NadekoBot.client.
-        }
+    internal class VoiceNotificationCommand : IDiscordCommand {
 
         //voicechannel/text channel
-        private ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
+        private readonly ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             var arg = e.GetArg("voice_name");
             if (string.IsNullOrWhiteSpace("voice_name"))
                 return;
@@ -32,7 +27,7 @@ namespace NadekoBot.Commands {
             }
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             /*
             cgb.CreateCommand(".voicenotif")
                   .Description("Enables notifications on who joined/left the voice channel.\n**Usage**:.voicenotif Karaoke club")

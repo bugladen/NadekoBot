@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace NadekoBot.Classes.Permissions {
     internal class PermissionChecker : IPermissionChecker {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
         private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
+        private HashSet<ulong> serverBlacklist { get; } = new HashSet<ulong>();
 
         static PermissionChecker() { }
         public PermissionChecker() {

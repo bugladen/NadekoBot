@@ -5,7 +5,7 @@ using Discord.Commands;
 using Discord;
 
 namespace NadekoBot.Commands {
-    internal class LogCommand : DiscordCommand {
+    internal class LogCommand : IDiscordCommand {
 
         public LogCommand()  {
             NadekoBot.Client.MessageReceived += MsgRecivd;
@@ -14,12 +14,12 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.UserUpdated += UsrUpdtd;
         }
 
-        private ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
-        private ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
+        private readonly ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
+        private readonly ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
         //
-        private ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
+        private readonly ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (!NadekoBot.IsOwner(e.User.Id) ||
                           !e.User.ServerPermissions.ManageServer)
                 return;
@@ -107,7 +107,7 @@ namespace NadekoBot.Commands {
             }
             catch { }
         }
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(DoFunc());

@@ -21,7 +21,7 @@ public class AsyncLazy<T> : Lazy<Task<T>>
 */
 
 namespace NadekoBot.Commands {
-    internal class ServerGreetCommand : DiscordCommand {
+    internal class ServerGreetCommand : IDiscordCommand {
 
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
@@ -33,11 +33,11 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.UserJoined += UserJoined;
             NadekoBot.Client.UserLeft += UserLeft;
 
-            List<Classes._DataModels.Announcement> data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
+            var data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
 
-            if (data.Any())
-                foreach (var obj in data)
-                    AnnouncementsDictionary.TryAdd((ulong)obj.ServerId, new AnnounceControls(obj));
+            if (!data.Any()) return;
+            foreach (var obj in data)
+                AnnouncementsDictionary.TryAdd((ulong)obj.ServerId, new AnnounceControls(obj));
         }
 
         private async void UserLeft(object sender, UserEventArgs e) {
@@ -172,11 +172,11 @@ namespace NadekoBot.Commands {
             }
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() {
+        public Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();
         }
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand(".greet")
                 .Description("Enables or Disables anouncements on the current channel when someone joins the server.")

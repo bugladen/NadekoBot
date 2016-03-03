@@ -45,9 +45,9 @@ namespace NadekoBot.Classes {
             }
         }
 
-        internal List<T> GetAllRows<T>() where T : IDataModel, new() {
+        internal HashSet<T> GetAllRows<T>() where T : IDataModel, new() {
             using (var conn = new SQLiteConnection(FilePath)) {
-                return conn.Table<T>().ToList();
+                return new HashSet<T>(conn.Table<T>());
             }
         }
 

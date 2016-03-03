@@ -155,7 +155,7 @@
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Commands\DiceRollCommand.cs" />
-    <Compile Include="Commands\DiscordCommand.cs" />
+    <Compile Include="Commands\IDiscordCommand.cs" />
     <Compile Include="Commands\DrawCommand.cs" />
     <Compile Include="Commands\FlipCoinCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />

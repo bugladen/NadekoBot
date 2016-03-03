@@ -127,8 +127,8 @@ namespace NadekoBot.Modules {
                       var headers = new Dictionary<string, string> { { "X-Mashape-Key", NadekoBot.Creds.MashapeKey } };
                       var res = await SearchHelper.GetResponseStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers);
                       try {
-                          var items = JArray.Parse(res) as JArray;
-                          var images = new List<System.Drawing.Image>();
+                          var items = JArray.Parse(res);
+                          var images = new List<Image>();
                           if (items == null)
                               throw new KeyNotFoundException("Cannot find a card by that name");
                           var cnt = 0;

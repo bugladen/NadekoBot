@@ -8,15 +8,15 @@ using Discord;
 using Discord.Commands;
 
 namespace NadekoBot.Commands {
-    internal class PollCommand : DiscordCommand {
+    internal class PollCommand : IDiscordCommand {
 
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
-        public override Func<CommandEventArgs, Task> DoFunc() {
+        public Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();
         }
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(">poll")
                   .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll Question?;Answer1;Answ 2;A_3")
                   .Parameter("allargs", ParameterType.Unparsed)

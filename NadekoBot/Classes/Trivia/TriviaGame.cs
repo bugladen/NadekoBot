@@ -21,7 +21,7 @@ namespace NadekoBot.Classes.Trivia {
         private CancellationTokenSource triviaCancelSource { get; set; }
 
         public TriviaQuestion CurrentQuestion { get; private set; }
-        public List<TriviaQuestion> oldQuestions { get; } = new List<TriviaQuestion>();
+        public HashSet<TriviaQuestion> oldQuestions { get; } = new HashSet<TriviaQuestion>();
 
         public ConcurrentDictionary<User, int> Users { get; } = new ConcurrentDictionary<User, int>();
 

@@ -24,10 +24,10 @@ namespace NadekoBot.Classes.Music {
     public class MusicPlayer {
         public static int MaximumPlaylistSize => 50;
 
-        private IAudioClient _client { get; set; }
+        private IAudioClient audioClient { get; set; }
 
-        private List<Song> _playlist = new List<Song>();
-        public IReadOnlyCollection<Song> Playlist => _playlist;
+        private readonly List<Song> playlist = new List<Song>();
+        public IReadOnlyCollection<Song> Playlist => playlist;
         private readonly object playlistLock = new object();
 
         public Song CurrentSong { get; set; } = default(Song);
@@ -57,7 +57,7 @@ namespace NadekoBot.Classes.Music {
             Task.Run(async () => {
                 while (true) {
                     try {
-                        _client = await PlaybackVoiceChannel.JoinAudio();
+                        audioClient = await PlaybackVoiceChannel.JoinAudio();
                     }
                     catch {
                         await Task.Delay(1000);
@@ -67,7 +67,7 @@ namespace NadekoBot.Classes.Music {
                     if (CurrentSong != null) {
                         try {
                             OnStarted(CurrentSong);
-                            await CurrentSong.Play(_client, cancelToken);
+                            await CurrentSong.Play(audioClient, cancelToken);
                         }
                         catch (OperationCanceledException) {
                             Console.WriteLine("Song canceled");
@@ -98,7 +98,7 @@ namespace NadekoBot.Classes.Music {
 
         public void Stop() {
             lock (playlistLock) {
-                _playlist.Clear();
+                playlist.Clear();
                 try {
                     if (!SongCancelSource.IsCancellationRequested)
                         SongCancelSource.Cancel();
@@ -113,7 +113,7 @@ namespace NadekoBot.Classes.Music {
 
         public void Shuffle() {
             lock (playlistLock) {
-                _playlist.Shuffle();
+                playlist.Shuffle();
             }
         }
 
@@ -129,10 +129,10 @@ namespace NadekoBot.Classes.Music {
 
         private Song GetNextSong() {
             lock (playlistLock) {
-                if (_playlist.Count == 0)
+                if (playlist.Count == 0)
                     return null;
-                var toReturn = _playlist[0];
-                _playlist.RemoveAt(0);
+                var toReturn = playlist[0];
+                playlist.RemoveAt(0);
                 return toReturn;
             }
         }
@@ -141,7 +141,7 @@ namespace NadekoBot.Classes.Music {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
             lock (playlistLock) {
-                _playlist.Add(s);
+                playlist.Add(s);
             }
         }
 
@@ -149,20 +149,20 @@ namespace NadekoBot.Classes.Music {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
             lock (playlistLock) {
-                _playlist.Remove(s);
+                playlist.Remove(s);
             }
         }
 
         public void RemoveSongAt(int index) {
             lock (playlistLock) {
-                if (index < 0 || index >= _playlist.Count)
+                if (index < 0 || index >= playlist.Count)
                     throw new ArgumentException("Invalid index");
-                _playlist.RemoveAt(index);
+                playlist.RemoveAt(index);
             }
         }
 
         internal Task MoveToVoiceChannel(Channel voiceChannel) {
-            if (_client?.State != ConnectionState.Connected)
+            if (audioClient?.State != ConnectionState.Connected)
                 throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
             PlaybackVoiceChannel = voiceChannel;
             return PlaybackVoiceChannel.JoinAudio();
@@ -170,7 +170,7 @@ namespace NadekoBot.Classes.Music {
 
         internal void ClearQueue() {
             lock (playlistLock) {
-                _playlist.Clear();
+                playlist.Clear();
             }
         }
     }

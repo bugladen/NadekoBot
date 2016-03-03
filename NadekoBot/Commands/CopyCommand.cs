@@ -5,14 +5,13 @@ using Discord.Commands;
 
 namespace NadekoBot.Commands
 {
-    internal class CopyCommand : DiscordCommand
+    internal class CopyCommand : IDiscordCommand
     {
-        private List<ulong> CopiedUsers;
+        private readonly HashSet<ulong> CopiedUsers = new HashSet<ulong>();
 
         public CopyCommand() 
         {
-            CopiedUsers = new List<ulong>();
-            client.MessageReceived += Client_MessageReceived;
+            NadekoBot.Client.MessageReceived += Client_MessageReceived;
         }
 
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
@@ -27,16 +26,15 @@ namespace NadekoBot.Commands
             catch { }
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e =>
+        public Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
             if (CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Add(e.User.Id);
             await e.Channel.SendMessage(" I'll start copying you now.");
-            return;
         };
 
-        public override void Init(CommandGroupBuilder cgb)
+        public void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("copyme")
                 .Alias("cm")
@@ -55,7 +53,6 @@ namespace NadekoBot.Commands
 
             CopiedUsers.Remove(e.User.Id);
             await e.Channel.SendMessage(" I wont copy anymore.");
-            return;
         };
     }
 }

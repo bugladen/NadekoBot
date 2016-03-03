@@ -4,6 +4,8 @@ using Discord.Modules;
 using NadekoBot.Commands;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using NadekoBot.Extensions;
+
 //🃏
 //🏁
 namespace NadekoBot.Modules {

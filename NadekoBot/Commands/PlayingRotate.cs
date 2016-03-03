@@ -8,9 +8,9 @@ using System.Timers;
 using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class PlayingRotate : DiscordCommand {
+    internal class PlayingRotate : IDiscordCommand {
 
-        private static List<string> rotatingStatuses = new List<string>();
+        private static readonly List<string> rotatingStatuses = new List<string>();
         private static readonly Timer timer = new Timer(12000);
 
         public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
@@ -60,7 +60,7 @@ namespace NadekoBot.Commands {
             };
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (timer.Enabled)
                 timer.Stop();
             else
@@ -68,7 +68,7 @@ namespace NadekoBot.Commands {
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".rotateplaying")
                 .Alias(".ropl")
                 .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")

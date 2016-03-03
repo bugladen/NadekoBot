@@ -4,10 +4,7 @@ using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
     internal abstract class DiscordModule : IModule {
-        protected List<DiscordCommand> commands = new List<DiscordCommand>();
-
-        protected DiscordModule() {
-        }
+        protected readonly HashSet<IDiscordCommand> commands = new HashSet<IDiscordCommand>();
 
         public abstract void Install(ModuleManager manager);
     }

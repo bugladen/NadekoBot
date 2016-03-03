@@ -21,12 +21,12 @@ namespace NadekoBot.Commands {
     }
 
     public class TypingGame {
-        public static float WORD_VALUE { get; } = 4.5f;
-        private Channel channel;
-        public string currentSentence;
+        public const float WORD_VALUE = 4.5f;
+        private readonly Channel channel;
+        public string CurrentSentence;
         public bool IsActive;
-        private Stopwatch sw;
-        private List<ulong> finishedUserIds;
+        private readonly Stopwatch sw;
+        private readonly List<ulong> finishedUserIds;
 
         public TypingGame(Channel channel) {
             this.channel = channel;
@@ -49,32 +49,33 @@ namespace NadekoBot.Commands {
         }
 
         internal async Task Start() {
-            if (IsActive) return; // can't start running game
-            IsActive = true;
-            currentSentence = SentencesProvider.GetRandomSentence();
-            int i = (int)(currentSentence.Length / WORD_VALUE * 1.7f);
-            await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.");
+            while (true) {
+                if (IsActive) return; // can't start running game
+                IsActive = true;
+                CurrentSentence = SentencesProvider.GetRandomSentence();
+                var i = (int) (CurrentSentence.Length/WORD_VALUE*1.7f);
+                await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.");
 
 
-            var msg = await channel.SendMessage("Starting new typing contest in **3**...");
-            await Task.Delay(1000);
-            await msg.Edit("Starting new typing contest in **2**...");
-            await Task.Delay(1000);
-            await msg.Edit("Starting new typing contest in **1**...");
-            await Task.Delay(1000);
-            await msg.Edit($":book:**{currentSentence.Replace(" ", " \x200B")}**:book:");
-            sw.Start();
-            HandleAnswers();
-
-            while (i > 0) {
+                var msg = await channel.SendMessage("Starting new typing contest in **3**...");
                 await Task.Delay(1000);
-                i--;
-                if (!IsActive)
-                    return;
-            }
+                await msg.Edit("Starting new typing contest in **2**...");
+                await Task.Delay(1000);
+                await msg.Edit("Starting new typing contest in **1**...");
+                await Task.Delay(1000);
+                await msg.Edit($":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:");
+                sw.Start();
+                HandleAnswers();
 
-            await Stop();
-            await Start();
+                while (i > 0) {
+                    await Task.Delay(1000);
+                    i--;
+                    if (!IsActive)
+                        return;
+                }
+
+                await Stop();
+            }
         }
 
         private void HandleAnswers() {
@@ -87,13 +88,13 @@ namespace NadekoBot.Commands {
 
                 var guess = e.Message.RawText;
 
-                var distance = currentSentence.LevenshteinDistance(guess);
+                var distance = CurrentSentence.LevenshteinDistance(guess);
                 var decision = Judge(distance, guess.Length);
                 if (decision && !finishedUserIds.Contains(e.User.Id)) {
                     finishedUserIds.Add(e.User.Id);
-                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ currentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
                     if (finishedUserIds.Count % 2 == 0) {
-                        await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{currentSentence}**:book:");
+                        await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:");
                     }
 
                 }
@@ -105,7 +106,7 @@ namespace NadekoBot.Commands {
 
     }
 
-    internal class SpeedTyping : DiscordCommand {
+    internal class SpeedTyping : IDiscordCommand {
 
         private static Dictionary<ulong, TypingGame> runningContests;
 
@@ -113,7 +114,7 @@ namespace NadekoBot.Commands {
             runningContests = new Dictionary<ulong, TypingGame>();
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() =>
+        public Func<CommandEventArgs, Task> DoFunc() =>
             async e => {
                 if (runningContests.ContainsKey(e.User.Server.Id) && runningContests[e.User.Server.Id].IsActive) {
                     await e.Channel.SendMessage($"Contest already running in { runningContests[e.User.Server.Id].Channell.Mention } channel.");
@@ -138,7 +139,7 @@ namespace NadekoBot.Commands {
                 await e.Channel.SendMessage("No contest to stop on this channel.");
             };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("typestart")
                 .Description("Starts a typing contest.")
                 .Do(DoFunc());

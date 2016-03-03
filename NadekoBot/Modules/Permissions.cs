@@ -4,6 +4,7 @@ using Discord.Commands;
 using NadekoBot.Classes;
 using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     internal class PermissionModule : DiscordModule {
@@ -14,7 +15,6 @@ namespace NadekoBot.Modules {
         }
         //todo word filtering/invite bans (?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))
         public override void Install(ModuleManager manager) {
-            var client = NadekoBot.Client;
             manager.CreateCommands("", cgb => {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules {
                         var role = e.Server.EveryoneRole;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
-                                role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                role = PermissionHelper.ValidateRole(e.Server, arg);
                             }
                             catch (Exception ex) {
                                 await e.Channel.SendMessage("💢 Error: " + ex.Message);
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules {
                         var channel = e.Channel;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try {
-                                channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                                channel = PermissionHelper.ValidateChannel(e.Server, arg);
                             }
                             catch (Exception ex) {
                                 await e.Channel.SendMessage("💢 Error: " + ex.Message);
@@ -116,7 +116,6 @@ namespace NadekoBot.Modules {
                     .Description("Shows banned permissions for a certain user. No argument means for yourself.\n**Usage**: ;up Kwoth")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
-                        var arg = e.GetArg("user");
                         var user = e.User;
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")))
                             try {

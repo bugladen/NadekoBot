@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 
 namespace NadekoBot.Commands {
-    internal class ClashOfClans : DiscordCommand {
+    internal class ClashOfClans : IDiscordCommand {
         private const string prefix = ",";
 
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
@@ -19,7 +19,7 @@ namespace NadekoBot.Commands {
 
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (!e.User.ServerPermissions.ManageChannels)
                 return;
             List<ClashWar> wars;
@@ -50,7 +50,7 @@ namespace NadekoBot.Commands {
             //war with the index X started.
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(prefix + "createwar")
                 .Alias(prefix + "cw")
                 .Description($"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name.\n**Usage**:{prefix}cw 15 The Enemy Clan")

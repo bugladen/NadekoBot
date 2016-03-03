@@ -9,6 +9,7 @@ using Discord.Audio;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord.Commands.Permissions.Userlist;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 

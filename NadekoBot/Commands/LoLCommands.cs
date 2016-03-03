@@ -10,7 +10,7 @@ using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace NadekoBot.Commands {
-    internal class LoLCommands : DiscordCommand {
+    internal class LoLCommands : IDiscordCommand {
 
         private class CachedChampion {
             public System.IO.Stream ImageStream { get; set; }
@@ -43,7 +43,7 @@ namespace NadekoBot.Commands {
                                                 "If you consider playing teemo, do it. If you consider teemo, you deserve him.",
                                                 "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
 
-        public override Func<CommandEventArgs, Task> DoFunc() {
+        public Func<CommandEventArgs, Task> DoFunc() {
             throw new NotImplementedException();
         }
 
@@ -55,7 +55,7 @@ namespace NadekoBot.Commands {
             public float StatScore { get; set; }
         }
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("~lolchamp")
                   .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.\n**Usage**:~lolchamp Riven or ~lolchamp Annie sup")
                   .Parameter("champ", ParameterType.Required)

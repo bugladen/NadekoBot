@@ -7,14 +7,14 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
-    internal class DrawCommand : DiscordCommand {
+    internal class DrawCommand : IDiscordCommand {
         private static ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
 
         public DrawCommand()  {
 
         }
 
-        public override Func<CommandEventArgs, Task> DoFunc() => async (e) => {
+        public Func<CommandEventArgs, Task> DoFunc() => async (e) => {
             if (!AllDecks.ContainsKey(e.Server)) {
                 await e.Channel.SendMessage("Shuffling cards...");
                 AllDecks.TryAdd(e.Server, new Cards());
@@ -53,7 +53,7 @@ namespace NadekoBot.Commands {
             }
         };
 
-        public override void Init(CommandGroupBuilder cgb) {
+        public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("$draw")
                 .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
                 .Parameter("count", ParameterType.Optional)
