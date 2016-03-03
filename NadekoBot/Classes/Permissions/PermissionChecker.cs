@@ -7,17 +7,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace NadekoBot.Classes.Permissions {
+
     internal class PermissionChecker : IPermissionChecker {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
         private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
-        private HashSet<ulong> serverBlacklist { get; } = new HashSet<ulong>();
 
         static PermissionChecker() { }
         public PermissionChecker() {
             Task.Run(async () => {
                 while (true) {
-                    //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked for ever
+                    //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked
                     await Task.Delay(1750);
                     timeBlackList.Clear();
                 }
@@ -26,6 +26,12 @@ namespace NadekoBot.Classes.Permissions {
 
         public bool CanRun(Command command, User user, Channel channel, out string error) {
             error = String.Empty;
+
+            if (NadekoBot.IsUserBlacklisted(user.Id) ||
+                (!channel.IsPrivate &&
+                 (NadekoBot.IsServerBlacklisted(channel.Server.Id) || NadekoBot.IsChannelBlacklisted(channel.Id)))) {
+                return false;
+            }
 
             if (timeBlackList.ContainsKey(user))
                 return false;

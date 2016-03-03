@@ -18,12 +18,30 @@ namespace NadekoBot {
         public static DiscordClient Client;
         public static bool ForwardMessages = false;
         public static Credentials Creds { get; set; }
+        public static Configuration Config { get; set; }
         public static string BotMention { get; set; } = "";
 
         private static Channel OwnerPrivateChannel { get; set; }
 
         private static void Main() {
             Console.OutputEncoding = Encoding.Unicode;
+
+            // generate credentials example so people can know about the changes i make
+            try {
+                File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
+                File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
+            }
+            catch {
+                Console.WriteLine("Failed writing credentials_example.json or data/config_example.json");
+            }
+
+            try {
+                Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
+            }
+            catch {
+                Console.WriteLine("Failed loading configuration.");
+            }
+
             try {
                 //load credentials from credentials.json
                 Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
@@ -39,7 +57,7 @@ namespace NadekoBot {
             Console.WriteLine(string.IsNullOrWhiteSpace(Creds.TrelloAppKey)
                 ? "No trello appkey found. You will not be able to use trello commands."
                 : "Trello app key provided.");
-            Console.WriteLine(Creds.ForwardMessages != true
+            Console.WriteLine(Config.ForwardMessages != true
                 ? "Not forwarding messages."
                 : "Forwarding private messages to owner.");
             Console.WriteLine(string.IsNullOrWhiteSpace(Creds.SoundCloudClientID)
@@ -149,7 +167,6 @@ namespace NadekoBot {
         }
 
         private static bool repliedRecently = false;
-
         private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
             try {
                 if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
@@ -157,12 +174,14 @@ namespace NadekoBot {
                 // just ban this trash AutoModerator
                 // and cancer christmass spirit
                 // and crappy shotaslave
+                if (IsBlackListed(e))
+                    return;
                 if (e.User.Id == 105309315895693312 ||
                     e.User.Id == 119174277298782216 ||
                     e.User.Id == 143515953525817344)
                     return; // FU
                 
-                if (!NadekoBot.Creds.DontJoinServers) {
+                if (!NadekoBot.Config.DontJoinServers) {
                     try {
                         await (await Client.GetInvite(e.Message.Text)).Accept();
                         await e.Channel.SendMessage("I got in!");
@@ -188,6 +207,23 @@ namespace NadekoBot {
                 });
             } catch { }
         }
+
+        private static readonly object configLock = new object();
+        public static void SaveConfig() {
+            lock (configLock) {
+                File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
+            }
+        }
+
+        public static bool IsBlackListed(MessageEventArgs evArgs) => IsUserBlacklisted(evArgs.User.Id) ||
+                                                                      (!evArgs.Channel.IsPrivate &&
+                                                                       (IsChannelBlacklisted(evArgs.Channel.Id) || IsServerBlacklisted(evArgs.Server.Id)));
+
+        public static bool IsServerBlacklisted(ulong id) => NadekoBot.Config.ServerBlacklist.Contains(id);
+
+        public static bool IsChannelBlacklisted(ulong id) => NadekoBot.Config.ChannelBlacklist.Contains(id);
+
+        public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
     }
 }
 

@@ -1,0 +1,7 @@
+{
+  "DontJoinServers": false,
+  "ForwardMessages": true,
+  "ServerBlacklist": [],
+  "ChannelBlacklist": [],
+  "UserBlacklist": []
+}

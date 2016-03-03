@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
-using Discord.Modules;
-using System;
+﻿using System;
 using System.Linq;
 using Discord;
+using Discord.Commands;
+using Discord.Modules;
 
-namespace NadekoBot.Classes {
+namespace NadekoBot.Classes.Permissions {
     internal static class PermissionHelper {
         public static bool ValidateBool(string passedArg) {
             if (string.IsNullOrWhiteSpace(passedArg)) {

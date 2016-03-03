@@ -118,7 +118,7 @@
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
-    <Compile Include="Classes\JSONModels\Config.cs" />
+    <Compile Include="Classes\JSONModels\Configuration.cs" />
     <Compile Include="Classes\JSONModels\MangaResult.cs" />
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />

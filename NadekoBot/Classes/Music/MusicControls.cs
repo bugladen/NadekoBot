@@ -102,6 +102,7 @@ namespace NadekoBot.Classes.Music {
                 try {
                     if (!SongCancelSource.IsCancellationRequested)
                         SongCancelSource.Cancel();
+                    audioClient.Disconnect();
                 }
                 catch {
                     Console.WriteLine("STOP");

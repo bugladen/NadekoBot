@@ -248,7 +248,7 @@ namespace NadekoBot.Modules {
                             e.Channel.SendFile("ripzor_m8.png",
                                 RipName(text, string.IsNullOrWhiteSpace(e.GetArg("year")) ? null : e.GetArg("year")));
                     });
-                if (!NadekoBot.Creds.DontJoinServers) {
+                if (!NadekoBot.Config.DontJoinServers) {
                     cgb.CreateCommand("j")
                         .Description("Joins a server using a code.")
                         .Parameter("id", ParameterType.Required)
