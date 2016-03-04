@@ -10,7 +10,7 @@ ________________________________________________________________________________
 - For "Username" and "Password", enter the email address and password of the extra Discord account, respectively. Close and save credentials.json.  
 - Start NadekoBot.exe. In a text channel **not a direct message**, type in [.uid @______] without the brackets, filling in the underlined portion with your bot's name and send the message.
 Your bot will reply with a number; this is your bot's ID. Then type in [.uid @_____] without the brackets, filling in the underlined portion with your own name and send the message. Your bot will reply with another number; this is your own ID. Close NadekoBot.exe.   
-- Reopen credentials.json. For "BotMention", fill in your bot's ID between <@ and > ("BotMention": "\<@78663633663\>"). For "OwnerID", fill in your own ID. 
+- Reopen credentials.json. For "BotId", fill in your bot's ID followed by a comma ("BotId": 78663633663,). For "OwnerIds", fill in your own ID in the square brackets ("OwnerIds": [1231312313]). You can add multiple owners by separating Ids with a comma. 
 - Close and save credentials.json.  
 
 ________________________________________________________________________________
