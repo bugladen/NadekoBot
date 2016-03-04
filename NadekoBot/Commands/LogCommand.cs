@@ -7,7 +7,7 @@ using Discord;
 namespace NadekoBot.Commands {
     internal class LogCommand : IDiscordCommand {
 
-        public LogCommand()  {
+        public LogCommand() {
             NadekoBot.Client.MessageReceived += MsgRecivd;
             NadekoBot.Client.MessageDeleted += MsgDltd;
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
@@ -41,8 +41,7 @@ namespace NadekoBot.Commands {
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
-            }
-            catch { }
+            } catch { }
         }
         private async void MsgDltd(object sender, MessageEventArgs e) {
             try {
@@ -52,8 +51,7 @@ namespace NadekoBot.Commands {
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
-            }
-            catch { }
+            } catch { }
         }
         private async void MsgUpdtd(object sender, MessageUpdatedEventArgs e) {
             try {
@@ -63,8 +61,7 @@ namespace NadekoBot.Commands {
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.After.Text}");
-            }
-            catch { }
+            } catch { }
         }
         private async void UsrUpdtd(object sender, UserUpdatedEventArgs e) {
             try {
@@ -75,8 +72,7 @@ namespace NadekoBot.Commands {
                         await Task.Delay(4000);
                         await msg.Delete();
                     }
-            }
-            catch { }
+            } catch { }
 
             try {
                 if (e.Before.VoiceChannel != null && voiceChannelLog.ContainsKey(e.Before.VoiceChannel)) {
@@ -87,8 +83,7 @@ namespace NadekoBot.Commands {
                     if (e.After.VoiceChannel != e.Before.VoiceChannel)
                         await voiceChannelLog[e.After.VoiceChannel].SendMessage($"🎼`{e.After.Name} has joined the`{e.After.VoiceChannel.Mention} `voice channel.`");
                 }
-            }
-            catch { }
+            } catch { }
 
             try {
                 Channel ch;
@@ -104,8 +99,7 @@ namespace NadekoBot.Commands {
                 else
                     return;
                 await ch.SendMessage(str);
-            }
-            catch { }
+            } catch { }
         }
         public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".logserver")
@@ -130,10 +124,19 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(".voicepresence")
                   .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.")
+                  .Parameter("all", ParameterType.Optional)
                   .Do(async e => {
                       if (!NadekoBot.IsOwner(e.User.Id) ||
                           !e.User.ServerPermissions.ManageServer)
-                          return;                    
+                          return;
+
+                      if (e.GetArg("all")?.ToLower() == "all") {
+                          foreach (var voiceChannel in e.Server.VoiceChannels) {
+                              voiceChannelLog.TryAdd(voiceChannel, e.Channel);
+                          }
+                          await e.Channel.SendMessage("Started logging user presence for **ALL** voice channels!");
+                          return;
+                      }
 
                       if (e.User.VoiceChannel == null) {
                           await e.Channel.SendMessage("💢 You are not in a voice channel right now. If you are, please rejoin it.");
@@ -143,8 +146,7 @@ namespace NadekoBot.Commands {
                       if (!voiceChannelLog.TryRemove(e.User.VoiceChannel, out throwaway)) {
                           voiceChannelLog.TryAdd(e.User.VoiceChannel, e.Channel);
                           await e.Channel.SendMessage($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`");
-                      }
-                      else
+                      } else
                           await e.Channel.SendMessage($"`Stopped logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`");
                   });
         }
