@@ -451,9 +451,9 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(Prefix + "ucl")
+                cgb.CreateCommand(Prefix + "cbl")
                     .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;ubl [channel_mention]")
-                    .Parameter("user", ParameterType.Unparsed)
+                    .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e => {
                         await Task.Run(async () => {
                             if (!e.Message.MentionedChannels.Any()) return;
@@ -464,15 +464,16 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(Prefix + "usl")
+                cgb.CreateCommand(Prefix + "sbl")
                     .Description("Blacklists a server by a name or id (#general for example).\n**Usage**: ;usl [servername/serverid]")
-                    .Parameter("user", ParameterType.Unparsed)
+                    .Parameter("server", ParameterType.Unparsed)
                     .Do(async e => {
                         await Task.Run(async () => {
-                            var arg = e.GetArg("user");
+                            var arg = e.GetArg("server")?.Trim();
                             if (string.IsNullOrWhiteSpace(arg))
                                 return;
-                            var server = NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
+                            var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
+                                         NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
                             if (server == null) {
                                 await e.Channel.SendMessage("Cannot find that server");
                                 return;

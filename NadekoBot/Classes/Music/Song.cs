@@ -209,8 +209,6 @@ namespace NadekoBot.Classes.Music {
                 while (this.MusicPlayer.Paused)
                     await Task.Delay(200, cancelToken);
                 buffer = AdjustVolume(buffer, MusicPlayer.Volume);
-                Console.WriteLine("ADJUST VOLUME ERROR");
-
                 voiceClient.Send(buffer, 0, read);
             }
             await bufferTask;

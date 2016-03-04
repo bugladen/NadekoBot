@@ -43,7 +43,7 @@ namespace NadekoBot.Classes.Music {
 
         public Channel PlaybackVoiceChannel { get; private set; }
 
-        private bool Stopped { get; set; } = false;
+        private bool Destroyed { get; set; } = false;
 
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume) {
             if (startingVoiceChannel == null)
@@ -57,30 +57,25 @@ namespace NadekoBot.Classes.Music {
             cancelToken = SongCancelSource.Token;
 
             Task.Run(async () => {
-                while (!Stopped) {
+                while (!Destroyed) {
                     try {
                         audioClient = await PlaybackVoiceChannel.JoinAudio();
-                    }
-                    catch {
+                    } catch {
                         await Task.Delay(1000);
                         continue;
                     }
                     CurrentSong = GetNextSong();
-                    if (CurrentSong != null) {
+                    var curSong = CurrentSong;
+                    if (curSong != null) {
                         try {
-                            OnStarted(CurrentSong);
-                            await CurrentSong.Play(audioClient, cancelToken);
-                        }
-                        catch (OperationCanceledException) {
+                            OnStarted(curSong);
+                            await curSong.Play(audioClient, cancelToken);
+                        } catch (OperationCanceledException) {
                             Console.WriteLine("Song canceled");
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             Console.WriteLine($"Exception in PlaySong: {ex}");
                         }
-                        try {
-                            OnCompleted(CurrentSong);
-                        }
-                        catch { }
+                        OnCompleted(curSong);
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                     }
@@ -101,6 +96,7 @@ namespace NadekoBot.Classes.Music {
         public void Stop() {
             lock (playlistLock) {
                 playlist.Clear();
+                CurrentSong = null;
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
             }
@@ -174,13 +170,10 @@ namespace NadekoBot.Classes.Music {
         public void Destroy() {
             lock (playlistLock) {
                 playlist.Clear();
+                Destroyed = true;
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-                try {
-                    Stopped = true;
-                    audioClient.Disconnect();
-                }
-                catch {}
+                audioClient.Disconnect();
             }
         }
     }
