@@ -166,11 +166,21 @@ namespace NadekoBot.Classes.Music {
                 } finally {
                     Console.WriteLine($"Buffering done." + $" [{songBuffer.ContentLength}]");
                     if (p != null) {
-                        p.CancelOutputRead();
-                        p.StandardOutput.Dispose();
-                        p.CloseMainWindow();
-                        p.Close();
-                        p.Dispose();
+                        try {
+                            p.CancelOutputRead();
+                        } catch { }
+                        try {
+                            p.StandardOutput.Dispose();
+                        } catch { }
+                        try {
+                            p.CloseMainWindow();
+                        } catch { }
+                        try {
+                            p.Close();
+                        } catch { }
+                        try {
+                            p.Dispose();
+                        } catch { }
                     }
                 }
             });
@@ -193,8 +203,8 @@ namespace NadekoBot.Classes.Music {
                 var read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 20) {
-                        voiceClient.Wait();
                         Console.WriteLine("Nothing to read.");
+                        voiceClient.Wait();
                         return;
                     } else
                         await Task.Delay(50, cancelToken);
@@ -208,13 +218,7 @@ namespace NadekoBot.Classes.Music {
             }
             await bufferTask;
             cancelToken.ThrowIfCancellationRequested();
-            //try {
-            //    voiceClient.Clear();
-            //    Console.WriteLine("CLEARED");
-            //}
-            //catch {
-            //    Console.WriteLine("CLEAR FAILED!!!");
-            //}
+            voiceClient.Clear();
         }
 
         //stackoverflow ftw

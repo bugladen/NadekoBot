@@ -52,16 +52,24 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("s")
                     .Alias("stop")
-                    .Description("Completely stops the music, unbinds the bot from the channel, and cleans up files.")
+                    .Description("Stops the music and clears the playlist. Stays in the channel.")
                     .Do(async e => {
-                        MusicPlayer musicPlayer;
-                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
-                        musicPlayer.Stop();
-                        var msg = await e.Channel.SendMessage("⚠Due to music issues, NadekoBot is unable to leave voice channels at this moment.\nIf this presents inconvenience, you can use `!m mv` command to make her join your current voice channel.");
-                        await Task.Delay(5000);
-                        try {
-                            await msg.Delete();
-                        } catch { }
+                        await Task.Run(() => {
+                            MusicPlayer musicPlayer;
+                            if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
+                            musicPlayer.Stop();
+                        });
+                    });
+
+                cgb.CreateCommand("d")
+                    .Alias("destroy")
+                    .Description("Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)")
+                    .Do(async e => {
+                        await Task.Run(() => {
+                            MusicPlayer musicPlayer;
+                            if (!MusicPlayers.TryRemove(e.Server, out musicPlayer)) return;
+                            musicPlayer.Destroy();
+                        });
                     });
 
                 cgb.CreateCommand("p")
@@ -324,8 +332,7 @@ namespace NadekoBot.Modules {
                     OnCompleted = async song => {
                         try {
                             await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
-                        }
-                        catch {}
+                        } catch { }
                     },
                     OnStarted = async (song) => {
                         try {

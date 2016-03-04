@@ -41,10 +41,17 @@ namespace NadekoBot.Commands {
             //cw.Start();
             wars.Add(cw);
             cw.OnUserTimeExpired += async (u) => {
-                await e.Channel.SendMessage($"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**");
+                try {
+                    await
+                        e.Channel.SendMessage($"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**");
+                }
+                catch {}
             };
             cw.OnWarEnded += async () => {
-                await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**");
+                try {
+                    await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**");
+                }
+                catch {}
             };
             await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**");
             //war with the index X started.

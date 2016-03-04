@@ -171,15 +171,8 @@ namespace NadekoBot {
             try {
                 if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
                 if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
-                // just ban this trash AutoModerator
-                // and cancer christmass spirit
-                // and crappy shotaslave
                 if (IsBlackListed(e))
                     return;
-                if (e.User.Id == 105309315895693312 ||
-                    e.User.Id == 119174277298782216 ||
-                    e.User.Id == 143515953525817344)
-                    return; // FU
                 
                 if (!NadekoBot.Config.DontJoinServers) {
                     try {

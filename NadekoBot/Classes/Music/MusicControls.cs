@@ -43,6 +43,9 @@ namespace NadekoBot.Classes.Music {
 
         public Channel PlaybackVoiceChannel { get; private set; }
 
+        private bool Stopped { get; set; }
+        private readonly object disconnectLock = new object();
+
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume) {
             if (startingVoiceChannel == null)
                 throw new ArgumentNullException(nameof(startingVoiceChannel));
@@ -55,7 +58,7 @@ namespace NadekoBot.Classes.Music {
             cancelToken = SongCancelSource.Token;
 
             Task.Run(async () => {
-                while (true) {
+                while (!Stopped) {
                     try {
                         audioClient = await PlaybackVoiceChannel.JoinAudio();
                     }
@@ -96,17 +99,11 @@ namespace NadekoBot.Classes.Music {
             }
         }
 
-        public void Stop() {
+        public void Stop(bool disconnect = false) {
             lock (playlistLock) {
                 playlist.Clear();
-                try {
-                    if (!SongCancelSource.IsCancellationRequested)
-                        SongCancelSource.Cancel();
-                    audioClient.Disconnect();
-                }
-                catch {
-                    Console.WriteLine("STOP");
-                }
+                if (!SongCancelSource.IsCancellationRequested)
+                    SongCancelSource.Cancel();
             }
         }
 
@@ -172,6 +169,18 @@ namespace NadekoBot.Classes.Music {
         internal void ClearQueue() {
             lock (playlistLock) {
                 playlist.Clear();
+            }
+        }
+
+        public void Destroy() {
+            lock (playlistLock) {
+                playlist.Clear();
+                if (!SongCancelSource.IsCancellationRequested)
+                    SongCancelSource.Cancel();
+                try {
+                    audioClient.Disconnect();
+                }
+                catch {}
             }
         }
     }
