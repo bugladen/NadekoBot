@@ -12,14 +12,14 @@ namespace NadekoBot.Classes.JSONModels {
             119174277298782216,
             143515953525817344
         };
-        public string[] CryResponses = {
+        public string[] CryResponses { get; } = {
             "http://i.imgur.com/Xg3i1Qy.gif",
             "http://i.imgur.com/3K8DRrU.gif",
             "http://i.imgur.com/k58BcAv.gif",
             "http://i.imgur.com/I2fLXwo.gif"
         };
 
-        public string[] PatResponses = {
+        public string[] PatResponses { get; } = {
             "http://i.imgur.com/IiQwK12.gif",
             "http://i.imgur.com/JCXj8yD.gif",
             "http://i.imgur.com/qqBl2bm.gif",

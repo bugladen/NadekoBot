@@ -14,11 +14,12 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 
 namespace NadekoBot {
-    public class NadekoBot {
+    internal class NadekoBot {
         public static DiscordClient Client;
         public static bool ForwardMessages = false;
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
+        public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
         public static string BotMention { get; set; } = "";
 
         private static Channel OwnerPrivateChannel { get; set; }
@@ -30,15 +31,13 @@ namespace NadekoBot {
             try {
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
                 File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
-            }
-            catch {
+            } catch {
                 Console.WriteLine("Failed writing credentials_example.json or data/config_example.json");
             }
 
             try {
                 Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
-            }
-            catch {
+            } catch {
                 Console.WriteLine("Failed loading configuration.");
             }
 
@@ -173,7 +172,7 @@ namespace NadekoBot {
                 if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
                 if (IsBlackListed(e))
                     return;
-                
+
                 if (!NadekoBot.Config.DontJoinServers) {
                     try {
                         await (await Client.GetInvite(e.Message.Text)).Accept();

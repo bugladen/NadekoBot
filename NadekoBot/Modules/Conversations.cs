@@ -86,7 +86,7 @@ namespace NadekoBot.Modules {
                     .Description("Shows how long Nadeko has been running for.")
                     .Do(async e => {
                         var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        var str = "I have been running for " + time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+                        var str = string.Format("I have been running for {0} days, {1} hours, and {2} minutes.", time.Days, time.Hours, time.Minutes);
                         await e.Channel.SendMessage(str);
                     });
 
@@ -132,7 +132,6 @@ namespace NadekoBot.Modules {
                     .Parameter("mention", ParameterType.Required)
                     .Description("Insults @X person.\n**Usage**: @NadekoBot insult @X.")
                     .Do(async e => {
-                        var insults = new List<string> { " You are a poop.", " You're a jerk.", " I will eat you when I get my powers back." };
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (u == null) {
                             await e.Channel.SendMessage("Invalid user specified.");
@@ -143,20 +142,13 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("I would never insult my master <3");
                             return;
                         }
-                        await e.Channel.SendMessage(u.Mention + insults[rng.Next(0, insults.Count)]);
+                        await e.Channel.SendMessage(u.Mention + NadekoBot.Locale.Insults[rng.Next(0, NadekoBot.Locale.Insults.Length)]);
                     });
 
                 cgb.CreateCommand("praise")
                     .Description("Praises @X person.\n**Usage**: @NadekoBot praise @X.")
                     .Parameter("mention", ParameterType.Required)
                     .Do(async e => {
-                        var praises = new[] { " You are cool.",
-                            " You are nice!",
-                            " You did a good job.",
-                            " You did something nice.",
-                            " is awesome!",
-                            " Wow."};
-
                         var u = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
 
                         if (u == null) {
@@ -168,7 +160,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage(e.User.Mention + " I don't need your permission to praise my beloved Master <3");
                             return;
                         }
-                        await e.Channel.SendMessage(u.Mention + praises[rng.Next(0, praises.Length)]);
+                        await e.Channel.SendMessage(u.Mention + NadekoBot.Locale.Praises[rng.Next(0, NadekoBot.Locale.Praises.Length)]);
                     });
 
                 cgb.CreateCommand("pat")
