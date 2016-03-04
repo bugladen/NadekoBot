@@ -37,7 +37,9 @@ In your bin/debug folder (or next to your exe if you are using release version),
 }
 ```
 
-#### data/config.json example
+Next to your exe you must also have a data folder in which there is config.json (among other things) which will contain some user specific config, like should bot join servers, should pms to bot be forwarded to you and list of ids of blacklisted users, channels and servers.
+
+##### data/config.json example
 ```json
 {
   "DontJoinServers": false,
