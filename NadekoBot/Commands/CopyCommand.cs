@@ -39,6 +39,7 @@ namespace NadekoBot.Commands
             cgb.CreateCommand("copyme")
                 .Alias("cm")
                 .Description("Nadeko starts copying everything you say. Disable with cs")
+                .Parameter("silent")
                 .Do(DoFunc());
 
             cgb.CreateCommand("cs")
