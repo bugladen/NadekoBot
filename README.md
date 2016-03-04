@@ -14,7 +14,7 @@ In your bin/debug folder (or next to your exe if you are using release version),
 ```json
 {
     "Username":"bot_email",
-    "BotId":bot_id,
+    "BotId": 123123123123,
     "Password":"bot_password",
     "GoogleAPIKey":"google_api_key",
     "OwnerIds":[123123123123, 123123123123],
@@ -31,7 +31,7 @@ In your bin/debug folder (or next to your exe if you are using release version),
 ```json
 {
 	"Username":"bot_email",
-	"BotId":bot_id,
+	"BotId": 12312312312313,
 	"Password":"bot_password",
 	"OwnerIds":[123123123123, 1231231232],
 }
