@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot 0.8-beta14`
+Version: `NadekoBot v0.9.5907.20597`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -14,18 +14,17 @@ Command and aliases | Description | Usage
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.
-`.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.
+`.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
-`.removeplaying`, `.repl`  |  Removes a playing string on a given number.
+`.removeplaying`, `.repl`, `.rmpl`  |  Removes a playing string on a given number.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
 `.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  .color Admin 255 200 100 or .color Admin ffba55
 `.roles`  |  List all roles on this server or a single user if specified.
 `.b`, `.ban`  |  Bans a mentioned user.
-`.ub`, `.unban`  |  Unbans a mentioned user.
 `.k`, `.kick`  |  Kicks a mentioned user.
 `.mute`  |  Mutes mentioned user or users.
 `.unmute`  |  Unmutes mentioned user or users.
@@ -40,7 +39,7 @@ Command and aliases | Description | Usage
 `.cid`, `.channelid`  |  Shows current channel ID.
 `.sid`, `.serverid`  |  Shows current server ID.
 `.stats`  |  Shows some basic stats for Nadeko.
-`.leaveall`  |  Nadeko leaves all servers **OWNER ONLY**
+`.heap`  |  Shows allocated memory - OWNER ONLY
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 5
 `.die`, `.graceful`  |  Works only for the owner. Shuts the bot down and notifies users about the restart.
 `.clr`  |  Clears some of Nadeko's (or some other user's if supplied) messages from the current channel. |  .clr @X
@@ -79,20 +78,23 @@ Command and aliases | Description | Usage
 `;roleperms`, `;rp`  |  Shows banned permissions for a certain role. No argument means for everyone. |  ;rp AwesomeRole
 `;channelperms`, `;cp`  |  Shows banned permissions for a certain channel. No argument means for this channel. |  ;cp #dev
 `;userperms`, `;up`  |  Shows banned permissions for a certain user. No argument means for yourself. |  ;up Kwoth
-`;sm`, `;servermodule`  |  Sets a module's permission at the server level. |  ;sm <module_name> enable
-`;sc`, `;servercommand`  |  Sets a command's permission at the server level. |  ;sc <command_name> disable
-`;rm`, `;rolemodule`  |  Sets a module's permission at the role level. |  ;rm <module_name> enable <role_name>
-`;rc`, `;rolecommand`  |  Sets a command's permission at the role level. |  ;rc <command_name> disable <role_name>
-`;cm`, `;channelmodule`  |  Sets a module's permission at the channel level. |  ;cm <module_name> enable <channel_name>
-`;cc`, `;channelcommand`  |  Sets a command's permission at the channel level. |  ;cm enable <channel_name>
-`;um`, `;usermodule`  |  Sets a module's permission at the user level. |  ;um <module_name> enable <user_name>
-`;uc`, `;usercommand`  |  Sets a command's permission at the user level. |  ;uc <module_command> enable <user_name>
-`;asm`, `;allservermodules`  |  Sets permissions for all modules at the server level. |  ;asm <enable/disable>
-`;asc`, `;allservercommands`  |  Sets permissions for all commands from a certain module at the server level. |  ;asc <module_name> <enable/disable>
-`;acm`, `;allchannelmodules`  |  Sets permissions for all modules at the channel level. |  ;acm <enable/disable> <channel_name>
-`;acc`, `;allchannelcommands`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc <module_name> <enable/disable> <channel_name>
-`;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm <enable/disable> <role_name>
-`;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc <module_name> <enable/disable> <channel_name>
+`;sm`, `;servermodule`  |  Sets a module's permission at the server level. |  ;sm [module_name] enable
+`;sc`, `;servercommand`  |  Sets a command's permission at the server level. |  ;sc [command_name] disable
+`;rm`, `;rolemodule`  |  Sets a module's permission at the role level. |  ;rm [module_name] enable [role_name]
+`;rc`, `;rolecommand`  |  Sets a command's permission at the role level. |  ;rc [command_name] disable [role_name]
+`;cm`, `;channelmodule`  |  Sets a module's permission at the channel level. |  ;cm [module_name] enable [channel_name]
+`;cc`, `;channelcommand`  |  Sets a command's permission at the channel level. |  ;cc [command_name] enable [channel_name]
+`;um`, `;usermodule`  |  Sets a module's permission at the user level. |  ;um [module_name] enable [user_name]
+`;uc`, `;usercommand`  |  Sets a command's permission at the user level. |  ;uc [command_name] enable [user_name]
+`;asm`, `;allservermodules`  |  Sets permissions for all modules at the server level. |  ;asm [enable/disable]
+`;asc`, `;allservercommands`  |  Sets permissions for all commands from a certain module at the server level. |  ;asc [module_name] [enable/disable]
+`;acm`, `;allchannelmodules`  |  Sets permissions for all modules at the channel level. |  ;acm [enable/disable] [channel_name]
+`;acc`, `;allchannelcommands`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc [module_name] [enable/disable] [channel_name]
+`;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
+`;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [channel_name]
+`;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
+`;ucl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
+`;usl`  |  Blacklists a server by a name or id (#general for example). |  ;usl [servername/serverid]
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -109,7 +111,6 @@ Command and aliases | Description | Usage
 `@BotName rr`  |  Resolves a request. Only owner is able to do this.
 `@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
-`@BotName randserver`  |  Generates an invite to a random server and prints some stats.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`  |  Replies positive only if bot owner is online.
 `@BotName insult`  |  Insults @X person. |  @NadekoBot insult @X.
@@ -169,7 +170,8 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `!m n`, `!m next`  |  Goes to the next song in the queue.
-`!m s`, `!m stop`  |  Completely stops the music, unbinds the bot from the channel, and cleans up files.
+`!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel.
+`!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)
 `!m p`, `!m pause`  |  Pauses or Unpauses the song.
 `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs.
@@ -187,7 +189,6 @@ Command and aliases | Description | Usage
 `!m lo`  |  Queues a local file by specifying a full path. BOT OWNER ONLY.
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
-`!m debug`  |  Writes some music data to console. **BOT OWNER ONLY**
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -215,3 +216,4 @@ Command and aliases | Description | Usage
 `~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri+kissing
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
+`~butts`, `~ass`, `~butt`  |  Real adult content.
