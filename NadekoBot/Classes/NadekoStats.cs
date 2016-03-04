@@ -108,7 +108,8 @@ namespace NadekoBot {
         public string Heap(bool pass = true) => Math.Round((double)GC.GetTotalMemory(pass) / 1.MiB(), 2).ToString();
 
         public async Task<string> GetStats() {
-            if (statsStopwatch.Elapsed.Seconds <= 5) return statsCache;
+            if (statsStopwatch.Elapsed.Seconds < 4 &&
+                !string.IsNullOrWhiteSpace(statsCache)) return statsCache;
             await LoadStats();
             statsStopwatch.Restart();
             return statsCache;
