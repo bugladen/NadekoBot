@@ -15,7 +15,6 @@ obj/
 **/Bin/PRIVATE/
 !**/Bin/Debug/opus.dll
 !**/Bin/Debug/libsodium.dll
-!**/Bin/Debug/Discord.Net.Commands.dll
 !**/Bin/Debug/Nito.AsyncEx.Enlightenment.dll
 !**/Bin/Debug/Nito.AsyncEx.dll
 !**/Bin/Debug/WebSocket4Net.dll
