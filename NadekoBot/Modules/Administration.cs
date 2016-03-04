@@ -393,9 +393,9 @@ namespace NadekoBot.Modules {
                     });
                 cgb.CreateCommand(".heap")
                   .Description("Shows allocated memory - OWNER ONLY")
-                  .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                  .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e => {
-                      var heap = Task.Run(() => NadekoStats.Instance.Heap());
+                      var heap = await Task.Run(() => NadekoStats.Instance.Heap());
                       await e.Channel.SendMessage($"`Heap Size:` {heap}");
                   });
                 cgb.CreateCommand(".prune")
@@ -603,7 +603,7 @@ namespace NadekoBot.Modules {
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e => {
                         await Task.Run(async () => {
-                            var rows = Classes.DbHandler.Instance.GetAllRows<Donator>();
+                            var rows = DbHandler.Instance.GetAllRows<Donator>();
                             var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
                             string str = $"**Thanks to the people listed below for making this project happen!**\n";
 
@@ -625,7 +625,7 @@ namespace NadekoBot.Modules {
                             var amount = int.Parse(e.GetArg("amount"));
                             if (donator == null) return;
                             try {
-                                Classes.DbHandler.Instance.InsertData(new Donator {
+                                DbHandler.Instance.InsertData(new Donator {
                                     Amount = amount,
                                     UserName = donator.Name,
                                     UserId = (long)e.User.Id
@@ -661,7 +661,7 @@ namespace NadekoBot.Modules {
                 if (arr == null)
                     return;
                 var objects = arr.Select(x => x.ToObject<T>());
-                Classes.DbHandler.Instance.InsertMany(objects);
+                DbHandler.Instance.InsertMany(objects);
             } catch { }
         }
     }
