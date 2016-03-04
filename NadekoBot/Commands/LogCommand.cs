@@ -88,9 +88,7 @@ namespace NadekoBot.Commands {
                 Channel ch;
                 if (loggingPresences.TryGetValue(e.Server, out ch))
                     if (e.Before.Status != e.After.Status) {
-                        var msg = await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.");
-                        await Task.Delay(4000);
-                        await msg.Delete();
+                        await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.");
                     }
             } catch { }
 
