@@ -20,6 +20,8 @@ namespace NadekoBot.Modules {
             commands.Add(new PlayingRotate());
         }
 
+        public override string Prefix { get; } = ".";
+
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
 
@@ -146,8 +148,7 @@ namespace NadekoBot.Modules {
                             await role.Edit(color: new Color(red, green, blue));
                             await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
                         } catch (Exception ex) {
-                            await e.Channel.SendMessage("Error occured, most likely invalid parameters.");
-                            Console.WriteLine($".rolecolor error: {ex}");
+                            await e.Channel.SendMessage("Error occured, most likely invalid parameters or insufficient permissions.");
                         }
                     });
 
@@ -166,35 +167,56 @@ namespace NadekoBot.Modules {
                   });
 
                 cgb.CreateCommand(".b").Alias(".ban")
-                    .Parameter("everything", ParameterType.Unparsed)
-                    .Description("Bans a mentioned user.")
+                    .Parameter("user", ParameterType.Required)
+                    .Parameter("msg", ParameterType.Optional)
+                    .Description("Bans a user by id or name with an optional message.\n**Usage**: .b \"@some Guy\" Your behaviour is toxic.")
                         .Do(async e => {
-                            try {
-                                if (e.User.ServerPermissions.BanMembers && e.Message.MentionedUsers.Any()) {
-                                    var usr = e.Message.MentionedUsers.First();
-                                    await usr.Server.Ban(usr);
-                                    await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
+                            var msg = e.GetArg("msg");
+                            var user = e.GetArg("user");
+                            if (e.User.ServerPermissions.BanMembers) {
+                                var usr = e.Server.FindUsers(user).FirstOrDefault();
+                                if (usr == null) {
+                                    await e.Channel.SendMessage("User not found.");
+                                    return;
                                 }
-                            }
-                            catch (Exception ex) {
-                                
+                                if (!string.IsNullOrWhiteSpace(msg)) {
+                                    await usr.SendMessage($"**You have been BANNED from `{e.Server.Name}` server.**\n" +
+                                                          $"Reason: {msg}");
+                                    await Task.Delay(2000); // temp solution; give time for a message to be send, fu volt
+                                }
+                                try {
+                                    await e.Server.Ban(usr);
+                                    await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
+                                } catch {
+                                    await e.Channel.SendMessage("Error. Most likely I don't have sufficient permissions.");
+                                }
                             }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
                     .Parameter("user")
+                    .Parameter("msg",ParameterType.Unparsed)
                     .Description("Kicks a mentioned user.")
                     .Do(async e => {
-                        try {
-                            if (e.User.ServerPermissions.KickMembers && e.Message.MentionedUsers.Any()) {
-                                var usr = e.Message.MentionedUsers.FirstOrDefault();
-                                if (usr == null)
-                                    return;
+                        var msg = e.GetArg("msg");
+                        var user = e.GetArg("user");
+                        if (e.User.ServerPermissions.KickMembers) {
+                            var usr = e.Server.FindUsers(user).FirstOrDefault();
+                            if (usr == null) {
+                                await e.Channel.SendMessage("User not found.");
+                                return;
+                            }
+                            if (!string.IsNullOrWhiteSpace(msg)) {
+                                await usr.SendMessage($"**You have been KICKED from `{e.Server.Name}` server.**\n" +
+                                                      $"Reason: {msg}");
+                                await Task.Delay(2000); // temp solution; give time for a message to be send, fu volt
+                            }
+                            try {
                                 await usr.Kick();
                                 await e.Channel.SendMessage("Kicked user " + usr.Name + " Id: " + usr.Id);
+                            } catch {
+                                await e.Channel.SendMessage("Error. Most likely I don't have sufficient permissions.");
                             }
-                        } catch {
-                            await e.Channel.SendMessage("No sufficient permissions.");
                         }
                     });
                 cgb.CreateCommand(".mute")

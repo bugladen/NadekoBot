@@ -43,8 +43,7 @@ namespace NadekoBot.Classes.Music {
 
         public Channel PlaybackVoiceChannel { get; private set; }
 
-        private bool Stopped { get; set; }
-        private readonly object disconnectLock = new object();
+        private bool Stopped { get; set; } = false;
 
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume) {
             if (startingVoiceChannel == null)
@@ -99,7 +98,7 @@ namespace NadekoBot.Classes.Music {
             }
         }
 
-        public void Stop(bool disconnect = false) {
+        public void Stop() {
             lock (playlistLock) {
                 playlist.Clear();
                 if (!SongCancelSource.IsCancellationRequested)
@@ -178,6 +177,7 @@ namespace NadekoBot.Classes.Music {
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
                 try {
+                    Stopped = true;
                     audioClient.Disconnect();
                 }
                 catch {}
