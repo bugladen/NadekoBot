@@ -16,6 +16,8 @@ namespace NadekoBot.Modules
             commands.Add(new DiceRollCommand());
         }
 
+        public override string Prefix { get; } = "$";
+
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>

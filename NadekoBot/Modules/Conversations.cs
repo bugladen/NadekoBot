@@ -21,6 +21,8 @@ namespace NadekoBot.Modules {
             commands.Add(new RequestsCommand());
         }
 
+        public override string Prefix { get; } = String.Format("<@{0}>", NadekoBot.Creds.BotId);
+
         public override void Install(ModuleManager manager) {
             var rng = new Random();
 

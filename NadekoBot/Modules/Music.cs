@@ -32,6 +32,8 @@ namespace NadekoBot.Modules {
 
         }
 
+        public override string Prefix { get; } = "!m ";
+
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.Client;
 

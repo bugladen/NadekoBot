@@ -11,6 +11,8 @@ namespace NadekoBot.Modules {
             commands.Add(new HelpCommand());
         }
 
+        public override string Prefix { get; } = "-";
+
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);

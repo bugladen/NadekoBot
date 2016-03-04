@@ -9,12 +9,13 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     internal class PermissionModule : DiscordModule {
-        private const string prefix = ";";
+        public override string Prefix { get; } = ";";
 
         public PermissionModule() {
             //Empty for now
         }
         //todo word filtering/invite bans (?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))
+
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
 
@@ -22,8 +23,8 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand(prefix + "permrole")
-                    .Alias(prefix + "pr")
+                cgb.CreateCommand(Prefix + "permrole")
+                    .Alias(Prefix + "pr")
                     .Description("Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.")
                     .Parameter("role", ParameterType.Unparsed)
                      .Do(async e => {
@@ -45,8 +46,8 @@ namespace NadekoBot.Modules {
                          await e.Channel.SendMessage($"Role `{role.Name}` is now required in order to change permissions.");
                      });
 
-                cgb.CreateCommand(prefix + "verbose")
-                    .Alias(prefix + "v")
+                cgb.CreateCommand(Prefix + "verbose")
+                    .Alias(Prefix + "v")
                     .Description("Sets whether to show when a command/module is blocked.\n**Usage**: ;verbose true")
                     .Parameter("arg", ParameterType.Required)
                     .Do(async e => {
@@ -56,8 +57,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage($"Verbosity set to {val}.");
                     });
 
-                cgb.CreateCommand(prefix + "serverperms")
-                    .Alias(prefix + "sp")
+                cgb.CreateCommand(Prefix + "serverperms")
+                    .Alias(Prefix + "sp")
                     .Description("Shows banned permissions for this server.")
                     .Do(async e => {
                         var perms = PermsHandler.GetServerPermissions(e.Server);
@@ -66,8 +67,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(perms.ToString());
                     });
 
-                cgb.CreateCommand(prefix + "roleperms")
-                    .Alias(prefix + "rp")
+                cgb.CreateCommand(Prefix + "roleperms")
+                    .Alias(Prefix + "rp")
                     .Description("Shows banned permissions for a certain role. No argument means for everyone.\n**Usage**: ;rp AwesomeRole")
                     .Parameter("role", ParameterType.Unparsed)
                     .Do(async e => {
@@ -88,8 +89,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(perms.ToString());
                     });
 
-                cgb.CreateCommand(prefix + "channelperms")
-                    .Alias(prefix + "cp")
+                cgb.CreateCommand(Prefix + "channelperms")
+                    .Alias(Prefix + "cp")
                     .Description("Shows banned permissions for a certain channel. No argument means for this channel.\n**Usage**: ;cp #dev")
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e => {
@@ -109,8 +110,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(perms.ToString());
                     });
 
-                cgb.CreateCommand(prefix + "userperms")
-                    .Alias(prefix + "up")
+                cgb.CreateCommand(Prefix + "userperms")
+                    .Alias(Prefix + "up")
                     .Description("Shows banned permissions for a certain user. No argument means for yourself.\n**Usage**: ;up Kwoth")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
@@ -129,7 +130,7 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(perms.ToString());
                     });
 
-                cgb.CreateCommand(prefix + "sm").Alias(prefix + "servermodule")
+                cgb.CreateCommand(Prefix + "sm").Alias(Prefix + "servermodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a module's permission at the server level.\n**Usage**: ;sm [module_name] enable")
@@ -147,7 +148,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "sc").Alias(prefix + "servercommand")
+                cgb.CreateCommand(Prefix + "sc").Alias(Prefix + "servercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets a command's permission at the server level.\n**Usage**: ;sc [command_name] disable")
@@ -165,7 +166,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "rm").Alias(prefix + "rolemodule")
+                cgb.CreateCommand(Prefix + "rm").Alias(Prefix + "rolemodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
@@ -193,7 +194,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "rc").Alias(prefix + "rolecommand")
+                cgb.CreateCommand(Prefix + "rc").Alias(Prefix + "rolecommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
@@ -221,7 +222,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "cm").Alias(prefix + "channelmodule")
+                cgb.CreateCommand(Prefix + "cm").Alias(Prefix + "channelmodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
@@ -249,7 +250,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "cc").Alias(prefix + "channelcommand")
+                cgb.CreateCommand(Prefix + "cc").Alias(Prefix + "channelcommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
@@ -277,7 +278,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "um").Alias(prefix + "usermodule")
+                cgb.CreateCommand(Prefix + "um").Alias(Prefix + "usermodule")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
@@ -297,7 +298,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "uc").Alias(prefix + "usercommand")
+                cgb.CreateCommand(Prefix + "uc").Alias(Prefix + "usercommand")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
@@ -317,7 +318,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "asm").Alias(prefix + "allservermodules")
+                cgb.CreateCommand(Prefix + "asm").Alias(Prefix + "allservermodules")
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets permissions for all modules at the server level.\n**Usage**: ;asm [enable/disable]")
                     .Do(async e => {
@@ -335,7 +336,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "asc").Alias(prefix + "allservercommands")
+                cgb.CreateCommand(Prefix + "asc").Alias(Prefix + "allservercommands")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;asc [module_name] [enable/disable]")
@@ -355,7 +356,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "acm").Alias(prefix + "allchannelmodules")
+                cgb.CreateCommand(Prefix + "acm").Alias(Prefix + "allchannelmodules")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
                     .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm [enable/disable] [channel_name]")
@@ -375,7 +376,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "acc").Alias(prefix + "allchannelcommands")
+                cgb.CreateCommand(Prefix + "acc").Alias(Prefix + "allchannelcommands")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
@@ -396,7 +397,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "arm").Alias(prefix + "allrolemodules")
+                cgb.CreateCommand(Prefix + "arm").Alias(Prefix + "allrolemodules")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
                     .Description("Sets permissions for all modules at the role level.\n**Usage**: ;arm [enable/disable] [role_name]")
@@ -416,7 +417,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "arc").Alias(prefix + "allrolecommands")
+                cgb.CreateCommand(Prefix + "arc").Alias(Prefix + "allrolecommands")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
@@ -437,7 +438,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(prefix + "ubl")
+                cgb.CreateCommand(Prefix + "ubl")
                     .Description("Blacklists a mentioned user.\n**Usage**: ;ubl [user_mention]")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
@@ -450,7 +451,7 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(prefix + "ucl")
+                cgb.CreateCommand(Prefix + "ucl")
                     .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;ubl [channel_mention]")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
@@ -463,7 +464,7 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(prefix + "usl")
+                cgb.CreateCommand(Prefix + "usl")
                     .Description("Blacklists a server by a name or id (#general for example).\n**Usage**: ;usl [servername/serverid]")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {

@@ -19,6 +19,8 @@ namespace NadekoBot.Modules {
             rng = new Random();
         }
 
+        public override string Prefix { get; } = "~";
+
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
 
