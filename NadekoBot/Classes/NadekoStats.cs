@@ -85,7 +85,7 @@ namespace NadekoBot {
 
         public Task LoadStats() =>
             Task.Run(() => {
-                var songs = Music.MusicPlayers.Count;
+                var songs = Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null);
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
                 sb.AppendLine($"`Bot Version: {BotVersion}`");

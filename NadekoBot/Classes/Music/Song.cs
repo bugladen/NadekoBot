@@ -124,7 +124,7 @@ namespace NadekoBot.Classes.Music {
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
 
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(4.MiB());
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(10.MiB());
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
@@ -168,6 +168,7 @@ namespace NadekoBot.Classes.Music {
                     if (p != null) {
                         try {
                             p.Kill();
+                            p.WaitForExit();
                         }
                         catch {}
                         p.Dispose();
@@ -176,7 +177,7 @@ namespace NadekoBot.Classes.Music {
             });
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
-            var bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
+            var bufferTask = BufferSong(cancelToken);
             var bufferAttempts = 0;
             const int waitPerAttempt = 500;
             var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
@@ -197,26 +198,24 @@ namespace NadekoBot.Classes.Music {
                         voiceClient.Wait();
                         return;
                     } else
-                        await Task.Delay(50, cancelToken);
+                        await Task.Delay(50);
                 else
                     attempt = 0;
 
                 while (this.MusicPlayer.Paused)
                     await Task.Delay(200, cancelToken);
-                buffer = AdjustVolume(buffer, MusicPlayer.Volume);
+                buffer = AdjustVolume(buffer, read, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
-            await bufferTask;
             cancelToken.ThrowIfCancellationRequested();
-            voiceClient.Clear();
         }
 
         //stackoverflow ftw
-        private static byte[] AdjustVolume(byte[] audioSamples, float volume) {
+        private static byte[] AdjustVolume(byte[] audioSamples, int dataLength, float volume) {
             if (Math.Abs(volume - 1.0f) < 0.01f)
                 return audioSamples;
             var array = new byte[audioSamples.Length];
-            for (var i = 0; i < array.Length; i += 2) {
+            for (var i = 0; i < dataLength; i += 2) {
 
                 // convert byte pair to int
                 short buf1 = audioSamples[i + 1];
