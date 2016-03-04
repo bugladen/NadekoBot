@@ -167,20 +167,10 @@ namespace NadekoBot.Classes.Music {
                     Console.WriteLine($"Buffering done." + $" [{songBuffer.ContentLength}]");
                     if (p != null) {
                         try {
-                            p.CancelOutputRead();
-                        } catch { }
-                        try {
-                            p.StandardOutput.Dispose();
-                        } catch { }
-                        try {
-                            p.CloseMainWindow();
-                        } catch { }
-                        try {
-                            p.Close();
-                        } catch { }
-                        try {
-                            p.Dispose();
-                        } catch { }
+                            p.Kill();
+                        }
+                        catch {}
+                        p.Dispose();
                     }
                 }
             });
@@ -326,7 +316,7 @@ namespace NadekoBot.Classes.Music {
             }
             if (query.Contains(".m3u")) {
                 /* 
-                    # This is a comment
+# This is a comment
                    C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
                    C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
                 */

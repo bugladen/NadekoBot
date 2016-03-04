@@ -102,12 +102,12 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("🎵 No active music musicPlayer.");
                             return;
                         }
-                        string toSend = "🎵 **" + musicPlayer.Playlist.Count + "** `tracks currently queued.` ";
+                        var toSend = "🎵 **" + musicPlayer.Playlist.Count + "** `tracks currently queued.` ";
                         if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
                             toSend += "**Song queue is full!**\n";
                         else
                             toSend += "\n";
-                        int number = 1;
+                        var number = 1;
                         await e.Channel.SendMessage(toSend + string.Join("\n", musicPlayer.Playlist.Take(15).Select(v => $"`{number++}.` {v.PrettyName}")));
                     });
 
