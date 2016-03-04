@@ -8,6 +8,8 @@ You might want to join my discord server where i can provide help etc. https://d
 
 In your bin/debug folder (or next to your exe if you are using release version), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, and your api keys.
 
+
+
 **This is how the credentials.json should look like:**
 ```json
 {
@@ -32,6 +34,17 @@ In your bin/debug folder (or next to your exe if you are using release version),
 	"BotId":bot_id,
 	"Password":"bot_password",
 	"OwnerIds":[123123123123, 1231231232],
+}
+```
+
+#### data/config.json example
+```json
+{
+  "DontJoinServers": false,
+  "ForwardMessages": true,
+  "ServerBlacklist": [],
+  "ChannelBlacklist": [],
+  "UserBlacklist": []
 }
 ```
 - BotId and OwnerIds are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.
