@@ -306,6 +306,20 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage($"🎵**Track at position `#{num}` has been removed.**");
                     });
 
+                cgb.CreateCommand("cleanup")
+                    .Description("Cleans up hanging voice connections. BOT OWNER ONLY")
+                    .Do(e => {
+                        foreach (var kvp in MusicPlayers) {
+                            var songs = kvp.Value.Playlist;
+                            var currentSong = kvp.Value.CurrentSong;
+                            if (songs.Count == 0 && currentSong == null) {
+                                MusicPlayer throwaway;
+                                MusicPlayers.TryRemove(kvp.Key, out throwaway);
+                                throwaway.Destroy();
+                            }
+                        }
+                    });
+
                 //cgb.CreateCommand("debug")
                 //    .Description("Does something magical. **BOT OWNER ONLY**")
                 //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
@@ -324,27 +338,29 @@ namespace NadekoBot.Modules {
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
                 throw new ArgumentException("💢 Invalid query for queue song.", nameof(query));
-            MusicPlayer musicPlayer = null;
-            if (!MusicPlayers.TryGetValue(textCh.Server, out musicPlayer)) {
+
+            var musicPlayer = MusicPlayers.GetOrAdd(textCh.Server, server => {
                 float? vol = null;
                 float throwAway;
-                if (DefaultMusicVolumes.TryGetValue(textCh.Server.Id, out throwAway))
+                if (DefaultMusicVolumes.TryGetValue(server.Id, out throwAway))
                     vol = throwAway;
-                musicPlayer = new MusicPlayer(voiceCh, vol) {
-                    OnCompleted = async song => {
-                        try {
-                            await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
-                        } catch { }
-                    },
-                    OnStarted = async (song) => {
-                        try {
-                            var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(musicPlayer.Volume * 100)}%`";
-                            await textCh.SendMessage(msgTxt);
-                        } catch { }
-                    },
+                var mp = new MusicPlayer(voiceCh, vol);
+                mp.OnCompleted += async (s, song) => {
+                    try {
+                        await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
+                    } catch { }
                 };
-                MusicPlayers.TryAdd(textCh.Server, musicPlayer);
-            }
+                mp.OnStarted += async (s, song) => {
+                    var sender = s as MusicPlayer;
+                    if (sender == null)
+                        return;
+                    try {
+                        var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
+                        await textCh.SendMessage(msgTxt);
+                    } catch { }
+                };
+                return mp;
+            });
             var resolvedSong = await Song.ResolveSong(query, musicType);
             resolvedSong.MusicPlayer = musicPlayer;
             if (!silent)

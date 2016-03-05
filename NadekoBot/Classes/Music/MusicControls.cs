@@ -38,8 +38,8 @@ namespace NadekoBot.Classes.Music {
 
         public float Volume { get; private set; }
 
-        public Action<Song> OnCompleted = delegate { };
-        public Action<Song> OnStarted = delegate { };
+        public event EventHandler<Song> OnCompleted = delegate { };
+        public event EventHandler<Song> OnStarted = delegate { };
 
         public Channel PlaybackVoiceChannel { get; private set; }
 
@@ -68,14 +68,14 @@ namespace NadekoBot.Classes.Music {
                     var curSong = CurrentSong;
                     if (curSong != null) {
                         try {
-                            OnStarted(curSong);
+                            OnStarted(this, curSong);
                             await curSong.Play(audioClient, cancelToken);
                         } catch (OperationCanceledException) {
                             Console.WriteLine("Song canceled");
                         } catch (Exception ex) {
                             Console.WriteLine($"Exception in PlaySong: {ex}");
                         }
-                        OnCompleted(curSong);
+                        OnCompleted(this, curSong);
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                     }
