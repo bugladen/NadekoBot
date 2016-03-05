@@ -7,13 +7,13 @@ using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Commands {
     internal class Trivia : IDiscordCommand {
-        public static ConcurrentDictionary<Server, TriviaGame> runningTrivias = new ConcurrentDictionary<Server, TriviaGame>();
+        public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
             TriviaGame trivia;
-            if (!runningTrivias.TryGetValue(e.Server, out trivia)) {
+            if (!RunningTrivias.TryGetValue(e.Server.Id, out trivia)) {
                 var triviaGame = new TriviaGame(e);
-                if (runningTrivias.TryAdd(e.Server, triviaGame))
+                if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
                     await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
                 else
                     await triviaGame.StopGame();
@@ -34,7 +34,7 @@ namespace NadekoBot.Commands {
                 .Alias("-tlb")
                 .Do(async e=> {
                     TriviaGame trivia;
-                    if (runningTrivias.TryGetValue(e.Server, out trivia))
+                    if (RunningTrivias.TryGetValue(e.Server.Id, out trivia))
                         await e.Channel.SendMessage(trivia.GetLeaderboard());
                     else
                         await e.Channel.SendMessage("No trivia is running on this server.");
@@ -45,7 +45,7 @@ namespace NadekoBot.Commands {
                 .Alias("-tq")
                 .Do(async e=> {
                     TriviaGame trivia;
-                    if (runningTrivias.TryGetValue(e.Server, out trivia)) {
+                    if (RunningTrivias.TryGetValue(e.Server.Id, out trivia)) {
                         await trivia.StopGame();
                     } else
                         await e.Channel.SendMessage("No trivia is running on this server.");

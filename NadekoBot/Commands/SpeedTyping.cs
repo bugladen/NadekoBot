@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -96,7 +97,6 @@ namespace NadekoBot.Commands {
                     if (finishedUserIds.Count % 2 == 0) {
                         await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:");
                     }
-
                 }
             }
             catch { }
@@ -108,32 +108,33 @@ namespace NadekoBot.Commands {
 
     internal class SpeedTyping : IDiscordCommand {
 
-        private static Dictionary<ulong, TypingGame> runningContests;
+        public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
         public SpeedTyping()  {
-            runningContests = new Dictionary<ulong, TypingGame>();
+            RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
         }
 
         public Func<CommandEventArgs, Task> DoFunc() =>
             async e => {
-                if (runningContests.ContainsKey(e.User.Server.Id) && runningContests[e.User.Server.Id].IsActive) {
-                    await e.Channel.SendMessage($"Contest already running in { runningContests[e.User.Server.Id].Channell.Mention } channel.");
+                if (RunningContests.ContainsKey(e.User.Server.Id) && RunningContests[e.User.Server.Id].IsActive) {
+                    await e.Channel.SendMessage($"Contest already running in { RunningContests[e.User.Server.Id].Channell.Mention } channel.");
                     return;
                 }
-                if (runningContests.ContainsKey(e.User.Server.Id) && !runningContests[e.User.Server.Id].IsActive) {
-                    await runningContests[e.User.Server.Id].Start();
+                if (RunningContests.ContainsKey(e.User.Server.Id) && !RunningContests[e.User.Server.Id].IsActive) {
+                    await RunningContests[e.User.Server.Id].Start();
                     return;
                 }
                 var tg = new TypingGame(e.Channel);
-                runningContests.Add(e.Server.Id, tg);
+                RunningContests.TryAdd(e.Server.Id, tg);
                 await tg.Start();
             };
 
         private Func<CommandEventArgs, Task> QuitFunc() =>
             async e => {
-                if (runningContests.ContainsKey(e.User.Server.Id) &&
-                    await runningContests[e.User.Server.Id].Stop()) {
-                    runningContests.Remove(e.User.Server.Id);
+                if (RunningContests.ContainsKey(e.User.Server.Id) &&
+                    await RunningContests[e.User.Server.Id].Stop()) {
+                    TypingGame throwaway;
+                    RunningContests.TryRemove(e.User.Server.Id, out throwaway);
                     return;
                 }
                 await e.Channel.SendMessage("No contest to stop on this channel.");

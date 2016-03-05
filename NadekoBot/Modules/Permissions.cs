@@ -480,6 +480,11 @@ namespace NadekoBot.Modules {
                             }
                             NadekoBot.Config.ServerBlacklist.Add(server.Id);
                             NadekoBot.SaveConfig();
+                            //cleanup trivias and typeracing
+                            Classes.Trivia.TriviaGame trivia;
+                            Commands.Trivia.RunningTrivias.TryRemove(server.Id, out trivia);
+                            Commands.TypingGame typeracer;
+                            Commands.SpeedTyping.RunningContests.TryRemove(server.Id, out typeracer);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted server {server.Name}`");
                         });
                     });

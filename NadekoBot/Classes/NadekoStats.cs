@@ -6,6 +6,7 @@ using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Timers;
 using NadekoBot.Modules;
 
 namespace NadekoBot {
@@ -22,6 +23,8 @@ namespace NadekoBot {
         public int TextChannelsCount { get; private set; } = 0;
         public int VoiceChannelsCount { get; private set; } = 0;
 
+        private readonly Timer commandLogTimer = new Timer() {Interval = 10000};
+
         static NadekoStats() { }
 
         private NadekoStats() {
@@ -31,7 +34,8 @@ namespace NadekoBot {
             commandService.CommandExecuted += StatsCollector_RanCommand;
 
             Task.Run(StartCollecting);
-            Console.WriteLine("Logging enabled.");
+
+            commandLogTimer.Start();
 
             ServerCount = NadekoBot.Client.Servers.Count();
             var channels = NadekoBot.Client.Servers.SelectMany(s => s.AllChannels);
@@ -139,6 +143,7 @@ namespace NadekoBot {
         }
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e) {
+            Console.WriteLine($">>Command {e.Command.Text}");
             await Task.Run(() => {
                 try {
                     commandsRan++;

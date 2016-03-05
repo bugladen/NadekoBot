@@ -30,7 +30,7 @@ namespace NadekoBot.Commands {
                     }
                 },
                 {"%queued%", () => Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
-                {"%trivia%", () => Trivia.runningTrivias.Count.ToString()}
+                {"%trivia%", () => Trivia.RunningTrivias.Count.ToString()}
             };
 
         private readonly object playingPlaceholderLock = new object();

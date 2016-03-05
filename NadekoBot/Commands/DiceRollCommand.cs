@@ -54,10 +54,10 @@ namespace NadekoBot.Commands {
                         }
 
                         var bitmap = dices.Merge();
-                        await e.Channel.SendMessage(values.Count + " Dies rolled. Total: **" + values.Sum() + "** Average: **" + (values.Sum() / (1.0f * values.Count)).ToString("N2") + "**");
-                        await e.Channel.SendFile("dices.png", bitmap.ToStream(ImageFormat.Png));
-                    } catch  {
-                        await e.Channel.SendMessage("Please enter a number of dices to roll.");
+                        await e.Channel.SendMessage(values.Count + " Dice rolled. Total: **" + values.Sum() + "** Average: **" + (values.Sum() / (1.0f * values.Count)).ToString("N2") + "**");
+                        await e.Channel.SendFile("dice.png", bitmap.ToStream(ImageFormat.Png));
+                    } catch {
+                        await e.Channel.SendMessage("Please enter a number of dice to roll.");
                     }
                 }
             };
@@ -87,9 +87,9 @@ namespace NadekoBot.Commands {
                                                  .ToArray();
                         if (arr[0] > arr[1])
                             throw new ArgumentException("First argument should be bigger than the second one.");
-                        rolled = new Random().Next(arr[0],arr[1]+1);
+                        rolled = new Random().Next(arr[0], arr[1] + 1);
                     } else {
-                        rolled = new Random().Next(0, int.Parse(e.GetArg("range"))+1);
+                        rolled = new Random().Next(0, int.Parse(e.GetArg("range")) + 1);
                     }
 
                     await e.Channel.SendMessage($"{e.User.Mention} rolled **{rolled}**.");
