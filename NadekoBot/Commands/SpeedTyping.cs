@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Classes._DataModels;
 using NadekoBot.Extensions;
-using System.Diagnostics;
 
 namespace NadekoBot.Commands {
 
     public static class SentencesProvider {
         internal static string GetRandomSentence() {
-            var data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.TypingArticle>();
+            var data = DbHandler.Instance.GetAllRows<TypingArticle>();
             try {
                 return data.ToList()[new Random().Next(0, data.Count())].Text;
-            } catch  {
+            } catch {
                 return "Failed retrieving data from parse. Owner didn't add any articles to type using `typeadd`.";
             }
         }
@@ -54,7 +56,7 @@ namespace NadekoBot.Commands {
                 if (IsActive) return; // can't start running game
                 IsActive = true;
                 CurrentSentence = SentencesProvider.GetRandomSentence();
-                var i = (int) (CurrentSentence.Length/WORD_VALUE*1.7f);
+                var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
                 await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.");
 
 
@@ -93,13 +95,12 @@ namespace NadekoBot.Commands {
                 var decision = Judge(distance, guess.Length);
                 if (decision && !finishedUserIds.Contains(e.User.Id)) {
                     finishedUserIds.Add(e.User.Id);
-                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / TypingGame.WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
                     if (finishedUserIds.Count % 2 == 0) {
                         await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:");
                     }
                 }
-            }
-            catch { }
+            } catch { }
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;
@@ -110,31 +111,28 @@ namespace NadekoBot.Commands {
 
         public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
-        public SpeedTyping()  {
+        public SpeedTyping() {
             RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
         }
 
         public Func<CommandEventArgs, Task> DoFunc() =>
             async e => {
-                if (RunningContests.ContainsKey(e.User.Server.Id) && RunningContests[e.User.Server.Id].IsActive) {
-                    await e.Channel.SendMessage($"Contest already running in { RunningContests[e.User.Server.Id].Channell.Mention } channel.");
-                    return;
+                var game = RunningContests.GetOrAdd(e.User.Server.Id, id => new TypingGame(e.Channel));
+
+                if (game.IsActive) {
+                    await e.Channel.SendMessage(
+                            $"Contest already running in " +
+                            $"{game.Channell.Mention} channel.");
+                } else {
+                    await game.Start();
                 }
-                if (RunningContests.ContainsKey(e.User.Server.Id) && !RunningContests[e.User.Server.Id].IsActive) {
-                    await RunningContests[e.User.Server.Id].Start();
-                    return;
-                }
-                var tg = new TypingGame(e.Channel);
-                RunningContests.TryAdd(e.Server.Id, tg);
-                await tg.Start();
             };
 
         private Func<CommandEventArgs, Task> QuitFunc() =>
             async e => {
-                if (RunningContests.ContainsKey(e.User.Server.Id) &&
-                    await RunningContests[e.User.Server.Id].Stop()) {
-                    TypingGame throwaway;
-                    RunningContests.TryRemove(e.User.Server.Id, out throwaway);
+                TypingGame game;
+                if (RunningContests.TryRemove(e.User.Server.Id, out game)) {
+                    await game.Stop();
                     return;
                 }
                 await e.Channel.SendMessage("No contest to stop on this channel.");
@@ -155,7 +153,7 @@ namespace NadekoBot.Commands {
                 .Do(async e => {
                     if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.TypingArticle {
+                    DbHandler.Instance.InsertData(new TypingArticle {
                         Text = e.GetArg("text"),
                         DateAdded = DateTime.Now
                     });
