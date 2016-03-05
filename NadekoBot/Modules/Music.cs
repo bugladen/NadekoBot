@@ -8,6 +8,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.Classes.Permissions;
 using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules {
@@ -308,6 +309,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("cleanup")
                     .Description("Cleans up hanging voice connections. BOT OWNER ONLY")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(e => {
                         foreach (var kvp in MusicPlayers) {
                             var songs = kvp.Value.Playlist;

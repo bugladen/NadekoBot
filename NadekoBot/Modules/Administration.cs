@@ -470,8 +470,7 @@ namespace NadekoBot.Modules {
                         var image = System.Drawing.Image.FromStream(imageStream);
                         // Save the image to disk.
                         image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
-                        imageStream.Position = 0;
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: imageStream);
+                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream());
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.");
                     });
