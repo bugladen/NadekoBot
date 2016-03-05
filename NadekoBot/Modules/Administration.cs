@@ -18,6 +18,7 @@ namespace NadekoBot.Modules {
             commands.Add(new ServerGreetCommand());
             commands.Add(new LogCommand());
             commands.Add(new PlayingRotate());
+            commands.Add(new Commands.RatelimitCommand());
         }
 
         public override string Prefix { get; } = ".";
@@ -195,7 +196,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".k").Alias(".kick")
                     .Parameter("user")
-                    .Parameter("msg",ParameterType.Unparsed)
+                    .Parameter("msg", ParameterType.Unparsed)
                     .Description("Kicks a mentioned user.")
                     .Do(async e => {
                         var msg = e.GetArg("msg");
