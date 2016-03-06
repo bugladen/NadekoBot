@@ -8,21 +8,13 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Commands {
     internal class DrawCommand : IDiscordCommand {
-        private static ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
-
-        public DrawCommand()  {
-
-        }
+        private static readonly ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
 
         public Func<CommandEventArgs, Task> DoFunc() => async (e) => {
-            if (!AllDecks.ContainsKey(e.Server)) {
-                await e.Channel.SendMessage("Shuffling cards...");
-                AllDecks.TryAdd(e.Server, new Cards());
-            }
+            var cards = AllDecks.GetOrAdd(e.Server, (s) => new Cards());
 
             try {
-                var cards = AllDecks[e.Server];
-                int num = 1;
+                var num = 1;
                 var isParsed = int.TryParse(e.GetArg("count"), out num);
                 if (!isParsed || num < 2) {
                     var c = cards.DrawACard();
@@ -32,9 +24,9 @@ namespace NadekoBot.Commands {
                 if (num > 5)
                     num = 5;
 
-                List<Image> images = new List<Image>();
-                List<Cards.Card> cardObjects = new List<Cards.Card>();
-                for (int i = 0; i < num; i++) {
+                var images = new List<Image>();
+                var cardObjects = new List<Cards.Card>();
+                for (var i = 0; i < num; i++) {
                     if (cards.CardPool.Count == 0 && i != 0) {
                         await e.Channel.SendMessage("No more cards in a deck.");
                         break;
@@ -43,7 +35,7 @@ namespace NadekoBot.Commands {
                     cardObjects.Add(currentCard);
                     images.Add(Properties.Resources.ResourceManager.GetObject(currentCard.Name) as Image);
                 }
-                Bitmap bitmap = images.Merge();
+                var bitmap = images.Merge();
                 await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream());
                 if (cardObjects.Count == 5) {
                     await e.Channel.SendMessage(Cards.GetHandValue(cardObjects));
@@ -63,9 +55,13 @@ namespace NadekoBot.Commands {
                 .Alias("$reshuffle")
                 .Description("Reshuffles all cards back into the deck.")
                 .Do(async e => {
-                    if (!AllDecks.ContainsKey(e.Server))
-                        AllDecks.TryAdd(e.Server, new Cards());
-                    AllDecks[e.Server].Restart();
+                    AllDecks.AddOrUpdate(e.Server,
+                        (s) => new Cards(),
+                        (s, c) => {
+                            c.Restart();
+                            return c;
+                        });
+
                     await e.Channel.SendMessage("Deck reshuffled.");
                 });
         }

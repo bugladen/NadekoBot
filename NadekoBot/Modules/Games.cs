@@ -11,7 +11,7 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Modules {
     internal class Games : DiscordModule {
         private readonly string[] _8BallAnswers;
-        private Random rng = new Random();
+        private readonly Random rng = new Random();
 
         public Games()  {
             commands.Add(new Trivia());
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules {
                             return;
                         try {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n:crystal_ball: **8Ball Answers**: `{_8BallAnswers[rng.Next(0, _8BallAnswers.Length)]}`");
+                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{_8BallAnswers[rng.Next(0, _8BallAnswers.Length)]}`");
                         } catch { }
                     });
 
@@ -63,6 +63,10 @@ namespace NadekoBot.Modules {
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Do(async e => {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
+                        if (usr == null) {
+                            await e.Channel.SendMessage("No such person.");
+                            return;
+                        }
                         var usrType = GetType(usr.Id);
                         var response = "";
                         var dmg = GetDamage(usrType, e.GetArg("attack_type").ToLowerInvariant());

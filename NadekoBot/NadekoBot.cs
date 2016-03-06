@@ -67,7 +67,7 @@ namespace NadekoBot {
 
             //create new discord client and log
             Client = new DiscordClient(new DiscordConfigBuilder() {
-                MessageCacheSize = 20,
+                MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +

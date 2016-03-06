@@ -59,7 +59,8 @@ namespace NadekoBot.Classes.Music {
             Task.Run(async () => {
                 while (!Destroyed) {
                     try {
-                        audioClient = await PlaybackVoiceChannel.JoinAudio();
+                        if(audioClient?.State != ConnectionState.Connected)
+                            audioClient = await PlaybackVoiceChannel.JoinAudio();
                     } catch {
                         await Task.Delay(1000);
                         continue;
@@ -171,6 +172,7 @@ namespace NadekoBot.Classes.Music {
             lock (playlistLock) {
                 playlist.Clear();
                 Destroyed = true;
+                CurrentSong = null;
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
                 audioClient.Disconnect();
