@@ -9,8 +9,6 @@ using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
     internal class PlayingRotate : IDiscordCommand {
-
-        private static readonly List<string> rotatingStatuses = new List<string>();
         private static readonly Timer timer = new Timer(12000);
 
         public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
@@ -48,7 +46,7 @@ namespace NadekoBot.Commands {
                             i = -1;
                             return;
                         }
-                        status = rotatingStatuses[i];
+                        status = NadekoBot.Config.RotatingStatuses[i];
                         status = PlayingPlaceholders.Aggregate(status,
                             (current, kvp) => current.Replace(kvp.Key, kvp.Value()));
                     }
@@ -57,13 +55,19 @@ namespace NadekoBot.Commands {
                     Task.Run(() => { NadekoBot.Client.SetGame(status); });
                 } catch { }
             };
+
+            timer.Enabled = NadekoBot.Config.IsRotatingStatus;
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
-            if (timer.Enabled)
-                timer.Stop();
-            else
-                timer.Start();
+            lock (playingPlaceholderLock) {
+                if (timer.Enabled)
+                    timer.Stop();
+                else
+                    timer.Start();
+                NadekoBot.Config.IsRotatingStatus = timer.Enabled;
+                NadekoBot.SaveConfig();
+            }
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
         };
 
@@ -85,7 +89,8 @@ namespace NadekoBot.Commands {
                     if (string.IsNullOrWhiteSpace(arg))
                         return;
                     lock (playingPlaceholderLock) {
-                        rotatingStatuses.Add(arg);
+                        NadekoBot.Config.RotatingStatuses.Add(arg);
+                        NadekoBot.SaveConfig();
                     }
                     await e.Channel.SendMessage("🆗 `Added a new playing string.`");
                 });
@@ -95,12 +100,12 @@ namespace NadekoBot.Commands {
                 .Description("Lists all playing statuses with their corresponding number.")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(async e => {
-                    if (rotatingStatuses.Count == 0)
+                    if (NadekoBot.Config.RotatingStatuses.Count == 0)
                         await e.Channel.SendMessage("`There are no playing strings. " +
                                                     "Add some with .addplaying [text] command.`");
                     var sb = new StringBuilder();
-                    for (var i = 0; i < rotatingStatuses.Count; i++) {
-                        sb.AppendLine($"`{i + 1}.` {rotatingStatuses[i]}");
+                    for (var i = 0; i < NadekoBot.Config.RotatingStatuses.Count; i++) {
+                        sb.AppendLine($"`{i + 1}.` {NadekoBot.Config.RotatingStatuses[i]}");
                     }
                     await e.Channel.SendMessage(sb.ToString());
                 });
@@ -115,10 +120,11 @@ namespace NadekoBot.Commands {
                     int num;
                     string str;
                     lock (playingPlaceholderLock) {
-                        if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > rotatingStatuses.Count)
+                        if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > NadekoBot.Config.RotatingStatuses.Count)
                             return;
-                        str = rotatingStatuses[num - 1];
-                        rotatingStatuses.RemoveAt(num - 1);
+                        str = NadekoBot.Config.RotatingStatuses[num - 1];
+                        NadekoBot.Config.RotatingStatuses.RemoveAt(num - 1);
+                        NadekoBot.SaveConfig();
                     }
                     await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");
                 });

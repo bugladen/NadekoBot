@@ -1,6 +1,8 @@
 {
   "DontJoinServers": false,
   "ForwardMessages": true,
+  "IsRotatingStatus": false,
+  "RotatingStatuses": [],
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
   "UserBlacklist": [

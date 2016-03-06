@@ -3,15 +3,18 @@ using System.Collections.Generic;
 
 namespace NadekoBot.Classes.JSONModels {
     public class Configuration {
-        public bool DontJoinServers = false;
-        public bool ForwardMessages = true;
-        public HashSet<ulong> ServerBlacklist = new HashSet<ulong>();
-        public HashSet<ulong> ChannelBlacklist = new HashSet<ulong>();
-        public HashSet<ulong> UserBlacklist = new HashSet<ulong>() {
+        public bool DontJoinServers { get; set; } = false;
+        public bool ForwardMessages { get; set; } = true;
+        public bool IsRotatingStatus { get; set; } = false;
+        public List<string> RotatingStatuses { get; set; } = new List<string>();
+        public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
+        public HashSet<ulong> ChannelBlacklist { get; set; } = new HashSet<ulong>();
+        public HashSet<ulong> UserBlacklist { get; set; } = new HashSet<ulong>() {
             105309315895693312,
             119174277298782216,
             143515953525817344
         };
+
         public string[] CryResponses { get; } = {
             "http://i.imgur.com/Xg3i1Qy.gif",
             "http://i.imgur.com/3K8DRrU.gif",
