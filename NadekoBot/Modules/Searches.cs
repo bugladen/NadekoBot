@@ -28,7 +28,7 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand("~yt")
+                cgb.CreateCommand(Prefix + "yt")
                     .Parameter("query", ParameterType.Unparsed)
                     .Description("Searches youtubes and shows the first result")
                     .Do(async e => {
@@ -38,8 +38,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(shortUrl);
                     });
 
-                cgb.CreateCommand("~ani")
-                    .Alias("~anime", "~aq")
+                cgb.CreateCommand(Prefix + "ani")
+                    .Alias(Prefix + "anime", Prefix + "aq")
                     .Parameter("query", ParameterType.Unparsed)
                     .Description("Queries anilist for an anime and shows the first result.")
                     .Do(async e => {
@@ -55,8 +55,8 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(result.ToString());
                     });
 
-                cgb.CreateCommand("~mang")
-                    .Alias("~manga").Alias("~mq")
+                cgb.CreateCommand(Prefix + "mang")
+                    .Alias(Prefix + "manga").Alias(Prefix + "mq")
                     .Parameter("query", ParameterType.Unparsed)
                     .Description("Queries anilist for a manga and shows the first result.")
                     .Do(async e => {
@@ -71,14 +71,14 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(result);
                     });
 
-                cgb.CreateCommand("~randomcat")
+                cgb.CreateCommand(Prefix + "randomcat")
                     .Description("Shows a random cat image.")
                     .Do(async e => {
                         await e.Channel.SendMessage(JObject.Parse(
                             await SearchHelper.GetResponseStringAsync("http://www.random.cat/meow"))["file"].ToString());
                     });
 
-                cgb.CreateCommand("~i")
+                cgb.CreateCommand(Prefix + "i")
                    .Description("Pulls the first image found using a search parameter. Use ~ir for different results.\n**Usage**: ~i cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
                        .Do(async e => {
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules {
                            }
                        });
 
-                cgb.CreateCommand("~ir")
+                cgb.CreateCommand(Prefix + "ir")
                    .Description("Pulls a random image using a search parameter.\n**Usage**: ~ir cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
                        .Do(async e => {
@@ -107,8 +107,7 @@ namespace NadekoBot.Modules {
                                await e.Channel.SendMessage($"💢 {ex.Message}");
                            }
                        });
-                cgb.CreateCommand("lmgtfy")
-                    .Alias("~lmgtfy")
+                cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
                     .Do(async e => {
@@ -116,7 +115,7 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl());
                     });
 
-                cgb.CreateCommand("~hs")
+                cgb.CreateCommand(Prefix + "hs")
                   .Description("Searches for a Hearthstone card and shows its image. Takes a while to complete.\n**Usage**:~hs Ysera")
                   .Parameter("name", ParameterType.Unparsed)
                   .Do(async e => {
@@ -148,7 +147,7 @@ namespace NadekoBot.Modules {
                       }
                   });
 
-                cgb.CreateCommand("~osu")
+                cgb.CreateCommand(Prefix + "osu")
                   .Description("Shows osu stats for a player.\n**Usage**:~osu Name")
                   .Parameter("usr", ParameterType.Unparsed)
                   .Do(async e => {
@@ -172,7 +171,7 @@ namespace NadekoBot.Modules {
                       }
                   });
 
-                cgb.CreateCommand("~ud")
+                cgb.CreateCommand(Prefix + "ud")
                   .Description("Searches Urban Dictionary for a word.\n**Usage**:~ud Pineapple")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e => {
@@ -196,7 +195,7 @@ namespace NadekoBot.Modules {
                       }
                   });
                 // thanks to Blaubeerwald
-                cgb.CreateCommand("~#")
+                cgb.CreateCommand(Prefix + "#")
                  .Description("Searches Tagdef.com for a hashtag.\n**Usage**:~# ff")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e => {
@@ -221,7 +220,7 @@ namespace NadekoBot.Modules {
                   });
                 //todo when moved from parse
                 /*
-                cgb.CreateCommand("~osubind")
+                cgb.CreateCommand(Prefix + "osubind")
                     .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
                     .Parameter("osu_name", ParameterType.Unparsed)
                     .Do(async e => {

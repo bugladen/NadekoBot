@@ -16,7 +16,7 @@ namespace NadekoBot.Modules {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
-                cgb.CreateCommand("~hentai")
+                cgb.CreateCommand(Prefix + "hentai")
                     .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~hentai yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
@@ -24,34 +24,34 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(":heart: Gelbooru: " + await SearchHelper.GetGelbooruImageLink(tag));
                         await e.Channel.SendMessage(":heart: Danbooru: " + await SearchHelper.GetDanbooruImageLink(tag));
                     });
-                cgb.CreateCommand("~danbooru")
+                cgb.CreateCommand(Prefix + "danbooru")
                     .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~danbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         await e.Channel.SendMessage(await SearchHelper.GetDanbooruImageLink(tag));
                     });
-                cgb.CreateCommand("~gelbooru")
+                cgb.CreateCommand(Prefix + "gelbooru")
                     .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         await e.Channel.SendMessage(await SearchHelper.GetGelbooruImageLink(tag));
                     });
-                cgb.CreateCommand("~e621")
+                cgb.CreateCommand(Prefix + "e621")
                     .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         await e.Channel.SendMessage(await SearchHelper.GetE621ImageLink(tag));
                     });
-                cgb.CreateCommand("~cp")
+                cgb.CreateCommand(Prefix + "cp")
                     .Description("We all know where this will lead you to.")
                     .Parameter("anything", ParameterType.Unparsed)
                     .Do(async e => {
                         await e.Channel.SendMessage("http://i.imgur.com/MZkY1md.jpg");
                     });
-                cgb.CreateCommand("~boobs")
+                cgb.CreateCommand(Prefix + "boobs")
                     .Description("Real adult content.")
                     .Do(async e => {
                         try {
@@ -61,8 +61,8 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage($"💢 {ex.Message}");
                         }
                     });
-                cgb.CreateCommand("~butts")
-                    .Alias("~ass","~butt")
+                cgb.CreateCommand(Prefix + "butts")
+                    .Alias(Prefix + "ass",Prefix + "butt")
                     .Description("Real adult content.")
                     .Do(async e => {
                         try {

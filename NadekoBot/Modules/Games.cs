@@ -4,6 +4,7 @@ using Discord.Modules;
 using NadekoBot.Commands;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using Discord.Commands;
 using NadekoBot.Extensions;
 
 //🃏
@@ -13,7 +14,7 @@ namespace NadekoBot.Modules {
         private readonly string[] _8BallAnswers;
         private readonly Random rng = new Random();
 
-        public Games()  {
+        public Games() {
             commands.Add(new Trivia());
             commands.Add(new SpeedTyping());
             commands.Add(new PollCommand());
@@ -31,7 +32,7 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand(">choose")
+                cgb.CreateCommand(Prefix + "choose")
                   .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep;Sleep more")
                   .Parameter("list", Discord.Commands.ParameterType.Unparsed)
                   .Do(async e => {
@@ -44,7 +45,7 @@ namespace NadekoBot.Modules {
                       await e.Channel.SendMessage(list[rng.Next(0, list.Length)]);
                   });
 
-                cgb.CreateCommand(">8ball")
+                cgb.CreateCommand(Prefix + "8ball")
                     .Description("Ask the 8ball a yes/no question.")
                     .Parameter("question", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e => {
@@ -57,7 +58,7 @@ namespace NadekoBot.Modules {
                         } catch { }
                     });
 
-                cgb.CreateCommand(">")
+                cgb.CreateCommand(Prefix + "attack")
                     .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")
                     .Parameter("attack_type", Discord.Commands.ParameterType.Required)
                     .Parameter("target", Discord.Commands.ParameterType.Required)
@@ -79,7 +80,7 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
                     });
 
-                cgb.CreateCommand("poketype")
+                cgb.CreateCommand(Prefix + "poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Description("Gets the users element type. Use this to do more damage with strike!")
                     .Do(async e => {
@@ -90,6 +91,24 @@ namespace NadekoBot.Modules {
                         }
                         var t = GetType(usr.Id);
                         await e.Channel.SendMessage($"{usr.Name}'s type is {GetImage(t)} {t}");
+                    });
+
+                cgb.CreateCommand(Prefix + "linux")
+                    .Description("Prints a customizable Linux interjection")
+                    .Parameter("gnu", ParameterType.Required)
+                    .Parameter("linux", ParameterType.Required)
+                    .Do(async e => {
+                        var guhnoo = e.Args[0];
+                        var loonix = e.Args[1];
+
+                        await e.Channel.SendMessage(
+$@"
+I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+
+Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.
+
+There really is a {loonix}, and these people are using it, but it is just a part of the system they use. {loonix} is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. {loonix} is normally used in combination with the {guhnoo} operating system: the whole system is basically {guhnoo} with {loonix} added, or {guhnoo}/{loonix}. All the so-called {loonix} distributions are really distributions of {guhnoo}/{loonix}.
+");
                     });
             });
         }

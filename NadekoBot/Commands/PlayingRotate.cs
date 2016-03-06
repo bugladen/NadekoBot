@@ -16,8 +16,8 @@ namespace NadekoBot.Commands {
         public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
             new Dictionary<string, Func<string>> {
                 {"%servers%", () => NadekoBot.Client.Servers.Count().ToString()},
-                {"%users%", () => NadekoBot.Client.Servers.SelectMany(s => s.Users).Count().ToString()}, {
-                    "%playing%", () => {
+                {"%users%", () => NadekoBot.Client.Servers.SelectMany(s => s.Users).Count().ToString()},
+                {"%playing%", () => {
                         var cnt = Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                         if (cnt != 1) return cnt.ToString();
                         try {
@@ -55,8 +55,7 @@ namespace NadekoBot.Commands {
                     if (string.IsNullOrWhiteSpace(status))
                         return;
                     Task.Run(() => { NadekoBot.Client.SetGame(status); });
-                }
-                catch {}
+                } catch { }
             };
         }
 
@@ -88,7 +87,7 @@ namespace NadekoBot.Commands {
                     lock (playingPlaceholderLock) {
                         rotatingStatuses.Add(arg);
                     }
-                    await e.Channel.SendMessage("🆗 `Added a new paying string.`");
+                    await e.Channel.SendMessage("🆗 `Added a new playing string.`");
                 });
 
             cgb.CreateCommand(".listplaying")

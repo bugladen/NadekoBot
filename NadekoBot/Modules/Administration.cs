@@ -32,7 +32,7 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand(".sr").Alias(".setrole")
+                cgb.CreateCommand(Prefix + "sr").Alias(Prefix + "setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", ParameterType.Required)
                     .Parameter("role_name", ParameterType.Unparsed)
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".rr").Alias(".removerole")
+                cgb.CreateCommand(Prefix + "rr").Alias(Prefix + "removerole")
                     .Description("Removes a role from a given user.\n**Usage**: .rr @User Admin")
                     .Parameter("user_name", ParameterType.Required)
                     .Parameter("role_name", ParameterType.Unparsed)
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".r").Alias(".role").Alias(".cr")
+                cgb.CreateCommand(Prefix + "r").Alias(Prefix + "role").Alias(Prefix + "cr")
                     .Description("Creates a role with a given name.**Usage**: .r Awesome Role")
                     .Parameter("role_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.CanManageRoles)
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".rolecolor").Alias(".rc")
+                cgb.CreateCommand(Prefix + "rolecolor").Alias(Prefix + "rc")
                     .Parameter("role_name", ParameterType.Required)
                     .Parameter("r", ParameterType.Optional)
                     .Parameter("g", ParameterType.Optional)
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".roles")
+                cgb.CreateCommand(Prefix + "roles")
                   .Description("List all roles on this server or a single user if specified.")
                   .Parameter("user", ParameterType.Unparsed)
                   .Do(async e => {
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules {
                       await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles));
                   });
 
-                cgb.CreateCommand(".b").Alias(".ban")
+                cgb.CreateCommand(Prefix + "b").Alias(Prefix + "ban")
                     .Parameter("user", ParameterType.Required)
                     .Parameter("msg", ParameterType.Optional)
                     .Description("Bans a user by id or name with an optional message.\n**Usage**: .b \"@some Guy\" Your behaviour is toxic.")
@@ -194,7 +194,7 @@ namespace NadekoBot.Modules {
                             }
                         });
 
-                cgb.CreateCommand(".k").Alias(".kick")
+                cgb.CreateCommand(Prefix + "k").Alias(Prefix + "kick")
                     .Parameter("user")
                     .Parameter("msg", ParameterType.Unparsed)
                     .Description("Kicks a mentioned user.")
@@ -220,7 +220,7 @@ namespace NadekoBot.Modules {
                             }
                         }
                     });
-                cgb.CreateCommand(".mute")
+                cgb.CreateCommand(Prefix + "mute")
                     .Description("Mutes mentioned user or users.")
                     .Parameter("throwaway", ParameterType.Unparsed)
                     .Do(async e => {
@@ -240,7 +240,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".unmute")
+                cgb.CreateCommand(Prefix + "unmute")
                     .Description("Unmutes mentioned user or users.")
                     .Parameter("throwaway", ParameterType.Unparsed)
                     .Do(async e => {
@@ -260,8 +260,8 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".deafen")
-                    .Alias(".deaf")
+                cgb.CreateCommand(Prefix + "deafen")
+                    .Alias(Prefix + "deaf")
                     .Description("Deafens mentioned user or users")
                     .Parameter("throwaway", ParameterType.Unparsed)
                     .Do(async e => {
@@ -281,8 +281,8 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".undeafen")
-                    .Alias(".undeaf")
+                cgb.CreateCommand(Prefix + "undeafen")
+                    .Alias(Prefix + "undeaf")
                     .Description("Undeafens mentioned user or users")
                     .Parameter("throwaway", ParameterType.Unparsed)
                     .Do(async e => {
@@ -302,7 +302,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".rvch")
+                cgb.CreateCommand(Prefix + "rvch")
                     .Description("Removes a voice channel with a given name.")
                     .Parameter("channel_name", ParameterType.Required)
                     .Do(async e => {
@@ -316,7 +316,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".vch").Alias(".cvch")
+                cgb.CreateCommand(Prefix + "vch").Alias(Prefix + "cvch")
                     .Description("Creates a new voice channel with a given name.")
                     .Parameter("channel_name", ParameterType.Required)
                     .Do(async e => {
@@ -330,7 +330,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".rch").Alias(".rtch")
+                cgb.CreateCommand(Prefix + "rch").Alias(Prefix + "rtch")
                     .Description("Removes a text channel with a given name.")
                     .Parameter("channel_name", ParameterType.Required)
                     .Do(async e => {
@@ -346,7 +346,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".ch").Alias(".tch")
+                cgb.CreateCommand(Prefix + "ch").Alias(Prefix + "tch")
                     .Description("Creates a new text channel with a given name.")
                     .Parameter("channel_name", ParameterType.Required)
                     .Do(async e => {
@@ -360,7 +360,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".st").Alias(".settopic")
+                cgb.CreateCommand(Prefix + "st").Alias(Prefix + "settopic")
                     .Description("Sets a topic on the current channel.")
                     .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e => {
@@ -370,7 +370,7 @@ namespace NadekoBot.Modules {
                         } catch { }
                     });
 
-                cgb.CreateCommand(".uid").Alias(".userid")
+                cgb.CreateCommand(Prefix + "uid").Alias(Prefix + "userid")
                     .Description("Shows user ID.")
                     .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
@@ -379,27 +379,27 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage($"Id of the user { usr.Name } is { usr.Id }");
                     });
 
-                cgb.CreateCommand(".cid").Alias(".channelid")
+                cgb.CreateCommand(Prefix + "cid").Alias(Prefix + "channelid")
                     .Description("Shows current channel ID.")
                     .Do(async e => await e.Channel.SendMessage("This channel's ID is " + e.Channel.Id));
 
-                cgb.CreateCommand(".sid").Alias(".serverid")
+                cgb.CreateCommand(Prefix + "sid").Alias(Prefix + "serverid")
                     .Description("Shows current server ID.")
                     .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id));
 
-                cgb.CreateCommand(".stats")
+                cgb.CreateCommand(Prefix + "stats")
                     .Description("Shows some basic stats for Nadeko.")
                     .Do(async e => {
                         await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
                     });
-                cgb.CreateCommand(".heap")
+                cgb.CreateCommand(Prefix + "heap")
                   .Description("Shows allocated memory - OWNER ONLY")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e => {
                       var heap = await Task.Run(() => NadekoStats.Instance.Heap());
                       await e.Channel.SendMessage($"`Heap Size:` {heap}");
                   });
-                cgb.CreateCommand(".prune")
+                cgb.CreateCommand(Prefix + "prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Do(async e => {
@@ -414,8 +414,8 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".die")
-                    .Alias(".graceful")
+                cgb.CreateCommand(Prefix + "die")
+                    .Alias(Prefix + "graceful")
                     .Description("Works only for the owner. Shuts the bot down and notifies users about the restart.")
                     .Do(async e => {
                         if (NadekoBot.IsOwner(e.User.Id)) {
@@ -425,7 +425,7 @@ namespace NadekoBot.Modules {
                         }
                     });
 
-                cgb.CreateCommand(".clr")
+                cgb.CreateCommand(Prefix + "clr")
                     .Description("Clears some of Nadeko's (or some other user's if supplied) messages from the current channel.\n**Usage**: .clr @X")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e => {
@@ -447,8 +447,8 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(".newname")
-                    .Alias(".setname")
+                cgb.CreateCommand(Prefix + "newname")
+                    .Alias(Prefix + "setname")
                     .Description("Give the bot a new name.")
                     .Parameter("new_name", ParameterType.Unparsed)
                     .Do(async e => {
@@ -457,8 +457,8 @@ namespace NadekoBot.Modules {
                         await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_name"));
                     });
 
-                cgb.CreateCommand(".newavatar")
-                    .Alias(".setavatar")
+                cgb.CreateCommand(Prefix + "newavatar")
+                    .Alias(Prefix + "setavatar")
                     .Description("Sets a new avatar image for the NadekoBot.")
                     .Parameter("img", ParameterType.Unparsed)
                     .Do(async e => {
@@ -475,7 +475,7 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage("New avatar set.");
                     });
 
-                cgb.CreateCommand(".setgame")
+                cgb.CreateCommand(Prefix + "setgame")
                   .Description("Sets the bots game.")
                   .Parameter("set_game", ParameterType.Unparsed)
                   .Do(e => {
@@ -484,7 +484,7 @@ namespace NadekoBot.Modules {
                       client.SetGame(e.GetArg("set_game"));
                   });
 
-                cgb.CreateCommand(".checkmyperms")
+                cgb.CreateCommand(Prefix + "checkmyperms")
                     .Description("Checks your userspecific permissions on this channel.")
                     .Do(async e => {
                         var output = "```\n";
@@ -499,7 +499,7 @@ namespace NadekoBot.Modules {
                 User commsUser = null;
                 Channel commsChannel = null;
 
-                cgb.CreateCommand(".commsuser")
+                cgb.CreateCommand(Prefix + "commsuser")
                     .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.")
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e => {
@@ -512,7 +512,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("No server specified or user.");
                     });
 
-                cgb.CreateCommand(".commsserver")
+                cgb.CreateCommand(Prefix + "commsserver")
                     .Description("Sets a server for through-bot communication.**Owner only**.")
                     .Parameter("server", ParameterType.Unparsed)
                     .Do(async e => {
@@ -524,7 +524,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("No such server.");
                     });
 
-                cgb.CreateCommand(".commschannel")
+                cgb.CreateCommand(Prefix + "commschannel")
                     .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser.**Owner only**.")
                     .Parameter("ch", ParameterType.Unparsed)
                     .Do(async e => {
@@ -537,7 +537,7 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("No server specified or channel is invalid.");
                     });
 
-                cgb.CreateCommand(".send")
+                cgb.CreateCommand(Prefix + "send")
                     .Description("Send a message to someone on a different server through the bot.**Owner only.**\n **Usage**: .send Message text multi word!")
                     .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e => {
@@ -550,8 +550,8 @@ namespace NadekoBot.Modules {
                             await e.Channel.SendMessage("Failed. Make sure you've specified server and [channel or user]");
                     });
 
-                cgb.CreateCommand(".menrole")
-                    .Alias(".mentionrole")
+                cgb.CreateCommand(Prefix + "menrole")
+                    .Alias(Prefix + "mentionrole")
                     .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e => {
@@ -578,7 +578,7 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(".parsetosql")
+                cgb.CreateCommand(Prefix + "parsetosql")
                   .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
                   .Do(async e => {
                       if (!NadekoBot.IsOwner(e.User.Id))
@@ -592,14 +592,14 @@ namespace NadekoBot.Modules {
                       });
                   });
 
-                cgb.CreateCommand(".unstuck")
+                cgb.CreateCommand(Prefix + "unstuck")
                   .Description("Clears the message queue. **OWNER ONLY**")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e => {
                       NadekoBot.Client.MessageQueue.Clear();
                   });
 
-                cgb.CreateCommand(".donators")
+                cgb.CreateCommand(Prefix + "donators")
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e => {
                         await Task.Run(async () => {
@@ -612,8 +612,8 @@ namespace NadekoBot.Modules {
                     });
 
                 //THIS IS INTENTED TO BE USED ONLY BY THE ORIGINAL BOT OWNER
-                cgb.CreateCommand(".adddon")
-                    .Alias(".donadd")
+                cgb.CreateCommand(Prefix + "adddon")
+                    .Alias(Prefix + "donadd")
                     .Description("Add a donator to the database.")
                     .Parameter("donator")
                     .Parameter("amount")
@@ -635,7 +635,7 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(".videocall")
+                cgb.CreateCommand(Prefix + "videocall")
                   .Description("Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
                   .Parameter("arg", ParameterType.Unparsed)
                   .Do(async e => {
