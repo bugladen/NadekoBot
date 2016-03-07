@@ -200,15 +200,11 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("setgame")
                     .Description("Sets the game of the bot to the number of songs playing.**Owner only**")
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
-                        setgameEnabled = !setgameEnabled;
-                        if (setgameEnabled)
-                            setgameTimer.Start();
-                        else
-                            setgameTimer.Stop();
-
-                        await e.Channel.SendMessage("`Music status " + (setgameEnabled ? "enabled`" : "disabled`"));
+                        await e.Channel.SendMessage("❗This command is deprecated. " +
+                                                    "Use:\n `.ropl`\n `.adpl %playing% songs, %queued% queued.` instead.\n " +
+                                                    "It even persists through restarts.");
                     });
 
                 cgb.CreateCommand("pl")

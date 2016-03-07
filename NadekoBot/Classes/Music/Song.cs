@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -180,7 +181,16 @@ namespace NadekoBot.Classes.Music {
             });
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken) {
-            var bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
+            var bufferTask = new ConfiguredTaskAwaitable();
+            try {
+                bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
+            }
+            catch (Exception ex) {
+                var clr = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"ERR BUFFER START : {ex.Message}\n{ex}");
+                Console.ForegroundColor = clr;
+            }
             var bufferAttempts = 0;
             const int waitPerAttempt = 500;
             var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
@@ -197,8 +207,10 @@ namespace NadekoBot.Classes.Music {
                 var read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 20) {
+                        Console.WriteLine("Waiting to empty out buffer.");
                         voiceClient.Wait();
                         await bufferTask;
+                        Console.WriteLine("Song finished.");
                         return;
                     }
                     else

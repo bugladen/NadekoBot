@@ -253,7 +253,9 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                           var data = JObject.Parse(
                               await Classes
                                   .SearchHelper
-                                  .GetResponseStringAsync($"http://api.champion.gg/stats/champs/mostBanned?api_key={NadekoBot.Creds.LOLAPIKey}&page=1&limit={showCount}"))["data"] as JArray;
+                                  .GetResponseStringAsync($"http://api.champion.gg/stats/champs/mostBanned?" +
+                                                          $"api_key={NadekoBot.Creds.LOLAPIKey}&page=1&" +
+                                                          $"limit={showCount}"))["data"] as JArray;
 
                           var sb = new StringBuilder();
                           sb.AppendLine($"**Showing {showCount} top banned champions.**");

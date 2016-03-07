@@ -140,7 +140,7 @@ namespace NadekoBot.Classes.Permissions {
         }
 
         private static void WriteServerToJson(ServerPermissions serverPerms) {
-            string pathToFile = $"data/permissions/{serverPerms}.json";
+            string pathToFile = $"data/permissions/{serverPerms.Id}.json";
             File.WriteAllText(pathToFile,
                 Newtonsoft.Json.JsonConvert.SerializeObject(serverPerms, Newtonsoft.Json.Formatting.Indented));
         }
