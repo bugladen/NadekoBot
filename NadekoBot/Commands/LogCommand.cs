@@ -39,13 +39,22 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
 
-            //if (NadekoBot.Config.SendPrivateMessageOnMention)
-            //    NadekoBot.Client.MessageReceived += async (s, e) => {
-            //        if (e.Channel.IsPrivate)
-            //            return;
-            //        if (e.Message.MentionedUsers.Any()) 
+            if (NadekoBot.Config.SendPrivateMessageOnMention)
+                NadekoBot.Client.MessageReceived += async (s, e) => {
+                    try {
+                        if (e.Channel.IsPrivate)
+                            return;
+                        var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
+                        if (usr?.Status != UserStatus.Offline)
+                            return;
+                        await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.");
+                        await usr.SendMessage(
+                            $"User `{e.User.Name}` mentioned you on " +
+                            $"`{e.Server.Name}` server while you were offline.\n" +
+                            $"`Message:` {e.Message.Text}");
 
-            //    };
+                    } catch { }
+                };
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {

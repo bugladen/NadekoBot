@@ -157,10 +157,10 @@ namespace NadekoBot.Classes.Music {
                             return;
                         }
                         if (read == 0)
-                            if (attempt++ == 20)
+                            if (attempt++ == 50)
                                 break;
                             else
-                                await Task.Delay(40, cancelToken);
+                                await Task.Delay(100, cancelToken);
                         else
                             attempt = 0;
                         await songBuffer.WriteAsync(buffer, read, cancelToken);
@@ -207,7 +207,6 @@ namespace NadekoBot.Classes.Music {
                 var read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 20) {
-                        Console.WriteLine("Waiting to empty out buffer.");
                         voiceClient.Wait();
                         Console.WriteLine($"Song finished. [{songBuffer.ContentLength}]");
                         break;
@@ -222,7 +221,9 @@ namespace NadekoBot.Classes.Music {
                 buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
+            Console.WriteLine("Awiting buffer task");
             await bufferTask;
+            Console.WriteLine("Buffer task done.");
             voiceClient.Clear();
             cancelToken.ThrowIfCancellationRequested();
         }
