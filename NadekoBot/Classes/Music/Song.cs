@@ -200,21 +200,20 @@ namespace NadekoBot.Classes.Music {
             cancelToken.ThrowIfCancellationRequested();
             Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
             const int blockSize = 3840;
-            var buffer = new byte[blockSize];
             var attempt = 0;
             while (!cancelToken.IsCancellationRequested) {
                 //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
+                byte[] buffer = new byte[blockSize];
                 var read = songBuffer.Read(buffer, blockSize);
                 if (read == 0)
                     if (attempt++ == 20) {
                         Console.WriteLine("Waiting to empty out buffer.");
                         voiceClient.Wait();
-                        await bufferTask;
-                        Console.WriteLine("Song finished.");
-                        return;
+                        Console.WriteLine($"Song finished. [{songBuffer.ContentLength}]");
+                        break;
                     }
                     else
-                        await Task.Delay(50, cancelToken);
+                        await Task.Delay(100, cancelToken);
                 else
                     attempt = 0;
 

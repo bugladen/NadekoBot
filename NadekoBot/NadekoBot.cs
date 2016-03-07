@@ -50,6 +50,12 @@ namespace NadekoBot {
                 return;
             }
 
+            //if password is not entered, prompt for password
+            if (string.IsNullOrWhiteSpace(Creds.Password)) {
+                Console.WriteLine("Password blank. Please enter your password:\n");
+                Creds.Password = Console.ReadLine();
+            }
+
             Console.WriteLine(string.IsNullOrWhiteSpace(Creds.GoogleAPIKey)
                 ? "No google api key found. You will not be able to use music and links won't be shortened."
                 : "Google API key provided.");

@@ -6,6 +6,7 @@ namespace NadekoBot.Classes.JSONModels {
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
+        public bool SendPrivateMessageOnMention { get; set; } = false;
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
         public HashSet<ulong> ChannelBlacklist { get; set; } = new HashSet<ulong>();

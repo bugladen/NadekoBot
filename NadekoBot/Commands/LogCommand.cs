@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Timers;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -37,6 +38,14 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.MessageDeleted += MsgDltd;
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
+
+            //if (NadekoBot.Config.SendPrivateMessageOnMention)
+            //    NadekoBot.Client.MessageReceived += async (s, e) => {
+            //        if (e.Channel.IsPrivate)
+            //            return;
+            //        if (e.Message.MentionedUsers.Any()) 
+
+            //    };
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {

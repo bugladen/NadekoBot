@@ -269,7 +269,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
 
                           await e.Channel.SendMessage(sb.ToString());
                       } catch (Exception ex) {
-                          await e.Channel.SendMessage($"Fail:\n{ex}");
+                          await e.Channel.SendMessage($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.");
                       }
                   });
         }

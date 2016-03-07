@@ -2,6 +2,7 @@
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
+  "SendPrivateMessageOnMention": false,
   "RotatingStatuses": [],
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
