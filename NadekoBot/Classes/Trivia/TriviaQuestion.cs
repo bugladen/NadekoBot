@@ -8,11 +8,10 @@ namespace NadekoBot.Classes.Trivia {
     public class TriviaQuestion {
         //represents the min size to judge levDistance with
         private static readonly HashSet<Tuple<int, int>> strictness = new HashSet<Tuple<int, int>> {
-            new Tuple<int, int>(6, 0),
-            new Tuple<int, int>(7, 1),
-            new Tuple<int, int>(12, 2),
-            new Tuple<int, int>(17, 3),
-            new Tuple<int, int>(22, 4),
+            new Tuple<int, int>(9, 0),
+            new Tuple<int, int>(14, 1),
+            new Tuple<int, int>(19, 2),
+            new Tuple<int, int>(22, 3),
         };
         public static int maxStringLength = 22;
 

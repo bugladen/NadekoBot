@@ -17,8 +17,9 @@ namespace NadekoBot.Modules {
         public Administration() {
             commands.Add(new ServerGreetCommand());
             commands.Add(new LogCommand());
+            commands.Add(new MessageRepeater());
             commands.Add(new PlayingRotate());
-            commands.Add(new Commands.RatelimitCommand());
+            commands.Add(new RatelimitCommand());
         }
 
         public override string Prefix { get; } = ".";
@@ -392,6 +393,13 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
                     });
+
+                cgb.CreateCommand(Prefix + "dysyd")
+                    .Description("Shows some basic stats for Nadeko.")
+                    .Do(async e => {
+                        await e.Channel.SendMessage((await NadekoStats.Instance.GetStats()).Matrix().TrimTo(1990));
+                    });
+
                 cgb.CreateCommand(Prefix + "heap")
                   .Description("Shows allocated memory - OWNER ONLY")
                   .AddCheck(SimpleCheckers.OwnerOnly())

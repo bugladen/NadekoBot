@@ -10,28 +10,9 @@ using NadekoBot.Classes.Permissions;
 namespace NadekoBot.Commands {
     internal class LogCommand : IDiscordCommand {
 
-        private class Repeater {
-            public readonly Timer MessageTimer = new Timer();
-            public Channel ReChannel { get; set; }
-            public string ReMessage { get; set; }
-
-            public Repeater() {
-                MessageTimer.Elapsed += async (s, e) => {
-                    try {
-                        var ch = ReChannel;
-                        var msg = ReMessage;
-                        if (ch != null && !string.IsNullOrWhiteSpace(msg))
-                            await ch.SendMessage(msg);
-                    } catch { }
-                };
-            }
-        }
-
         private readonly ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
         private readonly ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
         private readonly ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
-
-        private readonly ConcurrentDictionary<Server, Repeater> repeaters = new ConcurrentDictionary<Server, Repeater>();
 
         public LogCommand() {
             NadekoBot.Client.MessageReceived += MsgRecivd;
@@ -139,44 +120,6 @@ namespace NadekoBot.Commands {
         }
 
         public void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(".repeat")
-                .Description("Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages.")
-                .Parameter("minutes", ParameterType.Optional)
-                .Parameter("msg", ParameterType.Unparsed)
-                .AddCheck(SimpleCheckers.ManageMessages())
-                .Do(async e => {
-                    var minutesStr = e.GetArg("minutes");
-                    var msg = e.GetArg("msg");
-
-                    // if both null, disable
-                    if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr)) {
-                        await e.Channel.SendMessage("Repeating disabled");
-                        Repeater rep;
-                        if (repeaters.TryGetValue(e.Server, out rep))
-                            rep.MessageTimer.Stop();
-                        return;
-                    }
-                    int minutes;
-                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 720) {
-                        await e.Channel.SendMessage("Invalid value");
-                        return;
-                    }
-
-                    var repeater = repeaters.GetOrAdd(e.Server, s => new Repeater());
-
-                    repeater.ReChannel = e.Channel;
-                    repeater.MessageTimer.Interval = minutes * 60 * 1000;
-
-                    if (!string.IsNullOrWhiteSpace(msg))
-                        repeater.ReMessage = msg;
-
-                    repeater.MessageTimer.Stop();
-                    repeater.MessageTimer.Start();
-
-                    await e.Channel.SendMessage(String.Format("👌 Repeating `{0}` every " +
-                                                              "**{1}** minutes on {2} channel.",
-                                                              repeater.ReMessage, minutes, repeater.ReChannel));
-                });
 
             cgb.CreateCommand(".logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")

@@ -12,6 +12,8 @@ using NadekoBot.Classes;
 namespace NadekoBot.Extensions {
     public static class Extensions
     {
+        private static Random rng = new Random();
+
         public static string Scramble(this string word) {
 
             var letters = word.ToArray();
@@ -32,7 +34,7 @@ namespace NadekoBot.Extensions {
             }
             return "`"+string.Join(" ", letters)+"`";
         }
-        public static string TrimTo(this string str, int num) {
+        public static string TrimTo(this string str, int num, bool hideDots = false) {
             if (num < 0)
                 throw new ArgumentOutOfRangeException(nameof(num), "TrimTo argument cannot be less than 0");
             if (num == 0)
@@ -41,7 +43,7 @@ namespace NadekoBot.Extensions {
                 return string.Join("", str.Select(c => '.'));
             if (str.Length < num)
                 return str;
-            return string.Join("", str.Take(num - 3)) + "...";
+            return string.Join("", str.Take(num - 3)) + (hideDots ? "" : "...");
         }
         /// <summary>
         /// Removes trailing S or ES (if specified) on the given string if the num is 1
@@ -161,6 +163,11 @@ namespace NadekoBot.Extensions {
         /// <param name="source"></param>
         /// <param name="action"></param>
         public static string GetRuntime(this DiscordClient c) => ".Net Framework 4.5.2";
+
+        public static string Matrix(this string s)
+            =>
+                string.Join("", s.Select(c => c.ToString() + " ̵̢̬̜͉̞̭̖̰͋̉̎ͬ̔̇̌̀".TrimTo(rng.Next(0, 12), true)));
+                    //.Replace("`", "");
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
             foreach (var element in source) {

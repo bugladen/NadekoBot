@@ -190,6 +190,18 @@ namespace NadekoBot.Modules {
                       }
                   });
 
+                cgb.CreateCommand("disguise")
+                  .Description("Tell Nadeko to disguise herself.")
+                  .Do(async e => {
+                      try {
+                          await
+                              e.Channel.SendMessage(
+                                  $"{NadekoBot.Config.DisguiseResponses[rng.Next(0, NadekoBot.Config.DisguiseResponses.Length)]}");
+                      } catch {
+                          await e.Channel.SendMessage("Error while handling DisguiseResponses check your data/config.json");
+                      }
+                  });
+
                 cgb.CreateCommand("are you real")
                     .Description("Useless.")
                     .Do(async e => {

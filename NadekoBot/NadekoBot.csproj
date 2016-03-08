@@ -144,6 +144,7 @@
     <Compile Include="Commands\ClashOfClans.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
+    <Compile Include="Commands\MessageRepeater.cs" />
     <Compile Include="Commands\PlayingRotate.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
