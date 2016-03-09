@@ -12,7 +12,10 @@ namespace NadekoBot.Classes.Permissions {
             (com, user, ch) => NadekoBot.IsOwner(user.Id);
 
         public static Func<Command, User, Channel, bool> ManageMessages() =>
-            (com, user, ch) => NadekoBot.IsOwner(user.Id);
+            (com, user, ch) => user.ServerPermissions.ManageMessages;
+
+        public static Func<Command, User, Channel, bool> ManageChannels() =>
+            (com, user, ch) => user.ServerPermissions.ManageChannels;
 
         public class ManageRoles :IPermissionChecker
         {

@@ -20,6 +20,7 @@ namespace NadekoBot.Modules {
             commands.Add(new MessageRepeater());
             commands.Add(new PlayingRotate());
             commands.Add(new RatelimitCommand());
+            commands.Add(new VoicePlusTextCommand());
         }
 
         public override string Prefix { get; } = ".";
@@ -376,7 +377,9 @@ namespace NadekoBot.Modules {
                     .Parameter("user", ParameterType.Optional)
                     .Do(async e => {
                         var usr = e.User;
-                        if (e.GetArg("user") != null) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
+                        if (string.IsNullOrWhiteSpace(e.GetArg("user"))) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
+                        if (usr == null)
+                            return;
                         await e.Channel.SendMessage($"Id of the user { usr.Name } is { usr.Id }");
                     });
 

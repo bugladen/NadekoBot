@@ -142,6 +142,7 @@
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\ClashOfClans.cs" />
+    <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Commands\FlipCoinCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\VoiceNotificationCommand.cs" />
+    <Compile Include="Commands\VoicePlusTextCommand.cs" />
     <Compile Include="Modules\Administration.cs" />
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />

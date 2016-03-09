@@ -161,8 +161,10 @@ namespace NadekoBot.Classes.Music {
                                 break;
                             else
                                 await Task.Delay(100, cancelToken);
-                        else
+                        else {
                             attempt = 0;
+                            await Task.Delay(5, cancelToken);
+                        }
                         await songBuffer.WriteAsync(buffer, read, cancelToken);
                         if (songBuffer.ContentLength > 2.MB())
                             prebufferingComplete = true;
