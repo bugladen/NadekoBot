@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5907.20597`
+Version: `NadekoBot v0.9.5912.19900`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -15,16 +15,18 @@ Command and aliases | Description | Usage
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.
+`.repeat`  |  Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages.
 `.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
 `.removeplaying`, `.repl`, `.rmpl`  |  Removes a playing string on a given number.
+`.slowmode`  |  Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
 `.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  .color Admin 255 200 100 or .color Admin ffba55
 `.roles`  |  List all roles on this server or a single user if specified.
-`.b`, `.ban`  |  Bans a mentioned user.
+`.b`, `.ban`  |  Bans a user by id or name with an optional message. |  .b "@some Guy" Your behaviour is toxic.
 `.k`, `.kick`  |  Kicks a mentioned user.
 `.mute`  |  Mutes mentioned user or users.
 `.unmute`  |  Unmutes mentioned user or users.
@@ -39,6 +41,7 @@ Command and aliases | Description | Usage
 `.cid`, `.channelid`  |  Shows current channel ID.
 `.sid`, `.serverid`  |  Shows current server ID.
 `.stats`  |  Shows some basic stats for Nadeko.
+`.dysyd`  |  Shows some basic stats for Nadeko.
 `.heap`  |  Shows allocated memory - OWNER ONLY
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 5
 `.die`, `.graceful`  |  Works only for the owner. Shuts the bot down and notifies users about the restart.
@@ -93,8 +96,8 @@ Command and aliases | Description | Usage
 `;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
 `;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [channel_name]
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
-`;ucl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
-`;usl`  |  Blacklists a server by a name or id (#general for example). |  ;usl [servername/serverid]
+`;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
+`;sbl`  |  Blacklists a server by a name or id (#general for example). |  ;usl [servername/serverid]
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -117,6 +120,7 @@ Command and aliases | Description | Usage
 `@BotName praise`  |  Praises @X person. |  @NadekoBot praise @X.
 `@BotName pat`  |  Pat someone ^_^
 `@BotName cry`  |  Tell Nadeko to cry. You are a heartless monster if you use this command.
+`@BotName disguise`  |  Tell Nadeko to disguise herself.
 `@BotName are you real`  |  Useless.
 `@BotName are you there`, `@BotName !`, `@BotName ?`  |  Checks if Nadeko is operational.
 `@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
@@ -163,8 +167,9 @@ Command and aliases | Description | Usage
 `,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
-`>`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
-`poketype`  |  Gets the users element type. Use this to do more damage with strike!
+`>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
+`>poketype`  |  Gets the users element type. Use this to do more damage with strike!
+`>linux`  |  Prints a customizable Linux interjection
 
 ### Music  
 Command and aliases | Description | Usage
@@ -189,6 +194,7 @@ Command and aliases | Description | Usage
 `!m lo`  |  Queues a local file by specifying a full path. BOT OWNER ONLY.
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
+`!m cleanup`  |  Cleans up hanging voice connections. BOT OWNER ONLY
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -201,7 +207,7 @@ Command and aliases | Description | Usage
 `~randomcat`  |  Shows a random cat image.
 `~i`  |  Pulls the first image found using a search parameter. Use ~ir for different results. |  ~i cute kitten
 `~ir`  |  Pulls a random image using a search parameter. |  ~ir cute kitten
-`lmgtfy`, `~lmgtfy`  |  Google something for an idiot.
+`~lmgtfy`  |  Google something for an idiot.
 `~hs`  |  Searches for a Hearthstone card and shows its image. Takes a while to complete. | ~hs Ysera
 `~osu`  |  Shows osu stats for a player. | ~osu Name
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
