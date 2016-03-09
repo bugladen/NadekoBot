@@ -300,6 +300,46 @@ namespace NadekoBot.Classes.Permissions {
                 commands.Add(commandName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
+
+        public static void SetServerWordPermission(Server server, string word, bool value) {
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            serverPerms.Permissions.Words.Add(word);
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
+        public static void SetChannelWordPermission(Channel channel, string word, bool value) {
+            var server = channel.Server;
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            if (!serverPerms.ChannelPermissions.ContainsKey(channel.Id))
+                serverPerms.ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
+
+            serverPerms.ChannelPermissions[channel.Id].Words.Add(word);
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
+        public static void SetServerFilterInvitesPermission(Server server, bool value) {
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            serverPerms.Permissions.FilterInvites = value;
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
+        public static void SetChannelFilterInvitesPermission(Channel channel, bool value) {
+            var server = channel.Server;
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            if (!serverPerms.ChannelPermissions.ContainsKey(channel.Id))
+                serverPerms.ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
+
+            serverPerms.ChannelPermissions[channel.Id].FilterInvites = value;
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
     }
     /// <summary>
     /// Holds a permission list
@@ -317,11 +357,20 @@ namespace NadekoBot.Classes.Permissions {
         /// Command name with allowed/disallowed
         /// </summary>
         public Dictionary<string, bool> Commands { get; set; }
+        /// <summary>
+        /// Banned words, usually profanities, like word "java"
+        /// </summary>
+        public HashSet<string> Words { get; set; }
+        /// <summary>
+        /// Should the bot filter invites to other discord servers (and ref links in the future)
+        /// </summary>
+        public bool FilterInvites { get; set; }
 
         public Permissions(string name) {
             Name = name;
             Modules = new Dictionary<string, bool>();
             Commands = new Dictionary<string, bool>();
+            Words = new HashSet<string>();
         }
 
         public override string ToString() {

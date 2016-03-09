@@ -142,6 +142,7 @@
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\ClashOfClans.cs" />
+    <Compile Include="Commands\FilterInvitesCommand.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
     <Compile Include="Commands\MessageRepeater.cs" />

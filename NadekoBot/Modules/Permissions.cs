@@ -5,6 +5,7 @@ using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Classes.Permissions;
+using NadekoBot.Commands;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
@@ -12,9 +13,8 @@ namespace NadekoBot.Modules {
         public override string Prefix { get; } = ";";
 
         public PermissionModule() {
-            //Empty for now
+            commands.Add(new FilterInvitesCommand());
         }
-        //todo word filtering/invite bans (?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

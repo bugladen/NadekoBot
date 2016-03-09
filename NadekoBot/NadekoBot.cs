@@ -121,7 +121,7 @@ namespace NadekoBot {
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
             modules.Add(new Games(), "Games", ModuleFilter.None);
-            //modules.Add(new Music(), "Music", ModuleFilter.None);
+            modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
