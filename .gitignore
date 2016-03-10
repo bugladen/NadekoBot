@@ -21,6 +21,7 @@ obj/
 !**/Bin/Debug/sqlite3.dll
 !**/Bin/Debug/data/*
 !**/Bin/Debug/data/
+!**/Bin/Debug/credentials_example.json
 Tests/
 
 # NuGet Packages
