@@ -37,11 +37,16 @@ namespace NadekoBot.Commands {
                     }
                     var afterVch = e.After.VoiceChannel;
                     if (afterVch != null) {
-                        var textChannel =
-                            e.Server.FindChannels(afterVch.Name + "-voice", ChannelType.Text).FirstOrDefault() ??
-                                     (await e.Server.CreateChannel(afterVch.Name + "-voice", ChannelType.Text));
-                        if (textChannel == null)
-                            return;
+                        var textChannel = e.Server.FindChannels(
+                                                    $"{afterVch.Name}-voice",
+                                                    ChannelType.Text)
+                                                    .FirstOrDefault();
+                        if (textChannel == null) {
+                            textChannel = (await e.Server.CreateChannel(afterVch.Name + "-voice", ChannelType.Text));
+                            await textChannel.AddPermissionsRule(e.Server.EveryoneRole,
+                                new ChPermOverride(readMessages: PermValue.Deny,
+                                                   sendMessages: PermValue.Deny));
+                        }
                         await textChannel.AddPermissionsRule(e.After,
                             new ChPermOverride(readMessages: PermValue.Allow,
                                                sendMessages: PermValue.Allow));
