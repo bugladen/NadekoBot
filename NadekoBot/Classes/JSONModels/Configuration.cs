@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Discord;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Classes.JSONModels {
     public class Configuration {
@@ -41,5 +44,24 @@ namespace NadekoBot.Classes.JSONModels {
             "http://gallery1.anivide.com/_full/65030_1382582341.gif",
             "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
         };
+    }
+
+    public static class ConfigHandler {
+        private static readonly object configLock = new object();
+        public static void SaveConfig() {
+            lock (configLock) {
+                File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
+            }
+        }
+
+        public static bool IsBlackListed(MessageEventArgs evArgs) => IsUserBlacklisted(evArgs.User.Id) ||
+                                                                      (!evArgs.Channel.IsPrivate &&
+                                                                       (IsChannelBlacklisted(evArgs.Channel.Id) || IsServerBlacklisted(evArgs.Server.Id)));
+
+        public static bool IsServerBlacklisted(ulong id) => NadekoBot.Config.ServerBlacklist.Contains(id);
+
+        public static bool IsChannelBlacklisted(ulong id) => NadekoBot.Config.ChannelBlacklist.Contains(id);
+
+        public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
     }
 }

@@ -9,14 +9,12 @@ using Discord.Audio;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.Commands.Permissions.Userlist;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 
 namespace NadekoBot {
     internal class NadekoBot {
         public static DiscordClient Client;
-        public static bool ForwardMessages = false;
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
@@ -26,7 +24,6 @@ namespace NadekoBot {
 
         private static void Main() {
             Console.OutputEncoding = Encoding.Unicode;
-
             // generate credentials example so people can know about the changes i make
             try {
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
@@ -167,7 +164,7 @@ namespace NadekoBot {
         public static bool IsOwner(User u) => IsOwner(u.Id);
 
         public async Task SendMessageToOwner(string message) {
-            if (ForwardMessages && OwnerPrivateChannel != null)
+            if (Config.ForwardMessages && OwnerPrivateChannel != null)
                 await OwnerPrivateChannel.SendMessage(message);
         }
 
@@ -176,7 +173,7 @@ namespace NadekoBot {
             try {
                 if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
                 if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
-                if (IsBlackListed(e))
+                if (ConfigHandler.IsBlackListed(e))
                     return;
 
                 if (!NadekoBot.Config.DontJoinServers) {
@@ -192,7 +189,7 @@ namespace NadekoBot {
                     }
                 }
 
-                if (ForwardMessages && OwnerPrivateChannel != null)
+                if (Config.ForwardMessages && OwnerPrivateChannel != null)
                     await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
 
                 if (repliedRecently) return;
@@ -205,23 +202,6 @@ namespace NadekoBot {
                 });
             } catch { }
         }
-
-        private static readonly object configLock = new object();
-        public static void SaveConfig() {
-            lock (configLock) {
-                File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
-            }
-        }
-
-        public static bool IsBlackListed(MessageEventArgs evArgs) => IsUserBlacklisted(evArgs.User.Id) ||
-                                                                      (!evArgs.Channel.IsPrivate &&
-                                                                       (IsChannelBlacklisted(evArgs.Channel.Id) || IsServerBlacklisted(evArgs.Server.Id)));
-
-        public static bool IsServerBlacklisted(ulong id) => NadekoBot.Config.ServerBlacklist.Contains(id);
-
-        public static bool IsChannelBlacklisted(ulong id) => NadekoBot.Config.ChannelBlacklist.Contains(id);
-
-        public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
     }
 }
 

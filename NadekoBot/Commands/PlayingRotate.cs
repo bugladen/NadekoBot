@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Timers;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
@@ -66,7 +67,7 @@ namespace NadekoBot.Commands {
                 else
                     timer.Start();
                 NadekoBot.Config.IsRotatingStatus = timer.Enabled;
-                NadekoBot.SaveConfig();
+                ConfigHandler.SaveConfig();
             }
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
         };
@@ -90,7 +91,7 @@ namespace NadekoBot.Commands {
                         return;
                     lock (playingPlaceholderLock) {
                         NadekoBot.Config.RotatingStatuses.Add(arg);
-                        NadekoBot.SaveConfig();
+                        ConfigHandler.SaveConfig();
                     }
                     await e.Channel.SendMessage("🆗 `Added a new playing string.`");
                 });
@@ -124,7 +125,7 @@ namespace NadekoBot.Commands {
                             return;
                         str = NadekoBot.Config.RotatingStatuses[num - 1];
                         NadekoBot.Config.RotatingStatuses.RemoveAt(num - 1);
-                        NadekoBot.SaveConfig();
+                        ConfigHandler.SaveConfig();
                     }
                     await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");
                 });

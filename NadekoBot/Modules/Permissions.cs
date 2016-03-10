@@ -4,6 +4,7 @@ using Discord.Commands;
 using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
@@ -446,7 +447,7 @@ namespace NadekoBot.Modules {
                             if (!e.Message.MentionedUsers.Any()) return;
                             var usr = e.Message.MentionedUsers.First();
                             NadekoBot.Config.UserBlacklist.Add(usr.Id);
-                            NadekoBot.SaveConfig();
+                            ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted user {usr.Name}`");
                         });
                     });
@@ -459,7 +460,7 @@ namespace NadekoBot.Modules {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
                             NadekoBot.Config.UserBlacklist.Add(ch.Id);
-                            NadekoBot.SaveConfig();
+                            ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`");
                         });
                     });
@@ -479,7 +480,7 @@ namespace NadekoBot.Modules {
                                 return;
                             }
                             NadekoBot.Config.ServerBlacklist.Add(server.Id);
-                            NadekoBot.SaveConfig();
+                            ConfigHandler.SaveConfig();
                             //cleanup trivias and typeracing
                             Classes.Trivia.TriviaGame trivia;
                             Commands.Trivia.RunningTrivias.TryRemove(server.Id, out trivia);

@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using NadekoBot.Classes.JSONModels;
 
 namespace NadekoBot.Classes.Permissions {
 
@@ -27,9 +28,9 @@ namespace NadekoBot.Classes.Permissions {
         public bool CanRun(Command command, User user, Channel channel, out string error) {
             error = String.Empty;
 
-            if (NadekoBot.IsUserBlacklisted(user.Id) ||
+            if (ConfigHandler.IsUserBlacklisted(user.Id) ||
                 (!channel.IsPrivate &&
-                 (NadekoBot.IsServerBlacklisted(channel.Server.Id) || NadekoBot.IsChannelBlacklisted(channel.Id)))) {
+                 (ConfigHandler.IsServerBlacklisted(channel.Server.Id) || ConfigHandler.IsChannelBlacklisted(channel.Id)))) {
                 return false;
             }
 
