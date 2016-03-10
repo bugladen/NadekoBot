@@ -172,10 +172,6 @@ namespace NadekoBot.Commands {
             }
         }
 
-        public Func<CommandEventArgs, Task> DoFunc() {
-            throw new NotImplementedException();
-        }
-
         public void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand(".greet")

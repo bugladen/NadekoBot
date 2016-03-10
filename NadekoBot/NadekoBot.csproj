@@ -131,6 +131,7 @@
     <Compile Include="Classes\Permissions\PermissionsHandler.cs" />
     <Compile Include="Classes\Permissions\SimpleCheckers.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
+    <Compile Include="Classes\ServerSpecificConfig.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
     <Compile Include="Classes\_DataModels\CurrencyStateModel.cs" />

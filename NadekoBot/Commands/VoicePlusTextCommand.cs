@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
@@ -18,22 +19,24 @@ namespace NadekoBot.Commands {
     /// sowwy googie ;(
     /// </summary>
     internal class VoicePlusTextCommand : IDiscordCommand {
-        public static readonly HashSet<ulong> Subscribers = new HashSet<ulong>();
 
         public VoicePlusTextCommand() {
+            // changing servers may cause bugs
             NadekoBot.Client.UserUpdated += async (sender, e) => {
                 try {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
+                    if (!(config.VoicePlusTextEnabled ?? false))
+                        return;
 
                     var beforeVch = e.Before.VoiceChannel;
                     if (beforeVch != null) {
                         var textChannel =
                             e.Server.FindChannels(beforeVch.Name + "-voice", ChannelType.Text).FirstOrDefault();
-                        if (textChannel == null)
-                            return;
-                        await textChannel.AddPermissionsRule(e.Before,
-                            new ChPermOverride(readMessages: PermValue.Deny,
-                                               sendMessages: PermValue.Deny));
+                        if (textChannel != null)
+                            await textChannel.AddPermissionsRule(e.Before,
+                                new ChPermOverride(readMessages: PermValue.Deny,
+                                                   sendMessages: PermValue.Deny));
                     }
                     var afterVch = e.After.VoiceChannel;
                     if (afterVch != null) {
@@ -60,28 +63,35 @@ namespace NadekoBot.Commands {
         public void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".v+t")
                 .Alias(".voice+text")
-                .Description("Creates a text channel for each voice channel only users in that voice channel can see.")
+                .Description("Creates a text channel for each voice channel only users in that voice channel can see." +
+                             "If you are server owner, keep in mind you will see them all the time regardless.")
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .Do(async e => {
-                    if (Subscribers.Contains(e.Server.Id)) {
-                        Subscribers.Remove(e.Server.Id);
-                        foreach (var textChannel in e.Server.TextChannels.Where(c => c.Name.EndsWith("-voice"))) {
-                            var deleteTask = textChannel?.Delete();
-                            try {
-                                if (deleteTask != null)
-                                    await deleteTask;
-                            } catch {
-                                await e.Channel.SendMessage(":anger: Error: Most likely i don't have permissions to do this.");
-                                return;
+                    try {
+                        var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                        if (config.VoicePlusTextEnabled == true) {
+                            config.VoicePlusTextEnabled = false;
+                            foreach (var textChannel in e.Server.TextChannels.Where(c => c.Name.EndsWith("-voice"))) {
+                                try {
+                                    await textChannel.Delete();
+                                } catch {
+                                    await
+                                        e.Channel.SendMessage(
+                                            ":anger: Error: Most likely i don't have permissions to do this.");
+                                    return;
+                                }
                             }
+                            await e.Channel.SendMessage("Successfuly removed voice + text feature.");
+                            return;
                         }
-                        await e.Channel.SendMessage("Successfuly removed voice + text feature.");
-                        return;
+                        config.VoicePlusTextEnabled = true;
+                        await e.Channel.SendMessage("Successfuly enabled voice + text feature. " +
+                                                    "**Make sure the bot has manage roles and manage channels permissions**");
+
+                    } catch (Exception ex) {
+                        await e.Channel.SendMessage(ex.ToString());
                     }
-                    Subscribers.Add(e.Server.Id);
-                    await e.Channel.SendMessage("Successfuly enabled voice + text feature. " +
-                                                "**Make sure the bot has manage roles and manage channels permissions**");
                 });
         }
     }
