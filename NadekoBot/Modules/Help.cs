@@ -18,15 +18,15 @@ namespace NadekoBot.Modules {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
                 commands.ForEach(com => com.Init(cgb));
 
-                cgb.CreateCommand(".modules")
-                    .Alias("-modules")
+                cgb.CreateCommand(Prefix + "modules")
+                    .Alias(".modules")
                     .Description("List all bot modules.")
                     .Do(async e => {
                         await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)));
                     });
 
-                cgb.CreateCommand(".commands")
-                    .Alias("-commands")
+                cgb.CreateCommand(Prefix + "commands")
+                    .Alias(".commands")
                     .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e => {

@@ -59,8 +59,8 @@ namespace NadekoBot.Commands {
         }
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(".v+t")
-                .Alias(".voice+text")
+            cgb.CreateCommand(Module.Prefix + "v+t")
+                .Alias(Module.Prefix + "voice+text")
                 .Description("Creates a text channel for each voice channel only users in that voice channel can see." +
                              "If you are server owner, keep in mind you will see them all the time regardless.")
                 .AddCheck(SimpleCheckers.ManageChannels())

@@ -30,7 +30,7 @@ namespace NadekoBot.Commands {
         }
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(".slowmode")
+            cgb.CreateCommand(Module.Prefix + "slowmode")
                 .Description("Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.")
                 .Parameter("minutes", ParameterType.Optional)
                 .Do(async e => {

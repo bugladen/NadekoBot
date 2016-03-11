@@ -33,12 +33,12 @@ namespace NadekoBot.Modules {
 
         }
 
-        public override string Prefix { get; } = "!m ";
+        public override string Prefix { get; } = "!m";
 
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.Client;
 
-            manager.CreateCommands("!m", cgb => {
+            manager.CreateCommands(Prefix, cgb => {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 

@@ -140,15 +140,15 @@ namespace NadekoBot.Commands {
             };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("typestart")
+            cgb.CreateCommand(Module.Prefix + "typestart")
                 .Description("Starts a typing contest.")
                 .Do(DoFunc());
 
-            cgb.CreateCommand("typestop")
+            cgb.CreateCommand(Module.Prefix + "typestop")
                 .Description("Stops a typing contest on the current channel.")
                 .Do(QuitFunc());
 
-            cgb.CreateCommand("typeadd")
+            cgb.CreateCommand(Module.Prefix + "typeadd")
                 .Description("Adds a new article to the typing contest. Owner only.")
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(async e => {

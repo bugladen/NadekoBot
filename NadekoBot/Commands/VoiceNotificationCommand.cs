@@ -29,14 +29,12 @@ namespace NadekoBot.Commands {
         };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            /*
-            cgb.CreateCommand(".voicenotif")
+            cgb.CreateCommand(Module.Prefix + "voicenotif")
                   .Description("Enables notifications on who joined/left the voice channel.\n**Usage**:.voicenotif Karaoke club")
                   .Parameter("voice_name", ParameterType.Unparsed)
                   .Do(DoFunc());
-                  */
         }
 
-        public VoiceNotificationCommand(DiscordModule module) : base(module) {}
+        public VoiceNotificationCommand(DiscordModule module) : base(module) { }
     }
 }

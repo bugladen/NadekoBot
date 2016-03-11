@@ -73,14 +73,14 @@ namespace NadekoBot.Commands {
         };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(".rotateplaying")
-                .Alias(".ropl")
+            cgb.CreateCommand(Module.Prefix + "rotateplaying")
+                .Alias(Module.Prefix + "ropl")
                 .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(DoFunc());
 
-            cgb.CreateCommand(".addplaying")
-                .Alias(".adpl")
+            cgb.CreateCommand(Module.Prefix + "addplaying")
+                .Alias(Module.Prefix + "adpl")
                 .Description("Adds a specified string to the list of playing strings to rotate. " +
                              "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys))
                 .Parameter("text", ParameterType.Unparsed)
@@ -96,8 +96,8 @@ namespace NadekoBot.Commands {
                     await e.Channel.SendMessage("🆗 `Added a new playing string.`");
                 });
 
-            cgb.CreateCommand(".listplaying")
-                .Alias(".lipl")
+            cgb.CreateCommand(Module.Prefix + "listplaying")
+                .Alias(Module.Prefix + "lipl")
                 .Description("Lists all playing statuses with their corresponding number.")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(async e => {
@@ -111,8 +111,8 @@ namespace NadekoBot.Commands {
                     await e.Channel.SendMessage(sb.ToString());
                 });
 
-            cgb.CreateCommand(".removeplaying")
-                .Alias(".repl", ".rmpl")
+            cgb.CreateCommand(Module.Prefix + "removeplaying")
+                .Alias(Module.Prefix + "repl", Module.Prefix + "rmpl")
                 .Description("Removes a playing string on a given number.")
                 .Parameter("number", ParameterType.Required)
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())

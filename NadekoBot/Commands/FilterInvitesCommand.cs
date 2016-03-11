@@ -41,8 +41,8 @@ namespace NadekoBot.Commands {
         }
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand(";cfi")
-                .Alias(";channelfilterinvites")
+            cgb.CreateCommand(Module.Prefix + "cfi")
+                .Alias(Module.Prefix + "channelfilterinvites")
                 .Description("Enables or disables automatic deleting of invites on the channel." +
                              "If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once." +
                              "\n**Usage**: ;cfi enable #general-chat")
@@ -74,8 +74,8 @@ namespace NadekoBot.Commands {
                     }
                 });
 
-            cgb.CreateCommand(";sfi")
-                .Alias(";serverfilterinvites")
+            cgb.CreateCommand(Module.Prefix + "sfi")
+                .Alias(Module.Prefix + "serverfilterinvites")
                 .Description("Enables or disables automatic deleting of invites on the server.\n**Usage**: ;sfi disable")
                 .Parameter("bool")
                 .Do(async e => {

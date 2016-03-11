@@ -122,11 +122,11 @@ namespace NadekoBot.Commands {
 
         internal override void Init(CommandGroupBuilder cgb) {
 
-            cgb.CreateCommand(".logserver")
+            cgb.CreateCommand(Module.Prefix + "logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(DoFunc());
 
-            cgb.CreateCommand(".userpresence")
+            cgb.CreateCommand(Module.Prefix + "userpresence")
                   .Description("Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Do(async e => {
                       if (!NadekoBot.IsOwner(e.User.Id) ||
@@ -142,7 +142,7 @@ namespace NadekoBot.Commands {
                       await e.Channel.SendMessage($"**User presence notifications disabled.**");
                   });
 
-            cgb.CreateCommand(".voicepresence")
+            cgb.CreateCommand(Module.Prefix + "voicepresence")
                   .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Parameter("all", ParameterType.Optional)
                   .Do(async e => {

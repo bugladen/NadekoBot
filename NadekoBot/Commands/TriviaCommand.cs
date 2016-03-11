@@ -23,16 +23,12 @@ namespace NadekoBot.Commands {
         };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("t")
+            cgb.CreateCommand(Module.Prefix + "t")
                 .Description("Starts a game of trivia.")
-                .Alias("-t")
                 .Do(DoFunc());
 
-            cgb.CreateCommand("tl")
+            cgb.CreateCommand(Module.Prefix + "tl")
                 .Description("Shows a current trivia leaderboard.")
-                .Alias("-tl")
-                .Alias("tlb")
-                .Alias("-tlb")
                 .Do(async e=> {
                     TriviaGame trivia;
                     if (RunningTrivias.TryGetValue(e.Server.Id, out trivia))
@@ -41,9 +37,8 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });
 
-            cgb.CreateCommand("tq")
+            cgb.CreateCommand(Module.Prefix + "tq")
                 .Description("Quits current trivia after current question.")
-                .Alias("-tq")
                 .Do(async e=> {
                     TriviaGame trivia;
                     if (RunningTrivias.TryGetValue(e.Server.Id, out trivia)) {

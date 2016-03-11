@@ -175,7 +175,7 @@ namespace NadekoBot.Commands {
 
         internal override void Init(CommandGroupBuilder cgb) {
 
-            cgb.CreateCommand(".greet")
+            cgb.CreateCommand(Module.Prefix + "greet")
                 .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
                 .Do(async e => {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -190,7 +190,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("Greet announcements disabled.");
                 });
 
-            cgb.CreateCommand(".greetmsg")
+            cgb.CreateCommand(Module.Prefix + "greetmsg")
                 .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e => {
@@ -205,7 +205,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("Enable greet messsages by typing `.greet`");
                 });
 
-            cgb.CreateCommand(".bye")
+            cgb.CreateCommand(Module.Prefix + "bye")
                 .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
                 .Do(async e => {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -220,7 +220,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("Bye announcements disabled.");
                 });
 
-            cgb.CreateCommand(".byemsg")
+            cgb.CreateCommand(Module.Prefix + "byemsg")
                 .Description("Sets a new announce leave message. Type %user% if you want to mention the new member.\n**Usage**: .byemsg %user% has left the server.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e => {
@@ -235,7 +235,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("Enable bye messsages by typing `.bye`.");
                 });
 
-            cgb.CreateCommand(".byepm")
+            cgb.CreateCommand(Module.Prefix + "byepm")
                 .Description("Toggles whether the good bye messages will be sent in a PM or in the text channel.")
                 .Do(async e => {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -251,7 +251,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
                 });
 
-            cgb.CreateCommand(".greetpm")
+            cgb.CreateCommand(Module.Prefix + "greetpm")
                 .Description("Toggles whether the greet messages will be sent in a PM or in the text channel.")
                 .Do(async e => {
                     if (!e.User.ServerPermissions.ManageServer) return;

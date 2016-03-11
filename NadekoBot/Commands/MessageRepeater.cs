@@ -36,7 +36,7 @@ namespace NadekoBot.Commands {
         }
         internal override void Init(CommandGroupBuilder cgb) {
 
-            cgb.CreateCommand(".repeat")
+            cgb.CreateCommand(Module.Prefix + "repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
                              "repeat is disabled. Requires manage messages.")
                 .Parameter("minutes", ParameterType.Optional)

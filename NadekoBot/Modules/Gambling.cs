@@ -26,7 +26,7 @@ namespace NadekoBot.Modules
 
                 commands.ForEach(com => com.Init(cgb));
 
-                cgb.CreateCommand("$raffle")
+                cgb.CreateCommand(Prefix +"raffle")
                   .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
                   .Parameter("role", ParameterType.Optional)
                   .Do(async e => {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules
                       var usr = membersArray[new System.Random().Next(0, membersArray.Length)];
                       await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})");
                   });
-                cgb.CreateCommand("$$$")
+                cgb.CreateCommand(Prefix + "$$")
                   .Description("Check how many NadekoFlowers you have.")
                   .Do(async e => {
                       var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;

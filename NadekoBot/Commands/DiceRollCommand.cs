@@ -69,11 +69,11 @@ namespace NadekoBot.Commands {
         private Image GetDice(int num) => Properties.Resources.ResourceManager.GetObject("_" + num) as Image;
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("$roll")
+            cgb.CreateCommand(Module.Prefix + "roll")
                 .Description("Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice.\n**Usage**: $roll [x]")
                 .Parameter("num", ParameterType.Optional)
                 .Do(DoFunc());
-            cgb.CreateCommand("$nroll")
+            cgb.CreateCommand(Module.Prefix + "nroll")
                 .Description("Rolls in a given range.\n**Usage**: `$nroll 5` (rolls 0-5) or `$nroll 5-15`")
                 .Parameter("range", ParameterType.Required)
                 .Do(NDoFunc());

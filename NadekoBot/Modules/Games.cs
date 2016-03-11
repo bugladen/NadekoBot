@@ -7,8 +7,6 @@ using System.IO;
 using Discord.Commands;
 using NadekoBot.Extensions;
 
-//🃏
-//🏁
 namespace NadekoBot.Modules {
     internal class Games : DiscordModule {
         private readonly string[] _8BallAnswers;
@@ -18,7 +16,6 @@ namespace NadekoBot.Modules {
             commands.Add(new Trivia(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
-            commands.Add(new ClashOfClans(this));
 
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }

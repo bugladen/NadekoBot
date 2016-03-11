@@ -47,13 +47,13 @@ namespace NadekoBot.Commands {
         };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("$draw")
+            cgb.CreateCommand(Module.Prefix + "draw")
                 .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
 
-            cgb.CreateCommand("$shuffle")
-                .Alias("$reshuffle")
+            cgb.CreateCommand(Module.Prefix + "shuffle")
+                .Alias(Module.Prefix + "sh")
                 .Description("Reshuffles all cards back into the deck.")
                 .Do(async e => {
                     AllDecks.AddOrUpdate(e.Server,

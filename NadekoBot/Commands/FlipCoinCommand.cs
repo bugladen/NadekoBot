@@ -36,7 +36,7 @@ namespace NadekoBot.Commands {
         };
 
         internal override void Init(CommandGroupBuilder cgb) {
-            cgb.CreateCommand("$flip")
+            cgb.CreateCommand(Module.Prefix + "flip")
                 .Description("Flips coin(s) - heads or tails, and shows an image.\n**Usage**: `$flip` or `$flip 3`")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
