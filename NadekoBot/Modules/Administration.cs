@@ -15,12 +15,12 @@ using NadekoBot.Classes._DataModels;
 namespace NadekoBot.Modules {
     internal class Administration : DiscordModule {
         public Administration() {
-            commands.Add(new ServerGreetCommand());
-            commands.Add(new LogCommand());
-            commands.Add(new MessageRepeater());
-            commands.Add(new PlayingRotate());
-            commands.Add(new RatelimitCommand());
-            commands.Add(new VoicePlusTextCommand());
+            commands.Add(new ServerGreetCommand(this));
+            commands.Add(new LogCommand(this));
+            commands.Add(new MessageRepeater(this));
+            commands.Add(new PlayingRotate(this));
+            commands.Add(new RatelimitCommand(this));
+            commands.Add(new VoicePlusTextCommand(this));
         }
 
         public override string Prefix { get; } = ".";

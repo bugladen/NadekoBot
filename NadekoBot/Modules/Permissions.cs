@@ -14,7 +14,7 @@ namespace NadekoBot.Modules {
         public override string Prefix { get; } = ";";
 
         public PermissionModule() {
-            commands.Add(new FilterInvitesCommand());
+            commands.Add(new FilterInvitesCommand(this));
         }
 
         public override void Install(ModuleManager manager) {

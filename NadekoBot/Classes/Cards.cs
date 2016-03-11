@@ -146,7 +146,7 @@ public class Cards
     }
     public override string ToString() => string.Join("", cardPool.Select(c => c.ToString())) + Environment.NewLine;
 
-    internal override void InitHandValues() {
+    private void InitHandValues() {
         Func<List<Card>, bool> hasPair =
                               cards => cards.GroupBy(card => card.Number)
                                             .Count(group => group.Count() == 2) == 1;

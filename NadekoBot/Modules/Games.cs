@@ -15,10 +15,10 @@ namespace NadekoBot.Modules {
         private readonly Random rng = new Random();
 
         public Games() {
-            commands.Add(new Trivia());
-            commands.Add(new SpeedTyping());
-            commands.Add(new PollCommand());
-            commands.Add(new ClashOfClans());
+            commands.Add(new Trivia(this));
+            commands.Add(new SpeedTyping(this));
+            commands.Add(new PollCommand(this));
+            commands.Add(new ClashOfClans(this));
 
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }

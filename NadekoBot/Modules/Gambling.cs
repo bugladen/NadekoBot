@@ -11,9 +11,9 @@ namespace NadekoBot.Modules
     {
 
         public Gambling() {
-            commands.Add(new DrawCommand());
-            commands.Add(new FlipCoinCommand());
-            commands.Add(new DiceRollCommand());
+            commands.Add(new DrawCommand(this));
+            commands.Add(new FlipCoinCommand(this));
+            commands.Add(new DiceRollCommand(this));
         }
 
         public override string Prefix { get; } = "$";

@@ -8,7 +8,7 @@ namespace NadekoBot.Modules {
     internal class Help : DiscordModule {
 
         public Help() {
-            commands.Add(new HelpCommand());
+            commands.Add(new HelpCommand(this));
         }
 
         public override string Prefix { get; } = "-";

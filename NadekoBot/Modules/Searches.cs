@@ -15,7 +15,7 @@ namespace NadekoBot.Modules {
     internal class Searches : DiscordModule {
         private readonly Random rng;
         public Searches() {
-            commands.Add(new LoLCommands());
+            commands.Add(new LoLCommands(this));
             rng = new Random();
         }
 

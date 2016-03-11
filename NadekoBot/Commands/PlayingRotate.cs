@@ -34,7 +34,7 @@ namespace NadekoBot.Commands {
 
         private readonly object playingPlaceholderLock = new object();
 
-        public PlayingRotate() {
+        public PlayingRotate(DiscordModule module) : base(module) {
             var i = -1;
             timer.Elapsed += (s, e) => {
                 try {

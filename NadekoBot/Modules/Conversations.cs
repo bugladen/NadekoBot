@@ -17,8 +17,8 @@ namespace NadekoBot.Modules {
     internal class Conversations : DiscordModule {
         private const string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
         public Conversations() {
-            commands.Add(new CopyCommand());
-            commands.Add(new RequestsCommand());
+            commands.Add(new CopyCommand(this));
+            commands.Add(new RequestsCommand(this));
         }
 
         public override string Prefix { get; } = String.Format("<@{0}>", NadekoBot.Creds.BotId);
