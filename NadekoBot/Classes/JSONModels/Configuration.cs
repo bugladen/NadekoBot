@@ -11,6 +11,7 @@ namespace NadekoBot.Classes.JSONModels {
         public bool IsRotatingStatus { get; set; } = false;
         public bool SendPrivateMessageOnMention { get; set; } = false;
         public List<string> RotatingStatuses { get; set; } = new List<string>();
+        public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
         public HashSet<ulong> ChannelBlacklist { get; set; } = new HashSet<ulong>();
         public HashSet<ulong> UserBlacklist { get; set; } = new HashSet<ulong>() {
@@ -44,6 +45,20 @@ namespace NadekoBot.Classes.JSONModels {
             "http://gallery1.anivide.com/_full/65030_1382582341.gif",
             "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
         };
+    }
+
+    public class CommandPrefixesModel
+    {
+        public string Administration { get; set; } = ".";
+        public string Searches { get; set; } = "~";
+        public string NSFW { get; set; } = "~";
+        public string Conversations { get; set; } = "<@{0}>";
+        public string ClashOfClans { get; set; } = ",";
+        public string Help { get; set; } = "-";
+        public string Music { get; set; } = "!m";
+        public string Trello { get; set; } = "trello";
+        public string Games { get; set; } = ">";
+        public string Gambling { get; set; } = "$";
     }
 
     public static class ConfigHandler {

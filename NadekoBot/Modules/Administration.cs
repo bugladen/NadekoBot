@@ -23,7 +23,7 @@ namespace NadekoBot.Modules {
             commands.Add(new VoicePlusTextCommand(this));
         }
 
-        public override string Prefix { get; } = ".";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

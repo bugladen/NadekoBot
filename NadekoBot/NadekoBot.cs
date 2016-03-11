@@ -71,6 +71,7 @@ namespace NadekoBot {
             //create new discord client and log
             Client = new DiscordClient(new DiscordConfigBuilder() {
                 MessageCacheSize = 10,
+                ConnectionTimeout = 60000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
@@ -118,7 +119,7 @@ namespace NadekoBot {
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
             modules.Add(new Games(), "Games", ModuleFilter.None);
-            modules.Add(new Music(), "Music", ModuleFilter.None);
+            //modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);

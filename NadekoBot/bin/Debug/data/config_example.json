@@ -4,6 +4,18 @@
   "IsRotatingStatus": false,
   "SendPrivateMessageOnMention": false,
   "RotatingStatuses": [],
+  "CommandPrefixes": {
+    "Administration": ".",
+    "Searches": "~",
+    "NSFW": "~",
+    "Conversations": "<@{0}>",
+    "ClashOfClans": ",",
+    "Help": "-",
+    "Music": "!m",
+    "Trello": "trello",
+    "Games": ">",
+    "Gambling": "$"
+  },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
   "UserBlacklist": [
