@@ -5,9 +5,10 @@ using System.Drawing;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class DrawCommand : IDiscordCommand {
+    internal class DrawCommand : DiscordCommand {
         private static readonly ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
 
         public Func<CommandEventArgs, Task> DoFunc() => async (e) => {
@@ -45,7 +46,7 @@ namespace NadekoBot.Commands {
             }
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("$draw")
                 .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
                 .Parameter("count", ParameterType.Optional)
@@ -66,5 +67,6 @@ namespace NadekoBot.Commands {
                 });
         }
 
+        public DrawCommand(DiscordModule module) : base(module) {}
     }
 }

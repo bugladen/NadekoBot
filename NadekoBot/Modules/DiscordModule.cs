@@ -4,7 +4,7 @@ using NadekoBot.Commands;
 
 namespace NadekoBot.Modules {
     internal abstract class DiscordModule : IModule {
-        protected readonly HashSet<IDiscordCommand> commands = new HashSet<IDiscordCommand>();
+        protected readonly HashSet<DiscordCommand> commands = new HashSet<DiscordCommand>();
 
         public abstract string Prefix { get; }
 

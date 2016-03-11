@@ -6,6 +6,7 @@ using Discord.Commands;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using Discord;
+using NadekoBot.Modules;
 
 /* Voltana's legacy
 public class AsyncLazy<T> : Lazy<Task<T>> 
@@ -21,13 +22,13 @@ public class AsyncLazy<T> : Lazy<Task<T>>
 */
 
 namespace NadekoBot.Commands {
-    internal class ServerGreetCommand : IDiscordCommand {
+    internal class ServerGreetCommand : DiscordCommand {
 
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
         public static long Greeted = 0;
 
-        public ServerGreetCommand()  {
+        public ServerGreetCommand(DiscordModule module) : base(module) {
             AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
             NadekoBot.Client.UserJoined += UserJoined;
@@ -172,7 +173,7 @@ namespace NadekoBot.Commands {
             }
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand(".greet")
                 .Description("Enables or Disables anouncements on the current channel when someone joins the server.")

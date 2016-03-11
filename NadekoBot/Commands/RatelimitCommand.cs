@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Concurrent;
 using Discord.Commands;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class RatelimitCommand : IDiscordCommand {
+    internal class RatelimitCommand : DiscordCommand {
 
         public static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DateTime>> RatelimitingChannels = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DateTime>>();
 
         private static readonly TimeSpan ratelimitTime = new TimeSpan(0, 0, 0, 5);
 
-        public RatelimitCommand() {
+        public RatelimitCommand(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (s, e) => {
                 if (e.Channel.IsPrivate)
                     return;
@@ -28,7 +29,7 @@ namespace NadekoBot.Commands {
             };
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".slowmode")
                 .Description("Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.")
                 .Parameter("minutes", ParameterType.Optional)

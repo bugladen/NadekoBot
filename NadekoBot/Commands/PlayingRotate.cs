@@ -9,7 +9,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class PlayingRotate : IDiscordCommand {
+    internal class PlayingRotate : DiscordCommand {
         private static readonly Timer timer = new Timer(12000);
 
         public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
@@ -72,7 +72,7 @@ namespace NadekoBot.Commands {
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".rotateplaying")
                 .Alias(".ropl")
                 .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")

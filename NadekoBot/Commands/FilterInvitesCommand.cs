@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using NadekoBot.Classes.Permissions;
+using NadekoBot.Modules;
 using ServerPermissions = NadekoBot.Classes.Permissions.ServerPermissions;
 
 namespace NadekoBot.Commands {
-    internal class FilterInvitesCommand : IDiscordCommand {
+    internal class FilterInvitesCommand : DiscordCommand {
         private readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))");
 
 
-        public FilterInvitesCommand() {
+        public FilterInvitesCommand(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (sender, args) => {
                 try {
                     ServerPermissions serverPerms;
@@ -39,7 +40,7 @@ namespace NadekoBot.Commands {
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterInvites;
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(";cfi")
                 .Alias(";channelfilterinvites")
                 .Description("Enables or disables automatic deleting of invites on the channel." +

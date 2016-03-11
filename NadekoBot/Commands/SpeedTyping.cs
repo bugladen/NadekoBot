@@ -9,6 +9,7 @@ using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
 
@@ -107,11 +108,11 @@ namespace NadekoBot.Commands {
 
     }
 
-    internal class SpeedTyping : IDiscordCommand {
+    internal class SpeedTyping : DiscordCommand {
 
         public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
-        public SpeedTyping() {
+        public SpeedTyping(DiscordModule module) : base(module) {
             RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
         }
 
@@ -138,7 +139,7 @@ namespace NadekoBot.Commands {
                 await e.Channel.SendMessage("No contest to stop on this channel.");
             };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("typestart")
                 .Description("Starts a typing contest.")
                 .Do(DoFunc());

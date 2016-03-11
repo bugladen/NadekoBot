@@ -6,9 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class PollCommand : IDiscordCommand {
+    internal class PollCommand : DiscordCommand {
 
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
@@ -16,7 +17,7 @@ namespace NadekoBot.Commands {
             throw new NotImplementedException();
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(">poll")
                   .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll Question?;Answer1;Answ 2;A_3")
                   .Parameter("allargs", ParameterType.Unparsed)
@@ -49,6 +50,8 @@ namespace NadekoBot.Commands {
                       await ActivePolls[e.Server].StopPoll(e.Channel);
                   });
         }
+
+        public PollCommand(DiscordModule module) : base(module) {}
     }
 
     internal class Poll {

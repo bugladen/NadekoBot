@@ -4,24 +4,24 @@ using System.Collections.Concurrent;
 using Discord;
 using NadekoBot.Classes.Permissions;
 using Discord.Commands;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    class MessageRepeater : IDiscordCommand {
+    class MessageRepeater : DiscordCommand {
         private readonly ConcurrentDictionary<Server, Repeater> repeaters = new ConcurrentDictionary<Server, Repeater>();
         private class Repeater {
             [Newtonsoft.Json.JsonIgnore]
-            public readonly Timer MessageTimer;
+            public Timer MessageTimer { get; set; }
             [Newtonsoft.Json.JsonIgnore]
-            public Channel RepeatingChannel { get; }
+            public Channel RepeatingChannel { get; set; }
 
             public ulong RepeatingServerId { get; set; }
             public ulong RepeatingChannelId { get; set; }
             public string RepeatingMessage { get; set; }
             public int Interval { get; set; }
 
-            private Repeater(int interval) {
-                this.Interval = interval;
-                MessageTimer = new Timer {Interval = Interval};
+            public Repeater Start() {
+                MessageTimer = new Timer { Interval = Interval };
                 MessageTimer.Elapsed += async (s, e) => {
                     var ch = RepeatingChannel;
                     var msg = RepeatingMessage;
@@ -31,19 +31,10 @@ namespace NadekoBot.Commands {
                         } catch { }
                     }
                 };
-            }
-
-            private Repeater(int interval, ulong channelId, ulong serverId) : this(interval) {
-                this.RepeatingChannelId = channelId;
-                this.RepeatingServerId = serverId;
-            }
-
-            public Repeater(int interval, ulong channelId, ulong serverId, Channel channel) 
-                : this(interval,channelId,serverId) {
-                this.RepeatingChannel = channel;
+                return this;
             }
         }
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand(".repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
@@ -71,7 +62,12 @@ namespace NadekoBot.Commands {
 
                     var repeater = repeaters.GetOrAdd(
                         e.Server,
-                        s => new Repeater(minutes * 60 * 1000, e.Channel.Id, e.Server.Id, e.Channel)
+                        s => new Repeater {
+                            Interval = minutes * 60 * 1000,
+                            RepeatingChannel = e.Channel,
+                            RepeatingChannelId = e.Channel.Id,
+                            RepeatingServerId = e.Server.Id,
+                        }.Start()
                     );
 
                     if (!string.IsNullOrWhiteSpace(msg))
@@ -85,5 +81,7 @@ namespace NadekoBot.Commands {
                                                               repeater.RepeatingMessage, minutes, repeater.RepeatingChannel));
                 });
         }
+
+        public MessageRepeater(DiscordModule module) : base(module) {}
     }
 }

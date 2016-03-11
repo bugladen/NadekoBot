@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Collections.Concurrent;
 using Discord;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class VoiceNotificationCommand : IDiscordCommand {
+    internal class VoiceNotificationCommand : DiscordCommand {
 
         //voicechannel/text channel
         private readonly ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
@@ -27,7 +28,7 @@ namespace NadekoBot.Commands {
             }
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             /*
             cgb.CreateCommand(".voicenotif")
                   .Description("Enables notifications on who joined/left the voice channel.\n**Usage**:.voicenotif Karaoke club")
@@ -35,5 +36,7 @@ namespace NadekoBot.Commands {
                   .Do(DoFunc());
                   */
         }
+
+        public VoiceNotificationCommand(DiscordModule module) : base(module) {}
     }
 }

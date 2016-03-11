@@ -7,10 +7,11 @@ using Discord.Commands;
 using System.Drawing;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
 
 namespace NadekoBot.Commands {
-    internal class LoLCommands : IDiscordCommand {
+    internal class LoLCommands : DiscordCommand {
 
         private class CachedChampion {
             public System.IO.Stream ImageStream { get; set; }
@@ -23,7 +24,7 @@ namespace NadekoBot.Commands {
 
 
         private System.Timers.Timer clearTimer { get; } = new System.Timers.Timer();
-        public LoLCommands() {
+        public LoLCommands(DiscordModule module) : base(module) {
             clearTimer.Interval = new TimeSpan(0, 10, 0).TotalMilliseconds;
             clearTimer.Start();
             clearTimer.Elapsed += (s, e) => {
@@ -55,7 +56,7 @@ namespace NadekoBot.Commands {
             public float StatScore { get; set; }
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("~lolchamp")
                   .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.\n**Usage**:~lolchamp Riven or ~lolchamp Annie sup")
                   .Parameter("champ", ParameterType.Required)

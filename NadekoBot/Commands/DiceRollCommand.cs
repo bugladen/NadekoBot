@@ -6,9 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class DiceRollCommand : IDiscordCommand {
+    internal class DiceRollCommand : DiscordCommand {
+
+        public DiceRollCommand(DiscordModule module) : base(module) { }
 
         public Func<CommandEventArgs, Task> DoFunc() {
             var r = new Random();
@@ -65,7 +68,7 @@ namespace NadekoBot.Commands {
 
         private Image GetDice(int num) => Properties.Resources.ResourceManager.GetObject("_" + num) as Image;
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("$roll")
                 .Description("Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice.\n**Usage**: $roll [x]")
                 .Parameter("num", ParameterType.Optional)
@@ -97,6 +100,5 @@ namespace NadekoBot.Commands {
                     await e.Channel.SendMessage($":anger: {ex.Message}");
                 }
             };
-
     }
 }

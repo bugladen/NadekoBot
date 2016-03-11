@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
 using NadekoBot.Classes.Permissions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class LogCommand : IDiscordCommand {
+    internal class LogCommand : DiscordCommand {
 
         private readonly ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
         private readonly ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
         private readonly ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
 
-        public LogCommand() {
+        public LogCommand(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += MsgRecivd;
             NadekoBot.Client.MessageDeleted += MsgDltd;
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
@@ -119,7 +120,7 @@ namespace NadekoBot.Commands {
             } catch { }
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand(".logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")

@@ -6,18 +6,17 @@ using Discord.Commands;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class ClashOfClans : IDiscordCommand {
+    internal class ClashOfClans : DiscordCommand {
         private const string prefix = ",";
 
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
         private readonly object writeLock = new object();
 
-        public ClashOfClans() {
-
-        }
+        public ClashOfClans(DiscordModule module) : base(module) { }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
             if (!e.User.ServerPermissions.ManageChannels)
@@ -44,20 +43,18 @@ namespace NadekoBot.Commands {
                 try {
                     await
                         e.Channel.SendMessage($"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**");
-                }
-                catch {}
+                } catch { }
             };
             cw.OnWarEnded += async () => {
                 try {
                     await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**");
-                }
-                catch {}
+                } catch { }
             };
             await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**");
             //war with the index X started.
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(prefix + "createwar")
                 .Alias(prefix + "cw")
                 .Description($"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name.\n**Usage**:{prefix}cw 15 The Enemy Clan")
@@ -200,33 +197,6 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage($"💢🔰 {ex.Message}");
                     }
                 });
-            /*
-            cgb.CreateCommand(prefix + "forceunclaim")
-                .Alias(prefix + "forceuncall")
-                .Alias(prefix + "fuc")
-                .Description($"Force removes a base claim from a certain war from a certain base. \n**Usage**: {prefix}fuc [war_number] [base_number]")
-                .Parameter("number", ParameterType.Required)
-                .Parameter("other_name", ParameterType.Unparsed)
-                .Do(async e => {
-                    var warsInfo = GetInfo(e);
-                    if (warsInfo == null || warsInfo.Item1.Count == 0) {
-                        await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
-                        return;
-                    }
-                    string usr =
-                        string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
-                        e.User.Name :
-                        e.GetArg("other_name").Trim();
-                    try {
-                        var war = warsInfo.Item1[warsInfo.Item2];
-                        int baseNumber = war.Uncall(usr);
-                        await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}");
-                    }
-                    catch (Exception ex) {
-                        await e.Channel.SendMessage($"💢🔰 {ex.Message}");
-                    }
-                });
-            */
 
             cgb.CreateCommand(prefix + "endwar")
                 .Alias(prefix + "ew")

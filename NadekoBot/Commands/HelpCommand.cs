@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class HelpCommand : IDiscordCommand {
+    internal class HelpCommand : DiscordCommand {
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
             #region OldHelp
             /*
@@ -78,7 +79,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 #endif
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("-h")
                 .Alias(new string[] { "-help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h" })
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
@@ -119,5 +120,7 @@ You can join nadekobot server by simply private messaging NadekoBot, and you wil
             str += " **Description:** " + com.Description + "\n";
             return str;
         }
+
+        public HelpCommand(DiscordModule module) : base(module) {}
     }
 }

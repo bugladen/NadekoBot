@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Collections.Concurrent;
 using Discord;
+using NadekoBot.Modules;
 using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Commands {
-    internal class Trivia : IDiscordCommand {
+    internal class Trivia : DiscordCommand {
         public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
@@ -21,7 +22,7 @@ namespace NadekoBot.Commands {
                 await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("t")
                 .Description("Starts a game of trivia.")
                 .Alias("-t")
@@ -51,5 +52,7 @@ namespace NadekoBot.Commands {
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });
         }
+
+        public Trivia(DiscordModule module) : base(module) {}
     }
 }

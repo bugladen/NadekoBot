@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
+using NadekoBot.Modules;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
 namespace NadekoBot.Commands {
@@ -18,9 +16,9 @@ namespace NadekoBot.Commands {
     /// You can check out his server here: https://discord.gg/0ZgChoTkuxAzARfF
     /// sowwy googie ;(
     /// </summary>
-    internal class VoicePlusTextCommand : IDiscordCommand {
+    internal class VoicePlusTextCommand : DiscordCommand {
 
-        public VoicePlusTextCommand() {
+        public VoicePlusTextCommand(DiscordModule module) : base(module) {
             // changing servers may cause bugs
             NadekoBot.Client.UserUpdated += async (sender, e) => {
                 try {
@@ -60,7 +58,7 @@ namespace NadekoBot.Commands {
             };
         }
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(".v+t")
                 .Alias(".voice+text")
                 .Description("Creates a text channel for each voice channel only users in that voice channel can see." +

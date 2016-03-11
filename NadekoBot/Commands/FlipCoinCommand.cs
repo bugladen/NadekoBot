@@ -3,9 +3,10 @@ using System.Drawing;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class FlipCoinCommand : IDiscordCommand {
+    internal class FlipCoinCommand : DiscordCommand {
 
         private readonly Random rng = new Random();
 
@@ -34,11 +35,13 @@ namespace NadekoBot.Commands {
             }
         };
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand("$flip")
                 .Description("Flips coin(s) - heads or tails, and shows an image.\n**Usage**: `$flip` or `$flip 3`")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DoFunc());
         }
+
+        public FlipCoinCommand(DiscordModule module) : base(module) {}
     }
 }

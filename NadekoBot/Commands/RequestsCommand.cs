@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
-    internal class RequestsCommand : IDiscordCommand {
+    internal class RequestsCommand : DiscordCommand {
         public void SaveRequest(CommandEventArgs e, string text) {
             Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Request {
                 RequestText = text,
@@ -37,7 +38,7 @@ namespace NadekoBot.Commands {
         public Classes._DataModels.Request ResolveRequest(int requestNumber) =>
             Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
 
-        public void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb) {
 
             cgb.CreateCommand("req")
                 .Alias("request")
@@ -101,5 +102,7 @@ namespace NadekoBot.Commands {
                     } else await e.Channel.SendMessage("You don't have permission to do that.");
                 });
         }
+
+        public RequestsCommand(DiscordModule module) : base(module) {}
     }
 }
