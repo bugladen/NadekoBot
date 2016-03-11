@@ -115,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
@@ -142,13 +143,14 @@
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
-    <Compile Include="Commands\ClashOfClans.cs" />
+    <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />
     <Compile Include="Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
     <Compile Include="Commands\MessageRepeater.cs" />
     <Compile Include="Commands\PlayingRotate.cs" />
+    <Compile Include="Commands\StreamNotifications.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
