@@ -78,13 +78,13 @@ namespace NadekoBot.Commands {
                 UserPoints -= 3;
             }
 
-            await e.Channel.SendMessage($"**ROUND {++round}**" +
+            await e.Channel.SendMessage($"**ROUND {++round}**\n" +
                                         $"{response}\n" +
                                         $"{nadekoResponse}\n" +
-                                        $"--------------------------------" +
+                                        $"--------------------------------\n" +
                                         $"Nadeko has {NadekoPoints} points." +
                                         $"You have {UserPoints} points." +
-                                        $"--------------------------------");
+                                        $"--------------------------------\n");
             if (round < 10) return;
             if (nadekoPoints == userPoints)
                 await e.Channel.SendMessage("Its a draw");
@@ -92,6 +92,24 @@ namespace NadekoBot.Commands {
                 await e.Channel.SendMessage("Nadeko won.");
             else
                 await e.Channel.SendMessage("You won.");
+            nadekoPoints = 0;
+            userPoints = 0;
+            round = 0;
         }
+    }
+
+    public class BetraySetting {
+        private string Story = $"{0} have robbed a bank and got captured by a police." +
+                               $"Investigators gave you a choice:\n" +
+                               $"You can either >COOPERATE with your friends and " +
+                               $"not tell them who's idea it was, OR you can >BETRAY your" +
+                               $"friends. Depending on their answers your penalty will vary.";
+
+        public int DoubleCoop = 1;
+        public int DoubleBetray = -1;
+        public int BetrayCoop_Betrayer = 3;
+        public int BetrayCoop_Cooperater = -3;
+
+        public string GetStory(IEnumerable<string> names) => String.Format(Story, string.Join(", ", names));
     }
 }

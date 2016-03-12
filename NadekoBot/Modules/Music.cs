@@ -83,9 +83,9 @@ namespace NadekoBot.Modules {
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
                         musicPlayer.TogglePause();
                         if (musicPlayer.Paused)
-                            await e.Channel.SendMessage("🎵`Music musicPlayer paused.`");
+                            await e.Channel.SendMessage("🎵`Music Player paused.`");
                         else
-                            await e.Channel.SendMessage("🎵`Music musicPlayer unpaused.`");
+                            await e.Channel.SendMessage("🎵`Music Player unpaused.`");
                     });
 
                 cgb.CreateCommand("q")
