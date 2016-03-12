@@ -365,7 +365,7 @@ namespace NadekoBot.Modules {
                         while (cnt-- > 0) {
                             construct += strings[rng.Next(0, strings.Length)];
                         }
-                        await e.Channel.SendMessage(construct);
+                        await e.Channel.SendMessage(construct + "~");
                     });
 
                 cgb.CreateCommand("av").Alias("avatar")

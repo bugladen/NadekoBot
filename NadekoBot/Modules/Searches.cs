@@ -16,6 +16,7 @@ namespace NadekoBot.Modules {
         private readonly Random rng;
         public Searches() {
             commands.Add(new LoLCommands(this));
+            commands.Add(new StreamNotifications(this));
             rng = new Random();
         }
 
