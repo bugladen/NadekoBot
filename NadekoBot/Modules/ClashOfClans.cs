@@ -13,7 +13,7 @@ using NadekoBot.Modules;
 namespace NadekoBot.Commands {
     internal class ClashOfClans : DiscordModule
     {
-        public override string Prefix { get; } = ",";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.ClashOfClans;
 
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 

@@ -33,7 +33,7 @@ namespace NadekoBot.Modules {
 
         }
 
-        public override string Prefix { get; } = "!m";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Music;
 
         public override void Install(ModuleManager manager) {
             var client = NadekoBot.Client;

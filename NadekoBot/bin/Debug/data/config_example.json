@@ -14,7 +14,8 @@
     "Music": "!m",
     "Trello": "trello",
     "Games": ">",
-    "Gambling": "$"
+    "Gambling": "$",
+    "Permissions": ";"
   },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],

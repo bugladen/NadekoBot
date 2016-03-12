@@ -59,6 +59,7 @@ namespace NadekoBot.Classes.JSONModels {
         public string Trello { get; set; } = "trello";
         public string Games { get; set; } = ">";
         public string Gambling { get; set; } = "$";
+        public string Permissions { get; set; } = ";";
     }
 
     public static class ConfigHandler {

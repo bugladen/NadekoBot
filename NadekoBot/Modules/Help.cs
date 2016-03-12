@@ -11,7 +11,7 @@ namespace NadekoBot.Modules {
             commands.Add(new HelpCommand(this));
         }
 
-        public override string Prefix { get; } = "-";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

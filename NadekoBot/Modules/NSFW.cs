@@ -9,7 +9,7 @@ namespace NadekoBot.Modules {
 
         private readonly Random rng = new Random();
 
-        public override string Prefix { get; } = "~";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.NSFW;
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

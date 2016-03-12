@@ -19,7 +19,7 @@ namespace NadekoBot.Modules {
             rng = new Random();
         }
 
-        public override string Prefix { get; } = "~";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Searches;
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

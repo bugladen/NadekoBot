@@ -20,7 +20,7 @@ namespace NadekoBot.Modules {
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }
 
-        public override string Prefix { get; } = ">";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {

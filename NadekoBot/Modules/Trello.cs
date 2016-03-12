@@ -11,7 +11,7 @@ using Action = Manatee.Trello.Action;
 namespace NadekoBot.Modules {
     internal class Trello : DiscordModule {
         private readonly Timer t = new Timer { Interval = 2000 };
-        public override string Prefix { get; } = "trello";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Trello;
 
         public override void Install(ModuleManager manager) {
 

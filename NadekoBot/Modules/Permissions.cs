@@ -11,7 +11,7 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     internal class PermissionModule : DiscordModule {
-        public override string Prefix { get; } = ";";
+        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Permissions;
 
         public PermissionModule() {
             commands.Add(new FilterInvitesCommand(this));
