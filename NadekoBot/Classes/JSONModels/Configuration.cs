@@ -10,6 +10,7 @@ namespace NadekoBot.Classes.JSONModels {
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
         public bool SendPrivateMessageOnMention { get; set; } = false;
+        public HashSet<StreamNotificationConfig> ObservingStreams { get; set; } = new HashSet<StreamNotificationConfig>();
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
@@ -47,8 +48,7 @@ namespace NadekoBot.Classes.JSONModels {
         };
     }
 
-    public class CommandPrefixesModel
-    {
+    public class CommandPrefixesModel {
         public string Administration { get; set; } = ".";
         public string Searches { get; set; } = "~";
         public string NSFW { get; set; } = "~";
@@ -79,5 +79,19 @@ namespace NadekoBot.Classes.JSONModels {
         public static bool IsChannelBlacklisted(ulong id) => NadekoBot.Config.ChannelBlacklist.Contains(id);
 
         public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
+    }
+
+    public class StreamNotificationConfig {
+        public string Username { get; set; }
+        public StreamType Type { get; set; }
+        public ulong ServerId { get; set; }
+        public ulong ChannelId { get; set; }
+        public bool LastStatus { get; set; }
+
+        public enum StreamType {
+            Twitch,
+            Hitbox,
+            YoutubeGaming
+        }
     }
 }
