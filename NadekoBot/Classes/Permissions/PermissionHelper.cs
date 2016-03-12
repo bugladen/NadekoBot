@@ -37,7 +37,7 @@ namespace NadekoBot.Classes.Permissions {
                 throw new ArgumentNullException(nameof(mod));
 
             foreach (var m in NadekoBot.Client.GetService<ModuleService>().Modules) {
-                if (m.Name.ToLower().Equals(mod.ToLower()))
+                if (m.Name.ToLower().Equals(mod.Trim().ToLower()))
                     return m.Name;
             }
             throw new ArgumentException("That module does not exist.");
@@ -48,7 +48,7 @@ namespace NadekoBot.Classes.Permissions {
                 throw new ArgumentNullException(nameof(commandText));
 
             foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands) {
-                if (com.Text.ToLower().Equals(commandText.ToLower()))
+                if (com.Text.ToLower().Equals(commandText.Trim().ToLower()))
                     return com.Text;
             }
             throw new NullReferenceException("That command does not exist.");
@@ -60,7 +60,7 @@ namespace NadekoBot.Classes.Permissions {
 
             if (roleName.Trim() == "everyone")
                 roleName = "@everyone";
-            var role = server.FindRoles(roleName).FirstOrDefault();
+            var role = server.FindRoles(roleName.Trim()).FirstOrDefault();
             if (role == null)
                 throw new NullReferenceException("That role does not exist.");
             return role;
@@ -69,7 +69,7 @@ namespace NadekoBot.Classes.Permissions {
         internal static Channel ValidateChannel(Server server, string channelName) {
             if (string.IsNullOrWhiteSpace(channelName))
                 throw new ArgumentNullException(nameof(channelName));
-            var channel = server.FindChannels(channelName, ChannelType.Text).FirstOrDefault();
+            var channel = server.FindChannels(channelName.Trim(), ChannelType.Text).FirstOrDefault();
             if (channel == null)
                 throw new NullReferenceException("That channel does not exist.");
             return channel;
@@ -78,7 +78,7 @@ namespace NadekoBot.Classes.Permissions {
         internal static User ValidateUser(Server server, string userName) {
             if (string.IsNullOrWhiteSpace(userName))
                 throw new ArgumentNullException(nameof(userName));
-            var user = server.FindUsers(userName).FirstOrDefault();
+            var user = server.FindUsers(userName.Trim()).FirstOrDefault();
             if (user == null)
                 throw new NullReferenceException("That user does not exist.");
             return user;

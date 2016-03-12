@@ -422,7 +422,7 @@ namespace NadekoBot.Modules {
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [channel_name]")
+                    .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [role_name]")
                     .Do(async e => {
                         try {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
