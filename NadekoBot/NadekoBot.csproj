@@ -143,6 +143,7 @@
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
+    <Compile Include="Commands\BetrayGame.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />

@@ -22,7 +22,7 @@ namespace NadekoBot.Modules {
             TrelloConfiguration.Deserializer = serializer;
             TrelloConfiguration.JsonFactory = new ManateeFactory();
             TrelloConfiguration.RestClientProvider = new Manatee.Trello.WebApi.WebApiClientProvider();
-            TrelloAuthorization.Default.AppKey = NadekoBot.Creds.TrelloAppKey;
+            //TrelloAuthorization.Default.AppKey = NadekoBot.Creds.TrelloAppKey ?? "123";
             //TrelloAuthorization.Default.UserToken = "[your user token]";
 
             Discord.Channel bound = null;
@@ -71,7 +71,9 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("bind")
-                    .Description("Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited.")
+                    .Description("Bind a trello bot to a single channel. " +
+                                 "You will receive notifications from your board when something is added or edited." +
+                                 "\n**Usage**: bind [board_id]")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e => {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;

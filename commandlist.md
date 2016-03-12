@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5912.19900`
+Version: `NadekoBot v0.9.5915.21073`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -21,6 +21,7 @@ Command and aliases | Description | Usage
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
 `.removeplaying`, `.repl`, `.rmpl`  |  Removes a playing string on a given number.
 `.slowmode`  |  Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.
+`.v+t`, `.voice+text`  |  Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -69,12 +70,14 @@ Command and aliases | Description | Usage
 `-hgit`  |  OWNER ONLY commandlist.md file generation.
 `-readme`, `-guide`  |  Sends a readme and a guide links to the channel.
 `-donate`, `~donate`  |  Instructions for helping the project!
-`.modules`, `-modules`  |  List all bot modules.
-`.commands`, `-commands`  |  List all of the bot's commands from a certain module.
+`-modules`, `.modules`  |  List all bot modules.
+`-commands`, `.commands`  |  List all of the bot's commands from a certain module.
 
 ### Permissions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`;cfi`, `;channelfilterinvites`  |  Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
+`;sfi`, `;serverfilterinvites`  |  Enables or disables automatic deleting of invites on the server. |  ;sfi disable
 `;permrole`, `;pr`  |  Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.
 `;verbose`, `;v`  |  Sets whether to show when a command/module is blocked. |  ;verbose true
 `;serverperms`, `;sp`  |  Shows banned permissions for this server.
@@ -140,7 +143,7 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `$draw`  |  Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. |  $draw [x]
-`$shuffle`, `$reshuffle`  |  Reshuffles all cards back into the deck.
+`$shuffle`, `$sh`  |  Reshuffles all cards back into the deck.
 `$flip`  |  Flips coin(s) - heads or tails, and shows an image. |  `$flip` or `$flip 3`
 `$roll`  |  Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice. |  $roll [x]
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
@@ -150,21 +153,16 @@ Command and aliases | Description | Usage
 ### Games  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`t`, `-t`  |  Starts a game of trivia.
-`tl`, `-tl`, `tlb`, `-tlb`  |  Shows a current trivia leaderboard.
-`tq`, `-tq`  |  Quits current trivia after current question.
-`typestart`  |  Starts a typing contest.
-`typestop`  |  Stops a typing contest on the current channel.
-`typeadd`  |  Adds a new article to the typing contest. Owner only.
+`>t`  |  Starts a game of trivia.
+`>tl`  |  Shows a current trivia leaderboard.
+`>tq`  |  Quits current trivia after current question.
+`>typestart`  |  Starts a typing contest.
+`>typestop`  |  Stops a typing contest on the current channel.
+`>typeadd`  |  Adds a new article to the typing contest. Owner only.
 `>poll`  |  Creates a poll, only person who has manage server permission can do it. |  >poll Question?;Answer1;Answ 2;A_3
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
-`,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | ,cw 15 The Enemy Clan
-`,sw`, `,startwar`  |  Starts a war with a given number.
-`,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
-`,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] (optional_otheruser)
-`,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] (optional_other_name)
-`,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] (optional_other_name)
-`,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
+`>betray`  |  BETRAY GAME. Betray nadeko next turn.If Nadeko cooperates - you get extra points, nadeko loses a LOT.If Nadeko betrays - you both lose some points.
+`>cooperate`  |  BETRAY GAME. Cooperate with nadeko next turn.If Nadeko cooperates - you both get bonus points.If Nadeko betrays - you lose A LOT, nadeko gets extra.
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
@@ -223,3 +221,23 @@ Command and aliases | Description | Usage
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
 `~butts`, `~ass`, `~butt`  |  Real adult content.
+
+### ClashOfClans  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | ,cw 15 The Enemy Clan
+`,sw`, `,startwar`  |  Starts a war with a given number.
+`,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
+`,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] (optional_otheruser)
+`,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] (optional_other_name)
+`,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] (optional_other_name)
+`,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
+
+### Trello  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`trello  join`, `trello  j`  |  Joins a server
+`trello  bind`  |  Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited. |  bind [board_id]
+`trello  unbind`  |  Unbinds a bot from the channel and board.
+`trello  lists`, `trello  list`  |  Lists all lists yo ;)
+`trello  cards`  |  Lists all cards from the supplied list. You can supply either a name or an index.

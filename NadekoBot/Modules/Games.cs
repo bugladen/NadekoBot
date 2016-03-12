@@ -16,7 +16,7 @@ namespace NadekoBot.Modules {
             commands.Add(new Trivia(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
-
+            commands.Add(new BetrayGame(this));
             _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }
 
