@@ -118,6 +118,7 @@
     <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Classes\IncidentsHandler.cs" />
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
     <Compile Include="Classes\JSONModels\Configuration.cs" />
     <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
+    <Compile Include="Commands\CrossServerTextChannel.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />

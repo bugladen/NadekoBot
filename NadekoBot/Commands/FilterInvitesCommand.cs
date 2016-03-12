@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 using ServerPermissions = NadekoBot.Classes.Permissions.ServerPermissions;
@@ -17,14 +18,19 @@ namespace NadekoBot.Commands {
 
         public FilterInvitesCommand(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (sender, args) => {
+                if (args.Channel.IsPrivate) return;
                 try {
                     ServerPermissions serverPerms;
                     if (!IsChannelOrServerFiltering(args.Channel, out serverPerms)) return;
 
                     if (filterRegex.IsMatch(args.Message.RawText)) {
                         await args.Message.Delete();
+                        IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
+                                                             $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
+                                                             $"Full message: [[{args.Message.Text}]]");
                         if (serverPerms.Verbose)
-                            await args.Channel.SendMessage($"{args.User.Mention} Invite links are not allowed on this channel.");
+                            await args.Channel.SendMessage($"{args.User.Mention} Invite links are not " +
+                                                           $"allowed on this channel.");
                     }
                 } catch { }
             };

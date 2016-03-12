@@ -4,8 +4,7 @@ using System;
 using Discord.Commands.Permissions;
 
 namespace NadekoBot.Classes.Permissions {
-    public static class SimpleCheckers
-    {
+    public static class SimpleCheckers {
         public static ManageRoles CanManageRoles { get; } = new ManageRoles();
 
         public static Func<Command, User, Channel, bool> OwnerOnly() =>
@@ -17,11 +16,13 @@ namespace NadekoBot.Classes.Permissions {
         public static Func<Command, User, Channel, bool> ManageChannels() =>
             (com, user, ch) => user.ServerPermissions.ManageChannels;
 
-        public class ManageRoles :IPermissionChecker
-        {
+        public static Func<Command, User, Channel, bool> ManageServer() =>
+            (com, user, ch) => user.ServerPermissions.ManageServer;
+
+        public class ManageRoles : IPermissionChecker {
             public bool CanRun(Command command, User user, Channel channel, out string error) {
                 error = string.Empty;
-                if(user.ServerPermissions.ManageRoles)
+                if (user.ServerPermissions.ManageRoles)
                     return true;
                 error = "You do not have a permission to manage roles.";
                 return false;
