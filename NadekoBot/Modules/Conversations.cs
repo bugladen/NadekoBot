@@ -28,6 +28,11 @@ namespace NadekoBot.Modules {
 
             manager.CreateCommands("", cgb => {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                
+                cgb.CreateCommand("e")
+                    .Do(async e => {
+                        await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
+                    });
 
                 cgb.CreateCommand("\\o\\")
                     .Description("Nadeko replies with /o/")

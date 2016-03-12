@@ -81,7 +81,7 @@ namespace NadekoBot.Classes.JSONModels {
         public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
     }
 
-    public class StreamNotificationConfig {
+    public class StreamNotificationConfig : IEquatable<StreamNotificationConfig> {
         public string Username { get; set; }
         public StreamType Type { get; set; }
         public ulong ServerId { get; set; }
@@ -92,6 +92,15 @@ namespace NadekoBot.Classes.JSONModels {
             Twitch,
             Hitbox,
             YoutubeGaming
+        }
+
+        public bool Equals(StreamNotificationConfig other) =>
+            this.Username.ToLower().Trim() == other.Username.ToLower().Trim() &&
+            this.Type == other.Type &&
+            this.ServerId == other.ServerId;
+
+        public override int GetHashCode() {
+            return (int) ((int) ServerId + Username.Length + (int) Type);
         }
     }
 }
