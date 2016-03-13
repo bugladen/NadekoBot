@@ -8,7 +8,7 @@ You might want to join my discord server where i can provide help etc. https://d
 
 In your bin/debug folder (or next to your exe if you are using release version), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, and your api keys.
 
-
+When you clone the project, make sure to run `git submodule init` and `git submodule update` to get the correct discord.net version
 
 **This is how the credentials.json should look like:**
 ```json
