@@ -143,7 +143,7 @@ namespace NadekoBot.Commands {
                         return "";
                     }));
 
-                    await e.Channel.SendMessage($"You are following **{streamsArray.Length}** hitbox streamers on this server.\n\n" + text);
+                    await e.Channel.SendMessage($"You are following **{streamsArray.Length}** streams on this server.\n\n" + text);
                 });
         }
 
