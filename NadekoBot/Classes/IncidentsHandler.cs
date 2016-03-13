@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Classes {
-    class IncidentsHandler {
+    internal static class IncidentsHandler {
         public static void Add(ulong serverId, string text) {
             Directory.CreateDirectory("data/incidents");
-            File.AppendAllText($"data/incidents/{serverId}.txt", text + "\n--------------------------");
+            File.AppendAllText($"data/incidents/{serverId}.txt", text + "\n--------------------------\n");
+            var def = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"INCIDENT: {text}");
+            Console.ForegroundColor = def;
         }
     }
 }

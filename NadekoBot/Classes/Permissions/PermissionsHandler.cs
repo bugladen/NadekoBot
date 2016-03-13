@@ -301,15 +301,15 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetServerWordPermission(Server server, string word, bool value) {
+        public static void SetServerWordPermission(Server server, bool value) {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
-            serverPerms.Permissions.Words.Add(word);
+            serverPerms.Permissions.FilterWords = value;
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetChannelWordPermission(Channel channel, string word, bool value) {
+        public static void SetChannelWordPermission(Channel channel, bool value) {
             var server = channel.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -317,7 +317,7 @@ namespace NadekoBot.Classes.Permissions {
             if (!serverPerms.ChannelPermissions.ContainsKey(channel.Id))
                 serverPerms.ChannelPermissions.Add(channel.Id, new Permissions(channel.Name));
 
-            serverPerms.ChannelPermissions[channel.Id].Words.Add(word);
+            serverPerms.ChannelPermissions[channel.Id].FilterWords = value;
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -340,6 +340,23 @@ namespace NadekoBot.Classes.Permissions {
             serverPerms.ChannelPermissions[channel.Id].FilterInvites = value;
             Task.Run(() => WriteServerToJson(serverPerms));
         }
+
+        public static void AddFilteredWord(Server server, string word) {
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+            if (serverPerms.Words.Contains(word))
+                throw new InvalidOperationException("That word is already banned.");
+            serverPerms.Words.Add(word);
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+        public static void RemoveFilteredWord(Server server, string word) {
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+            if (!serverPerms.Words.Contains(word))
+                throw new InvalidOperationException("That word is not banned.");
+            serverPerms.Words.Remove(word);
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
     }
     /// <summary>
     /// Holds a permission list
@@ -358,19 +375,18 @@ namespace NadekoBot.Classes.Permissions {
         /// </summary>
         public Dictionary<string, bool> Commands { get; set; }
         /// <summary>
-        /// Banned words, usually profanities, like word "java"
-        /// </summary>
-        public HashSet<string> Words { get; set; }
-        /// <summary>
         /// Should the bot filter invites to other discord servers (and ref links in the future)
         /// </summary>
         public bool FilterInvites { get; set; }
+        /// <summary>
+        /// Should the bot filter words which are specified in the Words hashset
+        /// </summary>
+        public bool FilterWords { get; set; }
 
         public Permissions(string name) {
             Name = name;
             Modules = new Dictionary<string, bool>();
             Commands = new Dictionary<string, bool>();
-            Words = new HashSet<string>();
         }
 
         public override string ToString() {
@@ -408,6 +424,10 @@ namespace NadekoBot.Classes.Permissions {
         /// Permission object bound to the id of something/role name
         /// </summary>
         public Permissions Permissions { get; set; }
+        /// <summary>
+        /// Banned words, usually profanities, like word "java"
+        /// </summary>
+        public HashSet<string> Words { get; set; }
 
         public Dictionary<ulong, Permissions> UserPermissions { get; set; }
         public Dictionary<ulong, Permissions> ChannelPermissions { get; set; }
@@ -422,6 +442,7 @@ namespace NadekoBot.Classes.Permissions {
             UserPermissions = new Dictionary<ulong, Permissions>();
             ChannelPermissions = new Dictionary<ulong, Permissions>();
             RolePermissions = new Dictionary<ulong, Permissions>();
+            Words = new HashSet<string>();
         }
     }
 }
