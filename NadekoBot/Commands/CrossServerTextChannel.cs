@@ -10,8 +10,8 @@ using NadekoBot.Modules;
 namespace NadekoBot.Commands {
     class CrossServerTextChannel : DiscordCommand {
         public CrossServerTextChannel(DiscordModule module) : base(module) {
-            try {
-                NadekoBot.Client.MessageReceived += async (s, e) => {
+            NadekoBot.Client.MessageReceived += async (s, e) => {
+                try {
                     if (e.Message.User.Id == NadekoBot.Creds.BotId) return;
                     foreach (var subscriber in Subscribers) {
                         var set = subscriber.Value;
@@ -21,24 +21,26 @@ namespace NadekoBot.Commands {
                             await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message));
                         }
                     }
-                };
-                NadekoBot.Client.MessageUpdated += async (s, e) => {
-                    if (e.After.User.Id == NadekoBot.Creds.BotId) return;
+                } catch { }
+            };
+            NadekoBot.Client.MessageUpdated += async (s, e) => {
+                try {
+                    if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Creds.BotId) return;
                     foreach (var subscriber in Subscribers) {
                         var set = subscriber.Value;
                         if (!set.Contains(e.Channel))
                             continue;
                         foreach (var chan in set.Except(new[] { e.Channel })) {
                             var msg = chan.Messages
-                                          .FirstOrDefault(m =>
-                                            m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
+                                .FirstOrDefault(m =>
+                                    m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
                             if (msg != default(Message))
                                 await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After));
                         }
                     }
-                };
 
-            } catch { }
+                } catch { }
+            };
         }
 
         private string GetText(Server server, Channel channel, User user, Message message) =>

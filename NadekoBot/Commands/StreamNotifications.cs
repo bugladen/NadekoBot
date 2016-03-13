@@ -8,6 +8,7 @@ using System.Timers;
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
+using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
 
@@ -85,12 +86,14 @@ namespace NadekoBot.Commands {
                 .Description("Notifies this channel when a certain user starts streaming." +
                              "\n**Usage**: ~hitbox SomeStreamer")
                 .Parameter("username", ParameterType.Unparsed)
+                .AddCheck(SimpleCheckers.ManageServer())
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Hitbox));
 
             cgb.CreateCommand(Module.Prefix + "twitch")
                 .Alias(Module.Prefix + "tw")
                 .Description("Notifies this channel when a certain user starts streaming." +
                              "\n**Usage**: ~twitch SomeStreamer")
+                .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Twitch));
 
@@ -98,6 +101,7 @@ namespace NadekoBot.Commands {
                 .Alias(Module.Prefix + "rms")
                 .Description("Removes notifications of a certain streamer on this channel." +
                              "\n**Usage**: ~srm SomeGuy")
+                .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e => {
                     var username = e.GetArg("username")?.ToLower().Trim();
@@ -155,7 +159,8 @@ namespace NadekoBot.Commands {
                     Username = username,
                     Type = type,
                 };
-                if (NadekoBot.Config.ObservingStreams.Contains(stream)) {
+                var exists = NadekoBot.Config.ObservingStreams.Contains(stream);
+                if (exists) {
                     await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.");
                 }
                 Tuple<bool, string> data;
@@ -174,7 +179,9 @@ namespace NadekoBot.Commands {
                     else if (type == StreamNotificationConfig.StreamType.YoutubeGaming)
                         msg += $"\n`Here is the Link:` not implemented yet - {stream.Username}";
                 stream.LastStatus = data.Item1;
-                await e.Channel.SendMessage($":ok: I will notify this channel when status changes.\n{msg}");
+                if (!exists)
+                    msg = $":ok: I will notify this channel when status changes.\n{msg}";
+                await e.Channel.SendMessage(msg);
                 NadekoBot.Config.ObservingStreams.Add(stream);
                 ConfigHandler.SaveConfig();
             };
