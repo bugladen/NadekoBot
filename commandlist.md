@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5915.21073`
+Version: `NadekoBot v0.9.5917.2806`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -22,6 +22,9 @@ Command and aliases | Description | Usage
 `.removeplaying`, `.repl`, `.rmpl`  |  Removes a playing string on a given number.
 `.slowmode`  |  Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.
 `.v+t`, `.voice+text`  |  Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.
+`.scsc`  |  Starts an instance of cross server channel. You will get a token as a DMthat other people will use to tune in to the same instance
+`.jcsc`  |  Joins current channel to an instance of cross server channel using the token.
+`.lcsc`  |  Leaves Cross server channel instance from this channel
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -78,6 +81,11 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `;cfi`, `;channelfilterinvites`  |  Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
 `;sfi`, `;serverfilterinvites`  |  Enables or disables automatic deleting of invites on the server. |  ;sfi disable
+`;cfw`, `;channelfilterwords`  |  Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
+`;afw`, `;addfilteredword`  |  Adds a new word to the list of filtered words |  ;aw poop
+`;rfw`, `;removefilteredword`  |  Removes the word from the list of filtered words |  ;rw poop
+`;lfw`, `;listfilteredwords`  |  Shows a list of filtered words |  ;lfw
+`;sfw`, `;serverfilterwords`  |  Enables or disables automatic deleting of messages containing forbidden words on the server. |  ;sfi disable
 `;permrole`, `;pr`  |  Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.
 `;verbose`, `;v`  |  Sets whether to show when a command/module is blocked. |  ;verbose true
 `;serverperms`, `;sp`  |  Shows banned permissions for this server.
@@ -97,7 +105,7 @@ Command and aliases | Description | Usage
 `;acm`, `;allchannelmodules`  |  Sets permissions for all modules at the channel level. |  ;acm [enable/disable] [channel_name]
 `;acc`, `;allchannelcommands`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc [module_name] [enable/disable] [channel_name]
 `;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
-`;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [channel_name]
+`;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [role_name]
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
 `;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
 `;sbl`  |  Blacklists a server by a name or id (#general for example). |  ;usl [servername/serverid]
@@ -105,6 +113,7 @@ Command and aliases | Description | Usage
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`e`  |  
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
@@ -161,8 +170,6 @@ Command and aliases | Description | Usage
 `>typeadd`  |  Adds a new article to the typing contest. Owner only.
 `>poll`  |  Creates a poll, only person who has manage server permission can do it. |  >poll Question?;Answer1;Answ 2;A_3
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
-`>betray`  |  BETRAY GAME. Betray nadeko next turn.If Nadeko cooperates - you get extra points, nadeko loses a LOT.If Nadeko betrays - you both lose some points.
-`>cooperate`  |  BETRAY GAME. Cooperate with nadeko next turn.If Nadeko cooperates - you both get bonus points.If Nadeko betrays - you lose A LOT, nadeko gets extra.
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
@@ -199,6 +206,10 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~lolchamp`  |  Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. | ~lolchamp Riven or ~lolchamp Annie sup
 `~lolban`  |  Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.
+`~hitbox`, `~hb`  |  Notifies this channel when a certain user starts streaming. |  ~hitbox SomeStreamer
+`~twitch`, `~tw`  |  Notifies this channel when a certain user starts streaming. |  ~twitch SomeStreamer
+`~removestream`, `~rms`  |  Removes notifications of a certain streamer on this channel. |  ~rms SomeGuy
+`~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
