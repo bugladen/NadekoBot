@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using NadekoBot.Classes.JSONModels;
 
 namespace NadekoBot.Classes.Permissions {
@@ -98,9 +99,14 @@ namespace NadekoBot.Classes.Permissions {
                 return false;
             } catch (Exception ex) {
                 Console.WriteLine($"Exception in canrun: {ex}");
-                ServerPermissions perms;
-                if (PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms) && perms.Verbose) //if verbose - print errors
-                    error = ex.Message;
+                try {
+                    ServerPermissions perms;
+                    if (PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms) && perms.Verbose)
+                        //if verbose - print errors
+                        error = ex.Message;
+                } catch (Exception ex2) {
+                    Console.WriteLine($"SERIOUS PERMISSION ERROR {ex2}\n\nUser:{user} Server: {user?.Server?.Name}/{user?.Server?.Id}");
+                }
                 return false;
             }
         }

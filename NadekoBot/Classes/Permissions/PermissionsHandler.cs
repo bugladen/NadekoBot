@@ -72,10 +72,6 @@ namespace NadekoBot.Classes.Permissions {
         internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel) {
             var server = user.Server;
             ServerPermissions serverPerms = PermissionsDict.GetOrAdd(server.Id, id => new ServerPermissions(id, server.Name));
-            if (!PermissionsDict.TryGetValue(server.Id, out serverPerms)) {
-                serverPerms = new ServerPermissions(server.Id, server.Name);
-                PermissionsDict.TryAdd(server.Id, serverPerms);
-            }
             bool val;
             Permissions perm;
             //server
@@ -183,7 +179,7 @@ namespace NadekoBot.Classes.Permissions {
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
-                modules.Add(moduleName, value);
+                modules.TryAdd(moduleName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -195,7 +191,7 @@ namespace NadekoBot.Classes.Permissions {
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
-                commands.Add(commandName, value);
+                commands.TryAdd(commandName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -213,7 +209,7 @@ namespace NadekoBot.Classes.Permissions {
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
-                modules.Add(moduleName, value);
+                modules.TryAdd(moduleName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -230,7 +226,7 @@ namespace NadekoBot.Classes.Permissions {
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
-                commands.Add(commandName, value);
+                commands.TryAdd(commandName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -247,7 +243,7 @@ namespace NadekoBot.Classes.Permissions {
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
-                modules.Add(moduleName, value);
+                modules.TryAdd(moduleName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -264,7 +260,7 @@ namespace NadekoBot.Classes.Permissions {
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
-                commands.Add(commandName, value);
+                commands.TryAdd(commandName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -281,7 +277,7 @@ namespace NadekoBot.Classes.Permissions {
             if (modules.ContainsKey(moduleName))
                 modules[moduleName] = value;
             else
-                modules.Add(moduleName, value);
+                modules.TryAdd(moduleName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -297,7 +293,7 @@ namespace NadekoBot.Classes.Permissions {
             if (commands.ContainsKey(commandName))
                 commands[commandName] = value;
             else
-                commands.Add(commandName, value);
+                commands.TryAdd(commandName, value);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
@@ -369,11 +365,11 @@ namespace NadekoBot.Classes.Permissions {
         /// <summary>
         /// Module name with allowed/disallowed
         /// </summary>
-        public Dictionary<string, bool> Modules { get; set; }
+        public ConcurrentDictionary<string, bool> Modules { get; set; }
         /// <summary>
         /// Command name with allowed/disallowed
         /// </summary>
-        public Dictionary<string, bool> Commands { get; set; }
+        public ConcurrentDictionary<string, bool> Commands { get; set; }
         /// <summary>
         /// Should the bot filter invites to other discord servers (and ref links in the future)
         /// </summary>
@@ -385,8 +381,8 @@ namespace NadekoBot.Classes.Permissions {
 
         public Permissions(string name) {
             Name = name;
-            Modules = new Dictionary<string, bool>();
-            Commands = new Dictionary<string, bool>();
+            Modules = new ConcurrentDictionary<string, bool>();
+            Commands = new ConcurrentDictionary<string, bool>();
             FilterInvites = false;
             FilterWords = false;
         }
