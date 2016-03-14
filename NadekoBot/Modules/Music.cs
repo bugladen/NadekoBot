@@ -102,7 +102,7 @@ namespace NadekoBot.Modules {
                     .Do(async e => {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) {
-                            await e.Channel.SendMessage("🎵 No active music musicPlayer.");
+                            await e.Channel.SendMessage("🎵 No active music player.");
                             return;
                         }
                         var toSend = "🎵 **" + musicPlayer.Playlist.Count + "** `tracks currently queued.` ";
