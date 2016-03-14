@@ -24,7 +24,7 @@ namespace NadekoBot.Commands {
                 try {
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
-                    if (!(config.VoicePlusTextEnabled ?? false))
+                    if (!config.VoicePlusTextEnabled)
                         return;
 
                     var beforeVch = e.Before.VoiceChannel;

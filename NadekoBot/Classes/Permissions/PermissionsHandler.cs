@@ -71,7 +71,7 @@ namespace NadekoBot.Classes.Permissions {
 
         internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel) {
             var server = user.Server;
-            ServerPermissions serverPerms;
+            ServerPermissions serverPerms = PermissionsDict.GetOrAdd(server.Id, id => new ServerPermissions(id, server.Name));
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms)) {
                 serverPerms = new ServerPermissions(server.Id, server.Name);
                 PermissionsDict.TryAdd(server.Id, serverPerms);
@@ -387,6 +387,8 @@ namespace NadekoBot.Classes.Permissions {
             Name = name;
             Modules = new Dictionary<string, bool>();
             Commands = new Dictionary<string, bool>();
+            FilterInvites = false;
+            FilterWords = false;
         }
 
         public override string ToString() {

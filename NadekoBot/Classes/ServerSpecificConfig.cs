@@ -20,12 +20,11 @@ namespace NadekoBot.Classes {
                     configs = JsonConvert
                         .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
                             File.ReadAllText(filePath));
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Console.WriteLine($"Deserialization failing: {ex}");
                 }
             }
-            if(configs == null)
+            if (configs == null)
                 configs = new ConcurrentDictionary<ulong, ServerSpecificConfig>();
         }
 
@@ -45,12 +44,22 @@ namespace NadekoBot.Classes {
 
     internal class ServerSpecificConfig : INotifyPropertyChanged {
         [JsonProperty("VoicePlusTextEnabled")]
-        private bool? voicePlusTextEnabled;
+        private bool voicePlusTextEnabled;
         [JsonIgnore]
-        public bool? VoicePlusTextEnabled {
+        public bool VoicePlusTextEnabled {
             get { return voicePlusTextEnabled; }
             set {
                 voicePlusTextEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        [JsonProperty("SendPrivateMessageOnMention")]
+        private bool sendPrivateMessageOnMention;
+        [JsonIgnore]
+        public bool SendPrivateMessageOnMention {
+            get { return sendPrivateMessageOnMention; }
+            set {
+                sendPrivateMessageOnMention = value;
                 OnPropertyChanged();
             }
         }

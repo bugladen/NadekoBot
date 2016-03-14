@@ -46,7 +46,7 @@ namespace NadekoBot.Commands {
                                 if (stream.Type == StreamNotificationConfig.StreamType.Hitbox)
                                     msg += $"\n`Here is the Link:`【http://www.hitbox.tv/{stream.Username}】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.Twitch)
-                                    msg += $"\n`Here is the Link:`【http://www.twitch.tv/channels/{stream.Username}】";
+                                    msg += $"\n`Here is the Link:`【http://www.twitch.tv/{stream.Username}】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
                                     msg += $"\n`Here is the Link:`【not implemented yet - {stream.Username}】";
                             await channel.SendMessage(msg);
@@ -175,7 +175,7 @@ namespace NadekoBot.Commands {
                     if (type == StreamNotificationConfig.StreamType.Hitbox)
                         msg += $"\n`Here is the Link:` http://www.hitbox.tv/{stream.Username}";
                     else if (type == StreamNotificationConfig.StreamType.Twitch)
-                        msg += $"\n`Here is the Link:` http://www.twitch.tv/channels/{stream.Username}";
+                        msg += $"\n`Here is the Link:` http://www.twitch.tv/{stream.Username}";
                     else if (type == StreamNotificationConfig.StreamType.YoutubeGaming)
                         msg += $"\n`Here is the Link:` not implemented yet - {stream.Username}";
                 stream.LastStatus = data.Item1;

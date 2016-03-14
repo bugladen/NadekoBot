@@ -5,6 +5,7 @@ using System.Timers;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 
@@ -21,22 +22,23 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
 
-            if (NadekoBot.Config.SendPrivateMessageOnMention)
-                NadekoBot.Client.MessageReceived += async (s, e) => {
-                    try {
-                        if (e.Channel.IsPrivate)
-                            return;
-                        var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
-                        if (usr?.Status != UserStatus.Offline)
-                            return;
-                        await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.");
-                        await usr.SendMessage(
-                            $"User `{e.User.Name}` mentioned you on " +
-                            $"`{e.Server.Name}` server while you were offline.\n" +
-                            $"`Message:` {e.Message.Text}");
 
-                    } catch { }
-                };
+            NadekoBot.Client.MessageReceived += async (s, e) => {
+                if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
+                try {
+                    if (e.Channel.IsPrivate)
+                        return;
+                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
+                    if (usr?.Status != UserStatus.Offline)
+                        return;
+                    await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.");
+                    await usr.SendMessage(
+                        $"User `{e.User.Name}` mentioned you on " +
+                        $"`{e.Server.Name}` server while you were offline.\n" +
+                        $"`Message:` {e.Message.Text}");
+
+                } catch { }
+            };
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
@@ -121,6 +123,20 @@ namespace NadekoBot.Commands {
         }
 
         internal override void Init(CommandGroupBuilder cgb) {
+
+            cgb.CreateCommand(Module.Prefix + "spmom")
+                .Description("Toggles whether mentions of other offline users on your server will send a pm to them.")
+                .Do(async e => {
+                    var specificConfig = SpecificConfigurations.Default.Of(e.Server.Id);
+                    specificConfig.SendPrivateMessageOnMention =
+                        !specificConfig.SendPrivateMessageOnMention;
+                    if (specificConfig.SendPrivateMessageOnMention)
+                        await e.Channel.SendMessage(":ok: I will send private messages " +
+                                                    "to mentioned offline users.");
+                    else
+                        await e.Channel.SendMessage(":ok: I won't send private messages " +
+                                                    "to mentioned offline users anymore.");
+                });
 
             cgb.CreateCommand(Module.Prefix + "logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")
