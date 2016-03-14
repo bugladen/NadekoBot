@@ -198,10 +198,8 @@ namespace NadekoBot {
 
                 repliedRecently = true;
                 await e.Channel.SendMessage(HelpCommand.HelpString);
-                await Task.Run(async () => {
-                    await Task.Delay(2000);
-                    repliedRecently = true;
-                });
+                await Task.Delay(2000);
+                repliedRecently = false;
             } catch { }
         }
     }

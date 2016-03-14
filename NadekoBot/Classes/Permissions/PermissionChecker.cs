@@ -38,7 +38,7 @@ namespace NadekoBot.Classes.Permissions {
                 return false;
 
             if (channel.IsPrivate)
-                return false;
+                return command.Category == "Help";
 
             timeBlackList.TryAdd(user, DateTime.Now);
 
