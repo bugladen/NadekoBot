@@ -49,7 +49,8 @@ namespace NadekoBot.Classes.Permissions {
                 if (command.Category == "Permissions") {
                     Discord.Role role = null;
                     try {
-                        role = PermissionHelper.ValidateRole(user.Server, PermissionsHandler.GetServerPermissionsRoleName(user.Server));
+                        role = PermissionHelper.ValidateRole(user.Server,
+                            PermissionsHandler.GetServerPermissionsRoleName(user.Server));
                     } catch { }
                     if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
@@ -96,7 +97,9 @@ namespace NadekoBot.Classes.Permissions {
                     error = msg;
                 return false;
             } catch (Exception ex) {
-                if (PermissionsHandler.PermissionsDict[user.Server.Id].Verbose) //if verbose - print errors
+                Console.WriteLine($"Exception in canrun: {ex}");
+                ServerPermissions perms;
+                if (PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms) && perms.Verbose) //if verbose - print errors
                     error = ex.Message;
                 return false;
             }
