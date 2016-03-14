@@ -29,6 +29,9 @@ namespace NadekoBot.Classes.Permissions {
         public bool CanRun(Command command, User user, Channel channel, out string error) {
             error = String.Empty;
 
+            if (channel.IsPrivate || channel.Server == null)
+                return command.Category == "Help";
+
             if (ConfigHandler.IsUserBlacklisted(user.Id) ||
                 (!channel.IsPrivate &&
                  (ConfigHandler.IsServerBlacklisted(channel.Server.Id) || ConfigHandler.IsChannelBlacklisted(channel.Id)))) {
@@ -37,9 +40,6 @@ namespace NadekoBot.Classes.Permissions {
 
             if (timeBlackList.ContainsKey(user))
                 return false;
-
-            if (channel.IsPrivate)
-                return command.Category == "Help";
 
             timeBlackList.TryAdd(user, DateTime.Now);
 
