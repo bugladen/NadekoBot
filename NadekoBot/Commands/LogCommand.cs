@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -24,10 +25,10 @@ namespace NadekoBot.Commands {
 
 
             NadekoBot.Client.MessageReceived += async (s, e) => {
+                if (e.Channel.IsPrivate)
+                    return;
                 if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
                 try {
-                    if (e.Channel.IsPrivate)
-                        return;
                     var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
                     if (usr?.Status != UserStatus.Offline)
                         return;
@@ -36,7 +37,6 @@ namespace NadekoBot.Commands {
                         $"User `{e.User.Name}` mentioned you on " +
                         $"`{e.Server.Name}` server while you were offline.\n" +
                         $"`Message:` {e.Message.Text}");
-
                 } catch { }
             };
         }
