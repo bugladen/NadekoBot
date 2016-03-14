@@ -42,9 +42,6 @@ namespace NadekoBot.Commands {
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
-            if (!NadekoBot.IsOwner(e.User.Id) ||
-                          !e.User.ServerPermissions.ManageServer)
-                return;
             Channel ch;
             if (!logs.TryRemove(e.Server, out ch)) {
                 logs.TryAdd(e.Server, e.Channel);
@@ -126,6 +123,7 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(Module.Prefix + "spmom")
                 .Description("Toggles whether mentions of other offline users on your server will send a pm to them.")
+                .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e => {
                     var specificConfig = SpecificConfigurations.Default.Of(e.Server.Id);
                     specificConfig.SendPrivateMessageOnMention =
@@ -140,14 +138,15 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(Module.Prefix + "logserver")
                   .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.")
+                  .AddCheck(SimpleCheckers.OwnerOnly())
+                  .AddCheck(SimpleCheckers.ManageServer())
                   .Do(DoFunc());
 
             cgb.CreateCommand(Module.Prefix + "userpresence")
                   .Description("Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.")
+                  .AddCheck(SimpleCheckers.OwnerOnly())
+                  .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e => {
-                      if (!NadekoBot.IsOwner(e.User.Id) ||
-                          !e.User.ServerPermissions.ManageServer)
-                          return;
                       Channel ch;
                       if (!loggingPresences.TryRemove(e.Server, out ch)) {
                           loggingPresences.TryAdd(e.Server, e.Channel);
@@ -161,10 +160,9 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "voicepresence")
                   .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.")
                   .Parameter("all", ParameterType.Optional)
+                  .AddCheck(SimpleCheckers.OwnerOnly())
+                  .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e => {
-                      if (!NadekoBot.IsOwner(e.User.Id) ||
-                          !e.User.ServerPermissions.ManageServer)
-                          return;
 
                       if (e.GetArg("all")?.ToLower() == "all") {
                           foreach (var voiceChannel in e.Server.VoiceChannels) {
