@@ -100,7 +100,7 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "removestream")
                 .Alias(Module.Prefix + "rms")
                 .Description("Removes notifications of a certain streamer on this channel." +
-                             "\n**Usage**: ~srm SomeGuy")
+                             "\n**Usage**: ~rms SomeGuy")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e => {
@@ -124,7 +124,7 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "liststreams")
                 .Alias(Module.Prefix + "ls")
                 .Description("Lists all streams you are following on this server." +
-                             "\n**Usage**: ~hbl")
+                             "\n**Usage**: ~ls")
                 .Do(async e => {
                     var streams = NadekoBot.Config.ObservingStreams.Where(snc =>
                         snc.ServerId == e.Server.Id);
