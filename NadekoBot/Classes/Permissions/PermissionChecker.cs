@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using NadekoBot.Classes.JSONModels;
 
 namespace NadekoBot.Classes.Permissions {
@@ -16,7 +14,7 @@ namespace NadekoBot.Classes.Permissions {
         private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
 
         static PermissionChecker() { }
-        public PermissionChecker() {
+        private PermissionChecker() {
             Task.Run(async () => {
                 while (true) {
                     //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked

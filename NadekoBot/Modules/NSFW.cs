@@ -21,8 +21,8 @@ namespace NadekoBot.Modules {
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e => {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(":heart: Gelbooru: " + await SearchHelper.GetGelbooruImageLink(tag));
-                        await e.Channel.SendMessage(":heart: Danbooru: " + await SearchHelper.GetDanbooruImageLink(tag));
+                        await e.Channel.SendMessage(":heart: Gelbooru: " + await SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+"+tag));
+                        await e.Channel.SendMessage(":heart: Danbooru: " + await SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+"+tag));
                     });
                 cgb.CreateCommand(Prefix + "danbooru")
                     .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~danbooru yuri+kissing")
