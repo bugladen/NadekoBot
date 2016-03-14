@@ -30,7 +30,7 @@ namespace NadekoBot.Commands {
                     var beforeVch = e.Before.VoiceChannel;
                     if (beforeVch != null) {
                         var textChannel =
-                            e.Server.FindChannels(beforeVch.Name + "-voice", ChannelType.Text).FirstOrDefault();
+                            e.Server.FindChannels(GetChannelName(beforeVch.Name), ChannelType.Text).FirstOrDefault();
                         if (textChannel != null)
                             await textChannel.AddPermissionsRule(e.Before,
                                 new ChPermOverride(readMessages: PermValue.Deny,
@@ -39,11 +39,11 @@ namespace NadekoBot.Commands {
                     var afterVch = e.After.VoiceChannel;
                     if (afterVch != null) {
                         var textChannel = e.Server.FindChannels(
-                                                    $"{afterVch.Name}-voice",
+                                                    GetChannelName(afterVch.Name),
                                                     ChannelType.Text)
                                                     .FirstOrDefault();
                         if (textChannel == null) {
-                            textChannel = (await e.Server.CreateChannel(afterVch.Name + "-voice", ChannelType.Text));
+                            textChannel = (await e.Server.CreateChannel(GetChannelName(afterVch.Name), ChannelType.Text));
                             await textChannel.AddPermissionsRule(e.Server.EveryoneRole,
                                 new ChPermOverride(readMessages: PermValue.Deny,
                                                    sendMessages: PermValue.Deny));
@@ -57,6 +57,9 @@ namespace NadekoBot.Commands {
                 }
             };
         }
+
+        private string GetChannelName(string voiceName) =>
+            voiceName.Replace(" ", "-").Trim() + "-voice";
 
         internal override void Init(CommandGroupBuilder cgb) {
             cgb.CreateCommand(Module.Prefix + "v+t")
