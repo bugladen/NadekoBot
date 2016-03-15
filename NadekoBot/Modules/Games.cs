@@ -89,6 +89,43 @@ namespace NadekoBot.Modules {
                         var t = GetType(usr.Id);
                         await e.Channel.SendMessage($"{usr.Name}'s type is {GetImage(t)} {t}");
                     });
+                cgb.CreateCommand(Prefix + "rps")
+                    .Description("Play a game of rocket paperclip scissors with nadkeo.\n**Usage**: >rps scissors")
+                    .Parameter("input", ParameterType.Required)
+                    .Do(async e => {
+                        var input = e.GetArg("input").Trim();
+                        int pick;
+                        switch (input) {
+                            case "r":
+                            case "rock":
+                            case "rocket":
+                                pick = 0;
+                                break;
+                            case "p":
+                            case "paper":
+                            case "paperclip":
+                                pick = 1;
+                                break;
+                            case "scissors":
+                            case "s":
+                                pick = 2;
+                                break;
+                            default:
+                                return;
+                        }
+                        var nadekoPick = new Random().Next(0, 3);
+                        var msg = "";
+                        if (pick == nadekoPick)
+                            msg = $"It's a draw! Both picked :{GetRPSPick(pick)}:";
+                        else if ((pick == 0 && nadekoPick == 1) ||
+                                 (pick == 1 && nadekoPick == 2) ||
+                                 (pick == 2 && nadekoPick == 0))
+                            msg = $"{NadekoBot.BotMention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
+                        else
+                            msg = $"{e.User.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
+
+                        await e.Channel.SendMessage(msg);
+                    });
 
                 cgb.CreateCommand(Prefix + "linux")
                     .Description("Prints a customizable Linux interjection")
@@ -193,6 +230,15 @@ There really is a {loonix}, and these people are using it, but it is just a part
 
         private enum PokeType {
             WATER, GRASS, FIRE, ELECTRICAL
+        }
+
+        private string GetRPSPick(int i) {
+            if (i == 0)
+                return "rocket";
+            else if (i == 1)
+                return "paperclip";
+            else
+                return "scissors";
         }
     }
 }

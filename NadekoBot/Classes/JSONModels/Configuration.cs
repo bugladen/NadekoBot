@@ -9,6 +9,7 @@ namespace NadekoBot.Classes.JSONModels {
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
+        public List<Quote> Quotes { get; set; } = new List<Quote>();
         public HashSet<StreamNotificationConfig> ObservingStreams { get; set; } = new HashSet<StreamNotificationConfig>();
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
@@ -59,6 +60,7 @@ namespace NadekoBot.Classes.JSONModels {
         public string Games { get; set; } = ">";
         public string Gambling { get; set; } = "$";
         public string Permissions { get; set; } = ";";
+        public string Programming { get; set; } = "%";
     }
 
     public static class ConfigHandler {
@@ -101,5 +103,13 @@ namespace NadekoBot.Classes.JSONModels {
         public override int GetHashCode() {
             return (int)((int)ServerId + Username.Length + (int)Type);
         }
+    }
+
+    public class Quote {
+        public string Author { get; set; }
+        public string Text { get; set; }
+
+        public override string ToString() =>
+            $"{Text}\n\t*-{Author}*";
     }
 }

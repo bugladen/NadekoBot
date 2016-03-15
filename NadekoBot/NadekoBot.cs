@@ -1,5 +1,7 @@
 ﻿using Discord;
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using Newtonsoft.Json;
 using Discord.Commands;
@@ -10,6 +12,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Manatee.StateMachine.Exceptions;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 
@@ -26,6 +29,20 @@ namespace NadekoBot {
         private static void Main() {
             Console.OutputEncoding = Encoding.Unicode;
 
+            //var lines = File.ReadAllLines("data/input.txt");
+            //HashSet<dynamic> list = new HashSet<dynamic>();
+            //for (int i = 0; i < lines.Length; i += 3) {
+            //    dynamic obj = new ExpandoObject();
+            //    obj.Text = lines[i];
+            //    obj.Author = lines[i + 1];
+            //    if (obj.Author.StartsWith("-"))
+            //        obj.Author = obj.Author.Substring(1, obj.Author.Length - 1).Trim();
+            //    list.Add(obj);
+            //}
+
+            //File.WriteAllText("data/quotes.json", Newtonsoft.Json.JsonConvert.SerializeObject(list, Formatting.Indented));
+
+            //Console.ReadKey();
             // generate credentials example so people can know about the changes i make
             try {
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
@@ -36,6 +53,7 @@ namespace NadekoBot {
 
             try {
                 Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
+                Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
             } catch {
                 Console.WriteLine("Failed loading configuration.");
             }

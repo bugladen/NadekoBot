@@ -219,22 +219,16 @@ namespace NadekoBot.Modules {
                           await e.Channel.SendMessage("💢 Failed finidng a definition for that tag.");
                       }
                   });
-                //todo when moved from parse
-                /*
-                cgb.CreateCommand(Prefix + "osubind")
-                    .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
-                    .Parameter("osu_name", ParameterType.Unparsed)
+
+                cgb.CreateCommand(Prefix + "quote")
+                    .Description("Shows a random quote.")
                     .Do(async e => {
-                        var userName = e.GetArg("user_name");
-                        var osuName = e.GetArg("osu_name");
-                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
-                        if (usr == null) {
-                            await e.Channel.SendMessage("Cannot find that discord user.");
-                            return;
-                        }
+                        await
+                            e.Channel.SendMessage(
+                                NadekoBot.Config.Quotes[new Random().Next(0, NadekoBot.Config.Quotes.Count)].ToString());
                     });
-                */
             });
         }
     }
 }
+

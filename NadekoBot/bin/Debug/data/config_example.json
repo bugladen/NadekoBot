@@ -2,6 +2,7 @@
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
+  "Quotes": [],
   "ObservingStreams": [],
   "RotatingStatuses": [],
   "CommandPrefixes": {
@@ -15,7 +16,8 @@
     "Trello": "trello",
     "Games": ">",
     "Gambling": "$",
-    "Permissions": ";"
+    "Permissions": ";",
+    "Programming": "%"
   },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
