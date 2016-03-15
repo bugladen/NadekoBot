@@ -130,6 +130,13 @@ namespace NadekoBot.Classes.Music {
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
 
+        public string PrettyCurrentTime() {
+            var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
+            return $"【{(int)time.TotalMinutes}m {time.Seconds}s】";
+        }
+
+        private ulong bytesSent { get; set; } = 0;
+
         private Song(SongInfo songInfo) {
             this.SongInfo = songInfo;
         }
@@ -186,8 +193,7 @@ namespace NadekoBot.Classes.Music {
             var bufferTask = new ConfiguredTaskAwaitable();
             try {
                 bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 var clr = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"ERR BUFFER START : {ex.Message}\n{ex}");
@@ -207,13 +213,15 @@ namespace NadekoBot.Classes.Music {
                 //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                 byte[] buffer = new byte[blockSize];
                 var read = songBuffer.Read(buffer, blockSize);
+                unchecked {
+                    bytesSent += (ulong)read;
+                }
                 if (read == 0)
                     if (attempt++ == 20) {
                         voiceClient.Wait();
                         Console.WriteLine($"Song finished. [{songBuffer.ContentLength}]");
                         break;
-                    }
-                    else
+                    } else
                         await Task.Delay(100, cancelToken);
                 else
                     attempt = 0;

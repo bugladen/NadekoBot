@@ -121,7 +121,10 @@ namespace NadekoBot.Modules {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
-                        await e.Channel.SendMessage($"🎵`Now Playing` {musicPlayer.CurrentSong.PrettyName}");
+                        var currentSong = musicPlayer.CurrentSong;
+                        if (currentSong != null)
+                            await e.Channel.SendMessage($"🎵`Now Playing` {currentSong.PrettyName} " +
+                                                        $"{currentSong.PrettyCurrentTime()}");
                     });
 
                 cgb.CreateCommand("vol")
