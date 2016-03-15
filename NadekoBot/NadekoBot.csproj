@@ -146,6 +146,7 @@
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
     <Compile Include="Commands\CrossServerTextChannel.cs" />
+    <Compile Include="Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />

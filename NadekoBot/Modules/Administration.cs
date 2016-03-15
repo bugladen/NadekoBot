@@ -22,6 +22,7 @@ namespace NadekoBot.Modules {
             commands.Add(new RatelimitCommand(this));
             commands.Add(new VoicePlusTextCommand(this));
             commands.Add(new CrossServerTextChannel(this));
+            commands.Add(new SelfAssignedRolesCommand(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;

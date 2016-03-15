@@ -25,7 +25,7 @@ namespace NadekoBot {
 
         private static void Main() {
             Console.OutputEncoding = Encoding.Unicode;
-            
+
             // generate credentials example so people can know about the changes i make
             try {
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
