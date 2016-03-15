@@ -7,6 +7,7 @@ using NadekoBot.Modules;
 using Discord.Modules;
 using Discord.Audio;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Classes.JSONModels;
@@ -24,6 +25,7 @@ namespace NadekoBot {
 
         private static void Main() {
             Console.OutputEncoding = Encoding.Unicode;
+            
             // generate credentials example so people can know about the changes i make
             try {
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
@@ -162,8 +164,6 @@ namespace NadekoBot {
         }
 
         public static bool IsOwner(ulong id) => Creds.OwnerIds.Contains(id);
-
-        public static bool IsOwner(User u) => IsOwner(u.Id);
 
         public async Task SendMessageToOwner(string message) {
             if (Config.ForwardMessages && OwnerPrivateChannel != null)

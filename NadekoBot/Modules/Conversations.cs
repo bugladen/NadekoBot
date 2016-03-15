@@ -30,6 +30,7 @@ namespace NadekoBot.Modules {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
                 
                 cgb.CreateCommand("e")
+                    .Description("You did it.")
                     .Do(async e => {
                         await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
                     });
@@ -305,7 +306,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("bb")
-                    .Description("Says bye to someone. **Usage**: @NadekoBot bb @X")
+                    .Description("Says bye to someone.\n**Usage**: @NadekoBot bb @X")
                     .Parameter("ppl", ParameterType.Unparsed)
                     .Do(async e => {
                         var str = "Bye";
@@ -375,7 +376,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
-                    .Description("Shows a mentioned person's avatar. **Usage**: ~av @X")
+                    .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
                     .Do(async e => {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (usr == null) {

@@ -118,7 +118,7 @@ namespace NadekoBot.Commands {
 
                     NadekoBot.Config.ObservingStreams.Remove(toRemove);
                     ConfigHandler.SaveConfig();
-                    await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from hitbox notifications");
+                    await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.");
                 });
 
             cgb.CreateCommand(Module.Prefix + "liststreams")
