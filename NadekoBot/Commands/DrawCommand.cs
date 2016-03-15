@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using Discord.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules;
 

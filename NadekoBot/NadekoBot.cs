@@ -17,7 +17,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 
 namespace NadekoBot {
-    internal class NadekoBot {
+    public class NadekoBot {
         public static DiscordClient Client;
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }

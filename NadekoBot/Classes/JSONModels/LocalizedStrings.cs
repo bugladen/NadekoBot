@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 namespace NadekoBot.Classes.JSONModels {
-    internal class LocalizedStrings {
+    public class LocalizedStrings {
         public string[] Insults { get; set; } = {
             " You are a poop.", " You're a jerk.",
             " I will eat you when I get my powers back."

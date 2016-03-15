@@ -52,7 +52,7 @@ namespace NadekoBot.Commands {
         public static string HelpString => $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}commands ModuleName`" +
                                            $" (for example `{NadekoBot.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
-                                           $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)" +
+                                           $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
                                            "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>";
 
         public Action<CommandEventArgs> DoGitFunc() => e => {

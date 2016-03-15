@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Modules", "disc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Commands", "discord.net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj", "{1B5603B4-6F8F-4289-B945-7BAAE523D740}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{45B2545D-C612-4919-B34C-D65EA1371C51}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{7bfef748-b934-4621-9b11-6302e3a9f6b3}*SharedItemsImports = 4
@@ -67,6 +69,14 @@ Global
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.TestResponses|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.TestResponses|Any CPU.Build.0 = Release|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.TestResponses|Any CPU.ActiveCfg = Release|Any CPU
+		{45B2545D-C612-4919-B34C-D65EA1371C51}.TestResponses|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
