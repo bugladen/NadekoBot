@@ -104,6 +104,34 @@ namespace NadekoBot.Commands {
                     await e.User.AddRoles(role);
                     await e.Channel.SendMessage($":ok:You now have {role.Name} role.");
                 });
+
+            cgb.CreateCommand(".iamn")
+                .Alias(".iamnot")
+                .Description("Removes a role to you that you choose. " +
+                             "Role must be on a list of self-assignable roles." +
+                             "\n**Usage**: .iamn Gamer")
+                .Parameter("role", ParameterType.Unparsed)
+                .Do(async e => {
+                    var roleName = e.GetArg("role")?.Trim();
+                    if (string.IsNullOrWhiteSpace(roleName))
+                        return;
+                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
+                    if (role == null) {
+                        await e.Channel.SendMessage(":anger:That role does not exist.");
+                        return;
+                    }
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id)) {
+                        await e.Channel.SendMessage(":anger:That role is not self-assignable.");
+                        return;
+                    }
+                    if (!e.User.HasRole(role)) {
+                        await e.Channel.SendMessage($":anger:You don't have {role.Name} role.");
+                        return;
+                    }
+                    await e.User.RemoveRoles(role);
+                    await e.Channel.SendMessage($":ok:Successfuly removed {role.Name} role from you.");
+                });
         }
     }
 }

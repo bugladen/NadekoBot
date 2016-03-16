@@ -9,6 +9,7 @@ namespace NadekoBot.Classes.JSONModels {
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
+        [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
         public HashSet<StreamNotificationConfig> ObservingStreams { get; set; } = new HashSet<StreamNotificationConfig>();
         public List<string> RotatingStatuses { get; set; } = new List<string>();

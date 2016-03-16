@@ -28,7 +28,7 @@ namespace NadekoBot.Modules {
 
             manager.CreateCommands("", cgb => {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
-                
+
                 cgb.CreateCommand("e")
                     .Description("You did it.")
                     .Do(async e => {
@@ -173,11 +173,14 @@ namespace NadekoBot.Modules {
                   .Description("Pat someone ^_^")
                   .Parameter("user", ParameterType.Unparsed)
                   .Do(async e => {
-                      var user = e.GetArg("user");
-                      if (string.IsNullOrWhiteSpace(user) || !e.Message.MentionedUsers.Any()) return;
+                      var userStr = e.GetArg("user");
+                      if (string.IsNullOrWhiteSpace(userStr) || !e.Message.MentionedUsers.Any()) return;
+                      var user = e.Server.FindUsers(userStr).FirstOrDefault();
+                      if (user == null)
+                          return;
                       try {
                           await e.Channel.SendMessage(
-                                    $"{e.Message.MentionedUsers.First().Mention} " +
+                                    $"{user.Mention} " +
                                     $"{NadekoBot.Config.PatResponses[rng.Next(0, NadekoBot.Config.PatResponses.Length)]}");
                       } catch {
                           await e.Channel.SendMessage("Error while handling PatResponses check your data/config.json");
