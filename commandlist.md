@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5917.2806`
+Version: `NadekoBot v0.9.5919.5387`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -12,6 +12,7 @@ Command and aliases | Description | Usage
 `.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
 `.byepm`  |  Toggles whether the good bye messages will be sent in a PM or in the text channel.
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
+`.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.
@@ -25,6 +26,11 @@ Command and aliases | Description | Usage
 `.scsc`  |  Starts an instance of cross server channel. You will get a token as a DMthat other people will use to tune in to the same instance
 `.jcsc`  |  Joins current channel to an instance of cross server channel using the token.
 `.lcsc`  |  Leaves Cross server channel instance from this channel
+`.asar`  |  Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. |  .asar Gamer
+`.rsar`  |  Removes a specified role from the list of self-assignable roles.
+`.lsar`  |  Lits all self-assignable roles.
+`.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
+`.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -113,7 +119,7 @@ Command and aliases | Description | Usage
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`e`  |  
+`e`  |  You did it.
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
@@ -140,13 +146,13 @@ Command and aliases | Description | Usage
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
 `@BotName j`  |  Joins a server using a code.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
-`@BotName bb`  |  Says bye to someone.  |  @NadekoBot bb @X
+`@BotName bb`  |  Says bye to someone. |  @NadekoBot bb @X
 `@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
 `@BotName hide`  |  Hides Nadeko in plain sight!11!!
 `@BotName unhide`  |  Unhides Nadeko in plain sight!1!!1
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
-`@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar.  |  ~av @X
+`@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -174,6 +180,7 @@ Command and aliases | Description | Usage
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
 `>poketype`  |  Gets the users element type. Use this to do more damage with strike!
+`>rps`  |  Play a game of rocket paperclip scissors with nadkeo. |  >rps scissors
 `>linux`  |  Prints a customizable Linux interjection
 
 ### Music  
@@ -221,6 +228,7 @@ Command and aliases | Description | Usage
 `~osu`  |  Shows osu stats for a player. | ~osu Name
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
+`~quote`  |  Shows a random quote.
 
 ### NSFW  
 Command and aliases | Description | Usage
