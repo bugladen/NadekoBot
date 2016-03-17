@@ -66,7 +66,7 @@ namespace NadekoBot.Commands {
                           //get role
                           var role = ResolvePos(e.GetArg("position"));
                           var resolvedRole = role;
-                          var name = e.GetArg("champ").Replace(" ", "");
+                          var name = e.GetArg("champ").Replace(" ", "").ToLower();
                           CachedChampion champ = null;
                           lock (cacheLock) {
                               CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ);

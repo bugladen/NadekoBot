@@ -44,9 +44,9 @@ namespace NadekoBot.Commands {
                                       $"**{data.Item2}** viewers.";
                             if (stream.LastStatus)
                                 if (stream.Type == StreamNotificationConfig.StreamType.Hitbox)
-                                    msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username} 】";
+                                    msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.Twitch)
-                                    msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username} 】";
+                                    msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
                                     msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
                             await channel.SendMessage(msg);
@@ -173,9 +173,9 @@ namespace NadekoBot.Commands {
                 var msg = $"Stream is currently **{(data.Item1 ? "ONLINE" : "OFFLINE")}** with **{data.Item2}** viewers";
                 if (data.Item1)
                     if (type == StreamNotificationConfig.StreamType.Hitbox)
-                        msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username} 】";
+                        msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                     else if (type == StreamNotificationConfig.StreamType.Twitch)
-                        msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username} 】";
+                        msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
                     else if (type == StreamNotificationConfig.StreamType.YoutubeGaming)
                         msg += $"\n`Here is the Link:` not implemented yet - {stream.Username}";
                 stream.LastStatus = data.Item1;
