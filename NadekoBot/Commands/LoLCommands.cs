@@ -144,7 +144,7 @@ namespace NadekoBot.Commands {
                           //get skill order data<API_KEY>
 
                           var orderArr = (data["skills"]["mostGames"]["order"] as JArray);
-                          
+
                           var img = Image.FromFile("data/lol/bg.png");
                           using (var g = Graphics.FromImage(img)) {
                               g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
@@ -182,7 +182,6 @@ namespace NadekoBot.Commands {
                                           orderY += orderVerticalSpacing * 3;
                                           break;
                                       default:
-                                          orderY += orderVerticalSpacing * 3;
                                           break;
                                   }
 

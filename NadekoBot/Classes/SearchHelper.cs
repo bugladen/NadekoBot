@@ -187,7 +187,7 @@ namespace NadekoBot.Classes {
             var link = $"http://danbooru.donmai.us/posts?" +
                         $"page={rng.Next(0, 15)}";
             if (!string.IsNullOrWhiteSpace(tag))
-                link += $"&tags=order%3Arank+{tag.Replace(" ", "_")}";
+                link += $"&tags={tag.Replace(" ", "_")}";
 
             var webpage = await GetResponseStringAsync(link);
             var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
