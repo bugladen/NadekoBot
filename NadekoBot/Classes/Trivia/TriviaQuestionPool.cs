@@ -25,7 +25,7 @@ namespace NadekoBot.Classes.Trivia {
         }
 
         internal void Reload() {
-            var arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
+            var arr = JArray.Parse(File.ReadAllText("data/questions.json"));
 
             foreach (var item in arr) {
                 var tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());

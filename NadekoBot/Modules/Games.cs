@@ -9,7 +9,6 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules {
     internal class Games : DiscordModule {
-        private readonly string[] _8BallAnswers;
         private readonly Random rng = new Random();
 
         public Games() {
@@ -17,7 +16,6 @@ namespace NadekoBot.Modules {
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             //commands.Add(new BetrayGame(this));
-            _8BallAnswers = JArray.Parse(File.ReadAllText("data/8ball.json")).Select(t => t.ToString()).ToArray();
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
@@ -51,7 +49,7 @@ namespace NadekoBot.Modules {
                             return;
                         try {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{_8BallAnswers[rng.Next(0, _8BallAnswers.Length)]}`");
+                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}`");
                         } catch { }
                     });
 
