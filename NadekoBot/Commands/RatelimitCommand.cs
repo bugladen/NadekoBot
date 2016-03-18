@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using Discord.Commands;
+using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 
 namespace NadekoBot.Commands {
@@ -33,6 +34,7 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "slowmode")
                 .Description("Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.")
                 .Parameter("minutes", ParameterType.Optional)
+                .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e => {
                     //var minutesStr = e.GetArg("minutes");
                     //if (string.IsNullOrWhiteSpace(minutesStr)) {
