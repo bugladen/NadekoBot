@@ -13,7 +13,7 @@ namespace NadekoBot.Commands {
 
         public RatelimitCommand(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (s, e) => {
-                if (e.Channel.IsPrivate)
+                if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
                 ConcurrentDictionary<ulong, DateTime> userTimePair;
                 if (!RatelimitingChannels.TryGetValue(e.Channel.Id, out userTimePair)) return;

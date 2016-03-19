@@ -25,7 +25,7 @@ namespace NadekoBot.Commands {
 
 
             NadekoBot.Client.MessageReceived += async (s, e) => {
-                if (e.Channel.IsPrivate)
+                if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
                 if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
                 try {

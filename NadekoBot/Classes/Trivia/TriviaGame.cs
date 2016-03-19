@@ -96,6 +96,7 @@ namespace NadekoBot.Classes.Trivia {
             try {
                 if (e.Channel.IsPrivate) return;
                 if (e.Server != server) return;
+                if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
 
                 var guess = false;
                 lock (_guessLock) {

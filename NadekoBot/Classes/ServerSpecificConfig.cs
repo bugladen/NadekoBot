@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace NadekoBot.Classes {
     internal class SpecificConfigurations {
         public static SpecificConfigurations Default { get; } = new SpecificConfigurations();
-        public static bool Instantiated { get; set; } = false;
+        public static bool Instantiated { get; private set; }
 
         private const string filePath = "data/ServerSpecificConfigs.json";
 

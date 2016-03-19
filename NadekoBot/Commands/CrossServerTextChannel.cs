@@ -12,7 +12,7 @@ namespace NadekoBot.Commands {
         public CrossServerTextChannel(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (s, e) => {
                 try {
-                    if (e.Message.User.Id == NadekoBot.Creds.BotId) return;
+                    if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
                     foreach (var subscriber in Subscribers) {
                         var set = subscriber.Value;
                         if (!set.Contains(e.Channel))
@@ -25,7 +25,7 @@ namespace NadekoBot.Commands {
             };
             NadekoBot.Client.MessageUpdated += async (s, e) => {
                 try {
-                    if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Creds.BotId) return;
+                    if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Client.CurrentUser.Id) return;
                     foreach (var subscriber in Subscribers) {
                         var set = subscriber.Value;
                         if (!set.Contains(e.Channel))

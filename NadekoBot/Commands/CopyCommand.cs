@@ -13,6 +13,7 @@ namespace NadekoBot.Commands {
         }
 
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e) {
+            if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
             try {
                 if (string.IsNullOrWhiteSpace(e.Message.Text))
                     return;

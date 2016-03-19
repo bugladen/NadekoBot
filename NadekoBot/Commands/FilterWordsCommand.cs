@@ -15,7 +15,7 @@ namespace NadekoBot.Commands {
     internal class FilterWords : DiscordCommand {
         public FilterWords(DiscordModule module) : base(module) {
             NadekoBot.Client.MessageReceived += async (sender, args) => {
-                if (args.Channel.IsPrivate) return;
+                if (args.Channel.IsPrivate || args.User.Id == NadekoBot.Client.CurrentUser.Id) return;
                 try {
                     ServerPermissions serverPerms;
                     if (!IsChannelOrServerFiltering(args.Channel, out serverPerms)) return;

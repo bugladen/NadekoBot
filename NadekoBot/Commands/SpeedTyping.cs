@@ -88,7 +88,7 @@ namespace NadekoBot.Commands {
 
         private async void AnswerReceived(object sender, MessageEventArgs e) {
             try {
-                if (e.Channel == null || e.Channel.Id != channel.Id) return;
+                if (e.Channel == null || e.Channel.Id != channel.Id || e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
 
                 var guess = e.Message.RawText;
 
