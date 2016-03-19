@@ -443,6 +443,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(Prefix + "ubl")
                     .Description("Blacklists a mentioned user.\n**Usage**: ;ubl [user_mention]")
                     .Parameter("user", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
                         await Task.Run(async () => {
                             if (!e.Message.MentionedUsers.Any()) return;
@@ -467,7 +468,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(Prefix + "sbl")
-                    .Description("Blacklists a server by a name or id (#general for example).\n**Usage**: ;usl [servername/serverid]")
+                    .Description("Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY**\n**Usage**: ;usl [servername/serverid]")
                     .Parameter("server", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
