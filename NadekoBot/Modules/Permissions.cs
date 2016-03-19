@@ -469,25 +469,32 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(Prefix + "sbl")
                     .Description("Blacklists a server by a name or id (#general for example).\n**Usage**: ;usl [servername/serverid]")
                     .Parameter("server", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
                         await Task.Run(async () => {
                             var arg = e.GetArg("server")?.Trim();
                             if (string.IsNullOrWhiteSpace(arg))
                                 return;
-                            var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
-                                         NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
-                            if (server == null) {
-                                await e.Channel.SendMessage("Cannot find that server");
+                            ulong serverId;
+                            if (!ulong.TryParse(arg, out serverId)) {
+                                await e.Channel.SendMessage("Not a valid Id");
                                 return;
                             }
-                            NadekoBot.Config.ServerBlacklist.Add(server.Id);
+                            var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
+                                         NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
+                            NadekoBot.Config.ServerBlacklist.Add(serverId);
                             ConfigHandler.SaveConfig();
                             //cleanup trivias and typeracing
                             Classes.Trivia.TriviaGame trivia;
-                            Commands.Trivia.RunningTrivias.TryRemove(server.Id, out trivia);
+                            Commands.Trivia.RunningTrivias.TryRemove(serverId, out trivia);
                             Commands.TypingGame typeracer;
-                            Commands.SpeedTyping.RunningContests.TryRemove(server.Id, out typeracer);
-                            await e.Channel.SendMessage($"`Sucessfully blacklisted server {server.Name}`");
+                            Commands.SpeedTyping.RunningContests.TryRemove(serverId, out typeracer);
+
+                            if (server == null) {
+                                await e.Channel.SendMessage("Cannot find that server");
+                            } else {
+                                await e.Channel.SendMessage($"`Sucessfully blacklisted server {server.Name}`");
+                            }
                         });
                     });
             });
