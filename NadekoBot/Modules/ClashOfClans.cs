@@ -123,7 +123,7 @@ namespace NadekoBot.Commands {
                 cgb.CreateCommand(Prefix + "claim")
                     .Alias(Prefix + "call")
                     .Alias(Prefix + "c")
-                    .Description($"Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. \n**Usage**: {Prefix}call [war_number] [base_number] (optional_otheruser)")
+                    .Description($"Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. \n**Usage**: {Prefix}call [war_number] [base_number] [optional_other_name]")
                     .Parameter("number")
                     .Parameter("baseNumber")
                     .Parameter("other_name", ParameterType.Unparsed)
@@ -153,7 +153,7 @@ namespace NadekoBot.Commands {
 
                 cgb.CreateCommand(Prefix + "cf")
                     .Alias(Prefix + "claimfinish")
-                    .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] (optional_other_name)")
+                    .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(async e => {
@@ -179,7 +179,7 @@ namespace NadekoBot.Commands {
                 cgb.CreateCommand(Prefix + "unclaim")
                     .Alias(Prefix + "uncall")
                     .Alias(Prefix + "uc")
-                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim\n**Usage**: {Prefix}uc [war_number] (optional_other_name)")
+                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim\n**Usage**: {Prefix}uc [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(async e => {

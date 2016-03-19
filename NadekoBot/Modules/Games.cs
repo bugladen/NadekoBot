@@ -54,7 +54,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(Prefix + "attack")
-                    .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: > strike @User")
+                    .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: >attack strike @User")
                     .Parameter("attack_type", Discord.Commands.ParameterType.Required)
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Do(async e => {

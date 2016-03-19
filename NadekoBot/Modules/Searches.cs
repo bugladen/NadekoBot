@@ -29,6 +29,24 @@ namespace NadekoBot.Modules {
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
+                cgb.CreateCommand(Prefix + "we")
+                    .Description("Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.")
+                    .Parameter("city", ParameterType.Required)
+                    .Parameter("country", ParameterType.Required)
+                    .Do(async e => {
+                        var city = e.GetArg("city").Replace(" ", "");
+                        var country = e.GetArg("country").Replace(" ", "");
+                        var response = await SearchHelper.GetResponseStringAsync($"http://api.lawlypopzz.xyz/nadekobot/weather/?city={city}&country={country}");
+
+                        var obj = JObject.Parse(response)["weather"];
+
+                        await e.Channel.SendMessage(
+$@"**`Location:`【{obj["target"]}】
+`Temp:` {obj["centigrade"]}°C, {obj["condition"]} `Feels like:` {obj["feelscentigrade"]}°C
+`Wind:` {obj["windspeedk"]}km/h {obj["winddir"]} `Humidity:` {obj["humidity"]}%**");
+                    });
+
+
                 cgb.CreateCommand(Prefix + "yt")
                     .Parameter("query", ParameterType.Unparsed)
                     .Description("Searches youtubes and shows the first result")
