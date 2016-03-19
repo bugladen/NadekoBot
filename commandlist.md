@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5919.5387`
+Version: `NadekoBot v0.9.5922.6892`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -178,7 +178,7 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
-`>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  > strike @User
+`>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  >attack strike @User
 `>poketype`  |  Gets the users element type. Use this to do more damage with strike!
 `>rps`  |  Play a game of rocket paperclip scissors with nadkeo. |  >rps scissors
 `>linux`  |  Prints a customizable Linux interjection
@@ -217,6 +217,7 @@ Command and aliases | Description | Usage
 `~twitch`, `~tw`  |  Notifies this channel when a certain user starts streaming. |  ~twitch SomeStreamer
 `~removestream`, `~rms`  |  Removes notifications of a certain streamer on this channel. |  ~rms SomeGuy
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
+`~we`  |  Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
@@ -247,9 +248,9 @@ Command and aliases | Description | Usage
 `,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | ,cw 15 The Enemy Clan
 `,sw`, `,startwar`  |  Starts a war with a given number.
 `,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
-`,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] (optional_otheruser)
-`,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] (optional_other_name)
-`,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] (optional_other_name)
+`,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] [optional_other_name]
+`,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] [optional_other_name]
 `,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
 
 ### Trello  

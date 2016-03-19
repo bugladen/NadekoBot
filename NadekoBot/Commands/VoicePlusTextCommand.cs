@@ -22,10 +22,26 @@ namespace NadekoBot.Commands {
             // changing servers may cause bugs
             NadekoBot.Client.UserUpdated += async (sender, e) => {
                 try {
+                    if (e.Server == null)
+                        return;
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
                     if (!config.VoicePlusTextEnabled)
                         return;
+                    var serverPerms = e.Server.GetUser(NadekoBot.Client.CurrentUser.Id)?.ServerPermissions;
+                    if (serverPerms == null)
+                        return;
+                    if (!serverPerms.Value.ManageChannels || !serverPerms.Value.ManageRoles) {
+
+                        try {
+                            await e.Server.Owner.SendMessage(
+                                "I don't have manage server and/or Manage Channels permission," +
+                                $"so I cannot run voice+text on **{e.Server.Name}** server.");
+                        } catch { } // meh
+                        config.VoicePlusTextEnabled = false;
+                        return;
+                    }
+
 
                     var beforeVch = e.Before.VoiceChannel;
                     if (beforeVch != null) {

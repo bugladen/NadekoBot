@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading.Tasks;
@@ -513,17 +514,17 @@ namespace NadekoBot.Modules {
                 Channel commsChannel = null;
 
                 cgb.CreateCommand(Prefix + "commsuser")
-                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.")
-                    .Parameter("name", ParameterType.Unparsed)
-                    .Do(async e => {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
-                        commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                        if (commsUser != null) {
-                            commsChannel = null;
-                            await e.Channel.SendMessage("User for comms set.");
-                        } else
-                            await e.Channel.SendMessage("No server specified or user.");
-                    });
+                            .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.")
+                            .Parameter("name", ParameterType.Unparsed)
+                            .Do(async e => {
+                                if (!NadekoBot.IsOwner(e.User.Id)) return;
+                                commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
+                                if (commsUser != null) {
+                                    commsChannel = null;
+                                    await e.Channel.SendMessage("User for comms set.");
+                                } else
+                                    await e.Channel.SendMessage("No server specified or user.");
+                            });
 
                 cgb.CreateCommand(Prefix + "commsserver")
                     .Description("Sets a server for through-bot communication.**Owner only**.")
