@@ -124,6 +124,7 @@
     <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
     <Compile Include="Classes\JSONModels\MangaResult.cs" />
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
+    <Compile Include="Classes\Leet.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\Song.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />

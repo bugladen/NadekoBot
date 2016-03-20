@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;
 using NadekoBot.Commands;
@@ -388,6 +389,21 @@ namespace NadekoBot.Modules {
                         }
                         await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl());
                     });
+
+                cgb.CreateCommand("leet")
+                    .Parameter("level", ParameterType.Required)
+                    .Parameter("text", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var text = e.GetArg("text")?.Trim();
+                        var levelStr = e.GetArg("level")?.Trim();
+                        int level;
+                        if (!int.TryParse(levelStr, out level))
+                            return;
+                        if (string.IsNullOrWhiteSpace(text))
+                            return;
+                        await e.Channel.SendMessage(text.ToLeet(level));
+                    });
+
             });
         }
 
