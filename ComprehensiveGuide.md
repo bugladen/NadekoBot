@@ -12,6 +12,7 @@ ________________________________________________________________________________
 Your bot will reply with a number; this is your bot's ID. Then type in [.uid @_____] without the brackets, filling in the underlined portion with your own name and send the message. Your bot will reply with another number; this is your own ID. Close NadekoBot.exe.   
 - Reopen credentials.json. For "BotId", fill in your bot's ID followed by a comma ("BotId": 78663633663,). For "OwnerIds", fill in your own ID in the square brackets ("OwnerIds": [1231312313]). You can add multiple owners by separating Ids with a comma. 
 - Close and save credentials.json.  
+- Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json. (this is only in 0.9+ releases)
 
 ________________________________________________________________________________
 
