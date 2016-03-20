@@ -454,8 +454,9 @@ namespace NadekoBot.Modules {
                         });
                     });
 
-                cgb.CreateCommand(Prefix + "unblacklist")
-               .Description($"Unblacklists a mentioned user.\n**Usage**: {Prefix}unblacklist [user_mention]")
+                cgb.CreateCommand(Prefix + "uubl")
+               .Alias(Prefix + "unblacklist")
+               .Description($"Unblacklists a mentioned user.\n**Usage**: {Prefix}uubl [user_mention]")
                .Parameter("user", ParameterType.Unparsed)
                .AddCheck(SimpleCheckers.OwnerOnly())
                .Do(async e =>
