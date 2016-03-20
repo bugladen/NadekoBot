@@ -22,7 +22,7 @@ obj/
 !**/Bin/Debug/data/*
 !**/Bin/Debug/data/
 !**/Bin/Debug/credentials_example.json
-Tests/
+Tests/bin
 
 # NuGet Packages
 *.nupkg
