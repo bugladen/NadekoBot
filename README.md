@@ -1,3 +1,4 @@
+![img](https://ci.appveyor.com/api/projects/status/gmu6b3ltc80hr3k9?svg=true)
 # NadekoBot
 [**click here for a list of commands**](https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md)  
 Nadeko Discord chatbot written in C# using Discord.net library.  
