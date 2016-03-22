@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using NadekoBot.Classes.JSONModels;
 using Newtonsoft.Json;
 
 namespace NadekoBot.Classes {
@@ -33,6 +34,8 @@ namespace NadekoBot.Classes {
         }
 
         private readonly ConcurrentDictionary<ulong, ServerSpecificConfig> configs;
+
+        public IEnumerable<ServerSpecificConfig> AllConfigs => configs.Values;
 
         public ServerSpecificConfig Of(ulong id) =>
             configs.GetOrAdd(id, _ => new ServerSpecificConfig());
@@ -82,8 +85,23 @@ namespace NadekoBot.Classes {
             }
         }
 
+        [JsonIgnore]
+        private ObservableCollection<StreamNotificationConfig> observingStreams;
+        public ObservableCollection<StreamNotificationConfig> ObservingStreams {
+            get { return observingStreams; }
+            set {
+                observingStreams = value;
+                if (value != null)
+                    observingStreams.CollectionChanged += (s, e) => {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
+
         public ServerSpecificConfig() {
             ListOfSelfAssignableRoles = new ObservableCollection<ulong>();
+            ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
@@ -91,6 +109,29 @@ namespace NadekoBot.Classes {
         private void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             Console.WriteLine("property changed");
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class StreamNotificationConfig : IEquatable<StreamNotificationConfig> {
+        public string Username { get; set; }
+        public StreamType Type { get; set; }
+        public ulong ServerId { get; set; }
+        public ulong ChannelId { get; set; }
+        public bool LastStatus { get; set; }
+
+        public enum StreamType {
+            Twitch,
+            Hitbox,
+            YoutubeGaming
+        }
+
+        public bool Equals(StreamNotificationConfig other) =>
+            this.Username.ToLower().Trim() == other.Username.ToLower().Trim() &&
+            this.Type == other.Type &&
+            this.ServerId == other.ServerId;
+
+        public override int GetHashCode() {
+            return (int)((int)ServerId + Username.Length + (int)Type);
         }
     }
 }

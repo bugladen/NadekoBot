@@ -2,7 +2,6 @@
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
-  "ObservingStreams": [],
   "RotatingStatuses": [],
   "CommandPrefixes": {
     "Administration": ".",

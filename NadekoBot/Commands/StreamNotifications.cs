@@ -22,8 +22,8 @@ namespace NadekoBot.Commands {
 
             checkTimer.Elapsed += async (s, e) => {
                 try {
-                    var streams = NadekoBot.Config.ObservingStreams;
-                    if (streams == null || !streams.Any()) return;
+                    var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
+                    if (!streams.Any()) return;
 
                     foreach (var stream in streams) {
                         Tuple<bool, string> data;
@@ -108,7 +108,9 @@ namespace NadekoBot.Commands {
                     if (string.IsNullOrWhiteSpace(username))
                         return;
 
-                    var toRemove = NadekoBot.Config.ObservingStreams
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+
+                    var toRemove = config.ObservingStreams
                         .FirstOrDefault(snc => snc.ChannelId == e.Channel.Id &&
                                         snc.Username.ToLower().Trim() == username);
                     if (toRemove == null) {
@@ -116,7 +118,7 @@ namespace NadekoBot.Commands {
                         return;
                     }
 
-                    NadekoBot.Config.ObservingStreams.Remove(toRemove);
+                    config.ObservingStreams.Remove(toRemove);
                     ConfigHandler.SaveConfig();
                     await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.");
                 });
@@ -126,7 +128,10 @@ namespace NadekoBot.Commands {
                 .Description("Lists all streams you are following on this server." +
                              "\n**Usage**: ~ls")
                 .Do(async e => {
-                    var streams = NadekoBot.Config.ObservingStreams.Where(snc =>
+
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+
+                    var streams = config.ObservingStreams.Where(snc =>
                         snc.ServerId == e.Server.Id);
 
                     var streamsArray = streams as StreamNotificationConfig[] ?? streams.ToArray();
@@ -153,13 +158,15 @@ namespace NadekoBot.Commands {
                 if (string.IsNullOrWhiteSpace(username))
                     return;
 
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+
                 var stream = new StreamNotificationConfig {
                     ServerId = e.Server.Id,
                     ChannelId = e.Channel.Id,
                     Username = username,
                     Type = type,
                 };
-                var exists = NadekoBot.Config.ObservingStreams.Contains(stream);
+                var exists = config.ObservingStreams.Contains(stream);
                 if (exists) {
                     await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.");
                 }
@@ -182,8 +189,7 @@ namespace NadekoBot.Commands {
                 if (!exists)
                     msg = $":ok: I will notify this channel when status changes.\n{msg}";
                 await e.Channel.SendMessage(msg);
-                NadekoBot.Config.ObservingStreams.Add(stream);
-                ConfigHandler.SaveConfig();
+                config.ObservingStreams.Add(stream);
             };
     }
 }

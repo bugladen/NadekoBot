@@ -13,9 +13,6 @@ namespace NadekoBot.Classes.JSONModels {
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
 
-        public HashSet<StreamNotificationConfig> ObservingStreams { get; set; } =
-            new HashSet<StreamNotificationConfig>();
-
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
@@ -111,29 +108,6 @@ namespace NadekoBot.Classes.JSONModels {
         public static bool IsChannelBlacklisted(ulong id) => NadekoBot.Config.ChannelBlacklist.Contains(id);
 
         public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
-    }
-
-    public class StreamNotificationConfig : IEquatable<StreamNotificationConfig> {
-        public string Username { get; set; }
-        public StreamType Type { get; set; }
-        public ulong ServerId { get; set; }
-        public ulong ChannelId { get; set; }
-        public bool LastStatus { get; set; }
-
-        public enum StreamType {
-            Twitch,
-            Hitbox,
-            YoutubeGaming
-        }
-
-        public bool Equals(StreamNotificationConfig other) =>
-            this.Username.ToLower().Trim() == other.Username.ToLower().Trim() &&
-            this.Type == other.Type &&
-            this.ServerId == other.ServerId;
-
-        public override int GetHashCode() {
-            return (int)((int)ServerId + Username.Length + (int)Type);
-        }
     }
 
     public class Quote {

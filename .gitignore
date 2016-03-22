@@ -34,3 +34,4 @@ Tests/bin
 #!**/packages/repositories.config
 NadekoBot/bin/Debug/data/nadekobot.sqlite
 NadekoBot/bin/Debug/data/config.json
+NadekoBot/bin/Debug/data/ServerSpecificConfigs.json
