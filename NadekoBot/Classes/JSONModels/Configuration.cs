@@ -52,21 +52,21 @@ namespace NadekoBot.Classes.JSONModels {
                 "NO - It may cause disease contraction"
             };
 
-    public string[] DisguiseResponses { get; } = {
+    public string[] DisguiseResponses { get; set; } = {
             "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
             "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
             "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
             "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
         };
 
-        public string[] CryResponses { get; } = {
+        public string[] CryResponses { get; set; } = {
             "http://i.imgur.com/Xg3i1Qy.gif",
             "http://i.imgur.com/3K8DRrU.gif",
             "http://i.imgur.com/k58BcAv.gif",
             "http://i.imgur.com/I2fLXwo.gif"
         };
 
-        public string[] PatResponses { get; } = {
+        public string[] PatResponses { get; set; } = {
             "http://i.imgur.com/IiQwK12.gif",
             "http://i.imgur.com/JCXj8yD.gif",
             "http://i.imgur.com/qqBl2bm.gif",
