@@ -32,7 +32,7 @@ namespace NadekoBot {
             //var lines = File.ReadAllLines("data/input.txt");
             //HashSet<dynamic> list = new HashSet<dynamic>();
             //for (int i = 0; i < lines.Length; i += 3) {
-            //    dynamic obj = new ExpandoObject();
+            //    dynamic obj = new JArray();
             //    obj.Text = lines[i];
             //    obj.Author = lines[i + 1];
             //    if (obj.Author.StartsWith("-"))
@@ -45,8 +45,11 @@ namespace NadekoBot {
             //Console.ReadKey();
             // generate credentials example so people can know about the changes i make
             try {
-                File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
                 File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
+                if (!File.Exists("data/config.json"))
+                    File.Copy("data/config_example.json", "data/config.json");
+                File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
+                
             } catch {
                 Console.WriteLine("Failed writing credentials_example.json or data/config_example.json");
             }
@@ -56,6 +59,8 @@ namespace NadekoBot {
                 Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
             } catch {
                 Console.WriteLine("Failed loading configuration.");
+                Console.ReadKey();
+                return;
             }
 
             try {
