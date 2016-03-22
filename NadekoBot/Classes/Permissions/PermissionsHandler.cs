@@ -437,6 +437,7 @@ namespace NadekoBot.Classes.Permissions {
             Verbose = true;
 
             Permissions = new Permissions(name);
+            Permissions.Modules.TryAdd("NSFW", false);
             UserPermissions = new Dictionary<ulong, Permissions>();
             ChannelPermissions = new Dictionary<ulong, Permissions>();
             RolePermissions = new Dictionary<ulong, Permissions>();

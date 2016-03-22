@@ -62,6 +62,10 @@ namespace NadekoBot.Classes.Permissions {
 
                 string msg;
 
+                if (permissionType == PermissionsHandler.PermissionBanType.ServerBanModule &&
+                    command.Category.ToLower() == "nsfw")
+                    msg = $"**{command.Category}** module has been banned from use on this **server**.\nNSFW module is disabled by default. Server owner can type `;sm nsfw enable` to enable it.";
+                else
                 switch (permissionType) {
                     case PermissionsHandler.PermissionBanType.None:
                         return true;
