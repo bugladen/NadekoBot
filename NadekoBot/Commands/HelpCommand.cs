@@ -90,7 +90,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(DoFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("OWNER ONLY commandlist.md file generation.")
+                .Description("Generates the commandlist.md file. **Owner Only!**")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
