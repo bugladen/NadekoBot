@@ -41,11 +41,12 @@ namespace NadekoBot.Modules {
                         var obj = JObject.Parse(response)["weather"];
 
                         await e.Channel.SendMessage(
-$@"**`Location:`【{obj["target"]}】
-`Temp:` {obj["centigrade"]}°C, {obj["condition"]} `Feels like:` {obj["feelscentigrade"]}°C
-`Wind:` {obj["windspeedk"]}km/h {obj["winddir"]} `Humidity:` {obj["humidity"]}%**");
+$@"🌍 **Weather for** 【{obj["target"]}】
+📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
+😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedm"]}mph / {obj["windspeedk"]}km/h 
+🔆 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
+🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}");
                     });
-
 
                 cgb.CreateCommand(Prefix + "yt")
                     .Parameter("query", ParameterType.Unparsed)
