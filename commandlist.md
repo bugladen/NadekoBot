@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5922.6892`
+Version: `NadekoBot v0.9.5925.41065`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -52,24 +52,25 @@ Command and aliases | Description | Usage
 `.sid`, `.serverid`  |  Shows current server ID.
 `.stats`  |  Shows some basic stats for Nadeko.
 `.dysyd`  |  Shows some basic stats for Nadeko.
-`.heap`  |  Shows allocated memory - OWNER ONLY
+`.heap`  |  Shows allocated memory - **Owner Only!**
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 5
-`.die`, `.graceful`  |  Works only for the owner. Shuts the bot down and notifies users about the restart.
-`.clr`  |  Clears some of Nadeko's (or some other user's if supplied) messages from the current channel. |  .clr @X
-`.newname`, `.setname`  |  Give the bot a new name.
-`.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot.
-`.setgame`  |  Sets the bots game.
+`.die`, `.graceful`  |  Shuts the bot down and notifies users about the restart. **Owner Only!**
+`.clr`  |  Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel (**Owner Only!**)  |  .clr @X
+`.newname`, `.setname`  |  Give the bot a new name. **Owner Only!**
+`.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. **Owner Only!**
+`.setgame`  |  Sets the bots game. **Owner Only!**
 `.checkmyperms`  |  Checks your userspecific permissions on this channel.
-`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel.**Owner only**.
-`.commsserver`  |  Sets a server for through-bot communication.**Owner only**.
-`.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser.**Owner only**.
-`.send`  |  Send a message to someone on a different server through the bot.**Owner only.**
+`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**
+`.commsserver`  |  Sets a server for through-bot communication. **Owner Only!**
+`.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Owner Only!**
+`.send`  |  Send a message to someone on a different server through the bot. **Owner Only!**
   |  .send Message text multi word!
 `.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.
 `.parsetosql`  |  Loads exported parsedata from /data/parsedata/ into sqlite database.
-`.unstuck`  |  Clears the message queue. **OWNER ONLY**
+`.unstuck`  |  Clears the message queue. **Owner Only!**
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.adddon`, `.donadd`  |  Add a donator to the database.
+`.topic`  |  Sets current channel's topic.
 `.videocall`  |  Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
 
 ### Help  
@@ -113,8 +114,9 @@ Command and aliases | Description | Usage
 `;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
 `;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [role_name]
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
+`;uubl`, `;unblacklist`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
 `;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
-`;sbl`  |  Blacklists a server by a name or id (#general for example). |  ;usl [servername/serverid]
+`;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;usl [servername/serverid]
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -153,6 +155,7 @@ Command and aliases | Description | Usage
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
 `@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
+`@BotName leet`  |  Convert your text to leetspeak. Level is a number 1-6. |  @BotName leet [level] [Your text here]
 
 ### Gambling  
 Command and aliases | Description | Usage

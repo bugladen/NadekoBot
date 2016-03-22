@@ -391,6 +391,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("leet")
+                    .Description("Convert your text to leetspeak. Level is a number 1-6.\n**Usage**: @BotName leet [level] [Your text here]")
                     .Parameter("level", ParameterType.Required)
                     .Parameter("text", ParameterType.Unparsed)
                     .Do(async e => {
