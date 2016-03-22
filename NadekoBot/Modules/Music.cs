@@ -202,7 +202,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("setgame")
-                    .Description("Sets the game of the bot to the number of songs playing.**Owner only**")
+                    .Description("Sets the game of the bot to the number of songs playing. **Owner only**")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
                         await e.Channel.SendMessage("❗This command is deprecated. " +
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("lopl")
-                    .Description("Queues up to 50 songs from a directory.")
+                    .Description("Queues up to 50 songs from a directory. **Owner Only!**")
                     .Parameter("directory", ParameterType.Unparsed)
                     .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                     .Do(async e => {
@@ -261,7 +261,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("lo")
-                    .Description("Queues a local file by specifying a full path. BOT OWNER ONLY.")
+                    .Description("Queues a local file by specifying a full path. **Owner Only!**")
                     .Parameter("path", ParameterType.Unparsed)
                     .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                     .Do(async e => {
@@ -307,7 +307,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("cleanup")
-                    .Description("Cleans up hanging voice connections. BOT OWNER ONLY")
+                    .Description("Cleans up hanging voice connections. **Owner Only!**")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(e => {
                         foreach (var kvp in MusicPlayers) {
