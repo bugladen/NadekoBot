@@ -631,6 +631,7 @@ namespace NadekoBot.Modules {
                     .Description("Add a donator to the database.")
                     .Parameter("donator")
                     .Parameter("amount")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e => {
                         await Task.Run(() => {
                             if (!NadekoBot.IsOwner(e.User.Id))
@@ -647,6 +648,18 @@ namespace NadekoBot.Modules {
                                 e.Channel.SendMessage("Successfuly added a new donator. 👑");
                             } catch { }
                         });
+                    });
+
+                cgb.CreateCommand(Prefix + "topic")
+                    .Description("Sets current channel's topic.")
+                    .Parameter("topic", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.ManageChannels())
+                    .Do(async e => {
+                        var topic = e.GetArg("topic");
+                        if (string.IsNullOrWhiteSpace(topic))
+                            return;
+                        await e.Channel.Edit(topic: topic);
+                        await e.Channel.SendMessage(":ok: **New channel topic set.**");
                     });
 
                 cgb.CreateCommand(Prefix + "videocall")
