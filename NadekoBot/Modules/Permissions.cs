@@ -455,27 +455,22 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand(Prefix + "uubl")
-               .Alias(Prefix + "unblacklist")
-               .Description($"Unblacklists a mentioned user.\n**Usage**: {Prefix}uubl [user_mention]")
-               .Parameter("user", ParameterType.Unparsed)
-               .AddCheck(SimpleCheckers.OwnerOnly())
-               .Do(async e =>
-               {
-                   await Task.Run(async () => {
-                       if (!e.Message.MentionedUsers.Any()) return;
-                       var usr = e.Message.MentionedUsers.First();
-                       if (NadekoBot.Config.UserBlacklist.Contains(usr.Id))
-                       {
-                           NadekoBot.Config.UserBlacklist.Remove(usr.Id);
-                           ConfigHandler.SaveConfig();
-                           await e.Channel.SendMessage($"`Sucessfully unblacklisted user {usr.Name}`");
-                       }
-                       else
-                       {
-                           await e.Channel.SendMessage($"`{usr.Name} was not in blacklist`");
-                       }
+                   .Description($"Unblacklists a mentioned user.\n**Usage**: {Prefix}uubl [user_mention]")
+                   .Parameter("user", ParameterType.Unparsed)
+                   .AddCheck(SimpleCheckers.OwnerOnly())
+                   .Do(async e => {
+                       await Task.Run(async () => {
+                           if (!e.Message.MentionedUsers.Any()) return;
+                           var usr = e.Message.MentionedUsers.First();
+                           if (NadekoBot.Config.UserBlacklist.Contains(usr.Id)) {
+                               NadekoBot.Config.UserBlacklist.Remove(usr.Id);
+                               ConfigHandler.SaveConfig();
+                               await e.Channel.SendMessage($"`Sucessfully unblacklisted user {usr.Name}`");
+                           } else {
+                               await e.Channel.SendMessage($"`{usr.Name} was not in blacklist`");
+                           }
+                       });
                    });
-               });
 
                 cgb.CreateCommand(Prefix + "cbl")
                     .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;ubl [channel_mention]")
@@ -485,6 +480,19 @@ namespace NadekoBot.Modules {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
                             NadekoBot.Config.UserBlacklist.Add(ch.Id);
+                            ConfigHandler.SaveConfig();
+                            await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`");
+                        });
+                    });
+
+                cgb.CreateCommand(Prefix + "cubl")
+                    .Description("Unblacklists a mentioned channel (#general for example).\n**Usage**: ;cubl [channel_mention]")
+                    .Parameter("channel", ParameterType.Unparsed)
+                    .Do(async e => {
+                        await Task.Run(async () => {
+                            if (!e.Message.MentionedChannels.Any()) return;
+                            var ch = e.Message.MentionedChannels.First();
+                            NadekoBot.Config.UserBlacklist.Remove(ch.Id);
                             ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`");
                         });
