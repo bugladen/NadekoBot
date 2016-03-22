@@ -20,7 +20,7 @@ namespace NadekoBot.Commands {
                     ServerPermissions serverPerms;
                     if (!IsChannelOrServerFiltering(args.Channel, out serverPerms)) return;
 
-                    var wordsInMessage = args.Message.RawText.Split(' ');
+                    var wordsInMessage = args.Message.RawText.ToLowerInvariant().Split(' ');
                     if (serverPerms.Words.Any(w => wordsInMessage.Contains(w))) {
                         await args.Message.Delete();
                         IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
@@ -71,7 +71,6 @@ namespace NadekoBot.Commands {
                             PermissionsHandler.SetChannelWordPermission(curChannel, state);
                         }
                         await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.");
-
                     } catch (Exception ex) {
                         await e.Channel.SendMessage($"💢 Error: {ex.Message}");
                     }
