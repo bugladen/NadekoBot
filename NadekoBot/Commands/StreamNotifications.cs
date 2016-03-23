@@ -154,7 +154,7 @@ namespace NadekoBot.Commands {
 
         private Func<CommandEventArgs, Task> TrackStream(StreamNotificationConfig.StreamType type) =>
             async e => {
-                var username = e.GetArg("username");
+                var username = e.GetArg("username")?.ToLowerInvariant();
                 if (string.IsNullOrWhiteSpace(username))
                     return;
 

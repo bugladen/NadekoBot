@@ -22,6 +22,7 @@ namespace NadekoBot.Commands {
             NadekoBot.Client.MessageDeleted += MsgDltd;
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
+            NadekoBot.Client.UserBanned += UsrBanned;
 
 
             NadekoBot.Client.MessageReceived += async (s, e) => {
@@ -39,6 +40,15 @@ namespace NadekoBot.Commands {
                         $"`Message:` {e.Message.Text}");
                 } catch { }
             };
+        }
+
+        private async void UsrBanned(object sender, UserEventArgs e) {
+            try {
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch))
+                    return;
+                await ch.SendMessage($"`User banned:` **{e.User.Name}** ({e.User.Id})");
+            } catch { }
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e => {
