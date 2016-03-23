@@ -2,7 +2,7 @@
 # NadekoBot
 [**click here for a list of commands**](https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md)  
 Nadeko Discord chatbot written in C# using Discord.net library.  
-You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBhxEi0X
+You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
 
 ##This section will guide you through how to setup NadekoBot
 #### For easy setup and no programming knowledge, you can use [UPDATER](https://github.com/Kwoth/NadekoUpdater/releases/latest) or download release from [releases](https://github.com/Kwoth/NadekoBot/releases) and follow the comprehensive [GUIDE](https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md)
