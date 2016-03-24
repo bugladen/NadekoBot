@@ -9,13 +9,6 @@ using NadekoBot.Modules;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
 namespace NadekoBot.Commands {
-    /// <summary>
-    /// This is an ingenious idea by @Googie2149 a few months back.
-    /// He never got around to implementing it, so i grew impatient
-    /// and did it myself. Googie is cool guy and a creator of RoboNitori
-    /// You can check out his server here: https://discord.gg/0ZgChoTkuxAzARfF
-    /// sowwy googie ;(
-    /// </summary>
     internal class VoicePlusTextCommand : DiscordCommand {
 
         public VoicePlusTextCommand(DiscordModule module) : base(module) {
