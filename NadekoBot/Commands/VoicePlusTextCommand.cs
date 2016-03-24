@@ -29,7 +29,7 @@ namespace NadekoBot.Commands {
                         try {
                             await e.Server.Owner.SendMessage(
                                 "I don't have manage server and/or Manage Channels permission," +
-                                $"so I cannot run voice+text on **{e.Server.Name}** server.");
+                                $" so I cannot run voice+text on **{e.Server.Name}** server.");
                         } catch { } // meh
                         config.VoicePlusTextEnabled = false;
                         return;
