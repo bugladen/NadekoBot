@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 
-namespace NadekoBot.Classes {
-    public class Cards {
+namespace NadekoBot.Modules.Gambling.Helpers
+{
+    public class Cards
+    {
         private static readonly Dictionary<int, string> cardNames = new Dictionary<int, string>() {
         { 1, "Ace" },
         { 2, "Two" },
@@ -22,31 +24,38 @@ namespace NadekoBot.Classes {
         private static Dictionary<string, Func<List<Card>, bool>> handValues;
 
 
-        public enum CardSuit {
+        public enum CardSuit
+        {
             Spades = 1,
             Hearts = 2,
             Diamonds = 3,
             Clubs = 4
         }
 
-        public class Card : IComparable {
+        public class Card : IComparable
+        {
             public CardSuit Suit { get; }
             public int Number { get; }
 
-            public string Name {
-                get {
+            public string Name
+            {
+                get
+                {
                     var str = "";
 
-                    if (Number <= 10 && Number > 1) {
+                    if (Number <= 10 && Number > 1)
+                    {
                         str += "_" + Number;
-                    } else {
+                    }
+                    else {
                         str += GetName().ToLower();
                     }
                     return str + "_of_" + Suit.ToString().ToLower();
                 }
             }
 
-            public Card(CardSuit s, int cardNum) {
+            public Card(CardSuit s, int cardNum)
+            {
                 this.Suit = s;
                 this.Number = cardNum;
             }
@@ -55,7 +64,8 @@ namespace NadekoBot.Classes {
 
             public override string ToString() => cardNames[Number] + " Of " + Suit;
 
-            public int CompareTo(object obj) {
+            public int CompareTo(object obj)
+            {
                 if (!(obj is Card)) return 0;
                 var c = (Card)obj;
                 return this.Number - c.Number;
@@ -63,7 +73,8 @@ namespace NadekoBot.Classes {
         }
 
         private List<Card> cardPool;
-        public List<Card> CardPool {
+        public List<Card> CardPool
+        {
             get { return cardPool; }
             set { cardPool = value; }
         }
@@ -71,7 +82,8 @@ namespace NadekoBot.Classes {
         /// <summary>
         /// Creates a new instance of the BlackJackGame, this allows you to create multiple games running at one time.
         /// </summary>
-        public Cards() {
+        public Cards()
+        {
             cardPool = new List<Card>(52);
             RefillPool();
             InitHandValues();
@@ -86,12 +98,15 @@ namespace NadekoBot.Classes {
         /// Removes all cards from the pool and refills the pool with all of the possible cards. NOTE: I think this is too expensive.
         /// We should probably make it so it copies another premade list with all the cards, or something.
         /// </summary>
-        private void RefillPool() {
+        private void RefillPool()
+        {
             cardPool.Clear();
             //foreach suit
-            for (var j = 1; j < 14; j++) {
+            for (var j = 1; j < 14; j++)
+            {
                 // and number
-                for (var i = 1; i < 5; i++) {
+                for (var i = 1; i < 5; i++)
+                {
                     //generate a card of that suit and number and add it to the pool
 
                     // the pool will go from ace of spades,hears,diamonds,clubs all the way to the king of spades. hearts, ...
@@ -104,7 +119,8 @@ namespace NadekoBot.Classes {
         /// Take a card from the pool, you either take it from the top if the deck is shuffled, or from a random place if the deck is in the default order.
         /// </summary>
         /// <returns>A card from the pool</returns>
-        public Card DrawACard() {
+        public Card DrawACard()
+        {
             if (CardPool.Count == 0)
                 Restart();
             //you can either do this if your deck is not shuffled
@@ -124,14 +140,16 @@ namespace NadekoBot.Classes {
         /// <summary>
         /// Shuffles the deck. Use this if you want to take cards from the top of the deck, instead of randomly. See DrawACard method.
         /// </summary>
-        private void Shuffle() {
+        private void Shuffle()
+        {
             if (cardPool.Count <= 1) return;
             var orderedPool = cardPool.OrderBy(x => r.Next());
             cardPool = cardPool as List<Card> ?? orderedPool.ToList();
         }
         public override string ToString() => string.Join("", cardPool.Select(c => c.ToString())) + Environment.NewLine;
 
-        private static void InitHandValues() {
+        private static void InitHandValues()
+        {
             Func<List<Card>, bool> hasPair =
                                   cards => cards.GroupBy(card => card.Number)
                                                 .Count(group => group.Count() == 2) == 1;
@@ -145,7 +163,8 @@ namespace NadekoBot.Classes {
                                                 .Count(group => group.Count() == 2) == 2;
 
             Func<List<Card>, bool> isStraight =
-                cards => {
+                cards =>
+                {
                     if (cards.GroupBy(card => card.Number).Count() != cards.Count())
                         return false;
                     var toReturn = (cards.Max(card => (int)card.Number)
@@ -199,10 +218,12 @@ namespace NadekoBot.Classes {
             };
         }
 
-        public static string GetHandValue(List<Card> cards) {
+        public static string GetHandValue(List<Card> cards)
+        {
             if (handValues == null)
                 InitHandValues();
-            foreach (var kvp in handValues.Where(x => x.Value(cards))) {
+            foreach (var kvp in handValues.Where(x => x.Value(cards)))
+            {
                 return kvp.Key;
             }
             return "High card " + cards.Max().GetName();
