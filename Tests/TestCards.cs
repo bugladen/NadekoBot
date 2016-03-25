@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static NadekoBot.Classes.Cards;
+using static NadekoBot.Modules.Gambling.Helpers.Cards;
 
-namespace Tests {
+namespace Tests
+{
     [TestClass]
-    public class TestCards {
+    public class TestCards
+    {
         [TestMethod]
-        public void TestHandValues() {
+        public void TestHandValues()
+        {
             var setting1 = new List<Card> {
                 new Card(CardSuit.Clubs,10),
                 new Card(CardSuit.Clubs,10),

@@ -1,23 +1,23 @@
 ﻿using Discord;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using Newtonsoft.Json;
-using Discord.Commands;
-using NadekoBot.Modules;
-using Discord.Modules;
 using Discord.Audio;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Manatee.StateMachine.Exceptions;
+using Discord.Commands;
+using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
+using NadekoBot.Modules;
+using NadekoBot.Modules.Gambling;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NadekoBot {
-    public class NadekoBot {
+namespace NadekoBot
+{
+    public class NadekoBot
+    {
         public static DiscordClient Client;
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
@@ -26,7 +26,8 @@ namespace NadekoBot {
 
         private static Channel OwnerPrivateChannel { get; set; }
 
-        private static void Main() {
+        private static void Main()
+        {
             Console.OutputEncoding = Encoding.Unicode;
 
             //var lines = File.ReadAllLines("data/input.txt");
@@ -44,36 +45,46 @@ namespace NadekoBot {
 
             //Console.ReadKey();
             // generate credentials example so people can know about the changes i make
-            try {
+            try
+            {
                 File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
                 if (!File.Exists("data/config.json"))
                     File.Copy("data/config_example.json", "data/config.json");
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
-                
-            } catch {
+
+            }
+            catch
+            {
                 Console.WriteLine("Failed writing credentials_example.json or data/config_example.json");
             }
 
-            try {
+            try
+            {
                 Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
                 Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
-            } catch {
+            }
+            catch
+            {
                 Console.WriteLine("Failed loading configuration.");
                 Console.ReadKey();
                 return;
             }
 
-            try {
+            try
+            {
                 //load credentials from credentials.json
                 Creds = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("credentials.json"));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
                 Console.ReadKey();
                 return;
             }
 
             //if password is not entered, prompt for password
-            if (string.IsNullOrWhiteSpace(Creds.Password)) {
+            if (string.IsNullOrWhiteSpace(Creds.Password))
+            {
                 Console.WriteLine("Password blank. Please enter your password:\n");
                 Creds.Password = Console.ReadLine();
             }
@@ -94,7 +105,8 @@ namespace NadekoBot {
             BotMention = $"<@{Creds.BotId}>";
 
             //create new discord client and log
-            Client = new DiscordClient(new DiscordConfigBuilder() {
+            Client = new DiscordClient(new DiscordConfigBuilder()
+            {
                 MessageCacheSize = 10,
                 ConnectionTimeout = 60000,
                 LogLevel = LogSeverity.Warning,
@@ -105,18 +117,22 @@ namespace NadekoBot {
             });
 
             //create a command service
-            var commandService = new CommandService(new CommandServiceConfigBuilder {
+            var commandService = new CommandService(new CommandServiceConfigBuilder
+            {
                 AllowMentionPrefix = false,
                 CustomPrefixHandler = m => 0,
                 HelpMode = HelpMode.Disabled,
-                ErrorHandler = async (s, e) => {
+                ErrorHandler = async (s, e) =>
+                {
                     if (e.ErrorType != CommandErrorType.BadPermissions)
                         return;
                     if (string.IsNullOrWhiteSpace(e.Exception?.Message))
                         return;
-                    try {
+                    try
+                    {
                         await e.Channel.SendMessage(e.Exception.Message);
-                    } catch { }
+                    }
+                    catch { }
                 }
             });
 
@@ -130,7 +146,8 @@ namespace NadekoBot {
             var modules = Client.AddService<ModuleService>(new ModuleService());
 
             //add audio service
-            Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder() {
+            Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder()
+            {
                 Channels = 2,
                 EnableEncryption = false,
                 EnableMultiserver = true,
@@ -142,7 +159,7 @@ namespace NadekoBot {
             modules.Add(new Help(), "Help", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
-            modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
+            modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
             modules.Add(new Games(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
@@ -152,10 +169,14 @@ namespace NadekoBot {
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
             //run the bot
-            Client.ExecuteAndWait(async () => {
-                try {
+            Client.ExecuteAndWait(async () =>
+            {
+                try
+                {
                     await Client.Connect(Creds.Username, Creds.Password);
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     Console.WriteLine($"Probably wrong EMAIL or PASSWORD.\n{ex.Message}");
                     Console.ReadKey();
                     Console.WriteLine(ex);
@@ -166,15 +187,19 @@ namespace NadekoBot {
                 Console.WriteLine(await NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
 
-                try {
+                try
+                {
                     OwnerPrivateChannel = await Client.CreatePrivateChannel(Creds.OwnerIds[0]);
-                } catch {
+                }
+                catch
+                {
                     Console.WriteLine("Failed creating private channel with the first owner listed in credentials.json");
                 }
 
                 Classes.Permissions.PermissionsHandler.Initialize();
 
-                Client.ClientAPI.SendingRequest += (s, e) => {
+                Client.ClientAPI.SendingRequest += (s, e) =>
+                {
                     var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                     if (request == null) return;
                     request.Content = request.Content?.Replace("@everyone", "@everyοne") ?? "_error_";
@@ -188,26 +213,34 @@ namespace NadekoBot {
 
         public static bool IsOwner(ulong id) => Creds.OwnerIds.Contains(id);
 
-        public async Task SendMessageToOwner(string message) {
+        public async Task SendMessageToOwner(string message)
+        {
             if (Config.ForwardMessages && OwnerPrivateChannel != null)
                 await OwnerPrivateChannel.SendMessage(message);
         }
 
         private static bool repliedRecently = false;
-        private static async void Client_MessageReceived(object sender, MessageEventArgs e) {
-            try {
+        private static async void Client_MessageReceived(object sender, MessageEventArgs e)
+        {
+            try
+            {
                 if (e.Server != null || e.User.Id == Client.CurrentUser.Id) return;
                 if (PollCommand.ActivePolls.SelectMany(kvp => kvp.Key.Users.Select(u => u.Id)).Contains(e.User.Id)) return;
                 if (ConfigHandler.IsBlackListed(e))
                     return;
 
-                if (!NadekoBot.Config.DontJoinServers) {
-                    try {
+                if (!NadekoBot.Config.DontJoinServers)
+                {
+                    try
+                    {
                         await (await Client.GetInvite(e.Message.Text)).Accept();
                         await e.Channel.SendMessage("I got in!");
                         return;
-                    } catch {
-                        if (e.User.Id == 109338686889476096) { //carbonitex invite
+                    }
+                    catch
+                    {
+                        if (e.User.Id == 109338686889476096)
+                        { //carbonitex invite
                             await e.Channel.SendMessage("Failed to join the server.");
                             return;
                         }
@@ -223,7 +256,8 @@ namespace NadekoBot {
                 await e.Channel.SendMessage(HelpCommand.HelpString);
                 await Task.Delay(2000);
                 repliedRecently = false;
-            } catch { }
+            }
+            catch { }
         }
     }
 }

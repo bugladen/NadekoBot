@@ -163,20 +163,20 @@
     <Compile Include="Commands\RequestsCommand.cs" />
     <Compile Include="Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />
-    <Compile Include="Classes\Cards.cs" />
+    <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
-    <Compile Include="Commands\DiceRollCommand.cs" />
+    <Compile Include="Modules\Gambling\DiceRollCommand.cs" />
     <Compile Include="Commands\IDiscordCommand.cs" />
-    <Compile Include="Commands\DrawCommand.cs" />
-    <Compile Include="Commands\FlipCoinCommand.cs" />
+    <Compile Include="Modules\Gambling\DrawCommand.cs" />
+    <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\VoiceNotificationCommand.cs" />
     <Compile Include="Commands\VoicePlusTextCommand.cs" />
     <Compile Include="Modules\Administration.cs" />
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
-    <Compile Include="Modules\Gambling.cs" />
+    <Compile Include="Modules\Gambling\Gambling.cs" />
     <Compile Include="Modules\Games.cs" />
     <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
@@ -442,6 +442,7 @@
       <Name>Discord.Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
