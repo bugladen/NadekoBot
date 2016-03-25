@@ -29,14 +29,14 @@ namespace NadekoBot.Modules.Gambling
                 cgb.CreateCommand(Prefix + "raffle")
                   .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
                   .Parameter("role", ParameterType.Optional)
-                  .Do(RaffleTask());
+                  .Do(RaffleFunc());
                 cgb.CreateCommand(Prefix + "$$")
                   .Description("Check how many NadekoFlowers you have.")
-                  .Do(NadekoFlowerCheckTask());
+                  .Do(NadekoFlowerCheckFunc());
             });
         }
 
-        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> NadekoFlowerCheckTask()
+        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> NadekoFlowerCheckFunc()
         {
             return async e =>
             {
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
             };
         }
 
-        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> RaffleTask()
+        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> RaffleFunc()
         {
             return async e =>
             {
