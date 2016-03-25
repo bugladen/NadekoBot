@@ -176,7 +176,7 @@
     <Compile Include="Modules\Administration.cs" />
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
-    <Compile Include="Modules\Gambling\Gambling.cs" />
+    <Compile Include="Modules\Gambling\GamblingModule.cs" />
     <Compile Include="Modules\Games.cs" />
     <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
