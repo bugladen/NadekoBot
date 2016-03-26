@@ -43,11 +43,35 @@ namespace NadekoBot.Classes.IMDB
 
         public Dictionary<string, string> Aka { get; set; }
 
-        public string ToString
+        public override string ToString()
+        {
+            return "`Title:` **" + EnglishTitle + " (" + OriginalTitle + ")" +
+            "**\n`Year:` " + Year +
+            "**\n`Rating:` " + Rating +
+            "**\n`Genre:` " + GenresAsString +
+            "\n`Link:` " + ImdbURL +
+            "\n`Plot:` " + Plot.Substring(0, Plot.Length > 500 ? 500 : Plot.Length) + "..."
+            //"\n`img:` " + Poster //imdb url do it for us I think its a discord auto thing
+            ;
+        }
+
+        public string EnglishTitle
         {
             get
             {
-                return ImdbURL + "\n" + OriginalTitle + " (" + Year + ") - " + Rating;
+                return Aka.ContainsKey("USA") ? Aka["USA"] :
+                    (Aka.ContainsKey("UK") ? Aka["UK"] :
+                    (Aka.ContainsKey("(original title)") ? Aka["(original title)"] :
+                    (Aka.ContainsKey("(original)") ? Aka["(original)"] : OriginalTitle)));
+            }
+        }
+        public string GenresAsString
+        {
+            get
+            {
+                string ret = "";
+                Genres.ForEach(g => ret = ret + " " + g);
+                return ret;
             }
         }
     }

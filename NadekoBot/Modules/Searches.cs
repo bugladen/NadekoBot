@@ -96,8 +96,8 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         string result;
                         try
                         {
-                            var movie = ImdbScraper.ImdbScrape(e.GetArg("query"), false);
-                            if (movie.status) result = movie.ToString;
+                            var movie = ImdbScraper.ImdbScrape(e.GetArg("query"), true);
+                            if (movie.status) result = movie.ToString();
                             else result = "Failed to find that movie.";
                         }
                         catch
