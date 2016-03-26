@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.pokegame
                 .Do(async e =>
                 {
                     //Implement NadekoFlowers????
-                    string newMove = e.GetArg("move");
+                    string newMove = e.GetArg("move").ToLowerInvariant();
                     var newType = PokemonTypes.stringToPokeType(e.GetArg("type").ToUpperInvariant());
                     int typeNum = newType.getNum();
                     var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x => x.move);
@@ -276,7 +276,6 @@ namespace NadekoBot.Modules.pokegame
                         {"hack",3},
                         {"scare",13},
                         {"splash",2},
-                        {"flame",1},
                         {"freeze",5},
                         {"strike",4},
                         {"surge",3},
@@ -295,7 +294,6 @@ namespace NadekoBot.Modules.pokegame
                         {"ultrabash",6},
                         {"punch",6},
                         {"blind",15},
-                        {"scare",13},
                         {"earthquake",8},
                         {"rocksmash",12},
                         {"transform",0},
@@ -325,7 +323,7 @@ namespace NadekoBot.Modules.pokegame
                 .Do(async e =>
                 {
                     var targetTypeString = e.GetArg("targetType");
-                    var targetType = PokemonTypes.stringToPokeType(targetTypeString);
+                    var targetType = PokemonTypes.stringToPokeType(targetTypeString.ToUpperInvariant());
                     if (targetType == null)
                     {
                         await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
@@ -358,7 +356,7 @@ namespace NadekoBot.Modules.pokegame
         }
 
         
-
+        
 
         private int getDamage(PokemonTypes.PokeType usertype, PokemonTypes.PokeType targetType)
         {
