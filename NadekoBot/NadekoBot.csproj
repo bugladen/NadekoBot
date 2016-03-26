@@ -141,6 +141,8 @@
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
+    <Compile Include="Classes\_DataModels\pokemoves.cs" />
+    <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
@@ -184,6 +186,9 @@
     <Compile Include="Modules\NSFW.cs" />
     <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Commands\RatelimitCommand.cs" />
+    <Compile Include="Modules\Pokegame\Pokegame.cs" />
+    <Compile Include="Modules\Pokegame\PokemonTypes.cs" />
+    <Compile Include="Modules\Pokegame\pokestats.cs" />
     <Compile Include="Modules\Searches.cs" />
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
