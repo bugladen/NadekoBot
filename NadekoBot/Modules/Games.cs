@@ -16,6 +16,7 @@ namespace NadekoBot.Modules {
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             //commands.Add(new BetrayGame(this));
+			//EDIT TEST
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
