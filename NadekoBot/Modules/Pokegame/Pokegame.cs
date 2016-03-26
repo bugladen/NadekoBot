@@ -338,7 +338,14 @@ namespace NadekoBot.Modules.pokegame
                     if (targetType == null)
                     {
                         await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
+                        return;
                     }
+                    if (targetType == getPokeType(e.User.Id))
+                    {
+                        await e.Channel.SendMessage($"Your type is already {targetType.getName().ToLowerInvariant()}{targetType.getImage()}");
+                        return;
+                    }
+
                     //Payment~
                     var amount = 1;
                     var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
