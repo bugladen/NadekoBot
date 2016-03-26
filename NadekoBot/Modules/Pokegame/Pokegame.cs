@@ -313,8 +313,19 @@ namespace NadekoBot.Modules.pokegame
                             type = entry.Value
                         });
                     }
-                    await e.Send("done");
-       
+
+                    var str = "Reset moves.\n**Moves:**";
+                    //could sort, but meh
+                    var dbMoves = DbHandler.Instance.GetAllRows<PokeMoves>();
+                    foreach (PokeMoves m in dbMoves)
+                    {
+                        var t = PokemonTypes.intToPokeType(m.type);
+
+                        str += $"\n{t.getImage()}{m.move}";
+                    }
+                    
+                    await e.Channel.SendMessage(str);
+
                 });
 
                 cgb.CreateCommand(Prefix + "settype")
@@ -351,6 +362,10 @@ namespace NadekoBot.Modules.pokegame
                         UserId = (long)e.User.Id,
                         type = targetType.getNum()
                     });
+
+                    //Now for the response
+
+                    await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeString}{targetType.getImage()} for a 🌸");
                 });
             });
         }
