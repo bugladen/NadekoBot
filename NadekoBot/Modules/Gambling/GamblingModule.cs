@@ -1,8 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -27,20 +30,52 @@ namespace NadekoBot.Modules.Gambling
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "raffle")
-                  .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
-                  .Parameter("role", ParameterType.Optional)
-                  .Do(RaffleFunc());
+                    .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
+                    .Parameter("role", ParameterType.Optional)
+                    .Do(RaffleFunc());
                 cgb.CreateCommand(Prefix + "$$")
-                  .Description("Check how many NadekoFlowers you have.")
-                  .Do(NadekoFlowerCheckFunc());
+                    .Description("Check how many NadekoFlowers you have.")
+                    .Do(NadekoFlowerCheckFunc());
+                cgb.CreateCommand(Prefix + "give")
+                    .Description("Give someone a certain amount of flowers")
+                    .Parameter("amount", ParameterType.Required)
+                    .Parameter("receiver", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+
+                        var amountStr = e.GetArg("amount")?.Trim();
+                        long amount;
+                        if (!long.TryParse(amountStr, out amount) || amount < 0)
+                            return;
+
+                        var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
+                                                            u.Id != NadekoBot.Client.CurrentUser.Id &&
+                                                            u.Id != e.User.Id);
+                        if (mentionedUser == null)
+                            return;
+
+                        var userFlowers = GetUserFlowers(e.User.Id);
+
+                        if (userFlowers < amount)
+                        {
+                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough flowers. You have only {userFlowers}🌸.");
+                            return;
+                        }
+
+                        await FlowersHandler.RemoveFlowersAsync(e.User, "Gift", (int)amount);
+                        await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount);
+
+                        await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount}🌸 to {mentionedUser.Mention}!");
+
+                    });
             });
         }
 
-        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> NadekoFlowerCheckFunc()
+        private static Func<CommandEventArgs, Task> NadekoFlowerCheckFunc()
         {
             return async e =>
             {
-                var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
+                var pts = GetUserFlowers(e.User.Id);
                 var str = $"`You have {pts} NadekoFlowers".SnPl((int)pts) + "`\n";
                 for (var i = 0; i < pts; i++)
                 {
@@ -50,7 +85,10 @@ namespace NadekoBot.Modules.Gambling
             };
         }
 
-        private static System.Func<CommandEventArgs, System.Threading.Tasks.Task> RaffleFunc()
+        private static long GetUserFlowers(ulong userId) =>
+            Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
+
+        private static Func<CommandEventArgs, Task> RaffleFunc()
         {
             return async e =>
             {

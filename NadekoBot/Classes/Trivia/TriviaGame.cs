@@ -9,8 +9,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Trivia {
-    internal class TriviaGame {
+namespace NadekoBot.Classes.Trivia
+{
+    internal class TriviaGame
+    {
         private readonly object _guessLock = new object();
 
         private Server server { get; }
@@ -30,20 +32,24 @@ namespace NadekoBot.Classes.Trivia {
 
         public int WinRequirement { get; } = 10;
 
-        public TriviaGame(CommandEventArgs e) {
+        public TriviaGame(CommandEventArgs e)
+        {
             server = e.Server;
             channel = e.Channel;
             Task.Run(StartGame);
         }
 
-        private async Task StartGame() {
-            while (!ShouldStopGame) {
+        private async Task StartGame()
+        {
+            while (!ShouldStopGame)
+            {
                 // reset the cancellation source
                 triviaCancelSource = new CancellationTokenSource();
                 var token = triviaCancelSource.Token;
                 // load question
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
-                if (CurrentQuestion == null) {
+                if (CurrentQuestion == null)
+                {
                     await channel.SendMessage($":exclamation: Failed loading a trivia question");
                     await End();
                     return;
@@ -58,7 +64,8 @@ namespace NadekoBot.Classes.Trivia {
                 //allow people to guess
                 GameActive = true;
 
-                try {
+                try
+                {
                     //hint
                     await Task.Delay(HintTimeoutMiliseconds, token);
                     await channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}");
@@ -66,7 +73,9 @@ namespace NadekoBot.Classes.Trivia {
                     //timeout
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token);
 
-                } catch (TaskCanceledException) {
+                }
+                catch (TaskCanceledException)
+                {
                     Console.WriteLine("Trivia cancelled");
                 }
                 GameActive = false;
@@ -79,28 +88,34 @@ namespace NadekoBot.Classes.Trivia {
             await End();
         }
 
-        private async Task End() {
+        private async Task End()
+        {
             ShouldStopGame = true;
             await channel.SendMessage("**Trivia game ended**\n" + GetLeaderboard());
             TriviaGame throwAwayValue;
             Commands.Trivia.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
         }
 
-        public async Task StopGame() {
+        public async Task StopGame()
+        {
             if (!ShouldStopGame)
                 await channel.SendMessage(":exclamation: Trivia will stop after this question.");
             ShouldStopGame = true;
         }
 
-        private async void PotentialGuess(object sender, MessageEventArgs e) {
-            try {
+        private async void PotentialGuess(object sender, MessageEventArgs e)
+        {
+            try
+            {
                 if (e.Channel.IsPrivate) return;
                 if (e.Server != server) return;
                 if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
 
                 var guess = false;
-                lock (_guessLock) {
-                    if (GameActive && CurrentQuestion.IsAnswerCorrect(e.Message.Text) && !triviaCancelSource.IsCancellationRequested) {
+                lock (_guessLock)
+                {
+                    if (GameActive && CurrentQuestion.IsAnswerCorrect(e.Message.Text) && !triviaCancelSource.IsCancellationRequested)
+                    {
                         Users.TryAdd(e.User, 0); //add if not exists
                         Users[e.User]++; //add 1 point to the winner
                         guess = true;
@@ -114,17 +129,20 @@ namespace NadekoBot.Classes.Trivia {
                 await channel.Send($":exclamation: We have a winner! Its {e.User.Mention}.");
                 // add points to the winner
                 await FlowersHandler.AddFlowersAsync(e.User, "Won Trivia", 2);
-            } catch { }
+            }
+            catch { }
         }
 
-        public string GetLeaderboard() {
+        public string GetLeaderboard()
+        {
             if (Users.Count == 0)
                 return "";
 
             var sb = new StringBuilder();
             sb.Append("**Leaderboard:**\n-----------\n");
 
-            foreach (var kvp in Users.OrderBy(kvp => kvp.Value)) {
+            foreach (var kvp in Users.OrderBy(kvp => kvp.Value))
+            {
                 sb.AppendLine($"**{kvp.Key.Name}** has {kvp.Value} points".ToString().SnPl(kvp.Value));
             }
 
