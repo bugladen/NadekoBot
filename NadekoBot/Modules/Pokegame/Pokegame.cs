@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.pokegame
                     //User not able if HP < 0, has made more than 4 attacks
                     if (userstats.HP < 0)
                     {
-                        await e.Channel.SendMessage($"{e.User.Mention} is fainted and was not able to move!");
+                        await e.Channel.SendMessage($"{e.User.Mention} has fainted and was not able to move!");
                         return;
                     }
                     if (userstats.movesMade >= 5)
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.pokegame
                     //If target's HP is below 0, no use attacking
                     if (targetstats.HP < 0)
                     {
-                        await e.Channel.SendMessage($"{target.Name} has already fainted!");
+                        await e.Channel.SendMessage($"{target.Mention} has already fainted!");
                         return;
                     }
 
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.pokegame
                     var EnabledMoves = usertype.getMoves();
                     if (!EnabledMoves.Contains(move.ToLowerInvariant()))
                     {
-                        await e.Channel.SendMessage($"{e.User.Mention} was not able to use {move}, use {Prefix}listmoves to see moves you can use");
+                        await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use {Prefix}listmoves to see moves you can use");
                         return;
                     }
 
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.pokegame
                     //apply damage to target
                     targetstats.HP -= damage;
 
-                    var response = $"{e.User.Mention} used {move} on {target.Name} for {damage} damage";
+                    var response = $"{e.User.Mention} used **{move}** on {target.Mention} for **{damage}** damage";
 
                     //Damage type
                     if (damage < 40)
@@ -129,11 +129,11 @@ namespace NadekoBot.Modules.pokegame
 
                     if (targetstats.HP < 0)
                     {
-                        response += $"\n{target.Name} has fainted!";
+                        response += $"\n**{target.Name}** has fainted!";
                     }
                     else
                     {
-                        response += $"\n{target.Name} has {targetstats.HP} HP remaining";
+                        response += $"\n**{target.Name}** has {targetstats.HP} HP remaining";
                     }
 
                     //update other stats
@@ -173,8 +173,8 @@ namespace NadekoBot.Modules.pokegame
                 .Do(async e =>
                 {
                     //Implement NadekoFlowers????
-                    string newMove = e.GetArg("move").ToLowerInvariant();
-                    var newType = PokemonTypes.stringToPokeType(e.GetArg("type").ToUpperInvariant());
+                    string newMove = e.GetArg("movename").ToLowerInvariant();
+                    var newType = PokemonTypes.stringToPokeType(e.GetArg("movetype").ToUpperInvariant());
                     int typeNum = newType.getNum();
                     var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x => x.move);
                     if (db.Contains(newMove))
