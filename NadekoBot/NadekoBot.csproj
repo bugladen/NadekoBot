@@ -185,6 +185,10 @@
     <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Searches.cs" />
+    <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
+    <Compile Include="Modules\Translator\TranslateCommand.cs" />
+    <Compile Include="Modules\Translator\TranslatorModule.cs" />
+    <Compile Include="Modules\Translator\ValidLanguagesCommand.cs" />
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

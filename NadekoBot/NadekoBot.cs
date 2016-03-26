@@ -6,6 +6,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules;
 using NadekoBot.Modules.Gambling;
+using NadekoBot.Modules.Translator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,7 @@ namespace NadekoBot
             modules.Add(new Games(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
+            modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
