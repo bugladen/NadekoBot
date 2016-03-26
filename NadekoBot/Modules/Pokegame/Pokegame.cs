@@ -9,6 +9,7 @@ using NadekoBot.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using NadekoBot.Classes._DataModels;
+using NadekoBot.Classes.Permissions;
 
 namespace NadekoBot.Modules.pokegame
 {
@@ -49,7 +50,8 @@ namespace NadekoBot.Modules.pokegame
                     if (stats.ContainsKey(e.User.Id))
                     {
                         userstats = stats[e.User.Id];
-                    } else
+                    }
+                    else
                     {
                         //not really necessary now
                         userstats = defaultStats();
@@ -108,12 +110,13 @@ namespace NadekoBot.Modules.pokegame
                     targetstats.HP -= damage;
 
                     var response = $"{e.User.Mention} used {move} on {target.Name} for {damage} damage";
-                    
+
                     //Damage type
                     if (damage < 40)
                     {
                         response += "\nIt's not effective..";
-                    } else if (damage > 60)
+                    }
+                    else if (damage > 60)
                     {
                         response += "\nIt's super effective!";
                     }
@@ -121,9 +124,9 @@ namespace NadekoBot.Modules.pokegame
                     {
                         response += "\nIt's somewhat effective";
                     }
-                    
+
                     //check fainted
-                    
+
                     if (targetstats.HP < 0)
                     {
                         response += $"\n{target.Name} has fainted!";
@@ -167,10 +170,11 @@ namespace NadekoBot.Modules.pokegame
                 .Description($"Adds move given to database.\n**Usage**: {Prefix}addmove flame fire")
                 .Parameter("movename", ParameterType.Required)
                 .Parameter("movetype", ParameterType.Required)
-                .Do(async e => {
+                .Do(async e =>
+                {
                     //Implement NadekoFlowers????
                     string newMove = e.GetArg("move");
-                    var newType = PokemonTypes.stringToPokeType( e.GetArg("type").ToUpperInvariant());
+                    var newType = PokemonTypes.stringToPokeType(e.GetArg("type").ToUpperInvariant());
                     int typeNum = newType.getNum();
                     var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x => x.move);
                     if (db.Contains(newMove))
@@ -202,7 +206,7 @@ namespace NadekoBot.Modules.pokegame
                      }
                      if (stats.ContainsKey(usr.Id))
                      {
-                         
+
                          var targetStats = stats[usr.Id];
                          int HP = targetStats.HP;
                          if (targetStats.HP == BASEHEALTH)
@@ -254,6 +258,67 @@ namespace NadekoBot.Modules.pokegame
 
                 });
 
+                cgb.CreateCommand(Prefix + "defaultmoves")
+                .Description($"Sets the moves DB to the default state **OWNER ONLY**")
+                .AddCheck(SimpleCheckers.OwnerOnly())
+                .Do(async e =>
+                {
+                    //clear DB
+                    var db = DbHandler.Instance.GetAllRows<PokeMoves>();
+                    foreach (PokeMoves p in db)
+                    {
+                        DbHandler.Instance.Delete<PokeMoves>(p.Id);
+                    }
+
+                    Dictionary<string, int> defaultmoves = new Dictionary<string, int>()
+                    {
+                        {"flame",1},
+                        {"hack",3},
+                        {"scare",13},
+                        {"splash",2},
+                        {"flame",1},
+                        {"freeze",5},
+                        {"strike",4},
+                        {"surge",3},
+                        {"electrocute",3},
+                        {"surf",2},
+                        {"mellow",4},
+                        {"flamethrower",1},
+                        {"thundershock",3},
+                        {"lava",12},
+                        {"fly",9},
+                        {"control",10},
+                        {"sting",11},
+                        {"poison",7},
+                        {"confusion",10},
+                        {"breathe",14},
+                        {"ultrabash",6},
+                        {"punch",6},
+                        {"blind",15},
+                        {"scare",13},
+                        {"earthquake",8},
+                        {"rocksmash",12},
+                        {"transform",0},
+                        {"bulldoze",8},
+                        {"frustate",0},
+                        {"confide",0},
+                        {"metronome",0},
+                        {"dracometeor",14},
+                        {"outrage",14}
+                    };
+
+                    foreach (KeyValuePair<string, int> entry in defaultmoves)
+                    {
+                        DbHandler.Instance.InsertData(new Classes._DataModels.PokeMoves
+                        {
+                            move = entry.Key,
+                            type = entry.Value
+                        });
+                    }
+                    await e.Send("done");
+       
+                });
+
                 cgb.CreateCommand(Prefix + "settype")
                 .Description($"Set your poketype. Costs a NadekoFlower.\n**Usage**: {Prefix}settype fire")
                 .Parameter("targetType", ParameterType.Required)
@@ -292,6 +357,9 @@ namespace NadekoBot.Modules.pokegame
             });
         }
 
+        
+
+
         private int getDamage(PokemonTypes.PokeType usertype, PokemonTypes.PokeType targetType)
         {
             Random rng = new Random();
@@ -309,13 +377,13 @@ namespace NadekoBot.Modules.pokegame
             Dictionary<long, int> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
             if (setTypes.ContainsKey((long)id))
             {
-                return PokemonTypes.intToPokeType(setTypes[(long) id]);
+                return PokemonTypes.intToPokeType(setTypes[(long)id]);
             }
 
-            int remainder = (int) id % 16;
+            int remainder = (int)id % 16;
 
             return PokemonTypes.intToPokeType(remainder);
-           
+
 
         }
 
@@ -326,6 +394,6 @@ namespace NadekoBot.Modules.pokegame
             return s;
         }
 
-        
+
     }
 }
