@@ -6,7 +6,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules;
 using NadekoBot.Modules.Gambling;
-using NadekoBot.Modules.pokegame;
+using NadekoBot.Modules.Pokemon;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -166,7 +166,7 @@ namespace NadekoBot
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
-            modules.Add(new Pokegame(), "Pokegame", ModuleFilter.None);
+            modules.Add(new PokemonGame(), "Pokegame", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Classes._DataModels
 {
-    class PokeTypes : IDataModel
+    class userPokeTypes : IDataModel
     {
         public long UserId { get; set; }
         public int type { get; set; }
