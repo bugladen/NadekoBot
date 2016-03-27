@@ -15,7 +15,8 @@
     "Games": ">",
     "Gambling": "$",
     "Permissions": ";",
-    "Programming": "%"
+    "Programming": "%",
+    "Pokemon": "poke"
   },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
