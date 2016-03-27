@@ -23,6 +23,7 @@ namespace NadekoBot.Modules.Translator
         {
             try
             {
+                await e.Channel.SendIsTyping();
                 string from = e.GetArg("langs").Split('>')[0];
                 string to = e.GetArg("langs").Split('>')[1];
 
