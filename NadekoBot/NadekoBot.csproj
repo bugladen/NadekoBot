@@ -118,6 +118,8 @@
     <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Classes\IMDB\ImdbMovie.cs" />
+    <Compile Include="Classes\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
     <Compile Include="Classes\JSONModels\Configuration.cs" />
