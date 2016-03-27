@@ -89,6 +89,7 @@ namespace NadekoBot.Classes.JSONModels {
         public string Gambling { get; set; } = "$";
         public string Permissions { get; set; } = ";";
         public string Programming { get; set; } = "%";
+        public string Pokemon { get; set; } = "poke";
     }
 
     public static class ConfigHandler {

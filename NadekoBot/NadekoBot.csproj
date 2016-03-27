@@ -186,9 +186,7 @@
     <Compile Include="Modules\NSFW.cs" />
     <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Commands\RatelimitCommand.cs" />
-    <Compile Include="Modules\Pokegame\Pokegame.cs" />
-    <Compile Include="Modules\Pokegame\PokemonTypes.cs" />
-    <Compile Include="Modules\Pokegame\pokestats.cs" />
+    <Compile Include="Modules\PokemonModule.cs" />
     <Compile Include="Modules\Searches.cs" />
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
