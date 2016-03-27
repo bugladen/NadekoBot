@@ -24,8 +24,8 @@ namespace NadekoBot.Modules.Translator
             try
             {
                 await e.Channel.SendIsTyping();
-                string from = e.GetArg("langs").Split('>')[0];
-                string to = e.GetArg("langs").Split('>')[1];
+                string from = e.GetArg("langs").ToLowerInvariant().Split('>')[0];
+                string to = e.GetArg("langs").ToLowerInvariant().Split('>')[1];
 
                 string translation = t.Translate(e.GetArg("text"), from, to);
                 await e.Channel.SendMessage(translation);
