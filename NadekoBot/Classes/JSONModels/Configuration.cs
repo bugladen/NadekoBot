@@ -12,6 +12,7 @@ namespace NadekoBot.Classes.JSONModels {
 
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
+        public List<MagicItem> MagicItems { get; set; } = new List<MagicItem>();
 
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
@@ -117,5 +118,13 @@ namespace NadekoBot.Classes.JSONModels {
 
         public override string ToString() =>
             $"{Text}\n\t*-{Author}*";
+    }
+    public class MagicItem
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public override string ToString() =>
+            $"🌟**{Name}**\n\t*{Description}*";
     }
 }

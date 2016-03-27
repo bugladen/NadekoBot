@@ -2,6 +2,7 @@
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
+  "MagicItems": [],
   "RotatingStatuses": [],
   "CommandPrefixes": {
     "Administration": ".",

@@ -92,6 +92,15 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(msg);
                     });
 
+                cgb.CreateCommand(Prefix + "magicitem")
+                .Description("Draw a magic item randomly.")
+                .Do(async e =>
+                {
+                    await
+                             e.Channel.SendMessage(
+                                 NadekoBot.Config.MagicItems[new Random().Next(0, NadekoBot.Config.MagicItems.Count)].ToString());
+                });
+
                 cgb.CreateCommand(Prefix + "linux")
                     .Description("Prints a customizable Linux interjection")
                     .Parameter("gnu", ParameterType.Required)
