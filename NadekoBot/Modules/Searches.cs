@@ -93,11 +93,12 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")))) return;
+                        await e.Channel.SendIsTyping();
                         string result;
                         try
                         {
                             var movie = ImdbScraper.ImdbScrape(e.GetArg("query"), true);
-                            if (movie.status) result = movie.ToString();
+                            if (movie.Status) result = movie.ToString();
                             else result = "Failed to find that movie.";
                         }
                         catch
