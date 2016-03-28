@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Discord;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using Discord;
-using Newtonsoft.Json;
 
-namespace NadekoBot.Classes.JSONModels {
-    public class Configuration {
+namespace NadekoBot.Classes.JSONModels
+{
+    public class Configuration
+    {
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
@@ -50,7 +51,7 @@ namespace NadekoBot.Classes.JSONModels {
                 "NO - It may cause disease contraction"
             };
 
-    public string[] DisguiseResponses { get; set; } = {
+        public string[] DisguiseResponses { get; set; } = {
             "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
             "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
             "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
@@ -75,9 +76,13 @@ namespace NadekoBot.Classes.JSONModels {
             "http://gallery1.anivide.com/_full/65030_1382582341.gif",
             "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
         };
+
+        public string CurrencySign { get; set; } = "🌸";
+        public string CurrencyName { get; set; } = "NadekoFlower";
     }
 
-    public class CommandPrefixesModel {
+    public class CommandPrefixesModel
+    {
         public string Administration { get; set; } = ".";
         public string Searches { get; set; } = "~";
         public string NSFW { get; set; } = "~";
@@ -93,10 +98,13 @@ namespace NadekoBot.Classes.JSONModels {
         public string Pokemon { get; set; } = "poke";
     }
 
-    public static class ConfigHandler {
+    public static class ConfigHandler
+    {
         private static readonly object configLock = new object();
-        public static void SaveConfig() {
-            lock (configLock) {
+        public static void SaveConfig()
+        {
+            lock (configLock)
+            {
                 File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
             }
         }
@@ -112,7 +120,8 @@ namespace NadekoBot.Classes.JSONModels {
         public static bool IsUserBlacklisted(ulong id) => NadekoBot.Config.UserBlacklist.Contains(id);
     }
 
-    public class Quote {
+    public class Quote
+    {
         public string Author { get; set; }
         public string Text { get; set; }
 
