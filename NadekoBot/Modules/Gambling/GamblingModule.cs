@@ -34,15 +34,14 @@ namespace NadekoBot.Modules.Gambling
                     .Parameter("role", ParameterType.Optional)
                     .Do(RaffleFunc());
                 cgb.CreateCommand(Prefix + "$$")
-                    .Description("Check how many NadekoFlowers you have.")
+                    .Description(string.Format("Check how much {0}s you have.", NadekoBot.Config.CurrencyName))
                     .Do(NadekoFlowerCheckFunc());
                 cgb.CreateCommand(Prefix + "give")
-                    .Description("Give someone a certain amount of flowers")
+                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName))
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-
                         var amountStr = e.GetArg("amount")?.Trim();
                         long amount;
                         if (!long.TryParse(amountStr, out amount) || amount < 0)
@@ -58,14 +57,14 @@ namespace NadekoBot.Modules.Gambling
 
                         if (userFlowers < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough flowers. You have only {userFlowers}🌸.");
+                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You have only {userFlowers}{NadekoBot.Config.CurrencySign}.");
                             return;
                         }
 
                         await FlowersHandler.RemoveFlowersAsync(e.User, "Gift", (int)amount);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount);
 
-                        await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount}🌸 to {mentionedUser.Mention}!");
+                        await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!");
 
                     });
             });
@@ -76,10 +75,10 @@ namespace NadekoBot.Modules.Gambling
             return async e =>
             {
                 var pts = GetUserFlowers(e.User.Id);
-                var str = $"`You have {pts} NadekoFlowers".SnPl((int)pts) + "`\n";
+                var str = $"`You have {pts} {NadekoBot.Config.CurrencyName}s".SnPl((int)pts) + "`\n";
                 for (var i = 0; i < pts; i++)
                 {
-                    str += "🌸";
+                    str += NadekoBot.Config.CurrencySign;
                 }
                 await e.Channel.SendMessage(str);
             };

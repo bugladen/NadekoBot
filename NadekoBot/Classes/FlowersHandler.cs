@@ -20,7 +20,7 @@ namespace NadekoBot.Classes
             var flows = "";
             for (var i = 0; i < amount; i++)
             {
-                flows += "🌸";
+                flows += NadekoBot.Config.CurrencySign;
             }
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows);
         }
