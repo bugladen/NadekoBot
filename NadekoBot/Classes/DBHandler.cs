@@ -22,6 +22,8 @@ namespace NadekoBot.Classes {
                 conn.CreateTable<CurrencyState>();
                 conn.CreateTable<CurrencyTransaction>();
                 conn.CreateTable<Donator>();
+                conn.CreateTable<PokeMoves>();
+                conn.CreateTable<userPokeTypes>();
                 conn.CreateTable<UserQuote>();
                 conn.Execute(Queries.TransactionTriggerQuery);
             }
