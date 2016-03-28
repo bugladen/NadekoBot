@@ -121,6 +121,7 @@ namespace NadekoBot.Classes {
 
         public enum StreamType {
             Twitch,
+            Beam,
             Hitbox,
             YoutubeGaming
         }
