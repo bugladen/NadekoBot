@@ -14,9 +14,9 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
         static readonly string name = "FLYING";
         public static int numType = 9;
 
-        public double getMagnifier(IPokeType target)
+        public double GetMagnifier(IPokeType target)
         {
-            switch (target.getName())
+            switch (target.GetName())
             {
 
                 case "ELECTRIC": return 0.5;
@@ -30,39 +30,22 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
         }
         List<string> moves = new List<string>();
 
-        public List<string> getMoves()
-        {
-            updateMoves();
-            return moves;
-        }
+        
 
 
-        public string getName()
+        public string GetName()
         {
             return name;
         }
 
-        public void updateMoves()
-        {
-            var db = DbHandler.Instance.GetAllRows<PokeMoves>();
-            foreach (PokeMoves p in db)
-            {
-                if (p.type == numType)
-                {
-                    if (!moves.Contains(p.move))
-                    {
-                        moves.Add(p.move);
-                    }
-                }
-            }
-        }
+        
 
-        public string getImage()
+        public string GetImage()
         {
             return "☁";
         }
 
-        public int getNum()
+        public int GetNum()
         {
             return numType;
         }
