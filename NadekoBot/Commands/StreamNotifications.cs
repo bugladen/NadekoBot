@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace NadekoBot.Commands
 {
@@ -24,7 +21,8 @@ namespace NadekoBot.Commands
         public StreamNotifications(DiscordModule module) : base(module)
         {
 
-            checkTimer.Elapsed += async (s, e) => {
+            checkTimer.Elapsed += async (s, e) =>
+            {
                 try
                 {
                     var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
@@ -91,8 +89,8 @@ namespace NadekoBot.Commands
                 case StreamNotificationConfig.StreamType.Beam:
                     response = await SearchHelper.GetResponseStringAsync($"https://beam.pro/api/v1/channels/{stream.Username}");
                     data = JObject.Parse(response);
-                    isLive = data["online"].ToString() == "true";
-                    return new Tuple<bool, string>(isLive, isLive ? data["viewersCurrent"].ToString() : "0");
+                    isLive = data["online"].ToObject<bool>() == true;
+                    return new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
                 default:
                     break;
             }
@@ -131,7 +129,8 @@ namespace NadekoBot.Commands
                              "\n**Usage**: ~rms SomeGuy")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
-                .Do(async e => {
+                .Do(async e =>
+                {
                     var username = e.GetArg("username")?.ToLower().Trim();
                     if (string.IsNullOrWhiteSpace(username))
                         return;
@@ -156,7 +155,8 @@ namespace NadekoBot.Commands
                 .Alias(Module.Prefix + "ls")
                 .Description("Lists all streams you are following on this server." +
                              "\n**Usage**: ~ls")
-                .Do(async e => {
+                .Do(async e =>
+                {
 
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
@@ -171,7 +171,8 @@ namespace NadekoBot.Commands
                         return;
                     }
 
-                    var text = string.Join("\n", streamsArray.Select(snc => {
+                    var text = string.Join("\n", streamsArray.Select(snc =>
+                    {
                         try
                         {
                             return $"`{snc.Username}`'s stream on **{e.Server.GetChannel(e.Channel.Id).Name}** channel. 【`{snc.Type.ToString()}`】";
@@ -185,7 +186,8 @@ namespace NadekoBot.Commands
         }
 
         private Func<CommandEventArgs, Task> TrackStream(StreamNotificationConfig.StreamType type) =>
-            async e => {
+            async e =>
+            {
                 var username = e.GetArg("username")?.ToLowerInvariant();
                 if (string.IsNullOrWhiteSpace(username))
                     return;
