@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5925.41065`
+Version: `NadekoBot v0.9.5930.23184`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -13,9 +13,9 @@ Command and aliases | Description | Usage
 `.byepm`  |  Toggles whether the good bye messages will be sent in a PM or in the text channel.
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
-`.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. BOT OWNER ONLY. SERVER OWNER ONLY.
-`.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. BOT OWNER ONLY. SERVER OWNER ONLY.
-`.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. BOT OWNER ONLY. SERVER OWNER ONLY.
+`.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Owner Only!**
+`.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. **Owner Only!**
+`.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Owner Only!**
 `.repeat`  |  Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages.
 `.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
@@ -77,7 +77,7 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `-h`, `-help`, `@BotName help`, `@BotName h`, `~h`  |  Either shows a help for a single command, or PMs you help link if no arguments are specified. |  '-h !m q' or just '-h' 
-`-hgit`  |  OWNER ONLY commandlist.md file generation.
+`-hgit`  |  Generates the commandlist.md file. **Owner Only!**
 `-readme`, `-guide`  |  Sends a readme and a guide links to the channel.
 `-donate`, `~donate`  |  Instructions for helping the project!
 `-modules`, `.modules`  |  List all bot modules.
@@ -114,16 +114,19 @@ Command and aliases | Description | Usage
 `;arm`, `;allrolemodules`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
 `;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [role_name]
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
-`;uubl`, `;unblacklist`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
+`;uubl`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
 `;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
+`;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl [channel_mention]
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;usl [servername/serverid]
 
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `e`  |  You did it.
+`comeatmebro`  |  Come at me bro (ง’̀-‘́)ง  |  comeatmebro {target}
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
+`moveto`  |  Suggests moving the conversation. |  moveto #spam
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
 `...`  |  Shows a random quote with a specified name. |  .. abc
 `@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
@@ -155,7 +158,7 @@ Command and aliases | Description | Usage
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
 `@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
-`@BotName leet`  |  Convert your text to leetspeak. Level is a number 1-6. |  @BotName leet [level] [Your text here]
+`@BotName leet`  |  
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -167,6 +170,7 @@ Command and aliases | Description | Usage
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
 `$$$`  |  Check how many NadekoFlowers you have.
+`$give`  |  Give someone a certain amount of flowers
 
 ### Games  
 Command and aliases | Description | Usage
@@ -202,14 +206,14 @@ Command and aliases | Description | Usage
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%).
 `!m half`  |  Sets the music volume to 50%.
 `!m sh`  |  Shuffles the current playlist.
-`!m setgame`  |  Sets the game of the bot to the number of songs playing.**Owner only**
+`!m setgame`  |  Sets the game of the bot to the number of songs playing. **Owner only**
 `!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
-`!m lopl`  |  Queues up to 50 songs from a directory.
+`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!**
 `!m radio`, `!m ra`  |  Queues a direct radio stream from a link.
-`!m lo`  |  Queues a local file by specifying a full path. BOT OWNER ONLY.
+`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!**
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
-`!m cleanup`  |  Cleans up hanging voice connections. BOT OWNER ONLY
+`!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!**
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -223,6 +227,7 @@ Command and aliases | Description | Usage
 `~we`  |  Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
+`~imdb`  |  Queries imdb for movies or series, show first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
 `~randomcat`  |  Shows a random cat image.
 `~i`  |  Pulls the first image found using a search parameter. Use ~ir for different results. |  ~i cute kitten
@@ -233,6 +238,12 @@ Command and aliases | Description | Usage
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
 `~quote`  |  Shows a random quote.
+
+### Translator  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`~trans`  |  Translates from>to text. From the given language to the destiation language.
+`~translangs`  |  List the valid languages for translation.
 
 ### NSFW  
 Command and aliases | Description | Usage
