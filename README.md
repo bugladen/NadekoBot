@@ -11,6 +11,8 @@ In your bin/debug folder (or next to your exe if you are using release version),
 
 When you clone the project, make sure to run `git submodule init` and `git submodule update` to get the correct discord.net version
 
+**Nothing was buffered music error?** make sure to follow the guide on google api key and ffmpeg [here](https://www.youtube.com/watch?v=x7v02MXNLeI)
+
 **This is how the credentials.json should look like:**
 ```json
 {
