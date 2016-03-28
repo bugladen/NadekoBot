@@ -19,7 +19,16 @@ namespace NadekoBot.Modules.Pokemon
 
         private ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
 
-        public PokemonModule() { }
+        public PokemonModule()
+        {
+            DbHandler.Instance.DeleteAll<PokeMoves>();
+            DbHandler.Instance.InsertMany(
+                DefaultMoves.DefaultMovesList.Select(move => new PokeMoves
+                {
+                    move = move.Key,
+                    type = move.Value
+                }));
+        }
 
         private int GetDamage(PokeType usertype, PokeType targetType)
         {
@@ -60,10 +69,18 @@ namespace NadekoBot.Modules.Pokemon
                     .Do(async e =>
                     {
                         var move = e.GetArg("move");
-                        var target = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
+                        var targetStr = e.GetArg("target")?.Trim();
+                        if (string.IsNullOrWhiteSpace(targetStr))
+                            return;
+                        var target = e.Server.FindUsers(targetStr).FirstOrDefault();
                         if (target == null)
                         {
                             await e.Channel.SendMessage("No such person.");
+                            return;
+                        }
+                        else if (target == e.User)
+                        {
+                            await e.Channel.SendMessage("You can't attack yourself.");
                             return;
                         }
                         // Checking stats first, then move
@@ -180,7 +197,7 @@ namespace NadekoBot.Modules.Pokemon
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var targetStr = e.GetArg("target");
+                        var targetStr = e.GetArg("target")?.Trim();
                         if (string.IsNullOrWhiteSpace(targetStr))
                             return;
                         var usr = e.Server.FindUsers(targetStr).FirstOrDefault();
@@ -232,7 +249,7 @@ namespace NadekoBot.Modules.Pokemon
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var usrStr = e.GetArg("target");
+                        var usrStr = e.GetArg("target")?.Trim();
                         if (string.IsNullOrWhiteSpace(usrStr))
                             return;
                         var usr = e.Server.FindUsers(usrStr).FirstOrDefault();
@@ -246,116 +263,54 @@ namespace NadekoBot.Modules.Pokemon
 
                     });
 
-                //cgb.CreateCommand(Prefix + "settype")
-                //    .Description($"Set your poketype. Costs a NadekoFlower.\n**Usage**: {Prefix}settype fire")
-                //    .Parameter("targetType", ParameterType.Unparsed)
-                //    .Do(async e =>
-                //    {
-                //        var targetTypeStr = e.GetArg("targetType")?.ToUpperInvariant();
-                //        if (string.IsNullOrWhiteSpace(targetTypeStr))
-                //            return;
-                //        var targetType = PokemonTypesMain.stringToPokeType(targetTypeStr);
-                //        if (targetType == null)
-                //        {
-                //            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
-                //            return;
-                //        }
-                //        if (targetType == GetPokeType(e.User.Id))
-                //        {
-                //            await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Image}");
-                //            return;
-                //        }
+                cgb.CreateCommand(Prefix + "settype")
+                    .Description($"Set your poketype. Costs a NadekoFlower.\n**Usage**: {Prefix}settype fire")
+                    .Parameter("targetType", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var targetTypeStr = e.GetArg("targetType")?.ToUpperInvariant();
+                        if (string.IsNullOrWhiteSpace(targetTypeStr))
+                            return;
+                        var targetType = PokemonTypesMain.stringToPokeType(targetTypeStr);
+                        if (targetType == null)
+                        {
+                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
+                            return;
+                        }
+                        if (targetType == GetPokeType(e.User.Id))
+                        {
+                            await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Image}");
+                            return;
+                        }
 
-                //        //Payment~
-                //        var amount = 1;
-                //        var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
-                //        if (pts < amount)
-                //        {
-                //            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
-                //            return;
-                //        }
-                //        await FlowersHandler.RemoveFlowersAsync(e.User, $"set usertype to {targetTypeStr}", amount);
-                //        //Actually changing the type here
-                //        var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
-                //        Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id);
-                //        if (Dict.ContainsKey((long)e.User.Id))
-                //        {
-                //            //delete previous type
-                //            DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
-                //        }
+                        //Payment~
+                        var amount = 1;
+                        var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
+                        if (pts < amount)
+                        {
+                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
+                            return;
+                        }
+                        await FlowersHandler.RemoveFlowersAsync(e.User, $"set usertype to {targetTypeStr}", amount);
+                        //Actually changing the type here
+                        var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
+                        Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id);
+                        if (Dict.ContainsKey((long)e.User.Id))
+                        {
+                            //delete previous type
+                            DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
+                        }
 
-                //        DbHandler.Instance.InsertData(new Classes._DataModels.UserPokeTypes
-                //        {
-                //            UserId = (long)e.User.Id,
-                //            type = targetType.Num
-                //        });
+                        DbHandler.Instance.InsertData(new Classes._DataModels.UserPokeTypes
+                        {
+                            UserId = (long)e.User.Id,
+                            type = targetType.Num
+                        });
 
-                //        //Now for the response
+                        //Now for the response
 
-                //        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Image} for a 🌸");
-                //    });
-
-                //cgb.CreateCommand(Prefix + "addmove")
-                //    .Description($"Adds move given to database.\n**Usage**: {Prefix}addmove flame fire")
-                //    .Parameter("movename", ParameterType.Required)
-                //    .Parameter("movetype", ParameterType.Required)
-                //    .Do(async e =>
-                //    {
-                //        //Implement NadekoFlowers????
-                //        string newMove = e.GetArg("movename").ToLowerInvariant();
-                //        var newType = PokemonTypesMain.stringToPokeType(e.GetArg("movetype").ToUpperInvariant());
-                //        int typeNum = newType.Num;
-                //        var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x => x.move);
-                //        if (db.Contains(newMove))
-                //        {
-                //            await e.Channel.SendMessage($"{newMove} already exists");
-                //            return;
-                //        }
-                //        await Task.Run(() =>
-                //        {
-                //            DbHandler.Instance.InsertData(new Classes._DataModels.PokeMoves
-                //            {
-                //                move = newMove,
-                //                type = typeNum
-                //            });
-                //        });
-                //        await e.Channel.SendMessage($"Added {newType.Image}{newMove}");
-                //    });
-
-                //cgb.CreateCommand(Prefix + "setdefaultmoves")
-                //    .Description($"Sets the moves DB to the default state and returns them all **OWNER ONLY**")
-                //    .AddCheck(SimpleCheckers.OwnerOnly())
-                //    .Do(async e =>
-                //    {
-                //        //clear DB
-                //        var db = DbHandler.Instance.GetAllRows<PokeMoves>();
-                //        foreach (PokeMoves p in db)
-                //        {
-                //            DbHandler.Instance.Delete<PokeMoves>(p.Id);
-                //        }
-
-                //        foreach (var entry in DefaultMoves.DefaultMovesList)
-                //        {
-                //            DbHandler.Instance.InsertData(new Classes._DataModels.PokeMoves
-                //            {
-                //                move = entry.Key,
-                //                type = entry.Value
-                //            });
-                //        }
-
-                //        var str = "**Reset moves to default**.\n**Moves:**";
-                //        //could sort, but meh
-                //        var dbMoves = DbHandler.Instance.GetAllRows<PokeMoves>();
-                //        foreach (PokeMoves m in dbMoves)
-                //        {
-                //            var t = PokemonTypesMain.IntToPokeType(m.type);
-
-                //            str += $"\n{t.Image}{m.move}";
-                //        }
-
-                //        await e.Channel.SendMessage(str);
-
-                //    });
+                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Image} for a 🌸");
+                    });
             });
         }
     }

@@ -33,6 +33,14 @@ namespace NadekoBot.Classes
             }
         }
 
+        internal void DeleteAll<T>() where T : IDataModel
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                conn.DeleteAll<T>();
+            }
+        }
+
         internal void InsertData<T>(T o) where T : IDataModel
         {
             using (var conn = new SQLiteConnection(FilePath))
