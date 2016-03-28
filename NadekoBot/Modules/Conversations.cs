@@ -1,18 +1,17 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 using NadekoBot.Classes;
+using NadekoBot.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;
-using NadekoBot.Commands;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules
 {
