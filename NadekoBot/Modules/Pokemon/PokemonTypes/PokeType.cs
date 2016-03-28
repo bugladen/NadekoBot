@@ -1,28 +1,24 @@
-﻿using System.Collections.Generic;
-using NadekoBot.Classes;
-using NadekoBot.Classes._DataModels;
-using NadekoBot.Modules.Pokemon.PokemonTypes;
+﻿using NadekoBot.Modules.Pokemon.PokemonTypes;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Pokemon.PokeTypes
 {
-
-    public interface IPokeType
+    public interface PokeType
     {
-
-        string GetImage();
-        string GetName();
-        int GetNum();
-        double GetMagnifier(IPokeType target);
+        string Image { get; }
+        string Name { get; }
+        int Num { get; }
+        double Multiplier(PokeType target);
     }
     public class PokemonTypesMain
     {
-        
-        public static IPokeType stringToPokeType(string newType)
+
+        public static PokeType stringToPokeType(string newType)
         {
 
-            foreach (IPokeType t in TypeList)
+            foreach (PokeType t in TypeList)
             {
-                if (t.GetName() == newType)
+                if (t.Name == newType)
                 {
                     return t;
                 }
@@ -30,26 +26,8 @@ namespace NadekoBot.Modules.Pokemon.PokeTypes
             return null;
         }
 
-        //public static List<string> getMoves(int numType)
-        //{
-        //    var db = DbHandler.Instance.GetAllRows<PokeMoves>();
-        //    List<string> moves = new List<string>();
-        //    foreach (PokeMoves p in db)
-        //    {
-        //        if (p.type == numType)
-        //        {
-        //            if (!moves.Contains(p.move))
-        //            {
-        //                moves.Add(p.move);
-        //            }
-        //        }
-        //    }
-        //    return moves;
-        //}
-
-
         //These classes can use all methods (except getMoves)
-        public static List<IPokeType> TypeList = new List<IPokeType>()
+        public static List<PokeType> TypeList = new List<PokeType>()
         {
             new NormalType(),
             new FireType(),
@@ -70,11 +48,11 @@ namespace NadekoBot.Modules.Pokemon.PokeTypes
             new SteelType()
         };
 
-        public static IPokeType IntToPokeType(int id)
+        public static PokeType IntToPokeType(int id)
         {
-            foreach (IPokeType t in TypeList)
+            foreach (PokeType t in TypeList)
             {
-                if (t.GetNum() == id)
+                if (t.Num == id)
                 {
                     return t;
                 }

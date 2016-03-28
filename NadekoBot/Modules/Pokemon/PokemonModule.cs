@@ -1,40 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Discord.Commands;
 using Discord.Modules;
-using Discord.Commands;
-using NadekoBot.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Extensions;
 using NadekoBot.Classes._DataModels;
 using NadekoBot.Classes.Permissions;
-using System.Collections.Concurrent;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Pokemon.PokeTypes;
 using NadekoBot.Modules.Pokemon.PokeTypes.Extensions;
-
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Pokemon
 {
-    
-    class PokemonGame : DiscordModule
+    class PokemonModule : DiscordModule
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Pokemon;
-        public readonly int BaseHealth = 500;
-        //private Dictionary<ulong, Pokestats> stats = new Dictionary<ulong, Pokestats>();
+
         private ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
 
+        public PokemonModule() { }
 
-        public PokemonGame()
+        private int GetDamage(PokeType usertype, PokeType targetType)
         {
-            //Something?
+            var rng = new Random();
+            int damage = rng.Next(40, 60);
+            var multiplier = usertype.Multiplier(targetType);
+            damage = (int)(damage * multiplier);
+            return damage;
         }
+
+        private PokeType GetPokeType(ulong id)
+        {
+
+            var db = DbHandler.Instance.GetAllRows<userPokeTypes>();
+            Dictionary<long, int> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
+            if (setTypes.ContainsKey((long)id))
+            {
+                return PokemonTypesMain.IntToPokeType(setTypes[(long)id]);
+            }
+
+            int remainder = (int)id % 16;
+
+            return PokemonTypesMain.IntToPokeType(remainder);
+        }
+
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
@@ -54,11 +70,11 @@ namespace NadekoBot.Modules.Pokemon
                     // Checking stats first, then move
                     //Set up the userstats
                     PokeStats userStats;
-                    userStats = Stats.GetOrAdd(e.User.Id, defaultStats());
+                    userStats = Stats.GetOrAdd(e.User.Id, new PokeStats());
 
                     //Check if able to move
                     //User not able if HP < 0, has made more than 4 attacks
-                    if (userStats.HP < 0)
+                    if (userStats.Hp < 0)
                     {
                         await e.Channel.SendMessage($"{e.User.Mention} has fainted and was not able to move!");
                         return;
@@ -75,17 +91,17 @@ namespace NadekoBot.Modules.Pokemon
                     }
                     //get target stats
                     PokeStats targetStats;
-                    targetStats = Stats.GetOrAdd(target.Id, defaultStats());
+                    targetStats = Stats.GetOrAdd(target.Id, new PokeStats());
 
                     //If target's HP is below 0, no use attacking
-                    if (targetStats.HP <= 0)
+                    if (targetStats.Hp <= 0)
                     {
                         await e.Channel.SendMessage($"{target.Mention} has already fainted!");
                         return;
                     }
 
                     //Check whether move can be used
-                    IPokeType userType = getPokeType(e.User.Id);
+                    PokeType userType = GetPokeType(e.User.Id);
 
                     var enabledMoves = userType.GetMoves();
                     if (!enabledMoves.Contains(move.ToLowerInvariant()))
@@ -95,13 +111,13 @@ namespace NadekoBot.Modules.Pokemon
                     }
 
                     //get target type
-                    IPokeType targetType = getPokeType(target.Id);
+                    PokeType targetType = GetPokeType(target.Id);
                     //generate damage
-                    int damage = getDamage(userType, targetType);
+                    int damage = GetDamage(userType, targetType);
                     //apply damage to target
-                    targetStats.HP -= damage;
+                    targetStats.Hp -= damage;
 
-                    var response = $"{e.User.Mention} used **{move}**{userType.GetImage()} on {target.Mention}{targetType.GetImage()} for **{damage}** damage";
+                    var response = $"{e.User.Mention} used **{move}**{userType.Image} on {target.Mention}{targetType.Image} for **{damage}** damage";
 
                     //Damage type
                     if (damage < 40)
@@ -119,13 +135,13 @@ namespace NadekoBot.Modules.Pokemon
 
                     //check fainted
 
-                    if (targetStats.HP <= 0)
+                    if (targetStats.Hp <= 0)
                     {
                         response += $"\n**{target.Name}** has fainted!";
                     }
                     else
                     {
-                        response += $"\n**{target.Name}** has {targetStats.HP} HP remaining";
+                        response += $"\n**{target.Name}** has {targetStats.Hp} HP remaining";
                     }
 
                     //update other stats
@@ -149,12 +165,12 @@ namespace NadekoBot.Modules.Pokemon
                 .Description("Lists the moves you are able to use")
                 .Do(async e =>
                 {
-                    var userType = getPokeType(e.User.Id);
+                    var userType = GetPokeType(e.User.Id);
                     List<string> movesList = userType.GetMoves();
-                    var str = "**Moves:**";
+                    var str = $"**Moves for `{userType.Name}` type.**";
                     foreach (string m in movesList)
                     {
-                        str += $"\n{userType.GetImage()}{m}";
+                        str += $"\n{userType.Image}{m}";
                     }
                     await e.Channel.SendMessage(str);
                 });
@@ -168,7 +184,7 @@ namespace NadekoBot.Modules.Pokemon
                     //Implement NadekoFlowers????
                     string newMove = e.GetArg("movename").ToLowerInvariant();
                     var newType = PokemonTypesMain.stringToPokeType(e.GetArg("movetype").ToUpperInvariant());
-                    int typeNum = newType.GetNum();
+                    int typeNum = newType.Num;
                     var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x => x.move);
                     if (db.Contains(newMove))
                     {
@@ -183,7 +199,7 @@ namespace NadekoBot.Modules.Pokemon
                             type = typeNum
                         });
                     });
-                    await e.Channel.SendMessage($"Added {newType.GetImage()}{newMove}");
+                    await e.Channel.SendMessage($"Added {newType.Image}{newMove}");
                 });
 
                 cgb.CreateCommand(Prefix + "heal")
@@ -201,8 +217,8 @@ namespace NadekoBot.Modules.Pokemon
                      {
 
                          var targetStats = Stats[usr.Id];
-                         int HP = targetStats.HP;
-                         if (targetStats.HP == BaseHealth)
+                         int HP = targetStats.Hp;
+                         if (targetStats.Hp == targetStats.MaxHp)
                          {
                              await e.Channel.SendMessage($"{usr.Name} already has full HP!");
                              return;
@@ -215,18 +231,18 @@ namespace NadekoBot.Modules.Pokemon
                              await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
                              return;
                          }
-                         var up = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
-                         await FlowersHandler.RemoveFlowersAsync(e.User, $"heal {up}", amount);
+                         var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
+                         await FlowersHandler.RemoveFlowersAsync(e.User, $"Poke-Heal {target}", amount);
                          //healing
-                         targetStats.HP = BaseHealth;
+                         targetStats.Hp = targetStats.MaxHp;
                          if (HP < 0)
                          {
                              //Could heal only for half HP?
-                             Stats[usr.Id].HP = (BaseHealth / 2);
-                             await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} for 🌸");
+                             Stats[usr.Id].Hp = (targetStats.MaxHp / 2);
+                             await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {NadekoBot.Config.CurrencySign}");
                              return;
                          }
-                         await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {BaseHealth - HP} HP with a 🌸");
+                         await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with a 🌸");
                          return;
                      }
                      else
@@ -246,8 +262,8 @@ namespace NadekoBot.Modules.Pokemon
                         await e.Channel.SendMessage("No such person.");
                         return;
                     }
-                    var pType = getPokeType(usr.Id);
-                    await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.GetName().ToLowerInvariant()}**{pType.GetImage()}");
+                    var pType = GetPokeType(usr.Id);
+                    await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Image}");
 
                 });
 
@@ -262,7 +278,7 @@ namespace NadekoBot.Modules.Pokemon
                     {
                         DbHandler.Instance.Delete<PokeMoves>(p.Id);
                     }
-                    
+
                     foreach (var entry in DefaultMoves.DefaultMovesList)
                     {
                         DbHandler.Instance.InsertData(new Classes._DataModels.PokeMoves
@@ -279,7 +295,7 @@ namespace NadekoBot.Modules.Pokemon
                     {
                         var t = PokemonTypesMain.IntToPokeType(m.type);
 
-                        str += $"\n{t.GetImage()}{m.move}";
+                        str += $"\n{t.Image}{m.move}";
                     }
 
                     await e.Channel.SendMessage(str);
@@ -298,9 +314,9 @@ namespace NadekoBot.Modules.Pokemon
                         await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
                         return;
                     }
-                    if (targetType == getPokeType(e.User.Id))
+                    if (targetType == GetPokeType(e.User.Id))
                     {
-                        await e.Channel.SendMessage($"Your type is already {targetType.GetName().ToLowerInvariant()}{targetType.GetImage()}");
+                        await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Image}");
                         return;
                     }
 
@@ -325,54 +341,15 @@ namespace NadekoBot.Modules.Pokemon
                     DbHandler.Instance.InsertData(new Classes._DataModels.userPokeTypes
                     {
                         UserId = (long)e.User.Id,
-                        type = targetType.GetNum()
+                        type = targetType.Num
                     });
 
                     //Now for the response
 
-                    await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeString}{targetType.GetImage()} for a 🌸");
+                    await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeString}{targetType.Image} for a 🌸");
                 });
             });
         }
-
-
-
-
-        private int getDamage(IPokeType usertype, IPokeType targetType)
-        {
-            Random rng = new Random();
-            int damage = rng.Next(40, 60);
-            double multiplier = 1;
-            multiplier = usertype.GetMagnifier(targetType);
-            damage = (int)(damage * multiplier);
-            return damage;
-        }
-
-        private IPokeType getPokeType(ulong id)
-        {
-
-            var db = DbHandler.Instance.GetAllRows<userPokeTypes>();
-            Dictionary<long, int> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
-            if (setTypes.ContainsKey((long)id))
-            {
-                return PokemonTypesMain.IntToPokeType(setTypes[(long)id]);
-            }
-
-            int remainder = (int)id % 16;
-
-            return PokemonTypesMain.IntToPokeType(remainder);
-
-
-        }
-
-        private PokeStats defaultStats()
-        {
-            PokeStats s = new PokeStats();
-            s.HP = BaseHealth;
-            return s;
-        }
-
-
     }
 }
 
