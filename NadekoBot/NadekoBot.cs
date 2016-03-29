@@ -5,6 +5,7 @@ using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules;
+using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Pokemon;
 using NadekoBot.Modules.Translator;
@@ -157,7 +158,7 @@ namespace NadekoBot
             }));
 
             //install modules
-            modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
             modules.Add(new Help(), "Help", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);

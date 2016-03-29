@@ -1,34 +1,40 @@
-﻿using System;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Commands;
+using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord.Commands;
-using System.Collections.Concurrent;
-using Discord;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    internal class VoiceNotificationCommand : DiscordCommand {
+namespace NadekoBot.Modules.Administration.Commands
+{
+    internal class VoiceNotificationCommand : DiscordCommand
+    {
 
         //voicechannel/text channel
         private readonly ConcurrentDictionary<Channel, Channel> subscribers = new ConcurrentDictionary<Channel, Channel>();
 
-        public Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e =>
+        {
             var arg = e.GetArg("voice_name");
             if (string.IsNullOrWhiteSpace("voice_name"))
                 return;
             var voiceChannel = e.Server.FindChannels(arg, ChannelType.Voice).FirstOrDefault();
             if (voiceChannel == null)
                 return;
-            if (subscribers.ContainsKey(voiceChannel)) {
+            if (subscribers.ContainsKey(voiceChannel))
+            {
                 await e.Channel.SendMessage("`Voice channel notifications disabled.`");
                 return;
             }
-            if (subscribers.TryAdd(voiceChannel, e.Channel)) {
+            if (subscribers.TryAdd(voiceChannel, e.Channel))
+            {
                 await e.Channel.SendMessage("`Voice channel notifications enabled.`");
             }
         };
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "voicenotif")
                   .Description("Enables notifications on who joined/left the voice channel.\n**Usage**:.voicenotif Karaoke club")
                   .Parameter("voice_name", ParameterType.Unparsed)

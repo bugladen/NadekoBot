@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Discord;
 using Discord.Commands;
-using System.Collections.Concurrent;
+using NadekoBot.Commands;
 using NadekoBot.Extensions;
-using Discord;
-using NadekoBot.Modules;
+using System.Collections.Concurrent;
+using System.Linq;
 
 /* Voltana's legacy
 public class AsyncLazy<T> : Lazy<Task<T>> 
@@ -21,14 +18,17 @@ public class AsyncLazy<T> : Lazy<Task<T>>
 }
 */
 
-namespace NadekoBot.Commands {
-    internal class ServerGreetCommand : DiscordCommand {
+namespace NadekoBot.Modules.Administration.Commands
+{
+    internal class ServerGreetCommand : DiscordCommand
+    {
 
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
         public static long Greeted = 0;
 
-        public ServerGreetCommand(DiscordModule module) : base(module) {
+        public ServerGreetCommand(DiscordModule module) : base(module)
+        {
             AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
             NadekoBot.Client.UserJoined += UserJoined;
@@ -41,8 +41,10 @@ namespace NadekoBot.Commands {
                 AnnouncementsDictionary.TryAdd((ulong)obj.ServerId, new AnnounceControls(obj));
         }
 
-        private async void UserLeft(object sender, UserEventArgs e) {
-            try {
+        private async void UserLeft(object sender, UserEventArgs e)
+        {
+            try
+            {
                 if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
                     !AnnouncementsDictionary[e.Server.Id].Bye) return;
 
@@ -52,9 +54,11 @@ namespace NadekoBot.Commands {
                 if (string.IsNullOrEmpty(msg))
                     return;
 
-                if (controls.ByePM) {
+                if (controls.ByePM)
+                {
                     Greeted++;
-                    try {
+                    try
+                    {
                         await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
                     }
                     catch { }
@@ -68,8 +72,10 @@ namespace NadekoBot.Commands {
             catch { }
         }
 
-        private async void UserJoined(object sender, Discord.UserEventArgs e) {
-            try {
+        private async void UserJoined(object sender, Discord.UserEventArgs e)
+        {
+            try
+            {
                 if (!AnnouncementsDictionary.ContainsKey(e.Server.Id) ||
                     !AnnouncementsDictionary[e.Server.Id].Greet) return;
 
@@ -79,7 +85,8 @@ namespace NadekoBot.Commands {
                 var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
                 if (string.IsNullOrEmpty(msg))
                     return;
-                if (controls.GreetPM) {
+                if (controls.GreetPM)
+                {
                     Greeted++;
                     await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
                 }
@@ -92,7 +99,8 @@ namespace NadekoBot.Commands {
             catch { }
         }
 
-        public class AnnounceControls {
+        public class AnnounceControls
+        {
             private Classes._DataModels.Announcement _model { get; }
 
             public bool Greet {
@@ -139,28 +147,36 @@ namespace NadekoBot.Commands {
                 set { _model.ServerId = (long)value; }
             }
 
-            public AnnounceControls(Classes._DataModels.Announcement model) {
+            public AnnounceControls(Classes._DataModels.Announcement model)
+            {
                 this._model = model;
             }
 
-            public AnnounceControls(ulong serverId) {
+            public AnnounceControls(ulong serverId)
+            {
                 this._model = new Classes._DataModels.Announcement();
                 ServerId = serverId;
             }
 
-            internal bool ToggleBye(ulong id) {
-                if (Bye) {
+            internal bool ToggleBye(ulong id)
+            {
+                if (Bye)
+                {
                     return Bye = false;
-                } else {
+                }
+                else {
                     ByeChannel = id;
                     return Bye = true;
                 }
             }
 
-            internal bool ToggleGreet(ulong id) {
-                if (Greet) {
+            internal bool ToggleGreet(ulong id)
+            {
+                if (Greet)
+                {
                     return Greet = false;
-                } else {
+                }
+                else {
                     GreetChannel = id;
                     return Greet = true;
                 }
@@ -168,16 +184,19 @@ namespace NadekoBot.Commands {
             internal bool ToggleGreetPM() => GreetPM = !GreetPM;
             internal bool ToggleByePM() => ByePM = !ByePM;
 
-            private void Save() {
+            private void Save()
+            {
                 Classes.DbHandler.Instance.Save(_model);
             }
         }
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
 
             cgb.CreateCommand(Module.Prefix + "greet")
                 .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
@@ -193,7 +212,8 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "greetmsg")
                 .Description("Sets a new announce message. Type %user% if you want to mention the new member.\n**Usage**: .greetmsg Welcome to the server, %user%.")
                 .Parameter("msg", ParameterType.Unparsed)
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (e.GetArg("msg") == null) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
@@ -207,7 +227,8 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(Module.Prefix + "bye")
                 .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
@@ -223,7 +244,8 @@ namespace NadekoBot.Commands {
             cgb.CreateCommand(Module.Prefix + "byemsg")
                 .Description("Sets a new announce leave message. Type %user% if you want to mention the new member.\n**Usage**: .byemsg %user% has left the server.")
                 .Parameter("msg", ParameterType.Unparsed)
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (e.GetArg("msg") == null) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
@@ -237,7 +259,8 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(Module.Prefix + "byepm")
                 .Description("Toggles whether the good bye messages will be sent in a PM or in the text channel.")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
@@ -253,7 +276,8 @@ namespace NadekoBot.Commands {
 
             cgb.CreateCommand(Module.Prefix + "greetpm")
                 .Description("Toggles whether the greet messages will be sent in a PM or in the text channel.")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));

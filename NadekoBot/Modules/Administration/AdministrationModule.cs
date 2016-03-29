@@ -4,19 +4,19 @@ using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
 using NadekoBot.Classes.Permissions;
-using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Administration.Commands;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Administration
 {
-    internal class Administration : DiscordModule
+    internal class AdministrationModule : DiscordModule
     {
-        public Administration()
+        public AdministrationModule()
         {
             commands.Add(new ServerGreetCommand(this));
             commands.Add(new LogCommand(this));

@@ -1,15 +1,18 @@
-﻿using System;
-using System.Timers;
-using System.Collections.Concurrent;
-using Discord;
-using NadekoBot.Classes.Permissions;
+﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Modules;
+using NadekoBot.Classes.Permissions;
+using NadekoBot.Commands;
+using System;
+using System.Collections.Concurrent;
+using System.Timers;
 
-namespace NadekoBot.Commands {
-    class MessageRepeater : DiscordCommand {
+namespace NadekoBot.Modules.Administration.Commands
+{
+    class MessageRepeater : DiscordCommand
+    {
         private readonly ConcurrentDictionary<Server, Repeater> repeaters = new ConcurrentDictionary<Server, Repeater>();
-        private class Repeater {
+        private class Repeater
+        {
             [Newtonsoft.Json.JsonIgnore]
             public Timer MessageTimer { get; set; }
             [Newtonsoft.Json.JsonIgnore]
@@ -20,21 +23,27 @@ namespace NadekoBot.Commands {
             public string RepeatingMessage { get; set; }
             public int Interval { get; set; }
 
-            public Repeater Start() {
+            public Repeater Start()
+            {
                 MessageTimer = new Timer { Interval = Interval };
-                MessageTimer.Elapsed += async (s, e) => {
+                MessageTimer.Elapsed += async (s, e) =>
+                {
                     var ch = RepeatingChannel;
                     var msg = RepeatingMessage;
-                    if (ch != null && !string.IsNullOrWhiteSpace(msg)) {
-                        try {
+                    if (ch != null && !string.IsNullOrWhiteSpace(msg))
+                    {
+                        try
+                        {
                             await ch.SendMessage(msg);
-                        } catch { }
+                        }
+                        catch { }
                     }
                 };
                 return this;
             }
         }
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
 
             cgb.CreateCommand(Module.Prefix + "repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
@@ -42,12 +51,14 @@ namespace NadekoBot.Commands {
                 .Parameter("minutes", ParameterType.Optional)
                 .Parameter("msg", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageMessages())
-                .Do(async e => {
+                .Do(async e =>
+                {
                     var minutesStr = e.GetArg("minutes");
                     var msg = e.GetArg("msg");
 
                     // if both null, disable
-                    if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr)) {
+                    if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr))
+                    {
                         await e.Channel.SendMessage("Repeating disabled");
                         Repeater rep;
                         if (repeaters.TryGetValue(e.Server, out rep))
@@ -55,14 +66,16 @@ namespace NadekoBot.Commands {
                         return;
                     }
                     int minutes;
-                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 720) {
+                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 720)
+                    {
                         await e.Channel.SendMessage("Invalid value");
                         return;
                     }
 
                     var repeater = repeaters.GetOrAdd(
                         e.Server,
-                        s => new Repeater {
+                        s => new Repeater
+                        {
                             Interval = minutes * 60 * 1000,
                             RepeatingChannel = e.Channel,
                             RepeatingChannelId = e.Channel.Id,
@@ -82,6 +95,6 @@ namespace NadekoBot.Commands {
                 });
         }
 
-        public MessageRepeater(DiscordModule module) : base(module) {}
+        public MessageRepeater(DiscordModule module) : base(module) { }
     }
 }
