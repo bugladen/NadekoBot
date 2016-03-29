@@ -159,6 +159,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("how are you")
+                    .Alias("how are you?")
                     .Description("Replies positive only if bot owner is online.")
                     .Do(async e =>
                     {
