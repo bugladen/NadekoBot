@@ -330,7 +330,33 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         if (response == null)
                             return;
                         await e.Channel.SendMessage($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`");
+                    });
 
+                cgb.CreateCommand(Prefix + "yomama")
+                    .Alias(Prefix + "ym")
+                    .Description("Shows a random joke from <http://api.yomomma.info/>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://api.yomomma.info/");
+                        await e.Channel.SendMessage(JObject.Parse(response)["joke"].ToString());
+                    });
+
+                cgb.CreateCommand(Prefix + "randjoke")
+                    .Alias(Prefix + "rj")
+                    .Description("Shows a random joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://tambal.azurewebsites.net/joke/random");
+                        await e.Channel.SendMessage(JObject.Parse(response)["joke"].ToString());
+                    });
+
+                cgb.CreateCommand(Prefix + "chucknorris")
+                    .Alias(Prefix + "cn")
+                    .Description("Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/");
+                        await e.Channel.SendMessage(JObject.Parse(response)["value"]["joke"].ToString());
                     });
             });
         }
