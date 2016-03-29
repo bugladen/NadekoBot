@@ -321,6 +321,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             e.Channel.SendMessage(
                                 NadekoBot.Config.Quotes[new Random().Next(0, NadekoBot.Config.Quotes.Count)].ToString());
                     });
+
+                cgb.CreateCommand(Prefix + "catfact")
+                    .Description("Shows a random catfact from http://catfacts-api.appspot.com/api/facts")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://catfacts-api.appspot.com/api/facts");
+                        if (response == null)
+                            return;
+                        await e.Channel.SendMessage($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`");
+
+                    });
             });
         }
     }
