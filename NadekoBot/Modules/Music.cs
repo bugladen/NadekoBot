@@ -70,6 +70,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("n")
                     .Alias("next")
+                    .Alias("skip")
                     .Description("Goes to the next song in the queue.")
                     .Do(e =>
                     {

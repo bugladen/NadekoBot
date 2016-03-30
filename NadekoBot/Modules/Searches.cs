@@ -357,6 +357,23 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/");
                         await e.Channel.SendMessage("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆");
                     });
+
+                cgb.CreateCommand(Prefix + "revav")
+                    .Description("Returns a google reverse image search for someone's avatar.")
+                    .Parameter("user", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var usrStr = e.GetArg("user")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(usrStr))
+                            return;
+
+                        var usr = e.Server.FindUsers(usrStr).FirstOrDefault();
+
+                        if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
+                            return;
+                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}");
+                    });
             });
         }
     }
