@@ -225,7 +225,7 @@ namespace NadekoBot.Modules.Pokemon
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
-                            await FlowersHandler.RemoveFlowersAsync(e.User, $"Poke-Heal {target}", amount);
+                            FlowersHandler.RemoveFlowers(e.User, $"Poke-Heal {target}", amount);
                             //healing
                             targetStats.Hp = targetStats.MaxHp;
                             if (HP < 0)
@@ -285,13 +285,13 @@ namespace NadekoBot.Modules.Pokemon
 
                         //Payment~
                         var amount = 1;
-                        var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
+                        var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
                             await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
                             return;
                         }
-                        await FlowersHandler.RemoveFlowersAsync(e.User, $"set usertype to {targetTypeStr}", amount);
+                        FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
                         //Actually changing the type here
                         var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
                         Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id);

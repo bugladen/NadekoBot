@@ -228,6 +228,7 @@ namespace NadekoBot.Modules.Administration
                                 try
                                 {
                                     await e.Server.Ban(usr);
+
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
                                 catch

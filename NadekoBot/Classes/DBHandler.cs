@@ -34,6 +34,14 @@ namespace NadekoBot.Classes
             }
         }
 
+        internal T FindOne<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                return conn.Table<T>().Where(p).FirstOrDefault();
+            }
+        }
+
         internal void DeleteAll<T>() where T : IDataModel
         {
             using (var conn = new SQLiteConnection(FilePath))

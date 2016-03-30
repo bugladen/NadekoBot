@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                             return;
                         }
 
-                        await FlowersHandler.RemoveFlowersAsync(e.User, "Gift", (int)amount);
+                        FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!");
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Gambling
                         if (mentionedUser == null)
                             return;
 
-                        await FlowersHandler.RemoveFlowersAsync(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
+                        FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!");
                     });
