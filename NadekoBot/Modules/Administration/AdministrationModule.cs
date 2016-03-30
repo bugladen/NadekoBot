@@ -458,6 +458,7 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "st").Alias(Prefix + "settopic")
                     .Alias(Prefix + "topic")
                     .Description("Sets a topic on the current channel.")
+                    .AddCheck(SimpleCheckers.ManageChannels())
                     .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e =>
                     {
