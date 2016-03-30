@@ -5,6 +5,7 @@ using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -18,11 +19,15 @@ namespace NadekoBot.Commands
         {
             Interval = new TimeSpan(0, 0, 15).TotalMilliseconds,
         };
+
+        private ConcurrentDictionary<string, Tuple<bool, string>> cachedStatuses = new ConcurrentDictionary<string, Tuple<bool, string>>();
+
         public StreamNotifications(DiscordModule module) : base(module)
         {
 
             checkTimer.Elapsed += async (s, e) =>
             {
+                cachedStatuses.Clear();
                 try
                 {
                     var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
@@ -74,23 +79,39 @@ namespace NadekoBot.Commands
             bool isLive;
             string response;
             JObject data;
+            Tuple<bool, string> result;
             switch (stream.Type)
             {
                 case StreamNotificationConfig.StreamType.Hitbox:
-                    response = await SearchHelper.GetResponseStringAsync($"https://api.hitbox.tv/media/status/{stream.Username}");
+                    var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
+                    if (cachedStatuses.TryGetValue(hitboxUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(hitboxUrl);
                     data = JObject.Parse(response);
                     isLive = data["media_is_live"].ToString() == "1";
-                    return new Tuple<bool, string>(isLive, data["media_views"].ToString());
+                    result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
+                    cachedStatuses.TryAdd(hitboxUrl, result);
+                    return result;
                 case StreamNotificationConfig.StreamType.Twitch:
-                    response = await SearchHelper.GetResponseStringAsync($"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}");
+                    var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
+                    if (cachedStatuses.TryGetValue(twitchUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(twitchUrl);
                     data = JObject.Parse(response);
                     isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
-                    return new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
+                    result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
+                    cachedStatuses.TryAdd(twitchUrl, result);
+                    return result;
                 case StreamNotificationConfig.StreamType.Beam:
-                    response = await SearchHelper.GetResponseStringAsync($"https://beam.pro/api/v1/channels/{stream.Username}");
+                    var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
+                    if (cachedStatuses.TryGetValue(beamUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(beamUrl);
                     data = JObject.Parse(response);
                     isLive = data["online"].ToObject<bool>() == true;
-                    return new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
+                    result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
+                    cachedStatuses.TryAdd(beamUrl, result);
+                    return result;
                 default:
                     break;
             }
