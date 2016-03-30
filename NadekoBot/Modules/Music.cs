@@ -303,7 +303,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
-                    .Description("Queues a direct radio stream from a link.")
+                    .Description("Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf")
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e =>
                     {
