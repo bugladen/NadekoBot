@@ -145,12 +145,14 @@
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
     <Compile Include="Classes\_DataModels\pokemoves.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
+    <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
+    <Compile Include="Modules\Administration\Commands\Remind.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />

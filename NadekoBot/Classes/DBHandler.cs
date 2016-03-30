@@ -29,6 +29,7 @@ namespace NadekoBot.Classes
                 conn.CreateTable<PokeMoves>();
                 conn.CreateTable<UserPokeTypes>();
                 conn.CreateTable<UserQuote>();
+                conn.CreateTable<Reminder>();
                 conn.Execute(Queries.TransactionTriggerQuery);
             }
         }
@@ -38,6 +39,16 @@ namespace NadekoBot.Classes
             using (var conn = new SQLiteConnection(FilePath))
             {
                 conn.DeleteAll<T>();
+            }
+        }
+
+        internal void DeleteWhere<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                var id = conn.Table<T>().Where(p).FirstOrDefault()?.Id;
+                if (id.HasValue)
+                    conn.Delete<T>(id);
             }
         }
 
