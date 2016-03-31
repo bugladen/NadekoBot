@@ -21,7 +21,7 @@ namespace NadekoBot
 {
     public class NadekoBot
     {
-        public static DiscordClient Client;
+        public static DiscordClient Client { get; private set; }
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
