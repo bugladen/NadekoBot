@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Gambling
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "roll")
-                .Description("Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice.\n**Usage**: $roll [x]")
+                .Description("Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice.\n**Usage**: $roll [x]")
                 .Parameter("num", ParameterType.Optional)
                 .Do(Roll0to10Func());
             cgb.CreateCommand(Module.Prefix + "nroll")
@@ -28,7 +28,13 @@ namespace NadekoBot.Modules.Gambling
                 .Do(Roll0to5Func());
         }
 
-        private Image GetDice(int num) => Properties.Resources.ResourceManager.GetObject("_" + num) as Image;
+        private Image GetDice(int num) => num != 10
+                                          ? Properties.Resources.ResourceManager.GetObject("_" + num) as Image
+                                          : new[]
+                                            {
+                                              (Properties.Resources.ResourceManager.GetObject("_" + 1) as Image),
+                                              (Properties.Resources.ResourceManager.GetObject("_" + 0) as Image),
+                                            }.Merge();
 
         private Func<CommandEventArgs, Task> Roll0to10Func()
         {
@@ -37,30 +43,24 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (e.Args[0] == "")
                 {
-                    var num1 = r.Next(0, 10);
-                    var num2 = r.Next(0, 10);
+                    var gen = r.Next(0, 101);
 
-                    Image[] images;
+                    var num1 = gen / 10;
+                    var num2 = gen % 10;
 
-                    if (num1 == 0 && num2 == 0 && r.Next(0, 2) == 1)
-                    {
-                        images = new Image[3] { GetDice(1), GetDice(0), GetDice(0) };
-                    }
-                    else {
-                        images = new Image[2] { GetDice(num1), GetDice(num2) };
-                    }
+                    var imageStream = new Image[2] { GetDice(num1), GetDice(num2) }.Merge().ToStream(ImageFormat.Png);
 
-                    var bitmap = images.Merge();
-                    await e.Channel.SendFile("dice.png", bitmap.ToStream(ImageFormat.Png));
+                    await e.Channel.SendFile("dice.png", imageStream);
                 }
-                else {
+                else
+                {
                     try
                     {
                         var num = int.Parse(e.Args[0]);
                         if (num < 1) num = 1;
                         if (num > 30)
                         {
-                            await e.Channel.SendMessage("You can roll up to 30 dies at a time.");
+                            await e.Channel.SendMessage("You can roll up to 30 dice at a time.");
                             num = 30;
                         }
                         var dices = new List<Image>(num);
@@ -113,7 +113,8 @@ namespace NadekoBot.Modules.Gambling
                             throw new ArgumentException("First argument should be bigger than the second one.");
                         rolled = new Random().Next(arr[0], arr[1] + 1);
                     }
-                    else {
+                    else
+                    {
                         rolled = new Random().Next(0, int.Parse(e.GetArg("range")) + 1);
                     }
 
