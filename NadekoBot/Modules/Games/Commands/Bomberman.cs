@@ -1,7 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Commands;
-using System.Linq;
+using System.Text;
+using System.Timers;
 using static NadekoBot.Modules.Games.Commands.Bomberman;
 
 namespace NadekoBot.Modules.Games.Commands
@@ -12,7 +13,12 @@ namespace NadekoBot.Modules.Games.Commands
 
         public BombermanPlayer[] players = new BombermanPlayer[4];
 
-        public Channel gameChannel;
+        public Channel gameChannel = null;
+
+        public Message godMsg = null;
+
+        public int curI = 5;
+        public int curJ = 5;
 
 
         public Bomberman(DiscordModule module) : base(module)
@@ -26,33 +32,81 @@ namespace NadekoBot.Modules.Games.Commands
             }
             NadekoBot.Client.MessageReceived += (s, e) =>
             {
-                if (e.Channel != gameChannel)
+                if (e.Channel != gameChannel ||
+                    e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
 
-                if (e.Message.Text == "a")
-                    players.Where(p => p.User == e.User).FirstOrDefault()?.MoveLeft();
+                if (e.Message.Text == "w")
+                {
+                    board[curI - 1, curJ] = board[curI--, curJ];
+                    board[curI + 1, curJ].player = null;
+                }
+                else if (e.Message.Text == "s")
+                {
+                    board[curI + 1, curJ] = board[curI++, curJ];
+                    board[curI - 1, curJ].player = null;
+                }
+                else if (e.Message.Text == "a")
+                {
+                    board[curI, curJ - 1] = board[curI, curJ--];
+                    board[curI, curJ + 1].player = null;
+                }
+                else if (e.Message.Text == "d")
+                {
+                    board[curI, curJ + 1] = board[curI, curJ++];
+                    board[curI, curJ - 1].player = null;
+                }
+
+                e.Message.Delete();
             };
+
+            var t = new Timer();
+            t.Elapsed += async (s, e) =>
+            {
+                if (gameChannel == null)
+                    return;
+
+                var boardStr = new StringBuilder();
+
+                for (int i = 0; i < 15; i++)
+                {
+                    for (int j = 0; j < 15; j++)
+                    {
+                        boardStr.Append(board[i, j].ToString());
+                    }
+                    boardStr.AppendLine();
+                }
+                if (godMsg.Id != 0)
+                    await godMsg.Edit(boardStr.ToString());
+
+            };
+            t.Interval = 1000;
+            t.Start();
+
         }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
             //cgb.CreateCommand(Module.Prefix + "bomb")
             //    .Description("Bomberman start")
-            //    .Do(e =>
+            //    .Do(async e =>
             //    {
             //        if (gameChannel != null)
             //            return;
+            //        godMsg = await e.Channel.SendMessage("GAME START IN 1 SECOND....");
             //        gameChannel = e.Channel;
             //        players[0] = new BombermanPlayer
             //        {
             //            User = e.User,
             //        };
+
+            //        board[5, 5].player = players[0];
             //    });
         }
 
         public class BombermanPlayer
         {
-            public User User;
+            public User User = null;
             public string Icon = "👳";
 
             internal void MoveLeft()
@@ -62,13 +116,9 @@ namespace NadekoBot.Modules.Games.Commands
         }
     }
 
-    internal class Field
+    internal struct Field
     {
-        public BombermanPlayer player = null;
-
-        public Field()
-        {
-        }
+        public BombermanPlayer player;
 
         public override string ToString() => player?.Icon ?? "⬜";
     }
