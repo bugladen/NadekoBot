@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Pokemon
                 return PokemonTypesMain.IntToPokeType(setTypes[(long)id]);
             }
 
-            int remainder = Math.Abs((int)(id % 16));
+            int remainder = Math.Abs((int)(id % 18));
 
             return PokemonTypesMain.IntToPokeType(remainder);
         }
