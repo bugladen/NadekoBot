@@ -144,10 +144,10 @@ namespace NadekoBot.Modules
                             return;
                         var toSend = $"🎵`Now Playing` {currentSong.PrettyName} " + $"{currentSong.PrettyCurrentTime()}\n";
                         if (musicPlayer.RepeatSong)
-                            toSend += "🔁 `Repeating current song.`\n";
+                            toSend += "🔂";
                         else if (musicPlayer.RepeatPlaylist)
-                            toSend += "🔁 `Repeating playlist.`\n";
-                        toSend += $"🎵 **{musicPlayer.Playlist.Count}** `tracks currently queued.` ";
+                            toSend += "🔁";
+                        toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued.` ";
                         if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
                             toSend += "**Song queue is full!**\n";
                         else
@@ -408,8 +408,8 @@ namespace NadekoBot.Modules
                             return;
                         var currentValue = musicPlayer.ToggleRepeatSong();
                         await e.Channel.SendMessage(currentValue ?
-                                                    $"🎵 `Repeating track:`{currentSong.PrettyName}" :
-                                                    $"🎵 `Current track repeat stopped.`");
+                                                    $"🎵🔂`Repeating track:`{currentSong.PrettyName}" :
+                                                    $"🎵🔂`Current track repeat stopped.`");
                     });
 
                 cgb.CreateCommand("rpl")
