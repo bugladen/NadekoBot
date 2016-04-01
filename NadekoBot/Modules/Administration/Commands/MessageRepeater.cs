@@ -20,6 +20,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             public ulong RepeatingServerId { get; set; }
             public ulong RepeatingChannelId { get; set; }
+            public Message lastMessage { get; set; } = null;
             public string RepeatingMessage { get; set; }
             public int Interval { get; set; }
 
@@ -34,7 +35,13 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         try
                         {
-                            await ch.SendMessage(msg);
+                            if (lastMessage != null)
+                                await lastMessage.Delete();
+                        }
+                        catch { }
+                        try
+                        {
+                            lastMessage = await ch.SendMessage(msg);
                         }
                         catch { }
                     }
