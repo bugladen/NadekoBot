@@ -130,6 +130,7 @@
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Leet.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
+    <Compile Include="Classes\Music\PoopyBuffer.cs" />
     <Compile Include="Classes\Music\Song.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\Music\SoundCloud.cs" />
@@ -186,7 +187,8 @@
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling\GamblingModule.cs" />
-    <Compile Include="Modules\Games.cs" />
+    <Compile Include="Modules\Games\Commands\Bomberman.cs" />
+    <Compile Include="Modules\Games\GamesModule.cs" />
     <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
     <Compile Include="Commands\PollCommand.cs" />
@@ -478,7 +480,6 @@
       <Name>Discord.Net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
