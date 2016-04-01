@@ -194,6 +194,7 @@
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\DefaultMoves.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
+    <Compile Include="Modules\Pokemon\PokemonTypes\FairyType.cs" />
     <Compile Include="Modules\Pokemon\PokemonTypes\IPokeTypeExtensions.cs" />
     <Compile Include="Modules\Pokemon\PokemonTypes\PokeType.cs" />
     <Compile Include="Modules\Pokemon\PokemonTypes\PsychicType.cs" />

@@ -23,6 +23,7 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
                 case "GHOST": return 0;
                 case "DARK": return 2;
                 case "STEEL": return 2;
+                case "FAIRY": return 0.5;
                 default: return 1;
             }
         }
