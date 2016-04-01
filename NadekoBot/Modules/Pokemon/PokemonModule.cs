@@ -221,7 +221,7 @@ namespace NadekoBot.Modules.Pokemon
                             var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                             if (pts < amount)
                             {
-                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
+                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} to be able to do this!");
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
@@ -264,7 +264,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "settype")
-                    .Description($"Set your poketype. Costs a NadekoFlower.\n**Usage**: {Prefix}settype fire")
+                    .Description($"Set your poketype. Costs a {NadekoBot.Config.CurrencyName}.\n**Usage**: {Prefix}settype fire")
                     .Parameter("targetType", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -288,7 +288,7 @@ namespace NadekoBot.Modules.Pokemon
                         var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough NadekoFlowers! \nYou still need {amount - pts} to be able to do this!");
+                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} to be able to do this!");
                             return;
                         }
                         FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
@@ -301,7 +301,7 @@ namespace NadekoBot.Modules.Pokemon
                             DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
                         }
 
-                        DbHandler.Instance.InsertData(new Classes._DataModels.UserPokeTypes
+                        DbHandler.Instance.InsertData(new UserPokeTypes
                         {
                             UserId = (long)e.User.Id,
                             type = targetType.Num
@@ -309,7 +309,7 @@ namespace NadekoBot.Modules.Pokemon
 
                         //Now for the response
 
-                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Image} for a 🌸");
+                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Image} for a {NadekoBot.Config.CurrencySign}");
                     });
             });
         }
