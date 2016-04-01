@@ -125,6 +125,7 @@
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
     <Compile Include="Classes\JSONModels\Configuration.cs" />
     <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
+    <Compile Include="Classes\JSONModels\MagicItem.cs" />
     <Compile Include="Classes\JSONModels\MangaResult.cs" />
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Leet.cs" />

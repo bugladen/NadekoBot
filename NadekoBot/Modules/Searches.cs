@@ -2,8 +2,10 @@
 using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes.IMDB;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -357,6 +359,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/");
                         await e.Channel.SendMessage("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆");
                     });
+
+                cgb.CreateCommand(Prefix + "magicitem")
+                .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
+                .Do(async e =>
+                {
+                    var db =JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
+                    var item = db[rng.Next(0, db.Count)].ToString();
+                    
+                    await e.Channel.SendMessage(item);
+                });
+
 
                 cgb.CreateCommand(Prefix + "revav")
                     .Description("Returns a google reverse image search for someone's avatar.")
