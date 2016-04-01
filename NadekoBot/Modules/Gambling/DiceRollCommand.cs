@@ -72,8 +72,10 @@ namespace NadekoBot.Modules.Gambling
                         {
                             arr[i] = r.Next(1, n2 + 1);
                         }
-                        await e.Channel.SendMessage($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:`" + string.Join(", ", arr.OrderBy(x => x)));
+                        var elemCnt = 0;
+                        await e.Channel.SendMessage($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", arr.OrderBy(x => x).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString())));
                     }
+                    return;
                 }
                 try
                 {
