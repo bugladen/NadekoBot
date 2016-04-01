@@ -33,9 +33,11 @@ namespace NadekoBot.Modules.Gambling
                     .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
                     .Parameter("role", ParameterType.Optional)
                     .Do(RaffleFunc());
+
                 cgb.CreateCommand(Prefix + "$$")
                     .Description(string.Format("Check how much {0}s you have.", NadekoBot.Config.CurrencyName))
                     .Do(NadekoFlowerCheckFunc());
+
                 cgb.CreateCommand(Prefix + "give")
                     .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName))
                     .Parameter("amount", ParameterType.Required)
@@ -61,11 +63,55 @@ namespace NadekoBot.Modules.Gambling
                             return;
                         }
 
-                        await FlowersHandler.RemoveFlowersAsync(e.User, "Gift", (int)amount);
+                        FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!");
 
+                    });
+
+                cgb.CreateCommand(Prefix + "award")
+                    .Description("Gives someone a certain amount of flowers. **Owner only!**")
+                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .Parameter("amount", ParameterType.Required)
+                    .Parameter("receiver", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var amountStr = e.GetArg("amount")?.Trim();
+                        long amount;
+                        if (!long.TryParse(amountStr, out amount) || amount < 0)
+                            return;
+
+                        var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
+                                                            u.Id != NadekoBot.Client.CurrentUser.Id);
+                        if (mentionedUser == null)
+                            return;
+
+                        await FlowersHandler.AddFlowersAsync(mentionedUser, $"Awarded by bot owner. ({e.User.Name}/{e.User.Id})", (int)amount);
+
+                        await e.Channel.SendMessage($"{e.User.Mention} successfully awarded {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!");
+                    });
+
+                cgb.CreateCommand(Prefix + "take")
+                    .Description("Takes a certain amount of flowers from someone. **Owner only!**")
+                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .Parameter("amount", ParameterType.Required)
+                    .Parameter("rektperson", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var amountStr = e.GetArg("amount")?.Trim();
+                        long amount;
+                        if (!long.TryParse(amountStr, out amount) || amount < 0)
+                            return;
+
+                        var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
+                                                            u.Id != NadekoBot.Client.CurrentUser.Id);
+                        if (mentionedUser == null)
+                            return;
+
+                        FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
+
+                        await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!");
                     });
             });
         }

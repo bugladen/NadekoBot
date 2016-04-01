@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Pokemon
 {
     class PokeStats
     {
         //Health left
-        public int HP { get; set; } = 500;
+        public int Hp { get; set; } = 500;
+        public int MaxHp { get; } = 500;
         //Amount of moves made since last time attacked
         public int MovesMade { get; set; } = 0;
         //Last people attacked

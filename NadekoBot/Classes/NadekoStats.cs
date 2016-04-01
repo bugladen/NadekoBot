@@ -1,16 +1,19 @@
 ﻿using Discord;
 using Discord.Commands;
+using NadekoBot.Extensions;
+using NadekoBot.Modules;
+using NadekoBot.Modules.Administration.Commands;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using NadekoBot.Extensions;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Timers;
-using NadekoBot.Modules;
 
-namespace NadekoBot {
-    public class NadekoStats {
+namespace NadekoBot
+{
+    public class NadekoStats
+    {
         public static NadekoStats Instance { get; } = new NadekoStats();
 
         public string BotVersion => $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version}";
@@ -23,11 +26,12 @@ namespace NadekoBot {
         public int TextChannelsCount { get; private set; } = 0;
         public int VoiceChannelsCount { get; private set; } = 0;
 
-        private readonly Timer commandLogTimer = new Timer() {Interval = 10000};
+        private readonly Timer commandLogTimer = new Timer() { Interval = 10000 };
 
         static NadekoStats() { }
 
-        private NadekoStats() {
+        private NadekoStats()
+        {
             var commandService = NadekoBot.Client.GetService<CommandService>();
 
             statsStopwatch.Start();
@@ -43,52 +47,66 @@ namespace NadekoBot {
             TextChannelsCount = channelsArray.Count(c => c.Type == ChannelType.Text);
             VoiceChannelsCount = channelsArray.Count() - TextChannelsCount;
 
-            NadekoBot.Client.JoinedServer += (s, e) => {
-                try {
+            NadekoBot.Client.JoinedServer += (s, e) =>
+            {
+                try
+                {
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
                     VoiceChannelsCount += e.Server.VoiceChannels.Count();
-                } catch { }
+                }
+                catch { }
             };
-            NadekoBot.Client.LeftServer += (s, e) => {
-                try {
+            NadekoBot.Client.LeftServer += (s, e) =>
+            {
+                try
+                {
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
                     VoiceChannelsCount -= e.Server.VoiceChannels.Count();
-                } catch { }
+                }
+                catch { }
             };
-            NadekoBot.Client.ChannelCreated += (s, e) => {
-                try {
+            NadekoBot.Client.ChannelCreated += (s, e) =>
+            {
+                try
+                {
                     if (e.Channel.IsPrivate)
                         return;
                     if (e.Channel.Type == ChannelType.Text)
                         TextChannelsCount++;
                     else if (e.Channel.Type == ChannelType.Voice)
                         VoiceChannelsCount++;
-                } catch { }
+                }
+                catch { }
             };
-            NadekoBot.Client.ChannelDestroyed += (s, e) => {
-                try {
+            NadekoBot.Client.ChannelDestroyed += (s, e) =>
+            {
+                try
+                {
                     if (e.Channel.IsPrivate)
                         return;
                     if (e.Channel.Type == ChannelType.Text)
                         VoiceChannelsCount++;
                     else if (e.Channel.Type == ChannelType.Voice)
                         VoiceChannelsCount--;
-                } catch { }
+                }
+                catch { }
             };
         }
 
         public TimeSpan GetUptime() =>
             DateTime.Now - Process.GetCurrentProcess().StartTime;
 
-        public string GetUptimeString() {
+        public string GetUptimeString()
+        {
             var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
             return time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
         }
 
         public Task LoadStats() =>
-            Task.Run(() => {
+            Task.Run(() =>
+            {
                 var songs = Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null);
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
@@ -102,7 +120,7 @@ namespace NadekoBot {
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
                 sb.AppendLine($"`Commands Ran this session: {commandsRan}`");
                 sb.AppendLine($"`Message queue size: {NadekoBot.Client.MessageQueue.Count}`");
-                sb.Append($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
+                sb.Append($"`Greeted {ServerGreetCommand.Greeted} times.`");
                 sb.AppendLine($" `| Playing {songs} songs, ".SnPl(songs) +
                               $"{Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count)} queued.`");
                 sb.AppendLine($"`Heap: {Heap(false)}`");
@@ -111,7 +129,8 @@ namespace NadekoBot {
 
         public string Heap(bool pass = true) => Math.Round((double)GC.GetTotalMemory(pass) / 1.MiB(), 2).ToString();
 
-        public async Task<string> GetStats() {
+        public async Task<string> GetStats()
+        {
             if (statsStopwatch.Elapsed.Seconds < 4 &&
                 !string.IsNullOrWhiteSpace(statsCache)) return statsCache;
             await LoadStats();
@@ -119,35 +138,45 @@ namespace NadekoBot {
             return statsCache;
         }
 
-        private async Task StartCollecting() {
-            while (true) {
+        private async Task StartCollecting()
+        {
+            while (true)
+            {
                 await Task.Delay(new TimeSpan(0, 30, 0));
-                try {
+                try
+                {
                     var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count()));
                     var realOnlineUsers = await Task.Run(() => NadekoBot.Client.Servers
                                                                         .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)));
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Stats {
+                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Stats
+                    {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
                         Uptime = GetUptime(),
                         ConnectedServers = connectedServers,
                         DateAdded = DateTime.Now
                     });
-                } catch {
+                }
+                catch
+                {
                     Console.WriteLine("DB Exception in stats collecting.");
                     break;
                 }
             }
         }
 
-        private async void StatsCollector_RanCommand(object sender, CommandEventArgs e) {
+        private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
+        {
             Console.WriteLine($">>Command {e.Command.Text}");
-            await Task.Run(() => {
-                try {
+            await Task.Run(() =>
+            {
+                try
+                {
                     commandsRan++;
-                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command {
+                    Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Command
+                    {
                         ServerId = (long)e.Server.Id,
                         ServerName = e.Server.Name,
                         ChannelId = (long)e.Channel.Id,
@@ -157,7 +186,9 @@ namespace NadekoBot {
                         CommandName = e.Command.Text,
                         DateAdded = DateTime.Now
                     });
-                } catch {
+                }
+                catch
+                {
                     Console.WriteLine("Error in ran command DB write.");
                 }
             });

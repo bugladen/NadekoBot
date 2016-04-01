@@ -1,28 +1,32 @@
-﻿using System;
-using System.Linq;
+﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Commands;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using Discord.Commands;
 using NadekoBot.Extensions;
+using System;
+using System.Linq;
 
-namespace NadekoBot.Modules {
-    internal class Games : DiscordModule {
+namespace NadekoBot.Modules
+{
+    internal class Games : DiscordModule
+    {
         private readonly Random rng = new Random();
 
-        public Games() {
+        public Games()
+        {
             commands.Add(new Trivia(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
+            commands.Add(new PlantPick(this));
             //commands.Add(new BetrayGame(this));
-			
+
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
 
-        public override void Install(ModuleManager manager) {
-            manager.CreateCommands("", cgb => {
+        public override void Install(ModuleManager manager)
+        {
+            manager.CreateCommands("", cgb =>
+            {
 
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
@@ -30,8 +34,9 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(Prefix + "choose")
                   .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep;Sleep more")
-                  .Parameter("list", Discord.Commands.ParameterType.Unparsed)
-                  .Do(async e => {
+                  .Parameter("list", ParameterType.Unparsed)
+                  .Do(async e =>
+                  {
                       var arg = e.GetArg("list");
                       if (string.IsNullOrWhiteSpace(arg))
                           return;
@@ -43,24 +48,29 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(Prefix + "8ball")
                     .Description("Ask the 8ball a yes/no question.")
-                    .Parameter("question", Discord.Commands.ParameterType.Unparsed)
-                    .Do(async e => {
+                    .Parameter("question", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
                         var question = e.GetArg("question");
                         if (string.IsNullOrWhiteSpace(question))
                             return;
-                        try {
+                        try
+                        {
                             await e.Channel.SendMessage(
                                 $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}`");
-                        } catch { }
+                        }
+                        catch { }
                     });
 
                 cgb.CreateCommand(Prefix + "rps")
-                    .Description("Play a game of rocket paperclip scissors with nadkeo.\n**Usage**: >rps scissors")
+                    .Description("Play a game of rocket paperclip scissors with Nadeko.\n**Usage**: >rps scissors")
                     .Parameter("input", ParameterType.Required)
-                    .Do(async e => {
+                    .Do(async e =>
+                    {
                         var input = e.GetArg("input").Trim();
                         int pick;
-                        switch (input) {
+                        switch (input)
+                        {
                             case "r":
                             case "rock":
                             case "rocket":
@@ -96,7 +106,8 @@ namespace NadekoBot.Modules {
                     .Description("Prints a customizable Linux interjection")
                     .Parameter("gnu", ParameterType.Required)
                     .Parameter("linux", ParameterType.Required)
-                    .Do(async e => {
+                    .Do(async e =>
+                    {
                         var guhnoo = e.Args[0];
                         var loonix = e.Args[1];
 
@@ -112,7 +123,8 @@ There really is a {loonix}, and these people are using it, but it is just a part
             });
         }
 
-        private string GetRPSPick(int i) {
+        private string GetRPSPick(int i)
+        {
             if (i == 0)
                 return "rocket";
             else if (i == 1)

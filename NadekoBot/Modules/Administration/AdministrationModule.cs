@@ -4,19 +4,19 @@ using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
 using NadekoBot.Classes.Permissions;
-using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Administration.Commands;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Administration
 {
-    internal class Administration : DiscordModule
+    internal class AdministrationModule : DiscordModule
     {
-        public Administration()
+        public AdministrationModule()
         {
             commands.Add(new ServerGreetCommand(this));
             commands.Add(new LogCommand(this));
@@ -26,6 +26,7 @@ namespace NadekoBot.Modules
             commands.Add(new VoicePlusTextCommand(this));
             commands.Add(new CrossServerTextChannel(this));
             commands.Add(new SelfAssignedRolesCommand(this));
+            commands.Add(new Remind(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
@@ -227,6 +228,7 @@ namespace NadekoBot.Modules
                                 try
                                 {
                                     await e.Server.Ban(usr);
+
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id);
                                 }
                                 catch
@@ -456,6 +458,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand(Prefix + "st").Alias(Prefix + "settopic")
                     .Alias(Prefix + "topic")
                     .Description("Sets a topic on the current channel.")
+                    .AddCheck(SimpleCheckers.ManageChannels())
                     .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e =>
                     {

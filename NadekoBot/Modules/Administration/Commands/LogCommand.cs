@@ -2,13 +2,13 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
-using NadekoBot.Modules;
+using NadekoBot.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Administration.Commands
 {
     internal class LogCommand : DiscordCommand
     {

@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using NadekoBot.Classes.JSONModels;
-using Newtonsoft.Json;
 
-namespace NadekoBot.Classes {
-    internal class SpecificConfigurations {
+namespace NadekoBot.Classes
+{
+    internal class SpecificConfigurations
+    {
         public static SpecificConfigurations Default { get; } = new SpecificConfigurations();
         public static bool Instantiated { get; private set; }
 
@@ -17,14 +18,19 @@ namespace NadekoBot.Classes {
 
         static SpecificConfigurations() { }
 
-        private SpecificConfigurations() {
+        private SpecificConfigurations()
+        {
 
-            if (File.Exists(filePath)) {
-                try {
+            if (File.Exists(filePath))
+            {
+                try
+                {
                     configs = JsonConvert
                         .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
                             File.ReadAllText(filePath));
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     Console.WriteLine($"Deserialization failing: {ex}");
                 }
             }
@@ -42,14 +48,17 @@ namespace NadekoBot.Classes {
 
         private readonly object saveLock = new object();
 
-        public void Save() {
-            lock (saveLock) {
+        public void Save()
+        {
+            lock (saveLock)
+            {
                 File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented));
             }
         }
     }
 
-    internal class ServerSpecificConfig : INotifyPropertyChanged {
+    internal class ServerSpecificConfig : INotifyPropertyChanged
+    {
         [JsonProperty("VoicePlusTextEnabled")]
         private bool voicePlusTextEnabled;
         [JsonIgnore]
@@ -78,7 +87,8 @@ namespace NadekoBot.Classes {
             set {
                 listOfSelfAssignableRoles = value;
                 if (value != null)
-                    listOfSelfAssignableRoles.CollectionChanged += (s, e) => {
+                    listOfSelfAssignableRoles.CollectionChanged += (s, e) =>
+                    {
                         if (!SpecificConfigurations.Instantiated) return;
                         OnPropertyChanged();
                     };
@@ -92,34 +102,39 @@ namespace NadekoBot.Classes {
             set {
                 observingStreams = value;
                 if (value != null)
-                    observingStreams.CollectionChanged += (s, e) => {
+                    observingStreams.CollectionChanged += (s, e) =>
+                    {
                         if (!SpecificConfigurations.Instantiated) return;
                         OnPropertyChanged();
                     };
             }
         }
 
-        public ServerSpecificConfig() {
+        public ServerSpecificConfig()
+        {
             ListOfSelfAssignableRoles = new ObservableCollection<ulong>();
             ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null) {
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
             Console.WriteLine("property changed");
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    public class StreamNotificationConfig : IEquatable<StreamNotificationConfig> {
+    public class StreamNotificationConfig : IEquatable<StreamNotificationConfig>
+    {
         public string Username { get; set; }
         public StreamType Type { get; set; }
         public ulong ServerId { get; set; }
         public ulong ChannelId { get; set; }
         public bool LastStatus { get; set; }
 
-        public enum StreamType {
+        public enum StreamType
+        {
             Twitch,
             Beam,
             Hitbox,
@@ -131,7 +146,8 @@ namespace NadekoBot.Classes {
             this.Type == other.Type &&
             this.ServerId == other.ServerId;
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return (int)((int)ServerId + Username.Length + (int)Type);
         }
     }

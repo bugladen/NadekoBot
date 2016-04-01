@@ -1,23 +1,16 @@
-﻿using System;
+﻿using NadekoBot.Modules.Pokemon.PokeTypes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NadekoBot.Modules.Pokemon;
-using NadekoBot.Classes;
-using NadekoBot.Classes._DataModels;
-using NadekoBot.Modules.Pokemon.PokeTypes;
 
 namespace NadekoBot.Modules.Pokemon.PokemonTypes
 {
-    class PsychicType : IPokeType
+    class PsychicType : PokeType
     {
         static readonly string name = "PSYCHIC";
         public static int numType = 10;
 
-        public double GetMagnifier(IPokeType target)
+        public double Multiplier(PokeType target)
         {
-            switch (target.GetName())
+            switch (target.Name)
             {
 
                 case "FIGHTING": return 2;
@@ -30,24 +23,13 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
         }
         List<string> moves = new List<string>();
 
-        
 
 
-        public string GetName()
-        {
-            return name;
-        }
 
-        
+        public string Name => name;
 
-        public string GetImage()
-        {
-            return "💫";
-        }
+        public string Image => "🔮";
 
-        public int GetNum()
-        {
-            return numType;
-        }
+        public int Num => numType;
     }
 }

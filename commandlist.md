@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5930.23184`
+Version: `NadekoBot v0.9.5933.23628`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -31,6 +31,7 @@ Command and aliases | Description | Usage
 `.lsar`  |  Lits all self-assignable roles.
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
+`.remind`  |  
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -46,7 +47,7 @@ Command and aliases | Description | Usage
 `.vch`, `.cvch`  |  Creates a new voice channel with a given name.
 `.rch`, `.rtch`  |  Removes a text channel with a given name.
 `.ch`, `.tch`  |  Creates a new text channel with a given name.
-`.st`, `.settopic`  |  Sets a topic on the current channel.
+`.st`, `.settopic`, `.topic`  |  Sets a topic on the current channel.
 `.uid`, `.userid`  |  Shows user ID.
 `.cid`, `.channelid`  |  Shows current channel ID.
 `.sid`, `.serverid`  |  Shows current server ID.
@@ -70,7 +71,6 @@ Command and aliases | Description | Usage
 `.unstuck`  |  Clears the message queue. **Owner Only!**
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.adddon`, `.donadd`  |  Add a donator to the database.
-`.topic`  |  Sets current channel's topic.
 `.videocall`  |  Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
 
 ### Help  
@@ -138,7 +138,7 @@ Command and aliases | Description | Usage
 `@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
-`@BotName how are you`  |  Replies positive only if bot owner is online.
+`@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
 `@BotName insult`  |  Insults @X person. |  @NadekoBot insult @X.
 `@BotName praise`  |  Praises @X person. |  @NadekoBot praise @X.
 `@BotName pat`  |  Pat someone ^_^
@@ -169,8 +169,10 @@ Command and aliases | Description | Usage
 `$roll`  |  Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice. |  $roll [x]
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
-`$$$`  |  Check how many NadekoFlowers you have.
-`$give`  |  Give someone a certain amount of flowers
+`$$$`  |  Check how much NadekoFlowers you have.
+`$give`  |  Give someone a certain amount of NadekoFlowers
+`$award`  |  Gives someone a certain amount of flowers. **Owner only!**
+`$take`  |  Takes a certain amount of flowers from someone. **Owner only!**
 
 ### Games  
 Command and aliases | Description | Usage
@@ -185,15 +187,13 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
-`>attack`  |  Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'. |  >attack strike @User
-`>poketype`  |  Gets the users element type. Use this to do more damage with strike!
-`>rps`  |  Play a game of rocket paperclip scissors with nadkeo. |  >rps scissors
+`>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
 `>linux`  |  Prints a customizable Linux interjection
 
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!m n`, `!m next`  |  Goes to the next song in the queue.
+`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue.
 `!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel.
 `!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)
 `!m p`, `!m pause`  |  Pauses or Unpauses the song.
@@ -209,7 +209,7 @@ Command and aliases | Description | Usage
 `!m setgame`  |  Sets the game of the bot to the number of songs playing. **Owner only**
 `!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
 `!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!**
-`!m radio`, `!m ra`  |  Queues a direct radio stream from a link.
+`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf
 `!m lo`  |  Queues a local file by specifying a full path. **Owner Only!**
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
@@ -222,6 +222,7 @@ Command and aliases | Description | Usage
 `~lolban`  |  Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.
 `~hitbox`, `~hb`  |  Notifies this channel when a certain user starts streaming. |  ~hitbox SomeStreamer
 `~twitch`, `~tw`  |  Notifies this channel when a certain user starts streaming. |  ~twitch SomeStreamer
+`~beam`, `~bm`  |  Notifies this channel when a certain user starts streaming. |  ~beam SomeStreamer
 `~removestream`, `~rms`  |  Removes notifications of a certain streamer on this channel. |  ~rms SomeGuy
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~we`  |  Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.
@@ -238,12 +239,11 @@ Command and aliases | Description | Usage
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
 `~quote`  |  Shows a random quote.
-
-### Translator  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`~trans`  |  Translates from>to text. From the given language to the destiation language.
-`~translangs`  |  List the valid languages for translation.
+`~catfact`  |  Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>
+`~yomama`, `~ym`  |  Shows a random joke from <http://api.yomomma.info/>
+`~randjoke`, `~rj`  |  Shows a random joke from <http://tambal.azurewebsites.net/joke/random>
+`~chucknorris`, `~cn`  |  Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>
+`~revav`  |  Returns a google reverse image search for someone's avatar.
 
 ### NSFW  
 Command and aliases | Description | Usage
@@ -266,6 +266,21 @@ Command and aliases | Description | Usage
 `,cf`, `,claimfinish`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
 `,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] [optional_other_name]
 `,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
+
+### Pokegame  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`>attack`  |  Attacks a target with the given move
+`>ml`, `movelist`  |  Lists the moves you are able to use
+`>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
+`>type`  |  Get the poketype of the target. |  >type @someone
+`>settype`  |  Set your poketype. Costs a NadekoFlower. |  >settype fire
+
+### Translator  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`~trans`  |  Translates from>to text. From the given language to the destiation language.
+`~translangs`  |  List the valid languages for translation.
 
 ### Trello  
 Command and aliases | Description | Usage

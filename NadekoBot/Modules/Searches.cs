@@ -317,9 +317,62 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Description("Shows a random quote.")
                     .Do(async e =>
                     {
-                        await
-                            e.Channel.SendMessage(
-                                NadekoBot.Config.Quotes[new Random().Next(0, NadekoBot.Config.Quotes.Count)].ToString());
+                        var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
+                        await e.Channel.SendMessage(quote);
+                    });
+
+                cgb.CreateCommand(Prefix + "catfact")
+                    .Description("Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://catfacts-api.appspot.com/api/facts");
+                        if (response == null)
+                            return;
+                        await e.Channel.SendMessage($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`");
+                    });
+
+                cgb.CreateCommand(Prefix + "yomama")
+                    .Alias(Prefix + "ym")
+                    .Description("Shows a random joke from <http://api.yomomma.info/>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://api.yomomma.info/");
+                        await e.Channel.SendMessage("`" + JObject.Parse(response)["joke"].ToString() + "` 😆");
+                    });
+
+                cgb.CreateCommand(Prefix + "randjoke")
+                    .Alias(Prefix + "rj")
+                    .Description("Shows a random joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://tambal.azurewebsites.net/joke/random");
+                        await e.Channel.SendMessage("`" + JObject.Parse(response)["joke"].ToString() + "` 😆");
+                    });
+
+                cgb.CreateCommand(Prefix + "chucknorris")
+                    .Alias(Prefix + "cn")
+                    .Description("Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Do(async e =>
+                    {
+                        var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/");
+                        await e.Channel.SendMessage("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆");
+                    });
+
+                cgb.CreateCommand(Prefix + "revav")
+                    .Description("Returns a google reverse image search for someone's avatar.")
+                    .Parameter("user", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var usrStr = e.GetArg("user")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(usrStr))
+                            return;
+
+                        var usr = e.Server.FindUsers(usrStr).FirstOrDefault();
+
+                        if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
+                            return;
+                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}");
                     });
             });
         }

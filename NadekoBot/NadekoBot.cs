@@ -5,8 +5,10 @@ using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules;
+using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Pokemon;
+using NadekoBot.Modules.Translator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,13 +16,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Translator;
 
 namespace NadekoBot
 {
     public class NadekoBot
     {
-        public static DiscordClient Client;
+        public static DiscordClient Client { get; private set; }
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
@@ -110,7 +111,7 @@ namespace NadekoBot
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
-                ConnectionTimeout = 60000,
+                ConnectionTimeout = 120000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
@@ -157,7 +158,7 @@ namespace NadekoBot
             }));
 
             //install modules
-            modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
             modules.Add(new Help(), "Help", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
@@ -167,7 +168,7 @@ namespace NadekoBot
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
-            modules.Add(new PokemonGame(), "Pokegame", ModuleFilter.None);
+            modules.Add(new PokemonModule(), "Pokegame", ModuleFilter.None);
             modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);

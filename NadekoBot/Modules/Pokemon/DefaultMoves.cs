@@ -79,7 +79,11 @@ namespace NadekoBot.Modules.Pokemon
                         {"bullet punch",16},
                         {"metal burst",16},
                         {"gear grind",16},
-                        {"magnet bomb",16}
+                        {"magnet bomb",16},
+                        {"fairy wind",17},
+                        {"draining kiss",17},
+                        {"dazzling gleam",17},
+                        {"play rough",17}
                     };
         
 

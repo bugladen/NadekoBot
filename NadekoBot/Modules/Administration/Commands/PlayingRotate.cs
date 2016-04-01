@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Discord.Commands;
+using NadekoBot.Classes.JSONModels;
+using NadekoBot.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.Commands;
 using System.Timers;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    internal class PlayingRotate : DiscordCommand {
+namespace NadekoBot.Modules.Administration.Commands
+{
+    internal class PlayingRotate : DiscordCommand
+    {
         private static readonly Timer timer = new Timer(12000);
 
         public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
@@ -34,16 +36,21 @@ namespace NadekoBot.Commands {
 
         private readonly object playingPlaceholderLock = new object();
 
-        public PlayingRotate(DiscordModule module) : base(module) {
+        public PlayingRotate(DiscordModule module) : base(module)
+        {
             var i = -1;
-            timer.Elapsed += (s, e) => {
-                try {
+            timer.Elapsed += (s, e) =>
+            {
+                try
+                {
                     i++;
                     var status = "";
-                    lock (playingPlaceholderLock) {
+                    lock (playingPlaceholderLock)
+                    {
                         if (PlayingPlaceholders.Count == 0)
                             return;
-                        if (i >= PlayingPlaceholders.Count) {
+                        if (i >= PlayingPlaceholders.Count)
+                        {
                             i = -1;
                             return;
                         }
@@ -54,14 +61,17 @@ namespace NadekoBot.Commands {
                     if (string.IsNullOrWhiteSpace(status))
                         return;
                     Task.Run(() => { NadekoBot.Client.SetGame(status); });
-                } catch { }
+                }
+                catch { }
             };
 
             timer.Enabled = NadekoBot.Config.IsRotatingStatus;
         }
 
-        public Func<CommandEventArgs, Task> DoFunc() => async e => {
-            lock (playingPlaceholderLock) {
+        public Func<CommandEventArgs, Task> DoFunc() => async e =>
+        {
+            lock (playingPlaceholderLock)
+            {
                 if (timer.Enabled)
                     timer.Stop();
                 else
@@ -72,7 +82,8 @@ namespace NadekoBot.Commands {
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
         };
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "rotateplaying")
                 .Alias(Module.Prefix + "ropl")
                 .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")
@@ -85,11 +96,13 @@ namespace NadekoBot.Commands {
                              "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys))
                 .Parameter("text", ParameterType.Unparsed)
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                .Do(async e => {
+                .Do(async e =>
+                {
                     var arg = e.GetArg("text");
                     if (string.IsNullOrWhiteSpace(arg))
                         return;
-                    lock (playingPlaceholderLock) {
+                    lock (playingPlaceholderLock)
+                    {
                         NadekoBot.Config.RotatingStatuses.Add(arg);
                         ConfigHandler.SaveConfig();
                     }
@@ -100,12 +113,14 @@ namespace NadekoBot.Commands {
                 .Alias(Module.Prefix + "lipl")
                 .Description("Lists all playing statuses with their corresponding number.")
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                .Do(async e => {
+                .Do(async e =>
+                {
                     if (NadekoBot.Config.RotatingStatuses.Count == 0)
                         await e.Channel.SendMessage("`There are no playing strings. " +
                                                     "Add some with .addplaying [text] command.`");
                     var sb = new StringBuilder();
-                    for (var i = 0; i < NadekoBot.Config.RotatingStatuses.Count; i++) {
+                    for (var i = 0; i < NadekoBot.Config.RotatingStatuses.Count; i++)
+                    {
                         sb.AppendLine($"`{i + 1}.` {NadekoBot.Config.RotatingStatuses[i]}");
                     }
                     await e.Channel.SendMessage(sb.ToString());
@@ -116,11 +131,13 @@ namespace NadekoBot.Commands {
                 .Description("Removes a playing string on a given number.")
                 .Parameter("number", ParameterType.Required)
                 .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                .Do(async e => {
+                .Do(async e =>
+                {
                     var arg = e.GetArg("number");
                     int num;
                     string str;
-                    lock (playingPlaceholderLock) {
+                    lock (playingPlaceholderLock)
+                    {
                         if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > NadekoBot.Config.RotatingStatuses.Count)
                             return;
                         str = NadekoBot.Config.RotatingStatuses[num - 1];
