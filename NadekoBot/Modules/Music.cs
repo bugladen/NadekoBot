@@ -139,7 +139,15 @@ namespace NadekoBot.Modules
                             await e.Channel.SendMessage("🎵 No active music player.");
                             return;
                         }
-                        var toSend = "🎵 **" + musicPlayer.Playlist.Count + "** `tracks currently queued.` ";
+                        var currentSong = musicPlayer.CurrentSong;
+                        if (currentSong == null)
+                            return;
+                        var toSend = $"🎵`Now Playing` {currentSong.PrettyName} " + $"{currentSong.PrettyCurrentTime()}\n";
+                        if (musicPlayer.RepeatSong)
+                            toSend += "🔁 `Repeating current song.`\n";
+                        else if (musicPlayer.RepeatPlaylist)
+                            toSend += "🔁 `Repeating playlist.`\n";
+                        toSend += $"🎵 **{musicPlayer.Playlist.Count}** `tracks currently queued.` ";
                         if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
                             toSend += "**Song queue is full!**\n";
                         else
@@ -157,9 +165,10 @@ namespace NadekoBot.Modules
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
                         var currentSong = musicPlayer.CurrentSong;
-                        if (currentSong != null)
-                            await e.Channel.SendMessage($"🎵`Now Playing` {currentSong.PrettyName} " +
-                                                        $"{currentSong.PrettyCurrentTime()}");
+                        if (currentSong == null)
+                            return;
+                        await e.Channel.SendMessage($"🎵`Now Playing` {currentSong.PrettyName} " +
+                                                    $"{currentSong.PrettyCurrentTime()}");
                     });
 
                 cgb.CreateCommand("vol")
@@ -386,6 +395,34 @@ namespace NadekoBot.Modules
                         }
                     });
 
+                cgb.CreateCommand("rcs")
+                    .Alias("repeatcurrentsong")
+                    .Description("Toggles repeat of current song.")
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        var currentSong = musicPlayer.CurrentSong;
+                        if (currentSong == null)
+                            return;
+                        var currentValue = musicPlayer.ToggleRepeatSong();
+                        await e.Channel.SendMessage(currentValue ?
+                                                    $"🎵 `Repeating track:`{currentSong.PrettyName}" :
+                                                    $"🎵 `Current track repeat stopped.`");
+                    });
+
+                cgb.CreateCommand("rpl")
+                    .Alias("repeatplaylist")
+                    .Description("Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).")
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        var currentValue = musicPlayer.ToggleRepeatPlaylist();
+                        await e.Channel.SendMessage($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`");
+                    });
                 //cgb.CreateCommand("debug")
                 //    .Description("Does something magical. **BOT OWNER ONLY**")
                 //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
