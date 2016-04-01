@@ -7,6 +7,7 @@ using NadekoBot.Commands;
 using NadekoBot.Modules;
 using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.Gambling;
+using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Pokemon;
 using NadekoBot.Modules.Translator;
 using Newtonsoft.Json;
@@ -163,7 +164,7 @@ namespace NadekoBot
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
-            modules.Add(new Games(), "Games", ModuleFilter.None);
+            modules.Add(new GamesModule(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
