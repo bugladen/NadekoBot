@@ -91,7 +91,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         ch = e.Channel;
                     }
-                    else {
+                    else
+                    {
                         ch = e.Server.FindChannels(meorchStr).FirstOrDefault();
                     }
 
