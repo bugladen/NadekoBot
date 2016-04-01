@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
 
         public string Name => name;
 
-        public string Image => "💫";
+        public string Image => "🔮";
 
         public int Num => numType;
     }

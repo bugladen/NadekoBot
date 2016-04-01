@@ -3,21 +3,22 @@ using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Pokemon.PokemonTypes
 {
-    class DarkType : PokeType
+    class FairyType : PokeType
     {
-        static readonly string name = "DARK";
-        public static int numType = 15;
+        static readonly string name = "FAIRY";
+        public static int numType = 17;
 
         public double Multiplier(PokeType target)
         {
             switch (target.Name)
             {
 
-                case "FIGHTING": return 0.5;
-                case "PSYCHIC": return 2;
-                case "GHOST": return 2;
+                case "FIGHTING": return 2;
+                case "FIRE": return 0.5;
                 case "DARK": return 0.5;
-                case "FAIRY": return 0.5;
+                case "POISON": return 0.5;
+                case "STEEL": return 2;
+                case "DRAGON": return 2;
                 default: return 1;
             }
         }
@@ -25,7 +26,7 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
 
         public string Name => name;
 
-        public string Image => "🕶";
+        public string Image => "💫";
 
         public int Num => numType;
     }

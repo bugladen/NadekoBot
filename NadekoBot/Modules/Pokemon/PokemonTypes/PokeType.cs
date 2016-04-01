@@ -45,7 +45,8 @@ namespace NadekoBot.Modules.Pokemon.PokeTypes
             new GhostType(),
             new DragonType(),
             new DarkType(),
-            new SteelType()
+            new SteelType(),
+            new FairyType()
         };
 
         public static PokeType IntToPokeType(int id)

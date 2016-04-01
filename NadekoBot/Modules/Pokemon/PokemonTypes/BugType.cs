@@ -18,8 +18,10 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
                 case "FIGHTING": return 0.5;
                 case "POISON": return 0.5;
                 case "FLYING": return 0.5;
+                case "GHOST": return 0.5;
                 case "PSYCHIC": return 2;
                 case "ROCK": return 0.5;
+                case "FAIRY": return 0.5;
                 case "DARK": return 2;
                 case "STEEL": return 0.5;
                 default: return 1;
