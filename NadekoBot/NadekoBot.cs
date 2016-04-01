@@ -111,7 +111,7 @@ namespace NadekoBot
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
-                ConnectionTimeout = 60000,
+                ConnectionTimeout = 120000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
