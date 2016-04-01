@@ -6,7 +6,7 @@ namespace NadekoBot.Modules.Pokemon.PokemonTypes
     class SteelType : PokeType
     {
         static readonly string name = "STEEL";
-        public static int numType = -1;
+        public static int numType = 16;
 
         public double Multiplier(PokeType target)
         {
