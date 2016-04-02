@@ -199,7 +199,6 @@
     <Compile Include="Modules\NSFW.cs" />
     <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
-    <Compile Include="Modules\Pokemon\DefaultMoves.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
     <Compile Include="Modules\Pokemon\PokemonTypes\FairyType.cs" />
     <Compile Include="Modules\Pokemon\PokemonTypes\IPokeTypeExtensions.cs" />

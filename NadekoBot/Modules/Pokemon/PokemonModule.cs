@@ -21,13 +21,7 @@ namespace NadekoBot.Modules.Pokemon
 
         public PokemonModule()
         {
-            DbHandler.Instance.DeleteAll<PokeMoves>();
-            DbHandler.Instance.InsertMany(
-                DefaultMoves.DefaultMovesList.Select(move => new PokeMoves
-                {
-                    move = move.Key,
-                    type = move.Value
-                }));
+            
         }
 
         private int GetDamage(PokeType usertype, PokeType targetType)
