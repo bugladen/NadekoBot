@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5936.28417`
+Version: `NadekoBot v0.9.5936.28974`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -208,9 +208,9 @@ Command and aliases | Description | Usage
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
 `!m half`  |  Sets the music volume to 50%. |  `!m half`
 `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords. |  `!m pl youtube_playlist_link_or_name`
+`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
 `!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
-`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra <http://yp.shoutcast.com/sbin/tunein-station.m3u?id=22146>`
+`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
 `!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m ra C:/music/mysong.mp3`
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`

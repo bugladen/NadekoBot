@@ -258,7 +258,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("pl")
-                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl youtube_playlist_link_or_name`")
+                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
-                    .Description("Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf\n**Usage**: `!m ra <http://yp.shoutcast.com/sbin/tunein-station.m3u?id=22146>`")
+                    .Description("Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf\n**Usage**: `!m ra radio link here`")
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e =>
                     {
