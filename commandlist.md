@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5936.28129`
+Version: `NadekoBot v0.9.5936.28417`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -195,29 +195,28 @@ Command and aliases | Description | Usage
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue.
-`!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel.
-`!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)
-`!m p`, `!m pause`  |  Pauses or Unpauses the song.
-`!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs.
-`!m np`, `!m playing`  |  Shows the song currently playing.
-`!m vol`  |  Sets the music volume 0-150%
-`!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  !m dv 80
-`!m min`, `!m mute`  |  Sets the music volume to 0%
-`!m max`  |  Sets the music volume to 100% (real max is actually 150%).
-`!m half`  |  Sets the music volume to 50%.
-`!m sh`  |  Shuffles the current playlist.
-`!m setgame`  |  Sets the game of the bot to the number of songs playing. **Owner only**
-`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
-`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!**
-`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf
-`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!**
-`!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
-`!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
-`!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!**
-`!m rcs`, `!m repeatcurrentsong`  |  Toggles repeat of current song.
-`!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).
+`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue. |  `!m n`
+`!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
+`!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
+`!m p`, `!m pause`  |  Pauses or Unpauses the song. |  `!m p`
+`!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs. |  `!m lq`
+`!m np`, `!m playing`  |  Shows the song currently playing. |  `!m np`
+`!m vol`  |  Sets the music volume 0-150% |  `!m vol 50`
+`!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
+`!m min`, `!m mute`  |  Sets the music volume to 0% |  `!m min`
+`!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
+`!m half`  |  Sets the music volume to 50%. |  `!m half`
+`!m sh`  |  Shuffles the current playlist. |  `!m sh`
+`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords. |  `!m pl youtube_playlist_link_or_name`
+`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
+`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra <http://yp.shoutcast.com/sbin/tunein-station.m3u?id=22146>`
+`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m ra C:/music/mysong.mp3`
+`!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
+`!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
+`!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!** |  `!m cleanup`
+`!m rcs`, `!m repeatcurrentsong`  |  Toggles repeat of current song. |  `!m rcs`
+`!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 
 ### Searches  
 Command and aliases | Description | Usage
