@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5933.23628`
+Version: `NadekoBot v0.9.5936.28974`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -31,7 +31,7 @@ Command and aliases | Description | Usage
 `.lsar`  |  Lits all self-assignable roles.
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
-`.remind`  |  
+`.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -166,7 +166,7 @@ Command and aliases | Description | Usage
 `$draw`  |  Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. |  $draw [x]
 `$shuffle`, `$sh`  |  Reshuffles all cards back into the deck.
 `$flip`  |  Flips coin(s) - heads or tails, and shows an image. |  `$flip` or `$flip 3`
-`$roll`  |  Rolls 2 dice from 0-10. If you supply a number [x] it rolls up to 30 normal dice. |  $roll [x]
+`$roll`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
 `$$$`  |  Check how much NadekoFlowers you have.
@@ -185,6 +185,8 @@ Command and aliases | Description | Usage
 `>typeadd`  |  Adds a new article to the typing contest. Owner only.
 `>poll`  |  Creates a poll, only person who has manage server permission can do it. |  >poll Question?;Answer1;Answ 2;A_3
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
+`>pick`  |  Picks a flower planted in this channel.
+`>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
@@ -193,27 +195,28 @@ Command and aliases | Description | Usage
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue.
-`!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel.
-`!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)
-`!m p`, `!m pause`  |  Pauses or Unpauses the song.
-`!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs.
-`!m np`, `!m playing`  |  Shows the song currently playing.
-`!m vol`  |  Sets the music volume 0-150%
-`!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  !m dv 80
-`!m min`, `!m mute`  |  Sets the music volume to 0%
-`!m max`  |  Sets the music volume to 100% (real max is actually 150%).
-`!m half`  |  Sets the music volume to 50%.
-`!m sh`  |  Shuffles the current playlist.
-`!m setgame`  |  Sets the game of the bot to the number of songs playing. **Owner only**
-`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords.
-`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!**
-`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf
-`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!**
-`!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing)
-`!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue.
-`!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!**
+`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue. |  `!m n`
+`!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
+`!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
+`!m p`, `!m pause`  |  Pauses or Unpauses the song. |  `!m p`
+`!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs. |  `!m lq`
+`!m np`, `!m playing`  |  Shows the song currently playing. |  `!m np`
+`!m vol`  |  Sets the music volume 0-150% |  `!m vol 50`
+`!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
+`!m min`, `!m mute`  |  Sets the music volume to 0% |  `!m min`
+`!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
+`!m half`  |  Sets the music volume to 50%. |  `!m half`
+`!m sh`  |  Shuffles the current playlist. |  `!m sh`
+`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
+`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
+`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m ra C:/music/mysong.mp3`
+`!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
+`!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
+`!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!** |  `!m cleanup`
+`!m rcs`, `!m repeatcurrentsong`  |  Toggles repeat of current song. |  `!m rcs`
+`!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -225,6 +228,8 @@ Command and aliases | Description | Usage
 `~beam`, `~bm`  |  Notifies this channel when a certain user starts streaming. |  ~beam SomeStreamer
 `~removestream`, `~rms`  |  Removes notifications of a certain streamer on this channel. |  ~rms SomeGuy
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
+`~convert`  |  Convert quantities from>to. Like `~convert m>km 1000`
+`~convertlist`  |  List of the convertable dimensions and currencies.
 `~we`  |  Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
@@ -243,6 +248,7 @@ Command and aliases | Description | Usage
 `~yomama`, `~ym`  |  Shows a random joke from <http://api.yomomma.info/>
 `~randjoke`, `~rj`  |  Shows a random joke from <http://tambal.azurewebsites.net/joke/random>
 `~chucknorris`, `~cn`  |  Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>
+`~mi`, `magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
 `~revav`  |  Returns a google reverse image search for someone's avatar.
 
 ### NSFW  

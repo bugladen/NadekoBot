@@ -71,7 +71,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("n")
                     .Alias("next")
                     .Alias("skip")
-                    .Description("Goes to the next song in the queue.")
+                    .Description("Goes to the next song in the queue.**Usage**: `!m n`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("s")
                     .Alias("stop")
-                    .Description("Stops the music and clears the playlist. Stays in the channel.")
+                    .Description("Stops the music and clears the playlist. Stays in the channel.\n**Usage**: `!m s`")
                     .Do(async e =>
                     {
                         await Task.Run(() =>
@@ -94,7 +94,8 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("d")
                     .Alias("destroy")
-                    .Description("Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)")
+                    .Description("Completely stops the music and unbinds the bot from the channel. " +
+                                 "(may cause weird behaviour)\n**Usage**: `!m d`")
                     .Do(async e =>
                     {
                         await Task.Run(() =>
@@ -107,7 +108,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("p")
                     .Alias("pause")
-                    .Description("Pauses or Unpauses the song.")
+                    .Description("Pauses or Unpauses the song.\n**Usage**: `!m p`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -121,7 +122,8 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
+                    .Description("Queue a song using keywords or a link. Bot will join your voice channel." +
+                                 "**You must be in a voice channel**.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -130,7 +132,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("lq")
                     .Alias("ls").Alias("lp")
-                    .Description("Lists up to 15 currently queued songs.")
+                    .Description("Lists up to 15 currently queued songs.\n**Usage**: `!m lq`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -158,7 +160,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("np")
                     .Alias("playing")
-                    .Description("Shows the song currently playing.")
+                    .Description("Shows the song currently playing.\n**Usage**: `!m np`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -172,7 +174,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("vol")
-                    .Description("Sets the music volume 0-150%")
+                    .Description("Sets the music volume 0-150%\n**Usage**: `!m vol 50`")
                     .Parameter("val", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -192,7 +194,8 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("dv")
                     .Alias("defvol")
-                    .Description("Sets the default music volume when music playback is started (0-100). Does not persist through restarts.\n**Usage**: !m dv 80")
+                    .Description("Sets the default music volume when music playback is started (0-100)." +
+                                 " Does not persist through restarts.\n**Usage**: `!m dv 80`")
                     .Parameter("val", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -208,7 +211,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("min").Alias("mute")
-                    .Description("Sets the music volume to 0%")
+                    .Description("Sets the music volume to 0%\n**Usage**: `!m min`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -218,7 +221,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("max")
-                    .Description("Sets the music volume to 100% (real max is actually 150%).")
+                    .Description("Sets the music volume to 100% (real max is actually 150%).\n**Usage**: `!m max`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -228,7 +231,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("half")
-                    .Description("Sets the music volume to 50%.")
+                    .Description("Sets the music volume to 50%.\n**Usage**: `!m half`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -238,7 +241,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("sh")
-                    .Description("Shuffles the current playlist.")
+                    .Description("Shuffles the current playlist.\n**Usage**: `!m sh`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -254,18 +257,8 @@ namespace NadekoBot.Modules
                         await e.Channel.SendMessage("🎵 `Songs shuffled.`");
                     });
 
-                cgb.CreateCommand("setgame")
-                    .Description("Sets the game of the bot to the number of songs playing. **Owner only**")
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        await e.Channel.SendMessage("❗This command is deprecated. " +
-                                                    "Use:\n `.ropl`\n `.adpl %playing% songs, %queued% queued.` instead.\n " +
-                                                    "It even persists through restarts.");
-                    });
-
                 cgb.CreateCommand("pl")
-                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.")
+                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -292,7 +285,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("lopl")
-                    .Description("Queues up to 50 songs from a directory. **Owner Only!**")
+                    .Description("Queues up to 50 songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
                     .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -313,7 +306,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("radio").Alias("ra")
-                    .Description("Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf")
+                    .Description("Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf\n**Usage**: `!m ra radio link here`")
                     .Parameter("radio_link", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -326,7 +319,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("lo")
-                    .Description("Queues a local file by specifying a full path. **Owner Only!**")
+                    .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m ra C:/music/mysong.mp3`")
                     .Parameter("path", ParameterType.Unparsed)
                     .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -338,7 +331,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("mv")
-                    .Description("Moves the bot to your voice channel. (works only if music is already playing)")
+                    .Description("Moves the bot to your voice channel. (works only if music is already playing)\n**Usage**: `!m mv`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -349,7 +342,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("rm")
-                    .Description("Remove a song by its # in the queue, or 'all' to remove whole queue.")
+                    .Description("Remove a song by its # in the queue, or 'all' to remove whole queue.\n**Usage**: `!m rm 5`")
                     .Parameter("num", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -378,7 +371,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("cleanup")
-                    .Description("Cleans up hanging voice connections. **Owner Only!**")
+                    .Description("Cleans up hanging voice connections. **Owner Only!**\n**Usage**: `!m cleanup`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(e =>
                     {
@@ -397,7 +390,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("rcs")
                     .Alias("repeatcurrentsong")
-                    .Description("Toggles repeat of current song.")
+                    .Description("Toggles repeat of current song.\n**Usage**: `!m rcs`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -414,7 +407,7 @@ namespace NadekoBot.Modules
 
                 cgb.CreateCommand("rpl")
                     .Alias("repeatplaylist")
-                    .Description("Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).")
+                    .Description("Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).\n**Usage**: `!m rpl`")
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;

@@ -2,21 +2,23 @@
 using Discord.Modules;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Games.Commands;
 using System;
 using System.Linq;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Games
 {
-    internal class Games : DiscordModule
+    internal class GamesModule : DiscordModule
     {
         private readonly Random rng = new Random();
 
-        public Games()
+        public GamesModule()
         {
             commands.Add(new Trivia(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             commands.Add(new PlantPick(this));
+            commands.Add(new Bomberman(this));
             //commands.Add(new BetrayGame(this));
 
         }

@@ -148,8 +148,6 @@ namespace NadekoBot.Modules.Administration.Commands
                     str += $"`New name:` **{e.After.Name}**";
                 else if (e.Before.AvatarUrl != e.After.AvatarUrl)
                     str += $"`New Avatar:` {e.After.AvatarUrl}";
-                else if (e.Before.Status != e.After.Status)
-                    str += $"Status `{e.Before.Status}` -> `{e.After.Status}`";
                 else
                     return;
                 await ch.SendMessage(str);
