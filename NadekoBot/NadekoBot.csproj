@@ -97,6 +97,10 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ScaredFingers.UnitsConversion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\ScaredFingers.UnitsConversion.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -219,6 +223,7 @@
     <Compile Include="Modules\Pokemon\PokemonTypes\NormalType.cs" />
     <Compile Include="Modules\Pokemon\PokeStats.cs" />
     <Compile Include="Modules\Searches.cs" />
+    <Compile Include="Modules\Search\Commands\ConverterCommand.cs" />
     <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
     <Compile Include="Modules\Translator\TranslateCommand.cs" />
     <Compile Include="Modules\Translator\TranslatorModule.cs" />
@@ -480,6 +485,10 @@
       <Name>Discord.Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
