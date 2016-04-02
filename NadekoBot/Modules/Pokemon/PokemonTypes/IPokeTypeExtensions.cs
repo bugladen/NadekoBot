@@ -1,5 +1,6 @@
 ﻿using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
+using NadekoBot.Classes.JSONModels;
 using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Pokemon.PokeTypes.Extensions
@@ -8,15 +9,15 @@ namespace NadekoBot.Modules.Pokemon.PokeTypes.Extensions
     {
         public static List<string> GetMoves(this PokeType poketype)
         {
-            var db = DbHandler.Instance.GetAllRows<PokeMoves>();
+            var moveSet = NadekoBot.Config.PokemonMoves;
             List<string> moves = new List<string>();
-            foreach (PokeMoves p in db)
+            foreach (PokeMove p in moveSet)
             {
-                if (p.type == poketype.Num)
+                if (p.type == poketype.Name)
                 {
-                    if (!moves.Contains(p.move))
+                    if (!moves.Contains(p.name))
                     {
-                        moves.Add(p.move);
+                        moves.Add(p.name);
                     }
                 }
             }

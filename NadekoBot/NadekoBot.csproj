@@ -131,6 +131,7 @@
     <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
     <Compile Include="Classes\JSONModels\MagicItem.cs" />
     <Compile Include="Classes\JSONModels\MangaResult.cs" />
+    <Compile Include="Classes\JSONModels\PokeMove.cs" />
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Leet.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
@@ -150,7 +151,6 @@
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
-    <Compile Include="Classes\_DataModels\pokemoves.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />

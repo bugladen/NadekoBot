@@ -9,6 +9,6 @@ namespace NadekoBot.Classes._DataModels
     class UserPokeTypes : IDataModel
     {
         public long UserId { get; set; }
-        public int type { get; set; }
+        public string type { get; set; }
     }
 }

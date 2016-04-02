@@ -18,12 +18,12 @@ namespace NadekoBot.Modules.Pokemon.PokeTypes
 
             foreach (PokeType t in TypeList)
             {
-                if (t.Name == newType)
+                if (t.Name == newType.ToUpperInvariant())
                 {
                     return t;
                 }
             }
-            return null;
+            return new NormalType();
         }
 
         //These classes can use all methods (except getMoves)

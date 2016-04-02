@@ -14,6 +14,9 @@ namespace NadekoBot.Classes.JSONModels
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
 
+        [JsonIgnore]
+        public List<PokeMove> PokemonMoves { get; set; } = new List<PokeMove>();
+
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
@@ -25,6 +28,7 @@ namespace NadekoBot.Classes.JSONModels
             143515953525817344
         };
 
+        
         public string[] _8BallResponses { get; set; } =
             {
                 "Most definitely yes",
@@ -78,6 +82,7 @@ namespace NadekoBot.Classes.JSONModels
 
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
+
     }
 
     public class CommandPrefixesModel
@@ -127,4 +132,5 @@ namespace NadekoBot.Classes.JSONModels
         public override string ToString() =>
             $"{Text}\n\t*-{Author}*";
     }
+   
 }

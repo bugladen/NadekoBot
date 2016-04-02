@@ -37,10 +37,10 @@ namespace NadekoBot.Modules.Pokemon
         {
 
             var db = DbHandler.Instance.GetAllRows<UserPokeTypes>();
-            Dictionary<long, int> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
+            Dictionary<long, string> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
             if (setTypes.ContainsKey((long)id))
             {
-                return PokemonTypesMain.IntToPokeType(setTypes[(long)id]);
+                return PokemonTypesMain.stringToPokeType(setTypes[(long)id])?? new PokemonTypes.NormalType();
             }
 
             int remainder = Math.Abs((int)(id % 18));
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Pokemon
                         var enabledMoves = userType.GetMoves();
                         if (!enabledMoves.Contains(move.ToLowerInvariant()))
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use {Prefix}listmoves to see moves you can use");
+                            await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use `{Prefix}ml` to see moves you can use");
                             return;
                         }
 
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Pokemon
                     .Do(async e =>
                     {
                         var userType = GetPokeType(e.User.Id);
-                        List<string> movesList = userType.GetMoves();
+                        var movesList = userType.GetMoves();
                         var str = $"**Moves for `{userType.Name}` type.**";
                         foreach (string m in movesList)
                         {
@@ -298,7 +298,7 @@ namespace NadekoBot.Modules.Pokemon
                         DbHandler.Instance.InsertData(new UserPokeTypes
                         {
                             UserId = (long)e.User.Id,
-                            type = targetType.Num
+                            type = targetType.Name
                         });
 
                         //Now for the response
