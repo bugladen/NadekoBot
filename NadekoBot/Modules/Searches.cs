@@ -5,6 +5,7 @@ using NadekoBot.Classes.IMDB;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Search.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,6 +24,7 @@ namespace NadekoBot.Modules
         {
             commands.Add(new LoLCommands(this));
             commands.Add(new StreamNotifications(this));
+            commands.Add(new ConverterCommand(this));
             rng = new Random();
         }
 
