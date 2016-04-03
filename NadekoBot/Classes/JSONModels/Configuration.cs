@@ -15,7 +15,8 @@ namespace NadekoBot.Classes.JSONModels
         public List<Quote> Quotes { get; set; } = new List<Quote>();
 
         [JsonIgnore]
-        public List<PokeMove> PokemonMoves { get; set; } = new List<PokeMove>();
+        public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
+        
 
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();

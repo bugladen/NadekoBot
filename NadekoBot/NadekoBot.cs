@@ -66,7 +66,7 @@ namespace NadekoBot
             {
                 Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
                 Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
-                Config.PokemonMoves = JsonConvert.DeserializeObject<List<PokeMove>>(File.ReadAllText("data/moves.json"));
+                Config.PokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText("data/PokemonTypes.json"));
             }
             catch
             {
