@@ -151,6 +151,7 @@
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
+    <Compile Include="Classes\_DataModels\MusicPlaylist.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />

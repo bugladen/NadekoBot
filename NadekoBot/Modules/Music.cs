@@ -7,6 +7,7 @@ using NadekoBot.Classes.Permissions;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Timer = System.Timers.Timer;
@@ -415,6 +416,32 @@ namespace NadekoBot.Modules
                             return;
                         var currentValue = musicPlayer.ToggleRepeatPlaylist();
                         await e.Channel.SendMessage($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`");
+                    });
+
+                cgb.CreateCommand("pls")
+                    .Alias("playlistsave")
+                    .Description("Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m pls classical1`")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var name = e.GetArg("name")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(name) ||
+                            name.Length > 20 ||
+                            name.Contains("-"))
+                            return;
+
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+
+                        //to avoid concurrency issues
+                        var currentPlaylist = new List<Song>(musicPlayer.Playlist);
+
+                        if (!currentPlaylist.Any())
+                            return;
+
+
                     });
                 //cgb.CreateCommand("debug")
                 //    .Description("Does something magical. **BOT OWNER ONLY**")
