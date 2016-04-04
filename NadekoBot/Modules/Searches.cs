@@ -54,7 +54,7 @@ namespace NadekoBot.Modules
                         await e.Channel.SendMessage(
 $@"🌍 **Weather for** 【{obj["target"]}】
 📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
-😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedm"]}mph / {obj["windspeedk"]}km/h 
+😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
 🔆 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
 🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}");
                     });
