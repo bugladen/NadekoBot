@@ -35,7 +35,8 @@ namespace NadekoBot.Modules.Administration.Commands
                             ? twoMins       //if the time is less than 2 minutes,
                             : r.When - now; //it will send the message 2 minutes after start
                                             //To account for high bot startup times
-
+            if (time.TotalMilliseconds > int.MaxValue)
+                return null;
             var t = new Timer(time.TotalMilliseconds);
             t.Elapsed += async (s, e) =>
             {
