@@ -196,21 +196,45 @@ namespace NadekoBot.Classes {
                    $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
         }
 
-        public static async Task<string> GetGelbooruImageLink(string tag) {
+        public static async Task<string> GetGelbooruImageLink(string tag)
+        {
+            var url =
+            $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+            var webpage = await GetResponseStringAsync(url);
+            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+            if (matches.Count == 0)
+                throw new FileNotFoundException();
+            var rng = new Random();
+            var match = matches[rng.Next(0, matches.Count)];
+            return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+        }
+
+        public static async Task<string> GetSafebooruImageLink(string tag)
+        {
             var rng = new Random();
             var url =
-                $"http://gelbooru.com/index.php?page=post&s=list&pid={rng.Next(0, 10) * 42}&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url); // first extract the post id and go to that posts page
-                                                             //src="htp://gelbooru.com/thumbnails/1b/5e/thumbnail_1b5e1dae36237ef0cd030575b93b5bd2.jpg?3064956"
-            var matches = Regex.Matches(webpage, @"src=\""http:\/\/gelbooru\.com\/thumbnails\/" +
-                                                 @"(?<folder>.*\/.*?)\/thumbnail_(?<id>.*?)\""");
+            $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+            var webpage = await GetResponseStringAsync(url);
+            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
                 throw new FileNotFoundException();
             var match = matches[rng.Next(0, matches.Count)];
-            //http://simg4.gelbooru.com//images/58/20/58209047098e86c2f96c323fb85b8691.jpg?3076643
-            return $"http://simg4.gelbooru.com//images/" +
-                   $"{match.Groups["folder"]}/{match.Groups["id"]}";
+            return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
+
+        public static async Task<string> GetRule34ImageLink(string tag)
+        {
+            var rng = new Random();
+            var url =
+            $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+            var webpage = await GetResponseStringAsync(url);
+            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+            if (matches.Count == 0)
+                throw new FileNotFoundException();
+            var match = matches[rng.Next(0, matches.Count)];
+            return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+        }
+
 
         internal static async Task<string> GetE621ImageLink(string tags) {
             var rng = new Random();
