@@ -1,4 +1,5 @@
-﻿using NadekoBot.Extensions;
+﻿using NadekoBot.Classes.JSONModels;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,34 +11,41 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NadekoBot.Classes.JSONModels;
 
-namespace NadekoBot.Classes {
-    public enum RequestHttpMethod {
+namespace NadekoBot.Classes
+{
+    public enum RequestHttpMethod
+    {
         Get,
         Post
     }
 
-    public static class SearchHelper {
+    public static class SearchHelper
+    {
         private static DateTime lastRefreshed = DateTime.MinValue;
         private static string token { get; set; } = "";
 
         public static async Task<Stream> GetResponseStreamAsync(string url,
-            IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get) {
+            IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get)
+        {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
             var httpClient = new HttpClient();
-            switch (method) {
+            switch (method)
+            {
                 case RequestHttpMethod.Get:
-                    if (headers != null) {
-                        foreach (var header in headers) {
+                    if (headers != null)
+                    {
+                        foreach (var header in headers)
+                        {
                             httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                         }
                     }
                     return await httpClient.GetStreamAsync(url);
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
-                    if (headers != null) {
+                    if (headers != null)
+                    {
                         formContent = new FormUrlEncodedContent(headers);
                     }
                     var message = await httpClient.PostAsync(url, formContent);
@@ -49,14 +57,17 @@ namespace NadekoBot.Classes {
 
         public static async Task<string> GetResponseStringAsync(string url,
             IEnumerable<KeyValuePair<string, string>> headers = null,
-            RequestHttpMethod method = RequestHttpMethod.Get) {
+            RequestHttpMethod method = RequestHttpMethod.Get)
+        {
 
-            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method))) {
+            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method)))
+            {
                 return await streamReader.ReadToEndAsync();
             }
         }
 
-        public static async Task<AnimeResult> GetAnimeData(string query) {
+        public static async Task<AnimeResult> GetAnimeData(string query)
+        {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
@@ -77,7 +88,8 @@ namespace NadekoBot.Classes {
             return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
         }
 
-        public static async Task<MangaResult> GetMangaData(string query) {
+        public static async Task<MangaResult> GetMangaData(string query)
+        {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
@@ -98,10 +110,12 @@ namespace NadekoBot.Classes {
             return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(content));
         }
 
-        private static async Task RefreshAnilistToken() {
+        private static async Task RefreshAnilistToken()
+        {
             if (DateTime.Now - lastRefreshed > TimeSpan.FromMinutes(29))
                 lastRefreshed = DateTime.Now;
-            else {
+            else
+            {
                 return;
             }
             var headers = new Dictionary<string, string> {
@@ -115,13 +129,15 @@ namespace NadekoBot.Classes {
             token = JObject.Parse(content)["access_token"].ToString();
         }
 
-        public static async Task<bool> ValidateQuery(Discord.Channel ch, string query) {
+        public static async Task<bool> ValidateQuery(Discord.Channel ch, string query)
+        {
             if (!string.IsNullOrEmpty(query.Trim())) return true;
             await ch.Send("Please specify search parameters.");
             return false;
         }
 
-        public static async Task<string> FindYoutubeUrlByKeywords(string keywords) {
+        public static async Task<string> FindYoutubeUrlByKeywords(string keywords)
+        {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
                 throw new InvalidCredentialException("Google API Key is missing.");
             if (string.IsNullOrWhiteSpace(keywords))
@@ -131,7 +147,8 @@ namespace NadekoBot.Classes {
 
             //maybe it is already a youtube url, in which case we will just extract the id and prepend it with youtube.com?v=
             var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
-            if (match.Length > 1) {
+            if (match.Length > 1)
+            {
                 return $"http://www.youtube.com?v={match.Groups["id"].Value}";
             }
             var response =
@@ -144,7 +161,8 @@ namespace NadekoBot.Classes {
             return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
         }
 
-        public static async Task<string> GetPlaylistIdByKeyword(string query) {
+        public static async Task<string> GetPlaylistIdByKeyword(string query)
+        {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
 
@@ -159,8 +177,10 @@ namespace NadekoBot.Classes {
             return obj.items[0].id.playlistId.ToString();
         }
 
-        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 30) {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) {
+        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 30)
+        {
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            {
                 throw new ArgumentNullException(nameof(playlist));
             }
             if (number < 1 || number > 100)
@@ -178,7 +198,8 @@ namespace NadekoBot.Classes {
         }
 
 
-        public static async Task<string> GetDanbooruImageLink(string tag) {
+        public static async Task<string> GetDanbooruImageLink(string tag)
+        {
             var rng = new Random();
 
             if (tag == "loli") //loli doesn't work for some reason atm
@@ -236,7 +257,8 @@ namespace NadekoBot.Classes {
         }
 
 
-        internal static async Task<string> GetE621ImageLink(string tags) {
+        internal static async Task<string> GetE621ImageLink(string tags)
+        {
             var rng = new Random();
             var url = $"https://e621.net/post/index/{rng.Next(0, 5)}/{Uri.EscapeUriString(tags)}";
             var webpage = await GetResponseStringAsync(url); // first extract the post id and go to that posts page
@@ -244,16 +266,19 @@ namespace NadekoBot.Classes {
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
 
-        public static async Task<string> ShortenUrl(string url) {
+        public static async Task<string> ShortenUrl(string url)
+        {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) return url;
-            try {
+            try
+            {
                 var httpWebRequest =
                     (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" +
                                                        NadekoBot.Creds.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
-                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync())) {
+                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync()))
+                {
                     var json = "{\"longUrl\":\"" + url + "\"}";
                     streamWriter.Write(json);
                 }
@@ -262,11 +287,14 @@ namespace NadekoBot.Classes {
                 if (httpResponse == null) return "HTTP_RESPONSE_ERROR";
                 var responseStream = httpResponse.GetResponseStream();
                 if (responseStream == null) return "RESPONSE_STREAM ERROR";
-                using (var streamReader = new StreamReader(responseStream)) {
+                using (var streamReader = new StreamReader(responseStream))
+                {
                     var responseText = await streamReader.ReadToEndAsync();
                     return Regex.Match(responseText, @"""id"": ?""(?<id>.+)""").Groups["id"].Value;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.ToString());
                 return url;
             }

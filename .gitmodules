@@ -1,6 +1,3 @@
 [submodule "discord.net"]
 	path = discord.net
 	url = git://github.com/rogueexception/discord.net.git
-[submodule "Discord.Net"]
-	path = Discord.Net
-	url = https://github.com/RogueException/Discord.Net
