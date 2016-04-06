@@ -38,6 +38,20 @@ namespace NadekoBot.Modules {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         await e.Channel.SendMessage(await SearchHelper.GetGelbooruImageLink(tag));
                     });
+                cgb.CreateCommand(Prefix + "safebooru")
+                    .Description("Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var tag = e.GetArg("tag")?.Trim() ?? "";
+                        await e.Channel.SendMessage(await SearchHelper.GetSafebooruImageLink(tag));
+                    });
+                cgb.CreateCommand(Prefix + "rule34")
+                    .Description("Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var tag = e.GetArg("tag")?.Trim() ?? "";
+                        await e.Channel.SendMessage(await SearchHelper.GetRule34ImageLink(tag));
+                    });
                 cgb.CreateCommand(Prefix + "e621")
                     .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
