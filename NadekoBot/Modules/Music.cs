@@ -441,7 +441,7 @@ namespace NadekoBot.Modules
                         {
                             CreatorId = (long)e.User.Id,
                             CreatorName = e.User.Name,
-                            Name = name,
+                            Name = name.ToLowerInvariant(),
                         };
 
                         DbHandler.Instance.SaveAll(songInfos);
@@ -468,7 +468,7 @@ namespace NadekoBot.Modules
                             await textCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
                             return;
                         }
-                        var name = e.GetArg("name")?.Trim();
+                        var name = e.GetArg("name")?.Trim().ToLowerInvariant();
 
                         if (string.IsNullOrWhiteSpace(name))
                             return;
@@ -483,7 +483,7 @@ namespace NadekoBot.Modules
                             return;
 
                         var playlist = DbHandler.Instance.FindOne<MusicPlaylist>(
-                            p => p.Name.ToLower() == name);
+                            p => p.Id == playlistNumber);
 
                         if (playlist == null)
                         {
