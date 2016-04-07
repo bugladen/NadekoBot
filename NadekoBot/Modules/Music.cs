@@ -418,9 +418,61 @@ namespace NadekoBot.Modules
                         await e.Channel.SendMessage($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`");
                     });
 
-                cgb.CreateCommand("pls")
-                    .Alias("playlistsave")
-                    .Description("Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m pls classical1`")
+                cgb.CreateCommand("save")
+                    .Description("Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m save classical1`")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var name = e.GetArg("name")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(name) ||
+                            name.Length > 20 ||
+                            name.Contains("-"))
+                            return;
+
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+
+                        //to avoid concurrency issues
+                        var currentPlaylist = new List<Song>(musicPlayer.Playlist);
+                        var curSong = musicPlayer.CurrentSong;
+                        if (curSong != null)
+                            currentPlaylist.Insert(0, curSong);
+
+                        if (!currentPlaylist.Any())
+                            return;
+
+
+                        var songInfos = currentPlaylist.Select(s => new Classes._DataModels.SongInfo
+                        {
+                            Provider = s.SongInfo.Provider,
+                            ProviderType = (int)s.SongInfo.ProviderType,
+                            Title = s.SongInfo.Title,
+                            Uri = s.SongInfo.Uri
+                        });
+
+                        var playlist = new Classes._DataModels.MusicPlaylist
+                        {
+                            CreatorId = (long)e.User.Id,
+                            CreatorName = e.User.Name,
+                            Name = name,
+                        };
+
+                        DbHandler.Instance.SaveAll(songInfos);
+                        DbHandler.Instance.Save(playlist);
+                        DbHandler.Instance.InsertMany(songInfos.Select(s => new Classes._DataModels.PlaylistSongInfo
+                        {
+                            PlaylistId = playlist.Id,
+                            SongInfoId = s.Id
+                        }));
+
+                        await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`");
+
+                    });
+
+                cgb.CreateCommand("load")
+                    .Description("Loads a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m load classical1`")
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -442,7 +494,10 @@ namespace NadekoBot.Modules
                             return;
 
 
+
+
                     });
+
                 //cgb.CreateCommand("debug")
                 //    .Description("Does something magical. **BOT OWNER ONLY**")
                 //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())

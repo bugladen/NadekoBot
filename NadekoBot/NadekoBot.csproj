@@ -152,9 +152,11 @@
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
     <Compile Include="Classes\_DataModels\MusicPlaylist.cs" />
+    <Compile Include="Classes\_DataModels\PlaylistSongInfo.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
+    <Compile Include="Classes\_DataModels\SongInfo.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />

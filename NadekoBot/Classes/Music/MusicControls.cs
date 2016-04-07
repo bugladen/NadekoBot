@@ -125,6 +125,8 @@ namespace NadekoBot.Classes.Music
             {
                 playlist.Clear();
                 CurrentSong = null;
+                RepeatPlaylist = false;
+                RepeatSong = false;
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
             }
