@@ -16,6 +16,10 @@ namespace NadekoBot.Classes.Music
     {
         public string Provider { get; internal set; }
         public MusicType ProviderType { get; internal set; }
+        /// <summary>
+        /// Will be set only if the providertype is normal
+        /// </summary>
+        public string Query { get; internal set; }
         public string Title { get; internal set; }
         public string Uri { get; internal set; }
     }
@@ -233,6 +237,7 @@ namespace NadekoBot.Classes.Music
                         Provider = "SoundCloud",
                         Uri = svideo.StreamLink,
                         ProviderType = musicType,
+                        Query = query,
                     });
                 }
                 var links = await SearchHelper.FindYoutubeUrlByKeywords(query);
@@ -252,6 +257,7 @@ namespace NadekoBot.Classes.Music
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
                     Uri = video.Uri,
+                    Query = query,
                     ProviderType = musicType,
                 });
             }

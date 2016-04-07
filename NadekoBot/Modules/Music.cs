@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
+using NadekoBot.Classes._DataModels;
 using NadekoBot.Classes.Music;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Extensions;
@@ -10,7 +11,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules
 {
@@ -20,24 +20,8 @@ namespace NadekoBot.Modules
         public static ConcurrentDictionary<Server, MusicPlayer> MusicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
         public static ConcurrentDictionary<ulong, float> DefaultMusicVolumes = new ConcurrentDictionary<ulong, float>();
 
-        private readonly Timer setgameTimer = new Timer();
-
-        private bool setgameEnabled = false;
-
         public Music()
         {
-
-            setgameTimer.Interval = 20000;
-            setgameTimer.Elapsed += (s, e) =>
-            {
-                try
-                {
-                    var num = MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
-                    NadekoBot.Client.SetGame($"{num} songs".SnPl(num) + $", {MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count())} queued");
-                }
-                catch { }
-            };
-
             // ready for 1.0
             //NadekoBot.Client.UserUpdated += (s, e) =>
             //{
@@ -449,10 +433,11 @@ namespace NadekoBot.Modules
                             Provider = s.SongInfo.Provider,
                             ProviderType = (int)s.SongInfo.ProviderType,
                             Title = s.SongInfo.Title,
-                            Uri = s.SongInfo.Uri
+                            Uri = s.SongInfo.Uri,
+                            Query = s.SongInfo.Query
                         });
 
-                        var playlist = new Classes._DataModels.MusicPlaylist
+                        var playlist = new MusicPlaylist
                         {
                             CreatorId = (long)e.User.Id,
                             CreatorName = e.User.Name,
@@ -461,7 +446,7 @@ namespace NadekoBot.Modules
 
                         DbHandler.Instance.SaveAll(songInfos);
                         DbHandler.Instance.Save(playlist);
-                        DbHandler.Instance.InsertMany(songInfos.Select(s => new Classes._DataModels.PlaylistSongInfo
+                        DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
                         {
                             PlaylistId = playlist.Id,
                             SongInfoId = s.Id
@@ -472,39 +457,59 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("load")
-                    .Description("Loads a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m load classical1`")
+                    .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e =>
                     {
+                        var voiceCh = e.User.VoiceChannel;
+                        var textCh = e.Channel;
+                        if (voiceCh == null || voiceCh.Server != textCh.Server)
+                        {
+                            await textCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
+                            return;
+                        }
                         var name = e.GetArg("name")?.Trim();
 
-                        if (string.IsNullOrWhiteSpace(name) ||
-                            name.Length > 20 ||
-                            name.Contains("-"))
+                        if (string.IsNullOrWhiteSpace(name))
                             return;
 
-                        MusicPlayer musicPlayer;
-                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                        var parts = name.Split('-');
+                        if (parts.Length != 2)
+                            return;
+                        var playlistName = parts[0];
+
+                        int playlistNumber;
+                        if (!int.TryParse(parts[1], out playlistNumber))
                             return;
 
-                        //to avoid concurrency issues
-                        var currentPlaylist = new List<Song>(musicPlayer.Playlist);
+                        var playlist = DbHandler.Instance.FindOne<MusicPlaylist>(
+                            p => p.Name.ToLower() == name);
 
-                        if (!currentPlaylist.Any())
+                        if (playlist == null)
+                        {
+                            await e.Channel.SendMessage("Can't find playlist under that name.");
                             return;
+                        }
 
+                        var psis = DbHandler.Instance.FindAll<PlaylistSongInfo>(psi =>
+                            psi.PlaylistId == playlist.Id);
 
+                        var songInfos = psis.Select(psi => DbHandler.Instance
+                            .FindOne<Classes._DataModels.SongInfo>(si => si.Id == psi.SongInfoId));
 
-
+                        await e.Channel.SendMessage($"`Attempting to load {songInfos.Count()} songs`");
+                        foreach (var si in songInfos)
+                        {
+                            try
+                            {
+                                await QueueSong(textCh, voiceCh, si.Query, true, (MusicType)si.ProviderType);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Failed QueueSong in load playlist. {ex}");
+                            }
+                        }
                     });
-
-                //cgb.CreateCommand("debug")
-                //    .Description("Does something magical. **BOT OWNER ONLY**")
-                //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                //    .Do(e => {
-                //        var inactivePlayers = 
-                //        Console.WriteLine("");
-                //    });
             });
         }
 
