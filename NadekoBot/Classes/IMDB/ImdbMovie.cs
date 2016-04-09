@@ -1,5 +1,6 @@
 ﻿using NadekoBot.Extensions;
 using System.Collections.Generic;
+using System.Web;
 
 namespace NadekoBot.Classes.IMDB
 {
@@ -44,7 +45,7 @@ namespace NadekoBot.Classes.IMDB
         public Dictionary<string, string> Aka { get; set; }
 
         public override string ToString() =>
-$@"`Title:` {Title} {(string.IsNullOrEmpty(OriginalTitle) ? "" : $"({OriginalTitle})")}
+$@"`Title:` {HttpUtility.HtmlDecode(Title)} {(string.IsNullOrEmpty(OriginalTitle) ? "" : $"({OriginalTitle})")}
 `Year:` {Year}
 `Rating:` {Rating}
 `Genre:` {GenresAsString}

@@ -363,7 +363,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "mi")
-                .Alias("magicitem")
+                .Alias(Prefix + "magicitem")
                 .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
                 .Do(async e =>
                 {
