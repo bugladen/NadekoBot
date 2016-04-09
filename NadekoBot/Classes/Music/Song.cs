@@ -83,10 +83,7 @@ namespace NadekoBot.Classes.Music
                             else
                                 await Task.Delay(100, cancelToken);
                         else
-                        {
                             attempt = 0;
-                            await Task.Delay(5, cancelToken);
-                        }
                         await songBuffer.WriteAsync(buffer, read, cancelToken);
                         if (songBuffer.ContentLength > 2.MB())
                             prebufferingComplete = true;
@@ -218,6 +215,7 @@ namespace NadekoBot.Classes.Music
                             Title = Path.GetFileNameWithoutExtension(query),
                             Provider = "Local File",
                             ProviderType = musicType,
+                            Query = query,
                         });
                     case MusicType.Radio:
                         return new Song(new SongInfo
@@ -226,6 +224,7 @@ namespace NadekoBot.Classes.Music
                             Title = $"{query}",
                             Provider = "Radio Stream",
                             ProviderType = musicType,
+                            Query = query
                         });
                 }
                 if (SoundCloud.Default.IsSoundCloudLink(query))
@@ -240,10 +239,10 @@ namespace NadekoBot.Classes.Music
                         Query = query,
                     });
                 }
-                var links = await SearchHelper.FindYoutubeUrlByKeywords(query);
-                if (links == String.Empty)
+                var link = await SearchHelper.FindYoutubeUrlByKeywords(query);
+                if (link == String.Empty)
                     throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(links)).Unwrap();
+                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(link)).Unwrap();
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
                     .Where(v => v.AudioBitrate < 192)
@@ -257,7 +256,7 @@ namespace NadekoBot.Classes.Music
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
                     Uri = video.Uri,
-                    Query = query,
+                    Query = link,
                     ProviderType = musicType,
                 });
             }

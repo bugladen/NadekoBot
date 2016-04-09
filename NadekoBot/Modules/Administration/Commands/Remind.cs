@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 finally
                 {
-                    DbHandler.Instance.Delete<Reminder>(r.Id);
+                    DbHandler.Instance.Delete<Reminder>(r.Id.Value);
                     t.Stop();
                     t.Dispose();
                 }

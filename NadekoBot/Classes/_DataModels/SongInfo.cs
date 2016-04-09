@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Classes._DataModels
+﻿using SQLite;
+
+namespace NadekoBot.Classes._DataModels
 {
     internal class SongInfo : IDataModel
     {
@@ -6,6 +8,7 @@
         public int ProviderType { get; internal set; }
         public string Title { get; internal set; }
         public string Uri { get; internal set; }
+        [Unique]
         public string Query { get; internal set; }
     }
 }

@@ -167,7 +167,7 @@ namespace NadekoBot
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
             modules.Add(new GamesModule(), "Games", ModuleFilter.None);
-            //modules.Add(new Music(), "Music", ModuleFilter.None);
+            modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);

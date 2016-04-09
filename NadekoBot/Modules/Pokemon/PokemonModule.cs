@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Pokemon
 
         public PokemonModule()
         {
-            
+
         }
 
         private int GetDamage(PokemonType usertype, PokemonType targetType)
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Pokemon
                     damage = (int)(damage * multiplier);
                 }
             }
-           
+
             return damage;
         }
 
@@ -50,12 +50,12 @@ namespace NadekoBot.Modules.Pokemon
             }
             int count = NadekoBot.Config.PokemonTypes.Count;
 
-            int remainder = Math.Abs((int)(id % (ulong) count));
+            int remainder = Math.Abs((int)(id % (ulong)count));
 
             return NadekoBot.Config.PokemonTypes[remainder];
         }
 
-        
+
 
         private PokemonType stringToPokemonType(string v)
         {
@@ -311,7 +311,7 @@ namespace NadekoBot.Modules.Pokemon
                         FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
                         //Actually changing the type here
                         var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
-                        Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id);
+                        Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id.Value);
                         if (Dict.ContainsKey((long)e.User.Id))
                         {
                             //delete previous type

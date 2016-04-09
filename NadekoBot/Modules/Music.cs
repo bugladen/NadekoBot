@@ -49,7 +49,7 @@ namespace NadekoBot.Modules
             manager.CreateCommands(Prefix, cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
@@ -113,6 +113,11 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("query"));
+                        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
+                        {
+                            await Task.Delay(10000);
+                            await e.Message.Delete();
+                        }
                     });
 
                 cgb.CreateCommand("lq")
@@ -272,7 +277,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("lopl")
                     .Description("Queues up to 50 songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
                         var arg = e.GetArg("directory");
@@ -301,12 +306,17 @@ namespace NadekoBot.Modules
                             return;
                         }
                         await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("radio_link"), musicType: MusicType.Radio);
+                        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
+                        {
+                            await Task.Delay(10000);
+                            await e.Message.Delete();
+                        }
                     });
 
                 cgb.CreateCommand("lo")
                     .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m ra C:/music/mysong.mp3`")
                     .Parameter("path", ParameterType.Unparsed)
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
                         var arg = e.GetArg("path");
@@ -350,9 +360,9 @@ namespace NadekoBot.Modules
                         }
                         if (num <= 0 || num > musicPlayer.Playlist.Count)
                             return;
-
+                        var song = (musicPlayer.Playlist as List<Song>)?[num - 1];
                         musicPlayer.RemoveSongAt(num - 1);
-                        await e.Channel.SendMessage($"🎵**Track at position `#{num}` has been removed.**");
+                        await e.Channel.SendMessage($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**");
                     });
 
                 cgb.CreateCommand("cleanup")
@@ -434,8 +444,8 @@ namespace NadekoBot.Modules
                             ProviderType = (int)s.SongInfo.ProviderType,
                             Title = s.SongInfo.Title,
                             Uri = s.SongInfo.Uri,
-                            Query = s.SongInfo.Query
-                        });
+                            Query = s.SongInfo.Query,
+                        }).ToList();
 
                         var playlist = new MusicPlaylist
                         {
@@ -443,18 +453,27 @@ namespace NadekoBot.Modules
                             CreatorName = e.User.Name,
                             Name = name.ToLowerInvariant(),
                         };
-
                         DbHandler.Instance.SaveAll(songInfos);
                         DbHandler.Instance.Save(playlist);
                         DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
                         {
-                            PlaylistId = playlist.Id,
-                            SongInfoId = s.Id
+                            PlaylistId = playlist.Id.Value,
+                            SongInfoId = s.Id.Value
                         }));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`");
 
                     });
+
+                //cgb.CreateCommand("info")
+                //    .Description("Prints music info (queued/finished/playing) only to this channel")
+                //    .Do(async e =>
+                //    {
+                //        MusicPlayer musicPlayer;
+                //        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                //            return;
+                //        musicPlayer
+                //    });
 
                 cgb.CreateCommand("load")
                     .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
@@ -531,11 +550,19 @@ namespace NadekoBot.Modules
                 if (DefaultMusicVolumes.TryGetValue(server.Id, out throwAway))
                     vol = throwAway;
                 var mp = new MusicPlayer(voiceCh, vol);
+
+
+                Message playingMessage = null;
+                Message lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
                     try
                     {
-                        await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
+                        if (lastFinishedMessage != null)
+                            await lastFinishedMessage.Delete();
+                        if (playingMessage != null)
+                            await playingMessage.Delete();
+                        lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
                     }
                     catch { }
                 };
@@ -547,7 +574,7 @@ namespace NadekoBot.Modules
                     try
                     {
                         var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                        await textCh.SendMessage(msgTxt);
+                        playingMessage = await textCh.SendMessage(msgTxt);
                     }
                     catch { }
                 };
@@ -555,9 +582,23 @@ namespace NadekoBot.Modules
             });
             var resolvedSong = await Song.ResolveSong(query, musicType);
             resolvedSong.MusicPlayer = musicPlayer;
-            if (!silent)
-                await textCh.Send($"🎵`Queued`{resolvedSong.PrettyName}");
+
             musicPlayer.AddSong(resolvedSong);
+            if (!silent)
+            {
+                var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count}`");
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () =>
+                {
+                    await Task.Delay(10000);
+                    try
+                    {
+                        await queuedMessage.Delete();
+                    }
+                    catch { }
+                });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
         }
     }
 }
