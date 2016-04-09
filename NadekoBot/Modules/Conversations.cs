@@ -35,10 +35,15 @@ namespace NadekoBot.Modules
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand("e")
-                    .Description("You did it.")
+                    .Description("You did it. Or someone else!")
+                    .Parameter("other", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
+                        var other = e.GetArg("other");
+                        if (string.IsNullOrWhiteSpace(other))
+                            await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
+                        else
+                            await e.Channel.SendMessage($"{other} did it. 😒 🔫");
                     });
 
                 cgb.CreateCommand("comeatmebro")
