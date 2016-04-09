@@ -1,8 +1,7 @@
 ﻿using Discord.Commands;
 using NadekoBot.Modules;
-using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
+using System.Linq;
 using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Commands
@@ -11,26 +10,28 @@ namespace NadekoBot.Commands
     {
         public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
 
-        public Func<CommandEventArgs, Task> DoFunc() => async e =>
-        {
-            TriviaGame trivia;
-            if (!RunningTrivias.TryGetValue(e.Server.Id, out trivia))
-            {
-                var triviaGame = new TriviaGame(e);
-                if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
-                    await e.Channel.SendMessage("**Trivia game started!**\nFirst player to get to 10 points wins! You have 30 seconds per question.\nUse command `tq` if game was started by accident.**");
-                else
-                    await triviaGame.StopGame();
-            }
-            else
-                await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
-        };
-
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "t")
-                .Description("Starts a game of trivia.")
-                .Do(DoFunc());
+                .Description($"Starts a game of trivia. You can add nohint to prevent hints." +
+                              "First player to get to 10 points wins. 30 seconds per question." +
+                              $"\n**Usage**:`{Module.Prefix}t nohint`")
+                .Parameter("args", ParameterType.Multiple)
+                .Do(async e =>
+                {
+                    TriviaGame trivia;
+                    if (!RunningTrivias.TryGetValue(e.Server.Id, out trivia))
+                    {
+                        var showHints = !e.Args.Contains("nohint");
+                        var triviaGame = new TriviaGame(e, showHints);
+                        if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
+                            await e.Channel.SendMessage("**Trivia game started!**");
+                        else
+                            await triviaGame.StopGame();
+                    }
+                    else
+                        await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
+                });
 
             cgb.CreateCommand(Module.Prefix + "tl")
                 .Description("Shows a current trivia leaderboard.")

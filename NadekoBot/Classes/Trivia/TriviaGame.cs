@@ -20,6 +20,7 @@ namespace NadekoBot.Classes.Trivia
 
         private int QuestionDurationMiliseconds { get; } = 30000;
         private int HintTimeoutMiliseconds { get; } = 6000;
+        public bool ShowHints { get; set; } = true;
         private CancellationTokenSource triviaCancelSource { get; set; }
 
         public TriviaQuestion CurrentQuestion { get; private set; }
@@ -32,8 +33,9 @@ namespace NadekoBot.Classes.Trivia
 
         public int WinRequirement { get; } = 10;
 
-        public TriviaGame(CommandEventArgs e)
+        public TriviaGame(CommandEventArgs e, bool showHints)
         {
+            ShowHints = showHints;
             server = e.Server;
             channel = e.Channel;
             Task.Run(StartGame);
@@ -68,7 +70,8 @@ namespace NadekoBot.Classes.Trivia
                 {
                     //hint
                     await Task.Delay(HintTimeoutMiliseconds, token);
-                    await channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}");
+                    if (ShowHints)
+                        await channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}");
 
                     //timeout
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token);
