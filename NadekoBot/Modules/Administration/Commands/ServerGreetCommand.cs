@@ -1,9 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Commands;
-using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading.Tasks;
 
 /* Voltana's legacy
 public class AsyncLazy<T> : Lazy<Task<T>> 
@@ -60,13 +60,20 @@ namespace NadekoBot.Modules.Administration.Commands
                     try
                     {
                         await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
+
                     }
                     catch { }
                 }
-                else {
+                else
+                {
                     if (channel == null) return;
                     Greeted++;
-                    await channel.Send(msg);
+                    var toDelete = await channel.SendMessage(msg);
+                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
+                    {
+                        await Task.Delay(300000); // 5 minutes
+                        await toDelete.Delete();
+                    }
                 }
             }
             catch { }
@@ -90,10 +97,16 @@ namespace NadekoBot.Modules.Administration.Commands
                     Greeted++;
                     await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
                 }
-                else {
+                else
+                {
                     if (channel == null) return;
                     Greeted++;
-                    await channel.Send(msg);
+                    var toDelete = await channel.SendMessage(msg);
+                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
+                    {
+                        await Task.Delay(300000); // 5 minutes
+                        await toDelete.Delete();
+                    }
                 }
             }
             catch { }
@@ -164,7 +177,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     return Bye = false;
                 }
-                else {
+                else
+                {
                     ByeChannel = id;
                     return Bye = true;
                 }
@@ -176,7 +190,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     return Greet = false;
                 }
-                else {
+                else
+                {
                     GreetChannel = id;
                     return Greet = true;
                 }
