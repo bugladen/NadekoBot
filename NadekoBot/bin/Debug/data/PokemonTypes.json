@@ -116,7 +116,7 @@
       },
       {
         "Type": "GRASS",
-        "Multiplication": 2
+        "Multiplication": 0.5
       },
       {
         "Type": "GROUND",
@@ -148,23 +148,23 @@
       },
       {
         "Type": "WATER",
-        "Multiplication": 0.5
+        "Multiplication": 2
       },
       {
         "Type": "GRASS",
-        "Multiplication": 2
+        "Multiplication": 0.5
       },
       {
         "Type": "ICE",
-        "Multiplication": 2
+        "Multiplication": 0.5
       },
       {
         "Type": "BUG",
-        "Multiplication": 2
+        "Multiplication": 0.5
       },
       {
         "Type": "ROCK",
-        "Multiplication": 0.5
+        "Multiplication": 2
       },
       {
         "Type": "DRAGON",
@@ -172,6 +172,14 @@
       },
       {
         "Type": "STEEL",
+        "Multiplication": 0.5
+      }
+      {
+        "Type": "POISON",
+        "Multiplication": 0.5
+      },
+      {
+        "Type": "GROUND",
         "Multiplication": 2
       }
     ],
@@ -340,7 +348,7 @@
       },
       {
         "Type": "POISON",
-        "Multiplication": 0.5
+        "Multiplication": 2
       },
       {
         "Type": "FLYING",
@@ -545,10 +553,6 @@
       {
         "Type": "DARK",
         "Multiplication": 0.5
-      },
-      {
-        "Type": "STEEL",
-        "Multiplication": 0.5
       }
     ],
     "Moves": [
@@ -604,10 +608,6 @@
         "Multiplication": 0.5
       },
       {
-        "Type": "STEEL",
-        "Multiplication": 0.5
-      },
-      {
         "Type": "FAIRY",
         "Multiplication": 0.5
       }
@@ -646,6 +646,10 @@
       {
         "Type": "STEEL",
         "Multiplication": 0.5
+      },
+      {
+        "Type": "FAIRY",
+        "Multiplication": 2
       }
     ],
     "Moves": [
@@ -669,7 +673,7 @@
       },
       {
         "Type": "DARK",
-        "Multiplication": 0.5
+        "Multiplication": 2
       },
       {
         "Type": "POISON",
@@ -677,7 +681,7 @@
       },
       {
         "Type": "STEEL",
-        "Multiplication": 2
+        "Multiplication": 0.5
       },
       {
         "Type": "DRAGON",
