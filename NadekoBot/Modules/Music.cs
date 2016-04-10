@@ -252,12 +252,15 @@ namespace NadekoBot.Modules
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
+                        var arg = e.GetArg("playlist");
+                        if (string.IsNullOrWhiteSpace(arg))
+                            return;
                         if (e.User.VoiceChannel?.Server != e.Server)
                         {
                             await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.");
                             return;
                         }
-                        var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(e.GetArg("playlist")));
+                        var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(arg));
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
                         var idArray = ids as string[] ?? ids.ToArray();
                         var count = idArray.Count();
@@ -281,11 +284,11 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         var arg = e.GetArg("directory");
-                        if (string.IsNullOrWhiteSpace(e.GetArg("directory")))
+                        if (string.IsNullOrWhiteSpace(arg))
                             return;
                         try
                         {
-                            var fileEnum = System.IO.Directory.EnumerateFiles(e.GetArg("directory")).Take(50);
+                            var fileEnum = System.IO.Directory.EnumerateFiles(arg).Take(50);
                             foreach (var file in fileEnum)
                             {
                                 await QueueSong(e.Channel, e.User.VoiceChannel, file, true, MusicType.Local);
