@@ -1,22 +1,27 @@
-﻿using Discord.Commands.Permissions;
-using System;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
-using System.Collections.Concurrent;
+using Discord.Commands.Permissions;
 using NadekoBot.Classes.JSONModels;
+using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Permissions {
+namespace NadekoBot.Classes.Permissions
+{
 
-    internal class PermissionChecker : IPermissionChecker {
+    internal class PermissionChecker : IPermissionChecker
+    {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
         private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
 
         static PermissionChecker() { }
-        private PermissionChecker() {
-            Task.Run(async () => {
-                while (true) {
+        private PermissionChecker()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
                     //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked
                     await Task.Delay(1750);
                     timeBlackList.Clear();
@@ -24,15 +29,20 @@ namespace NadekoBot.Classes.Permissions {
             });
         }
 
-        public bool CanRun(Command command, User user, Channel channel, out string error) {
+        public bool CanRun(Command command, User user, Channel channel, out string error)
+        {
             error = String.Empty;
+
+            if (!NadekoBot.Ready)
+                return false;
 
             if (channel.IsPrivate || channel.Server == null)
                 return command.Category == "Help";
 
             if (ConfigHandler.IsUserBlacklisted(user.Id) ||
                 (!channel.IsPrivate &&
-                 (ConfigHandler.IsServerBlacklisted(channel.Server.Id) || ConfigHandler.IsChannelBlacklisted(channel.Id)))) {
+                 (ConfigHandler.IsServerBlacklisted(channel.Server.Id) || ConfigHandler.IsChannelBlacklisted(channel.Id))))
+            {
                 return false;
             }
 
@@ -41,16 +51,20 @@ namespace NadekoBot.Classes.Permissions {
 
             timeBlackList.TryAdd(user, DateTime.Now);
 
-            try {
+            try
+            {
                 //is it a permission command?
                 // if it is, check if the user has the correct role
                 // if yes return true, if no return false
-                if (command.Category == "Permissions") {
+                if (command.Category == "Permissions")
+                {
                     Discord.Role role = null;
-                    try {
+                    try
+                    {
                         role = PermissionHelper.ValidateRole(user.Server,
                             PermissionsHandler.GetServerPermissionsRoleName(user.Server));
-                    } catch { }
+                    }
+                    catch { }
                     if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
                     ServerPermissions perms;
@@ -66,47 +80,53 @@ namespace NadekoBot.Classes.Permissions {
                     command.Category.ToLower() == "nsfw")
                     msg = $"**{command.Category}** module has been banned from use on this **server**.\nNSFW module is disabled by default. Server owner can type `;sm nsfw enable` to enable it.";
                 else
-                switch (permissionType) {
-                    case PermissionsHandler.PermissionBanType.None:
-                        return true;
-                    case PermissionsHandler.PermissionBanType.ServerBanCommand:
-                        msg = $"**{command.Text}** command has been banned from use on this **server**.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.ServerBanModule:
-                        msg = $"**{command.Category}** module has been banned from use on this **server**.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.ChannelBanCommand:
-                        msg = $"**{command.Text}** command has been banned from use on this **channel**.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.ChannelBanModule:
-                        msg = $"**{command.Category}** module has been banned from use on this **channel**.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.RoleBanCommand:
-                        msg = $"You do not have a **role** which permits you the usage of **{command.Text}** command.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.RoleBanModule:
-                        msg = $"You do not have a **role** which permits you the usage of **{command.Category}** module.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.UserBanCommand:
-                        msg = $"{user.Mention}, You have been banned from using **{command.Text}** command.";
-                        break;
-                    case PermissionsHandler.PermissionBanType.UserBanModule:
-                        msg = $"{user.Mention}, You have been banned from using **{command.Category}** module.";
-                        break;
-                    default:
-                        return true;
-                }
+                    switch (permissionType)
+                    {
+                        case PermissionsHandler.PermissionBanType.None:
+                            return true;
+                        case PermissionsHandler.PermissionBanType.ServerBanCommand:
+                            msg = $"**{command.Text}** command has been banned from use on this **server**.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.ServerBanModule:
+                            msg = $"**{command.Category}** module has been banned from use on this **server**.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.ChannelBanCommand:
+                            msg = $"**{command.Text}** command has been banned from use on this **channel**.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.ChannelBanModule:
+                            msg = $"**{command.Category}** module has been banned from use on this **channel**.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.RoleBanCommand:
+                            msg = $"You do not have a **role** which permits you the usage of **{command.Text}** command.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.RoleBanModule:
+                            msg = $"You do not have a **role** which permits you the usage of **{command.Category}** module.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.UserBanCommand:
+                            msg = $"{user.Mention}, You have been banned from using **{command.Text}** command.";
+                            break;
+                        case PermissionsHandler.PermissionBanType.UserBanModule:
+                            msg = $"{user.Mention}, You have been banned from using **{command.Category}** module.";
+                            break;
+                        default:
+                            return true;
+                    }
                 if (PermissionsHandler.PermissionsDict[user.Server.Id].Verbose) //if verbose - print errors
                     error = msg;
                 return false;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Exception in canrun: {ex}");
-                try {
+                try
+                {
                     ServerPermissions perms;
                     if (PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms) && perms.Verbose)
                         //if verbose - print errors
                         error = ex.Message;
-                } catch (Exception ex2) {
+                }
+                catch (Exception ex2)
+                {
                     Console.WriteLine($"SERIOUS PERMISSION ERROR {ex2}\n\nUser:{user} Server: {user?.Server?.Name}/{user?.Server?.Id}");
                 }
                 return false;

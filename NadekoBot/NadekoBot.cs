@@ -27,6 +27,7 @@ namespace NadekoBot
         public static Configuration Config { get; set; }
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
         public static string BotMention { get; set; } = "";
+        public static bool Ready { get; set; } = false;
 
         private static Channel OwnerPrivateChannel { get; set; }
 
@@ -167,7 +168,7 @@ namespace NadekoBot
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
             modules.Add(new GamesModule(), "Games", ModuleFilter.None);
-            modules.Add(new Music(), "Music", ModuleFilter.None);
+            //modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
@@ -209,8 +210,6 @@ namespace NadekoBot
                     Console.WriteLine("Failed creating private channel with the first owner listed in credentials.json");
                 }
 
-                Classes.Permissions.PermissionsHandler.Initialize();
-
                 Client.ClientAPI.SendingRequest += (s, e) =>
                 {
                     var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
@@ -219,6 +218,10 @@ namespace NadekoBot
                     if (string.IsNullOrWhiteSpace(request.Content))
                         e.Cancel = true;
                 };
+
+                //await Task.Delay(90000);
+                Classes.Permissions.PermissionsHandler.Initialize();
+                NadekoBot.Ready = true;
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -260,13 +263,14 @@ namespace NadekoBot
                     }
                 }
 
-                if (Config.ForwardMessages && OwnerPrivateChannel != null)
+                if (Config.ForwardMessages && !NadekoBot.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannel != null)
                     await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
 
                 if (repliedRecently) return;
 
                 repliedRecently = true;
-                await e.Channel.SendMessage(HelpCommand.HelpString);
+                if (e.Message.RawText != "-h")
+                    await e.Channel.SendMessage(HelpCommand.DMHelpString);
                 await Task.Delay(2000);
                 repliedRecently = false;
             }

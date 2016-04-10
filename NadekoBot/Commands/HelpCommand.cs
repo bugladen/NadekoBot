@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Discord.Commands;
+using NadekoBot.Extensions;
+using NadekoBot.Modules;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    internal class HelpCommand : DiscordCommand {
-        public Func<CommandEventArgs, Task> DoFunc() => async e => {
+namespace NadekoBot.Commands
+{
+    internal class HelpCommand : DiscordCommand
+    {
+        public Func<CommandEventArgs, Task> DoFunc() => async e =>
+        {
             #region OldHelp
             /*
             string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
@@ -35,11 +38,13 @@ namespace NadekoBot.Commands {
             */
             #endregion OldHelp
 
-            if (string.IsNullOrWhiteSpace(e.GetArg("command"))) {
+            if (string.IsNullOrWhiteSpace(e.GetArg("command")))
+            {
                 await e.User.Send(HelpString);
                 return;
             }
-            await Task.Run(async () => {
+            await Task.Run(async () =>
+            {
                 var comToFind = e.GetArg("command");
 
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
@@ -55,7 +60,10 @@ namespace NadekoBot.Commands {
                                            $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
                                            "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>";
 
-        public Action<CommandEventArgs> DoGitFunc() => e => {
+        public static string DMHelpString => NadekoBot.Config.DMHelpString;
+
+        public Action<CommandEventArgs> DoGitFunc() => e =>
+        {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
@@ -65,8 +73,10 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
 
             string lastCategory = "";
-            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands) {
-                if (com.Category != lastCategory) {
+            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
+            {
+                if (com.Category != lastCategory)
+                {
                     helpstr += "\n### " + com.Category + "  \n";
                     helpstr += "Command and aliases | Description | Usage\n";
                     helpstr += "----------------|--------------|-------\n";
@@ -83,7 +93,8 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 #endif
         };
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
@@ -107,7 +118,8 @@ Version: `{NadekoStats.Instance.BotVersion}`";
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
                 .Description("Instructions for helping the project!")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     await e.Channel.SendMessage(
 @"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
@@ -118,7 +130,8 @@ You can join nadekobot server by simply private messaging NadekoBot, and you wil
                 });
         }
 
-        private static string PrintCommandHelp(Command com) {
+        private static string PrintCommandHelp(Command com)
+        {
             var str = "`" + com.Text + "`";
             str = com.Aliases.Aggregate(str, (current, a) => current + (", `" + a + "`"));
             str += " **Description:** " + com.Description + "\n";
