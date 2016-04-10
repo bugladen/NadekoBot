@@ -70,13 +70,13 @@ namespace NadekoBot.Commands
                         var file = Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
                         Message msg;
                         if (file == null)
-                            msg = e.Channel.SendMessage("🌸").Result;
+                            msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
                         else
-                            msg = e.Channel.SendFile(file).Result;
+                            msg = e.Channel.SendFile(file).GetAwaiter().GetResult();
                         plantedFlowerChannels.TryAdd(e.Channel.Id, msg);
                     }
-
-                    var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted a flower. Pick it using {Module.Prefix}pick");
+                    var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
+                    var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick");
                     await Task.Delay(20000);
                     await msg2.Delete();
                 });
