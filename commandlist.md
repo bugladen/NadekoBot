@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5936.28974`
+Version: `NadekoBot v0.9.5944.5236`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -122,7 +122,7 @@ Command and aliases | Description | Usage
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`e`  |  You did it.
+`e`  |  You did it. Or someone else!
 `comeatmebro`  |  Come at me bro (ง’̀-‘́)ง  |  comeatmebro {target}
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
@@ -149,7 +149,6 @@ Command and aliases | Description | Usage
 `@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
-`@BotName j`  |  Joins a server using a code.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
 `@BotName bb`  |  Says bye to someone. |  @NadekoBot bb @X
 `@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
@@ -177,7 +176,7 @@ Command and aliases | Description | Usage
 ### Games  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>t`  |  Starts a game of trivia.
+`>t`  |  Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins. 30 seconds per question. | `>t nohint`
 `>tl`  |  Shows a current trivia leaderboard.
 `>tq`  |  Quits current trivia after current question.
 `>typestart`  |  Starts a typing contest.
@@ -217,6 +216,8 @@ Command and aliases | Description | Usage
 `!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!** |  `!m cleanup`
 `!m rcs`, `!m repeatcurrentsong`  |  Toggles repeat of current song. |  `!m rcs`
 `!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
+`!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
+`!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -248,7 +249,7 @@ Command and aliases | Description | Usage
 `~yomama`, `~ym`  |  Shows a random joke from <http://api.yomomma.info/>
 `~randjoke`, `~rj`  |  Shows a random joke from <http://tambal.azurewebsites.net/joke/random>
 `~chucknorris`, `~cn`  |  Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>
-`~mi`, `magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
+`~mi`, `~magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
 `~revav`  |  Returns a google reverse image search for someone's avatar.
 
 ### NSFW  
@@ -257,6 +258,8 @@ Command and aliases | Description | Usage
 `~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri+kissing
 `~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
 `~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
+`~safebooru`  |  Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~safebooru yuri+kissing
+`~rule34`  |  Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
 `~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri+kissing
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
