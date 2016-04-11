@@ -165,7 +165,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("vol")
-                    .Description("Sets the music volume 0-150%\n**Usage**: `!m vol 50`")
+                    .Description("Sets the music volume 0-100%\n**Usage**: `!m vol 50`")
                     .Parameter("val", ParameterType.Required)
                     .Do(async e =>
                     {

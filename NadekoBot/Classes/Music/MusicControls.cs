@@ -146,8 +146,8 @@ namespace NadekoBot.Classes.Music
         {
             if (volume < 0)
                 volume = 0;
-            if (volume > 150)
-                volume = 150;
+            if (volume > 100)
+                volume = 100;
 
             Volume = volume / 100.0f;
             return volume;
