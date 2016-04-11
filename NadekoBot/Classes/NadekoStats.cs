@@ -4,8 +4,10 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules;
 using NadekoBot.Modules.Administration.Commands;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
@@ -27,6 +29,7 @@ namespace NadekoBot
         public int VoiceChannelsCount { get; private set; } = 0;
 
         private readonly Timer commandLogTimer = new Timer() { Interval = 10000 };
+        private readonly Timer carbonStatusTimer = new Timer() { Interval = 3600000 };
 
         static NadekoStats() { }
 
@@ -93,8 +96,31 @@ namespace NadekoBot
                 }
                 catch { }
             };
-        }
 
+            if (!string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
+            {
+                carbonStatusTimer.Elapsed += (s, e) =>
+                {
+                    try
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            client.PostAsync("https://www.carbonitex.net/discord/data/botdata.php",
+                                new FormUrlEncodedContent(new Dictionary<string, string> {
+                                { "servercount", NadekoBot.Client.Servers.Count().ToString() },
+                                { "key", NadekoBot.Creds.CarbonKey }
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed sending status update to carbon.");
+                        Console.WriteLine(ex);
+                    }
+                };
+                carbonStatusTimer.Start();
+            }
+        }
         public TimeSpan GetUptime() =>
             DateTime.Now - Process.GetCurrentProcess().StartTime;
 
