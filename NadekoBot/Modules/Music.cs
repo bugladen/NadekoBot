@@ -9,6 +9,7 @@ using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -288,10 +289,11 @@ namespace NadekoBot.Modules
                             return;
                         try
                         {
-                            var fileEnum = System.IO.Directory.EnumerateFiles(arg).Take(50);
+                            var fileEnum = new DirectoryInfo(arg).GetFiles()
+                                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
                             foreach (var file in fileEnum)
                             {
-                                await QueueSong(e.Channel, e.User.VoiceChannel, file, true, MusicType.Local);
+                                await QueueSong(e.Channel, e.User.VoiceChannel, file.FullName, true, MusicType.Local);
                             }
                             await e.Channel.SendMessage("🎵 `Directory queue complete.`");
                         }
