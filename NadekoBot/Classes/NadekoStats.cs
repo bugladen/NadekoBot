@@ -29,7 +29,7 @@ namespace NadekoBot
         public int VoiceChannelsCount { get; private set; } = 0;
 
         private readonly Timer commandLogTimer = new Timer() { Interval = 10000 };
-        private readonly Timer carbonStatusTimer = new Timer() { Interval = 3600000 };
+        //private readonly Timer carbonStatusTimer = new Timer() { Interval = 3600000 };
 
         static NadekoStats() { }
 
@@ -57,6 +57,7 @@ namespace NadekoBot
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
                     VoiceChannelsCount += e.Server.VoiceChannels.Count();
+                    SendUpdateToCarbon();
                 }
                 catch { }
             };
@@ -67,6 +68,7 @@ namespace NadekoBot
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
                     VoiceChannelsCount -= e.Server.VoiceChannels.Count();
+                    SendUpdateToCarbon();
                 }
                 catch { }
             };
@@ -96,31 +98,28 @@ namespace NadekoBot
                 }
                 catch { }
             };
+        }
 
-            if (!string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
+        private void SendUpdateToCarbon()
+        {
+            try
             {
-                carbonStatusTimer.Elapsed += (s, e) =>
+                using (var client = new HttpClient())
                 {
-                    try
-                    {
-                        using (var client = new HttpClient())
-                        {
-                            client.PostAsync("https://www.carbonitex.net/discord/data/botdata.php",
-                                new FormUrlEncodedContent(new Dictionary<string, string> {
+                    client.PostAsync("https://www.carbonitex.net/discord/data/botdata.php",
+                        new FormUrlEncodedContent(new Dictionary<string, string> {
                                 { "servercount", NadekoBot.Client.Servers.Count().ToString() },
                                 { "key", NadekoBot.Creds.CarbonKey }
-                            }));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Failed sending status update to carbon.");
-                        Console.WriteLine(ex);
-                    }
-                };
-                carbonStatusTimer.Start();
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed sending status update to carbon.");
+                Console.WriteLine(ex);
             }
         }
+
         public TimeSpan GetUptime() =>
             DateTime.Now - Process.GetCurrentProcess().StartTime;
 
