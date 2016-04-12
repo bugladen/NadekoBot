@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.Pokemon
                                 return;
                             }
                             var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
--                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}");
+                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}");
                             return;
                         }
                         else
