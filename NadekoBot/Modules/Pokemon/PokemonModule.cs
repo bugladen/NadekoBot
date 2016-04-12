@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those that fainted. Costs a NadekoFlower \n**Usage**:{Prefix}revive @someone")
+                    .Description($"Heals someone. Revives those that fainted. Costs a {NadekoBot.Config.CurrencyName} \n**Usage**:{Prefix}revive @someone")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -238,7 +238,7 @@ namespace NadekoBot.Modules.Pokemon
                             var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                             if (pts < amount)
                             {
-                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} to be able to do this!");
+                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!");
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Pokemon
                         var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} to be able to do this!");
+                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!");
                             return;
                         }
                         FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
