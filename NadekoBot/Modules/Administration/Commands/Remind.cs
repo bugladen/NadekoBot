@@ -23,7 +23,6 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             var remList = DbHandler.Instance.GetAllRows<Reminder>();
 
-            Console.WriteLine(string.Join("\n-", remList.Select(r => r.When.ToString())));
             reminders = remList.Select(StartNewReminder).ToList();
         }
 

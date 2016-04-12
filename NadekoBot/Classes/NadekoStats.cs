@@ -106,7 +106,6 @@ namespace NadekoBot
                 return;
             try
             {
-                Console.WriteLine("Joined server.");
                 using (var client = new HttpClient())
                 {
                     using (var content = new FormUrlEncodedContent(new Dictionary<string, string> {
@@ -118,9 +117,6 @@ namespace NadekoBot
                         content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
                         var res = await client.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content);
-
-                        Console.WriteLine(res.ReasonPhrase);
-                        Console.WriteLine(res.StatusCode);
                     };
                 }
             }

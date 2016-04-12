@@ -1,35 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Discord.Commands;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.Commands;
 
-namespace NadekoBot.Classes.ClashOfClans {
-    internal class Caller {
+namespace NadekoBot.Classes.ClashOfClans
+{
+    internal class Caller
+    {
         public string CallUser { get; }
 
         public DateTime TimeAdded { get; private set; }
 
         public bool BaseDestroyed { get; internal set; }
 
-        public Caller(string callUser, DateTime timeAdded, bool baseDestroyed) {
+        public Caller(string callUser, DateTime timeAdded, bool baseDestroyed)
+        {
             CallUser = callUser;
             TimeAdded = timeAdded;
             BaseDestroyed = baseDestroyed;
         }
 
-        public void ResetTime() {
+        public void ResetTime()
+        {
             TimeAdded = DateTime.Now;
         }
 
-        public void Destroy() {
+        public void Destroy()
+        {
             BaseDestroyed = true;
         }
     }
 
-    internal class ClashWar {
+    internal class ClashWar
+    {
         private static TimeSpan callExpire => new TimeSpan(2, 0, 0);
 
         private CommandEventArgs e;
@@ -43,25 +48,29 @@ namespace NadekoBot.Classes.ClashOfClans {
         public event Action OnWarEnded = delegate { };
         public bool Started { get; set; } = false;
 
-        public ClashWar(string enemyClan, int size, CommandEventArgs e) {
+        public ClashWar(string enemyClan, int size, CommandEventArgs e)
+        {
             this.EnemyClan = enemyClan;
             this.Size = size;
             this.bases = new Caller[size];
             this.baseCancelTokens = new CancellationTokenSource[size];
         }
 
-        internal void End() {
+        internal void End()
+        {
             if (endTokenSource.Token.IsCancellationRequested) return;
             endTokenSource.Cancel();
             OnWarEnded();
         }
 
-        internal void Call(string u, int baseNumber) {
+        internal void Call(string u, int baseNumber)
+        {
             if (baseNumber < 0 || baseNumber >= bases.Length)
                 throw new ArgumentException("Invalid base number");
             if (bases[baseNumber] != null)
                 throw new ArgumentException("That base is already claimed.");
-            for (var i = 0; i < bases.Length; i++) {
+            for (var i = 0; i < bases.Length; i++)
+            {
                 if (bases[i]?.BaseDestroyed == false && bases[i]?.CallUser == u)
                     throw new ArgumentException($"@{u} You already claimed a base #{i + 1}. You can't claim a new one.");
             }
@@ -69,23 +78,31 @@ namespace NadekoBot.Classes.ClashOfClans {
             bases[baseNumber] = new Caller(u.Trim(), DateTime.Now, false);
         }
 
-        internal async Task Start() {
+        internal async Task Start()
+        {
             if (Started)
                 throw new InvalidOperationException();
-            try {
+            try
+            {
                 Started = true;
-                foreach (var b in bases.Where(b => b != null)) {
+                foreach (var b in bases.Where(b => b != null))
+                {
                     b.ResetTime();
                 }
                 Task.Run(async () => await ClearArray()).ConfigureAwait(false);
                 await Task.Delay(new TimeSpan(24, 0, 0), endTokenSource.Token);
-            } catch { } finally {
+            }
+            catch { }
+            finally
+            {
                 End();
             }
         }
-        internal int Uncall(string user) {
+        internal int Uncall(string user)
+        {
             user = user.Trim();
-            for (var i = 0; i < bases.Length; i++) {
+            for (var i = 0; i < bases.Length; i++)
+            {
                 if (bases[i]?.CallUser != user) continue;
                 bases[i] = null;
                 return i;
@@ -93,37 +110,47 @@ namespace NadekoBot.Classes.ClashOfClans {
             throw new InvalidOperationException("You are not participating in that war.");
         }
 
-        private async Task ClearArray() {
-            while (!endTokenSource.IsCancellationRequested) {
+        private async Task ClearArray()
+        {
+            while (!endTokenSource.IsCancellationRequested)
+            {
                 await Task.Delay(5000);
-                for (var i = 0; i < bases.Length; i++) {
+                for (var i = 0; i < bases.Length; i++)
+                {
                     if (bases[i] == null) continue;
-                    if (!bases[i].BaseDestroyed && DateTime.Now - bases[i].TimeAdded >= callExpire) {
-                        Console.WriteLine($"Removing user {bases[i].CallUser}");
+                    if (!bases[i].BaseDestroyed && DateTime.Now - bases[i].TimeAdded >= callExpire)
+                    {
                         OnUserTimeExpired(bases[i].CallUser);
                         bases[i] = null;
                     }
                 }
             }
-            Console.WriteLine("Out of clear array");
         }
 
         public string ShortPrint() =>
             $"`{EnemyClan}` ({Size} v {Size})";
 
-        public override string ToString() {
+        public override string ToString()
+        {
             var sb = new StringBuilder();
 
             sb.AppendLine($"🔰**WAR AGAINST `{EnemyClan}` ({Size} v {Size}) INFO:**");
             if (!Started)
                 sb.AppendLine("`not started`");
-            for (var i = 0; i < bases.Length; i++) {
-                if (bases[i] == null) {
+            for (var i = 0; i < bases.Length; i++)
+            {
+                if (bases[i] == null)
+                {
                     sb.AppendLine($"`{i + 1}.` ❌*unclaimed*");
-                } else {
-                    if (bases[i].BaseDestroyed) {
+                }
+                else
+                {
+                    if (bases[i].BaseDestroyed)
+                    {
                         sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` ⭐ ⭐ ⭐");
-                    } else {
+                    }
+                    else
+                    {
                         var left = Started ? callExpire - (DateTime.Now - bases[i].TimeAdded) : callExpire;
                         sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
@@ -133,9 +160,11 @@ namespace NadekoBot.Classes.ClashOfClans {
             return sb.ToString();
         }
 
-        internal int FinishClaim(string user) {
+        internal int FinishClaim(string user)
+        {
             user = user.Trim();
-            for (var i = 0; i < bases.Length; i++) {
+            for (var i = 0; i < bases.Length; i++)
+            {
                 if (bases[i]?.BaseDestroyed != false || bases[i]?.CallUser != user) continue;
                 bases[i].BaseDestroyed = true;
                 return i;
