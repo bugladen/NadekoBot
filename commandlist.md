@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5944.5236`
+Version: `NadekoBot v0.9.5946.35906`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -201,7 +201,7 @@ Command and aliases | Description | Usage
 `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs. |  `!m lq`
 `!m np`, `!m playing`  |  Shows the song currently playing. |  `!m np`
-`!m vol`  |  Sets the music volume 0-150% |  `!m vol 50`
+`!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
 `!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
 `!m min`, `!m mute`  |  Sets the music volume to 0% |  `!m min`
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
