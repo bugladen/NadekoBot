@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
-using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;

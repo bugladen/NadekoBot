@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
 using NadekoBot._DataModels;
 using NadekoBot.Classes;
 using System;

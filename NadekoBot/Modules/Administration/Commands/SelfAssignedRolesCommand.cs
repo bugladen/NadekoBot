@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using System.Collections.Generic;
 using System.Linq;
