@@ -1,28 +1,34 @@
-﻿using System;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Modules;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    internal class PollCommand : DiscordCommand {
+namespace NadekoBot.Commands
+{
+    internal class PollCommand : DiscordCommand
+    {
 
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
-        public Func<CommandEventArgs, Task> DoFunc() {
+        public Func<CommandEventArgs, Task> DoFunc()
+        {
             throw new NotImplementedException();
         }
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "poll")
                   .Description("Creates a poll, only person who has manage server permission can do it.\n**Usage**: >poll Question?;Answer1;Answ 2;A_3")
                   .Parameter("allargs", ParameterType.Unparsed)
-                  .Do(async e => {
-                      await Task.Run(async () => {
+                  .Do(async e =>
+                  {
+                      await Task.Run(async () =>
+                      {
                           if (!e.User.ServerPermissions.ManageChannels)
                               return;
                           if (ActivePolls.ContainsKey(e.Server))
@@ -35,14 +41,16 @@ namespace NadekoBot.Commands {
                               return;
 
                           var poll = new Poll(e, data[0], data.Skip(1));
-                          if (PollCommand.ActivePolls.TryAdd(e.Server, poll)) {
+                          if (PollCommand.ActivePolls.TryAdd(e.Server, poll))
+                          {
                               await poll.StartPoll();
                           }
                       });
                   });
             cgb.CreateCommand(Module.Prefix + "pollend")
                   .Description("Stops active poll on this server and prints the results in this channel.")
-                  .Do(async e => {
+                  .Do(async e =>
+                  {
                       if (!e.User.ServerPermissions.ManageChannels)
                           return;
                       if (!ActivePolls.ContainsKey(e.Server))
@@ -51,10 +59,11 @@ namespace NadekoBot.Commands {
                   });
         }
 
-        public PollCommand(DiscordModule module) : base(module) {}
+        public PollCommand(DiscordModule module) : base(module) { }
     }
 
-    internal class Poll {
+    internal class Poll
+    {
         private readonly CommandEventArgs e;
         private readonly string[] answers;
         private ConcurrentDictionary<User, int> participants = new ConcurrentDictionary<User, int>();
@@ -62,13 +71,15 @@ namespace NadekoBot.Commands {
         private DateTime started;
         private CancellationTokenSource pollCancellationSource = new CancellationTokenSource();
 
-        public Poll(CommandEventArgs e, string question, IEnumerable<string> enumerable) {
+        public Poll(CommandEventArgs e, string question, IEnumerable<string> enumerable)
+        {
             this.e = e;
             this.question = question;
             this.answers = enumerable as string[] ?? enumerable.ToArray();
         }
 
-        public async Task StartPoll() {
+        public async Task StartPoll()
+        {
             started = DateTime.Now;
             NadekoBot.Client.MessageReceived += Vote;
             var msgToSend =
@@ -80,17 +91,20 @@ namespace NadekoBot.Commands {
             await e.Channel.SendMessage(msgToSend);
         }
 
-        public async Task StopPoll(Channel ch) {
+        public async Task StopPoll(Channel ch)
+        {
             NadekoBot.Client.MessageReceived -= Vote;
             Poll throwaway;
             PollCommand.ActivePolls.TryRemove(e.Server, out throwaway);
-            try {
+            try
+            {
                 var results = participants.GroupBy(kvp => kvp.Value)
                                 .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
                                 .OrderBy(kvp => kvp.Value);
 
                 var totalVotesCast = results.Sum(kvp => kvp.Value);
-                if (totalVotesCast == 0) {
+                if (totalVotesCast == 0)
+                {
                     await ch.SendMessage("📄 **No votes have been cast.**");
                     return;
                 }
@@ -98,16 +112,20 @@ namespace NadekoBot.Commands {
                                    $"📄 , here are the results:\n";
                 closeMessage = results.Aggregate(closeMessage, (current, kvp) => current + $"`{kvp.Key}.` **[{answers[kvp.Key - 1]}]**" +
                                                                                  $" has {kvp.Value} votes." +
-                                                                                 $"({kvp.Value*1.0f/totalVotesCast*100}%)\n");
+                                                                                 $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
 
                 await ch.SendMessage($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}");
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Error in poll game {ex}");
             }
         }
 
-        private async void Vote(object sender, MessageEventArgs e) {
-            try {
+        private async void Vote(object sender, MessageEventArgs e)
+        {
+            try
+            {
                 if (!e.Channel.IsPrivate)
                     return;
                 if (participants.ContainsKey(e.User))
@@ -117,7 +135,8 @@ namespace NadekoBot.Commands {
                 if (!int.TryParse(e.Message.Text, out vote)) return;
                 if (vote < 1 || vote > answers.Length)
                     return;
-                if (participants.TryAdd(e.User, vote)) {
+                if (participants.TryAdd(e.User, vote))
+                {
                     await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
                 }
             }

@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
+using System;
+using System.Text.RegularExpressions;
 using ServerPermissions = NadekoBot.Classes.Permissions.ServerPermissions;
 
-namespace NadekoBot.Commands {
-    internal class FilterInvitesCommand : DiscordCommand {
+namespace NadekoBot.Commands
+{
+    internal class FilterInvitesCommand : DiscordCommand
+    {
         private readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))");
 
 
-        public FilterInvitesCommand(DiscordModule module) : base(module) {
-            NadekoBot.Client.MessageReceived += async (sender, args) => {
+        public FilterInvitesCommand(DiscordModule module) : base(module)
+        {
+            NadekoBot.Client.MessageReceived += async (sender, args) =>
+            {
                 if (args.Channel.IsPrivate || args.User.Id == NadekoBot.Client.CurrentUser.Id) return;
-                try {
+                try
+                {
                     ServerPermissions serverPerms;
                     if (!IsChannelOrServerFiltering(args.Channel, out serverPerms)) return;
 
-                    if (filterRegex.IsMatch(args.Message.RawText)) {
+                    if (filterRegex.IsMatch(args.Message.RawText))
+                    {
                         await args.Message.Delete();
                         IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
                                                              $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
@@ -32,11 +34,13 @@ namespace NadekoBot.Commands {
                             await args.Channel.SendMessage($"{args.User.Mention} Invite links are not " +
                                                            $"allowed on this channel.");
                     }
-                } catch { }
+                }
+                catch { }
             };
         }
 
-        private static bool IsChannelOrServerFiltering(Channel channel, out ServerPermissions serverPerms) {
+        private static bool IsChannelOrServerFiltering(Channel channel, out ServerPermissions serverPerms)
+        {
             if (!PermissionsHandler.PermissionsDict.TryGetValue(channel.Server.Id, out serverPerms)) return false;
 
             if (serverPerms.Permissions.FilterInvites)
@@ -46,7 +50,8 @@ namespace NadekoBot.Commands {
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterInvites;
         }
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "cfi")
                 .Alias(Module.Prefix + "channelfilterinvites")
                 .Description("Enables or disables automatic deleting of invites on the channel." +
@@ -54,12 +59,15 @@ namespace NadekoBot.Commands {
                              "\n**Usage**: ;cfi enable #general-chat")
                 .Parameter("bool")
                 .Parameter("channel", ParameterType.Optional)
-                .Do(async e => {
-                    try {
+                .Do(async e =>
+                {
+                    try
+                    {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                         var chanStr = e.GetArg("channel");
 
-                        if (chanStr?.ToLowerInvariant().Trim() != "all") {
+                        if (chanStr?.ToLowerInvariant().Trim() != "all")
+                        {
 
                             var chan = string.IsNullOrWhiteSpace(chanStr)
                                 ? e.Channel
@@ -70,12 +78,15 @@ namespace NadekoBot.Commands {
                         }
                         //all channels
 
-                        foreach (var curChannel in e.Server.TextChannels) {
+                        foreach (var curChannel in e.Server.TextChannels)
+                        {
                             PermissionsHandler.SetChannelFilterInvitesPermission(curChannel, state);
                         }
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.");
 
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         await e.Channel.SendMessage($"💢 Error: {ex.Message}");
                     }
                 });
@@ -84,13 +95,17 @@ namespace NadekoBot.Commands {
                 .Alias(Module.Prefix + "serverfilterinvites")
                 .Description("Enables or disables automatic deleting of invites on the server.\n**Usage**: ;sfi disable")
                 .Parameter("bool")
-                .Do(async e => {
-                    try {
+                .Do(async e =>
+                {
+                    try
+                    {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                         PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state);
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.");
 
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         await e.Channel.SendMessage($"💢 Error: {ex.Message}");
                     }
                 });

@@ -161,6 +161,7 @@
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
+    <Compile Include="Commands\DiscordCommand.cs" />
     <Compile Include="Commands\PlantPick.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
     <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
@@ -185,7 +186,6 @@
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Modules\Gambling\DiceRollCommand.cs" />
-    <Compile Include="Commands\IDiscordCommand.cs" />
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
