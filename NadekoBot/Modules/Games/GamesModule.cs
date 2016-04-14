@@ -19,6 +19,7 @@ namespace NadekoBot.Modules.Games
             commands.Add(new PollCommand(this));
             commands.Add(new PlantPick(this));
             commands.Add(new Bomberman(this));
+            commands.Add(new Leet(this));
             //commands.Add(new BetrayGame(this));
 
         }

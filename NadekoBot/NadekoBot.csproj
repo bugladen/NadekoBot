@@ -133,7 +133,7 @@
     <Compile Include="_Models\JSONModels\MangaResult.cs" />
     <Compile Include="_Models\JSONModels\PokemonType.cs" />
     <Compile Include="_Models\JSONModels\_JSONModels.cs" />
-    <Compile Include="Modules\Games\Commands\LeetCommand.cs" />
+    <Compile Include="Modules\Games\Commands\Leet.cs" />
     <Compile Include="Modules\Music\Classes\MusicControls.cs" />
     <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
     <Compile Include="Modules\Music\Classes\Song.cs" />
