@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
-using System;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
@@ -12,7 +11,7 @@ namespace NadekoBot.Modules.Searches.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
