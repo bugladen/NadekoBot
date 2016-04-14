@@ -1,11 +1,11 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
-using NadekoBot.Classes.IMDB;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Modules.Searches.Commands;
+using NadekoBot.Modules.Searches.Commands.IMDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

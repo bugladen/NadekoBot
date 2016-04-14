@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot._DataModels;
+using NadekoBot.DataModels;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Music.Classes;
@@ -443,7 +443,7 @@ namespace NadekoBot.Modules.Music
                             return;
 
 
-                        var songInfos = currentPlaylist.Select(s => new _DataModels.SongInfo
+                        var songInfos = currentPlaylist.Select(s => new DataModels.SongInfo
                         {
                             Provider = s.SongInfo.Provider,
                             ProviderType = (int)s.SongInfo.ProviderType,
@@ -519,7 +519,7 @@ namespace NadekoBot.Modules.Music
                             psi.PlaylistId == playlist.Id);
 
                         var songInfos = psis.Select(psi => DbHandler.Instance
-                            .FindOne<_DataModels.SongInfo>(si => si.Id == psi.SongInfoId));
+                            .FindOne<DataModels.SongInfo>(si => si.Id == psi.SongInfoId));
 
                         await e.Channel.SendMessage($"`Attempting to load {songInfos.Count()} songs`");
                         foreach (var si in songInfos)

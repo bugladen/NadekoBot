@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NadekoBot._DataModels {
+namespace NadekoBot.DataModels {
     internal class Stats : IDataModel {
         public int ConnectedServers { get; set; }
         public int OnlineUsers { get; set; }

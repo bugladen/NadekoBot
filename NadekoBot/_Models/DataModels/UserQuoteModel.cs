@@ -1,4 +1,4 @@
-﻿namespace NadekoBot._DataModels {
+﻿namespace NadekoBot.DataModels {
     internal class UserQuote : IDataModel {
         public string UserName { get; set; }
         public string Keyword { get; set; }

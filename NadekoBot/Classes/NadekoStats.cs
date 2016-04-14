@@ -182,7 +182,7 @@ namespace NadekoBot
                                                                         .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)));
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DbHandler.Instance.InsertData(new _DataModels.Stats
+                    Classes.DbHandler.Instance.InsertData(new DataModels.Stats
                     {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
@@ -207,7 +207,7 @@ namespace NadekoBot
                 try
                 {
                     commandsRan++;
-                    Classes.DbHandler.Instance.InsertData(new _DataModels.Command
+                    Classes.DbHandler.Instance.InsertData(new DataModels.Command
                     {
                         ServerId = (long)e.Server.Id,
                         ServerName = e.Server.Name,
