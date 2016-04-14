@@ -37,7 +37,6 @@ namespace NadekoBot.Classes.ClashOfClans
     {
         private static TimeSpan callExpire => new TimeSpan(2, 0, 0);
 
-        private CommandEventArgs e;
         public string EnemyClan { get; }
         public int Size { get; }
 
@@ -89,7 +88,9 @@ namespace NadekoBot.Classes.ClashOfClans
                 {
                     b.ResetTime();
                 }
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Task.Run(async () => await ClearArray()).ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 await Task.Delay(new TimeSpan(24, 0, 0), endTokenSource.Token);
             }
             catch { }

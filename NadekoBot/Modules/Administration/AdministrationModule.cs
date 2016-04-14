@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Administration
                             await role.Edit(color: new Color(red, green, blue));
                             await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             await e.Channel.SendMessage("Error occured, most likely invalid parameters or insufficient permissions.");
                         }

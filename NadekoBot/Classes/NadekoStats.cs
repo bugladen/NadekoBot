@@ -50,25 +50,25 @@ namespace NadekoBot
             TextChannelsCount = channelsArray.Count(c => c.Type == ChannelType.Text);
             VoiceChannelsCount = channelsArray.Count() - TextChannelsCount;
 
-            NadekoBot.Client.JoinedServer += (s, e) =>
+            NadekoBot.Client.JoinedServer += async (s, e) =>
             {
                 try
                 {
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
                     VoiceChannelsCount += e.Server.VoiceChannels.Count();
-                    SendUpdateToCarbon();
+                    await SendUpdateToCarbon().ConfigureAwait(false);
                 }
                 catch { }
             };
-            NadekoBot.Client.LeftServer += (s, e) =>
+            NadekoBot.Client.LeftServer += async (s, e) =>
             {
                 try
                 {
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
                     VoiceChannelsCount -= e.Server.VoiceChannels.Count();
-                    SendUpdateToCarbon();
+                    await SendUpdateToCarbon().ConfigureAwait(false);
                 }
                 catch { }
             };
