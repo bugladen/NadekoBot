@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes._DataModels
+namespace NadekoBot._DataModels
 {
     class UserPokeTypes : IDataModel
     {

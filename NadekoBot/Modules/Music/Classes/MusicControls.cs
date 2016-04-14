@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-namespace NadekoBot.Classes.Music
+namespace NadekoBot.Modules.Music.Classes
 {
 
     public enum MusicType

@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using System;
 
-namespace NadekoBot.Classes._DataModels
+namespace NadekoBot._DataModels
 {
     internal abstract class IDataModel
     {

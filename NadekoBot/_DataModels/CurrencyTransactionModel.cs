@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Classes._DataModels {
+﻿namespace NadekoBot._DataModels {
     internal class CurrencyTransaction : IDataModel {
         public string Reason { get; set; }
         public int Value { get; set; }

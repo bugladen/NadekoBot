@@ -1,4 +1,4 @@
-﻿using NadekoBot.Classes._DataModels;
+﻿using NadekoBot._DataModels;
 using SQLite;
 using System;
 using System.Collections.Generic;

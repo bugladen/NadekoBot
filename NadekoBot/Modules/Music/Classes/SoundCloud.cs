@@ -1,15 +1,19 @@
-﻿using System;
+﻿using NadekoBot.Classes;
+using System;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Music {
-    public class SoundCloud {
+namespace NadekoBot.Modules.Music.Classes
+{
+    public class SoundCloud
+    {
         private static readonly SoundCloud _instance = new SoundCloud();
         public static SoundCloud Default => _instance;
 
         static SoundCloud() { }
         public SoundCloud() { }
 
-        public async Task<SoundCloudVideo> GetVideoAsync(string url) {
+        public async Task<SoundCloudVideo> GetVideoAsync(string url)
+        {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
@@ -28,8 +32,9 @@ namespace NadekoBot.Classes.Music {
             System.Text.RegularExpressions.Regex.IsMatch(url, "(.*)(soundcloud.com|snd.sc)(.*)");
     }
 
-    public class SoundCloudVideo {
-        public string Kind ="";
+    public class SoundCloudVideo
+    {
+        public string Kind = "";
         public long Id = 0;
         public SoundCloudUser User = new SoundCloudUser();
         public string Title = "";
@@ -37,7 +42,8 @@ namespace NadekoBot.Classes.Music {
         public bool Streamable = false;
         public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Creds.SoundCloudClientID}";
     }
-    public class SoundCloudUser {
+    public class SoundCloudUser
+    {
         [Newtonsoft.Json.JsonProperty("username")]
         public string Name;
     }

@@ -1,8 +1,8 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
+using NadekoBot._DataModels;
 using NadekoBot.Classes;
-using NadekoBot.Classes._DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
 using NadekoBot.Modules.Permissions.Classes;
@@ -727,7 +727,7 @@ namespace NadekoBot.Modules.Administration
                       await Task.Run(() =>
                       {
                           SaveParseToDb<Announcement>("data/parsedata/Announcements.json");
-                          SaveParseToDb<Classes._DataModels.Command>("data/parsedata/CommandsRan.json");
+                          SaveParseToDb<_DataModels.Command>("data/parsedata/CommandsRan.json");
                           SaveParseToDb<Request>("data/parsedata/Requests.json");
                           SaveParseToDb<Stats>("data/parsedata/Stats.json");
                           SaveParseToDb<TypingArticle>("data/parsedata/TypingArticles.json");

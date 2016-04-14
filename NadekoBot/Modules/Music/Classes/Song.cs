@@ -1,4 +1,5 @@
 ﻿using Discord.Audio;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VideoLibrary;
 
-namespace NadekoBot.Classes.Music
+namespace NadekoBot.Modules.Music.Classes
 {
     public class SongInfo
     {

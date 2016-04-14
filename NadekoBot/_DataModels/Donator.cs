@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Classes._DataModels {
+﻿namespace NadekoBot._DataModels {
     internal class Donator : IDataModel {
         public long UserId { get; set; }
         public string UserName { get; set; }

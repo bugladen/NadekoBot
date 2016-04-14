@@ -10,7 +10,7 @@ namespace NadekoBot.Classes.Conversations.Commands
     {
         public void SaveRequest(CommandEventArgs e, string text)
         {
-            Classes.DbHandler.Instance.InsertData(new Classes._DataModels.Request
+            DbHandler.Instance.InsertData(new _DataModels.Request
             {
                 RequestText = text,
                 UserName = e.User.Name,
@@ -23,7 +23,7 @@ namespace NadekoBot.Classes.Conversations.Commands
         // todo what if it's too long?
         public string GetRequests()
         {
-            var task = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Request>();
+            var task = DbHandler.Instance.GetAllRows<_DataModels.Request>();
 
             var str = "Here are all current requests for NadekoBot:\n\n";
             foreach (var reqObj in task)
@@ -35,14 +35,14 @@ namespace NadekoBot.Classes.Conversations.Commands
         }
 
         public bool DeleteRequest(int requestNumber) =>
-            Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber) != null;
+            DbHandler.Instance.Delete<_DataModels.Request>(requestNumber) != null;
 
         /// <summary>
         /// Delete a request with a number and returns that request object.
         /// </summary>
         /// <returns>RequestObject of the request. Null if none</returns>
-        public Classes._DataModels.Request ResolveRequest(int requestNumber) =>
-            Classes.DbHandler.Instance.Delete<Classes._DataModels.Request>(requestNumber);
+        public _DataModels.Request ResolveRequest(int requestNumber) =>
+            DbHandler.Instance.Delete<_DataModels.Request>(requestNumber);
 
         internal override void Init(CommandGroupBuilder cgb)
         {

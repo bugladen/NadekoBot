@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NadekoBot.Classes._DataModels {
+namespace NadekoBot._DataModels {
     internal class Announcement : IDataModel {
         public long ServerId { get; set; } = 0;
         public bool Greet { get; set; } = false;
