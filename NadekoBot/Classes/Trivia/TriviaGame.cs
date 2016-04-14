@@ -96,7 +96,7 @@ namespace NadekoBot.Classes.Trivia
             ShouldStopGame = true;
             await channel.SendMessage("**Trivia game ended**\n" + GetLeaderboard());
             TriviaGame throwAwayValue;
-            Commands.Trivia.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
+            Modules.Games.Commands.Trivia.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
         }
 
         public async Task StopGame()

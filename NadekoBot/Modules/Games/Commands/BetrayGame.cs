@@ -1,25 +1,28 @@
-﻿using System;
+﻿using Discord.Commands;
+using NadekoBot.Commands;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Discord.Commands;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    class BetrayGame : DiscordCommand {
+namespace NadekoBot.Modules.Games.Commands
+{
+    class BetrayGame : DiscordCommand
+    {
         public BetrayGame(DiscordModule module) : base(module) { }
 
-        private enum Answers {
+        private enum Answers
+        {
             Cooperate,
             Betray
         }
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "betray")
                 .Description("BETRAY GAME. Betray nadeko next turn." +
                              "If Nadeko cooperates - you get extra points, nadeko loses a LOT." +
                              "If Nadeko betrays - you both lose some points.")
-                .Do(async e => {
+                .Do(async e =>
+                {
                     await ReceiveAnswer(e, Answers.Betray);
                 });
 
@@ -27,7 +30,8 @@ namespace NadekoBot.Commands {
                 .Description("BETRAY GAME. Cooperate with nadeko next turn." +
                              "If Nadeko cooperates - you both get bonus points." +
                              "If Nadeko betrays - you lose A LOT, nadeko gets extra.")
-                .Do(async e => {
+                .Do(async e =>
+                {
 
                     await ReceiveAnswer(e, Answers.Cooperate);
                 });
@@ -55,7 +59,8 @@ namespace NadekoBot.Commands {
 
         private int round = 0;
         private Answers NextAnswer = Answers.Cooperate;
-        private async Task ReceiveAnswer(CommandEventArgs e, Answers userAnswer) {
+        private async Task ReceiveAnswer(CommandEventArgs e, Answers userAnswer)
+        {
             var response = userAnswer == Answers.Betray
                 ? ":no_entry: `You betrayed nadeko` - you monster."
                 : ":ok: `You cooperated with nadeko.` ";
@@ -64,16 +69,23 @@ namespace NadekoBot.Commands {
                 ? ":no_entry: `aww Nadeko betrayed you` - she is so cute"
                 : ":ok: `Nadeko cooperated.`";
             NextAnswer = userAnswer;
-            if (userAnswer == Answers.Betray && currentAnswer == Answers.Betray) {
+            if (userAnswer == Answers.Betray && currentAnswer == Answers.Betray)
+            {
                 NadekoPoints--;
                 UserPoints--;
-            } else if (userAnswer == Answers.Cooperate && currentAnswer == Answers.Cooperate) {
+            }
+            else if (userAnswer == Answers.Cooperate && currentAnswer == Answers.Cooperate)
+            {
                 NadekoPoints += 2;
                 UserPoints += 2;
-            } else if (userAnswer == Answers.Betray && currentAnswer == Answers.Cooperate) {
+            }
+            else if (userAnswer == Answers.Betray && currentAnswer == Answers.Cooperate)
+            {
                 NadekoPoints -= 3;
                 UserPoints += 3;
-            } else if (userAnswer == Answers.Cooperate && currentAnswer == Answers.Betray) {
+            }
+            else if (userAnswer == Answers.Cooperate && currentAnswer == Answers.Betray)
+            {
                 NadekoPoints += 3;
                 UserPoints -= 3;
             }
@@ -98,7 +110,8 @@ namespace NadekoBot.Commands {
         }
     }
 
-    public class BetraySetting {
+    public class BetraySetting
+    {
         private string Story = $"{0} have robbed a bank and got captured by a police." +
                                $"Investigators gave you a choice:\n" +
                                $"You can either >COOPERATE with your friends and " +

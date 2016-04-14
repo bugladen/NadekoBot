@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Modules;
+using NadekoBot.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Games.Commands
 {
     internal class PollCommand : DiscordCommand
     {

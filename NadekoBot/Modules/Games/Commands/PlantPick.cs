@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Modules;
+using NadekoBot.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Games.Commands
 {
     /// <summary>
     /// Flower picking/planting idea is given to me by its

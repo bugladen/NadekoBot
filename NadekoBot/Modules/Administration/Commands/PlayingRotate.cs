@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
+using NadekoBot.Modules.Games.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;

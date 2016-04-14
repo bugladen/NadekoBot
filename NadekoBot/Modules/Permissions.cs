@@ -4,6 +4,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Games.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
