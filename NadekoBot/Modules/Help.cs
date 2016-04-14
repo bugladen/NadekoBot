@@ -1,27 +1,33 @@
-﻿using System.Linq;
+﻿using Discord.Commands;
 using Discord.Modules;
-using Discord.Commands;
 using NadekoBot.Commands;
 using NadekoBot.Extensions;
+using System.Linq;
 
-namespace NadekoBot.Modules {
-    internal class Help : DiscordModule {
+namespace NadekoBot.Modules
+{
+    internal class Help : DiscordModule
+    {
 
-        public Help() {
+        public Help()
+        {
             commands.Add(new HelpCommand(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
 
-        public override void Install(ModuleManager manager) {
-            manager.CreateCommands("", cgb => {
+        public override void Install(ModuleManager manager)
+        {
+            manager.CreateCommands("", cgb =>
+            {
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "modules")
                     .Alias(".modules")
                     .Description("List all bot modules.")
-                    .Do(async e => {
+                    .Do(async e =>
+                    {
                         await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)));
                     });
 
@@ -29,11 +35,13 @@ namespace NadekoBot.Modules {
                     .Alias(".commands")
                     .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
-                    .Do(async e => {
+                    .Do(async e =>
+                    {
                         var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
-                        if (!cmdsArray.Any()) {
+                        if (!cmdsArray.Any())
+                        {
                             await e.Channel.SendMessage("That module does not exist.");
                             return;
                         }

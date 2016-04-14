@@ -28,6 +28,7 @@ namespace NadekoBot
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
         public static string BotMention { get; set; } = "";
         public static bool Ready { get; set; } = false;
+        public static bool IsBot { get; set; } = false;
 
         private static Channel OwnerPrivateChannel { get; set; }
 
@@ -90,7 +91,7 @@ namespace NadekoBot
             }
 
             //if password is not entered, prompt for password
-            if (string.IsNullOrWhiteSpace(Creds.Password) && !string.IsNullOrWhiteSpace(Creds.Token))
+            if (string.IsNullOrWhiteSpace(Creds.Password) && string.IsNullOrWhiteSpace(Creds.Token))
             {
                 Console.WriteLine("Password blank. Please enter your password:\n");
                 Creds.Password = Console.ReadLine();
@@ -185,7 +186,11 @@ namespace NadekoBot
                     if (string.IsNullOrWhiteSpace(Creds.Token))
                         await Client.Connect(Creds.Username, Creds.Password);
                     else
+                    {
                         await Client.Connect(Creds.Token);
+                        IsBot = true;
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -197,6 +202,7 @@ namespace NadekoBot
                     Console.ReadKey();
                     return;
                 }
+
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
@@ -218,8 +224,6 @@ namespace NadekoBot
                     if (string.IsNullOrWhiteSpace(request.Content))
                         e.Cancel = true;
                 };
-
-                //await Task.Delay(90000);
                 Classes.Permissions.PermissionsHandler.Initialize();
                 NadekoBot.Ready = true;
             });
@@ -245,7 +249,7 @@ namespace NadekoBot
                 if (ConfigHandler.IsBlackListed(e))
                     return;
 
-                if (!NadekoBot.Config.DontJoinServers)
+                if (!NadekoBot.Config.DontJoinServers && !IsBot)
                 {
                     try
                     {

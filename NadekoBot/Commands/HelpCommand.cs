@@ -50,11 +50,12 @@ namespace NadekoBot.Commands
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLower().Equals(comToFind));
                 if (com != null)
-                    await e.Channel.SendMessage($"`Help for '{com.Text}:'` **{com.Description}**");
+                    await e.Channel.SendMessage($"`Help for '{com.Text}':` **{com.Description}**");
             });
         };
 
-        public static string HelpString => $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
+        public static string HelpString => NadekoBot.IsBot ? $"To invite {NadekoBot.Client.CurrentUser.Name} to your server, go here: <>\n" : "" +
+                                           $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}commands ModuleName`" +
                                            $" (for example `{NadekoBot.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
                                            $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
@@ -121,11 +122,11 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
-@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
+$@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by simply private messaging NadekoBot, and you will get an invite.
+You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
 
-*If you want to support in some other way or on a different platform, please message me there*"
+*If you want to support in some other way or on a different platform, please message me*"
                     );
                 });
         }
