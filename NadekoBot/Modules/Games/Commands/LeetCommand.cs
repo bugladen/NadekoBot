@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Discord.Commands;
+using NadekoBot.Classes;
 using System.Text;
-using System.Threading.Tasks;
 
 //taken from 
 //http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
 // because i don't want to waste my time on this cancerous command
-namespace NadekoBot.Classes {
-    public static class Leet {
+namespace NadekoBot.Modules.Games.Commands
+{
+    internal class Leet : DiscordCommand
+    {
+        public Leet(DiscordModule module) : base(module)
+        {
+        }
+
         /// <summary>
         /// Translate text to Leet - Extension methods for string class
         /// </summary>
         /// <param name="text">Orginal text</param>
         /// <param name="degree">Degree of translation (1 - 3)</param>
         /// <returns>Leet translated text</returns>
-        public static string ToLeet(this string text, int degree = 1) => 
+        public static string ToLeet(string text, int degree = 1) =>
             Translate(text, degree);
 
         /// <summary>
@@ -24,7 +28,8 @@ namespace NadekoBot.Classes {
         /// <param name="text">Orginal text</param>
         /// <param name="degree">Degree of translation (1 - 3)</param>
         /// <returns>Leet translated text</returns>
-        public static string Translate(string text, int degree = 1) {
+        public static string Translate(string text, int degree = 1)
+        {
             if (degree > 6)
                 degree = 6;
             if (degree <= 0)
@@ -32,10 +37,13 @@ namespace NadekoBot.Classes {
 
             // StringBuilder to store result.
             StringBuilder sb = new StringBuilder(text.Length);
-            foreach (char c in text) {
+            foreach (char c in text)
+            {
                 #region Degree 1
-                if (degree == 1) {
-                    switch (c) {
+                if (degree == 1)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -49,8 +57,10 @@ namespace NadekoBot.Classes {
                 }
                 #endregion
                 #region Degree 2
-        else if (degree == 2) {
-                    switch (c) {
+                else if (degree == 2)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -76,8 +86,10 @@ namespace NadekoBot.Classes {
                 }
                 #endregion
                 #region Degree 3
-        else if (degree == 3) {
-                    switch (c) {
+                else if (degree == 3)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -113,8 +125,10 @@ namespace NadekoBot.Classes {
                 }
                 #endregion
                 #region Degree 4
-        else if (degree == 4) {
-                    switch (c) {
+                else if (degree == 4)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -160,8 +174,10 @@ namespace NadekoBot.Classes {
                 }
                 #endregion
                 #region Degree 5
-        else if (degree == 5) {
-                    switch (c) {
+                else if (degree == 5)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -215,8 +231,10 @@ namespace NadekoBot.Classes {
                 }
                 #endregion
                 #region Degree 6
-        else if (degree == 6) {
-                    switch (c) {
+                else if (degree == 6)
+                {
+                    switch (c)
+                    {
                         case 'a': sb.Append("4"); break;
                         case 'e': sb.Append("3"); break;
                         case 'i': sb.Append("1"); break;
@@ -274,6 +292,24 @@ namespace NadekoBot.Classes {
                 #endregion
             }
             return sb.ToString(); // Return result.
+        }
+
+        internal override void Init(CommandGroupBuilder cgb)
+        {
+            cgb.CreateCommand(Module.Prefix + "leet")
+                .Parameter("level", ParameterType.Required)
+                .Parameter("text", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var text = e.GetArg("text")?.Trim();
+                    var levelStr = e.GetArg("level")?.Trim();
+                    int level;
+                    if (!int.TryParse(levelStr, out level))
+                        return;
+                    if (string.IsNullOrWhiteSpace(text))
+                        return;
+                    await e.Channel.SendMessage(ToLeet(text, level));
+                });
         }
     }
 }

@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
 using NadekoBot.Classes.Conversations.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
@@ -487,21 +486,6 @@ namespace NadekoBot.Modules.Conversations
                             return;
                         }
                         await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl());
-                    });
-
-                cgb.CreateCommand("leet")
-                    .Parameter("level", ParameterType.Required)
-                    .Parameter("text", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        var text = e.GetArg("text")?.Trim();
-                        var levelStr = e.GetArg("level")?.Trim();
-                        int level;
-                        if (!int.TryParse(levelStr, out level))
-                            return;
-                        if (string.IsNullOrWhiteSpace(text))
-                            return;
-                        await e.Channel.SendMessage(text.ToLeet(level));
                     });
 
             });
