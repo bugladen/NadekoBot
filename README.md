@@ -1,7 +1,7 @@
 ![img](https://ci.appveyor.com/api/projects/status/gmu6b3ltc80hr3k9?svg=true)
 # NadekoBot
 
-### [Click here to invite nadeko to your server](https://www.carbonitex.net/discord/bots?nadeko)
+### [Click here to invite nadeko to your server](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
 [**click here for a list of commands**](https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md)  
 Nadeko Discord chatbot written in C# using Discord.net library.  
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
