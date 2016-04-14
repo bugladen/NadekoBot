@@ -2,7 +2,7 @@
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Permissions;
-using NadekoBot.Modules;
+using NadekoBot.Commands;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Searches.Commands
 {
     internal class StreamNotifications : DiscordCommand
     {

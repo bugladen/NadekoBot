@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Search.Commands
+namespace NadekoBot.Modules.Searches.Commands
 {
     class ConverterCommand : DiscordCommand
     {

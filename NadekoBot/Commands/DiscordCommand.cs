@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
+using NadekoBot.Modules;
 
 namespace NadekoBot.Commands
 {
@@ -9,31 +7,28 @@ namespace NadekoBot.Commands
     /// Base DiscordCommand Class.
     /// Inherit this class to create your own command.
     /// </summary>
-    public abstract class DiscordCommand
+    internal abstract class DiscordCommand
     {
-        /// <summary>
-        /// Client at the moment of creating this object
-        /// </summary>
-        public DiscordClient client { get; set; }
 
         /// <summary>
-        /// Constructor of the base class
+        /// Parent module
         /// </summary>
-        /// <param name="cb">CommandBuilder which will be modified</param>
-        protected DiscordCommand()
-        {
-            client = NadekoBot.Client;
-        }
+        protected DiscordModule Module { get; }
+
         /// <summary>
-        /// Function containing the behaviour of the command.
+        /// Creates a new instance of discord command,
+        /// use ": base(module)" in the derived class'
+        /// constructor to make sure module is assigned
         /// </summary>
-        /// <param name="client">Client who will handle the message sending, etc, if any.</param>
-        /// <returns></returns>
-        public abstract Func<CommandEventArgs,Task> DoFunc();
+        /// <param name="module">Module this command resides in</param>
+        protected DiscordCommand(DiscordModule module)
+        {
+            this.Module = module;
+        }
 
         /// <summary>
         /// Initializes the CommandBuilder with values using CommandGroupBuilder
         /// </summary>
-        public abstract void Init(CommandGroupBuilder cgb);
+        internal abstract void Init(CommandGroupBuilder cgb);
     }
 }

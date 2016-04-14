@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Searches.Commands
 {
     internal class LoLCommands : DiscordCommand
     {
@@ -108,7 +108,8 @@ namespace NadekoBot.Commands
                                   return;
                               }
                           }
-                          else {
+                          else
+                          {
                               data = allData[0];
                               role = allData[0]["role"].ToString();
                               resolvedRole = ResolvePos(role);

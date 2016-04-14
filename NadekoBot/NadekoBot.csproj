@@ -170,10 +170,10 @@
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />
     <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
-    <Compile Include="Commands\LoLCommands.cs" />
+    <Compile Include="Modules\Searches\Commands\LoLCommands.cs" />
     <Compile Include="Modules\Administration\Commands\MessageRepeater.cs" />
     <Compile Include="Modules\Administration\Commands\PlayingRotate.cs" />
-    <Compile Include="Commands\StreamNotifications.cs" />
+    <Compile Include="Modules\Searches\Commands\StreamNotifications.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
@@ -205,8 +205,9 @@
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
     <Compile Include="Modules\Pokemon\PokeStats.cs" />
-    <Compile Include="Modules\Searches.cs" />
-    <Compile Include="Modules\Search\Commands\ConverterCommand.cs" />
+    <Compile Include="Modules\Searches\Searches.cs" />
+    <Compile Include="Modules\Searches\Commands\ConverterCommand.cs" />
+    <Compile Include="Modules\Searches\Commands\RedditCommand.cs" />
     <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
     <Compile Include="Modules\Translator\TranslateCommand.cs" />
     <Compile Include="Modules\Translator\TranslatorModule.cs" />

@@ -3,9 +3,8 @@ using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes.IMDB;
 using NadekoBot.Classes.JSONModels;
-using NadekoBot.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Search.Commands;
+using NadekoBot.Modules.Searches.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Searches
 {
     internal class Searches : DiscordModule
     {
@@ -25,6 +24,7 @@ namespace NadekoBot.Modules
             commands.Add(new LoLCommands(this));
             commands.Add(new StreamNotifications(this));
             commands.Add(new ConverterCommand(this));
+            commands.Add(new RedditCommand(this));
             rng = new Random();
         }
 
