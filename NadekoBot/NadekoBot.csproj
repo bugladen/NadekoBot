@@ -120,7 +120,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
+    <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Classes\IMDB\ImdbMovie.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
     <Compile Include="Modules\Administration\Commands\Remind.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
-    <Compile Include="Modules\ClashOfClans.cs" />
+    <Compile Include="Modules\ClashOfClans\ClashOfClansModule.cs" />
     <Compile Include="Modules\Permissions\Commands\FilterWordsCommand.cs" />
     <Compile Include="Modules\Permissions\Commands\FilterInvitesCommand.cs" />
     <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
@@ -197,22 +197,22 @@
     <Compile Include="Modules\Gambling\GamblingModule.cs" />
     <Compile Include="Modules\Games\Commands\Bomberman.cs" />
     <Compile Include="Modules\Games\GamesModule.cs" />
-    <Compile Include="Modules\Help\Help.cs" />
-    <Compile Include="Modules\Music.cs" />
+    <Compile Include="Modules\Help\HelpModule.cs" />
+    <Compile Include="Modules\Music\MusicModule.cs" />
     <Compile Include="Modules\Games\Commands\PollCommand.cs" />
-    <Compile Include="Modules\NSFW.cs" />
+    <Compile Include="Modules\NSFW\NSFWModule.cs" />
     <Compile Include="Modules\Permissions\PermissionsModule.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
     <Compile Include="Modules\Pokemon\PokeStats.cs" />
-    <Compile Include="Modules\Searches\Searches.cs" />
+    <Compile Include="Modules\Searches\SearchesModule.cs" />
     <Compile Include="Modules\Searches\Commands\ConverterCommand.cs" />
     <Compile Include="Modules\Searches\Commands\RedditCommand.cs" />
     <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
     <Compile Include="Modules\Translator\TranslateCommand.cs" />
     <Compile Include="Modules\Translator\TranslatorModule.cs" />
     <Compile Include="Modules\Translator\ValidLanguagesCommand.cs" />
-    <Compile Include="Modules\Trello.cs" />
+    <Compile Include="Modules\Trello\TrelloModule.cs" />
     <Compile Include="NadekoBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

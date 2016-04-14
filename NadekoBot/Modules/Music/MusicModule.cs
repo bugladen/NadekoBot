@@ -13,15 +13,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Music
 {
-    internal class Music : DiscordModule
+    internal class MusicModule : DiscordModule
     {
 
         public static ConcurrentDictionary<Server, MusicPlayer> MusicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
         public static ConcurrentDictionary<ulong, float> DefaultMusicVolumes = new ConcurrentDictionary<ulong, float>();
 
-        public Music()
+        public MusicModule()
         {
             // ready for 1.0
             //NadekoBot.Client.UserUpdated += (s, e) =>

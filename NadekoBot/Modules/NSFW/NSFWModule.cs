@@ -4,9 +4,9 @@ using NadekoBot.Classes;
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.NSFW
 {
-    internal class NSFW : DiscordModule
+    internal class NSFWModule : DiscordModule
     {
 
         private readonly Random rng = new Random();

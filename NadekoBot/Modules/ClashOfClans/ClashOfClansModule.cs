@@ -1,15 +1,14 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes.ClashOfClans;
-using NadekoBot.Modules;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.ClashOfClans
 {
-    internal class ClashOfClans : DiscordModule
+    internal class ClashOfClansModule : DiscordModule
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.ClashOfClans;
 

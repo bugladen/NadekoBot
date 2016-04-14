@@ -2,6 +2,7 @@
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules.Games.Commands;
+using NadekoBot.Modules.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,10 @@ namespace NadekoBot.Modules.Administration.Commands
                 {"%servers%", () => NadekoBot.Client.Servers.Count().ToString()},
                 {"%users%", () => NadekoBot.Client.Servers.SelectMany(s => s.Users).Count().ToString()},
                 {"%playing%", () => {
-                        var cnt = Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
+                        var cnt = MusicModule.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                         if (cnt != 1) return cnt.ToString();
                         try {
-                            var mp = Music.MusicPlayers.FirstOrDefault();
+                            var mp = MusicModule.MusicPlayers.FirstOrDefault();
                             return mp.Value.CurrentSong.SongInfo.Title;
                         }
                         catch {
@@ -31,7 +32,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         }
                     }
                 },
-                {"%queued%", () => Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
+                {"%queued%", () => MusicModule.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
                 {"%trivia%", () => Trivia.RunningTrivias.Count.ToString()}
             };
 

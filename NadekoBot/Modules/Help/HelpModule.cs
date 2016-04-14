@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Help
 {
-    internal class Help : DiscordModule
+    internal class HelpModule : DiscordModule
     {
 
-        public Help()
+        public HelpModule()
         {
             commands.Add(new HelpCommand(this));
         }

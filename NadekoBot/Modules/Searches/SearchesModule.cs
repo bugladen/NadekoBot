@@ -16,10 +16,10 @@ using System.Net;
 
 namespace NadekoBot.Modules.Searches
 {
-    internal class Searches : DiscordModule
+    internal class SearchesModule : DiscordModule
     {
         private readonly Random rng;
-        public Searches()
+        public SearchesModule()
         {
             commands.Add(new LoLCommands(this));
             commands.Add(new StreamNotifications(this));

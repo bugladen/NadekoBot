@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Modules;
 using NadekoBot.Modules.Administration.Commands;
+using NadekoBot.Modules.Music;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -139,7 +139,7 @@ namespace NadekoBot
         public Task LoadStats() =>
             Task.Run(() =>
             {
-                var songs = Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null);
+                var songs = MusicModule.MusicPlayers.Count(mp => mp.Value.CurrentSong != null);
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
                 sb.AppendLine($"`Bot Version: {BotVersion}`");
@@ -154,7 +154,7 @@ namespace NadekoBot
                 sb.AppendLine($"`Message queue size: {NadekoBot.Client.MessageQueue.Count}`");
                 sb.Append($"`Greeted {ServerGreetCommand.Greeted} times.`");
                 sb.AppendLine($" `| Playing {songs} songs, ".SnPl(songs) +
-                              $"{Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count)} queued.`");
+                              $"{MusicModule.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count)} queued.`");
                 sb.AppendLine($"`Heap: {Heap(false)}`");
                 statsCache = sb.ToString();
             });
