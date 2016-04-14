@@ -53,8 +53,9 @@ namespace NadekoBot.Commands
                     await e.Channel.SendMessage($"`Help for '{com.Text}':` **{com.Description}**");
             });
         };
-
-        public static string HelpString => NadekoBot.IsBot ? $"To invite {NadekoBot.Client.CurrentUser.Name} to your server, go here: <>\n" : "" +
+        public static string HelpString => (NadekoBot.IsBot
+                                           ? $"To add me to your server, use this link** -> <https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303>\n"
+                                           : $"To invite me to your server, just send me an invite link here.") +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}commands ModuleName`" +
                                            $" (for example `{NadekoBot.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
