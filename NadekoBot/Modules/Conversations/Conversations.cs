@@ -2,7 +2,7 @@ using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
-using NadekoBot.Commands;
+using NadekoBot.Commands.Conversations.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;
 using System;
@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Conversations
 {
     internal class Conversations : DiscordModule
     {

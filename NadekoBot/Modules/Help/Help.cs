@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Commands;
+using NadekoBot.Commands.Help.Commands;
 using NadekoBot.Extensions;
 using System.Linq;
 
-namespace NadekoBot.Modules
+namespace NadekoBot.Modules.Help
 {
     internal class Help : DiscordModule
     {

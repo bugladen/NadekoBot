@@ -2,12 +2,12 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.Permissions;
-using NadekoBot.Modules;
+using NadekoBot.Commands;
 using System;
 using System.Text.RegularExpressions;
 using ServerPermissions = NadekoBot.Classes.Permissions.ServerPermissions;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Modules.Permissions.Commands
 {
     internal class FilterInvitesCommand : DiscordCommand
     {
@@ -46,7 +46,7 @@ namespace NadekoBot.Commands
             if (serverPerms.Permissions.FilterInvites)
                 return true;
 
-            Permissions perms;
+            Classes.Permissions.Permissions perms;
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterInvites;
         }
 

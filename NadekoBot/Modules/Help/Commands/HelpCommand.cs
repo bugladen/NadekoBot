@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands
+namespace NadekoBot.Commands.Help.Commands
 {
     internal class HelpCommand : DiscordCommand
     {

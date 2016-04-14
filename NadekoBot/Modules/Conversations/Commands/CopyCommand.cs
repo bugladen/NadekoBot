@@ -1,36 +1,45 @@
-﻿using System;
+﻿using Discord.Commands;
+using NadekoBot.Modules;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Discord.Commands;
-using NadekoBot.Modules;
 
-namespace NadekoBot.Commands {
-    internal class CopyCommand : DiscordCommand {
+namespace NadekoBot.Commands.Conversations.Commands
+{
+    internal class CopyCommand : DiscordCommand
+    {
         private readonly HashSet<ulong> CopiedUsers = new HashSet<ulong>();
 
-        public CopyCommand(DiscordModule module) : base(module) {
+        public CopyCommand(DiscordModule module) : base(module)
+        {
             NadekoBot.Client.MessageReceived += Client_MessageReceived;
         }
 
-        private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e) {
+        private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
+        {
             if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
-            try {
+            try
+            {
                 if (string.IsNullOrWhiteSpace(e.Message.Text))
                     return;
-                if (CopiedUsers.Contains(e.User.Id)) {
+                if (CopiedUsers.Contains(e.User.Id))
+                {
                     await e.Channel.SendMessage(e.Message.Text);
                 }
-            } catch { }
+            }
+            catch { }
         }
 
-        public Func<CommandEventArgs, Task> DoFunc() => async e => {
+        public Func<CommandEventArgs, Task> DoFunc() => async e =>
+        {
             if (CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Add(e.User.Id);
             await e.Channel.SendMessage(" I'll start copying you now.");
         };
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand("copyme")
                 .Alias("cm")
                 .Description("Nadeko starts copying everything you say. Disable with cs")
@@ -42,7 +51,8 @@ namespace NadekoBot.Commands {
                 .Do(StopCopy());
         }
 
-        private Func<CommandEventArgs, Task> StopCopy() => async e => {
+        private Func<CommandEventArgs, Task> StopCopy() => async e =>
+        {
             if (!CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Remove(e.User.Id);
