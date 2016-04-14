@@ -2,8 +2,9 @@ using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
-using NadekoBot.Commands.Conversations.Commands;
+using NadekoBot.Classes.Conversations.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Properties;
 using System;
 using System.Diagnostics;
@@ -32,7 +33,7 @@ namespace NadekoBot.Modules.Conversations
 
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand("e")
                     .Description("You did it. Or someone else!")
@@ -123,7 +124,7 @@ namespace NadekoBot.Modules.Conversations
             {
                 var client = manager.Client;
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 

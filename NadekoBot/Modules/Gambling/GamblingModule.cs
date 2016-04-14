@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace NadekoBot.Modules.Gambling
         {
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(com => com.Init(cgb));
 
@@ -72,7 +73,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "award")
                     .Description("Gives someone a certain amount of flowers. **Owner only!**")
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
@@ -94,7 +95,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "take")
                     .Description("Takes a certain amount of flowers from someone. **Owner only!**")
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("rektperson", ParameterType.Unparsed)
                     .Do(async e =>
@@ -144,9 +145,9 @@ namespace NadekoBot.Modules.Gambling
                     await e.Channel.SendMessage("💢 Role not found.");
                     return;
                 }
-                var members = role.Members.Where(u => u.Status == Discord.UserStatus.Online); // only online
+                var members = role.Members.Where(u => u.Status == UserStatus.Online); // only online
                 var membersArray = members as User[] ?? members.ToArray();
-                var usr = membersArray[new System.Random().Next(0, membersArray.Length)];
+                var usr = membersArray[new Random().Next(0, membersArray.Length)];
                 await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})");
             };
         }

@@ -2,7 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

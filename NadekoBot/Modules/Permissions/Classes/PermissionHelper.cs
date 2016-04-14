@@ -1,16 +1,21 @@
-﻿using System;
-using System.Linq;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
+using System;
+using System.Linq;
 
-namespace NadekoBot.Classes.Permissions {
-    internal static class PermissionHelper {
-        public static bool ValidateBool(string passedArg) {
-            if (string.IsNullOrWhiteSpace(passedArg)) {
+namespace NadekoBot.Modules.Permissions.Classes
+{
+    internal static class PermissionHelper
+    {
+        public static bool ValidateBool(string passedArg)
+        {
+            if (string.IsNullOrWhiteSpace(passedArg))
+            {
                 throw new ArgumentException("No value supplied! Missing argument");
             }
-            switch (passedArg.ToLower()) {
+            switch (passedArg.ToLower())
+            {
                 case "1":
                 case "t":
                 case "true":
@@ -32,29 +37,34 @@ namespace NadekoBot.Classes.Permissions {
             }
         }
 
-        internal static string ValidateModule(string mod) {
+        internal static string ValidateModule(string mod)
+        {
             if (string.IsNullOrWhiteSpace(mod))
                 throw new ArgumentNullException(nameof(mod));
 
-            foreach (var m in NadekoBot.Client.GetService<ModuleService>().Modules) {
+            foreach (var m in NadekoBot.Client.GetService<ModuleService>().Modules)
+            {
                 if (m.Name.ToLower().Equals(mod.Trim().ToLower()))
                     return m.Name;
             }
             throw new ArgumentException("That module does not exist.");
         }
 
-        internal static string ValidateCommand(string commandText) {
+        internal static string ValidateCommand(string commandText)
+        {
             if (string.IsNullOrWhiteSpace(commandText))
                 throw new ArgumentNullException(nameof(commandText));
 
-            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands) {
+            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
+            {
                 if (com.Text.ToLower().Equals(commandText.Trim().ToLower()))
                     return com.Text;
             }
             throw new NullReferenceException("That command does not exist.");
         }
 
-        internal static Role ValidateRole(Server server, string roleName) {
+        internal static Role ValidateRole(Server server, string roleName)
+        {
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentNullException(nameof(roleName));
 
@@ -66,7 +76,8 @@ namespace NadekoBot.Classes.Permissions {
             return role;
         }
 
-        internal static Channel ValidateChannel(Server server, string channelName) {
+        internal static Channel ValidateChannel(Server server, string channelName)
+        {
             if (string.IsNullOrWhiteSpace(channelName))
                 throw new ArgumentNullException(nameof(channelName));
             var channel = server.FindChannels(channelName.Trim(), ChannelType.Text).FirstOrDefault();
@@ -75,7 +86,8 @@ namespace NadekoBot.Classes.Permissions {
             return channel;
         }
 
-        internal static User ValidateUser(Server server, string userName) {
+        internal static User ValidateUser(Server server, string userName)
+        {
             if (string.IsNullOrWhiteSpace(userName))
                 throw new ArgumentNullException(nameof(userName));
             var user = server.FindUsers(userName.Trim()).FirstOrDefault();

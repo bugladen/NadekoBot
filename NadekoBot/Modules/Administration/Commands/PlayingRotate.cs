@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes.JSONModels;
-using NadekoBot.Commands;
-using NadekoBot.Modules.Games.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Modules.Music;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                 },
                 {"%queued%", () => MusicModule.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
-                {"%trivia%", () => Trivia.RunningTrivias.Count.ToString()}
+                {"%trivia%", () => Games.Commands.TriviaCommands.RunningTrivias.Count.ToString()}
             };
 
         private readonly object playingPlaceholderLock = new object();
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "rotateplaying")
                 .Alias(Module.Prefix + "ropl")
                 .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")
-                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoFunc());
 
             cgb.CreateCommand(Module.Prefix + "addplaying")
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Description("Adds a specified string to the list of playing strings to rotate. " +
                              "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys))
                 .Parameter("text", ParameterType.Unparsed)
-                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
                     var arg = e.GetArg("text");
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "listplaying")
                 .Alias(Module.Prefix + "lipl")
                 .Description("Lists all playing statuses with their corresponding number.")
-                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
                     if (NadekoBot.Config.RotatingStatuses.Count == 0)
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Alias(Module.Prefix + "repl", Module.Prefix + "rmpl")
                 .Description("Removes a playing string on a given number.")
                 .Parameter("number", ParameterType.Required)
-                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
                     var arg = e.GetArg("number");

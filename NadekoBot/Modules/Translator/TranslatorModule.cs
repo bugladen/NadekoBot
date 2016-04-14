@@ -1,5 +1,6 @@
 ﻿using Discord.Modules;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 
 namespace NadekoBot.Modules.Translator
 {
@@ -17,7 +18,7 @@ namespace NadekoBot.Modules.Translator
         {
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
                 commands.ForEach(cmd => cmd.Init(cgb));
             });
         }

@@ -1,5 +1,5 @@
 ﻿using Discord.Commands;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Modules.Translator.Helpers;
 using System;
 using System.Threading.Tasks;

@@ -2,6 +2,7 @@
 using Manatee.Trello;
 using Manatee.Trello.ManateeJson;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace NadekoBot.Modules.Trello
             manager.CreateCommands("trello ", cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand("join")
                     .Alias("j")

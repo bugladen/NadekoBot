@@ -4,7 +4,7 @@ using NadekoBot.Modules;
 using System;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands.Conversations.Commands
+namespace NadekoBot.Classes.Conversations.Commands
 {
     internal class RequestsCommand : DiscordCommand
     {

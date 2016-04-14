@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using System.Text;
 using System.Timers;
 using static NadekoBot.Modules.Games.Commands.Bomberman;

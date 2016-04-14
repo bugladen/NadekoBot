@@ -1,14 +1,18 @@
 ﻿using Discord.Commands;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Games.Commands.Trivia;
 using System.Collections.Concurrent;
 using System.Linq;
-using TriviaGame = NadekoBot.Classes.Trivia.TriviaGame;
 
 namespace NadekoBot.Modules.Games.Commands
 {
-    internal class Trivia : DiscordCommand
+    internal class TriviaCommands : DiscordCommand
     {
         public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
+
+        public TriviaCommands(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -57,7 +61,5 @@ namespace NadekoBot.Modules.Games.Commands
                         await e.Channel.SendMessage("No trivia is running on this server.");
                 });
         }
-
-        public Trivia(DiscordModule module) : base(module) { }
     }
 }

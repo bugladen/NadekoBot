@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Classes.Permissions;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +27,8 @@ namespace NadekoBot.Modules.Administration.Commands
                         var role = e.Server.FindRoles(arg.Trim()).FirstOrDefault();
                         if (role == null)
                             msg.AppendLine($":anger:Role **{arg}** not found.");
-                        else {
+                        else
+                        {
                             if (config.ListOfSelfAssignableRoles.Contains(role.Id))
                             {
                                 msg.AppendLine($":anger:Role **{role.Name}** is already in the list.");
@@ -81,7 +82,8 @@ namespace NadekoBot.Modules.Administration.Commands
                             msg.Append($"`{roleId} not found. Cleaned up.`, ");
                             toRemove.Add(roleId);
                         }
-                        else {
+                        else
+                        {
                             msg.Append($"**{role.Name}**, ");
                         }
                     }

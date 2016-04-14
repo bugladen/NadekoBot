@@ -4,6 +4,7 @@ using NadekoBot.Classes;
 using NadekoBot.Classes.IMDB;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Modules.Searches.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,7 +36,7 @@ namespace NadekoBot.Modules.Searches
             manager.CreateCommands("", cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 

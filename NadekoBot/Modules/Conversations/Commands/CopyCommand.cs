@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands.Conversations.Commands
+namespace NadekoBot.Classes.Conversations.Commands
 {
     internal class CopyCommand : DiscordCommand
     {

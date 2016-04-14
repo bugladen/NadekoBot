@@ -1,40 +1,48 @@
 ﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord.Commands;
 
-namespace NadekoBot.Classes.Permissions {
-    public static class PermissionsHandler {
+namespace NadekoBot.Modules.Permissions.Classes
+{
+    public static class PermissionsHandler
+    {
         public static ConcurrentDictionary<ulong, ServerPermissions> PermissionsDict =
             new ConcurrentDictionary<ulong, ServerPermissions>();
 
-        public enum PermissionBanType {
+        public enum PermissionBanType
+        {
             None, ServerBanCommand, ServerBanModule,
             ChannelBanCommand, ChannelBanModule, RoleBanCommand,
             RoleBanModule, UserBanCommand, UserBanModule
         }
 
 
-        public static void Initialize() {
+        public static void Initialize()
+        {
             Console.WriteLine("Reading from the permission files.");
             Directory.CreateDirectory("data/permissions");
-            foreach (var file in Directory.EnumerateFiles("data/permissions/")) {
-                try {
+            foreach (var file in Directory.EnumerateFiles("data/permissions/"))
+            {
+                try
+                {
                     var strippedFileName = Path.GetFileNameWithoutExtension(file);
                     if (string.IsNullOrWhiteSpace(strippedFileName)) continue;
                     var id = ulong.Parse(strippedFileName);
                     var data = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerPermissions>(File.ReadAllText(file));
                     PermissionsDict.TryAdd(id, data);
-                } catch { }
+                }
+                catch { }
             }
             Console.WriteLine("Permission initialization complete.");
         }
 
-        internal static Permissions GetRolePermissionsById(Server server, ulong id) {
+        internal static Permissions GetRolePermissionsById(Server server, ulong id)
+        {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
@@ -44,7 +52,8 @@ namespace NadekoBot.Classes.Permissions {
             return toReturn;
         }
 
-        internal static Permissions GetUserPermissionsById(Server server, ulong id) {
+        internal static Permissions GetUserPermissionsById(Server server, ulong id)
+        {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
@@ -54,7 +63,8 @@ namespace NadekoBot.Classes.Permissions {
             return toReturn;
         }
 
-        internal static Permissions GetChannelPermissionsById(Server server, ulong id) {
+        internal static Permissions GetChannelPermissionsById(Server server, ulong id)
+        {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
                 return null;
@@ -64,12 +74,14 @@ namespace NadekoBot.Classes.Permissions {
             return toReturn;
         }
 
-        internal static Permissions GetServerPermissions(Server server) {
+        internal static Permissions GetServerPermissions(Server server)
+        {
             ServerPermissions serverPerms;
             return !PermissionsDict.TryGetValue(server.Id, out serverPerms) ? null : serverPerms.Permissions;
         }
 
-        internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel) {
+        internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel)
+        {
             var server = user.Server;
             ServerPermissions serverPerms = PermissionsDict.GetOrAdd(server.Id, id => new ServerPermissions(id, server.Name));
             bool val;
@@ -94,7 +106,8 @@ namespace NadekoBot.Classes.Permissions {
             // IF AT LEAST ONE ROLE EXIST THAT IS NOT BANNED,
             // USER CAN RUN THE COMMAND
             var foundNotBannedRole = false;
-            foreach (var role in user.Roles) {
+            foreach (var role in user.Roles)
+            {
                 //if every role is banned from using the module -> rolebanmodule
                 if (serverPerms.RolePermissions.TryGetValue(role.Id, out perm) &&
                 perm.Modules.TryGetValue(command.Category, out val) && val == false)
@@ -111,12 +124,14 @@ namespace NadekoBot.Classes.Permissions {
             // IF AT LEAST ONE ROLE EXISTS THAT IS NOT BANNED,
             // USER CAN RUN THE COMMAND
             foundNotBannedRole = false;
-            foreach (var role in user.Roles) {
+            foreach (var role in user.Roles)
+            {
                 //if every role is banned from using the module -> rolebanmodule
                 if (serverPerms.RolePermissions.TryGetValue(role.Id, out perm) &&
                 perm.Commands.TryGetValue(command.Text, out val) && val == false)
                     continue;
-                else {
+                else
+                {
                     foundNotBannedRole = true;
                     break;
                 }
@@ -135,27 +150,32 @@ namespace NadekoBot.Classes.Permissions {
             return PermissionBanType.None;
         }
 
-        private static void WriteServerToJson(ServerPermissions serverPerms) {
+        private static void WriteServerToJson(ServerPermissions serverPerms)
+        {
             string pathToFile = $"data/permissions/{serverPerms.Id}.json";
             File.WriteAllText(pathToFile,
                 Newtonsoft.Json.JsonConvert.SerializeObject(serverPerms, Newtonsoft.Json.Formatting.Indented));
         }
 
-        public static void WriteToJson() {
+        public static void WriteToJson()
+        {
             Directory.CreateDirectory("data/permissions/");
-            foreach (var kvp in PermissionsDict) {
+            foreach (var kvp in PermissionsDict)
+            {
                 WriteServerToJson(kvp.Value);
             }
         }
 
-        public static string GetServerPermissionsRoleName(Server server) {
+        public static string GetServerPermissionsRoleName(Server server)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
             return serverPerms.PermissionsControllerRole;
         }
 
-        internal static void SetPermissionsRole(Server server, string roleName) {
+        internal static void SetPermissionsRole(Server server, string roleName)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -163,7 +183,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        internal static void SetVerbosity(Server server, bool val) {
+        internal static void SetVerbosity(Server server, bool val)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -171,7 +192,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetServerModulePermission(Server server, string moduleName, bool value) {
+        public static void SetServerModulePermission(Server server, string moduleName, bool value)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -183,7 +205,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetServerCommandPermission(Server server, string commandName, bool value) {
+        public static void SetServerCommandPermission(Server server, string commandName, bool value)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -195,7 +218,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetChannelModulePermission(Channel channel, string moduleName, bool value) {
+        public static void SetChannelModulePermission(Channel channel, string moduleName, bool value)
+        {
             var server = channel.Server;
 
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
@@ -213,7 +237,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetChannelCommandPermission(Channel channel, string commandName, bool value) {
+        public static void SetChannelCommandPermission(Channel channel, string commandName, bool value)
+        {
             var server = channel.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -230,7 +255,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetRoleModulePermission(Role role, string moduleName, bool value) {
+        public static void SetRoleModulePermission(Role role, string moduleName, bool value)
+        {
             var server = role.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -247,7 +273,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetRoleCommandPermission(Role role, string commandName, bool value) {
+        public static void SetRoleCommandPermission(Role role, string commandName, bool value)
+        {
             var server = role.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -264,7 +291,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetUserModulePermission(User user, string moduleName, bool value) {
+        public static void SetUserModulePermission(User user, string moduleName, bool value)
+        {
             var server = user.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -281,7 +309,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetUserCommandPermission(User user, string commandName, bool value) {
+        public static void SetUserCommandPermission(User user, string commandName, bool value)
+        {
             var server = user.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -297,7 +326,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetServerWordPermission(Server server, bool value) {
+        public static void SetServerWordPermission(Server server, bool value)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -305,7 +335,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetChannelWordPermission(Channel channel, bool value) {
+        public static void SetChannelWordPermission(Channel channel, bool value)
+        {
             var server = channel.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -317,7 +348,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetServerFilterInvitesPermission(Server server, bool value) {
+        public static void SetServerFilterInvitesPermission(Server server, bool value)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
 
@@ -325,7 +357,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void SetChannelFilterInvitesPermission(Channel channel, bool value) {
+        public static void SetChannelFilterInvitesPermission(Channel channel, bool value)
+        {
             var server = channel.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -337,7 +370,8 @@ namespace NadekoBot.Classes.Permissions {
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
-        public static void AddFilteredWord(Server server, string word) {
+        public static void AddFilteredWord(Server server, string word)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
             if (serverPerms.Words.Contains(word))
@@ -345,7 +379,8 @@ namespace NadekoBot.Classes.Permissions {
             serverPerms.Words.Add(word);
             Task.Run(() => WriteServerToJson(serverPerms));
         }
-        public static void RemoveFilteredWord(Server server, string word) {
+        public static void RemoveFilteredWord(Server server, string word)
+        {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
             if (!serverPerms.Words.Contains(word))
@@ -357,7 +392,8 @@ namespace NadekoBot.Classes.Permissions {
     /// <summary>
     /// Holds a permission list
     /// </summary>
-    public class Permissions {
+    public class Permissions
+    {
         /// <summary>
         /// Name of the parent object whose permissions these are
         /// </summary>
@@ -379,7 +415,8 @@ namespace NadekoBot.Classes.Permissions {
         /// </summary>
         public bool FilterWords { get; set; }
 
-        public Permissions(string name) {
+        public Permissions(string name)
+        {
             Name = name;
             Modules = new ConcurrentDictionary<string, bool>();
             Commands = new ConcurrentDictionary<string, bool>();
@@ -387,17 +424,20 @@ namespace NadekoBot.Classes.Permissions {
             FilterWords = false;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             var toReturn = "";
             var bannedModules = Modules.Where(kvp => kvp.Value == false);
             var bannedModulesArray = bannedModules as KeyValuePair<string, bool>[] ?? bannedModules.ToArray();
-            if (bannedModulesArray.Any()) {
+            if (bannedModulesArray.Any())
+            {
                 toReturn += "`Banned Modules:`\n";
                 toReturn = bannedModulesArray.Aggregate(toReturn, (current, m) => current + $"\t`[x]  {m.Key}`\n");
             }
             var bannedCommands = Commands.Where(kvp => kvp.Value == false);
             var bannedCommandsArr = bannedCommands as KeyValuePair<string, bool>[] ?? bannedCommands.ToArray();
-            if (bannedCommandsArr.Any()) {
+            if (bannedCommandsArr.Any())
+            {
                 toReturn += "`Banned Commands:`\n";
                 toReturn = bannedCommandsArr.Aggregate(toReturn, (current, c) => current + $"\t`[x]  {c.Key}`\n");
             }
@@ -405,7 +445,8 @@ namespace NadekoBot.Classes.Permissions {
         }
     }
 
-    public class ServerPermissions {
+    public class ServerPermissions
+    {
         /// <summary>
         /// The guy who can edit the permissions
         /// </summary>
@@ -431,7 +472,8 @@ namespace NadekoBot.Classes.Permissions {
         public Dictionary<ulong, Permissions> ChannelPermissions { get; set; }
         public Dictionary<ulong, Permissions> RolePermissions { get; set; }
 
-        public ServerPermissions(ulong id, string name) {
+        public ServerPermissions(ulong id, string name)
+        {
             Id = id;
             PermissionsControllerRole = "Nadeko";
             Verbose = true;

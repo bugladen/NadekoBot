@@ -1,14 +1,13 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
-using NadekoBot.Classes.Permissions;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands;
+using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Modules.Permissions.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using PermsHandler = NadekoBot.Classes.Permissions.PermissionsHandler;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -39,7 +38,7 @@ namespace NadekoBot.Modules.Permissions
                      {
                          if (string.IsNullOrWhiteSpace(e.GetArg("role")))
                          {
-                             await e.Channel.SendMessage($"Current permissions role is `{PermsHandler.GetServerPermissionsRoleName(e.Server)}`");
+                             await e.Channel.SendMessage($"Current permissions role is `{PermissionsHandler.GetServerPermissionsRoleName(e.Server)}`");
                              return;
                          }
 
@@ -55,7 +54,7 @@ namespace NadekoBot.Modules.Permissions
                              await e.Channel.SendMessage($"Role `{arg}` probably doesn't exist. Create the role with that name first.");
                              return;
                          }
-                         PermsHandler.SetPermissionsRole(e.Server, role.Name);
+                         PermissionsHandler.SetPermissionsRole(e.Server, role.Name);
                          await e.Channel.SendMessage($"Role `{role.Name}` is now required in order to change permissions.");
                      });
 
@@ -67,7 +66,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         var arg = e.GetArg("arg");
                         var val = PermissionHelper.ValidateBool(arg);
-                        PermsHandler.SetVerbosity(e.Server, val);
+                        PermissionsHandler.SetVerbosity(e.Server, val);
                         await e.Channel.SendMessage($"Verbosity set to {val}.");
                     });
 
@@ -76,7 +75,7 @@ namespace NadekoBot.Modules.Permissions
                     .Description("Shows banned permissions for this server.")
                     .Do(async e =>
                     {
-                        var perms = PermsHandler.GetServerPermissions(e.Server);
+                        var perms = PermissionsHandler.GetServerPermissions(e.Server);
                         if (string.IsNullOrWhiteSpace(perms?.ToString()))
                             await e.Channel.SendMessage("No permissions set for this server.");
                         await e.Channel.SendMessage(perms.ToString());
@@ -101,7 +100,7 @@ namespace NadekoBot.Modules.Permissions
                                 return;
                             }
 
-                        var perms = PermsHandler.GetRolePermissionsById(e.Server, role.Id);
+                        var perms = PermissionsHandler.GetRolePermissionsById(e.Server, role.Id);
 
                         if (string.IsNullOrWhiteSpace(perms?.ToString()))
                             await e.Channel.SendMessage($"No permissions set for **{role.Name}** role.");
@@ -127,7 +126,7 @@ namespace NadekoBot.Modules.Permissions
                                 return;
                             }
 
-                        var perms = PermsHandler.GetChannelPermissionsById(e.Server, channel.Id);
+                        var perms = PermissionsHandler.GetChannelPermissionsById(e.Server, channel.Id);
                         if (string.IsNullOrWhiteSpace(perms?.ToString()))
                             await e.Channel.SendMessage($"No permissions set for **{channel.Name}** channel.");
                         await e.Channel.SendMessage(perms.ToString());
@@ -151,7 +150,7 @@ namespace NadekoBot.Modules.Permissions
                                 return;
                             }
 
-                        var perms = PermsHandler.GetUserPermissionsById(e.Server, user.Id);
+                        var perms = PermissionsHandler.GetUserPermissionsById(e.Server, user.Id);
                         if (string.IsNullOrWhiteSpace(perms?.ToString()))
                             await e.Channel.SendMessage($"No permissions set for user **{user.Name}**.");
                         await e.Channel.SendMessage(perms.ToString());
@@ -168,7 +167,7 @@ namespace NadekoBot.Modules.Permissions
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
-                            PermsHandler.SetServerModulePermission(e.Server, module, state);
+                            PermissionsHandler.SetServerModulePermission(e.Server, module, state);
                             await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on this server.");
                         }
                         catch (ArgumentException exArg)
@@ -192,7 +191,7 @@ namespace NadekoBot.Modules.Permissions
                             var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
-                            PermsHandler.SetServerCommandPermission(e.Server, command, state);
+                            PermissionsHandler.SetServerCommandPermission(e.Server, command, state);
                             await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on this server.");
                         }
                         catch (ArgumentException exArg)
@@ -221,7 +220,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 foreach (var role in e.Server.Roles)
                                 {
-                                    PermsHandler.SetRoleModulePermission(role, module, state);
+                                    PermissionsHandler.SetRoleModulePermission(role, module, state);
                                 }
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
                             }
@@ -229,7 +228,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
-                                PermsHandler.SetRoleModulePermission(role, module, state);
+                                PermissionsHandler.SetRoleModulePermission(role, module, state);
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
                             }
                         }
@@ -259,7 +258,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 foreach (var role in e.Server.Roles)
                                 {
-                                    PermsHandler.SetRoleCommandPermission(role, command, state);
+                                    PermissionsHandler.SetRoleCommandPermission(role, command, state);
                                 }
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **ALL** roles.");
                             }
@@ -267,7 +266,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
 
-                                PermsHandler.SetRoleCommandPermission(role, command, state);
+                                PermissionsHandler.SetRoleCommandPermission(role, command, state);
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
                             }
                         }
@@ -297,7 +296,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 foreach (var channel in e.Server.TextChannels)
                                 {
-                                    PermsHandler.SetChannelModulePermission(channel, module, state);
+                                    PermissionsHandler.SetChannelModulePermission(channel, module, state);
                                 }
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
                             }
@@ -305,7 +304,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
-                                PermsHandler.SetChannelModulePermission(channel, module, state);
+                                PermissionsHandler.SetChannelModulePermission(channel, module, state);
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
                             }
                         }
@@ -335,7 +334,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 foreach (var channel in e.Server.TextChannels)
                                 {
-                                    PermsHandler.SetChannelCommandPermission(channel, command, state);
+                                    PermissionsHandler.SetChannelCommandPermission(channel, command, state);
                                 }
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on **ALL** channels.");
                             }
@@ -343,7 +342,7 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
 
-                                PermsHandler.SetChannelCommandPermission(channel, command, state);
+                                PermissionsHandler.SetChannelCommandPermission(channel, command, state);
                                 await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
                             }
                         }
@@ -370,7 +369,7 @@ namespace NadekoBot.Modules.Permissions
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
-                            PermsHandler.SetUserModulePermission(user, module, state);
+                            PermissionsHandler.SetUserModulePermission(user, module, state);
                             await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
                         }
                         catch (ArgumentException exArg)
@@ -396,7 +395,7 @@ namespace NadekoBot.Modules.Permissions
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
 
-                            PermsHandler.SetUserCommandPermission(user, command, state);
+                            PermissionsHandler.SetUserCommandPermission(user, command, state);
                             await e.Channel.SendMessage($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.");
                         }
                         catch (ArgumentException exArg)
@@ -420,7 +419,7 @@ namespace NadekoBot.Modules.Permissions
 
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
-                                PermsHandler.SetServerModulePermission(e.Server, module.Name, state);
+                                PermissionsHandler.SetServerModulePermission(e.Server, module.Name, state);
                             }
                             await e.Channel.SendMessage($"All modules have been **{(state ? "enabled" : "disabled")}** on this server.");
                         }
@@ -447,7 +446,7 @@ namespace NadekoBot.Modules.Permissions
 
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
-                                PermsHandler.SetServerCommandPermission(e.Server, command.Text, state);
+                                PermissionsHandler.SetServerCommandPermission(e.Server, command.Text, state);
                             }
                             await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** on this server.");
                         }
@@ -473,7 +472,7 @@ namespace NadekoBot.Modules.Permissions
                             var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
-                                PermsHandler.SetChannelModulePermission(channel, module.Name, state);
+                                PermissionsHandler.SetChannelModulePermission(channel, module.Name, state);
                             }
 
                             await e.Channel.SendMessage($"All modules have been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
@@ -502,7 +501,7 @@ namespace NadekoBot.Modules.Permissions
                             var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
-                                PermsHandler.SetChannelCommandPermission(channel, command.Text, state);
+                                PermissionsHandler.SetChannelCommandPermission(channel, command.Text, state);
                             }
                             await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.");
                         }
@@ -528,7 +527,7 @@ namespace NadekoBot.Modules.Permissions
                             var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
-                                PermsHandler.SetRoleModulePermission(role, module.Name, state);
+                                PermissionsHandler.SetRoleModulePermission(role, module.Name, state);
                             }
 
                             await e.Channel.SendMessage($"All modules have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
@@ -557,7 +556,7 @@ namespace NadekoBot.Modules.Permissions
                             var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
-                                PermsHandler.SetRoleCommandPermission(role, command.Text, state);
+                                PermissionsHandler.SetRoleCommandPermission(role, command.Text, state);
                             }
                             await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.");
                         }
@@ -662,8 +661,8 @@ namespace NadekoBot.Modules.Permissions
                             NadekoBot.Config.ServerBlacklist.Add(serverId);
                             ConfigHandler.SaveConfig();
                             //cleanup trivias and typeracing
-                            Classes.Trivia.TriviaGame trivia;
-                            Trivia.RunningTrivias.TryRemove(serverId, out trivia);
+                            Modules.Games.Commands.Trivia.TriviaGame trivia;
+                            TriviaCommands.RunningTrivias.TryRemove(serverId, out trivia);
                             TypingGame typeracer;
                             SpeedTyping.RunningContests.TryRemove(serverId, out typeracer);
 

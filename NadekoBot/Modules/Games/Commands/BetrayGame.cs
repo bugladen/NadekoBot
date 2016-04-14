@@ -1,5 +1,5 @@
 ﻿using Discord.Commands;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,11 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Classes.Permissions;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
-using ServerPermissions = NadekoBot.Classes.Permissions.ServerPermissions;
 
 namespace NadekoBot.Modules.Permissions.Commands
 {
@@ -18,7 +17,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                 if (args.Channel.IsPrivate || args.User.Id == NadekoBot.Client.CurrentUser.Id) return;
                 try
                 {
-                    ServerPermissions serverPerms;
+                    Classes.ServerPermissions serverPerms;
                     if (!IsChannelOrServerFiltering(args.Channel, out serverPerms)) return;
 
                     var wordsInMessage = args.Message.RawText.ToLowerInvariant().Split(' ');
@@ -37,14 +36,14 @@ namespace NadekoBot.Modules.Permissions.Commands
             };
         }
 
-        private static bool IsChannelOrServerFiltering(Channel channel, out ServerPermissions serverPerms)
+        private static bool IsChannelOrServerFiltering(Channel channel, out Classes.ServerPermissions serverPerms)
         {
             if (!PermissionsHandler.PermissionsDict.TryGetValue(channel.Server.Id, out serverPerms)) return false;
 
             if (serverPerms.Permissions.FilterWords)
                 return true;
 
-            Classes.Permissions.Permissions perms;
+            Classes.Permissions perms;
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterWords;
         }
 
@@ -139,7 +138,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                {
                    try
                    {
-                       ServerPermissions serverPerms;
+                       Classes.ServerPermissions serverPerms;
                        if (!PermissionsHandler.PermissionsDict.TryGetValue(e.Server.Id, out serverPerms))
                            return;
                        await e.Channel.SendMessage($"There are `{serverPerms.Words.Count}` filtered words.\n" +

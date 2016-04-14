@@ -3,7 +3,7 @@ using Discord.Audio;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
-using NadekoBot.Commands.Help.Commands;
+using NadekoBot.Classes.Help.Commands;
 using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.ClashOfClans;
 using NadekoBot.Modules.Conversations;
@@ -14,6 +14,7 @@ using NadekoBot.Modules.Help;
 using NadekoBot.Modules.Music;
 using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
+using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Modules.Pokemon;
 using NadekoBot.Modules.Searches;
 using NadekoBot.Modules.Translator;
@@ -233,7 +234,7 @@ namespace NadekoBot
                     if (string.IsNullOrWhiteSpace(request.Content))
                         e.Cancel = true;
                 };
-                Classes.Permissions.PermissionsHandler.Initialize();
+                PermissionsHandler.Initialize();
                 NadekoBot.Ready = true;
             });
             Console.WriteLine("Exiting...");

@@ -1,12 +1,13 @@
 ﻿using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Commands.Help.Commands
+namespace NadekoBot.Classes.Help.Commands
 {
     internal class HelpCommand : DiscordCommand
     {
@@ -104,7 +105,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Do(DoFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
                 .Description("Generates the commandlist.md file. **Owner Only!**")
-                .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")

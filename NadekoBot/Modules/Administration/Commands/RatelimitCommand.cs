@@ -1,6 +1,6 @@
 using Discord.Commands;
-using NadekoBot.Classes.Permissions;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 

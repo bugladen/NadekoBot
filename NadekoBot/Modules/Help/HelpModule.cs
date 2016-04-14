@@ -1,7 +1,8 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Commands.Help.Commands;
+using NadekoBot.Classes.Help.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using System.Linq;
 
 namespace NadekoBot.Modules.Help
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Help
         {
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "modules")

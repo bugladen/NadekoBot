@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help
-namespace NadekoBot.Classes.Trivia {
-    public class TriviaQuestion {
+namespace NadekoBot.Modules.Games.Commands.Trivia
+{
+    public class TriviaQuestion
+    {
         //represents the min size to judge levDistance with
         private static readonly HashSet<Tuple<int, int>> strictness = new HashSet<Tuple<int, int>> {
             new Tuple<int, int>(9, 0),
@@ -19,7 +21,8 @@ namespace NadekoBot.Classes.Trivia {
         public string Question;
         public string Answer;
 
-        public TriviaQuestion(string q, string a, string c) {
+        public TriviaQuestion(string q, string a, string c)
+        {
             this.Question = q;
             this.Answer = a;
             this.Category = c;
@@ -27,14 +30,17 @@ namespace NadekoBot.Classes.Trivia {
 
         public string GetHint() => Answer.Scramble();
 
-        public bool IsAnswerCorrect(string guess) {
+        public bool IsAnswerCorrect(string guess)
+        {
             guess = CleanGuess(guess);
-            if (Answer.Equals(guess)) {
+            if (Answer.Equals(guess))
+            {
                 return true;
             }
             Answer = CleanGuess(Answer);
             guess = CleanGuess(guess);
-            if (Answer.Equals(guess)) {
+            if (Answer.Equals(guess))
+            {
                 return true;
             }
 
@@ -42,9 +48,12 @@ namespace NadekoBot.Classes.Trivia {
             return JudgeGuess(Answer.Length, guess.Length, levDistance);
         }
 
-        private bool JudgeGuess(int guessLength, int answerLength, int levDistance) {
-            foreach (Tuple<int, int> level in strictness) {
-                if (guessLength <= level.Item1 || answerLength <= level.Item1) {
+        private bool JudgeGuess(int guessLength, int answerLength, int levDistance)
+        {
+            foreach (Tuple<int, int> level in strictness)
+            {
+                if (guessLength <= level.Item1 || answerLength <= level.Item1)
+                {
                     if (levDistance <= level.Item2)
                         return true;
                     else
@@ -54,7 +63,8 @@ namespace NadekoBot.Classes.Trivia {
             return false;
         }
 
-        private string CleanGuess(string str) {
+        private string CleanGuess(string str)
+        {
             str = " " + str.ToLower() + " ";
             str = Regex.Replace(str, "\\s+", " ");
             str = Regex.Replace(str, "[^\\w\\d\\s]", "");

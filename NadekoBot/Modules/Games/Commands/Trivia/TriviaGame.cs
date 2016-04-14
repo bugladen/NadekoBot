@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Trivia
+namespace NadekoBot.Modules.Games.Commands.Trivia
 {
     internal class TriviaGame
     {
@@ -96,7 +97,7 @@ namespace NadekoBot.Classes.Trivia
             ShouldStopGame = true;
             await channel.SendMessage("**Trivia game ended**\n" + GetLeaderboard());
             TriviaGame throwAwayValue;
-            Modules.Games.Commands.Trivia.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
+            TriviaCommands.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
         }
 
         public async Task StopGame()

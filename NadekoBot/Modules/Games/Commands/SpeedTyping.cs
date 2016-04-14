@@ -2,7 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes._DataModels;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;

@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -18,7 +19,7 @@ namespace NadekoBot.Modules.NSFW
             manager.CreateCommands("", cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand(Prefix + "hentai")
                     .Description("Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~hentai yuri+kissing")

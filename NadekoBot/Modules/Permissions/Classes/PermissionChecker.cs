@@ -6,7 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Permissions
+namespace NadekoBot.Modules.Permissions.Classes
 {
 
     internal class PermissionChecker : IPermissionChecker
