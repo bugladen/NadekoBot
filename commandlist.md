@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5946.35906`
+Version: `NadekoBot v0.9.5949.1923`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -32,6 +32,9 @@ Command and aliases | Description | Usage
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
+`.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
+`.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
+`.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -157,7 +160,6 @@ Command and aliases | Description | Usage
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
 `@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
-`@BotName leet`  |  
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -186,6 +188,8 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
+`>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels
+**Usage:** >leet 3 Hello
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
