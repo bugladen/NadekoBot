@@ -203,6 +203,7 @@ namespace NadekoBot
                     return;
                 }
 
+                //await Task.Delay(90000);
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats());
                 Console.WriteLine("-----------------");
