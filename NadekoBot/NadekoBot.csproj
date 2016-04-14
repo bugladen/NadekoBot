@@ -163,6 +163,7 @@
     <Compile Include="Commands\BetrayGame.cs" />
     <Compile Include="Commands\PlantPick.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
+    <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
     <Compile Include="Modules\Administration\Commands\Remind.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
