@@ -123,16 +123,16 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
-    <Compile Include="Classes\IMDB\ImdbMovie.cs" />
-    <Compile Include="Classes\IMDB\ImdbScraper.cs" />
+    <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
+    <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
-    <Compile Include="Classes\JSONModels\AnimeResult.cs" />
-    <Compile Include="Classes\JSONModels\Configuration.cs" />
-    <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
-    <Compile Include="Classes\JSONModels\MagicItem.cs" />
-    <Compile Include="Classes\JSONModels\MangaResult.cs" />
-    <Compile Include="Classes\JSONModels\PokemonType.cs" />
-    <Compile Include="Classes\JSONModels\_JSONModels.cs" />
+    <Compile Include="_Models\JSONModels\AnimeResult.cs" />
+    <Compile Include="_Models\JSONModels\Configuration.cs" />
+    <Compile Include="_Models\JSONModels\LocalizedStrings.cs" />
+    <Compile Include="_Models\JSONModels\MagicItem.cs" />
+    <Compile Include="_Models\JSONModels\MangaResult.cs" />
+    <Compile Include="_Models\JSONModels\PokemonType.cs" />
+    <Compile Include="_Models\JSONModels\_JSONModels.cs" />
     <Compile Include="Modules\Games\Commands\LeetCommand.cs" />
     <Compile Include="Modules\Music\Classes\MusicControls.cs" />
     <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
@@ -144,23 +144,23 @@
     <Compile Include="Modules\Permissions\Classes\SimpleCheckers.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\ServerSpecificConfig.cs" />
-    <Compile Include="_DataModels\AnnouncementModel.cs" />
-    <Compile Include="_DataModels\CommandModel.cs" />
-    <Compile Include="_DataModels\CurrencyStateModel.cs" />
-    <Compile Include="_DataModels\CurrencyTransactionModel.cs" />
-    <Compile Include="_DataModels\Donator.cs" />
-    <Compile Include="_DataModels\IDataModel.cs" />
-    <Compile Include="_DataModels\MusicPlaylist.cs" />
-    <Compile Include="_DataModels\PlaylistSongInfo.cs" />
-    <Compile Include="_DataModels\PokeTypes.cs" />
-    <Compile Include="_DataModels\Reminder.cs" />
-    <Compile Include="_DataModels\RequestModel.cs" />
-    <Compile Include="_DataModels\SongInfo.cs" />
-    <Compile Include="_DataModels\StatsModel.cs" />
-    <Compile Include="_DataModels\TypingArticleModel.cs" />
-    <Compile Include="_DataModels\UserQuoteModel.cs" />
+    <Compile Include="_Models\DataModels\AnnouncementModel.cs" />
+    <Compile Include="_Models\DataModels\CommandModel.cs" />
+    <Compile Include="_Models\DataModels\CurrencyStateModel.cs" />
+    <Compile Include="_Models\DataModels\CurrencyTransactionModel.cs" />
+    <Compile Include="_Models\DataModels\Donator.cs" />
+    <Compile Include="_Models\DataModels\IDataModel.cs" />
+    <Compile Include="_Models\DataModels\MusicPlaylist.cs" />
+    <Compile Include="_Models\DataModels\PlaylistSongInfo.cs" />
+    <Compile Include="_Models\DataModels\PokeTypes.cs" />
+    <Compile Include="_Models\DataModels\Reminder.cs" />
+    <Compile Include="_Models\DataModels\RequestModel.cs" />
+    <Compile Include="_Models\DataModels\SongInfo.cs" />
+    <Compile Include="_Models\DataModels\StatsModel.cs" />
+    <Compile Include="_Models\DataModels\TypingArticleModel.cs" />
+    <Compile Include="_Models\DataModels\UserQuoteModel.cs" />
     <Compile Include="Modules\Games\Commands\BetrayGame.cs" />
-    <Compile Include="Classes\DiscordCommand.cs" />
+    <Compile Include="Modules\DiscordCommand.cs" />
     <Compile Include="Modules\Games\Commands\PlantPick.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
     <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
@@ -471,9 +471,7 @@
   <ItemGroup>
     <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\Permissions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
