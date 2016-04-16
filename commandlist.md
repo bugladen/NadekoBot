@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5949.1923`
+Version: `NadekoBot v0.9.5950.11393`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -188,8 +188,7 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
-`>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels
-**Usage:** >leet 3 Hello
+`>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels |  >leet 3 Hello
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
@@ -222,6 +221,7 @@ Command and aliases | Description | Usage
 `!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 `!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
 `!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
+`!m goto`  |  Goes to a specific time in seconds in a song.
 
 ### Searches  
 Command and aliases | Description | Usage
