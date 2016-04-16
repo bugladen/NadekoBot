@@ -4,13 +4,14 @@ ________________________________________________________________________________
 
 #### Setting Up NadekoBot v0.93.2
 ###### Prerequisites: 
-1) NET Framework 4.6
+1) NET Framework 4.5.2 (or 4.6)
 - Rename credentials_example.json into credentials.json. (Note: If you do not see a .json after credentials_example.json, do not add the .json. You likely have "Hide file extensions" as enabled.)
 - Go to (https://discordapp.com/developers/applications/me). Log in if you have to with your Discord account. Press "New Application" and fill out an App Name and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on "Create a Bot User" and confirm it. You will then see the bot's username, ID and token. Reveal and copy the token and the bot ID.
-- Open up credentials.json. Paste the token into the Token field, between the quotes. Paste the ID into the BotID field. Save and close credentials.json.
+- Open up credentials.json. Paste the token into the Token field, between the quotes. Paste the ID into the BotID field. Leave email and password fields empty. Save and close credentials.json.
+- Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json.
 - Start NadekoBot.exe. In a text channel, **not a direct message**, type in [.uid @______] without the brackets, filling in the underlined portion with your name and send the message. Your bot will reply with a number; this is your ID. Copy this ID and close NadekoBot.exe.   
 - Reopen credentials.json. Paste your ID into the square brackets ("OwnerIds": [1231312313]). You can add multiple owners by separating IDs with a comma. Close and save credentials.json.  
-- Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json.
+
 
 ________________________________________________________________________________
 
