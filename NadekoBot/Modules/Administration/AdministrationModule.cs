@@ -1,8 +1,8 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.DataModels;
 using NadekoBot.Classes;
+using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
 using NadekoBot.Modules.Permissions.Classes;
@@ -787,7 +787,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "videocall")
-                  .Description("Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
+                  .Description("Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
                   .Parameter("arg", ParameterType.Unparsed)
                   .Do(async e =>
                   {
