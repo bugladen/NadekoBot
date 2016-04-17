@@ -43,9 +43,28 @@ namespace NadekoBot.Modules.Music.Classes
 
         private ulong bytesSent { get; set; } = 0;
 
+        public bool PrintStatusMessage { get; set; } = true;
+
+        private int skipTo = 0;
+        public int SkipTo {
+            get { return SkipTo; }
+            set {
+                skipTo = value;
+                bytesSent = (ulong)skipTo * 3840 * 50;
+            }
+        }
+
         private Song(SongInfo songInfo)
         {
             this.SongInfo = songInfo;
+        }
+
+        public Song Clone()
+        {
+            var s = new Song(SongInfo);
+            s.MusicPlayer = MusicPlayer;
+            s.State = StreamState.Queued;
+            return s;
         }
 
         private Task BufferSong(CancellationToken cancelToken) =>
@@ -57,7 +76,7 @@ namespace NadekoBot.Modules.Music.Classes
                     p = Process.Start(new ProcessStartInfo
                     {
                         FileName = "ffmpeg",
-                        Arguments = $"-i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
+                        Arguments = $"-ss {skipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardError = false,

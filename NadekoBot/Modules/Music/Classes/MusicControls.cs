@@ -175,6 +175,14 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
+        public void AddSong(Song s, int index) {
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
+            lock (playlistLock) {
+                playlist.Insert(index, s);
+            }
+        }
+
         public void RemoveSong(Song s)
         {
             if (s == null)

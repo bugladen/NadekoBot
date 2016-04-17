@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.DataModels;
 using NadekoBot.Classes;
+using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Music.Classes;
 using NadekoBot.Modules.Permissions.Classes;
@@ -534,6 +534,42 @@ namespace NadekoBot.Modules.Music
                             }
                         }
                     });
+
+                cgb.CreateCommand("goto")
+                    .Description("Goes to a specific time in seconds in a song.")
+                    .Parameter("time")
+                    .Do(async e =>
+                    {
+                        var skipToStr = e.GetArg("time")?.Trim();
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+
+                        int skipTo;
+                        if (!int.TryParse(skipToStr, out skipTo) || skipTo < 0)
+                            return;
+
+                        var currentSong = musicPlayer.CurrentSong;
+
+                        if (currentSong == null)
+                            return;
+
+                        //currentSong.PrintStatusMessage = false;
+                        var gotoSong = currentSong.Clone();
+                        gotoSong.SkipTo = skipTo;
+                        musicPlayer.AddSong(gotoSong, 0);
+                        musicPlayer.Next();
+
+                        var minutes = (skipTo / 60).ToString();
+                        var seconds = (skipTo % 60).ToString();
+
+                        if (minutes.Length == 1)
+                            minutes = "0" + minutes;
+                        if (seconds.Length == 1)
+                            seconds = "0" + seconds;
+
+                        await e.Channel.SendMessage($"`Skipped to {minutes}:{seconds}`");
+                    });
             });
         }
 
@@ -561,27 +597,35 @@ namespace NadekoBot.Modules.Music
                 Message lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
-                    try
+                    if (song.PrintStatusMessage)
                     {
-                        if (lastFinishedMessage != null)
-                            await lastFinishedMessage.Delete();
-                        if (playingMessage != null)
-                            await playingMessage.Delete();
-                        lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
+                        try
+                        {
+                            if (lastFinishedMessage != null)
+                                await lastFinishedMessage.Delete();
+                            if (playingMessage != null)
+                                await playingMessage.Delete();
+                            lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
+                        }
+                        catch { }
                     }
-                    catch { }
                 };
                 mp.OnStarted += async (s, song) =>
                 {
-                    var sender = s as MusicPlayer;
-                    if (sender == null)
-                        return;
-                    try
+                    if (song.PrintStatusMessage)
                     {
-                        var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                        playingMessage = await textCh.SendMessage(msgTxt);
+                        var sender = s as MusicPlayer;
+                        if (sender == null)
+                            return;
+
+                        try
+                        {
+
+                            var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
+                            playingMessage = await textCh.SendMessage(msgTxt);
+                        }
+                        catch { }
                     }
-                    catch { }
                 };
                 return mp;
             });
