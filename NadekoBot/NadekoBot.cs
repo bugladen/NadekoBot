@@ -211,7 +211,7 @@ namespace NadekoBot
                     return;
                 }
 
-                await Task.Delay(90000).ConfigureAwait(false);
+                //await Task.Delay(90000).ConfigureAwait(false);
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");
