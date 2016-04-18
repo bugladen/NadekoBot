@@ -2,8 +2,8 @@
 using Discord.Audio;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Help.Commands;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.ClashOfClans;
 using NadekoBot.Modules.Conversations;
@@ -167,7 +167,6 @@ namespace NadekoBot
             {
                 Channels = 2,
                 EnableEncryption = false,
-                EnableMultiserver = true,
                 Bitrate = 128,
             }));
 
