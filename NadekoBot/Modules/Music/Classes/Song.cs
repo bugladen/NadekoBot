@@ -90,7 +90,8 @@ namespace NadekoBot.Modules.Music.Classes
                         var read = 0;
                         try
                         {
-                            read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize, cancelToken);
+                            read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize, cancelToken)
+                                          .ConfigureAwait(false);
                         }
                         catch
                         {
@@ -100,10 +101,10 @@ namespace NadekoBot.Modules.Music.Classes
                             if (attempt++ == 50)
                                 break;
                             else
-                                await Task.Delay(100, cancelToken);
+                                await Task.Delay(100, cancelToken).ConfigureAwait(false);
                         else
                             attempt = 0;
-                        await songBuffer.WriteAsync(buffer, read, cancelToken);
+                        await songBuffer.WriteAsync(buffer, read, cancelToken).ConfigureAwait(false);
                         if (songBuffer.ContentLength > 2.MB())
                             prebufferingComplete = true;
                     }
@@ -135,7 +136,7 @@ namespace NadekoBot.Modules.Music.Classes
             var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
             while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes)
             {
-                await Task.Delay(waitPerAttempt, cancelToken);
+                await Task.Delay(waitPerAttempt, cancelToken).ConfigureAwait(false);
             }
             cancelToken.ThrowIfCancellationRequested();
             Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
@@ -158,12 +159,12 @@ namespace NadekoBot.Modules.Music.Classes
                         break;
                     }
                     else
-                        await Task.Delay(100, cancelToken);
+                        await Task.Delay(100, cancelToken).ConfigureAwait(false);
                 else
                     attempt = 0;
 
                 while (this.MusicPlayer.Paused)
-                    await Task.Delay(200, cancelToken);
+                    await Task.Delay(200, cancelToken).ConfigureAwait(false);
                 buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                 voiceClient.Send(buffer, 0, read);
             }
@@ -209,7 +210,7 @@ namespace NadekoBot.Modules.Music.Classes
             if (musicType != MusicType.Local && IsRadioLink(query))
             {
                 musicType = MusicType.Radio;
-                query = await HandleStreamContainers(query) ?? query;
+                query = await HandleStreamContainers(query).ConfigureAwait(false) ?? query;
             }
 
             try
@@ -237,7 +238,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 if (SoundCloud.Default.IsSoundCloudLink(query))
                 {
-                    var svideo = await SoundCloud.Default.GetVideoAsync(query);
+                    var svideo = await SoundCloud.Default.GetVideoAsync(query).ConfigureAwait(false);
                     return new Song(new SongInfo
                     {
                         Title = svideo.FullName,
@@ -247,10 +248,10 @@ namespace NadekoBot.Modules.Music.Classes
                         Query = query,
                     });
                 }
-                var link = await SearchHelper.FindYoutubeUrlByKeywords(query);
+                var link = await SearchHelper.FindYoutubeUrlByKeywords(query).ConfigureAwait(false);
                 if (link == String.Empty)
                     throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(link)).Unwrap();
+                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false)).Unwrap().ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
                     .Where(v => v.AudioBitrate < 192)
@@ -280,7 +281,7 @@ namespace NadekoBot.Modules.Music.Classes
             string file = null;
             try
             {
-                file = await SearchHelper.GetResponseStringAsync(query);
+                file = await SearchHelper.GetResponseStringAsync(query).ConfigureAwait(false);
             }
             catch
             {

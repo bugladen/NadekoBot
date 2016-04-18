@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Games.Commands
             IsActive = false;
             sw.Stop();
             sw.Reset();
-            await channel.Send("Typing contest stopped");
+            await channel.Send("Typing contest stopped").ConfigureAwait(false);
             return true;
         }
 
@@ -68,28 +68,28 @@ namespace NadekoBot.Modules.Games.Commands
                 IsActive = true;
                 CurrentSentence = SentencesProvider.GetRandomSentence();
                 var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
-                await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.");
+                await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
 
-                var msg = await channel.SendMessage("Starting new typing contest in **3**...");
-                await Task.Delay(1000);
-                await msg.Edit("Starting new typing contest in **2**...");
-                await Task.Delay(1000);
-                await msg.Edit("Starting new typing contest in **1**...");
-                await Task.Delay(1000);
-                await msg.Edit($":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:");
+                var msg = await channel.SendMessage("Starting new typing contest in **3**...").ConfigureAwait(false);
+                await Task.Delay(1000).ConfigureAwait(false);
+                await msg.Edit("Starting new typing contest in **2**...").ConfigureAwait(false);
+                await Task.Delay(1000).ConfigureAwait(false);
+                await msg.Edit("Starting new typing contest in **1**...").ConfigureAwait(false);
+                await Task.Delay(1000).ConfigureAwait(false);
+                await msg.Edit($":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
                 sw.Start();
                 HandleAnswers();
 
                 while (i > 0)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(1000).ConfigureAwait(false);
                     i--;
                     if (!IsActive)
                         return;
                 }
 
-                await Stop();
+                await Stop().ConfigureAwait(false);
             }
         }
 
@@ -111,10 +111,10 @@ namespace NadekoBot.Modules.Games.Commands
                 if (decision && !finishedUserIds.Contains(e.User.Id))
                 {
                     finishedUserIds.Add(e.User.Id);
-                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!");
+                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
                     if (finishedUserIds.Count % 2 == 0)
                     {
-                        await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:");
+                        await e.Channel.SendMessage($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
                     }
                 }
             }
@@ -144,11 +144,12 @@ namespace NadekoBot.Modules.Games.Commands
                 {
                     await e.Channel.SendMessage(
                             $"Contest already running in " +
-                            $"{game.Channell.Mention} channel.");
+                            $"{game.Channell.Mention} channel.")
+                                .ConfigureAwait(false);
                 }
                 else
                 {
-                    await game.Start();
+                    await game.Start().ConfigureAwait(false);
                 }
             };
 
@@ -158,10 +159,10 @@ namespace NadekoBot.Modules.Games.Commands
                 TypingGame game;
                 if (RunningContests.TryRemove(e.User.Server.Id, out game))
                 {
-                    await game.Stop();
+                    await game.Stop().ConfigureAwait(false);
                     return;
                 }
-                await e.Channel.SendMessage("No contest to stop on this channel.");
+                await e.Channel.SendMessage("No contest to stop on this channel.").ConfigureAwait(false);
             };
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -187,7 +188,7 @@ namespace NadekoBot.Modules.Games.Commands
                         DateAdded = DateTime.Now
                     });
 
-                    await e.Channel.SendMessage("Added new article for typing game.");
+                    await e.Channel.SendMessage("Added new article for typing game.").ConfigureAwait(false);
                 });
 
             //todo add user submissions

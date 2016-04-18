@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         try
                         {
-                            await e.Message.Delete();
+                            await e.Message.Delete().ConfigureAwait(false);
                         }
                         catch { }
                         return;
@@ -54,13 +54,14 @@ namespace NadekoBot.Modules.Administration.Commands
                     ConcurrentDictionary<ulong, DateTime> throwaway;
                     if (RatelimitingChannels.TryRemove(e.Channel.Id, out throwaway))
                     {
-                        await e.Channel.SendMessage("Slow mode disabled.");
+                        await e.Channel.SendMessage("Slow mode disabled.").ConfigureAwait(false);
                         return;
                     }
                     if (RatelimitingChannels.TryAdd(e.Channel.Id, new ConcurrentDictionary<ulong, DateTime>()))
                     {
                         await e.Channel.SendMessage("Slow mode initiated. " +
-                                                    "Users can't send more than 1 message every 5 seconds.");
+                                                    "Users can't send more than 1 message every 5 seconds.")
+                                                    .ConfigureAwait(false);
                     }
                 });
         }

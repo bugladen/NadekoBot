@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 while (true)
                 {
                     //blacklist is cleared every 1.75 seconds. That is the most time anyone will be blocked
-                    await Task.Delay(1750);
+                    await Task.Delay(1750).ConfigureAwait(false);
                     timeBlackList.Clear();
                 }
             });

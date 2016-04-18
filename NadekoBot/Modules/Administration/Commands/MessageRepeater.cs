@@ -36,12 +36,12 @@ namespace NadekoBot.Modules.Administration.Commands
                         try
                         {
                             if (lastMessage != null)
-                                await lastMessage.Delete();
+                                await lastMessage.Delete().ConfigureAwait(false);
                         }
                         catch { }
                         try
                         {
-                            lastMessage = await ch.SendMessage(msg);
+                            lastMessage = await ch.SendMessage(msg).ConfigureAwait(false);
                         }
                         catch { }
                     }
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     // if both null, disable
                     if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr))
                     {
-                        await e.Channel.SendMessage("Repeating disabled");
+                        await e.Channel.SendMessage("Repeating disabled").ConfigureAwait(false);
                         Repeater rep;
                         if (repeaters.TryGetValue(e.Server, out rep))
                             rep.MessageTimer.Stop();
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     int minutes;
                     if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 720)
                     {
-                        await e.Channel.SendMessage("Invalid value");
+                        await e.Channel.SendMessage("Invalid value").ConfigureAwait(false);
                         return;
                     }
 
@@ -98,7 +98,8 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     await e.Channel.SendMessage(String.Format("👌 Repeating `{0}` every " +
                                                               "**{1}** minutes on {2} channel.",
-                                                              repeater.RepeatingMessage, minutes, repeater.RepeatingChannel));
+                                                              repeater.RepeatingMessage, minutes, repeater.RepeatingChannel))
+                                                              .ConfigureAwait(false);
                 });
         }
 

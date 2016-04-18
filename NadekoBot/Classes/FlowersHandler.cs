@@ -16,7 +16,7 @@ namespace NadekoBot.Classes
                     UserId = (long)u.Id,
                     Value = amount,
                 });
-            });
+            }).ConfigureAwait(false);
 
             if (silent)
                 return;
@@ -26,7 +26,7 @@ namespace NadekoBot.Classes
             {
                 flows += NadekoBot.Config.CurrencySign;
             }
-            await u.SendMessage("👑Congratulations!👑\nYou received: " + flows);
+            await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }
 
         public static bool RemoveFlowers(Discord.User u, string reason, int amount)

@@ -30,11 +30,12 @@ namespace NadekoBot.Modules.Gambling
             if (e.GetArg("count") == "")
             {
                 if (rng.Next(0, 2) == 1)
-                    await e.Channel.SendFile("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png));
+                    await e.Channel.SendFile("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
                 else
-                    await e.Channel.SendFile("tails.png", Properties.Resources.tails.ToStream(System.Drawing.Imaging.ImageFormat.Png));
+                    await e.Channel.SendFile("tails.png", Properties.Resources.tails.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
             }
-            else {
+            else
+            {
                 int result;
                 if (int.TryParse(e.GetArg("count"), out result))
                 {
@@ -47,10 +48,10 @@ namespace NadekoBot.Modules.Gambling
                                     Properties.Resources.tails :
                                     Properties.Resources.heads;
                     }
-                    await e.Channel.SendFile($"{result} coins.png", imgs.Merge().ToStream(System.Drawing.Imaging.ImageFormat.Png));
+                    await e.Channel.SendFile($"{result} coins.png", imgs.Merge().ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
                     return;
                 }
-                await e.Channel.SendMessage("Invalid number");
+                await e.Channel.SendMessage("Invalid number").ConfigureAwait(false);
             }
         };
     }

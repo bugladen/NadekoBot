@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Games.Commands
                     boardStr.AppendLine();
                 }
                 if (godMsg.Id != 0)
-                    await godMsg.Edit(boardStr.ToString());
+                    await godMsg.Edit(boardStr.ToString()).ConfigureAwait(false);
 
             };
             t.Interval = 1000;
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Games.Commands
             //    {
             //        if (gameChannel != null)
             //            return;
-            //        godMsg = await e.Channel.SendMessage("GAME START IN 1 SECOND....");
+            //        godMsg = await e.Channel.SendMessage("GAME START IN 1 SECOND....").ConfigureAwait(false);
             //        gameChannel = e.Channel;
             //        players[0] = new BombermanPlayer
             //        {

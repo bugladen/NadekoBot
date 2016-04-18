@@ -43,9 +43,9 @@ namespace NadekoBot.Modules.Games.Commands
                           var poll = new Poll(e, data[0], data.Skip(1));
                           if (PollCommand.ActivePolls.TryAdd(e.Server, poll))
                           {
-                              await poll.StartPoll();
+                              await poll.StartPoll().ConfigureAwait(false);
                           }
-                      });
+                      }).ConfigureAwait(false);
                   });
             cgb.CreateCommand(Module.Prefix + "pollend")
                   .Description("Stops active poll on this server and prints the results in this channel.")
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Games.Commands
                           return;
                       if (!ActivePolls.ContainsKey(e.Server))
                           return;
-                      await ActivePolls[e.Server].StopPoll(e.Channel);
+                      await ActivePolls[e.Server].StopPoll(e.Channel).ConfigureAwait(false);
                   });
         }
 
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Games.Commands
             var num = 1;
             msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
             msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
-            await e.Channel.SendMessage(msgToSend);
+            await e.Channel.SendMessage(msgToSend).ConfigureAwait(false);
         }
 
         public async Task StopPoll(Channel ch)
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Games.Commands
                 var totalVotesCast = results.Sum(kvp => kvp.Value);
                 if (totalVotesCast == 0)
                 {
-                    await ch.SendMessage("📄 **No votes have been cast.**");
+                    await ch.SendMessage("📄 **No votes have been cast.**").ConfigureAwait(false);
                     return;
                 }
                 var closeMessage = $"--------------**POLL CLOSED**--------------\n" +
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Games.Commands
                                                                                  $" has {kvp.Value} votes." +
                                                                                  $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
 
-                await ch.SendMessage($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}");
+                await ch.SendMessage($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Games.Commands
                     return;
                 if (participants.TryAdd(e.User, vote))
                 {
-                    await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.");
+                    await e.User.SendMessage($"Thanks for voting **{e.User.Name}**.").ConfigureAwait(false);
                 }
             }
             catch { }

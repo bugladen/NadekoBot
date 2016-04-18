@@ -147,7 +147,7 @@ namespace NadekoBot
                         return;
                     try
                     {
-                        await e.Channel.SendMessage(e.Exception.Message);
+                        await e.Channel.SendMessage(e.Exception.Message).ConfigureAwait(false);
                     }
                     catch { }
                 }
@@ -192,10 +192,10 @@ namespace NadekoBot
                 try
                 {
                     if (string.IsNullOrWhiteSpace(Creds.Token))
-                        await Client.Connect(Creds.Username, Creds.Password);
+                        await Client.Connect(Creds.Username, Creds.Password).ConfigureAwait(false);
                     else
                     {
-                        await Client.Connect(Creds.Token);
+                        await Client.Connect(Creds.Token).ConfigureAwait(false);
                         IsBot = true;
                     }
                     Console.WriteLine(NadekoBot.Client.CurrentUser.Id);
@@ -211,14 +211,14 @@ namespace NadekoBot
                     return;
                 }
 
-                //await Task.Delay(90000);
+                await Task.Delay(90000).ConfigureAwait(false);
                 Console.WriteLine("-----------------");
-                Console.WriteLine(await NadekoStats.Instance.GetStats());
+                Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");
 
                 try
                 {
-                    OwnerPrivateChannel = await Client.CreatePrivateChannel(Creds.OwnerIds[0]);
+                    OwnerPrivateChannel = await Client.CreatePrivateChannel(Creds.OwnerIds[0]).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -245,7 +245,7 @@ namespace NadekoBot
         public async Task SendMessageToOwner(string message)
         {
             if (Config.ForwardMessages && OwnerPrivateChannel != null)
-                await OwnerPrivateChannel.SendMessage(message);
+                await OwnerPrivateChannel.SendMessage(message).ConfigureAwait(false);
         }
 
         private static bool repliedRecently = false;
@@ -262,29 +262,29 @@ namespace NadekoBot
                 {
                     try
                     {
-                        await (await Client.GetInvite(e.Message.Text)).Accept();
-                        await e.Channel.SendMessage("I got in!");
+                        await (await Client.GetInvite(e.Message.Text).ConfigureAwait(false)).Accept().ConfigureAwait(false);
+                        await e.Channel.SendMessage("I got in!").ConfigureAwait(false);
                         return;
                     }
                     catch
                     {
                         if (e.User.Id == 109338686889476096)
                         { //carbonitex invite
-                            await e.Channel.SendMessage("Failed to join the server.");
+                            await e.Channel.SendMessage("Failed to join the server.").ConfigureAwait(false);
                             return;
                         }
                     }
                 }
 
                 if (Config.ForwardMessages && !NadekoBot.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannel != null)
-                    await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```");
+                    await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```").ConfigureAwait(false);
 
                 if (repliedRecently) return;
 
                 repliedRecently = true;
                 if (e.Message.RawText != "-h")
-                    await e.Channel.SendMessage(HelpCommand.DMHelpString);
-                await Task.Delay(2000);
+                    await e.Channel.SendMessage(HelpCommand.DMHelpString).ConfigureAwait(false);
+                await Task.Delay(2000).ConfigureAwait(false);
                 repliedRecently = false;
             }
             catch { }

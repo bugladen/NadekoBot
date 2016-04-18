@@ -22,13 +22,14 @@ namespace NadekoBot.Modules.Permissions.Commands
                     var wordsInMessage = args.Message.RawText.ToLowerInvariant().Split(' ');
                     if (serverPerms.Words.Any(w => wordsInMessage.Contains(w)))
                     {
-                        await args.Message.Delete();
+                        await args.Message.Delete().ConfigureAwait(false);
                         IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
                                                              $"BANNED WORD in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
                                                              $"Full message: [[{args.Message.Text}]]");
                         if (serverPerms.Verbose)
                             await args.Channel.SendMessage($"{args.User.Mention} One or more of the words you used " +
-                                                           $"in that sentence are not allowed here.");
+                                                           $"in that sentence are not allowed here.")
+                                                           .ConfigureAwait(false);
                     }
                 }
                 catch { }
@@ -68,7 +69,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
                             PermissionsHandler.SetChannelWordPermission(chan, state);
-                            await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.");
+                            await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.").ConfigureAwait(false);
                             return;
                         }
                         //all channels
@@ -77,11 +78,11 @@ namespace NadekoBot.Modules.Permissions.Commands
                         {
                             PermissionsHandler.SetChannelWordPermission(curChannel, state);
                         }
-                        await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.");
+                        await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                        await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                     }
                 });
 
@@ -98,12 +99,12 @@ namespace NadekoBot.Modules.Permissions.Commands
                        if (string.IsNullOrWhiteSpace(word))
                            return;
                        PermissionsHandler.AddFilteredWord(e.Server, word.ToLowerInvariant().Trim());
-                       await e.Channel.SendMessage($"Successfully added new filtered word.");
+                       await e.Channel.SendMessage($"Successfully added new filtered word.").ConfigureAwait(false);
 
                    }
                    catch (Exception ex)
                    {
-                       await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                       await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                    }
                });
 
@@ -120,12 +121,12 @@ namespace NadekoBot.Modules.Permissions.Commands
                        if (string.IsNullOrWhiteSpace(word))
                            return;
                        PermissionsHandler.RemoveFilteredWord(e.Server, word.ToLowerInvariant().Trim());
-                       await e.Channel.SendMessage($"Successfully removed filtered word.");
+                       await e.Channel.SendMessage($"Successfully removed filtered word.").ConfigureAwait(false);
 
                    }
                    catch (Exception ex)
                    {
-                       await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                       await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                    }
                });
 
@@ -141,11 +142,11 @@ namespace NadekoBot.Modules.Permissions.Commands
                        if (!PermissionsHandler.PermissionsDict.TryGetValue(e.Server.Id, out serverPerms))
                            return;
                        await e.Channel.SendMessage($"There are `{serverPerms.Words.Count}` filtered words.\n" +
-                           string.Join("\n", serverPerms.Words));
+                           string.Join("\n", serverPerms.Words)).ConfigureAwait(false);
                    }
                    catch (Exception ex)
                    {
-                       await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                       await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                    }
                });
 
@@ -159,12 +160,13 @@ namespace NadekoBot.Modules.Permissions.Commands
                     {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                         PermissionsHandler.SetServerWordPermission(e.Server, state);
-                        await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** on this server.");
+                        await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** on this server.")
+                                       .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                        await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                     }
                 });
         }

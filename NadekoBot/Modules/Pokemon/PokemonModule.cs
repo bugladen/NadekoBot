@@ -1,8 +1,8 @@
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
-using NadekoBot.DataModels;
 using NadekoBot.Classes.JSONModels;
+using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
@@ -92,12 +92,12 @@ namespace NadekoBot.Modules.Pokemon
                         var target = e.Server.FindUsers(targetStr).FirstOrDefault();
                         if (target == null)
                         {
-                            await e.Channel.SendMessage("No such person.");
+                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
                             return;
                         }
                         else if (target == e.User)
                         {
-                            await e.Channel.SendMessage("You can't attack yourself.");
+                            await e.Channel.SendMessage("You can't attack yourself.").ConfigureAwait(false);
                             return;
                         }
                         // Checking stats first, then move
@@ -109,17 +109,17 @@ namespace NadekoBot.Modules.Pokemon
                         //User not able if HP < 0, has made more than 4 attacks
                         if (userStats.Hp < 0)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} has fainted and was not able to move!");
+                            await e.Channel.SendMessage($"{e.User.Mention} has fainted and was not able to move!").ConfigureAwait(false);
                             return;
                         }
                         if (userStats.MovesMade >= 5)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} has used too many moves in a row and was not able to move!");
+                            await e.Channel.SendMessage($"{e.User.Mention} has used too many moves in a row and was not able to move!").ConfigureAwait(false);
                             return;
                         }
                         if (userStats.LastAttacked.Contains(target.Id))
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} can't attack again without retaliation!");
+                            await e.Channel.SendMessage($"{e.User.Mention} can't attack again without retaliation!").ConfigureAwait(false);
                             return;
                         }
                         //get target stats
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Pokemon
                         //If target's HP is below 0, no use attacking
                         if (targetStats.Hp <= 0)
                         {
-                            await e.Channel.SendMessage($"{target.Mention} has already fainted!");
+                            await e.Channel.SendMessage($"{target.Mention} has already fainted!").ConfigureAwait(false);
                             return;
                         }
 
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Pokemon
                         var enabledMoves = userType.Moves;
                         if (!enabledMoves.Contains(move.ToLowerInvariant()))
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use `{Prefix}ml` to see moves you can use");
+                            await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use `{Prefix}ml` to see moves you can use").ConfigureAwait(false);
                             return;
                         }
 
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.Pokemon
                         Stats[e.User.Id] = userStats;
                         Stats[target.Id] = targetStats;
 
-                        await e.Channel.SendMessage(response);
+                        await e.Channel.SendMessage(response).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "ml")
@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.Pokemon
                         {
                             str += $"\n{userType.Icon}{m}";
                         }
-                        await e.Channel.SendMessage(str);
+                        await e.Channel.SendMessage(str).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
@@ -220,7 +220,7 @@ namespace NadekoBot.Modules.Pokemon
                         var usr = e.Server.FindUsers(targetStr).FirstOrDefault();
                         if (usr == null)
                         {
-                            await e.Channel.SendMessage("No such person.");
+                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
                             return;
                         }
                         if (Stats.ContainsKey(usr.Id))
@@ -230,7 +230,7 @@ namespace NadekoBot.Modules.Pokemon
                             int HP = targetStats.Hp;
                             if (targetStats.Hp == targetStats.MaxHp)
                             {
-                                await e.Channel.SendMessage($"{usr.Name} already has full HP!");
+                                await e.Channel.SendMessage($"{usr.Name} already has full HP!").ConfigureAwait(false);
                                 return;
                             }
                             //Payment~
@@ -238,7 +238,7 @@ namespace NadekoBot.Modules.Pokemon
                             var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                             if (pts < amount)
                             {
-                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!");
+                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
@@ -249,16 +249,16 @@ namespace NadekoBot.Modules.Pokemon
                             {
                                 //Could heal only for half HP?
                                 Stats[usr.Id].Hp = (targetStats.MaxHp / 2);
-                                await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {NadekoBot.Config.CurrencySign}");
+                                await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
                                 return;
                             }
                             var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}");
+                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
                             return;
                         }
                         else
                         {
-                            await e.Channel.SendMessage($"{usr.Name} already has full HP!");
+                            await e.Channel.SendMessage($"{usr.Name} already has full HP!").ConfigureAwait(false);
                         }
                     });
 
@@ -273,11 +273,11 @@ namespace NadekoBot.Modules.Pokemon
                         var usr = e.Server.FindUsers(usrStr).FirstOrDefault();
                         if (usr == null)
                         {
-                            await e.Channel.SendMessage("No such person.");
+                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
                             return;
                         }
                         var pType = GetPokeType(usr.Id);
-                        await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}");
+                        await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
 
                     });
 
@@ -292,12 +292,12 @@ namespace NadekoBot.Modules.Pokemon
                         var targetType = stringToPokemonType(targetTypeStr);
                         if (targetType == null)
                         {
-                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
+                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL").ConfigureAwait(false);
                             return;
                         }
                         if (targetType == GetPokeType(e.User.Id))
                         {
-                            await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Icon}");
+                            await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Icon}").ConfigureAwait(false);
                             return;
                         }
 
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Pokemon
                         var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!");
+                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
                             return;
                         }
                         FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
@@ -327,7 +327,7 @@ namespace NadekoBot.Modules.Pokemon
 
                         //Now for the response
 
-                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {NadekoBot.Config.CurrencySign}");
+                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
                     });
             });
         }

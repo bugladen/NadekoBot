@@ -91,7 +91,7 @@ namespace NadekoBot.Classes.ClashOfClans
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Task.Run(async () => await ClearArray()).ConfigureAwait(false);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                await Task.Delay(new TimeSpan(24, 0, 0), endTokenSource.Token);
+                await Task.Delay(new TimeSpan(24, 0, 0), endTokenSource.Token).ConfigureAwait(false);
             }
             catch { }
             finally
@@ -115,7 +115,7 @@ namespace NadekoBot.Classes.ClashOfClans
         {
             while (!endTokenSource.IsCancellationRequested)
             {
-                await Task.Delay(5000);
+                await Task.Delay(5000).ConfigureAwait(false);
                 for (var i = 0; i < bases.Length; i++)
                 {
                     if (bases[i] == null) continue;

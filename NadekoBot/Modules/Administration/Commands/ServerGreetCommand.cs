@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     Greeted++;
                     try
                     {
-                        await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg);
+                        await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
 
                     }
                     catch { }
@@ -68,11 +68,11 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     if (channel == null) return;
                     Greeted++;
-                    var toDelete = await channel.SendMessage(msg);
+                    var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
                     if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
                     {
-                        await Task.Delay(300000); // 5 minutes
-                        await toDelete.Delete();
+                        await Task.Delay(300000).ConfigureAwait(false); // 5 minutes
+                        await toDelete.Delete().ConfigureAwait(false);
                     }
                 }
             }
@@ -95,17 +95,17 @@ namespace NadekoBot.Modules.Administration.Commands
                 if (controls.GreetPM)
                 {
                     Greeted++;
-                    await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg);
+                    await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg).ConfigureAwait(false);
                 }
                 else
                 {
                     if (channel == null) return;
                     Greeted++;
-                    var toDelete = await channel.SendMessage(msg);
+                    var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
                     if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
                     {
-                        await Task.Delay(300000); // 5 minutes
-                        await toDelete.Delete();
+                        await Task.Delay(300000).ConfigureAwait(false); // 5 minutes
+                        await toDelete.Delete().ConfigureAwait(false);
                     }
                 }
             }
@@ -219,9 +219,9 @@ namespace NadekoBot.Modules.Administration.Commands
                     var controls = AnnouncementsDictionary[e.Server.Id];
 
                     if (controls.ToggleGreet(e.Channel.Id))
-                        await e.Channel.SendMessage("Greet announcements enabled on this channel.");
+                        await e.Channel.SendMessage("Greet announcements enabled on this channel.").ConfigureAwait(false);
                     else
-                        await e.Channel.SendMessage("Greet announcements disabled.");
+                        await e.Channel.SendMessage("Greet announcements disabled.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetmsg")
@@ -235,9 +235,9 @@ namespace NadekoBot.Modules.Administration.Commands
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
                     AnnouncementsDictionary[e.Server.Id].GreetText = e.GetArg("msg");
-                    await e.Channel.SendMessage("New greet message set.");
+                    await e.Channel.SendMessage("New greet message set.").ConfigureAwait(false);
                     if (!AnnouncementsDictionary[e.Server.Id].Greet)
-                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`");
+                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "bye")
@@ -251,9 +251,9 @@ namespace NadekoBot.Modules.Administration.Commands
                     var controls = AnnouncementsDictionary[e.Server.Id];
 
                     if (controls.ToggleBye(e.Channel.Id))
-                        await e.Channel.SendMessage("Bye announcements enabled on this channel.");
+                        await e.Channel.SendMessage("Bye announcements enabled on this channel.").ConfigureAwait(false);
                     else
-                        await e.Channel.SendMessage("Bye announcements disabled.");
+                        await e.Channel.SendMessage("Bye announcements disabled.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "byemsg")
@@ -267,9 +267,9 @@ namespace NadekoBot.Modules.Administration.Commands
                         AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
                     AnnouncementsDictionary[e.Server.Id].ByeText = e.GetArg("msg");
-                    await e.Channel.SendMessage("New bye message set.");
+                    await e.Channel.SendMessage("New bye message set.").ConfigureAwait(false);
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`.");
+                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "byepm")
@@ -282,11 +282,11 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     AnnouncementsDictionary[e.Server.Id].ToggleByePM();
                     if (AnnouncementsDictionary[e.Server.Id].ByePM)
-                        await e.Channel.SendMessage("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.");
+                        await e.Channel.SendMessage("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.").ConfigureAwait(false);
                     else
-                        await e.Channel.SendMessage("Bye messages will be sent in a bound channel from now on.");
+                        await e.Channel.SendMessage("Bye messages will be sent in a bound channel from now on.").ConfigureAwait(false);
                     if (!AnnouncementsDictionary[e.Server.Id].Bye)
-                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`");
+                        await e.Channel.SendMessage("Enable bye messsages by typing `.bye`, and set the bye message using `.byemsg`").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetpm")
@@ -299,11 +299,11 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     AnnouncementsDictionary[e.Server.Id].ToggleGreetPM();
                     if (AnnouncementsDictionary[e.Server.Id].GreetPM)
-                        await e.Channel.SendMessage("Greet messages will be sent in a PM from now on.");
+                        await e.Channel.SendMessage("Greet messages will be sent in a PM from now on.").ConfigureAwait(false);
                     else
-                        await e.Channel.SendMessage("Greet messages will be sent in a bound channel from now on.");
+                        await e.Channel.SendMessage("Greet messages will be sent in a bound channel from now on.").ConfigureAwait(false);
                     if (!AnnouncementsDictionary[e.Server.Id].Greet)
-                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`, and set the greet message using `.greetmsg`");
+                        await e.Channel.SendMessage("Enable greet messsages by typing `.greet`, and set the greet message using `.greetmsg`").ConfigureAwait(false);
                 });
         }
     }

@@ -70,11 +70,11 @@ namespace NadekoBot.Modules.Music.Classes
                     try
                     {
                         if (audioClient?.State != ConnectionState.Connected)
-                            audioClient = await PlaybackVoiceChannel.JoinAudio();
+                            audioClient = await PlaybackVoiceChannel.JoinAudio().ConfigureAwait(false);
                     }
                     catch
                     {
-                        await Task.Delay(1000);
+                        await Task.Delay(1000).ConfigureAwait(false);
                         continue;
                     }
                     CurrentSong = GetNextSong();
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Music.Classes
                         try
                         {
                             OnStarted(this, curSong);
-                            await curSong.Play(audioClient, cancelToken);
+                            await curSong.Play(audioClient, cancelToken).ConfigureAwait(false);
                         }
                         catch (OperationCanceledException)
                         {
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Music.Classes
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                     }
-                    await Task.Delay(1000);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             });
         }
@@ -175,10 +175,12 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        public void AddSong(Song s, int index) {
+        public void AddSong(Song s, int index)
+        {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
-            lock (playlistLock) {
+            lock (playlistLock)
+            {
                 playlist.Insert(index, s);
             }
         }

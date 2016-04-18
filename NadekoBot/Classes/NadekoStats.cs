@@ -29,7 +29,7 @@ namespace NadekoBot
         public int VoiceChannelsCount { get; private set; } = 0;
 
         private readonly Timer commandLogTimer = new Timer() { Interval = 10000 };
-        //private readonly Timer carbonStatusTimer = new Timer() { Interval = 3600000 };
+        private readonly Timer carbonStatusTimer = new Timer() { Interval = 3600000 };
 
         static NadekoStats() { }
 
@@ -50,25 +50,25 @@ namespace NadekoBot
             TextChannelsCount = channelsArray.Count(c => c.Type == ChannelType.Text);
             VoiceChannelsCount = channelsArray.Count() - TextChannelsCount;
 
-            NadekoBot.Client.JoinedServer += async (s, e) =>
+            NadekoBot.Client.JoinedServer += (s, e) =>
             {
                 try
                 {
                     ServerCount++;
                     TextChannelsCount += e.Server.TextChannels.Count();
                     VoiceChannelsCount += e.Server.VoiceChannels.Count();
-                    await SendUpdateToCarbon().ConfigureAwait(false);
+                    //await SendUpdateToCarbon().ConfigureAwait(false);
                 }
                 catch { }
             };
-            NadekoBot.Client.LeftServer += async (s, e) =>
+            NadekoBot.Client.LeftServer += (s, e) =>
             {
                 try
                 {
                     ServerCount--;
                     TextChannelsCount -= e.Server.TextChannels.Count();
                     VoiceChannelsCount -= e.Server.VoiceChannels.Count();
-                    await SendUpdateToCarbon().ConfigureAwait(false);
+                    //await SendUpdateToCarbon().ConfigureAwait(false);
                 }
                 catch { }
             };
@@ -98,27 +98,26 @@ namespace NadekoBot
                 }
                 catch { }
             };
+            carbonStatusTimer.Elapsed += async (s, e) => await SendUpdateToCarbon().ConfigureAwait(false);
+            carbonStatusTimer.Start();
         }
-
+        HttpClient carbonClient = new HttpClient();
         private async Task SendUpdateToCarbon()
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
                 return;
             try
             {
-                using (var client = new HttpClient())
-                {
-                    using (var content = new FormUrlEncodedContent(new Dictionary<string, string> {
+                using (var content = new FormUrlEncodedContent(new Dictionary<string, string> {
                                 { "servercount", NadekoBot.Client.Servers.Count().ToString() },
                                 { "key", NadekoBot.Creds.CarbonKey }
                     }))
-                    {
-                        content.Headers.Clear();
-                        content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                {
+                    content.Headers.Clear();
+                    content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                        var res = await client.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content);
-                    };
-                }
+                    var res = await carbonClient.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
+                };
             }
             catch (Exception ex)
             {
@@ -165,7 +164,7 @@ namespace NadekoBot
         {
             if (statsStopwatch.Elapsed.Seconds < 4 &&
                 !string.IsNullOrWhiteSpace(statsCache)) return statsCache;
-            await LoadStats();
+            await LoadStats().ConfigureAwait(false);
             statsStopwatch.Restart();
             return statsCache;
         }
@@ -174,12 +173,13 @@ namespace NadekoBot
         {
             while (true)
             {
-                await Task.Delay(new TimeSpan(0, 30, 0));
+                await Task.Delay(new TimeSpan(0, 30, 0)).ConfigureAwait(false);
                 try
                 {
-                    var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count()));
+                    var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count())).ConfigureAwait(false);
                     var realOnlineUsers = await Task.Run(() => NadekoBot.Client.Servers
-                                                                        .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)));
+                                                                        .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)))
+                                                                        .ConfigureAwait(false);
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
                     Classes.DbHandler.Instance.InsertData(new DataModels.Stats
@@ -223,7 +223,7 @@ namespace NadekoBot
                 {
                     Console.WriteLine("Error in ran command DB write.");
                 }
-            });
+            }).ConfigureAwait(false);
         }
     }
 }

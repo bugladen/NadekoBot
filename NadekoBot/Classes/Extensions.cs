@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using Discord;
 using Discord.Commands;
-using Discord;
-using System.IO;
-using System.Drawing;
 using NadekoBot.Classes;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
-namespace NadekoBot.Extensions {
+namespace NadekoBot.Extensions
+{
     public static class Extensions
     {
         private static Random rng = new Random();
 
-        public static string Scramble(this string word) {
+        public static string Scramble(this string word)
+        {
 
             var letters = word.ToArray();
             var count = 0;
-            for (var i = 0; i < letters.Length; i++) {
+            for (var i = 0; i < letters.Length; i++)
+            {
                 if (letters[i] == ' ')
                     continue;
 
@@ -32,9 +35,10 @@ namespace NadekoBot.Extensions {
                 if (letters[i] != ' ')
                     letters[i] = '_';
             }
-            return "`"+string.Join(" ", letters)+"`";
+            return "`" + string.Join(" ", letters) + "`";
         }
-        public static string TrimTo(this string str, int num, bool hideDots = false) {
+        public static string TrimTo(this string str, int num, bool hideDots = false)
+        {
             if (num < 0)
                 throw new ArgumentOutOfRangeException(nameof(num), "TrimTo argument cannot be less than 0");
             if (num == 0)
@@ -52,7 +56,8 @@ namespace NadekoBot.Extensions {
         /// <param name="num"></param>
         /// <param name="es"></param>
         /// <returns>String with the correct singular/plural form</returns>
-        public static string SnPl(this string str, int? num,bool es = false) {
+        public static string SnPl(this string str, int? num, bool es = false)
+        {
             if (str == null)
                 throw new ArgumentNullException(nameof(str));
             if (num == null)
@@ -66,8 +71,8 @@ namespace NadekoBot.Extensions {
         /// <param name="e">EventArg</param>
         /// <param name="message">Message to be sent</param>
         /// <returns></returns>
-        public static async Task<Message> Send(this CommandEventArgs e, string message) 
-            => await e.Channel.SendMessage(message);
+        public static async Task<Message> Send(this CommandEventArgs e, string message)
+            => await e.Channel.SendMessage(message).ConfigureAwait(false);
 
         /// <summary>
         /// Sends a message to the channel from which MessageEventArg came.
@@ -79,7 +84,7 @@ namespace NadekoBot.Extensions {
         {
             if (string.IsNullOrWhiteSpace(message))
                 return;
-            await e.Channel.SendMessage(message);
+            await e.Channel.SendMessage(message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -90,7 +95,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Send(this Channel c, string message)
         {
-            await c.SendMessage(message);
+            await c.SendMessage(message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -101,7 +106,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Send(this User u, string message)
         {
-            await u.SendMessage(message);
+            await u.SendMessage(message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -112,7 +117,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Reply(this CommandEventArgs e, string message)
         {
-            await e.Channel.SendMessage(e.User.Mention + " " + message);
+            await e.Channel.SendMessage(e.User.Mention + " " + message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -123,7 +128,7 @@ namespace NadekoBot.Extensions {
         /// <returns></returns>
         public static async Task Reply(this MessageEventArgs e, string message)
         {
-            await e.Channel.SendMessage(e.User.Mention + " " + message);
+            await e.Channel.SendMessage(e.User.Mention + " " + message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -154,7 +159,7 @@ namespace NadekoBot.Extensions {
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static async Task<string> ShortenUrl(this string str) => await SearchHelper.ShortenUrl(str);
+        public static async Task<string> ShortenUrl(this string str) => await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
 
         /// <summary>
         /// Gets the program runtime
@@ -167,40 +172,49 @@ namespace NadekoBot.Extensions {
         public static string Matrix(this string s)
             =>
                 string.Join("", s.Select(c => c.ToString() + " ̵̢̬̜͉̞̭̖̰͋̉̎ͬ̔̇̌̀".TrimTo(rng.Next(0, 12), true)));
-                    //.Replace("`", "");
+        //.Replace("`", "");
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
-            foreach (var element in source) {
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var element in source)
+            {
                 action(element);
             }
         }
 
         //http://www.dotnetperls.com/levenshtein
-        public static int LevenshteinDistance(this string s, string t) {
+        public static int LevenshteinDistance(this string s, string t)
+        {
             var n = s.Length;
             var m = t.Length;
             var d = new int[n + 1, m + 1];
 
             // Step 1
-            if (n == 0) {
+            if (n == 0)
+            {
                 return m;
             }
 
-            if (m == 0) {
+            if (m == 0)
+            {
                 return n;
             }
 
             // Step 2
-            for (var i = 0; i <= n; d[i, 0] = i++) {
+            for (var i = 0; i <= n; d[i, 0] = i++)
+            {
             }
 
-            for (var j = 0; j <= m; d[0, j] = j++) {
+            for (var j = 0; j <= m; d[0, j] = j++)
+            {
             }
 
             // Step 3
-            for (var i = 1; i <= n; i++) {
+            for (var i = 1; i <= n; i++)
+            {
                 //Step 4
-                for (var j = 1; j <= m; j++) {
+                for (var j = 1; j <= m; j++)
+                {
                     // Step 5
                     var cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
 
@@ -223,7 +237,8 @@ namespace NadekoBot.Extensions {
         public static int GiB(this int value) => value.MiB() * 1024;
         public static int GB(this int value) => value.MB() * 1000;
 
-        public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null) {
+        public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null)
+        {
             if (format == null)
                 format = System.Drawing.Imaging.ImageFormat.Jpeg;
             var stream = new MemoryStream();
@@ -237,22 +252,26 @@ namespace NadekoBot.Extensions {
         /// </summary>
         /// <param name="images">The Images you want to merge.</param>
         /// <returns>Merged bitmap</returns>
-        public static Bitmap Merge(this IEnumerable<Image> images,int reverseScaleFactor = 1) {
+        public static Bitmap Merge(this IEnumerable<Image> images, int reverseScaleFactor = 1)
+        {
             var imageArray = images as Image[] ?? images.ToArray();
             if (!imageArray.Any()) return null;
             var width = imageArray.Sum(i => i.Width);
-            var height = imageArray.First().Height ;
+            var height = imageArray.First().Height;
             var bitmap = new Bitmap(width / reverseScaleFactor, height / reverseScaleFactor);
             var r = new Random();
             var offsetx = 0;
-            foreach (var img in imageArray) {
+            foreach (var img in imageArray)
+            {
                 var bm = new Bitmap(img);
-                for (var w = 0; w < img.Width; w++) {
-                    for (var h = 0; h < bitmap.Height; h++) {
-                        bitmap.SetPixel(w / reverseScaleFactor + offsetx, h , bm.GetPixel(w, h *reverseScaleFactor));
+                for (var w = 0; w < img.Width; w++)
+                {
+                    for (var h = 0; h < bitmap.Height; h++)
+                    {
+                        bitmap.SetPixel(w / reverseScaleFactor + offsetx, h, bm.GetPixel(w, h * reverseScaleFactor));
                     }
                 }
-                offsetx += img.Width/reverseScaleFactor;
+                offsetx += img.Width / reverseScaleFactor;
             }
             return bitmap;
         }
@@ -264,6 +283,6 @@ namespace NadekoBot.Extensions {
         /// <param name="reverseScaleFactor"></param>
         /// <returns>Merged bitmap</returns>
         public static async Task<Bitmap> MergeAsync(this IEnumerable<Image> images, int reverseScaleFactor = 1) =>
-            await Task.Run(() => images.Merge(reverseScaleFactor));
+            await Task.Run(() => images.Merge(reverseScaleFactor)).ConfigureAwait(false);
     }
 }

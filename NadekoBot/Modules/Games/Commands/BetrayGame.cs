@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Games.Commands
                              "If Nadeko betrays - you both lose some points.")
                 .Do(async e =>
                 {
-                    await ReceiveAnswer(e, Answers.Betray);
+                    await ReceiveAnswer(e, Answers.Betray).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "cooperate")
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Games.Commands
                 .Do(async e =>
                 {
 
-                    await ReceiveAnswer(e, Answers.Cooperate);
+                    await ReceiveAnswer(e, Answers.Cooperate).ConfigureAwait(false);
                 });
         }
 
@@ -96,14 +96,15 @@ namespace NadekoBot.Modules.Games.Commands
                                         $"--------------------------------\n" +
                                         $"Nadeko has {NadekoPoints} points." +
                                         $"You have {UserPoints} points." +
-                                        $"--------------------------------\n");
+                                        $"--------------------------------\n")
+                                            .ConfigureAwait(false);
             if (round < 10) return;
             if (nadekoPoints == userPoints)
-                await e.Channel.SendMessage("Its a draw");
+                await e.Channel.SendMessage("Its a draw").ConfigureAwait(false);
             else if (nadekoPoints > userPoints)
-                await e.Channel.SendMessage("Nadeko won.");
+                await e.Channel.SendMessage("Nadeko won.").ConfigureAwait(false);
             else
-                await e.Channel.SendMessage("You won.");
+                await e.Channel.SendMessage("You won.").ConfigureAwait(false);
             nadekoPoints = 0;
             userPoints = 0;
             round = 0;

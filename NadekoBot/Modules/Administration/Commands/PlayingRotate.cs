@@ -1,6 +1,6 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules.Music;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 NadekoBot.Config.IsRotatingStatus = timer.Enabled;
                 ConfigHandler.SaveConfig();
             }
-            await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`");
+            await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`").ConfigureAwait(false);
         };
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.RotatingStatuses.Add(arg);
                         ConfigHandler.SaveConfig();
                     }
-                    await e.Channel.SendMessage("🆗 `Added a new playing string.`");
+                    await e.Channel.SendMessage("🆗 `Added a new playing string.`").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "listplaying")
@@ -119,13 +119,13 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     if (NadekoBot.Config.RotatingStatuses.Count == 0)
                         await e.Channel.SendMessage("`There are no playing strings. " +
-                                                    "Add some with .addplaying [text] command.`");
+                                                    "Add some with .addplaying [text] command.`").ConfigureAwait(false);
                     var sb = new StringBuilder();
                     for (var i = 0; i < NadekoBot.Config.RotatingStatuses.Count; i++)
                     {
                         sb.AppendLine($"`{i + 1}.` {NadekoBot.Config.RotatingStatuses[i]}");
                     }
-                    await e.Channel.SendMessage(sb.ToString());
+                    await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "removeplaying")
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.RotatingStatuses.RemoveAt(num - 1);
                         ConfigHandler.SaveConfig();
                     }
-                    await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})");
+                    await e.Channel.SendMessage($"🆗 `Removed playing string #{num}`({str})").ConfigureAwait(false);
                 });
         }
     }

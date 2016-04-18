@@ -53,13 +53,13 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
                 if (CurrentQuestion == null)
                 {
-                    await channel.SendMessage($":exclamation: Failed loading a trivia question");
-                    await End();
+                    await channel.SendMessage($":exclamation: Failed loading a trivia question").ConfigureAwait(false);
+                    await End().ConfigureAwait(false);
                     return;
                 }
                 oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
                                                    //sendquestion
-                await channel.SendMessage($":question: **{CurrentQuestion.Question}**");
+                await channel.SendMessage($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false);
 
                 //receive messages
                 NadekoBot.Client.MessageReceived += PotentialGuess;
@@ -70,12 +70,12 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 try
                 {
                     //hint
-                    await Task.Delay(HintTimeoutMiliseconds, token);
+                    await Task.Delay(HintTimeoutMiliseconds, token).ConfigureAwait(false);
                     if (ShowHints)
-                        await channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}");
+                        await channel.SendMessage($":exclamation:**Hint:** {CurrentQuestion.GetHint()}").ConfigureAwait(false);
 
                     //timeout
-                    await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token);
+                    await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token).ConfigureAwait(false);
 
                 }
                 catch (TaskCanceledException)
@@ -84,18 +84,18 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 }
                 GameActive = false;
                 if (!triviaCancelSource.IsCancellationRequested)
-                    await channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**");
+                    await channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false);
                 NadekoBot.Client.MessageReceived -= PotentialGuess;
                 // load next question if game is still running
-                await Task.Delay(2000);
+                await Task.Delay(2000).ConfigureAwait(false);
             }
-            await End();
+            await End().ConfigureAwait(false);
         }
 
         private async Task End()
         {
             ShouldStopGame = true;
-            await channel.SendMessage("**Trivia game ended**\n" + GetLeaderboard());
+            await channel.SendMessage("**Trivia game ended**\n" + GetLeaderboard()).ConfigureAwait(false);
             TriviaGame throwAwayValue;
             TriviaCommands.RunningTrivias.TryRemove(server.Id, out throwAwayValue);
         }
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
         public async Task StopGame()
         {
             if (!ShouldStopGame)
-                await channel.SendMessage(":exclamation: Trivia will stop after this question.");
+                await channel.SendMessage(":exclamation: Trivia will stop after this question.").ConfigureAwait(false);
             ShouldStopGame = true;
         }
 
@@ -127,12 +127,12 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 }
                 if (!guess) return;
                 triviaCancelSource.Cancel();
-                await channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**");
+                await channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
                 if (Users[e.User] != WinRequirement) return;
                 ShouldStopGame = true;
-                await channel.Send($":exclamation: We have a winner! Its {e.User.Mention}.");
+                await channel.Send($":exclamation: We have a winner! Its {e.User.Mention}.").ConfigureAwait(false);
                 // add points to the winner
-                await FlowersHandler.AddFlowersAsync(e.User, "Won Trivia", 2);
+                await FlowersHandler.AddFlowersAsync(e.User, "Won Trivia", 2).ConfigureAwait(false);
             }
             catch { }
         }

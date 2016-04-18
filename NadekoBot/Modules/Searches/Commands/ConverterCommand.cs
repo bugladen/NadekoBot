@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     msg += curr + "; ";
                 }
 
-                await e.Channel.SendMessage(msg);
+                await e.Channel.SendMessage(msg).ConfigureAwait(false);
             };
 
         private Func<CommandEventArgs, Task> ConvertFunc() =>
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Searches.Commands
             {
                 try
                 {
-                    await e.Channel.SendIsTyping();
+                    await e.Channel.SendIsTyping().ConfigureAwait(false);
 
                     string from = e.GetArg("from-to").ToLowerInvariant().Split('>')[0];
                     string to = e.GetArg("from-to").ToLowerInvariant().Split('>')[1];
@@ -88,20 +88,20 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         Unit inUnit = new Unit(fromCode, quantity, table);
                         Unit outUnit = inUnit.Convert(toCode);
-                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString());
+                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
                     }
                     else
                     {
                         reInitCurrencyConverterTable();
                         Unit inUnit = currTable.CreateUnit(quantity, from.ToUpperInvariant());
                         Unit outUnit = inUnit.Convert(currTable.CurrencyCode(to.ToUpperInvariant()));
-                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString());
+                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
                     }
                 }
                 catch //(Exception ex)
                 {
                     //Console.WriteLine(ex.ToString());
-                    await e.Channel.SendMessage("Bad input format, or sth went wrong... Try to list them with `" + Module.Prefix + "`convertlist");
+                    await e.Channel.SendMessage("Bad input format, or sth went wrong... Try to list them with `" + Module.Prefix + "`convertlist").ConfigureAwait(false);
                 }
             };
 

@@ -61,21 +61,21 @@ namespace NadekoBot.Classes.Conversations.Commands
                     }
                     catch
                     {
-                        await e.Channel.SendMessage("Something went wrong.");
+                        await e.Channel.SendMessage("Something went wrong.").ConfigureAwait(false);
                         return;
                     }
-                    await e.Channel.SendMessage("Thank you for your request.");
+                    await e.Channel.SendMessage("Thank you for your request.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand("lr")
                 .Description("PMs the user all current nadeko requests.")
                 .Do(async e =>
                 {
-                    var str = await Task.Run(() => GetRequests());
+                    var str = await Task.Run(() => GetRequests()).ConfigureAwait(false);
                     if (str.Trim().Length > 110)
-                        await e.User.Send(str);
+                        await e.User.Send(str).ConfigureAwait(false);
                     else
-                        await e.User.Send("No requests atm.");
+                        await e.User.Send("No requests atm.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand("dr")
@@ -89,19 +89,19 @@ namespace NadekoBot.Classes.Conversations.Commands
                         {
                             if (DeleteRequest(int.Parse(e.Args[0])))
                             {
-                                await e.Channel.SendMessage(e.User.Mention + " Request deleted.");
+                                await e.Channel.SendMessage(e.User.Mention + " Request deleted.").ConfigureAwait(false);
                             }
                             else
                             {
-                                await e.Channel.SendMessage("No request on that number.");
+                                await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
                             }
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("Error deleting request, probably NaN error.");
+                            await e.Channel.SendMessage("Error deleting request, probably NaN error.").ConfigureAwait(false);
                         }
                     }
-                    else await e.Channel.SendMessage("You don't have permission to do that.");
+                    else await e.Channel.SendMessage("You don't have permission to do that.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand("rr")
@@ -116,20 +116,20 @@ namespace NadekoBot.Classes.Conversations.Commands
                             var sc = ResolveRequest(int.Parse(e.Args[0]));
                             if (sc != null)
                             {
-                                await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.");
-                                await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText);
+                                await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.").ConfigureAwait(false);
+                                await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText).ConfigureAwait(false);
                             }
                             else
                             {
-                                await e.Channel.SendMessage("No request on that number.");
+                                await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
                             }
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("Error resolving request, probably NaN error.");
+                            await e.Channel.SendMessage("Error resolving request, probably NaN error.").ConfigureAwait(false);
                         }
                     }
-                    else await e.Channel.SendMessage("You don't have permission to do that.");
+                    else await e.Channel.SendMessage("You don't have permission to do that.").ConfigureAwait(false);
                 });
         }
 

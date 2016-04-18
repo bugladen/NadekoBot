@@ -32,16 +32,16 @@ namespace NadekoBot.Classes.Help.Commands
             while (helpstr.Length > 2000)
             {
                 var curstr = helpstr.Substring(0, 2000);
-                await e.User.Send(curstr.Substring(0, curstr.LastIndexOf("\n") + 1));
+                await e.User.Send(curstr.Substring(0, curstr.LastIndexOf("\n") + 1)).ConfigureAwait(false);
                 helpstr = curstr.Substring(curstr.LastIndexOf("\n") + 1) + helpstr.Substring(2000);
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
             }
             */
             #endregion OldHelp
 
             if (string.IsNullOrWhiteSpace(e.GetArg("command")))
             {
-                await e.User.Send(HelpString);
+                await e.User.Send(HelpString).ConfigureAwait(false);
                 return;
             }
             await Task.Run(async () =>
@@ -51,8 +51,8 @@ namespace NadekoBot.Classes.Help.Commands
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLower().Equals(comToFind));
                 if (com != null)
-                    await e.Channel.SendMessage($"`Help for '{com.Text}':` **{com.Description}**");
-            });
+                    await e.Channel.SendMessage($"`Help for '{com.Text}':` **{com.Description}**").ConfigureAwait(false);
+            }).ConfigureAwait(false);
         };
         public static string HelpString => (NadekoBot.IsBot
                                            ? $"To add me to your server, use this link** -> <https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303>\n"
@@ -116,7 +116,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
 **GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
 
-**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>"));
+**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>").ConfigureAwait(false));
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
@@ -129,7 +129,7 @@ Don't forget to leave your discord name or id in the message, so that I can rewa
 You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
 
 *If you want to support in some other way or on a different platform, please message me*"
-                    );
+                    ).ConfigureAwait(false);
                 });
         }
 

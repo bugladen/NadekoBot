@@ -24,13 +24,14 @@ namespace NadekoBot.Modules.Permissions.Commands
 
                     if (filterRegex.IsMatch(args.Message.RawText))
                     {
-                        await args.Message.Delete();
+                        await args.Message.Delete().ConfigureAwait(false);
                         IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
                                                              $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
                                                              $"Full message: [[{args.Message.Text}]]");
                         if (serverPerms.Verbose)
                             await args.Channel.SendMessage($"{args.User.Mention} Invite links are not " +
-                                                           $"allowed on this channel.");
+                                                           $"allowed on this channel.")
+                                                           .ConfigureAwait(false);
                     }
                 }
                 catch { }
@@ -71,7 +72,8 @@ namespace NadekoBot.Modules.Permissions.Commands
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
                             PermissionsHandler.SetChannelFilterInvitesPermission(chan, state);
-                            await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.");
+                            await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.")
+                                            .ConfigureAwait(false);
                             return;
                         }
                         //all channels
@@ -80,12 +82,14 @@ namespace NadekoBot.Modules.Permissions.Commands
                         {
                             PermissionsHandler.SetChannelFilterInvitesPermission(curChannel, state);
                         }
-                        await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.");
+                        await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.")
+                                       .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                        await e.Channel.SendMessage($"💢 Error: {ex.Message}")
+                                       .ConfigureAwait(false);
                     }
                 });
 
@@ -99,12 +103,13 @@ namespace NadekoBot.Modules.Permissions.Commands
                     {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                         PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state);
-                        await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.");
+                        await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
+                                       .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await e.Channel.SendMessage($"💢 Error: {ex.Message}");
+                        await e.Channel.SendMessage($"💢 Error: {ex.Message}").ConfigureAwait(false);
                     }
                 });
         }

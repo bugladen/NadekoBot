@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         int size;
                         if (!int.TryParse(e.GetArg("size"), out size) || size < 10 || size > 50 || size % 5 != 0)
                         {
-                            await e.Channel.SendMessage("💢🔰 Not a Valid war size");
+                            await e.Channel.SendMessage("💢🔰 Not a Valid war size").ConfigureAwait(false);
                             return;
                         }
                         var cw = new ClashWar(enemyClan, size, e);
@@ -58,7 +58,8 @@ namespace NadekoBot.Modules.ClashOfClans
                             {
                                 await
                                     e.Channel.SendMessage(
-                                        $"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**");
+                                        $"❗🔰**Claim from @{u} for a war against {cw.ShortPrint()} has expired.**")
+                                        .ConfigureAwait(false);
                             }
                             catch { }
                         };
@@ -66,11 +67,11 @@ namespace NadekoBot.Modules.ClashOfClans
                         {
                             try
                             {
-                                await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**");
+                                await e.Channel.SendMessage($"❗🔰**War against {cw.ShortPrint()} ended.**").ConfigureAwait(false);
                             }
                             catch { }
                         };
-                        await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**");
+                        await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
                         //war with the index X started.
                     });
 
@@ -83,19 +84,19 @@ namespace NadekoBot.Modules.ClashOfClans
                         var warsInfo = GetInfo(e);
                         if (warsInfo == null)
                         {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                             return;
                         }
                         var war = warsInfo.Item1[warsInfo.Item2];
                         try
                         {
                             var startTask = war.Start();
-                            await e.Channel.SendMessage($"🔰**STARTED WAR AGAINST {war.ShortPrint()}**");
-                            await startTask;
+                            await e.Channel.SendMessage($"🔰**STARTED WAR AGAINST {war.ShortPrint()}**").ConfigureAwait(false);
+                            await startTask.ConfigureAwait(false);
                         }
                         catch
                         {
-                            await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} IS ALREADY STARTED**");
+                            await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} IS ALREADY STARTED**").ConfigureAwait(false);
                         }
                     });
 
@@ -113,7 +114,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             ClashWars.TryGetValue(e.Server.Id, out wars);
                             if (wars == null || wars.Count == 0)
                             {
-                                await e.Channel.SendMessage("🔰 **No active wars.**");
+                                await e.Channel.SendMessage("🔰 **No active wars.**").ConfigureAwait(false);
                                 return;
                             }
 
@@ -126,17 +127,17 @@ namespace NadekoBot.Modules.ClashOfClans
                                 sb.AppendLine($"\t\t`Size:` **{wars[i].Size} v {wars[i].Size}**");
                                 sb.AppendLine("**-------------------------**");
                             }
-                            await e.Channel.SendMessage(sb.ToString());
+                            await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                             return;
                         }
                         //if number is not null, print the war needed
                         var warsInfo = GetInfo(e);
                         if (warsInfo == null)
                         {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage(warsInfo.Item1[warsInfo.Item2].ToString());
+                        await e.Channel.SendMessage(warsInfo.Item1[warsInfo.Item2].ToString()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "claim")
@@ -151,13 +152,13 @@ namespace NadekoBot.Modules.ClashOfClans
                         var warsInfo = GetInfo(e);
                         if (warsInfo == null || warsInfo.Item1.Count == 0)
                         {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                             return;
                         }
                         int baseNum;
                         if (!int.TryParse(e.GetArg("baseNumber"), out baseNum))
                         {
-                            await e.Channel.SendMessage("💢🔰 **Invalid base number.**");
+                            await e.Channel.SendMessage("💢🔰 **Invalid base number.**").ConfigureAwait(false);
                             return;
                         }
                         var usr =
@@ -168,11 +169,11 @@ namespace NadekoBot.Modules.ClashOfClans
                         {
                             var war = warsInfo.Item1[warsInfo.Item2];
                             war.Call(usr, baseNum - 1);
-                            await e.Channel.SendMessage($"🔰**{usr}** claimed a base #{baseNum} for a war against {war.ShortPrint()}");
+                            await e.Channel.SendMessage($"🔰**{usr}** claimed a base #{baseNum} for a war against {war.ShortPrint()}").ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
-                            await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                            await e.Channel.SendMessage($"💢🔰 {ex.Message}").ConfigureAwait(false);
                         }
                     });
 
@@ -186,7 +187,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         var warInfo = GetInfo(e);
                         if (warInfo == null || warInfo.Item1.Count == 0)
                         {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                             return;
                         }
                         var usr =
@@ -198,11 +199,11 @@ namespace NadekoBot.Modules.ClashOfClans
                         try
                         {
                             var baseNum = war.FinishClaim(usr);
-                            await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}");
+                            await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
-                            await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                            await e.Channel.SendMessage($"💢🔰 {ex.Message}").ConfigureAwait(false);
                         }
                     });
 
@@ -217,7 +218,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         var warsInfo = GetInfo(e);
                         if (warsInfo == null || warsInfo.Item1.Count == 0)
                         {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**");
+                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                             return;
                         }
                         var usr =
@@ -228,11 +229,11 @@ namespace NadekoBot.Modules.ClashOfClans
                         {
                             var war = warsInfo.Item1[warsInfo.Item2];
                             var baseNumber = war.Uncall(usr);
-                            await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}");
+                            await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}").ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
-                            await e.Channel.SendMessage($"💢🔰 {ex.Message}");
+                            await e.Channel.SendMessage($"💢🔰 {ex.Message}").ConfigureAwait(false);
                         }
                     });
 
@@ -245,7 +246,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         var warsInfo = GetInfo(e);
                         if (warsInfo == null)
                         {
-                            await e.Channel.SendMessage("💢🔰 That war does not exist.");
+                            await e.Channel.SendMessage("💢🔰 That war does not exist.").ConfigureAwait(false);
                             return;
                         }
                         warsInfo.Item1[warsInfo.Item2].End();

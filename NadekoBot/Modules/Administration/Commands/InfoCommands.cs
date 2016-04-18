@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     sb.AppendLine($"`Name:` **#{server.Name}**");
                     sb.AppendLine($"`Owner:` **{server.Owner}**");
                     sb.AppendLine($"`Id:` **{server.Id}**");
-                    sb.AppendLine($"`Icon Url:` **{await server.IconUrl.ShortenUrl()}**");
+                    sb.AppendLine($"`Icon Url:` **{await server.IconUrl.ShortenUrl().ConfigureAwait(false)}**");
                     sb.AppendLine($"`TextChannels:` **{server.TextChannels.Count()}** `VoiceChannels:` **{server.VoiceChannels.Count()}**");
                     sb.AppendLine($"`Members:` **{server.UserCount}** `Online:` **{server.Users.Count(u => u.Status == UserStatus.Online)}** (may be incorrect)");
                     sb.AppendLine($"`Roles:` **{server.Roles.Count()}**");
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         sb.AppendLine($"`Features:` **{string.Join(", ", server.Features)}**");
                     if (!string.IsNullOrWhiteSpace(server.SplashId))
                         sb.AppendLine($"`Region:` **{server.Region.Name}**");
-                    await e.Channel.SendMessage(sb.ToString());
+                    await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "cinfo")
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     sb.AppendLine($"`Created At:` **{createdAt}**");
                     sb.AppendLine($"`Topic:` **{ch.Topic}**");
                     sb.AppendLine($"`Users:` **{ch.Users.Count()}**");
-                    await e.Channel.SendMessage(sb.ToString());
+                    await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "uinfo")
@@ -87,8 +87,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     sb.AppendLine($"`Current Game:` **{(string.IsNullOrWhiteSpace(user.CurrentGame) ? "-" : user.CurrentGame)}**");
                     sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
                     sb.AppendLine($"`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**");
-                    sb.AppendLine($"`AvatarUrl:` **{await user.AvatarUrl.ShortenUrl()}**");
-                    await e.Channel.SendMessage(sb.ToString());
+                    sb.AppendLine($"`AvatarUrl:` **{await user.AvatarUrl.ShortenUrl().ConfigureAwait(false)}**");
+                    await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
         }
     }

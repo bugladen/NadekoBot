@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Music.Classes
                 throw new ArgumentException();
             while (ContentLength + count > BufferSize)
             {
-                await Task.Delay(20, cancelToken);
+                await Task.Delay(20, cancelToken).ConfigureAwait(false);
                 if (cancelToken.IsCancellationRequested)
                     return;
             }

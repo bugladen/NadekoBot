@@ -24,7 +24,7 @@ namespace NadekoBot.Classes.Conversations.Commands
                     return;
                 if (CopiedUsers.Contains(e.User.Id))
                 {
-                    await e.Channel.SendMessage(e.Message.Text);
+                    await e.Channel.SendMessage(e.Message.Text).ConfigureAwait(false);
                 }
             }
             catch { }
@@ -35,7 +35,7 @@ namespace NadekoBot.Classes.Conversations.Commands
             if (CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Add(e.User.Id);
-            await e.Channel.SendMessage(" I'll start copying you now.");
+            await e.Channel.SendMessage(" I'll start copying you now.").ConfigureAwait(false);
         };
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -56,7 +56,7 @@ namespace NadekoBot.Classes.Conversations.Commands
             if (!CopiedUsers.Contains(e.User.Id)) return;
 
             CopiedUsers.Remove(e.User.Id);
-            await e.Channel.SendMessage(" I wont copy anymore.");
+            await e.Channel.SendMessage(" I wont copy anymore.").ConfigureAwait(false);
         };
     }
 }

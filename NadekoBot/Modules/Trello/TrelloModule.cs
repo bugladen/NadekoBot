@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Trello
 
                     foreach (var a in cur5ActionsArray.Where(ca => !last5ActionIDs.Contains(ca.Id)))
                     {
-                        await bound.Send("**--TRELLO NOTIFICATION--**\n" + a.ToString());
+                        await bound.Send("**--TRELLO NOTIFICATION--**\n" + a.ToString()).ConfigureAwait(false);
                     }
                     last5ActionIDs.Clear();
                     last5ActionIDs.AddRange(cur5ActionsArray.Select(a => a.Id));
@@ -74,10 +74,11 @@ namespace NadekoBot.Modules.Trello
                     .Parameter("code", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
+                        if (!NadekoBot.IsOwner(e.User.Id) || NadekoBot.IsBot) return;
                         try
                         {
-                            await (await client.GetInvite(e.GetArg("code"))).Accept();
+                            await (await client.GetInvite(e.GetArg("code")).ConfigureAwait(false)).Accept()
+                                               .ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -117,7 +118,7 @@ namespace NadekoBot.Modules.Trello
                         t.Stop();
                         bound = null;
                         board = null;
-                        await e.Channel.SendMessage("Successfully unbound trello from this channel.");
+                        await e.Channel.SendMessage("Successfully unbound trello from this channel.").ConfigureAwait(false);
 
                     });
 
@@ -128,7 +129,8 @@ namespace NadekoBot.Modules.Trello
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound == null || board == null || bound != e.Channel) return;
-                        await e.Channel.SendMessage("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")));
+                        await e.Channel.SendMessage("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")))
+                                       .ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("cards")
@@ -149,9 +151,11 @@ namespace NadekoBot.Modules.Trello
 
 
                         if (list != null)
-                            await e.Channel.SendMessage("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")));
+                            await e.Channel.SendMessage("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")))
+                                           .ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("No such list.");
+                            await e.Channel.SendMessage("No such list.")
+                                           .ConfigureAwait(false);
                     });
             });
         }

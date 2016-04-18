@@ -41,15 +41,15 @@ namespace NadekoBot.Classes
                             httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                         }
                     }
-                    return await httpClient.GetStreamAsync(url);
+                    return await httpClient.GetStreamAsync(url).ConfigureAwait(false);
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
                     {
                         formContent = new FormUrlEncodedContent(headers);
                     }
-                    var message = await httpClient.PostAsync(url, formContent);
-                    return await message.Content.ReadAsStreamAsync();
+                    var message = await httpClient.PostAsync(url, formContent).ConfigureAwait(false);
+                    return await message.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
             }
@@ -60,9 +60,9 @@ namespace NadekoBot.Classes
             RequestHttpMethod method = RequestHttpMethod.Get)
         {
 
-            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method)))
+            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method).ConfigureAwait(false)))
             {
-                return await streamReader.ReadToEndAsync();
+                return await streamReader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 
@@ -71,7 +71,7 @@ namespace NadekoBot.Classes
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
-            await RefreshAnilistToken();
+            await RefreshAnilistToken().ConfigureAwait(false);
 
             var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
             var smallContent = "";
@@ -85,7 +85,7 @@ namespace NadekoBot.Classes
             rq.AddParameter("access_token", token);
             var content = cl.Execute(rq).Content;
 
-            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content));
+            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content)).ConfigureAwait(false);
         }
 
         public static async Task<MangaResult> GetMangaData(string query)
@@ -93,7 +93,7 @@ namespace NadekoBot.Classes
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
-            await RefreshAnilistToken();
+            await RefreshAnilistToken().ConfigureAwait(false);
 
             var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
             var smallContent = "";
@@ -107,7 +107,7 @@ namespace NadekoBot.Classes
             rq.AddParameter("access_token", token);
             var content = cl.Execute(rq).Content;
 
-            return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(content));
+            return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(content)).ConfigureAwait(false);
         }
 
         private static async Task RefreshAnilistToken()
@@ -123,8 +123,10 @@ namespace NadekoBot.Classes
                 {"client_id", "kwoth-w0ki9"},
                 {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
             };
-            var content =
-                await GetResponseStringAsync("http://anilist.co/api/auth/access_token", headers, RequestHttpMethod.Post);
+            var content = await GetResponseStringAsync(
+                            "http://anilist.co/api/auth/access_token",
+                            headers,
+                            RequestHttpMethod.Post).ConfigureAwait(false);
 
             token = JObject.Parse(content)["access_token"].ToString();
         }
@@ -132,7 +134,7 @@ namespace NadekoBot.Classes
         public static async Task<bool> ValidateQuery(Discord.Channel ch, string query)
         {
             if (!string.IsNullOrEmpty(query.Trim())) return true;
-            await ch.Send("Please specify search parameters.");
+            await ch.Send("Please specify search parameters.").ConfigureAwait(false);
             return false;
         }
 
@@ -151,12 +153,11 @@ namespace NadekoBot.Classes
             {
                 return $"http://www.youtube.com?v={match.Groups["id"].Value}";
             }
-            var response =
-                await
-                    GetResponseStringAsync($"https://www.googleapis.com/youtube/v3/search?" +
-                                           $"part=snippet&maxResults=1" +
-                                           $"&q={Uri.EscapeDataString(keywords)}" +
-                                           $"&key={NadekoBot.Creds.GoogleAPIKey}");
+            var response = await GetResponseStringAsync(
+                                    $"https://www.googleapis.com/youtube/v3/search?" +
+                                    $"part=snippet&maxResults=1" +
+                                    $"&q={Uri.EscapeDataString(keywords)}" +
+                                    $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
             dynamic obj = JObject.Parse(response);
             return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
         }
@@ -171,7 +172,7 @@ namespace NadekoBot.Classes
                        $"&q={Uri.EscapeDataString(query)}" +
                        $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
-            var response = await GetResponseStringAsync(link);
+            var response = await GetResponseStringAsync(link).ConfigureAwait(false);
             dynamic obj = JObject.Parse(response);
 
             return obj.items[0].id.playlistId.ToString();
@@ -191,8 +192,8 @@ namespace NadekoBot.Classes
                 $"&playlistId={playlist}" +
                 $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
-            var response = await GetResponseStringAsync(link);
-            var obj = await Task.Run(() => JObject.Parse(response));
+            var response = await GetResponseStringAsync(link).ConfigureAwait(false);
+            var obj = await Task.Run(() => JObject.Parse(response)).ConfigureAwait(false);
 
             return obj["items"].Select(item => "http://www.youtube.com/watch?v=" + item["contentDetails"]["videoId"]);
         }
@@ -210,7 +211,7 @@ namespace NadekoBot.Classes
             if (!string.IsNullOrWhiteSpace(tag))
                 link += $"&tags={tag.Replace(" ", "_")}";
 
-            var webpage = await GetResponseStringAsync(link);
+            var webpage = await GetResponseStringAsync(link).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
             return $"http://danbooru.donmai.us" +
@@ -221,7 +222,7 @@ namespace NadekoBot.Classes
         {
             var url =
             $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url);
+            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
                 throw new FileNotFoundException();
@@ -235,7 +236,7 @@ namespace NadekoBot.Classes
             var rng = new Random();
             var url =
             $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url);
+            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
                 throw new FileNotFoundException();
@@ -248,7 +249,7 @@ namespace NadekoBot.Classes
             var rng = new Random();
             var url =
             $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url);
+            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
                 throw new FileNotFoundException();
@@ -261,7 +262,7 @@ namespace NadekoBot.Classes
         {
             var rng = new Random();
             var url = $"https://e621.net/post/index/{rng.Next(0, 5)}/{Uri.EscapeUriString(tags)}";
-            var webpage = await GetResponseStringAsync(url); // first extract the post id and go to that posts page
+            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false); // first extract the post id and go to that posts page
             var matches = Regex.Matches(webpage, "\"file_url\":\"(?<url>.*?)\"");
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
@@ -277,19 +278,19 @@ namespace NadekoBot.Classes
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
-                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync()))
+                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync().ConfigureAwait(false)))
                 {
                     var json = "{\"longUrl\":\"" + url + "\"}";
                     streamWriter.Write(json);
                 }
 
-                var httpResponse = (await httpWebRequest.GetResponseAsync()) as HttpWebResponse;
+                var httpResponse = (await httpWebRequest.GetResponseAsync().ConfigureAwait(false)) as HttpWebResponse;
                 if (httpResponse == null) return "HTTP_RESPONSE_ERROR";
                 var responseStream = httpResponse.GetResponseStream();
                 if (responseStream == null) return "RESPONSE_STREAM ERROR";
                 using (var streamReader = new StreamReader(responseStream))
                 {
-                    var responseText = await streamReader.ReadToEndAsync();
+                    var responseText = await streamReader.ReadToEndAsync().ConfigureAwait(false);
                     return Regex.Match(responseText, @"""id"": ?""(?<id>.+)""").Groups["id"].Value;
                 }
             }

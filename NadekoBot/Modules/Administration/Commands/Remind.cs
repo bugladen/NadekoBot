@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         ch = NadekoBot.Client.PrivateChannels.FirstOrDefault(c => (long)c.Id == r.ChannelId);
                         if (ch == null)
-                            ch = await NadekoBot.Client.CreatePrivateChannel((ulong)r.ChannelId);
+                            ch = await NadekoBot.Client.CreatePrivateChannel((ulong)r.ChannelId).ConfigureAwait(false);
                     }
                     else
                         ch = NadekoBot.Client.GetServer((ulong)r.ServerId)?.GetChannel((ulong)r.ChannelId);
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (ch == null)
                         return;
 
-                    await ch.SendMessage($"❗⏰**I've been told to remind you to '{r.Message}' now by <@{r.UserId}>.**⏰❗");
+                    await ch.SendMessage($"❗⏰**I've been told to remind you to '{r.Message}' now by <@{r.UserId}>.**⏰❗").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (meorchStr == "ME")
                     {
                         isPrivate = true;
-                        ch = await e.User.CreatePMChannel();
+                        ch = await e.User.CreatePMChannel().ConfigureAwait(false);
                     }
                     else if (meorchStr == "HERE")
                     {
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     if (ch == null)
                     {
-                        await e.Channel.SendMessage($"{e.User.Mention} Something went wrong (channel cannot be found) ;(");
+                        await e.Channel.SendMessage($"{e.User.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
                         return;
                     }
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     if (m.Length == 0)
                     {
-                        await e.Channel.SendMessage("Not a valid time format blablabla");
+                        await e.Channel.SendMessage("Not a valid time format blablabla").ConfigureAwait(false);
                         return;
                     }
 
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Administration.Commands
                             (groupName == "hours" && value > 23) ||
                             (groupName == "minutes" && value > 59))
                         {
-                            await e.Channel.SendMessage($"Invalid {groupName} value.");
+                            await e.Channel.SendMessage($"Invalid {groupName} value.").ConfigureAwait(false);
                             return;
                         }
                         else
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     reminders.Add(StartNewReminder(rem));
 
-                    await e.Channel.SendMessage($"⏰ I will remind \"{ch.Name}\" to \"{e.GetArg("message").ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:m})");
+                    await e.Channel.SendMessage($"⏰ I will remind \"{ch.Name}\" to \"{e.GetArg("message").ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:m})").ConfigureAwait(false);
                 });
         }
     }

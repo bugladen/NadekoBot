@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Searches.Commands
                         Tuple<bool, string> data;
                         try
                         {
-                            data = await GetStreamStatus(stream);
+                            data = await GetStreamStatus(stream).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Searches.Commands
                                     msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
                                     msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
-                            await channel.SendMessage(msg);
+                            await channel.SendMessage(msg).ConfigureAwait(false);
                         }
                     }
                 }
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
                     if (cachedStatuses.TryGetValue(hitboxUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(hitboxUrl);
+                    response = await SearchHelper.GetResponseStringAsync(hitboxUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = data["media_is_live"].ToString() == "1";
                     result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
                     if (cachedStatuses.TryGetValue(twitchUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(twitchUrl);
+                    response = await SearchHelper.GetResponseStringAsync(twitchUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
                     result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
                     if (cachedStatuses.TryGetValue(beamUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(beamUrl);
+                    response = await SearchHelper.GetResponseStringAsync(beamUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = data["online"].ToObject<bool>() == true;
                     result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
@@ -162,13 +162,13 @@ namespace NadekoBot.Modules.Searches.Commands
                                         snc.Username.ToLower().Trim() == username);
                     if (toRemove == null)
                     {
-                        await e.Channel.SendMessage(":anger: No such stream.");
+                        await e.Channel.SendMessage(":anger: No such stream.").ConfigureAwait(false);
                         return;
                     }
 
                     config.ObservingStreams.Remove(toRemove);
                     ConfigHandler.SaveConfig();
-                    await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.");
+                    await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "liststreams")
@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.Searches.Commands
 
                     if (streamsArray.Length == 0)
                     {
-                        await e.Channel.SendMessage("You are not following any streams on this server.");
+                        await e.Channel.SendMessage("You are not following any streams on this server.").ConfigureAwait(false);
                         return;
                     }
 
@@ -201,7 +201,7 @@ namespace NadekoBot.Modules.Searches.Commands
                         return "";
                     }));
 
-                    await e.Channel.SendMessage($"You are following **{streamsArray.Length}** streams on this server.\n\n" + text);
+                    await e.Channel.SendMessage($"You are following **{streamsArray.Length}** streams on this server.\n\n" + text).ConfigureAwait(false);
                 });
         }
 
@@ -224,17 +224,17 @@ namespace NadekoBot.Modules.Searches.Commands
                 var exists = config.ObservingStreams.Contains(stream);
                 if (exists)
                 {
-                    await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.");
+                    await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.").ConfigureAwait(false);
                     return;
                 }
                 Tuple<bool, string> data;
                 try
                 {
-                    data = await GetStreamStatus(stream);
+                    data = await GetStreamStatus(stream).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await e.Channel.SendMessage(":anger: Stream probably doesn't exist.");
+                    await e.Channel.SendMessage(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
                 var msg = $"Stream is currently **{(data.Item1 ? "ONLINE" : "OFFLINE")}** with **{data.Item2}** viewers";
@@ -250,7 +250,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 stream.LastStatus = data.Item1;
                 if (!exists)
                     msg = $":ok: I will notify this channel when status changes.\n{msg}";
-                await e.Channel.SendMessage(msg);
+                await e.Channel.SendMessage(msg).ConfigureAwait(false);
                 config.ObservingStreams.Add(stream);
             };
     }

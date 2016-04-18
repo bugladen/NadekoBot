@@ -35,11 +35,11 @@ namespace NadekoBot.Modules.Administration.Commands
                     var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
                     if (usr?.Status != UserStatus.Offline)
                         return;
-                    await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.");
+                    await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
                     await usr.SendMessage(
                         $"User `{e.User.Name}` mentioned you on " +
                         $"`{e.Server.Name}` server while you were offline.\n" +
-                        $"`Message:` {e.Message.Text}");
+                        $"`Message:` {e.Message.Text}").ConfigureAwait(false);
                 }
                 catch { }
             };
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`User banned:` **{e.User.Name}** ({e.User.Id})");
+                await ch.SendMessage($"`User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -63,11 +63,11 @@ namespace NadekoBot.Modules.Administration.Commands
             if (!logs.TryRemove(e.Server, out ch))
             {
                 logs.TryAdd(e.Server, e.Channel);
-                await e.Channel.SendMessage($"**I WILL BEGIN LOGGING SERVER ACTIVITY IN THIS CHANNEL**");
+                await e.Channel.SendMessage($"**I WILL BEGIN LOGGING SERVER ACTIVITY IN THIS CHANNEL**").ConfigureAwait(false);
                 return;
             }
 
-            await e.Channel.SendMessage($"**NO LONGER LOGGING IN {ch.Mention} CHANNEL**");
+            await e.Channel.SendMessage($"**NO LONGER LOGGING IN {ch.Mention} CHANNEL**").ConfigureAwait(false);
         };
 
         private async void MsgRecivd(object sender, MessageEventArgs e)
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+                await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}");
+                await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.After.Text}");
+                await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.After.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 if (loggingPresences.TryGetValue(e.Server, out ch))
                     if (e.Before.Status != e.After.Status)
                     {
-                        await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.");
+                        await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
                     }
             }
             catch { }
@@ -127,12 +127,12 @@ namespace NadekoBot.Modules.Administration.Commands
                 if (e.Before.VoiceChannel != null && voiceChannelLog.ContainsKey(e.Before.VoiceChannel))
                 {
                     if (e.After.VoiceChannel != e.Before.VoiceChannel)
-                        await voiceChannelLog[e.Before.VoiceChannel].SendMessage($"🎼`{e.Before.Name} has left the` {e.Before.VoiceChannel.Mention} `voice channel.`");
+                        await voiceChannelLog[e.Before.VoiceChannel].SendMessage($"🎼`{e.Before.Name} has left the` {e.Before.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
                 }
                 if (e.After.VoiceChannel != null && voiceChannelLog.ContainsKey(e.After.VoiceChannel))
                 {
                     if (e.After.VoiceChannel != e.Before.VoiceChannel)
-                        await voiceChannelLog[e.After.VoiceChannel].SendMessage($"🎼`{e.After.Name} has joined the`{e.After.VoiceChannel.Mention} `voice channel.`");
+                        await voiceChannelLog[e.After.VoiceChannel].SendMessage($"🎼`{e.After.Name} has joined the`{e.After.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
                 }
             }
             catch { }
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     str += $"`New Avatar:` {e.After.AvatarUrl}";
                 else
                     return;
-                await ch.SendMessage(str);
+                await ch.SendMessage(str).ConfigureAwait(false);
             }
             catch { }
         }
@@ -167,10 +167,10 @@ namespace NadekoBot.Modules.Administration.Commands
                         !specificConfig.SendPrivateMessageOnMention;
                     if (specificConfig.SendPrivateMessageOnMention)
                         await e.Channel.SendMessage(":ok: I will send private messages " +
-                                                    "to mentioned offline users.");
+                                                    "to mentioned offline users.").ConfigureAwait(false);
                     else
                         await e.Channel.SendMessage(":ok: I won't send private messages " +
-                                                    "to mentioned offline users anymore.");
+                                                    "to mentioned offline users anymore.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "logserver")
@@ -189,11 +189,11 @@ namespace NadekoBot.Modules.Administration.Commands
                       if (!loggingPresences.TryRemove(e.Server, out ch))
                       {
                           loggingPresences.TryAdd(e.Server, e.Channel);
-                          await e.Channel.SendMessage($"**User presence notifications enabled.**");
+                          await e.Channel.SendMessage($"**User presence notifications enabled.**").ConfigureAwait(false);
                           return;
                       }
 
-                      await e.Channel.SendMessage($"**User presence notifications disabled.**");
+                      await e.Channel.SendMessage($"**User presence notifications disabled.**").ConfigureAwait(false);
                   });
 
             cgb.CreateCommand(Module.Prefix + "voicepresence")
@@ -210,23 +210,23 @@ namespace NadekoBot.Modules.Administration.Commands
                           {
                               voiceChannelLog.TryAdd(voiceChannel, e.Channel);
                           }
-                          await e.Channel.SendMessage("Started logging user presence for **ALL** voice channels!");
+                          await e.Channel.SendMessage("Started logging user presence for **ALL** voice channels!").ConfigureAwait(false);
                           return;
                       }
 
                       if (e.User.VoiceChannel == null)
                       {
-                          await e.Channel.SendMessage("💢 You are not in a voice channel right now. If you are, please rejoin it.");
+                          await e.Channel.SendMessage("💢 You are not in a voice channel right now. If you are, please rejoin it.").ConfigureAwait(false);
                           return;
                       }
                       Channel throwaway;
                       if (!voiceChannelLog.TryRemove(e.User.VoiceChannel, out throwaway))
                       {
                           voiceChannelLog.TryAdd(e.User.VoiceChannel, e.Channel);
-                          await e.Channel.SendMessage($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`");
+                          await e.Channel.SendMessage($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
                       }
                       else
-                          await e.Channel.SendMessage($"`Stopped logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`");
+                          await e.Channel.SendMessage($"`Stopped logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
                   });
         }
     }

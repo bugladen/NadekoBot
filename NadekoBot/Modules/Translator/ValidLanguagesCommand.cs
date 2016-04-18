@@ -38,11 +38,11 @@ namespace NadekoBot.Modules.Translator
                         ret += " " + key + ";";
                     }
                 }
-                await e.Channel.SendMessage(ret);
+                await e.Channel.SendMessage(ret).ConfigureAwait(false);
             }
             catch
             {
-                await e.Channel.SendMessage("Bad input format, or sth went wrong...");
+                await e.Channel.SendMessage("Bad input format, or sth went wrong...").ConfigureAwait(false);
             }
 
         };

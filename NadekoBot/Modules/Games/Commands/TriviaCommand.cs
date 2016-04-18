@@ -29,12 +29,12 @@ namespace NadekoBot.Modules.Games.Commands
                         var showHints = !e.Args.Contains("nohint");
                         var triviaGame = new TriviaGame(e, showHints);
                         if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
-                            await e.Channel.SendMessage("**Trivia game started!**");
+                            await e.Channel.SendMessage("**Trivia game started!**").ConfigureAwait(false);
                         else
-                            await triviaGame.StopGame();
+                            await triviaGame.StopGame().ConfigureAwait(false);
                     }
                     else
-                        await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion);
+                        await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "tl")
@@ -43,9 +43,9 @@ namespace NadekoBot.Modules.Games.Commands
                 {
                     TriviaGame trivia;
                     if (RunningTrivias.TryGetValue(e.Server.Id, out trivia))
-                        await e.Channel.SendMessage(trivia.GetLeaderboard());
+                        await e.Channel.SendMessage(trivia.GetLeaderboard()).ConfigureAwait(false);
                     else
-                        await e.Channel.SendMessage("No trivia is running on this server.");
+                        await e.Channel.SendMessage("No trivia is running on this server.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "tq")
@@ -55,10 +55,10 @@ namespace NadekoBot.Modules.Games.Commands
                     TriviaGame trivia;
                     if (RunningTrivias.TryGetValue(e.Server.Id, out trivia))
                     {
-                        await trivia.StopGame();
+                        await trivia.StopGame().ConfigureAwait(false);
                     }
                     else
-                        await e.Channel.SendMessage("No trivia is running on this server.");
+                        await e.Channel.SendMessage("No trivia is running on this server.").ConfigureAwait(false);
                 });
         }
     }

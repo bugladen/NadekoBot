@@ -23,16 +23,16 @@ namespace NadekoBot.Modules.Translator
         {
             try
             {
-                await e.Channel.SendIsTyping();
+                await e.Channel.SendIsTyping().ConfigureAwait(false);
                 string from = e.GetArg("langs").ToLowerInvariant().Split('>')[0];
                 string to = e.GetArg("langs").ToLowerInvariant().Split('>')[1];
 
                 string translation = t.Translate(e.GetArg("text"), from, to);
-                await e.Channel.SendMessage(translation);
+                await e.Channel.SendMessage(translation).ConfigureAwait(false);
             }
             catch
             {
-                await e.Channel.SendMessage("Bad input format, or sth went wrong...");
+                await e.Channel.SendMessage("Bad input format, or sth went wrong...").ConfigureAwait(false);
             }
 
         };

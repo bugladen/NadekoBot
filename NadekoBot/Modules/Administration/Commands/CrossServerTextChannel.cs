@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration.Commands
                             continue;
                         foreach (var chan in set.Except(new[] { e.Channel }))
                         {
-                            await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message));
+                            await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message)).ConfigureAwait(false);
                         }
                     }
                 }
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Administration.Commands
                                 .FirstOrDefault(m =>
                                     m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
                             if (msg != default(Message))
-                                await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After));
+                                await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After)).ConfigureAwait(false);
                         }
                     }
 
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (Subscribers.TryAdd(token, set))
                     {
                         set.Add(e.Channel);
-                        await e.User.SendMessage("This is your CSC token:" + token.ToString());
+                        await e.User.SendMessage("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
                     }
                 });
 
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (!Subscribers.TryGetValue(token, out set))
                         return;
                     set.Add(e.Channel);
-                    await e.Channel.SendMessage(":ok:");
+                    await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "lcsc")
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         subscriber.Value.Remove(e.Channel);
                     }
-                    await e.Channel.SendMessage(":ok:");
+                    await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
                 });
         }
     }

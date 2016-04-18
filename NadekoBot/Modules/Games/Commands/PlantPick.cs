@@ -36,15 +36,15 @@ namespace NadekoBot.Modules.Games.Commands
                 {
                     Message msg;
 
-                    await e.Message.Delete();
+                    await e.Message.Delete().ConfigureAwait(false);
                     if (!plantedFlowerChannels.TryRemove(e.Channel.Id, out msg))
                         return;
 
-                    await msg.Delete();
-                    await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true);
-                    msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!");
-                    await Task.Delay(10000);
-                    await msg.Delete();
+                    await msg.Delete().ConfigureAwait(false);
+                    await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
+                    msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
+                    await Task.Delay(10000).ConfigureAwait(false);
+                    await msg.Delete().ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "plant")
@@ -68,6 +68,7 @@ namespace NadekoBot.Modules.Games.Commands
                         var rng = new Random();
                         var file = Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
                         Message msg;
+                        //todo send message after, not in lock
                         if (file == null)
                             msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
                         else
@@ -76,8 +77,8 @@ namespace NadekoBot.Modules.Games.Commands
                     }
                     var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
                     var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick");
-                    await Task.Delay(20000);
-                    await msg2.Delete();
+                    await Task.Delay(20000).ConfigureAwait(false);
+                    await msg2.Delete().ConfigureAwait(false);
                 });
         }
     }

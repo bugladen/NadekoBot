@@ -29,7 +29,8 @@ namespace NadekoBot.Modules.Help
                     .Description("List all bot modules.")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)));
+                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)))
+                                       .ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "commands")
@@ -43,10 +44,11 @@ namespace NadekoBot.Modules.Help
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())
                         {
-                            await e.Channel.SendMessage("That module does not exist.");
+                            await e.Channel.SendMessage("That module does not exist.").ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", cmdsArray.Select(c => c.Text)));
+                        await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", cmdsArray.Select(c => c.Text)))
+                                       .ConfigureAwait(false);
                     });
             });
         }
