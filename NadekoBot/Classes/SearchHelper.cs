@@ -1,4 +1,4 @@
-﻿using NadekoBot.Classes.JSONModels;
+using NadekoBot.Classes.JSONModels;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace NadekoBot.Classes
 {
@@ -260,11 +261,18 @@ namespace NadekoBot.Classes
 
         internal static async Task<string> GetE621ImageLink(string tags)
         {
-            var rng = new Random();
-            var url = $"https://e621.net/post/index/{rng.Next(0, 5)}/{Uri.EscapeUriString(tags)}";
-            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false); // first extract the post id and go to that posts page
-            var matches = Regex.Matches(webpage, "\"file_url\":\"(?<url>.*?)\"");
-            return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            try
+            {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                XDocument doc = XDocument.Load(" https://e621.net/post/index.xml?tags="+Uri.EscapeUriString(tags)+"%20order:random&limit=1");
+                int id = Convert.ToInt32(doc.Root.Element("post").Element("id").Value);
+                return (doc.Root.Element("post").Element("file_url").Value);
+            }
+            catch (Exception)
+            {
+                return "Error, do you have too many tags?";
+            }
         }
 
         public static async Task<string> ShortenUrl(string url)
