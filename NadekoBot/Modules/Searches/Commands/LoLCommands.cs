@@ -190,30 +190,33 @@ namespace NadekoBot.Modules.Searches.Commands
                               //draw champ surname
 
                               //draw skill order
-                              float orderFormula = 120 / orderArr.Count;
-                              const float orderVerticalSpacing = 10;
-                              for (var i = 0; i < orderArr.Count; i++)
+                              if (orderArr.Count != 0)
                               {
-                                  var orderX = margin + margin + imageSize + orderFormula * i + i;
-                                  float orderY = margin + 35;
-                                  var spellName = orderArr[i].ToString().ToLowerInvariant();
-
-                                  switch (spellName)
+                                  float orderFormula = 120 / orderArr.Count;
+                                  const float orderVerticalSpacing = 10;
+                                  for (var i = 0; i < orderArr.Count; i++)
                                   {
-                                      case "w":
-                                          orderY += orderVerticalSpacing;
-                                          break;
-                                      case "e":
-                                          orderY += orderVerticalSpacing * 2;
-                                          break;
-                                      case "r":
-                                          orderY += orderVerticalSpacing * 3;
-                                          break;
-                                      default:
-                                          break;
-                                  }
+                                      var orderX = margin + margin + imageSize + orderFormula * i + i;
+                                      float orderY = margin + 35;
+                                      var spellName = orderArr[i].ToString().ToLowerInvariant();
 
-                                  g.DrawString(spellName.ToUpperInvariant(), new Font("Monaco", 7), Brushes.LimeGreen, orderX, orderY);
+                                      switch (spellName)
+                                      {
+                                          case "w":
+                                              orderY += orderVerticalSpacing;
+                                              break;
+                                          case "e":
+                                              orderY += orderVerticalSpacing * 2;
+                                              break;
+                                          case "r":
+                                              orderY += orderVerticalSpacing * 3;
+                                              break;
+                                          default:
+                                              break;
+                                      }
+
+                                      g.DrawString(spellName.ToUpperInvariant(), new Font("Monaco", 7), Brushes.LimeGreen, orderX, orderY);
+                                  }
                               }
                               //draw roles
                               g.DrawString("Roles: " + string.Join(", ", roles), normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin);
