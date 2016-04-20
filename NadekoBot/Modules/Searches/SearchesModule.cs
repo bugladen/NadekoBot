@@ -162,7 +162,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             {
                                 if (exception.Message.Contains ("403 (Forbidden)"))
                                 {
-                                    await e.Channel.SendMessage ("Daily limit reached!")
+                                    await e.Channel.SendMessage ("Daily limit reached!");
                                 }
                                 else
                                 {
@@ -188,7 +188,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             {
                                 if (exception.Message.Contains ("403 (Forbidden)"))
                                 {
-                                    await e.Channel.SendMessage ("Daily limit reached!")
+                                    await e.Channel.SendMessage ("Daily limit reached!");
                                 }
                                 else
                                 {
