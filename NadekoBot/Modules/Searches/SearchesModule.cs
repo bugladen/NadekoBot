@@ -14,6 +14,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -157,10 +158,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
-                           catch (Exception ex)
-                           {
-                               await e.Channel.SendMessage($"💢 {ex.Message}").ConfigureAwait(false);
-                           }
+                           catch (HttpRequestException exception)
+                            {
+                                if (exception.Message.Contains ("403 (Forbidden)"))
+                                {
+                                    await e.Channel.SendMessage ("Daily limit reached!");
+                                }
+                                else
+                                {
+                                    await e.Channel.SendMessage ("Something went wrong.");
+                                }
+                            }
                        });
 
                 cgb.CreateCommand(Prefix + "ir")
@@ -176,10 +184,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
-                           catch (Exception ex)
-                           {
-                               await e.Channel.SendMessage($"💢 {ex.Message}").ConfigureAwait(false);
-                           }
+                           catch (HttpRequestException exception)
+                            {
+                                if (exception.Message.Contains ("403 (Forbidden)"))
+                                {
+                                    await e.Channel.SendMessage ("Daily limit reached!");
+                                }
+                                else
+                                {
+                                    await e.Channel.SendMessage ("Something went wrong.");
+                                }
+                            }
                        });
                 cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")
