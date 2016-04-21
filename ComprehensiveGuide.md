@@ -20,7 +20,7 @@ ________________________________________________________________________________
 1) FFMPEG, Static Build Version (See below) Google Account  
 2) Soundcloud Account  
 - Download FFMPEG through the link (https://ffmpeg.zeranoe.com/builds/).
-- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's bin install location. Save and close.
+- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\\ffmpeg\\bin**). Save and close.
 - Go to console.developers.google.com and log in.
 - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
 - Under the "Other Popular APIs" section, enable "URL Shortener API". Under the "YouTube APIs" section, enable "YouTube Data API".
