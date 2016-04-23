@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         await e.Channel.SendMessage("Repeating disabled").ConfigureAwait(false);
                         Repeater rep;
-                        if (repeaters.TryGetValue(e.Server, out rep))
+                        if (repeaters.TryRemove(e.Server, out rep))
                             rep.MessageTimer.Stop();
                         return;
                     }
