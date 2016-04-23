@@ -810,6 +810,20 @@ namespace NadekoBot.Modules.Administration
                           Console.WriteLine(ex);
                       }
                   });
+
+                cgb.CreateCommand(Prefix + "announce")
+                    .Description($"Sends a message to all servers' general channel bot is connected to.**Owner Only!**\n**Usage**: {Prefix}announce Useless spam")
+                    .Parameter("msg", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        foreach (var ch in NadekoBot.Client.Servers.Select(s => s.DefaultChannel))
+                        {
+                            await ch.SendMessage(e.GetArg("msg"));
+                        }
+
+                        await e.Channel.SendMessage(":ok:");
+                    });
             });
         }
 
