@@ -179,7 +179,7 @@ namespace NadekoBot.Classes
             return obj.items[0].id.playlistId.ToString();
         }
 
-        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 30)
+        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 50)
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
             {
@@ -189,7 +189,7 @@ namespace NadekoBot.Classes
                 throw new ArgumentOutOfRangeException();
             var link =
                 $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
-                $"&maxResults={30}" +
+                $"&maxResults={number}" +
                 $"&playlistId={playlist}" +
                 $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
