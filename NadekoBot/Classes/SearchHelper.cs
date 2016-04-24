@@ -263,9 +263,7 @@ namespace NadekoBot.Classes
         {
             try
             {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                XDocument doc = XDocument.Load(" https://e621.net/post/index.xml?tags="+Uri.EscapeUriString(tags)+"%20order:random&limit=1");
+                XDocument doc = await Task.Run(() => XDocument.Load(" http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1"));
                 int id = Convert.ToInt32(doc.Root.Element("post").Element("id").Value);
                 return (doc.Root.Element("post").Element("file_url").Value);
             }

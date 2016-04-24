@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5950.11393`
+Version: `NadekoBot v0.9.5957.32647`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -74,7 +74,8 @@ Command and aliases | Description | Usage
 `.unstuck`  |  Clears the message queue. **Owner Only!**
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.adddon`, `.donadd`  |  Add a donator to the database.
-`.videocall`  |  Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
+`.videocall`  |  Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
+`.announce`  |  Sends a message to all servers' general channel bot is connected to.**Owner Only!** |  .announce Useless spam
 
 ### Help  
 Command and aliases | Description | Usage
