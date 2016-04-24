@@ -260,7 +260,11 @@ namespace NadekoBot.Modules.Music.Classes
 
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
-                return new Song(new SongInfo
+                var m = Regex.Match(query, @"\?t=(?<t>\d*)");
+                int gotoTime = 0;
+                if (m.Captures.Count > 0)
+                    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
+                var song = new Song(new SongInfo
                 {
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
@@ -268,6 +272,8 @@ namespace NadekoBot.Modules.Music.Classes
                     Query = link,
                     ProviderType = musicType,
                 });
+                song.SkipTo = gotoTime;
+                return song;
             }
             catch (Exception ex)
             {

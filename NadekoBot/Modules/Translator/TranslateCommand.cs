@@ -13,7 +13,8 @@ namespace NadekoBot.Modules.Translator
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "trans")
-                .Description("Translates from>to text. From the given language to the destiation language.")
+                .Alias(Module.Prefix + "translate")
+                .Description($"Translates from>to text. From the given language to the destiation language.\n**Usage**: {Module.Prefix}trans en>fr Hello")
                 .Parameter("langs", ParameterType.Required)
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(TranslateFunc());
