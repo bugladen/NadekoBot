@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Searches
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "we")
-                    .Description("Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.")
+                    .Description($"Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.\n**Usage**: {Prefix}we Moscow RF")
                     .Parameter("city", ParameterType.Required)
                     .Parameter("country", ParameterType.Required)
                     .Do(async e =>
@@ -159,16 +159,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
-                            {
-                                if (exception.Message.Contains ("403 (Forbidden)"))
-                                {
-                                    await e.Channel.SendMessage ("Daily limit reached!");
-                                }
-                                else
-                                {
-                                    await e.Channel.SendMessage ("Something went wrong.");
-                                }
-                            }
+                           {
+                               if (exception.Message.Contains("403 (Forbidden)"))
+                               {
+                                   await e.Channel.SendMessage("Daily limit reached!");
+                               }
+                               else
+                               {
+                                   await e.Channel.SendMessage("Something went wrong.");
+                               }
+                           }
                        });
 
                 cgb.CreateCommand(Prefix + "ir")
@@ -185,16 +185,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
-                            {
-                                if (exception.Message.Contains ("403 (Forbidden)"))
-                                {
-                                    await e.Channel.SendMessage ("Daily limit reached!");
-                                }
-                                else
-                                {
-                                    await e.Channel.SendMessage ("Something went wrong.");
-                                }
-                            }
+                           {
+                               if (exception.Message.Contains("403 (Forbidden)"))
+                               {
+                                   await e.Channel.SendMessage("Daily limit reached!");
+                               }
+                               else
+                               {
+                                   await e.Channel.SendMessage("Something went wrong.");
+                               }
+                           }
                        });
                 cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")

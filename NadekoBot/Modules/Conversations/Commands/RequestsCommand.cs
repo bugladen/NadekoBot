@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Threading.Tasks;
 
@@ -79,57 +80,51 @@ namespace NadekoBot.Classes.Conversations.Commands
                 });
 
             cgb.CreateCommand("dr")
-                .Description("Deletes a request. Only owner is able to do this.")
+                .Description("Deletes a request. **Owner Only!**")
                 .Parameter("reqNumber", ParameterType.Required)
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
-                    if (NadekoBot.IsOwner(e.User.Id))
+                    try
                     {
-                        try
+                        if (DeleteRequest(int.Parse(e.Args[0])))
                         {
-                            if (DeleteRequest(int.Parse(e.Args[0])))
-                            {
-                                await e.Channel.SendMessage(e.User.Mention + " Request deleted.").ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
-                            }
+                            await e.Channel.SendMessage(e.User.Mention + " Request deleted.").ConfigureAwait(false);
                         }
-                        catch
+                        else
                         {
-                            await e.Channel.SendMessage("Error deleting request, probably NaN error.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
                         }
                     }
-                    else await e.Channel.SendMessage("You don't have permission to do that.").ConfigureAwait(false);
+                    catch
+                    {
+                        await e.Channel.SendMessage("Error deleting request, probably NaN error.").ConfigureAwait(false);
+                    }
                 });
 
             cgb.CreateCommand("rr")
-                .Description("Resolves a request. Only owner is able to do this.")
+                .Description("Resolves a request. **Owner Only!**")
                 .Parameter("reqNumber", ParameterType.Required)
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
-                    if (NadekoBot.IsOwner(e.User.Id))
+                    try
                     {
-                        try
+                        var sc = ResolveRequest(int.Parse(e.Args[0]));
+                        if (sc != null)
                         {
-                            var sc = ResolveRequest(int.Parse(e.Args[0]));
-                            if (sc != null)
-                            {
-                                await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.").ConfigureAwait(false);
-                                await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText).ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
-                            }
+                            await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.").ConfigureAwait(false);
+                            await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText).ConfigureAwait(false);
                         }
-                        catch
+                        else
                         {
-                            await e.Channel.SendMessage("Error resolving request, probably NaN error.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("No request on that number.").ConfigureAwait(false);
                         }
                     }
-                    else await e.Channel.SendMessage("You don't have permission to do that.").ConfigureAwait(false);
+                    catch
+                    {
+                        await e.Channel.SendMessage("Error resolving request, probably NaN error.").ConfigureAwait(false);
+                    }
                 });
         }
 
