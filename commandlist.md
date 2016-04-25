@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5957.32647`
+Version: `NadekoBot v0.9.5958.34184`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -37,8 +37,8 @@ Command and aliases | Description | Usage
 `.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
-`.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
-`.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  .color Admin 255 200 100 or .color Admin ffba55
+`.r`, `.role`, `.cr`  |  Creates a role with a given name. |  `.r Awesome Role`
+`.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  `.color Admin 255 200 100` or `.color Admin ffba55`
 `.roles`  |  List all roles on this server or a single user if specified.
 `.b`, `.ban`  |  Bans a user by id or name with an optional message. |  .b "@some Guy" Your behaviour is toxic.
 `.k`, `.kick`  |  Kicks a mentioned user.
@@ -137,8 +137,8 @@ Command and aliases | Description | Usage
 `@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
 `@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
 `@BotName lr`  |  PMs the user all current nadeko requests.
-`@BotName dr`  |  Deletes a request. Only owner is able to do this.
-`@BotName rr`  |  Resolves a request. Only owner is able to do this.
+`@BotName dr`  |  Deletes a request. **Owner Only!**
+`@BotName rr`  |  Resolves a request. **Owner Only!**
 `@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
@@ -236,7 +236,7 @@ Command and aliases | Description | Usage
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~convert`  |  Convert quantities from>to. Like `~convert m>km 1000`
 `~convertlist`  |  List of the convertable dimensions and currencies.
-`~we`  |  Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.
+`~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~imdb`  |  Queries imdb for movies or series, show first result.
@@ -293,7 +293,7 @@ Command and aliases | Description | Usage
 ### Translator  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~trans`  |  Translates from>to text. From the given language to the destiation language.
+`~trans`, `~translate`  |  Translates from>to text. From the given language to the destiation language. |  ~trans en>fr Hello
 `~translangs`  |  List the valid languages for translation.
 
 ### Trello  
