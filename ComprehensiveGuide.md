@@ -5,6 +5,7 @@ ________________________________________________________________________________
 #### Setting Up NadekoBot v0.93.2
 ###### Prerequisites: 
 1) NET Framework 4.5.2 (or 4.6)
+- Download nadeko using updater https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0
 - Rename credentials_example.json into credentials.json. (Note: If you do not see a .json after credentials_example.json, do not add the .json. You likely have "Hide file extensions" as enabled.)
 - Go to (https://discordapp.com/developers/applications/me). Log in if you have to with your Discord account. Press "New Application" and fill out an App Name and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on "Create a Bot User" and confirm it. You will then see the bot's username, ID and token. Reveal and copy the token and the bot ID.
 - Open up credentials.json. Paste the token into the Token field, between the quotes. Paste the ID into the BotID field. Leave email and password fields empty. Save and close credentials.json.
@@ -20,7 +21,7 @@ ________________________________________________________________________________
 #### Setting Up NadekoBot For Music
 ###### Prerequisites: 
 1) FFMPEG, Static Build Version (See below) Google Account  
-2) Soundcloud Account  
+2) Soundcloud Account (if you want soundcloud support)
 - Download FFMPEG through the link (https://ffmpeg.zeranoe.com/builds/).
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\\ffmpeg\\bin**). Save and close.
 - Go to console.developers.google.com and log in.
