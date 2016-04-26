@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "rar").Alias(Prefix + "removeallroles")
                     .Description("Removes all roles from a mentioned user.\n**Usage**: .rar @User")
-                    .Parameter("user_name", ParameterType.Required)
+                    .Parameter("user_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.CanManageRoles)
                     .Do(async e =>
                     {
