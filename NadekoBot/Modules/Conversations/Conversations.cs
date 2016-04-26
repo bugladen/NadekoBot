@@ -114,6 +114,18 @@ namespace NadekoBot.Modules.Conversations
                         else
                             await e.Channel.SendMessage("💢`No quote found.`").ConfigureAwait(false);
                     });
+                    
+                foreach (var command in NadekoBot.Config.CustomReactions)
+                {
+                    var c = cgb.CreateCommand(command.Key);
+                    c.Description($"Custom reaction.\n**Usage**:{command.Key}");
+                    c.Do(async e =>
+                    {
+                        var str = command.Value;
+                        str = str.Replace("%user%", e.User.Mention);
+                        await e.Channel.SendMessage(str);
+                    });
+                }    
             });
 
             manager.CreateCommands(NadekoBot.BotMention, cgb =>
