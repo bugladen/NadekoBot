@@ -122,17 +122,21 @@ namespace NadekoBot.Modules.Conversations
                     c.Parameter("args", ParameterType.Unparsed);
                     c.Do(async e =>
                     {
-                        var str = command.Value;
+                        Random range = new Random();
+                       
+                        var str = command.Value[range.Next(0, command.Value.Count())];
                         str = str.Replace("%user%", e.User.Mention);
+                        str = str.Replace("%rng%", "" + range.Next());
                         if (str.Contains("%target%"))
                         {
                             var args = e.GetArg("args");
                             if (string.IsNullOrWhiteSpace(args)) args = string.Empty;
                             str = str.Replace("%target%", e.GetArg("args"));
                         }
+
                         await e.Channel.SendMessage(str);
                     });
-                }    
+                }   
             });
 
             manager.CreateCommands(NadekoBot.BotMention, cgb =>
