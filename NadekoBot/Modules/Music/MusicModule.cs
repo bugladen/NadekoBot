@@ -57,12 +57,13 @@ namespace NadekoBot.Modules.Music
                 cgb.CreateCommand("n")
                     .Alias("next")
                     .Alias("skip")
-                    .Description("Goes to the next song in the queue.**Usage**: `!m n`")
+                    .Description("Goes to the next song in the queue. You have to be in the same voice channel as the bot.\n**Usage**: `!m n`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
-                        musicPlayer.Next();
+                        if (musicPlayer.PlaybackVoiceChannel == e.User.VoiceChannel)
+                            musicPlayer.Next();
                     });
 
                 cgb.CreateCommand("s")
@@ -74,7 +75,8 @@ namespace NadekoBot.Modules.Music
                         {
                             MusicPlayer musicPlayer;
                             if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
-                            musicPlayer.Stop();
+                            if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                                musicPlayer.Stop();
                         }).ConfigureAwait(false);
                     });
 
@@ -88,7 +90,8 @@ namespace NadekoBot.Modules.Music
                         {
                             MusicPlayer musicPlayer;
                             if (!MusicPlayers.TryRemove(e.Server, out musicPlayer)) return;
-                            musicPlayer.Destroy();
+                            if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                                musicPlayer.Destroy();
                         }).ConfigureAwait(false);
                     });
 
@@ -99,6 +102,8 @@ namespace NadekoBot.Modules.Music
                     {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         musicPlayer.TogglePause();
                         if (musicPlayer.Paused)
                             await e.Channel.SendMessage("🎵`Music Player paused.`").ConfigureAwait(false);
@@ -172,6 +177,8 @@ namespace NadekoBot.Modules.Music
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         var arg = e.GetArg("val");
                         int volume;
                         if (!int.TryParse(arg, out volume))
@@ -208,6 +215,8 @@ namespace NadekoBot.Modules.Music
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         musicPlayer.SetVolume(0);
                     });
 
@@ -217,6 +226,8 @@ namespace NadekoBot.Modules.Music
                     {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                             return;
                         musicPlayer.SetVolume(100);
                     });
@@ -228,6 +239,8 @@ namespace NadekoBot.Modules.Music
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         musicPlayer.SetVolume(50);
                     });
 
@@ -237,6 +250,8 @@ namespace NadekoBot.Modules.Music
                     {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                             return;
                         if (musicPlayer.Playlist.Count < 2)
                         {
@@ -352,6 +367,8 @@ namespace NadekoBot.Modules.Music
                         {
                             return;
                         }
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         if (arg?.ToLower() == "all")
                         {
                             musicPlayer.ClearQueue();
@@ -545,7 +562,8 @@ namespace NadekoBot.Modules.Music
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
-
+                        if (e.User.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                            return;
                         int skipTo;
                         if (!int.TryParse(skipToStr, out skipTo) || skipTo < 0)
                             return;
