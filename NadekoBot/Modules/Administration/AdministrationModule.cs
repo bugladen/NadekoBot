@@ -123,6 +123,32 @@ namespace NadekoBot.Modules.Administration
                         }
                     });
 
+                cgb.CreateCommand(Prefix + "rar").Alias(Prefix + "removeallroles")
+                    .Description("Removes all roles from a mentioned user.\n**Usage**: .rar @User")
+                    .Parameter("user_name", ParameterType.Required)
+                    .AddCheck(SimpleCheckers.CanManageRoles)
+                    .Do(async e =>
+                    {
+                        var userName = e.GetArg("user_name");
+
+                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                        if (usr == null)
+                        {
+                            await e.Channel.SendMessage("You failed to supply a valid username").ConfigureAwait(false);
+                            return;
+                        }
+
+                        try
+                        {
+                            await usr.RemoveRoles(usr.Roles.ToArray()).ConfigureAwait(false);
+                            await e.Channel.SendMessage($"Successfully removed **all** roles from user **{usr.Name}**").ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            await e.Channel.SendMessage("Failed to remove roles. Most likely reason: Insufficient permissions.").ConfigureAwait(false);
+                        }
+                    });
+
                 cgb.CreateCommand(Prefix + "r").Alias(Prefix + "role").Alias(Prefix + "cr")
                     .Description("Creates a role with a given name.**Usage**: `.r Awesome Role`")
                     .Parameter("role_name", ParameterType.Unparsed)
