@@ -17,7 +17,7 @@ namespace NadekoBot.Classes.JSONModels
         [JsonIgnore]
         public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
 
-        public Dictionary<string, string> CustomReactions { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, List<string>> CustomReactions { get; set; } = new Dictionary<string, List<string>>();
         
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
