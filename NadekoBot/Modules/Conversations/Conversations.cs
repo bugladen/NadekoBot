@@ -119,10 +119,17 @@ namespace NadekoBot.Modules.Conversations
                 {
                     var c = cgb.CreateCommand(command.Key);
                     c.Description($"Custom reaction.\n**Usage**:{command.Key}");
+                    c.Parameter("args", ParameterType.Unparsed);
                     c.Do(async e =>
                     {
                         var str = command.Value;
                         str = str.Replace("%user%", e.User.Mention);
+                        if (str.Contains("%target%"))
+                        {
+                            var args = e.GetArg("args");
+                            if (string.IsNullOrWhiteSpace(args)) args = string.Empty;
+                            str = str.Replace("%target%", e.GetArg("args"));
+                        }
                         await e.Channel.SendMessage(str);
                     });
                 }    
