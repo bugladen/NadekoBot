@@ -421,6 +421,15 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             return;
                         await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={imgLink}").ConfigureAwait(false);
                     });
+
+                cgb.CreateCommand(Prefix + "safebooru")
+                    .Description("Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~safebooru yuri+kissing")
+                    .Parameter("tag", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var tag = e.GetArg("tag")?.Trim() ?? "";
+                        await e.Channel.SendMessage(await SearchHelper.GetSafebooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
+                    });
             });
         }
     }
