@@ -11,45 +11,19 @@ namespace NadekoBot.Classes.Help.Commands
 {
     internal class HelpCommand : DiscordCommand
     {
-        public Func<CommandEventArgs, Task> DoFunc() => async e =>
+        public Func<CommandEventArgs, Task> HelpFunc() => async e =>
         {
-            #region OldHelp
-            /*
-            string helpstr = "**COMMANDS DO NOT WORK IN PERSONAL MESSAGES**\nOfficial repo: **github.com/Kwoth/NadekoBot/**";
-
-            string lastCategory = "";
-            foreach (var com in client.GetService<CommandService>().AllCommands)
-            {
-                if (com.Category != lastCategory)
-                {
-                    helpstr += "\n`----`**`" + com.Category + "`**`----`\n";
-                    lastCategory = com.Category;
-                }
-                helpstr += PrintCommandHelp(com);
-            }
-            helpstr += "\nBot Creator's server: https://discord.gg/0ehQwTK2RBhxEi0X";
-            helpstr = helpstr.Replace(NadekoBot.botMention, "@BotName");
-            while (helpstr.Length > 2000)
-            {
-                var curstr = helpstr.Substring(0, 2000);
-                await e.User.Send(curstr.Substring(0, curstr.LastIndexOf("\n") + 1)).ConfigureAwait(false);
-                helpstr = curstr.Substring(curstr.LastIndexOf("\n") + 1) + helpstr.Substring(2000);
-                await Task.Delay(200).ConfigureAwait(false);
-            }
-            */
-            #endregion OldHelp
-
-            if (string.IsNullOrWhiteSpace(e.GetArg("command")))
+            var comToFind = e.GetArg("command")?.ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(comToFind))
             {
                 await e.User.Send(HelpString).ConfigureAwait(false);
                 return;
             }
             await Task.Run(async () =>
             {
-                var comToFind = e.GetArg("command");
-
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
-                    .FirstOrDefault(c => c.Text.ToLower().Equals(comToFind));
+                    .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
+                                        c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
                 if (com != null)
                     await e.Channel.SendMessage($"`Help for '{com.Text}':` **{com.Description}**").ConfigureAwait(false);
             }).ConfigureAwait(false);
@@ -102,7 +76,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
                 .Parameter("command", ParameterType.Unparsed)
-                .Do(DoFunc());
+                .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
                 .Description("Generates the commandlist.md file. **Owner Only!**")
                 .AddCheck(SimpleCheckers.OwnerOnly())
