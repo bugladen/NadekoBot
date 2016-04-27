@@ -19,11 +19,81 @@ namespace NadekoBot.Classes.JSONModels
 
         public Dictionary<string, List<string>> CustomReactions { get; set; } = new Dictionary<string, List<string>>()
         {
-            {@"\o\", new List<string>() {"/o/" } },
-            {"/o/", new List<string>() {@"\o\" } },
-            {"moveto", new List<string>() { @"(👉 ͡° ͜ʖ ͡°)👉 %target%" } },
-            {"comeatmebro", new List<string>() { "%target% (ง’̀-‘́)ง" } },
-            {"e", new List<string>() { "%user% did it 😒 🔫", "%target% did it 😒 🔫" } }
+            {@"\o\", new List<string>()
+            { "/o/" } },
+            {"/o/", new List<string>()
+            { @"\o\" } },
+            {"moveto", new List<string>() {
+                @"(👉 ͡° ͜ʖ ͡°)👉 %target%" } },
+            {"comeatmebro", new List<string>() {
+                "%target% (ง’̀-‘́)ง" } },
+            {"e", new List<string>() {
+                "%user% did it 😒 🔫",
+                "%target% did it 😒 🔫" } },
+            {"%mention% insult", new List<string>() {
+                "I would never insult %owner%, my beloved master.",
+                "%target% You are a poop.",
+                "%target% You're a jerk.",
+                "%target% I will eat you when I get my powers back."
+                 } },
+            {"%mention% praise", new List<string>()
+            {
+                "I don't need your permission to praise %owner%, my beloved master",
+                "%target% You are cool.",
+                "%target% You are nice!",
+                "%target% You did a good job.",
+                "%target% You did something nice.",
+                "%target% is awesome!",
+                "%target% Wow."
+            } },
+            {"%mention% pat", new List<string>() {
+                "http://i.imgur.com/IiQwK12.gif",
+                "http://i.imgur.com/JCXj8yD.gif",
+                "http://i.imgur.com/qqBl2bm.gif",
+                "http://i.imgur.com/eOJlnwP.gif",
+                "https://45.media.tumblr.com/229ec0458891c4dcd847545c81e760a5/tumblr_mpfy232F4j1rxrpjzo1_r2_500.gif",
+                "https://media.giphy.com/media/KZQlfylo73AMU/giphy.gif",
+                "https://media.giphy.com/media/12hvLuZ7uzvCvK/giphy.gif",
+                "http://gallery1.anivide.com/_full/65030_1382582341.gif",
+                "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
+            } },
+            {"%mention% cry", new List<string>()
+            {
+                "http://i.imgur.com/Xg3i1Qy.gif",
+                "http://i.imgur.com/3K8DRrU.gif",
+                "http://i.imgur.com/k58BcAv.gif",
+                "http://i.imgur.com/I2fLXwo.gif"
+            } },
+            {"%mention% are you real?", new List<string>()
+            {
+                "%user%, I will be soon."
+            } },
+            {"%mention% are you there?", new List<string>()
+            {
+                "Yes. :)"
+            } },
+            {"%mention% draw", new List<string>() {
+                "Sorry, I don't gamble, type $draw for that function."
+            } },
+            {"%mention% bb", new List<string>()
+            {
+                "Bye %target%"
+            } },
+            {"%mention% call", new List<string>() {
+                "Calling %target%"
+            } },
+            {"%mention% disguise", new List<string>() {
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
+
+            } },
+            {"%mention% ab", new List<string>()
+            {
+                "abalabahaha",
+                //Some other varistions, I'm too lazy to add them
+            } }
         };
         
         public List<string> RotatingStatuses { get; set; } = new List<string>();
@@ -62,32 +132,6 @@ namespace NadekoBot.Classes.JSONModels
                 "Definitely no",
                 "NO - It may cause disease contraction"
             };
-
-        public string[] DisguiseResponses { get; set; } = {
-            "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
-            "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
-            "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
-            "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
-        };
-
-        public string[] CryResponses { get; set; } = {
-            "http://i.imgur.com/Xg3i1Qy.gif",
-            "http://i.imgur.com/3K8DRrU.gif",
-            "http://i.imgur.com/k58BcAv.gif",
-            "http://i.imgur.com/I2fLXwo.gif"
-        };
-
-        public string[] PatResponses { get; set; } = {
-            "http://i.imgur.com/IiQwK12.gif",
-            "http://i.imgur.com/JCXj8yD.gif",
-            "http://i.imgur.com/qqBl2bm.gif",
-            "http://i.imgur.com/eOJlnwP.gif",
-            "https://45.media.tumblr.com/229ec0458891c4dcd847545c81e760a5/tumblr_mpfy232F4j1rxrpjzo1_r2_500.gif",
-            "https://media.giphy.com/media/KZQlfylo73AMU/giphy.gif",
-            "https://media.giphy.com/media/12hvLuZ7uzvCvK/giphy.gif",
-            "http://gallery1.anivide.com/_full/65030_1382582341.gif",
-            "https://49.media.tumblr.com/8e8a099c4eba22abd3ec0f70fd087cce/tumblr_nxovj9oY861ur1mffo1_500.gif ",
-        };
 
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
