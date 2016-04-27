@@ -409,6 +409,18 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             return;
                         await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
                     });
+
+                cgb.CreateCommand(Prefix + "revimg")
+                    .Description("Returns a google reverse image search for an image from a link.")
+                    .Parameter("image", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var imgLink = e.GetArg("image")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(imgLink))
+                            return;
+                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={imgLink}").ConfigureAwait(false);
+                    });
             });
         }
     }
