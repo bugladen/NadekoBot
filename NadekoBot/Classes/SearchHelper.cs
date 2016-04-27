@@ -263,12 +263,19 @@ namespace NadekoBot.Classes
         {
             try
             {
-                XDocument doc = await Task.Run(() => XDocument.Load(" http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1"));
-                int id = Convert.ToInt32(doc.Root.Element("post").Element("id").Value);
-                return (doc.Root.Element("post").Element("file_url").Value);
+                var headers = new Dictionary<string, string>() {
+                    {"User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"},
+                    {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
+                };
+                var data = await GetResponseStreamAsync(
+                    "http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1",
+                    headers);
+                var doc = XDocument.Load(data);
+                return doc.Descendants("file_url").FirstOrDefault().Value;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("Error in e621 search: \n" + ex);
                 return "Error, do you have too many tags?";
             }
         }
