@@ -34,46 +34,6 @@ namespace NadekoBot.Modules.Conversations
             {
                 cgb.AddCheck(PermissionChecker.Instance);
 
-                cgb.CreateCommand("e")
-                    .Description("You did it. Or someone else!")
-                    .Parameter("other", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        var other = e.GetArg("other");
-                        if (string.IsNullOrWhiteSpace(other))
-                            await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫").ConfigureAwait(false);
-                        else
-                            await e.Channel.SendMessage($"{other} did it. 😒 🔫").ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand("comeatmebro")
-                .Description("Come at me bro (ง’̀-‘́)ง \n**Usage**: comeatmebro {target}")
-                .Parameter("target", ParameterType.Optional)
-                .Do(async e =>
-                {
-                    var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
-                    if (usr == null)
-                    {
-                        await e.Channel.SendMessage("(ง’̀-‘́)ง").ConfigureAwait(false);
-                        return;
-                    }
-                    await e.Channel.SendMessage($"{usr.Mention} (ง’̀-‘́)ง").ConfigureAwait(false);
-                });
-
-
-                cgb.CreateCommand("\\o\\")
-                    .Description("Nadeko replies with /o/")
-                    .Do(async e => await e.Channel.SendMessage(e.User.Mention + "/o/").ConfigureAwait(false));
-
-                cgb.CreateCommand("/o/")
-                    .Description("Nadeko replies with \\o\\")
-                    .Do(async e => await e.Channel.SendMessage(e.User.Mention + "\\o\\").ConfigureAwait(false));
-
-                cgb.CreateCommand("moveto")
-                .Description("Suggests moving the conversation.\n**Usage**: moveto #spam")
-                .Parameter("target", ParameterType.Unparsed)
-                .Do(async e => await e.Channel.SendMessage($"(👉 ͡° ͜ʖ ͡°)👉 {e.GetArg("target")}"));
-
 
                 cgb.CreateCommand("..")
                     .Description("Adds a new quote with the specified name (single word) and message (no limit).\n**Usage**: .. abc My message")
