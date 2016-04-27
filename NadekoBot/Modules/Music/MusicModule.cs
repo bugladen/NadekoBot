@@ -589,6 +589,20 @@ namespace NadekoBot.Modules.Music
 
                         await e.Channel.SendMessage($"`Skipped to {minutes}:{seconds}`").ConfigureAwait(false);
                     });
+
+                cgb.CreateCommand("getlink")
+                    .Alias("gl")
+                    .Description("Shows a link to the currently playing song.")
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        var curSong = musicPlayer.CurrentSong;
+                        if (curSong == null)
+                            return;
+                        await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>");
+                    });
             });
         }
 
