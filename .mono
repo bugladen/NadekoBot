@@ -1,0 +1,6 @@
+# specify the build you want, either minimal (default) or full
+# see below for explanation
+MONO_TYPE=full
+# if this is set, the cache is not used/cleaned.
+# the cache is used to 1) store mono builds and 2) store nuget packages
+MONO_CACHE=nope
