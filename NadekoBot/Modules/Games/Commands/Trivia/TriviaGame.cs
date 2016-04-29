@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 await channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
                 if (Users[e.User] != WinRequirement) return;
                 ShouldStopGame = true;
-                await channel.Send($":exclamation: We have a winner! Its {e.User.Mention}.").ConfigureAwait(false);
+                await channel.Send($":exclamation: We have a winner! It's {e.User.Mention}.").ConfigureAwait(false);
                 // add points to the winner
                 await FlowersHandler.AddFlowersAsync(e.User, "Won Trivia", 2).ConfigureAwait(false);
             }
