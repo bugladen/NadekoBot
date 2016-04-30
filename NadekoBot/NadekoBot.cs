@@ -198,7 +198,6 @@ namespace NadekoBot
                         await Client.Connect(Creds.Token).ConfigureAwait(false);
                         IsBot = true;
                     }
-                    Console.WriteLine(NadekoBot.Client.CurrentUser.Id);
                 }
                 catch (Exception ex)
                 {
