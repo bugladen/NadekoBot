@@ -15,5 +15,6 @@ namespace NadekoBot.DataModels
         [JsonProperty("byeChannel")]
         public long ByeChannelId { get; set; } = 0;
         public string ByeText { get; set; } = "%user% has left the server.";
+        public bool DeleteGreetMessages { get; set; } = true;
     }
 }

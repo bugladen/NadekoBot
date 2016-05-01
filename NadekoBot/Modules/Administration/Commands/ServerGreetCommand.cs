@@ -69,9 +69,9 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (channel == null) return;
                     Greeted++;
                     var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
-                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
+                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages && controls.DeleteGreetMessages)
                     {
-                        await Task.Delay(300000).ConfigureAwait(false); // 5 minutes
+                        await Task.Delay(30000).ConfigureAwait(false); // 5 minutes
                         await toDelete.Delete().ConfigureAwait(false);
                     }
                 }
@@ -102,9 +102,9 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (channel == null) return;
                     Greeted++;
                     var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
-                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages)
+                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages && controls.DeleteGreetMessages)
                     {
-                        await Task.Delay(300000).ConfigureAwait(false); // 5 minutes
+                        await Task.Delay(30000).ConfigureAwait(false); // 5 minutes
                         await toDelete.Delete().ConfigureAwait(false);
                     }
                 }
@@ -160,6 +160,15 @@ namespace NadekoBot.Modules.Administration.Commands
                 set { _model.ServerId = (long)value; }
             }
 
+            public bool DeleteGreetMessages {
+                get {
+                    return _model.DeleteGreetMessages;
+                }
+                set {
+                    _model.DeleteGreetMessages = value; Save();
+                }
+            }
+
             public AnnounceControls(DataModels.Announcement model)
             {
                 this._model = model;
@@ -196,6 +205,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     return Greet = true;
                 }
             }
+
+            internal bool ToggleDelete() => DeleteGreetMessages = !DeleteGreetMessages;
             internal bool ToggleGreetPM() => GreetPM = !GreetPM;
             internal bool ToggleByePM() => ByePM = !ByePM;
 
@@ -207,6 +218,21 @@ namespace NadekoBot.Modules.Administration.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
+            cgb.CreateCommand(Module.Prefix + "grdel")
+                .Description("Enables or Disables automatic deletion of greet and bye messages.")
+                .Do(async e =>
+                {
+                    if (!e.User.ServerPermissions.ManageServer) return;
+                    if (!AnnouncementsDictionary.ContainsKey(e.Server.Id))
+                        AnnouncementsDictionary.TryAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
+
+                    var controls = AnnouncementsDictionary[e.Server.Id];
+
+                    if (controls.ToggleDelete())
+                        await e.Channel.SendMessage("`Automatic deletion of greet and bye messages has been enabled.`").ConfigureAwait(false);
+                    else
+                        await e.Channel.SendMessage("`Automatic deletion of greet and bye messages has been disabled.`").ConfigureAwait(false);
+                });
 
             cgb.CreateCommand(Module.Prefix + "greet")
                 .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
