@@ -16,7 +16,6 @@ using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Modules.Pokemon;
-using NadekoBot.Modules.Programming;
 using NadekoBot.Modules.Searches;
 using NadekoBot.Modules.Translator;
 using NadekoBot.Modules.Trello;
@@ -184,7 +183,7 @@ namespace NadekoBot
             modules.Add(new ClashOfClansModule(), "ClashOfClans", ModuleFilter.None);
             modules.Add(new PokemonModule(), "Pokegame", ModuleFilter.None);
             modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
-            modules.Add(new ProgrammingModule(), "Programming", ModuleFilter.None);
+            //modules.Add(new ProgrammingModule(), "Programming", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new TrelloModule(), "Trello", ModuleFilter.None);
 
