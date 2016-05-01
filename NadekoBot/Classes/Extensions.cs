@@ -138,14 +138,21 @@ namespace NadekoBot.Extensions
         /// <param name="list"></param>
         public static void Shuffle<T>(this IList<T> list)
         {
+
+            // Thanks to @Joe4Evr for finding a bug in the old version of the shuffle
             var provider = new RNGCryptoServiceProvider();
             var n = list.Count;
             while (n > 1)
             {
-                var box = new byte[1];
-                do provider.GetBytes(box);
-                while (!(box[0] < n * (byte.MaxValue / n)));
-                var k = (box[0] % n);
+                var box = new byte[(n / Byte.MaxValue) + 1];
+                int boxSum;
+                do
+                {
+                    provider.GetBytes(box);
+                    boxSum = box.Sum(b => b);
+                }
+                while (!(boxSum < n * ((Byte.MaxValue * box.Length) / n)));
+                var k = (boxSum % n);
                 n--;
                 var value = list[k];
                 list[k] = list[n];
