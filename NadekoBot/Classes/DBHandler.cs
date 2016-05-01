@@ -158,7 +158,33 @@ namespace NadekoBot.Classes
                 return conn.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="num">Page number (0+)</param>
+        /// <returns></returns>
+        internal List<PlaylistData> GetPlaylistData(int num)
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                return conn.Query<PlaylistData>(
+@"SELECT mp.Name as 'Name',mp.Id as 'Id', mp.CreatorName as 'Creator', Count(*) as 'SongCnt' FROM MusicPlaylist as mp
+INNER JOIN PlaylistSongInfo as psi
+ON mp.Id = psi.PlaylistId
+Group BY mp.Name
+Order By mp.DateAdded desc
+Limit 20 OFFSET ?", num * 20);
+            }
+        }
     }
+}
+
+public class PlaylistData
+{
+    public string Name { get; set; }
+    public int Id { get; set; }
+    public string Creator { get; set; }
+    public int SongCnt { get; set; }
 }
 
 public static class Queries
