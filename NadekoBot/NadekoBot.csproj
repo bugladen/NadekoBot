@@ -123,6 +123,8 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
+    <Compile Include="Modules\Programming\ProgrammingModule.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
