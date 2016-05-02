@@ -808,7 +808,7 @@ namespace NadekoBot.Modules.Administration
                                 {
                                     Amount = amount,
                                     UserName = donator.Name,
-                                    UserId = (long)e.User.Id
+                                    UserId = (long)donator.Id
                                 });
                                 e.Channel.SendMessage("Successfuly added a new donator. 👑");
                             }
