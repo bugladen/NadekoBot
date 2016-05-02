@@ -43,6 +43,17 @@ namespace NadekoBot.Modules.Administration
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
+                cgb.CreateCommand(Prefix + "restart")
+                    .Description("Restarts the bot. Might not work.")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        await e.Channel.SendMessage("`Restarting in 2 seconds...`");
+                        await Task.Delay(2000);
+                        System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                        Environment.Exit(0);
+                    });
+
                 cgb.CreateCommand(Prefix + "sr").Alias(Prefix + "setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", ParameterType.Required)
