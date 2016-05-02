@@ -49,9 +49,10 @@ namespace NadekoBot.Modules.Administration.Commands
                     var status = "";
                     lock (playingPlaceholderLock)
                     {
-                        if (PlayingPlaceholders.Count == 0)
-                            return;
-                        if (i >= PlayingPlaceholders.Count)
+                        if (PlayingPlaceholders.Count == 0
+                            || NadekoBot.Config.RotatingStatuses.Count == 0
+                            || i >= PlayingPlaceholders.Count
+                            || i >= NadekoBot.Config.RotatingStatuses.Count)
                         {
                             i = -1;
                             return;
