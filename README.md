@@ -16,9 +16,8 @@ When you clone the project, make sure to run `git submodule init` and `git submo
 **This is how the credentials.json should look like:**
 ```json
 {
-    "Username":"bot_email",
     "BotId": 123123123123,
-    "Password":"bot_password",
+    "Token":"Bot.Token",
     "GoogleAPIKey":"google_api_key",
     "OwnerIds":[123123123123, 123123123123],
     "TrelloAppKey": "your_trello_app_key (optional)",
@@ -52,6 +51,7 @@ Next to your exe you must also have a data folder in which there is config.json 
   "UserBlacklist": []
 }
 ```
+- http://discord.kongslien.net/guide.html <- to make a bot account and get the `Token`
 - BotId and OwnerIds are **NOT** names of the owner and the bot. If you do not know the id of your bot, put 2 random numbers in those fields, run the bot and do `.uid @MyBotName` - that will give you your bot\_id, do the same for yourself `.uid @MyName` and copy the numbers in their respective fields.
 - For google api key, you need to enable URL shortner, Youtube video search **and custom search** in the [dev console](https://console.developers.google.com/).
 - For the Soundcloud Api key you need a Soundcloud account. You need to create a new app on http://soundcloud.com/you/apps/new and after that go here http://soundcloud.com/you/apps click on the name of your created your app and copy the Client ID. Paste it into credentials.json.

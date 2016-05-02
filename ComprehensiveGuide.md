@@ -10,7 +10,7 @@ ________________________________________________________________________________
 - Go to (https://discordapp.com/developers/applications/me). Log in if you have to with your Discord account. Press "New Application" and fill out an App Name and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on "Create a Bot User" and confirm it. You will then see the bot's username, ID and token. Reveal and copy the token and the bot ID.
 - Open up credentials.json. Paste the token into the Token field, between the quotes. Paste the ID into the BotID field. Leave email and password fields empty. Save and close credentials.json.
 - Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json.
-- Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in the this link: 
+- Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: 
 https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303 with it. Go to that link and you will be able to add your bot to your server.
 - Start NadekoBot.exe. In a text channel, **not a direct message**, type in [.uid @______] without the brackets, filling in the underlined portion with your name and send the message. Your bot will reply with a number; this is your ID. Copy this ID and close NadekoBot.exe.   
 - Reopen credentials.json. Paste your ID into the square brackets ("OwnerIds": [1231312313]). You can add multiple owners by separating IDs with a comma. Close and save credentials.json.  

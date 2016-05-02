@@ -92,6 +92,8 @@ namespace NadekoBot.Modules.Searches.Commands
                     }
                     else
                     {
+                        CultureInfo ci = new CultureInfo("en-US");
+                        Thread.CurrentThread.CurrentCulture = ci;
                         reInitCurrencyConverterTable();
                         Unit inUnit = currTable.CreateUnit(quantity, from.ToUpperInvariant());
                         Unit outUnit = inUnit.Convert(currTable.CurrencyCode(to.ToUpperInvariant()));
@@ -109,9 +111,16 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             if (lastChanged == null || lastChanged.DayOfYear != DateTime.Now.DayOfYear)
             {
-                exchangeRateProvider = new WebExchangeRatesProvider();
-                currTable = new CurrencyExchangeTable(exchangeRateProvider);
-                lastChanged = DateTime.Now;
+                try
+                {
+                    exchangeRateProvider = new WebExchangeRatesProvider();
+                    currTable = new CurrencyExchangeTable(exchangeRateProvider);
+                    lastChanged = DateTime.Now;
+                }
+                catch
+                {
+                    Console.WriteLine("Error with the currency download.");
+                }
             }
         }
 

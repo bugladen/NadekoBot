@@ -488,16 +488,6 @@ namespace NadekoBot.Modules.Music
 
                     });
 
-                //cgb.CreateCommand("info")
-                //    .Description("Prints music info (queued/finished/playing) only to this channel")
-                //    .Do(async e =>
-                //    {
-                //        MusicPlayer musicPlayer;
-                //        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
-                //            return;
-                //        musicPlayer
-                //    });
-
                 cgb.CreateCommand("load")
                     .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
                     .Parameter("name", ParameterType.Unparsed)
@@ -553,6 +543,23 @@ namespace NadekoBot.Modules.Music
                         }
                     });
 
+                cgb.CreateCommand("playlists")
+                    .Alias("pls")
+                    .Description("Lists all playlists. Paginated. 20 per page. Default page is 0.\n**Usage**:`!m pls 1`")
+                    .Parameter("num", ParameterType.Optional)
+                    .Do(e =>
+                    {
+                        int num = 0;
+                        int.TryParse(e.GetArg("num"), out num);
+                        if (num < 0)
+                            return;
+                        var result = DbHandler.Instance.GetPlaylistData(num);
+                        if (result.Count == 0)
+                            e.Channel.SendMessage($"`No saved playlists found on page {num}`");
+                        else
+                            e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```");
+                    });
+
                 cgb.CreateCommand("goto")
                     .Description("Goes to a specific time in seconds in a song.")
                     .Parameter("time")
@@ -588,6 +595,20 @@ namespace NadekoBot.Modules.Music
                             seconds = "0" + seconds;
 
                         await e.Channel.SendMessage($"`Skipped to {minutes}:{seconds}`").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand("getlink")
+                    .Alias("gl")
+                    .Description("Shows a link to the currently playing song.")
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+                        var curSong = musicPlayer.CurrentSong;
+                        if (curSong == null)
+                            return;
+                        await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>");
                     });
             });
         }

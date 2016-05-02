@@ -48,14 +48,7 @@ namespace NadekoBot.Modules.NSFW
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         await e.Channel.SendMessage(await SearchHelper.GetGelbooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
                     });
-                cgb.CreateCommand(Prefix + "safebooru")
-                    .Description("Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~safebooru yuri+kissing")
-                    .Parameter("tag", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(await SearchHelper.GetSafebooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
-                    });
+
                 cgb.CreateCommand(Prefix + "rule34")
                     .Description("Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)

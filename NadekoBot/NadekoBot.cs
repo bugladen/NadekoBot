@@ -200,7 +200,6 @@ namespace NadekoBot
                         await Client.Connect(Creds.Token).ConfigureAwait(false);
                         IsBot = true;
                     }
-                    Console.WriteLine(NadekoBot.Client.CurrentUser.Id);
                 }
                 catch (Exception ex)
                 {
@@ -213,7 +212,7 @@ namespace NadekoBot
                     return;
                 }
 
-                //await Task.Delay(90000).ConfigureAwait(false);
+                await Task.Delay(2000).ConfigureAwait(false);
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");

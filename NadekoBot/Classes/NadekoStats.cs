@@ -219,9 +219,10 @@ namespace NadekoBot
                         DateAdded = DateTime.Now
                     });
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Error in ran command DB write.");
+                    Console.WriteLine("Probably unimportant error in ran command DB write.");
+                    Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
         }
