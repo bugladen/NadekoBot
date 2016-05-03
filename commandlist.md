@@ -2,14 +2,15 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5958.34184`
+Version: `NadekoBot v0.9.5967.5682`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`.grdel`  |  Enables or Disables automatic deletion of greet and bye messages.
 `.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
-`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. |  .greetmsg Welcome to the server, %user%.
+`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. |  .greetmsg Welcome to the server, %user%.
 `.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
-`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. |  .byemsg %user% has left the server.
+`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. |  .byemsg %user% has left the server.
 `.byepm`  |  Toggles whether the good bye messages will be sent in a PM or in the text channel.
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
@@ -35,8 +36,10 @@ Command and aliases | Description | Usage
 `.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
 `.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
 `.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
+`.restart`  |  Restarts the bot. Might not work.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
+`.rar`, `.removeallroles`  |  Removes all roles from a mentioned user. |  .rar @User
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  `.r Awesome Role`
 `.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  `.color Admin 255 200 100` or `.color Admin ffba55`
 `.roles`  |  List all roles on this server or a single user if specified.
@@ -198,7 +201,7 @@ Command and aliases | Description | Usage
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue. |  `!m n`
+`!m n`, `!m next`, `!m skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
 `!m s`, `!m stop`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
 `!m d`, `!m destroy`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
 `!m p`, `!m pause`  |  Pauses or Unpauses the song. |  `!m p`
@@ -211,8 +214,8 @@ Command and aliases | Description | Usage
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
 `!m half`  |  Sets the music volume to 50%. |  `!m half`
 `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m pl`  |  Queues up to 25 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
-`!m lopl`  |  Queues up to 50 songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
+`!m pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`!m lopl`  |  Queues all songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
 `!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
 `!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m ra C:/music/mysong.mp3`
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
@@ -222,7 +225,9 @@ Command and aliases | Description | Usage
 `!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 `!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
 `!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
+`!m playlists`, `!m pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
 `!m goto`  |  Goes to a specific time in seconds in a song.
+`!m getlink`, `!m gl`  |  Shows a link to the currently playing song.
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -256,6 +261,8 @@ Command and aliases | Description | Usage
 `~chucknorris`, `~cn`  |  Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>
 `~mi`, `~magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
 `~revav`  |  Returns a google reverse image search for someone's avatar.
+`~revimg`  |  Returns a google reverse image search for an image from a link.
+`~safebooru`  |  Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~safebooru yuri+kissing
 
 ### NSFW  
 Command and aliases | Description | Usage
@@ -263,7 +270,6 @@ Command and aliases | Description | Usage
 `~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri+kissing
 `~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
 `~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
-`~safebooru`  |  Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~safebooru yuri+kissing
 `~rule34`  |  Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
 `~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri+kissing
 `~cp`  |  We all know where this will lead you to.

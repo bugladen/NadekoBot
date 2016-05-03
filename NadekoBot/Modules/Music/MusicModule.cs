@@ -264,7 +264,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("pl")
-                    .Description("Queues up to 25 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
+                    .Description("Queues up to 50 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -294,7 +294,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("lopl")
-                    .Description("Queues up to 50 songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
+                    .Description("Queues all songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
