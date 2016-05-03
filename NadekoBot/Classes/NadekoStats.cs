@@ -209,10 +209,10 @@ namespace NadekoBot
                     commandsRan++;
                     Classes.DbHandler.Instance.InsertData(new DataModels.Command
                     {
-                        ServerId = (long)e.Server.Id,
-                        ServerName = e.Server.Name,
+                        ServerId = (long)(e.Server?.Id ?? 0),
+                        ServerName = e.Server?.Name ?? "--Direct Message--",
                         ChannelId = (long)e.Channel.Id,
-                        ChannelName = e.Channel.Name,
+                        ChannelName = e.Channel.IsPrivate ? "--Direct Message" : e.Channel.Name,
                         UserId = (long)e.User.Id,
                         UserName = e.User.Name,
                         CommandName = e.Command.Text,
