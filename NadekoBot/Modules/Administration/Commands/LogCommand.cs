@@ -133,7 +133,7 @@ $@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `#{e.Channel.Name}`
                     return;
                 await ch.SendMessage(
 $@"🕔`[{prettyCurrentTime}]` **Message** 📝 `#{e.Channel.Name}`
-👤`{e.User?.ToString() ?? ("NULL")}
+👤`{e.User?.ToString() ?? ("NULL")}`
      `Old:` {e.Before.Text}
      `New:` {e.After.Text}").ConfigureAwait(false);
             }
