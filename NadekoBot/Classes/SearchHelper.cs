@@ -25,13 +25,17 @@ namespace NadekoBot.Classes
     {
         private static DateTime lastRefreshed = DateTime.MinValue;
         private static string token { get; set; } = "";
+        private static readonly HttpClient httpClient = new HttpClient();
 
         public static async Task<Stream> GetResponseStreamAsync(string url,
             IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            var httpClient = new HttpClient();
+            //if its a post or there are no headers, use static httpclient
+            // if there are headers and it's get, it's not threadsafe
+            var cl = headers == null || method == RequestHttpMethod.Post ? httpClient : new HttpClient();
+            cl.DefaultRequestHeaders.Clear();
             switch (method)
             {
                 case RequestHttpMethod.Get:
@@ -39,17 +43,17 @@ namespace NadekoBot.Classes
                     {
                         foreach (var header in headers)
                         {
-                            httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                            cl.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                         }
                     }
-                    return await httpClient.GetStreamAsync(url).ConfigureAwait(false);
+                    return await cl.GetStreamAsync(url).ConfigureAwait(false);
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
                     {
                         formContent = new FormUrlEncodedContent(headers);
                     }
-                    var message = await httpClient.PostAsync(url, formContent).ConfigureAwait(false);
+                    var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
                     return await message.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
