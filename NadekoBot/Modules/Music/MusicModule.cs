@@ -276,7 +276,13 @@ namespace NadekoBot.Modules.Music
                             await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                             return;
                         }
-                        var ids = await SearchHelper.GetVideoIDs(await SearchHelper.GetPlaylistIdByKeyword(arg).ConfigureAwait(false), 50).ConfigureAwait(false);
+                        var plId = await SearchHelper.GetPlaylistIdByKeyword(arg).ConfigureAwait(false);
+                        if (plId == null)
+                        {
+                            await e.Channel.SendMessage("No search results for that query.");
+                            return;
+                        }
+                        var ids = await SearchHelper.GetVideoIDs(plId, 50).ConfigureAwait(false);
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
                         var idArray = ids as string[] ?? ids.ToArray();
                         var count = idArray.Count();

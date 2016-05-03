@@ -159,8 +159,17 @@ namespace NadekoBot.Classes
                                     $"part=snippet&maxResults=1" +
                                     $"&q={Uri.EscapeDataString(keywords)}" +
                                     $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
-            dynamic obj = JObject.Parse(response);
-            return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+            JObject obj = JObject.Parse(response);
+
+            var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
+
+            if (data.items.Length > 0)
+            {
+                var toReturn = "http://www.youtube.com/watch?v=" + data.items[0].id.videoId.ToString();
+                return toReturn;
+            }
+            else
+                return null;
         }
 
         public static async Task<string> GetPlaylistIdByKeyword(string query)
@@ -174,9 +183,10 @@ namespace NadekoBot.Classes
                        $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link).ConfigureAwait(false);
-            dynamic obj = JObject.Parse(response);
+            var data = JsonConvert.DeserializeObject<YoutubePlaylistSearch>(response);
+            JObject obj = JObject.Parse(response);
 
-            return obj.items[0].id.playlistId.ToString();
+            return data.items.Length > 0 ? data.items[0].id.playlistId.ToString() : null;
         }
 
         public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 50)

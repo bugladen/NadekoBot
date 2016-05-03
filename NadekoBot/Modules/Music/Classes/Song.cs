@@ -249,7 +249,7 @@ namespace NadekoBot.Modules.Music.Classes
                     });
                 }
                 var link = await SearchHelper.FindYoutubeUrlByKeywords(query).ConfigureAwait(false);
-                if (link == String.Empty)
+                if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
                 var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false)).Unwrap().ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);

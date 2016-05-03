@@ -67,8 +67,13 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
-
-                        var shortUrl = await SearchHelper.ShortenUrl(await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")).ConfigureAwait(false)).ConfigureAwait(false);
+                        var link = await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")).ConfigureAwait(false);
+                        if (string.IsNullOrWhiteSpace(link))
+                        {
+                            await e.Channel.SendMessage("No results found for that query.");
+                            return;
+                        }
+                        var shortUrl = await SearchHelper.ShortenUrl(link).ConfigureAwait(false);
                         await e.Channel.SendMessage(shortUrl).ConfigureAwait(false);
                     });
 
