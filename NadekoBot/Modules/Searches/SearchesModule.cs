@@ -433,7 +433,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(await SearchHelper.GetSafebooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
+                        var link = await SearchHelper.GetSafebooruImageLink(tag).ConfigureAwait(false);
+                        if (link == null)
+                            await e.Channel.SendMessage("`No results.`");
+                        else
+                            await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
             });
         }

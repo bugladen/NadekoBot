@@ -252,7 +252,7 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var match = matches[rng.Next(0, matches.Count)];
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
@@ -265,7 +265,7 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var match = matches[rng.Next(0, matches.Count)];
             return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
