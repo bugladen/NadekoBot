@@ -142,6 +142,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "randomcat")
+                    .Alias(Prefix + "meow")
                     .Description("Shows a random cat image.")
                     .Do(async e =>
                     {
