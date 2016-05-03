@@ -16,6 +16,8 @@ namespace NadekoBot.Modules.Administration.Commands
         private readonly ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
         private readonly ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
 
+        private string prettyCurrentTime => $"{DateTime.Now:HH:mm:ss}";
+
         public LogCommand(DiscordModule module) : base(module)
         {
             NadekoBot.Client.MessageReceived += MsgRecivd;
@@ -79,7 +81,9 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message received** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User}:` {e.Message.Text}").ConfigureAwait(false);
+                await ch.SendMessage(
+$@"🕔`[{prettyCurrentTime}]` **New Message** `{e.Channel.Mention}`
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -92,7 +96,9 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message deleted** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n`{e.User?.ToString() ?? ("NULL") }:` {e.Message.Text}").ConfigureAwait(false);
+                await ch.SendMessage(
+$@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `{e.Channel.Mention}`
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -105,7 +111,10 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage($"`Type:` **Message updated** `Time:` **{DateTime.Now}** `Channel:` **{e.Channel.Name}**\n**BEFORE**: `{e.User?.ToString() ?? ("NULL")}:` {e.Before.Text}\n---------------\n**AFTER**: `{e.User}:` {e.After.Text}").ConfigureAwait(false);
+                await ch.SendMessage(
+$@"🕔`[{prettyCurrentTime}]` **Message** 📝 `{e.Channel.Mention}`👤`{e.User?.ToString() ?? ("NULL")}`
+\\t`Old:` {e.Before.Text}
+\\t`New:` {e.After.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -147,6 +156,10 @@ namespace NadekoBot.Modules.Administration.Commands
                     str += $"`New name:` **{e.After.Name}**";
                 else if (e.Before.AvatarUrl != e.After.AvatarUrl)
                     str += $"`New Avatar:` {e.After.AvatarUrl}";
+                else if (!e.Before.Roles.SequenceEqual(e.After.Roles))
+                {
+                    str += $"`Roles Changed:` {string.Join(", ", e.Before.Roles)} => {string.Join(", ", e.After.Roles)}";
+                }
                 else
                     return;
                 await ch.SendMessage(str).ConfigureAwait(false);
