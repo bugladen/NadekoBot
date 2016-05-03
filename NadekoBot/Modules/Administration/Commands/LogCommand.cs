@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
@@ -25,6 +26,8 @@ namespace NadekoBot.Modules.Administration.Commands
             NadekoBot.Client.MessageUpdated += MsgUpdtd;
             NadekoBot.Client.UserUpdated += UsrUpdtd;
             NadekoBot.Client.UserBanned += UsrBanned;
+            NadekoBot.Client.UserLeft += UsrLeft;
+            NadekoBot.Client.UserJoined += UsrJoined;
 
 
             NadekoBot.Client.MessageReceived += async (s, e) =>
@@ -47,6 +50,23 @@ namespace NadekoBot.Modules.Administration.Commands
             };
         }
 
+        private async void UsrJoined(object sender, UserEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void UsrLeft(object sender, UserEventArgs e)
+        {
+            try
+            {
+                Channel ch;
+                if (!logs.TryGetValue(e.Server, out ch))
+                    return;
+                await ch.SendMessage($"`[{prettyCurrentTime}]` `User left the server:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+            }
+            catch { }
+        }
+
         private async void UsrBanned(object sender, UserEventArgs e)
         {
             try
@@ -54,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+                await ch.SendMessage($"❗`[{prettyCurrentTime}]` `User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -82,7 +102,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage(
-$@"🕔`[{prettyCurrentTime}]` **New Message** `{e.Channel.Mention}`
+$@"🕔`[{prettyCurrentTime}]` **New Message** `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
@@ -97,7 +117,7 @@ $@"🕔`[{prettyCurrentTime}]` **New Message** `{e.Channel.Mention}`
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage(
-$@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `{e.Channel.Mention}`
+$@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
             }
             catch { }
@@ -112,9 +132,10 @@ $@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `{e.Channel.Mention}`
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
                 await ch.SendMessage(
-$@"🕔`[{prettyCurrentTime}]` **Message** 📝 `{e.Channel.Mention}`👤`{e.User?.ToString() ?? ("NULL")}`
-\\t`Old:` {e.Before.Text}
-\\t`New:` {e.After.Text}").ConfigureAwait(false);
+$@"🕔`[{prettyCurrentTime}]` **Message** 📝 `#{e.Channel.Name}`
+👤`{e.User?.ToString() ?? ("NULL")}
+     `Old:` {e.Before.Text}
+     `New:` {e.After.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -151,14 +172,29 @@ $@"🕔`[{prettyCurrentTime}]` **Message** 📝 `{e.Channel.Mention}`👤`{e.Use
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                string str = $"`Type:` **User updated** `Time:` **{DateTime.Now}** `User:` **{e.Before.Name}**\n";
+                string str = $"🕔`[{prettyCurrentTime}]`";
                 if (e.Before.Name != e.After.Name)
-                    str += $"`New name:` **{e.After.Name}**";
+                    str += $"**Name Changed**\n\t`{e.Before.Name}` => `{e.After.Name}`";
                 else if (e.Before.AvatarUrl != e.After.AvatarUrl)
-                    str += $"`New Avatar:` {e.After.AvatarUrl}";
+                    str += $"**Avatar Changed**\n\t {e.Before.AvatarUrl.ShortenUrl()} `=>` {e.After.AvatarUrl.ShortenUrl()}";
                 else if (!e.Before.Roles.SequenceEqual(e.After.Roles))
                 {
-                    str += $"`Roles Changed:` {string.Join(", ", e.Before.Roles)} => {string.Join(", ", e.After.Roles)}";
+                    if (e.Before.Roles.Count() < e.After.Roles.Count())
+                    {
+                        var diffRoles = e.After.Roles.Where(r => !e.Before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                        str += $"**User's Roles changed +**\n👤`{e.Before?.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                    }
+                    else if (e.Before.Roles.Count() > e.After.Roles.Count())
+                    {
+                        var diffRoles = e.Before.Roles.Where(r => !e.After.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                        str += $"**User's Roles changed -**👤`{e.Before?.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                    }
+                    else
+                    {
+                        Console.WriteLine("SEQUENCE NOT EQUAL BUT NO DIFF ROLES - REPORT TO KWOTH on #NADEKOLOG server");
+                        return;
+                    }
+
                 }
                 else
                     return;
