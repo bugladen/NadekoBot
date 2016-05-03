@@ -570,9 +570,9 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
+                    .AddCheck(SimpleCheckers.ManageMessages())
                     .Do(async e =>
                     {
-                        if (!e.User.ServerPermissions.ManageMessages) return;
                         int val;
                         if (string.IsNullOrWhiteSpace(e.GetArg("num")) || !int.TryParse(e.GetArg("num"), out val) || val < 0)
                             return;
@@ -587,14 +587,12 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "die")
                     .Alias(Prefix + "graceful")
                     .Description("Shuts the bot down and notifies users about the restart. **Owner Only!**")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (NadekoBot.IsOwner(e.User.Id))
-                        {
-                            await e.Channel.SendMessage("`Shutting down.`").ConfigureAwait(false);
-                            await Task.Delay(2000).ConfigureAwait(false);
-                            Environment.Exit(0);
-                        }
+                        await e.Channel.SendMessage("`Shutting down.`").ConfigureAwait(false);
+                        await Task.Delay(2000).ConfigureAwait(false);
+                        Environment.Exit(0);
                     });
 
                 cgb.CreateCommand(Prefix + "clr")
@@ -625,13 +623,26 @@ namespace NadekoBot.Modules.Administration
                         }).ConfigureAwait(false);
                     });
 
+                //cgb.CreateCommand(Prefix + "newnick")
+                //    .Alias(Prefix + "setnick")
+                //    .Description("Give the bot a new nickname. You need manage server permissions.")
+                //    .Parameter("new_nick", ParameterType.Unparsed)
+                //    .AddCheck(SimpleCheckers.ManageServer())
+                //    .Do(async e =>
+                //    {
+                //        if (e.GetArg("new_nick") == null) return;
+
+                //        await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_nick")).ConfigureAwait(false);
+                //    });
+
                 cgb.CreateCommand(Prefix + "newname")
                     .Alias(Prefix + "setname")
                     .Description("Give the bot a new name. **Owner Only!**")
                     .Parameter("new_name", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id) || e.GetArg("new_name") == null) return;
+                        if (e.GetArg("new_name") == null) return;
 
                         await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_name")).ConfigureAwait(false);
                     });
@@ -640,9 +651,10 @@ namespace NadekoBot.Modules.Administration
                     .Alias(Prefix + "setavatar")
                     .Description("Sets a new avatar image for the NadekoBot. **Owner Only!**")
                     .Parameter("img", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("img")))
+                        if (string.IsNullOrWhiteSpace(e.GetArg("img")))
                             return;
                         // Gather user provided URL.
                         var avatarAddress = e.GetArg("img");
@@ -683,27 +695,27 @@ namespace NadekoBot.Modules.Administration
                 Channel commsChannel = null;
 
                 cgb.CreateCommand(Prefix + "commsuser")
-                            .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**")
-                            .Parameter("name", ParameterType.Unparsed)
-                            .Do(async e =>
-                            {
-                                if (!NadekoBot.IsOwner(e.User.Id)) return;
-                                commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                                if (commsUser != null)
-                                {
-                                    commsChannel = null;
-                                    await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
-                                }
-                                else
-                                    await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
-                            });
+                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
+                        if (commsUser != null)
+                        {
+                            commsChannel = null;
+                            await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
+                        }
+                        else
+                            await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand(Prefix + "commsserver")
                     .Description("Sets a server for through-bot communication. **Owner Only!**")
                     .Parameter("server", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         commsServer = client.FindServers(e.GetArg("server")).FirstOrDefault();
                         if (commsServer != null)
                             await e.Channel.SendMessage("Server for comms set.").ConfigureAwait(false);
@@ -714,9 +726,9 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "commschannel")
                     .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Owner Only!**")
                     .Parameter("ch", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         commsChannel = commsServer?.FindChannels(e.GetArg("ch"), ChannelType.Text).FirstOrDefault();
                         if (commsChannel != null)
                         {
@@ -730,9 +742,9 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "send")
                     .Description("Send a message to someone on a different server through the bot. **Owner Only!**\n **Usage**: .send Message text multi word!")
                     .Parameter("msg", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (commsUser != null)
                             await commsUser.SendMessage(e.GetArg("msg")).ConfigureAwait(false);
                         else if (commsChannel != null)
@@ -775,10 +787,9 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "parsetosql")
                   .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
+                  .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e =>
                   {
-                      if (!NadekoBot.IsOwner(e.User.Id))
-                          return;
                       await Task.Run(() =>
                       {
                           SaveParseToDb<Announcement>("data/parsedata/Announcements.json");
@@ -822,8 +833,6 @@ namespace NadekoBot.Modules.Administration
                     {
                         await Task.Run(() =>
                         {
-                            if (!NadekoBot.IsOwner(e.User.Id))
-                                return;
                             var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
                             var amount = int.Parse(e.GetArg("amount"));
                             if (donator == null) return;
