@@ -511,6 +511,20 @@ namespace NadekoBot.Modules.Administration
                         await e.Channel.SendMessage(":ok: **New channel topic set.**").ConfigureAwait(false);
                     });
 
+                cgb.CreateCommand(Prefix + "schn").Alias(Prefix + "setchannelname")
+                    .Alias(Prefix + "topic")
+                    .Description("Changed the name of the current channel.")
+                    .AddCheck(SimpleCheckers.ManageChannels())
+                    .Parameter("name", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var name = e.GetArg("name");
+                        if (string.IsNullOrWhiteSpace(name))
+                            return;
+                        await e.Channel.Edit(name: name).ConfigureAwait(false);
+                        await e.Channel.SendMessage(":ok: **New channel name set.**").ConfigureAwait(false);
+                    });
+
                 cgb.CreateCommand(Prefix + "uid").Alias(Prefix + "userid")
                     .Description("Shows user ID.")
                     .Parameter("user", ParameterType.Unparsed)
