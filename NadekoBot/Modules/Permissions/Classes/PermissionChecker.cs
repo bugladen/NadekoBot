@@ -51,6 +51,14 @@ namespace NadekoBot.Modules.Permissions.Classes
 
             timeBlackList.TryAdd(user, DateTime.Now);
 
+            if (!channel.IsPrivate && !channel.Server.CurrentUser.GetPermissions(channel).SendMessages)
+            {
+                return false;
+            }
+            //{
+            //    user.SendMessage($"I ignored your command in {channel.Server.Name}/#{channel.Name} because i don't have permissions to write to it. Please use `;acm channel_name 0` in that server instead of muting me.").GetAwaiter().GetResult();
+            //}
+
             try
             {
                 //is it a permission command?
