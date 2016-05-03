@@ -21,6 +21,14 @@ namespace NadekoBot.Modules.Searches.Commands
             public string Name { get; set; }
         }
 
+        private class ChampionNameComparer : IEqualityComparer<JToken>
+        {
+            public bool Equals(JToken a, JToken b) => a["name"].ToString() == b["name"].ToString();
+
+            public int GetHashCode(JToken obj) =>
+                obj["name"].GetHashCode();
+        }
+
         private static Dictionary<string, CachedChampion> CachedChampionImages = new Dictionary<string, CachedChampion>();
         private readonly object cacheLock = new object();
 
@@ -285,7 +293,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                   .Do(async e =>
                   {
 
-                      var showCount = 6;
+                      var showCount = 12;
                       //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
                       try
                       {
@@ -296,16 +304,16 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                                           $"api_key={NadekoBot.Creds.LOLAPIKey}&page=1&" +
                                                           $"limit={showCount}")
                                                           .ConfigureAwait(false))["data"] as JArray;
-
+                          var dataList = data.Distinct(new ChampionNameComparer()).Take(8).ToList();
                           var sb = new StringBuilder();
                           sb.AppendLine($"**Showing {showCount} top banned champions.**");
                           sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
-                          for (var i = 0; i < data.Count; i++)
+                          for (var i = 0; i < dataList.Count; i++)
                           {
                               if (i % 2 == 0 && i != 0)
                                   sb.AppendLine();
-                              sb.Append($"`{i + 1}.` **{data[i]["name"]}**  ");
-                              //sb.AppendLine($" ({data[i]["general"]["banRate"]}%)");
+                              sb.Append($"`{i + 1}.` **{dataList[i]["name"]}**  ");
+                              //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
                           }
 
                           await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
