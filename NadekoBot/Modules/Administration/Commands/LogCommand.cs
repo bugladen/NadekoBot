@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 if (loggingPresences.TryGetValue(e.Server, out ch))
                     if (e.Before.Status != e.After.Status)
                     {
-                        await ch.SendMessage($"**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
+                        await ch.SendMessage($"`[{DateTime.Now:HH:mm:ss}]`**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
                     }
             }
             catch { }
