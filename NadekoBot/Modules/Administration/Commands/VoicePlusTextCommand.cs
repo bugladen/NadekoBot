@@ -1,16 +1,18 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
     internal class VoicePlusTextCommand : DiscordCommand
     {
-
+        Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
@@ -79,7 +81,7 @@ namespace NadekoBot.Modules.Administration.Commands
         }
 
         private string GetChannelName(string voiceName) =>
-            voiceName.Replace(" ", "-").Trim() + "-voice";
+            channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
 
         internal override void Init(CommandGroupBuilder cgb)
         {
