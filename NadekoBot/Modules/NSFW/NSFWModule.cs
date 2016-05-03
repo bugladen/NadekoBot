@@ -27,10 +27,16 @@ namespace NadekoBot.Modules.NSFW
                     .Do(async e =>
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(":heart: Gelbooru: " + await SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false))
-                                       .ConfigureAwait(false);
-                        await e.Channel.SendMessage(":heart: Danbooru: " + await SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false))
-                                       .ConfigureAwait(false);
+                        var gel = await SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false);
+                        if (gel != null)
+                            await e.Channel.SendMessage(":heart: Gelbooru: " + gel)
+                                           .ConfigureAwait(false);
+                        var dan = await SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false);
+                        if (dan != null)
+                            await e.Channel.SendMessage(":heart: Danbooru: " + dan)
+                                           .ConfigureAwait(false);
+                        if (dan == null && gel == null)
+                            await e.Channel.SendMessage("`No results.`");
                     });
                 cgb.CreateCommand(Prefix + "danbooru")
                     .Description("Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~danbooru yuri+kissing")
@@ -38,7 +44,11 @@ namespace NadekoBot.Modules.NSFW
                     .Do(async e =>
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(await SearchHelper.GetDanbooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
+                        var link = await SearchHelper.GetDanbooruImageLink(tag).ConfigureAwait(false);
+                        if (string.IsNullOrWhiteSpace(link))
+                            await e.Channel.SendMessage("Search yielded no results ;(");
+                        else
+                            await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "gelbooru")
                     .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
@@ -46,7 +56,11 @@ namespace NadekoBot.Modules.NSFW
                     .Do(async e =>
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        await e.Channel.SendMessage(await SearchHelper.GetGelbooruImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
+                        var link = await SearchHelper.GetGelbooruImageLink(tag).ConfigureAwait(false);
+                        if (string.IsNullOrWhiteSpace(link))
+                            await e.Channel.SendMessage("Search yielded no results ;(");
+                        else
+                            await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "rule34")

@@ -225,6 +225,8 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(link).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
+            if (matches.Count == 0)
+                return null;
             return $"http://danbooru.donmai.us" +
                    $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
         }
@@ -236,7 +238,7 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var rng = new Random();
             var match = matches[rng.Next(0, matches.Count)];
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;

@@ -120,7 +120,6 @@ namespace NadekoBot.Classes
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Console.WriteLine("property changed");
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
