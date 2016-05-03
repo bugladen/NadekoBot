@@ -134,8 +134,8 @@ $@"🕔`[{prettyCurrentTime}]` **Message** 🚮 `#{e.Channel.Name}`
                 await ch.SendMessage(
 $@"🕔`[{prettyCurrentTime}]` **Message** 📝 `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}`
-     `Old:` {e.Before.Text}
-     `New:` {e.After.Text}").ConfigureAwait(false);
+        `Old:` {e.Before.Text}
+        `New:` {e.After.Text}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -176,13 +176,13 @@ $@"🕔`[{prettyCurrentTime}]` **Message** 📝 `#{e.Channel.Name}`
                 if (e.Before.Name != e.After.Name)
                     str += $"**Name Changed**\n\t`{e.Before.Name}` => `{e.After.Name}`";
                 else if (e.Before.AvatarUrl != e.After.AvatarUrl)
-                    str += $"**Avatar Changed**\n\t {e.Before.AvatarUrl.ShortenUrl()} `=>` {e.After.AvatarUrl.ShortenUrl()}";
+                    str += $"**Avatar Changed**👤`{e.Before?.ToString()}`\n\t {await e.Before.AvatarUrl.ShortenUrl()} `=>` {await e.After.AvatarUrl.ShortenUrl()}";
                 else if (!e.Before.Roles.SequenceEqual(e.After.Roles))
                 {
                     if (e.Before.Roles.Count() < e.After.Roles.Count())
                     {
                         var diffRoles = e.After.Roles.Where(r => !e.Before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                        str += $"**User's Roles changed +**\n👤`{e.Before?.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                        str += $"**User's Roles changed +**👤`{e.Before?.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
                     }
                     else if (e.Before.Roles.Count() > e.After.Roles.Count())
                     {
