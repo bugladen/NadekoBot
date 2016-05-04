@@ -46,6 +46,50 @@ namespace NadekoBot.Classes.JSONModels
         public string kind { get; set; }
         public string videoId { get; set; }
     }
+
+    #region wikpedia example
+    //    {
+    //    "batchcomplete": true,
+    //    "query": {
+    //        "normalized": [
+    //            {
+    //                "from": "u3fn92fb32f9yb329f32",
+    //                "to": "U3fn92fb32f9yb329f32"
+    //            }
+    //        ],
+    //        "pages": [
+    //            {
+    //                "ns": 0,
+    //                "title": "U3fn92fb32f9yb329f32",
+    //                "missing": true,
+    //                "contentmodel": "wikitext",
+    //                "pagelanguage": "en",
+    //                "pagelanguagehtmlcode": "en",
+    //                "pagelanguagedir": "ltr",
+    //                "fullurl": "https://en.wikipedia.org/wiki/U3fn92fb32f9yb329f32",
+    //                "editurl": "https://en.wikipedia.org/w/index.php?title=U3fn92fb32f9yb329f32&action=edit",
+    //                "canonicalurl": "https://en.wikipedia.org/wiki/U3fn92fb32f9yb329f32"
+    //            }
+    //        ]
+    //    }
+    //}
+    #endregion
+
+    public class WikipediaApiModel
+    {
+        public WikipediaQuery Query { get; set; }
+    }
+
+    public class WikipediaQuery
+    {
+        public WikipediaPage[] Pages { get; set; }
+    }
+
+    public class WikipediaPage
+    {
+        public bool Missing { get; set; } = false;
+        public string FullUrl { get; set; }
+    }
 }
 
 //{

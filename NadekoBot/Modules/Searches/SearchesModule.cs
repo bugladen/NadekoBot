@@ -440,6 +440,44 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         else
                             await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
+
+                cgb.CreateCommand(Prefix + "wiki")
+                    .Description("Gives you back a wikipedia link")
+                    .Parameter("query", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var query = e.GetArg("query");
+                        var result = await SearchHelper.GetResponseStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query));
+                        var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
+                        if (data.Query.Pages[0].Missing)
+                            await e.Channel.SendMessage("`That page could not be found.`");
+                        else
+                            await e.Channel.SendMessage(data.Query.Pages[0].FullUrl);
+                    });
+
+                cgb.CreateCommand(Prefix + "clr")
+                    .Description("Shows you what color corresponds to that hex.\n**Usage**: `~clr 00ff00`")
+                    .Parameter("color", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var arg1 = e.GetArg("color")?.Trim();
+                        if (string.IsNullOrWhiteSpace(arg1))
+                            return;
+                        var img = new Bitmap(50, 50);
+
+                        var red = Convert.ToInt32(arg1.Substring(0, 2), 16);
+                        var green = Convert.ToInt32(arg1.Substring(2, 2), 16);
+                        var blue = Convert.ToInt32(arg1.Substring(4, 2), 16);
+                        var brush = new SolidBrush(Color.FromArgb(red, green, blue));
+
+                        using (Graphics g = Graphics.FromImage(img))
+                        {
+                            g.FillRectangle(brush, 0, 0, 50, 50);
+                            g.Flush();
+                        }
+
+                        await e.Channel.SendFile("arg1.png", img.ToStream());
+                    });
             });
         }
     }
