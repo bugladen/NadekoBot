@@ -156,7 +156,7 @@ namespace NadekoBot.Classes
             var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
             if (match.Length > 1)
             {
-                return $"http://www.youtube.com?v={match.Groups["id"].Value}";
+                return $"https://www.youtube.com/watch?v={match.Groups["id"].Value}";
             }
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +

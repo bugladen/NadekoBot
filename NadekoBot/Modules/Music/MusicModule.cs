@@ -340,7 +340,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("lo")
-                    .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m ra C:/music/mysong.mp3`")
+                    .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m lo C:/music/mysong.mp3`")
                     .Parameter("path", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>

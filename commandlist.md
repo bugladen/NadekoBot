@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5967.5682`
+Version: `NadekoBot v0.9.5967.41521`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -54,6 +54,7 @@ Command and aliases | Description | Usage
 `.rch`, `.rtch`  |  Removes a text channel with a given name.
 `.ch`, `.tch`  |  Creates a new text channel with a given name.
 `.st`, `.settopic`, `.topic`  |  Sets a topic on the current channel.
+`.schn`, `.setchannelname`, `.topic`  |  Changed the name of the current channel.
 `.uid`, `.userid`  |  Shows user ID.
 `.cid`, `.channelid`  |  Shows current channel ID.
 `.sid`, `.serverid`  |  Shows current server ID.
@@ -217,7 +218,7 @@ Command and aliases | Description | Usage
 `!m pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
 `!m lopl`  |  Queues all songs from a directory. **Owner Only!** |  `!m lopl C:/music/classical`
 `!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
-`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m ra C:/music/mysong.mp3`
+`!m lo`  |  Queues a local file by specifying a full path. **Owner Only!** |  `!m lo C:/music/mysong.mp3`
 `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
 `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
 `!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!** |  `!m cleanup`
@@ -246,7 +247,7 @@ Command and aliases | Description | Usage
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
 `~imdb`  |  Queries imdb for movies or series, show first result.
 `~mang`, `~manga`, `~mq`  |  Queries anilist for a manga and shows the first result.
-`~randomcat`  |  Shows a random cat image.
+`~randomcat`, `~meow`  |  Shows a random cat image.
 `~i`  |  Pulls the first image found using a search parameter. Use ~ir for different results. |  ~i cute kitten
 `~ir`  |  Pulls a random image using a search parameter. |  ~ir cute kitten
 `~lmgtfy`  |  Google something for an idiot.
@@ -270,8 +271,8 @@ Command and aliases | Description | Usage
 `~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri+kissing
 `~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
 `~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
-`~rule34`  |  Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
-`~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri+kissing
+`~rule34`  |  Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~rule34 yuri+kissing
+`~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri kissing
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
 `~butts`, `~ass`, `~butt`  |  Real adult content.
