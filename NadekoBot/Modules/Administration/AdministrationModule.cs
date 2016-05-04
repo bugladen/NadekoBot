@@ -596,7 +596,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "clr")
-                    .Description("Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel (**Owner Only!**) \n**Usage**: .clr @X")
+                    .Description("Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel. Second one requires Manage messages permission.\n**Usage**: .clr @X")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
