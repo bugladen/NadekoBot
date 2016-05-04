@@ -565,21 +565,74 @@ namespace NadekoBot.Modules.Administration
                       var heap = await Task.Run(() => NadekoStats.Instance.Heap()).ConfigureAwait(false);
                       await e.Channel.SendMessage($"`Heap Size:` {heap}").ConfigureAwait(false);
                   });
+
                 cgb.CreateCommand(Prefix + "prune")
-                    .Parameter("num", ParameterType.Required)
+                    .Alias(".clr")
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
-                    .AddCheck(SimpleCheckers.ManageMessages())
+                    .Parameter("user_or_num", ParameterType.Optional)
+                    .Parameter("num", ParameterType.Required)
                     .Do(async e =>
                     {
-                        int val;
-                        if (string.IsNullOrWhiteSpace(e.GetArg("num")) || !int.TryParse(e.GetArg("num"), out val) || val < 0)
-                            return;
-
-                        foreach (var msg in await e.Channel.DownloadMessages(val).ConfigureAwait(false))
+                        if (string.IsNullOrWhiteSpace("user_or_num")) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            await msg.Delete().ConfigureAwait(false);
-                            await Task.Delay(100).ConfigureAwait(false);
+                            await Task.Run(async () =>
+                            {
+                                var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id);
+                                foreach (var m in msgs)
+                                {
+                                    try
+                                    {
+                                        await m.Delete().ConfigureAwait(false);
+                                    }
+                                    catch { }
+                                    await Task.Delay(100).ConfigureAwait(false);
+                                }
+
+                            }).ConfigureAwait(false);
+                            return;
                         }
+                        if (!e.User.ServerPermissions.ManageMessages)
+                            return;
+                        else if (e.Server.CurrentUser.ServerPermissions.ManageMessages)
+                        {
+                            await e.Channel.SendMessage("💢I don't have the permission to manage messages.");
+                            return;
+                        }
+                        int val;
+                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument, 
+                                                                            //delete that number of messages.
+                        {
+                            if (val <= 0)
+                                return;
+                            val++;
+                            foreach (var msg in await e.Channel.DownloadMessages(val).ConfigureAwait(false))
+                            {
+                                await msg.Delete().ConfigureAwait(false);
+                                await Task.Delay(100).ConfigureAwait(false);
+                            }
+                        }
+                        //else if first argument is user
+                        var usr = e.Server.FindUsers(e.GetArg("user_or_num")).FirstOrDefault();
+                        if (usr == null)
+                            return;
+                        val = 100;
+                        int.TryParse("num", out val);
+                        if (val <= 0)
+                            return;
+                        await Task.Run(async () =>
+                        {
+                            var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val);
+                            foreach (var m in msgs)
+                            {
+                                try
+                                {
+                                    await m.Delete().ConfigureAwait(false);
+                                }
+                                catch { }
+                                await Task.Delay(100).ConfigureAwait(false);
+                            }
+
+                        }).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "die")
@@ -591,34 +644,6 @@ namespace NadekoBot.Modules.Administration
                         await e.Channel.SendMessage("`Shutting down.`").ConfigureAwait(false);
                         await Task.Delay(2000).ConfigureAwait(false);
                         Environment.Exit(0);
-                    });
-
-                cgb.CreateCommand(Prefix + "clr")
-                    .Description("Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel. Second one requires Manage messages permission.\n**Usage**: .clr @X")
-                    .Parameter("user", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        var usrId = NadekoBot.Client.CurrentUser.Id;
-                        if (!string.IsNullOrWhiteSpace(e.GetArg("user")) && e.User.ServerPermissions.ManageMessages)
-                        {
-                            var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
-                            if (usr != null)
-                                usrId = usr.Id;
-                        }
-                        await Task.Run(async () =>
-                        {
-                            var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usrId);
-                            foreach (var m in msgs)
-                            {
-                                try
-                                {
-                                    await m.Delete().ConfigureAwait(false);
-                                }
-                                catch { }
-                                await Task.Delay(200).ConfigureAwait(false);
-                            }
-
-                        }).ConfigureAwait(false);
                     });
 
                 //cgb.CreateCommand(Prefix + "newnick")
@@ -693,20 +718,20 @@ namespace NadekoBot.Modules.Administration
                 Channel commsChannel = null;
 
                 cgb.CreateCommand(Prefix + "commsuser")
-                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**")
-                    .Parameter("name", ParameterType.Unparsed)
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                        if (commsUser != null)
-                        {
-                            commsChannel = null;
-                            await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
-                        }
-                        else
-                            await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
-                    });
+                            .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**")
+                            .Parameter("name", ParameterType.Unparsed)
+                            .AddCheck(SimpleCheckers.OwnerOnly())
+                            .Do(async e =>
+                            {
+                                commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
+                                if (commsUser != null)
+                                {
+                                    commsChannel = null;
+                                    await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
+                                }
+                                else
+                                    await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
+                            });
 
                 cgb.CreateCommand(Prefix + "commsserver")
                     .Description("Sets a server for through-bot communication. **Owner Only!**")
