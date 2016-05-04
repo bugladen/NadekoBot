@@ -499,14 +499,12 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "st").Alias(Prefix + "settopic")
                     .Alias(Prefix + "topic")
-                    .Description("Sets a topic on the current channel.")
+                    .Description($"Sets a topic on the current channel.\n**Usage**: `{Prefix}st My new topic`")
                     .AddCheck(SimpleCheckers.ManageChannels())
                     .Parameter("topic", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var topic = e.GetArg("topic");
-                        if (string.IsNullOrWhiteSpace(topic))
-                            return;
+                        var topic = e.GetArg("topic")?.Trim() ?? "";
                         await e.Channel.Edit(topic: topic).ConfigureAwait(false);
                         await e.Channel.SendMessage(":ok: **New channel topic set.**").ConfigureAwait(false);
                     });
