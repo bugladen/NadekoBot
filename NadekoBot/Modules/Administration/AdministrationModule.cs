@@ -570,7 +570,7 @@ namespace NadekoBot.Modules.Administration
                     .Alias(".clr")
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Parameter("user_or_num", ParameterType.Optional)
-                    .Parameter("num", ParameterType.Required)
+                    .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
                     {
                         if (string.IsNullOrWhiteSpace("user_or_num")) // if nothing is set, clear nadeko's messages, no permissions required
