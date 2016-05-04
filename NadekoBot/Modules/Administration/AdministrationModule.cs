@@ -573,7 +573,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
                     {
-                        if (string.IsNullOrWhiteSpace("user_or_num")) // if nothing is set, clear nadeko's messages, no permissions required
+                        if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
                             await Task.Run(async () =>
                             {
@@ -591,9 +591,9 @@ namespace NadekoBot.Modules.Administration
                             }).ConfigureAwait(false);
                             return;
                         }
-                        if (!e.User.ServerPermissions.ManageMessages)
+                        if (!e.User.GetPermissions(e.Channel).ManageMessages)
                             return;
-                        else if (e.Server.CurrentUser.ServerPermissions.ManageMessages)
+                        else if (!e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await e.Channel.SendMessage("💢I don't have the permission to manage messages.");
                             return;
@@ -610,15 +610,15 @@ namespace NadekoBot.Modules.Administration
                                 await msg.Delete().ConfigureAwait(false);
                                 await Task.Delay(100).ConfigureAwait(false);
                             }
+                            return;
                         }
                         //else if first argument is user
                         var usr = e.Server.FindUsers(e.GetArg("user_or_num")).FirstOrDefault();
                         if (usr == null)
                             return;
                         val = 100;
-                        int.TryParse("num", out val);
-                        if (val <= 0)
-                            return;
+                        if (!int.TryParse(e.GetArg("num"), out val))
+                            val = 100;
                         await Task.Run(async () =>
                         {
                             var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val);
