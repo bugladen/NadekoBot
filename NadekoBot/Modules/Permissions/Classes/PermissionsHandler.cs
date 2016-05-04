@@ -192,6 +192,60 @@ namespace NadekoBot.Modules.Permissions.Classes
             Task.Run(() => WriteServerToJson(serverPerms));
         }
 
+        internal static void CopyRolePermissions(Role fromRole, Role toRole)
+        {
+            var server = fromRole.Server;
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            var from = GetRolePermissionsById(server, fromRole.Id);
+            if (from == null)
+                serverPerms.RolePermissions.Add(fromRole.Id, from = new Permissions(fromRole.Name));
+            var to = GetRolePermissionsById(server, toRole.Id);
+            if (to == null)
+                serverPerms.RolePermissions.Add(toRole.Id, to = new Permissions(toRole.Name));
+
+            to.CopyFrom(from);
+
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
+        internal static void CopyChannelPermissions(Channel fromChannel, Channel toChannel)
+        {
+            var server = fromChannel.Server;
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            var from = GetChannelPermissionsById(server, fromChannel.Id);
+            if (from == null)
+                serverPerms.ChannelPermissions.Add(fromChannel.Id, from = new Permissions(fromChannel.Name));
+            var to = GetChannelPermissionsById(server, toChannel.Id);
+            if (to == null)
+                serverPerms.ChannelPermissions.Add(toChannel.Id, to = new Permissions(toChannel.Name));
+
+            to.CopyFrom(from);
+
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
+        internal static void CopyUserPermissions(User fromUser, User toUser)
+        {
+            var server = fromUser.Server;
+            var serverPerms = PermissionsDict.GetOrAdd(server.Id,
+                new ServerPermissions(server.Id, server.Name));
+
+            var from = GetUserPermissionsById(server, fromUser.Id);
+            if (from == null)
+                serverPerms.UserPermissions.Add(fromUser.Id, from = new Permissions(fromUser.Name));
+            var to = GetUserPermissionsById(server, toUser.Id);
+            if (to == null)
+                serverPerms.UserPermissions.Add(toUser.Id, to = new Permissions(toUser.Name));
+
+            to.CopyFrom(from);
+
+            Task.Run(() => WriteServerToJson(serverPerms));
+        }
+
         public static void SetServerModulePermission(Server server, string moduleName, bool value)
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
@@ -422,6 +476,18 @@ namespace NadekoBot.Modules.Permissions.Classes
             Commands = new ConcurrentDictionary<string, bool>();
             FilterInvites = false;
             FilterWords = false;
+        }
+
+        public void CopyFrom(Permissions other)
+        {
+            Modules.Clear();
+            foreach (var mp in other.Modules)
+                Modules.AddOrUpdate(mp.Key, mp.Value, (s, b) => mp.Value);
+            Commands.Clear();
+            foreach (var cp in other.Commands)
+                Commands.AddOrUpdate(cp.Key, cp.Value, (s, b) => cp.Value);
+            FilterInvites = other.FilterInvites;
+            FilterWords = other.FilterWords;
         }
 
         public override string ToString()
