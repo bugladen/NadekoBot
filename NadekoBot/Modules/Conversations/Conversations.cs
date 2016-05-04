@@ -286,6 +286,20 @@ namespace NadekoBot.Modules.Conversations
                                        .ConfigureAwait(false);
                     });
 
+                cgb.CreateCommand("ab")
+                    .Description("Try to get 'abalabahaha'")
+                    .Do(async e =>
+                    {
+                        string[] strings = { "ba", "la", "ha" };
+                        var construct = "@a";
+                        var cnt = rng.Next(4, 7);
+                        while (cnt-- > 0)
+                        {
+                            construct += strings[rng.Next(0, strings.Length)];
+                        }
+                        await e.Channel.SendMessage(construct).ConfigureAwait(false);
+                    });
+
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")

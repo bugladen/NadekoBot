@@ -88,11 +88,6 @@ namespace NadekoBot.Classes.JSONModels
 			    "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
 			    "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
 
-            } },
-            {"%mention% ab", new List<string>()
-            {
-                "abalabahaha",
-                //Some other varistions, I'm too lazy to add them
             } }
         };
         
