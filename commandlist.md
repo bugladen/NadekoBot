@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5969.8219`
+Version: `NadekoBot v0.9.5969.8273`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -61,7 +61,7 @@ Command and aliases | Description | Usage
 `.stats`  |  Shows some basic stats for Nadeko.
 `.dysyd`  |  Shows some basic stats for Nadeko.
 `.heap`  |  Shows allocated memory - **Owner Only!**
-`.prune`, `.clr`  |  `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. |  `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
+`.prune`, `.clr`  |  `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. |  `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die`, `.graceful`  |  Shuts the bot down and notifies users about the restart. **Owner Only!**
 `.newname`, `.setname`  |  Give the bot a new name. **Owner Only!**
 `.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. **Owner Only!**
