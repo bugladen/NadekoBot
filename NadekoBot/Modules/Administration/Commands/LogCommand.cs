@@ -212,22 +212,41 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                 if (loggingPresences.TryGetValue(e.Server, out ch))
                     if (e.Before.Status != e.After.Status)
                     {
-                        await ch.SendMessage($"`[{DateTime.Now:HH:mm:ss}]`**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
+                        await ch.SendMessage($"`{prettyCurrentTime}`**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
                     }
             }
             catch { }
 
             try
             {
-                if (e.Before.VoiceChannel != null && voiceChannelLog.ContainsKey(e.Before.VoiceChannel))
+                Channel notifyChBefore = null;
+                Channel notifyChAfter = null;
+                var beforeVch = e.Before.VoiceChannel;
+                var afterVch = e.After.VoiceChannel;
+                var notifyLeave = false;
+                var notifyJoin = false;
+                if ((beforeVch != null || afterVch != null) && (beforeVch != afterVch)) // this means we need to notify for sure.
                 {
-                    if (e.After.VoiceChannel != e.Before.VoiceChannel)
-                        await voiceChannelLog[e.Before.VoiceChannel].SendMessage($"🎼`{e.Before.Name} has left the` {e.Before.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
-                }
-                if (e.After.VoiceChannel != null && voiceChannelLog.ContainsKey(e.After.VoiceChannel))
-                {
-                    if (e.After.VoiceChannel != e.Before.VoiceChannel)
-                        await voiceChannelLog[e.After.VoiceChannel].SendMessage($"🎼`{e.After.Name} has joined the`{e.After.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
+                    if (beforeVch != null && voiceChannelLog.TryGetValue(beforeVch, out notifyChBefore))
+                    {
+                        notifyLeave = true;
+                    }
+                    if (afterVch != null && voiceChannelLog.TryGetValue(afterVch, out notifyChAfter))
+                    {
+                        notifyJoin = true;
+                    }
+                    if ((notifyLeave && notifyJoin) && (notifyChAfter == notifyChBefore))
+                    {
+                        await notifyChAfter.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} moved from **{beforeVch.Mention}** to **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
+                    }
+                    else if (notifyJoin)
+                    {
+                        await notifyChAfter.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} has joined **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
+                    }
+                    else if (notifyLeave)
+                    {
+                        await notifyChBefore.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} has left **{beforeVch.Mention}** voice channel.").ConfigureAwait(false);
+                    }
                 }
             }
             catch { }

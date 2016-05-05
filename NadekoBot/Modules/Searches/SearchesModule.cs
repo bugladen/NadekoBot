@@ -460,7 +460,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Parameter("color", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg1 = e.GetArg("color")?.Trim();
+                        var arg1 = e.GetArg("color")?.Trim()?.Replace("#", "");
                         if (string.IsNullOrWhiteSpace(arg1))
                             return;
                         var img = new Bitmap(50, 50);
