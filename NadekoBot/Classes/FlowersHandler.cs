@@ -22,10 +22,17 @@ namespace NadekoBot.Classes
                 return;
 
             var flows = "";
-            for (var i = 0; i < amount; i++)
+             //Maximum displayed will be ~40
+            int i;
+            for (i = 0; i < 40 && i < amount; i++)
             {
                 flows += NadekoBot.Config.CurrencySign;
             }
+            if (i < amount)
+            {
+                flows += $" and {amount - i} more {NadekoBot.Config.CurrencySign}!";
+            }
+
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }
 
