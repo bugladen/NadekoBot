@@ -123,10 +123,17 @@ namespace NadekoBot.Modules.Gambling
             {
                 var pts = GetUserFlowers(e.User.Id);
                 var str = $"`You have {pts} {NadekoBot.Config.CurrencyName}s".SnPl((int)pts) + "`\n";
-                for (var i = 0; i < pts; i++)
+                 //Maximum displayed will be ~40
+                int i;
+                for (i = 0;i < pts && i< 40; i++)
                 {
                     str += NadekoBot.Config.CurrencySign;
                 }
+                if (i<pts)
+                {
+                    str += $" and {pts - i} more {NadekoBot.Config.CurrencySign}s".SnPl((int)pts-i) + "!";
+                }
+
                 await e.Channel.SendMessage(str).ConfigureAwait(false);
             };
         }
