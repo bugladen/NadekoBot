@@ -1,11 +1,10 @@
+using Discord.Commands;
+using Discord.Modules;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Discord.Modules;
-using Discord.Commands;
-using NadekoBot.Modules.Permissions.Classes;
-using NadekoBot.Extensions;
-using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -29,21 +28,19 @@ namespace NadekoBot.Modules.CustomReactions
                     {"%target%", e => e.GetArg("args")?.Trim() ?? "" },
                  };
 
-                
-
                  foreach (var command in NadekoBot.Config.CustomReactions)
                  {
                      var commandName = command.Key.Replace("%mention%", NadekoBot.BotMention);
 
-                     var c = cgb.CreateCommand(commandName);
-                     c.Description($"Custom reaction.\n**Usage**:{command.Key}");
-                     c.Parameter("args", ParameterType.Unparsed);
-                     c.Do(async e =>
-                     {
-                         string str = command.Value[range.Next(0, command.Value.Count())];
-                         commandFuncs.Keys.ForEach(k => str = str.Replace(k, commandFuncs[k](e)));
-                         await e.Channel.SendMessage(str).ConfigureAwait(false);
-                     });
+                     cgb.CreateCommand(commandName)
+                         .Description($"Custom reaction.\n**Usage**:{command.Key}")
+                         .Parameter("args", ParameterType.Unparsed)
+                         .Do(async e =>
+                          {
+                              string str = command.Value[range.Next(0, command.Value.Count())];
+                              commandFuncs.Keys.ForEach(k => str = str.Replace(k, commandFuncs[k](e)));
+                              await e.Channel.SendMessage(str).ConfigureAwait(false);
+                          });
                  }
 
              });

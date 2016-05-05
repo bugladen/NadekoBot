@@ -1,12 +1,10 @@
-﻿using NadekoBot.Classes;
-using System;
-using System.Collections.Generic;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.Commands;
-using NadekoBot.Modules.Permissions.Classes;
-using Discord;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
@@ -30,102 +28,105 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Do(async e =>
                 {
                     var name = e.GetArg("name");
-                    var message = e.GetArg("message").Trim();
+                    var message = e.GetArg("message")?.Trim();
                     if (string.IsNullOrWhiteSpace(message))
                     {
                         await e.Channel.SendMessage($"Incorrect command usage. See -h {Prefix}acr for correct formatting").ConfigureAwait(false);
                         return;
                     }
-                    try
-                    {
+                    if (NadekoBot.Config.CustomReactions.ContainsKey(name))
                         NadekoBot.Config.CustomReactions[name].Add(message);
-                    }
-                    catch (KeyNotFoundException)
-                    {
+                    else
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
-                    }
-                    finally
-                    {
-                        Classes.JSONModels.ConfigHandler.SaveConfig();
-                    }
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
                     await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
 
                 });
 
             cgb.CreateCommand(Prefix + "listcustomreactions")
             .Alias(Prefix + "lcr")
-            .Description("Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:.lcr 1")
+            .Description($"Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:{Prefix}lcr 1")
             .Parameter("num", ParameterType.Required)
             .Do(async e =>
             {
                 int num;
-                if (!int.TryParse(e.GetArg("num"), out num)) return;
-                string result = getCustomsOnPage(num -1); //People prefer starting with 1
+                if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) return;
+                string result = GetCustomsOnPage(num - 1); //People prefer starting with 1
                 await e.Channel.SendMessage(result);
             });
 
             cgb.CreateCommand(Prefix + "deletecustomreaction")
-            .Alias(Prefix + "dcr")
-            .Description("Deletes a custome reaction with given name (and index)")
-            .Parameter("name", ParameterType.Required)
-            .Parameter("index", ParameterType.Optional)
-            .Do(async e =>
-            {
-                var name = e.GetArg("name");
-                if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
+                .Alias(Prefix + "dcr")
+                .Description("Deletes a custome reaction with given name (and index)")
+                .Parameter("name", ParameterType.Required)
+                .Parameter("index", ParameterType.Optional)
+                .Do(async e =>
                 {
-                    await e.Channel.SendMessage("Could not find given commandname");
-                    return;
-                }
-                string message = "";
-                int index;
-                if (int.TryParse(e.GetArg("index") ?? "", out index))
-                {
-                    try
+                    var name = e.GetArg("name")?.Trim();
+                    if (string.IsNullOrWhiteSpace(name))
+                        return;
+                    if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        NadekoBot.Config.CustomReactions[name].RemoveAt(index - 1);
+                        await e.Channel.SendMessage("Could not find given commandname");
+                        return;
+                    }
+                    string message = "";
+                    int index;
+                    if (int.TryParse(e.GetArg("index")?.Trim() ?? "", out index))
+                    {
+                        index = index - 1;
+                        if (index < 0 || index > NadekoBot.Config.CustomReactions[name].Count)
+                        {
+                            await e.Channel.SendMessage("Given index was out of range").ConfigureAwait(false);
+                            return;
+
+                        }
+                        NadekoBot.Config.CustomReactions[name].RemoveAt(index);
                         if (!NadekoBot.Config.CustomReactions[name].Any())
                         {
                             NadekoBot.Config.CustomReactions.Remove(name);
                         }
-                        message = $"Deleted response #{index} from {name}";
+                        message = $"Deleted response #{index} from `{name}`";
                     }
-                    catch (ArgumentOutOfRangeException)
+                    else
                     {
-                        await e.Channel.SendMessage("Index given was out of range").ConfigureAwait(false);
-                        return;
+                        NadekoBot.Config.CustomReactions.Remove(name);
+                        message = $"Deleted custom reaction: `{name}`";
                     }
-                }
-                else
-                {
-                    NadekoBot.Config.CustomReactions.Remove(name);
-                    message = $"Deleted custom reaction \"{name}\"";
-                }
-                Classes.JSONModels.ConfigHandler.SaveConfig();
-                await e.Channel.SendMessage(message);
-            });
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
+                    await e.Channel.SendMessage(message);
+                });
         }
 
         private readonly int ItemsPerPage = 5;
 
-        private string getCustomsOnPage(int page)
-        {            
+        private string GetCustomsOnPage(int page)
+        {
             var items = NadekoBot.Config.CustomReactions.Skip(page * ItemsPerPage).Take(ItemsPerPage);
-            if(!items.Any())
+            if (!items.Any())
             {
-                return $"No items on page {page}.";
+                return $"No items on page {page + 1}.";
             }
-            string message = $"Custom reactions of page {page + 1}:";
+            var message = new StringBuilder($"```js\n   --- Custom reactions - page {page + 1} ---\n");
             foreach (var cr in items)
             {
-                message += $"\n**\"{Format.Escape(cr.Key)}\"**:";
+                message.Append($"\"{ Format.Escape(cr.Key)}\"\n");
                 int i = 1;
+                var last = cr.Value.Last();
                 foreach (var reaction in cr.Value)
                 {
-                    message += "\n     " + i++ + "." + Format.Code(reaction);
+                    if (last != reaction)
+                        message.AppendLine("  ├" + i++ + "─" + reaction);
+                    else
+                        message.AppendLine("  └" + i++ + "─" + reaction);
                 }
             }
-            return message;
+            return message.ToString() + "\n```";
         }
     }
 }
+// zeta is a god
+//├
+//─
+//│
+//└
