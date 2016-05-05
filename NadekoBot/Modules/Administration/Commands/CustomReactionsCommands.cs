@@ -54,28 +54,14 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "listcustomreactions")
             .Alias(Prefix + "lcr")
-            .Description("Lists all current custom reactions. **Owner Only!**")
-            .AddCheck(SimpleCheckers.OwnerOnly())
+            .Description("Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:.lcr 1")
+            .Parameter("num", ParameterType.Required)
             .Do(async e =>
             {
-
-                string message = $"Custom reactions:";
-                foreach (var cr in NadekoBot.Config.CustomReactions)
-                {
-                    if (message.Length > 1500)
-                    {
-                        await e.Channel.SendMessage(message).ConfigureAwait(false);
-                        message = "";
-                    }
-                    message += $"\n**\"{Format.Escape(cr.Key)}\"**:";
-                    int i = 1;
-                    foreach (var reaction in cr.Value)
-                    {
-                        message += "\n     " + i++ + "." + Format.Code(reaction);
-                    }
-
-                }
-                await e.Channel.SendMessage(message);
+                int num;
+                if (!int.TryParse(e.GetArg("num"), out num)) return;
+                string result = getCustomsOnPage(num -1); //People prefer starting with 1
+                await e.Channel.SendMessage(result);
             });
 
             cgb.CreateCommand(Prefix + "deletecustomreaction")
@@ -118,6 +104,28 @@ namespace NadekoBot.Modules.Administration.Commands
                 Classes.JSONModels.ConfigHandler.SaveConfig();
                 await e.Channel.SendMessage(message);
             });
+        }
+
+        private readonly int ItemsPerPage = 5;
+
+        private string getCustomsOnPage(int page)
+        {            
+            var items = NadekoBot.Config.CustomReactions.Skip(page * ItemsPerPage).Take(ItemsPerPage);
+            if(!items.Any())
+            {
+                return $"No items on page {page}.";
+            }
+            string message = $"Custom reactions of page {page + 1}:";
+            foreach (var cr in items)
+            {
+                message += $"\n**\"{Format.Escape(cr.Key)}\"**:";
+                int i = 1;
+                foreach (var reaction in cr.Value)
+                {
+                    message += "\n     " + i++ + "." + Format.Code(reaction);
+                }
+            }
+            return message;
         }
     }
 }

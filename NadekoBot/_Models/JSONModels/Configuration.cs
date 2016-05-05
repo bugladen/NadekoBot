@@ -31,14 +31,12 @@ namespace NadekoBot.Classes.JSONModels
                 "%user% did it 😒 🔫",
                 "%target% did it 😒 🔫" } },
             {"%mention% insult", new List<string>() {
-                "I would never insult %owner%, my beloved master.",
                 "%target% You are a poop.",
                 "%target% You're a jerk.",
                 "%target% I will eat you when I get my powers back."
                  } },
             {"%mention% praise", new List<string>()
             {
-                "I don't need your permission to praise %owner%, my beloved master",
                 "%target% You are cool.",
                 "%target% You are nice!",
                 "%target% You did a good job.",
