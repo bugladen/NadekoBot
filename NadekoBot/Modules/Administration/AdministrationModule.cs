@@ -28,6 +28,7 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new SelfAssignedRolesCommand(this));
             commands.Add(new Remind(this));
             commands.Add(new InfoCommands(this));
+            commands.Add(new CustomReactionsCommands(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
