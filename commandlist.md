@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5967.41521`
+Version: `NadekoBot v0.9.5969.8219`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -53,7 +53,7 @@ Command and aliases | Description | Usage
 `.vch`, `.cvch`  |  Creates a new voice channel with a given name.
 `.rch`, `.rtch`  |  Removes a text channel with a given name.
 `.ch`, `.tch`  |  Creates a new text channel with a given name.
-`.st`, `.settopic`, `.topic`  |  Sets a topic on the current channel.
+`.st`, `.settopic`, `.topic`  |  Sets a topic on the current channel. |  `.st My new topic`
 `.schn`, `.setchannelname`, `.topic`  |  Changed the name of the current channel.
 `.uid`, `.userid`  |  Shows user ID.
 `.cid`, `.channelid`  |  Shows current channel ID.
@@ -61,9 +61,8 @@ Command and aliases | Description | Usage
 `.stats`  |  Shows some basic stats for Nadeko.
 `.dysyd`  |  Shows some basic stats for Nadeko.
 `.heap`  |  Shows allocated memory - **Owner Only!**
-`.prune`  |  Prunes a number of messages from the current channel. |  .prune 5
+`.prune`, `.clr`  |  `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. |  `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die`, `.graceful`  |  Shuts the bot down and notifies users about the restart. **Owner Only!**
-`.clr`  |  Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel (**Owner Only!**)  |  .clr @X
 `.newname`, `.setname`  |  Give the bot a new name. **Owner Only!**
 `.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. **Owner Only!**
 `.setgame`  |  Sets the bots game. **Owner Only!**
@@ -96,12 +95,15 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `;cfi`, `;channelfilterinvites`  |  Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
 `;sfi`, `;serverfilterinvites`  |  Enables or disables automatic deleting of invites on the server. |  ;sfi disable
-`;cfw`, `;channelfilterwords`  |  Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
-`;afw`, `;addfilteredword`  |  Adds a new word to the list of filtered words |  ;aw poop
+`;cfw`, `;channelfilterwords`  |  Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfw enable #general-chat
+`;afw`, `;addfilteredword`  |  Adds a new word to the list of filtered words |  ;afw poop
 `;rfw`, `;removefilteredword`  |  Removes the word from the list of filtered words |  ;rw poop
 `;lfw`, `;listfilteredwords`  |  Shows a list of filtered words |  ;lfw
 `;sfw`, `;serverfilterwords`  |  Enables or disables automatic deleting of messages containing forbidden words on the server. |  ;sfi disable
 `;permrole`, `;pr`  |  Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.
+`;rpc`, `;rolepermissionscopy`  |  Copies BOT PERMISSIONS (not discord permissions) from one role to another. | `;rpc Some Role ~ Some other role`
+`;cpc`, `;channelpermissionscopy`  |  Copies BOT PERMISSIONS (not discord permissions) from one channel to another. | `;cpc Some Channel ~ Some other channel`
+`;upc`, `;userpermissionscopy`  |  Copies BOT PERMISSIONS (not discord permissions) from one role to another. | `;upc @SomeUser ~ @SomeOtherUser`
 `;verbose`, `;v`  |  Sets whether to show when a command/module is blocked. |  ;verbose true
 `;serverperms`, `;sp`  |  Shows banned permissions for this server.
 `;roleperms`, `;rp`  |  Shows banned permissions for a certain role. No argument means for everyone. |  ;rp AwesomeRole
@@ -264,6 +266,8 @@ Command and aliases | Description | Usage
 `~revav`  |  Returns a google reverse image search for someone's avatar.
 `~revimg`  |  Returns a google reverse image search for an image from a link.
 `~safebooru`  |  Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~safebooru yuri+kissing
+`~wiki`  |  Gives you back a wikipedia link
+`~clr`  |  Shows you what color corresponds to that hex. |  `~clr 00ff00`
 
 ### NSFW  
 Command and aliases | Description | Usage

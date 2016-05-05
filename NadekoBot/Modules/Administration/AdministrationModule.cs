@@ -568,7 +568,9 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(".clr")
-                    .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
+                    .Description(
+@"`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.
+**Usage**: `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
