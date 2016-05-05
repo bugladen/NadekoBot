@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 var name = e.GetArg("name");
                 if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                 {
-                    await e.Channel.SendMessage("Could not find given key");
+                    await e.Channel.SendMessage("Could not find given commandname");
                     return;
                 }
                 string message = "";

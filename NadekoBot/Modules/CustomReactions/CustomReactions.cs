@@ -5,6 +5,7 @@ using Discord.Modules;
 using Discord.Commands;
 using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Extensions;
+using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -20,18 +21,15 @@ namespace NadekoBot.Modules.CustomReactions
 
                  cgb.AddCheck(PermissionChecker.Instance);
                  Random range = new Random();
-                 Dictionary<string, Func<CommandEventArgs, string>> MyFuncs = new Dictionary<string, Func<CommandEventArgs, string>>
+                 Dictionary<string, Func<CommandEventArgs, string>> commandFuncs = new Dictionary<string, Func<CommandEventArgs, string>>
                  {
                     {"%rng%", (e) =>  range.Next().ToString()},
                     {"%mention%", (e) => NadekoBot.BotMention },
                     {"%user%", e => e.User.Mention },
-                    {"%target%", e =>
-                    {
-                        var arg = e.GetArg("args");
-                        return string.IsNullOrWhiteSpace(arg) ? "" : arg;
-                    } }
-
+                    {"%target%", e => e.GetArg("args")?.Trim() ?? "" },
                  };
+
+                
 
                  foreach (var command in NadekoBot.Config.CustomReactions)
                  {
@@ -43,7 +41,7 @@ namespace NadekoBot.Modules.CustomReactions
                      c.Do(async e =>
                      {
                          string str = command.Value[range.Next(0, command.Value.Count())];
-                         MyFuncs.Keys.ForEach(k => str = str.Replace(k, MyFuncs[k](e)));
+                         commandFuncs.Keys.ForEach(k => str = str.Replace(k, commandFuncs[k](e)));
                          await e.Channel.SendMessage(str).ConfigureAwait(false);
                      });
                  }
