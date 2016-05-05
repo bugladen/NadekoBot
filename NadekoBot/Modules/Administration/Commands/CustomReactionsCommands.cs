@@ -107,21 +107,21 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 return $"No items on page {page + 1}.";
             }
-            var message = new StringBuilder($"```js\n   --- Custom reactions - page {page + 1} ---\n");
+            var message = new StringBuilder($"--- Custom reactions - page {page + 1} ---\n");
             foreach (var cr in items)
             {
-                message.Append($"\"{ Format.Escape(cr.Key)}\"\n");
+                message.Append($"{ Format.Code(cr.Key)}\n");
                 int i = 1;
                 var last = cr.Value.Last();
                 foreach (var reaction in cr.Value)
                 {
                     if (last != reaction)
-                        message.AppendLine("  ├" + i++ + "─" + reaction);
+                        message.AppendLine("  `├" + i++ + "─`" + Format.Bold(reaction));
                     else
-                        message.AppendLine("  └" + i++ + "─" + reaction);
+                        message.AppendLine("  `└" + i++ + "─`" + Format.Bold(reaction));
                 }
             }
-            return message.ToString() + "\n```";
+            return message.ToString() + "\n";
         }
     }
 }
