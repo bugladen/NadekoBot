@@ -21,11 +21,8 @@ namespace NadekoBot.Classes
             if (silent)
                 return;
 
-            var flows = "";
-            for (var i = 0; i < amount; i++)
-            {
-                flows += NadekoBot.Config.CurrencySign;
-            }
+            var flows = amount +" " + NadekoBot.Config.CurrencySign;
+
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }
 
