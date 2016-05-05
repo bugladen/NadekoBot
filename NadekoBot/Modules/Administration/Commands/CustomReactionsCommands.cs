@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         {
                             NadekoBot.Config.CustomReactions.Remove(name);
                         }
-                        message = $"Deleted response #{index} from `{name}`";
+                        message = $"Deleted response #{index + 1} from `{name}`";
                     }
                     else
                     {
