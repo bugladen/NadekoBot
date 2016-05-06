@@ -180,7 +180,11 @@ namespace NadekoBot.Classes
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
-
+            var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(query);
+            if (match.Length > 1)
+            {
+                return match.Groups["id"].Value.ToString();
+            }
             var link = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
                         "&maxResults=1&type=playlist" +
                        $"&q={Uri.EscapeDataString(query)}" +
