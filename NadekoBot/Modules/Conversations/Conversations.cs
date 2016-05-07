@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Conversations
             manager.CreateCommands("", cgb =>
             {
                 cgb.AddCheck(PermissionChecker.Instance);
-                
+
                 cgb.CreateCommand("..")
                     .Description("Adds a new quote with the specified name (single word) and message (no limit).\n**Usage**: .. abc My message")
                     .Parameter("keyword", ParameterType.Required)
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Conversations
                             await e.Channel.SendMessage(e.User.Mention + " I am sad. My Master is not with me.").ConfigureAwait(false);
                         }
                     });
-              
+
                 cgb.CreateCommand("fire")
                     .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
@@ -236,7 +236,7 @@ namespace NadekoBot.Modules.Conversations
                         else
                             await e.Channel.SendMessage("I can't find a message mentioning you.").ConfigureAwait(false);
                     });
-                
+
                 cgb.CreateCommand("hide")
                     .Description("Hides Nadeko in plain sight!11!!")
                     .Do(async e =>
@@ -300,7 +300,8 @@ namespace NadekoBot.Modules.Conversations
                         await e.Channel.SendMessage(construct).ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("av").Alias("avatar")
+                cgb.CreateCommand("av")
+                    .Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
                     .Do(async e =>

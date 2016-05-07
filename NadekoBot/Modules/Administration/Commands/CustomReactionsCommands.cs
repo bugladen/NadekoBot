@@ -60,6 +60,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Description("Deletes a custome reaction with given name (and index)")
                 .Parameter("name", ParameterType.Required)
                 .Parameter("index", ParameterType.Optional)
+                .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
                     var name = e.GetArg("name")?.Trim();
