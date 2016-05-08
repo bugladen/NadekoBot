@@ -111,6 +111,8 @@ sudo apt-get update
 <pre><code class="language-bash">certmgr --ssl https://gateway.discord.gg
 </code></pre>
 
+Type `yes` and hit enter **three times**
+
 **NOW WE NEED NADEKO FROM RELEASES**
 
 **15)**
