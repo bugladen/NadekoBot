@@ -180,32 +180,34 @@ Also if you already have nadeko set up and have `credentials.json`, `config.json
 ######Time to test it
 
 Go back to **PuTTY**, (hope its still running xD)
-<pre><code class="language-bash">mono NadekoBot.exe
-</code></pre>
-
-If you open **PuTTY** again, 
 
 **STEP 19)**
 
-type login, password and then, direct to the folder you created (“nadeko” is the folder we created. REMEMBER?)
+<pre><code class="language-bash">tmux new -s nadeko
+</code></pre>
+**^this will create a new session named “nadeko”** `(you can replace “nadeko” with anything you prefer and remember its your session name) so you can run the bot in background without having to keep run PuTTY in back ground.`
+
+**STEP 20)**
 
 <pre><code class="language-bash">cd nadeko
 </code></pre>
-
-**STEP 20)**
 
 <pre><code class="language-bash">mono NadekoBot.exe
 </code></pre>
 
 **CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING**
 
-**Close** the **PuTTY** wait for your bot to go offline in discord check with tying some commands if its responding.
+Now time to move bot to background so to do that, press **CTRL+B+D** (this will ditach the nadeko session for TMUX)
+
+And if you want to see the session after logging again, type `tmux ls`, and that will give you the list of sessions running
+
+And if you want to switch to that session, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)**
 
 **STEP 21)**
 
-**GOTO** https://cloud.digitalocean.com/droplets see your droplet, and click on the **More** and on the dropdown menu, click **Access Console**, if its not accessible or shows error its normal, just close and try again, and once it ask you to **TYPE** commands, just login and **re-follow the STEP 19 and 20** again.
+And if you want to kill **nadeko** session (kill session), type `tmux kill-session -t nadeko`
 
-######IF YOU WANT TO RESTART YOUR BOT
+######IF YOU WANT TO RESTART YOUR BOT THE WHOLE SERVER
 **STEP 22)**
 
 Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
@@ -214,7 +216,9 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 **FOLLOW # STEPS SERIALLY**
 
-**-22**
+**-21 OR 22**
+
+**-19**
 
 **-16**
 
@@ -223,5 +227,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 **-18**
 
 **-20**
+
+HIT **CTRL+B+D**
 
 IF YOU FACE ANY TROUBLE SEE US IN NADEKO DISCORD
