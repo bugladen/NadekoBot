@@ -70,6 +70,18 @@ Note if the command is not be initiated, hit **Enter**
 </code></pre>
 **Type** `y` **hit Enter**
 
+`NOTE: if its "not installing" then, follow the guide here:` http://www.faqforge.com/linux/how-to-install-ffmpeg-on-ubuntu-14-04/
+
+*All you need to do, if you are running UBUNTU 14.04 is initiate these:*
+
+`sudo add-apt-repository ppa:mc3man/trusty-media`
+
+`sudo apt-get update`
+
+`sudo apt-get dist-upgrade`
+
+*Before executing* `sudo apt-get install ffmpeg`
+
 ######Uncomplicated Firewall UFW
 
 **7)**
@@ -111,7 +123,7 @@ Note if the command is not be initiated, hit **Enter**
 <pre><code class="language-bash">certmgr --ssl https://gateway.discord.gg
 </code></pre>
 
-Type `yes` and hit Enter **three times**
+Type `yes` and hit Enter **(three times - as it will ask for three times)**
 
 
 **15)**
