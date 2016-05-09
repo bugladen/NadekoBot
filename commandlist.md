@@ -2,22 +2,22 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5969.8273`
+Version: `NadekoBot v0.9.5973.39686`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`.grdel`  |  Enables or Disables automatic deletion of greet and bye messages.
-`.greet`  |  Enables or Disables anouncements on the current channel when someone joins the server.
-`.greetmsg`  |  Sets a new announce message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. |  .greetmsg Welcome to the server, %user%.
-`.bye`  |  Enables or Disables anouncements on the current channel when someone leaves the server.
-`.byemsg`  |  Sets a new announce leave message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. |  .byemsg %user% has left the server.
+`.grdel`  |  Toggles automatic deletion of greet and bye messages.
+`.greet`  |  Toggles anouncements on the current channel when someone joins the server.
+`.greetmsg`  |  Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. |  .greetmsg Welcome to the server, %user%.
+`.bye`  |  Toggles anouncements on the current channel when someone leaves the server.
+`.byemsg`  |  Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. |  .byemsg %user% has left the server.
 `.byepm`  |  Toggles whether the good bye messages will be sent in a PM or in the text channel.
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Owner Only!**
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. **Owner Only!**
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Owner Only!**
-`.repeat`  |  Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages.
+`.repeat`  |  Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages. | `.repeat 5 Hello there`
 `.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
@@ -36,6 +36,9 @@ Command and aliases | Description | Usage
 `.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
 `.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
 `.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
+`.addcustomreaction`, `.acr`  |  Add a custom reaction. **Owner Only!** |  .acr "hello" I love saying hello to %user%
+`.listcustomreactions`, `.lcr`  |  Lists all current custom reactions (paginated with 5 commands per page). | .lcr 1
+`.deletecustomreaction`, `.dcr`  |  Deletes a custome reaction with given name (and index)
 `.restart`  |  Restarts the bot. Might not work.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
@@ -132,11 +135,6 @@ Command and aliases | Description | Usage
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`e`  |  You did it. Or someone else!
-`comeatmebro`  |  Come at me bro (ง’̀-‘́)ง  |  comeatmebro {target}
-`\o\`  |  Nadeko replies with /o/
-`/o/`  |  Nadeko replies with \o\
-`moveto`  |  Suggests moving the conversation. |  moveto #spam
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
 `...`  |  Shows a random quote with a specified name. |  .. abc
 `@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
@@ -149,19 +147,9 @@ Command and aliases | Description | Usage
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
-`@BotName insult`  |  Insults @X person. |  @NadekoBot insult @X.
-`@BotName praise`  |  Praises @X person. |  @NadekoBot praise @X.
-`@BotName pat`  |  Pat someone ^_^
-`@BotName cry`  |  Tell Nadeko to cry. You are a heartless monster if you use this command.
-`@BotName disguise`  |  Tell Nadeko to disguise herself.
-`@BotName are you real`  |  Useless.
-`@BotName are you there`, `@BotName !`, `@BotName ?`  |  Checks if Nadeko is operational.
-`@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
-`@BotName bb`  |  Says bye to someone. |  @NadekoBot bb @X
-`@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
 `@BotName hide`  |  Hides Nadeko in plain sight!11!!
 `@BotName unhide`  |  Unhides Nadeko in plain sight!1!!1
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
@@ -306,6 +294,25 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~trans`, `~translate`  |  Translates from>to text. From the given language to the destiation language. |  ~trans en>fr Hello
 `~translangs`  |  List the valid languages for translation.
+
+### Customreactions  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`\o\`  |  Custom reaction. | \o\
+`/o/`  |  Custom reaction. | /o/
+`moveto`  |  Custom reaction. | moveto
+`comeatmebro`  |  Custom reaction. | comeatmebro
+`e`  |  Custom reaction. | e
+`@BotName insult`, `<@!119777021319577610> insult`  |  Custom reaction. | %mention% insult
+`@BotName praise`, `<@!119777021319577610> praise`  |  Custom reaction. | %mention% praise
+`@BotName pat`, `<@!119777021319577610> pat`  |  Custom reaction. | %mention% pat
+`@BotName cry`, `<@!119777021319577610> cry`  |  Custom reaction. | %mention% cry
+`@BotName are you real?`, `<@!119777021319577610> are you real?`  |  Custom reaction. | %mention% are you real?
+`@BotName are you there?`, `<@!119777021319577610> are you there?`  |  Custom reaction. | %mention% are you there?
+`@BotName draw`, `<@!119777021319577610> draw`  |  Custom reaction. | %mention% draw
+`@BotName bb`, `<@!119777021319577610> bb`  |  Custom reaction. | %mention% bb
+`@BotName call`, `<@!119777021319577610> call`  |  Custom reaction. | %mention% call
+`@BotName disguise`, `<@!119777021319577610> disguise`  |  Custom reaction. | %mention% disguise
 
 ### Trello  
 Command and aliases | Description | Usage
