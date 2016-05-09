@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "grdel")
-                .Description("Enables or Disables automatic deletion of greet and bye messages.")
+                .Description("Toggles automatic deletion of greet and bye messages.")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -232,7 +232,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greet")
-                .Description("Enables or Disables anouncements on the current channel when someone joins the server.")
+                .Description("Toggles anouncements on the current channel when someone joins the server.")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetmsg")
-                .Description("Sets a new announce message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message.\n**Usage**: .greetmsg Welcome to the server, %user%.")
+                .Description("Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message.\n**Usage**: .greetmsg Welcome to the server, %user%.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -265,7 +265,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "bye")
-                .Description("Enables or Disables anouncements on the current channel when someone leaves the server.")
+                .Description("Toggles anouncements on the current channel when someone leaves the server.")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -278,7 +278,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "byemsg")
-                .Description("Sets a new announce leave message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.\n**Usage**: .byemsg %user% has left the server.")
+                .Description("Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.\n**Usage**: .byemsg %user% has left the server.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {
