@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
-                             "repeat is disabled. Requires manage messages.")
+                             "repeat is disabled. Requires manage messages.\n**Usage**:`.repeat 5 Hello there`")
                 .Parameter("minutes", ParameterType.Optional)
                 .Parameter("msg", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageMessages())
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     }
                     int minutes;
-                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 720)
+                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 1440)
                     {
                         await e.Channel.SendMessage("Invalid value").ConfigureAwait(false);
                         return;
