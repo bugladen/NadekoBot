@@ -81,14 +81,14 @@ namespace NadekoBot.Classes.JSONModels
                 "Calling %target%"
             } },
             {"%mention% disguise", new List<string>() {
-			    "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
-			    "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
-			    "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
-			    "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
+                "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
+                "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
+                "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
+                "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
 
             } }
         };
-        
+
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();

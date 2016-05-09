@@ -46,6 +46,15 @@ namespace NadekoBot.Classes.JSONModels
         public string kind { get; set; }
         public string videoId { get; set; }
     }
+    public class PlaylistItemsSearch
+    {
+        public string nextPageToken { get; set; }
+        public PlaylistItem[] items { get; set; }
+    }
+    public class PlaylistItem
+    {
+        public YtVideoId contentDetails { get; set; }
+    }
 
     #region wikpedia example
     //    {
