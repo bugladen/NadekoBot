@@ -254,9 +254,13 @@ namespace NadekoBot.Classes
 
         public static async Task<string> GetGelbooruImageLink(string tag)
         {
+            var headers = new Dictionary<string, string>() {
+                {"User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"},
+                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
+            };
             var url =
-            $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
+                $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+            var webpage = await GetResponseStringAsync(url, headers).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
                 return null;
