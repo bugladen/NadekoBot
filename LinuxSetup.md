@@ -217,22 +217,26 @@ Type/ Copy and hit **Enter**.
 
 Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will ditach the nadeko session using TMUX), and you can finally close PuTTY now.
 
-And if you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
+**NOW YOU HAVE YOUR OWN NADEKO BOT** `Thanks to Kwoth <3`
 
-And if you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
+######SOME MORE INFO (JUST TO KNOW):
+
+-If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
+
+-If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
 
 **21)**
 
-And if you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
+-If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
 
-######TO RESTART YOUR BOT ALONG WITH THE WHOLE SERVER (for science)
+######TO RESTART YOUR BOT ALONG WITH THE WHOLE SERVER (for science):
 **22)**
 
 Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 ######IF YOU WANT TO UPDATE YOUR BOT
 
-**FOLLOW # STEPS SERIALLY**
+**FOLLOW THESE STEPS SERIALLY**
 
 **-21 OR 22**
 
