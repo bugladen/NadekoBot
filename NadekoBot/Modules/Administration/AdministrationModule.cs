@@ -136,6 +136,40 @@ namespace NadekoBot.Modules.Administration
                         }
                     });
 
+                cgb.CreateCommand(Prefix + "renr")
+                    .Alias(Prefix + "renamerole")
+                    .Description($"Renames a role. Role you are renaming must be lower than bot's highest role.\n**Usage**: `{Prefix}renr \"First role\" SecondRole`")
+                    .Parameter("r1", ParameterType.Required)
+                    .Parameter("r2", ParameterType.Required)
+                    .AddCheck(new SimpleCheckers.ManageRoles())
+                    .Do(async e =>
+                    {
+                        var r1 = e.GetArg("r1").Trim();
+                        var r2 = e.GetArg("r2").Trim();
+
+                        var roleToEdit = e.Server.FindRoles(r1).FirstOrDefault();
+                        if (roleToEdit == null)
+                        {
+                            await e.Channel.SendMessage("Can't find that role.");
+                            return;
+                        }
+
+                        try
+                        {
+                            if (roleToEdit.Position > e.Server.CurrentUser.Roles.Max(r => r.Position))
+                            {
+                                await e.Channel.SendMessage("I can't edit roles higher than my highest role.");
+                                return;
+                            }
+                            await roleToEdit.Edit(r2);
+                            await e.Channel.SendMessage("Role renamed.");
+                        }
+                        catch (Exception)
+                        {
+                            await e.Channel.SendMessage("Failed to rename role. Probably insufficient permissions.");
+                        }
+                    });
+
                 cgb.CreateCommand(Prefix + "rar").Alias(Prefix + "removeallroles")
                     .Description("Removes all roles from a mentioned user.\n**Usage**: .rar @User")
                     .Parameter("user_name", ParameterType.Unparsed)
@@ -571,7 +605,7 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(".clr")
                     .Description(
-"`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.\n**Usage**: `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`")
+    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.\n**Usage**: `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
