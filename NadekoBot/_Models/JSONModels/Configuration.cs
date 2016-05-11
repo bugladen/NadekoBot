@@ -17,6 +17,8 @@ namespace NadekoBot.Classes.JSONModels
         [JsonIgnore]
         public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
 
+        public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
+
         public Dictionary<string, List<string>> CustomReactions { get; set; } = new Dictionary<string, List<string>>()
         {
             {@"\o\", new List<string>()
