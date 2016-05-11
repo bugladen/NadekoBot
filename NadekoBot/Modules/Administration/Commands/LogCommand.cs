@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"❗`{prettyCurrentTime}` `Channel Deleted:` #{e.Channel.Name} (*{e.Channel.Id}*)").ConfigureAwait(false);
+                await ch.SendMessage($"❗`{prettyCurrentTime}`❗`Channel Deleted:` #{e.Channel.Name} (*{e.Channel.Id}*)").ConfigureAwait(false);
             }
             catch { }
         }
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`{prettyCurrentTime}` `Channel Created:` #{e.Channel.Mention} (*{e.Channel.Id}*)").ConfigureAwait(false);
+                await ch.SendMessage($"`{prettyCurrentTime}`🆕`Channel Created:` #{e.Channel.Mention} (*{e.Channel.Id}*)").ConfigureAwait(false);
             }
             catch { }
         }
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`{prettyCurrentTime}` `User was unbanned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+                await ch.SendMessage($"`{prettyCurrentTime}`♻`User was unbanned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`{prettyCurrentTime}` `User joined:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+                await ch.SendMessage($"`{prettyCurrentTime}`✅`User joined:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"`{prettyCurrentTime}` `User left:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+                await ch.SendMessage($"`{prettyCurrentTime}`❗`User left:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch))
                     return;
-                await ch.SendMessage($"❗`{prettyCurrentTime}` `User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
+                await ch.SendMessage($"❗`{prettyCurrentTime}`❌`User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
             catch { }
         }
@@ -268,12 +268,12 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                     if (e.Before.Roles.Count() < e.After.Roles.Count())
                     {
                         var diffRoles = e.After.Roles.Where(r => !e.Before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                        str += $"**User's Roles changed ➕**👤`{e.Before?.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                        str += $"**User's Roles changed ⚔➕**👤`{e.Before?.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
                     }
                     else if (e.Before.Roles.Count() > e.After.Roles.Count())
                     {
                         var diffRoles = e.Before.Roles.Where(r => !e.After.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                        str += $"**User's Roles changed ➖**👤`{e.Before?.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                        str += $"**User's Roles changed ⚔➖**👤`{e.Before?.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
                     }
                     else
                     {
