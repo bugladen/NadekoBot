@@ -8,7 +8,6 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -35,11 +34,31 @@ namespace NadekoBot.Modules.Gambling
                 cgb.CreateCommand(Prefix + "raffle")
                     .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
                     .Parameter("role", ParameterType.Optional)
-                    .Do(RaffleFunc());
+                    .Do(async e =>
+                    {
+                        var arg = string.IsNullOrWhiteSpace(e.GetArg("role")) ? "@everyone" : e.GetArg("role");
+                        var role = e.Server.FindRoles(arg).FirstOrDefault();
+                        if (role == null)
+                        {
+                            await e.Channel.SendMessage("💢 Role not found.").ConfigureAwait(false);
+                            return;
+                        }
+                        var members = role.Members.Where(u => u.Status == UserStatus.Online); // only online
+                        var membersArray = members as User[] ?? members.ToArray();
+                        var usr = membersArray[new Random().Next(0, membersArray.Length)];
+                        await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})").ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand(Prefix + "$$")
                     .Description(string.Format("Check how much {0}s you have.", NadekoBot.Config.CurrencyName))
-                    .Do(NadekoFlowerCheckFunc());
+                    .Parameter("all", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var usr = e.Message.MentionedUsers.FirstOrDefault() ?? e.User;
+                        var pts = GetUserFlowers(usr.Id);
+                        var str = $"{usr.Name} has {pts} {NadekoBot.Config.CurrencySign}";
+                        await e.Channel.SendMessage(str).ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand(Prefix + "give")
                     .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName))
@@ -139,35 +158,7 @@ $@"┣━━━━━━━━━━━━━━━━━━━╋━━━━�
             });
         }
 
-        private static Func<CommandEventArgs, Task> NadekoFlowerCheckFunc()
-        {
-            return async e =>
-            {
-                var pts = GetUserFlowers(e.User.Id);
-                var str = $"`You have {pts} {NadekoBot.Config.CurrencySign}";
-                await e.Channel.SendMessage(str).ConfigureAwait(false);
-            };
-        }
-
         private static long GetUserFlowers(ulong userId) =>
             Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
-
-        private static Func<CommandEventArgs, Task> RaffleFunc()
-        {
-            return async e =>
-            {
-                var arg = string.IsNullOrWhiteSpace(e.GetArg("role")) ? "@everyone" : e.GetArg("role");
-                var role = e.Server.FindRoles(arg).FirstOrDefault();
-                if (role == null)
-                {
-                    await e.Channel.SendMessage("💢 Role not found.").ConfigureAwait(false);
-                    return;
-                }
-                var members = role.Members.Where(u => u.Status == UserStatus.Online); // only online
-                var membersArray = members as User[] ?? members.ToArray();
-                var usr = membersArray[new Random().Next(0, membersArray.Length)];
-                await e.Channel.SendMessage($"**Raffled user:** {usr.Name} (id: {usr.Id})").ConfigureAwait(false);
-            };
-        }
     }
 }
