@@ -34,11 +34,12 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 
         public int WinRequirement { get; } = 10;
 
-        public TriviaGame(CommandEventArgs e, bool showHints)
+        public TriviaGame(CommandEventArgs e, bool showHints, int winReq = 10)
         {
             ShowHints = showHints;
             server = e.Server;
             channel = e.Channel;
+            WinRequirement = winReq;
             Task.Run(StartGame);
         }
 
