@@ -29,6 +29,7 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new Remind(this));
             commands.Add(new InfoCommands(this));
             commands.Add(new CustomReactionsCommands(this));
+            commands.Add(new AutoAssignRole(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
@@ -910,6 +911,7 @@ namespace NadekoBot.Modules.Administration
 
                         await e.Channel.SendMessage(":ok:");
                     });
+
             });
         }
 
