@@ -176,6 +176,14 @@ Order By mp.DateAdded desc
 Limit 20 OFFSET ?", num * 20);
             }
         }
+
+        internal IEnumerable<CurrencyState> GetTopRichest(int n = 10)
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                return conn.Table<CurrencyState>().Take(n).ToList().OrderBy(cs => -cs.Value);
+            }
+        }
     }
 }
 

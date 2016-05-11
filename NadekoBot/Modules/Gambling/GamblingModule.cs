@@ -2,10 +2,12 @@
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
+using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling
@@ -113,6 +115,26 @@ namespace NadekoBot.Modules.Gambling
                         FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "leaderboard")
+                    .Alias(Prefix + "lb")
+                    .Do(async e =>
+                    {
+                        var richestTemp = DbHandler.Instance.GetTopRichest();
+                        var richest = richestTemp as CurrencyState[] ?? richestTemp.ToArray();
+                        if (richest.Length == 0)
+                            return;
+                        await e.Channel.SendMessage(
+                            richest.Aggregate(new StringBuilder(
+$@"```xl
+┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃        Id         ┃  $$$  ┃
+"),
+                            (cur, cs) => cur.AppendLine(
+$@"┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━┫
+┃{cs.UserId,-18} ┃ {cs.Value,5} ┃")
+                                ).ToString() + "┗━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```");
                     });
             });
         }
