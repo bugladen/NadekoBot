@@ -50,7 +50,8 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "$$")
-                    .Description(string.Format("Check how much {0}s you have.", NadekoBot.Config.CurrencyName))
+                    .Description(string.Format("Check how much {0}s a person has. (Defaults to yourself)\n**Usage**:`{1}$$` or `{1}$$ @Someone`",
+                        NadekoBot.Config.CurrencyName, Prefix))
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
                     {

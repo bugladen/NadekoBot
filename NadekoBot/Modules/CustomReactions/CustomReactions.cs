@@ -12,6 +12,21 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public override string Prefix { get; } = "";
 
+        Random rng = new Random();
+
+        private Dictionary<string, Func<CommandEventArgs, string>> commandFuncs;
+
+        public CustomReactionsModule()
+        {
+            commandFuncs = new Dictionary<string, Func<CommandEventArgs, string>>
+                 {
+                    {"%rng%", (e) =>  rng.Next().ToString()},
+                    {"%mention%", (e) => NadekoBot.BotMention },
+                    {"%user%", e => e.User.Mention },
+                    {"%target%", e => e.GetArg("args")?.Trim() ?? "" },
+                 };
+        }
+
         public override void Install(ModuleManager manager)
         {
 
@@ -19,14 +34,6 @@ namespace NadekoBot.Modules.CustomReactions
              {
 
                  cgb.AddCheck(PermissionChecker.Instance);
-                 Random range = new Random();
-                 Dictionary<string, Func<CommandEventArgs, string>> commandFuncs = new Dictionary<string, Func<CommandEventArgs, string>>
-                 {
-                    {"%rng%", (e) =>  range.Next().ToString()},
-                    {"%mention%", (e) => NadekoBot.BotMention },
-                    {"%user%", e => e.User.Mention },
-                    {"%target%", e => e.GetArg("args")?.Trim() ?? "" },
-                 };
 
                  foreach (var command in NadekoBot.Config.CustomReactions)
                  {
@@ -39,7 +46,7 @@ namespace NadekoBot.Modules.CustomReactions
                          .Parameter("args", ParameterType.Unparsed)
                          .Do(async e =>
                           {
-                              string str = command.Value[range.Next(0, command.Value.Count())];
+                              string str = command.Value[rng.Next(0, command.Value.Count())];
                               commandFuncs.Keys.ForEach(k => str = str.Replace(k, commandFuncs[k](e)));
                               await e.Channel.SendMessage(str).ConfigureAwait(false);
                           });
