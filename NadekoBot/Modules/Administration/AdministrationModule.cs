@@ -946,6 +946,25 @@ namespace NadekoBot.Modules.Administration
                         await e.Channel.SendMessage(":ok:");
                     });
 
+                cgb.CreateCommand(Prefix + "whoplays")
+                    .Description("Shows a list of users who are playing the specified game")
+                    .Parameter("game")
+                    .Do(async e =>
+                    {
+                        var game = e.GetArg("game").Trim().ToUpperInvariant();
+                        var en = e.Server.Users
+                            .Where(u => u.CurrentGame?.ToUpperInvariant() == game)
+                                .Select(u => $"{u.Name}");
+
+                        var arr = en as string[] ?? en.ToArray();
+
+                        if (arr.Length == 0)
+                            await e.Channel.SendMessage("Nobody. (not 100% sure)");
+                        else
+                            await e.Channel.SendMessage("• " + string.Join("\n• ", arr));
+
+                    });
+
             });
         }
 

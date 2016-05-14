@@ -95,10 +95,12 @@ namespace NadekoBot.Modules.Music.Classes
                             Console.WriteLine($"Exception in PlaySong: {ex}");
                         }
                         OnCompleted(this, curSong);
-                        if (RepeatSong)
-                            playlist.Insert(0, curSong);
-                        else if (RepeatPlaylist)
-                            playlist.Insert(playlist.Count, curSong);
+                        curSong = CurrentSong; //to check if its null now
+                        if (curSong != null)
+                            if (RepeatSong)
+                                playlist.Insert(0, curSong);
+                            else if (RepeatPlaylist)
+                                playlist.Insert(playlist.Count, curSong);
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                     }
