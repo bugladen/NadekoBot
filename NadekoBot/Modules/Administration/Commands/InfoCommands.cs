@@ -83,8 +83,13 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     var sb = new StringBuilder();
                     sb.AppendLine($"`Name#Discrim:` **#{user.Name}#{user.Discriminator}**");
+                    if (!string.IsNullOrWhiteSpace(user.Nickname))
+                        sb.AppendLine($"`Nickname:` **{user.Nickname}**");
                     sb.AppendLine($"`Id:` **{user.Id}**");
                     sb.AppendLine($"`Current Game:` **{(string.IsNullOrWhiteSpace(user.CurrentGame) ? "-" : user.CurrentGame)}**");
+                    sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
+                    if (user.LastOnlineAt != null)
+                        sb.AppendLine($"`Last Online:` **{user.LastOnlineAt:HH:mm:ss}**");
                     sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
                     sb.AppendLine($"`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**");
                     sb.AppendLine($"`AvatarUrl:` **{await user.AvatarUrl.ShortenUrl().ConfigureAwait(false)}**");
