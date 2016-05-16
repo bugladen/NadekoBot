@@ -87,7 +87,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         sb.AppendLine($"`Nickname:` **{user.Nickname}**");
                     sb.AppendLine($"`Id:` **{user.Id}**");
                     sb.AppendLine($"`Current Game:` **{(string.IsNullOrWhiteSpace(user.CurrentGame) ? "-" : user.CurrentGame)}**");
-                    sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
                     if (user.LastOnlineAt != null)
                         sb.AppendLine($"`Last Online:` **{user.LastOnlineAt:HH:mm:ss}**");
                     sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
