@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -166,7 +167,18 @@ namespace NadekoBot.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static async Task<string> ShortenUrl(this string str) => await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
+        public static async Task<string> ShortenUrl(this string str)
+        {
+            try
+            {
+                var result = await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
+                return result;
+            }
+            catch (WebException)
+            {
+                throw new InvalidOperationException("You must enable URL shortner in google developers console.");
+            }
+        }
 
         /// <summary>
         /// Gets the program runtime
