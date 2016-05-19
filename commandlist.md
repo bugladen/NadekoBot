@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5973.39686`
+Version: `NadekoBot v0.9.5983.34181`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -33,15 +33,18 @@ Command and aliases | Description | Usage
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
+`.remindmsg`  |  Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Owner only!**
 `.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
 `.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
 `.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
 `.addcustomreaction`, `.acr`  |  Add a custom reaction. **Owner Only!** |  .acr "hello" I love saying hello to %user%
 `.listcustomreactions`, `.lcr`  |  Lists all current custom reactions (paginated with 5 commands per page). | .lcr 1
 `.deletecustomreaction`, `.dcr`  |  Deletes a custome reaction with given name (and index)
+`.aar`, `.autoassignrole`  |  Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable
 `.restart`  |  Restarts the bot. Might not work.
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
+`.renr`, `.renamerole`  |  Renames a role. Role you are renaming must be lower than bot's highest role. |  `.renr "First role" SecondRole`
 `.rar`, `.removeallroles`  |  Removes all roles from a mentioned user. |  .rar @User
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  `.r Awesome Role`
 `.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  `.color Admin 255 200 100` or `.color Admin ffba55`
@@ -73,8 +76,7 @@ Command and aliases | Description | Usage
 `.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**
 `.commsserver`  |  Sets a server for through-bot communication. **Owner Only!**
 `.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Owner Only!**
-`.send`  |  Send a message to someone on a different server through the bot. **Owner Only!**
-  |  .send Message text multi word!
+`.send`  |  Send a message to someone on a different server through the bot. **Owner Only!** |  .send Message text multi word!
 `.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.
 `.parsetosql`  |  Loads exported parsedata from /data/parsedata/ into sqlite database.
 `.unstuck`  |  Clears the message queue. **Owner Only!**
@@ -82,6 +84,7 @@ Command and aliases | Description | Usage
 `.adddon`, `.donadd`  |  Add a donator to the database.
 `.videocall`  |  Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Owner Only!** |  .announce Useless spam
+`.whoplays`  |  Shows a list of users who are playing the specified game
 
 ### Help  
 Command and aliases | Description | Usage
@@ -102,7 +105,7 @@ Command and aliases | Description | Usage
 `;afw`, `;addfilteredword`  |  Adds a new word to the list of filtered words |  ;afw poop
 `;rfw`, `;removefilteredword`  |  Removes the word from the list of filtered words |  ;rw poop
 `;lfw`, `;listfilteredwords`  |  Shows a list of filtered words |  ;lfw
-`;sfw`, `;serverfilterwords`  |  Enables or disables automatic deleting of messages containing forbidden words on the server. |  ;sfi disable
+`;sfw`, `;serverfilterwords`  |  Enables or disables automatic deleting of messages containing forbidden words on the server. |  ;sfw disable
 `;permrole`, `;pr`  |  Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.
 `;rpc`, `;rolepermissionscopy`  |  Copies BOT PERMISSIONS (not discord permissions) from one role to another. | `;rpc Some Role ~ Some other role`
 `;cpc`, `;channelpermissionscopy`  |  Copies BOT PERMISSIONS (not discord permissions) from one channel to another. | `;cpc Some Channel ~ Some other channel`
@@ -130,7 +133,7 @@ Command and aliases | Description | Usage
 `;uubl`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
 `;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
 `;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl [channel_mention]
-`;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;usl [servername/serverid]
+`;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;sbl [servername/serverid]
 
 ### Conversations  
 Command and aliases | Description | Usage
@@ -165,15 +168,16 @@ Command and aliases | Description | Usage
 `$roll`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
-`$$$`  |  Check how much NadekoFlowers you have.
+`$$$`  |  Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @Someone`
 `$give`  |  Give someone a certain amount of NadekoFlowers
 `$award`  |  Gives someone a certain amount of flowers. **Owner only!**
 `$take`  |  Takes a certain amount of flowers from someone. **Owner only!**
+`$leaderboard`, `$lb`  |  
 
 ### Games  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>t`  |  Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins. 30 seconds per question. | `>t nohint`
+`>t`  |  Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question. | `>t nohint` or `>t 5 nohint`
 `>tl`  |  Shows a current trivia leaderboard.
 `>tq`  |  Quits current trivia after current question.
 `>typestart`  |  Starts a typing contest.
