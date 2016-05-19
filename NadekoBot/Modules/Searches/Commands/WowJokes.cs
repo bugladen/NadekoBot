@@ -1,31 +1,35 @@
-﻿using NadekoBot.Classes;
+﻿using Discord.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Classes.JSONModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Discord.Commands;
-using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class WowJokes : DiscordCommand
+    class WowJokeCommand : DiscordCommand
     {
-        public WowJokes(DiscordModule module) : base(module)
+
+        List<WoWJoke> jokes = new List<WoWJoke>();
+
+        public WowJokeCommand(DiscordModule module) : base(module)
         {
         }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-            List<WowJokes> Jokes = new List<WowJokes>();
 
             cgb.CreateCommand(Module.Prefix + "wowjoke")
                 .Description("Get one of Kwoth's penultimate WoW jokes.")
                 .Do(async e =>
                 {
-                    if (!Jokes.Any())
-                    {                       
-                        Jokes = JsonConvert.DeserializeObject<List<WowJokes>>("data/wowjokes.json");
+                    if (!jokes.Any())
+                    {
+                        jokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
                     }
-                    await e.Channel.SendMessage(Jokes[new Random().Next(0, Jokes.Count)].ToString());
+                    await e.Channel.SendMessage(jokes[new Random().Next(0, jokes.Count)].ToString());
                 });
         }
     }
