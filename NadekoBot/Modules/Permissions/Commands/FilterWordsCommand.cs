@@ -152,7 +152,7 @@ namespace NadekoBot.Modules.Permissions.Commands
 
             cgb.CreateCommand(Module.Prefix + "sfw")
                 .Alias(Module.Prefix + "serverfilterwords")
-                .Description("Enables or disables automatic deleting of messages containing forbidden words on the server.\n**Usage**: ;sfi disable")
+                .Description("Enables or disables automatic deleting of messages containing forbidden words on the server.\n**Usage**: ;sfw disable")
                 .Parameter("bool")
                 .Do(async e =>
                 {

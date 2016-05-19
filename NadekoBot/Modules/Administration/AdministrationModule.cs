@@ -800,7 +800,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "send")
-                    .Description("Send a message to someone on a different server through the bot. **Owner Only!**\n **Usage**: .send Message text multi word!")
+                    .Description("Send a message to someone on a different server through the bot. **Owner Only!**\n**Usage**: .send Message text multi word!")
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
