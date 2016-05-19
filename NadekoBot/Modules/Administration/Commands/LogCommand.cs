@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     return;
                 await ch.SendMessage(
 $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
-👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -183,7 +183,7 @@ $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
                     return;
                 await ch.SendMessage(
 $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
-👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text}").ConfigureAwait(false);
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
             }
             catch { }
         }
@@ -199,8 +199,8 @@ $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
                 await ch.SendMessage(
 $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}`
-        `Old:` {e.Before.Text}
-        `New:` {e.After.Text}").ConfigureAwait(false);
+        `Old:` {e.Before.Text.Unmention()}
+        `New:` {e.After.Text.Unmention()}").ConfigureAwait(false);
             }
             catch { }
         }

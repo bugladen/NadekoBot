@@ -303,5 +303,7 @@ namespace NadekoBot.Extensions
         /// <returns>Merged bitmap</returns>
         public static async Task<Bitmap> MergeAsync(this IEnumerable<Image> images, int reverseScaleFactor = 1) =>
             await Task.Run(() => images.Merge(reverseScaleFactor)).ConfigureAwait(false);
+
+        public static string Unmention(this string str) => str.Replace("@", "ම");
     }
 }
