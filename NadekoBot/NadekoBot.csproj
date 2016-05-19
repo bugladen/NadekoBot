@@ -133,6 +133,7 @@
     <Compile Include="Classes\IncidentsHandler.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
+    <Compile Include="Modules\Searches\Commands\WowJokes.cs" />
     <Compile Include="_Models\JSONModels\LocalizedStrings.cs" />
     <Compile Include="_Models\JSONModels\MagicItem.cs" />
     <Compile Include="_Models\JSONModels\MangaResult.cs" />

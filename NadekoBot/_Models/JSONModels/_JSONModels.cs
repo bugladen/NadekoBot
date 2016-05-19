@@ -99,6 +99,16 @@ namespace NadekoBot.Classes.JSONModels
         public bool Missing { get; set; } = false;
         public string FullUrl { get; set; }
     }
+	
+	public class WoWJoke
+    {
+        public string Question { get; set; }
+        public string Answer { get; set; }
+        public override string ToString()
+        {
+            return $"**{Question}**\n\n{Answer}!";
+        }
+    }
 }
 
 //{
