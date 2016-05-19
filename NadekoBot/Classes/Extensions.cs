@@ -174,9 +174,9 @@ namespace NadekoBot.Extensions
                 var result = await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
                 return result;
             }
-            catch (WebException)
+            catch (WebException ex)
             {
-                throw new InvalidOperationException("You must enable URL shortner in google developers console.");
+                throw new InvalidOperationException("You must enable URL shortner in google developers console.", ex);
             }
         }
 
