@@ -23,8 +23,7 @@ ________________________________________________________________________________
 - **Follow for textual guidelines:** Go here https://discordapp.com/developers/applications/me
 - Log in with your Discord account. Press **New Application** and fill out an **App Name** and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on **Create a Bot User** and confirm it. You will then see the bot's username, ID and token. Reveal and copy the **token** and the **bot ID** *(one by one xD)*.
 - Open up `credentials.json` with **NotePad++** Paste the **token** into the **Token** field, between the `"quotes"`. Paste the **Bot ID** into the **BotID** field, when done, *Save* and *close* `credentials.json`
-- Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json. [REFERENCE IMAGE](https://cdn.discordapp.com/attachments/117523346618318850/178813495872192513/unknown.png)
-**To Invite your bot to your server:**
+- **To Invite your bot to your server:**
 - Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: 
 https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303 with it. Go to that link and you will be able to add your bot to your server.
 - Start NadekoBot.exe. In a text channel, **not a direct message**, type in [.uid @______] without the brackets, filling in the underlined portion with your name and send the message. Your bot will reply with a number; this is your ID. Copy this ID and close NadekoBot.exe.   
@@ -39,6 +38,7 @@ ________________________________________________________________________________
 2) Soundcloud Account (if you want soundcloud support)
 - Download FFMPEG through the link (https://ffmpeg.zeranoe.com/builds/).
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\\ffmpeg\\bin**). Save and close.
+- Windows10 user follow this image [REFERENCE IMAGE](https://cdn.discordapp.com/attachments/117523346618318850/178813495872192513/unknown.png)
 - Go to console.developers.google.com and log in.
 - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
 - Under the "Other Popular APIs" section, enable "URL Shortener API". Under the "YouTube APIs" section, enable "YouTube Data API".
