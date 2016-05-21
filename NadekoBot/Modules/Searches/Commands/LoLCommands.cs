@@ -293,7 +293,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                   .Do(async e =>
                   {
 
-                      var showCount = 12;
+                      var showCount = 8;
                       //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
                       try
                       {
@@ -304,7 +304,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                                           $"api_key={NadekoBot.Creds.LOLAPIKey}&page=1&" +
                                                           $"limit={showCount}")
                                                           .ConfigureAwait(false))["data"] as JArray;
-                          var dataList = data.Distinct(new ChampionNameComparer()).Take(8).ToList();
+                          var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
                           var sb = new StringBuilder();
                           sb.AppendLine($"**Showing {showCount} top banned champions.**");
                           sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
