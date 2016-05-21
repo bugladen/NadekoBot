@@ -76,6 +76,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("..qdel")
+                    .Alias("..quotedelete")
                     .Description("Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.\n**Usage**: `..qdel abc`")
                     .Parameter("quote", ParameterType.Required)
                     .Do(async e =>
