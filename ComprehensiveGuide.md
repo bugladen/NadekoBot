@@ -48,7 +48,7 @@ ________________________________________________________________________________
 
 ________________________________________________________________________________
 
-#### Setting Up NadekoBot Permissions:
+#### Setting Up NadekoBot Permissions
 ###### NadekoBot's permissions can be set up to be very specific through commands in the Permissions module.  
 Each command or module can be turned on or off at: 
 - a user level (so specific users can or cannot use a command/module)  
