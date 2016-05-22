@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5983.34181`
+Version: `NadekoBot v0.9.5986.42408`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -37,7 +37,7 @@ Command and aliases | Description | Usage
 `.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
 `.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
 `.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
-`.addcustomreaction`, `.acr`  |  Add a custom reaction. **Owner Only!** |  .acr "hello" I love saying hello to %user%
+`.addcustomreaction`, `.acr`  |  Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Owner Only!**   |  .acr "hello" I love saying hello to %user%
 `.listcustomreactions`, `.lcr`  |  Lists all current custom reactions (paginated with 5 commands per page). | .lcr 1
 `.deletecustomreaction`, `.dcr`  |  Deletes a custome reaction with given name (and index)
 `.aar`, `.autoassignrole`  |  Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable
@@ -78,13 +78,14 @@ Command and aliases | Description | Usage
 `.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Owner Only!**
 `.send`  |  Send a message to someone on a different server through the bot. **Owner Only!** |  .send Message text multi word!
 `.menrole`, `.mentionrole`  |  Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.
+`.inrole`  |  Lists every person from the provided role or roles (separated by a ',') on this server.
 `.parsetosql`  |  Loads exported parsedata from /data/parsedata/ into sqlite database.
 `.unstuck`  |  Clears the message queue. **Owner Only!**
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.adddon`, `.donadd`  |  Add a donator to the database.
 `.videocall`  |  Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Owner Only!** |  .announce Useless spam
-`.whoplays`  |  Shows a list of users who are playing the specified game
+`.whoplays`  |  Shows a list of users who are playing the specified game.
 
 ### Help  
 Command and aliases | Description | Usage
@@ -140,6 +141,7 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
 `...`  |  Shows a random quote with a specified name. |  .. abc
+`..qdel`, `..quotedelete`  |  Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. |  `..qdel abc`
 `@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
 `@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
 `@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
@@ -191,7 +193,7 @@ Command and aliases | Description | Usage
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
-`>linux`  |  Prints a customizable Linux interjection
+`>linux`  |  Prints a customizable Linux interjection |  `>linux Spyware Windows`
 
 ### Music  
 Command and aliases | Description | Usage
@@ -236,6 +238,7 @@ Command and aliases | Description | Usage
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~convert`  |  Convert quantities from>to. Like `~convert m>km 1000`
 `~convertlist`  |  List of the convertable dimensions and currencies.
+`~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes.
 `~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
