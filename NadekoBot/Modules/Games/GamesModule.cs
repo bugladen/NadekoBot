@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games
                     });
 
                 cgb.CreateCommand(Prefix + "linux")
-                    .Description("Prints a customizable Linux interjection")
+                    .Description($"Prints a customizable Linux interjection\n**Usage**: `{Prefix}linux Spyware Windows`")
                     .Parameter("gnu", ParameterType.Required)
                     .Parameter("linux", ParameterType.Required)
                     .Do(async e =>
