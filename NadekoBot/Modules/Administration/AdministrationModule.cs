@@ -947,11 +947,13 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "whoplays")
-                    .Description("Shows a list of users who are playing the specified game")
-                    .Parameter("game")
+                    .Description("Shows a list of users who are playing the specified game.")
+                    .Parameter("game", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var game = e.GetArg("game").Trim().ToUpperInvariant();
+                        var game = e.GetArg("game")?.Trim().ToUpperInvariant();
+                        if (string.IsNullOrWhiteSpace(game))
+                            return;
                         var en = e.Server.Users
                             .Where(u => u.CurrentGame?.ToUpperInvariant() == game)
                                 .Select(u => $"{u.Name}");
