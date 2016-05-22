@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "deletecustomreaction")
                 .Alias(Prefix + "dcr")
-                .Description("Deletes a custome reaction with given name (and index)")
+                .Description("Deletes a custom reaction with given name (and index)")
                 .Parameter("name", ParameterType.Required)
                 .Parameter("index", ParameterType.Optional)
                 .AddCheck(SimpleCheckers.OwnerOnly())
