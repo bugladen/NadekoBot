@@ -19,7 +19,7 @@ ________________________________________________________________________________
 - Open it and head over to https://github.com/Kwoth/NadekoBot/blob/master/README.md to setup credentials or just check it out for your knowledge.
 - **For Basic Credentials Setup:**
 - Rename `credentials_example.json ` into `credentials.json ` (Note: If you do not see a **.json** after `credentials_example.json `, do not add the **.json**. `You are most likely to have "Hide file extensions" as enabled. `)
-- **Go to:** http://discord.kongslien.net/guide.html **for detailed guidance with screenshots.**
+- **Go to:** http://discord.kongslien.net/guide.html **for detailed guidance with screenshots.** or :arrow_down:
 - **Follow for textual guidelines:** Go here https://discordapp.com/developers/applications/me
 - Log in with your Discord account. Press **New Application** and fill out an **App Name** and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on **Create a Bot User** and confirm it. You will then see the bot's username, ID and token. Reveal and copy the **token** and the **bot ID** *(one by one xD)*.
 - Open up `credentials.json` with **NotePad++** Paste the **token** into the **Token** field, between the `"quotes"`. Paste the **Bot ID** into the **BotID** field, when done, *Save* and *close* `credentials.json`
