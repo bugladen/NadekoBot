@@ -12,13 +12,13 @@ ________________________________________________________________________________
 - Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
 - You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
 - Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
-- You can try the stable release, but its better to get the newest release if you want all features upgrades. So for that press `2 ` and hit `Enter ` (read everything shows up in screen)
-- It should ask you `Are you sure you want to update?` for that type `y ` and hit `Enter ` 
+- You can try the stable release, but its better to get the newest release if you want all features upgrades. So for that press `2 ` and hit `Enter ` (read everything shows up on screen)
+- It should ask you `Are you sure you want to update?` and for that type `y ` and hit `Enter ` 
 - It should complete downloading (should take a while) and you can type `3 ` and hit `Enter ` and close it.
 - You should now see a new folder `NadekoBot ` inside our `Nadeko ` folder.
-- Open it and head over to https://github.com/Kwoth/NadekoBot/blob/master/README.md to setup credentials completely.
+- Open it and head over to https://github.com/Kwoth/NadekoBot/blob/master/README.md to setup credentials or just check it out for your knowledge.
 - **For Basic Credentials Setup:**
-- Rename credentials_example.json into credentials.json. (Note: If you do not see a .json after credentials_example.json, do not add the .json. You likely have "Hide file extensions" as enabled.)
+- Rename `credentials_example.json ` into `credentials.json ` (Note: If you do not see a **.json** after `credentials_example.json `, do not add the **.json**. `You are most likely to have "Hide file extensions" as enabled. `)
 - **Go to:** http://discord.kongslien.net/guide.html **for detailed guidance with screenshots.**
 - **Follow for textual guidelines:** Go here https://discordapp.com/developers/applications/me
 - Log in with your Discord account. Press **New Application** and fill out an **App Name** and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on **Create a Bot User** and confirm it. You will then see the bot's username, ID and token. Reveal and copy the **token** and the **bot ID** *(one by one xD)*.
