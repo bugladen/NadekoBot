@@ -845,6 +845,37 @@ namespace NadekoBot.Modules.Administration
                         }).ConfigureAwait(false);
                     });
 
+                cgb.CreateCommand(Prefix + "inrole")
+                    .Description("Lists every person from the provided role or roles (separated by a ',') on this server.")
+                    .Parameter("roles", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        await Task.Run(async () =>
+                        {
+                            if (!e.User.ServerPermissions.MentionEveryone) return;
+                            var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
+                            string send = $"`Here is a list of users in a specfic role:`";
+                            foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str)))
+                            {
+                                var role = e.Server.FindRoles(roleStr).FirstOrDefault();
+                                if (role == null) continue;
+                                send += $"\n`{role.Name}`\n";
+                                send += string.Join(", ", role.Members.Select(r => "**" + r.Name + "**#" + r.Discriminator));
+                            }
+
+                            while (send.Length > 2000)
+                            {
+                                var curstr = send.Substring(0, 2000);
+                                await
+                                    e.Channel.Send(curstr.Substring(0,
+                                        curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
+                                send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
+                                       send.Substring(2000);
+                            }
+                            await e.Channel.Send(send).ConfigureAwait(false);
+                        }).ConfigureAwait(false);
+                    });
+
                 cgb.CreateCommand(Prefix + "parsetosql")
                   .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
                   .AddCheck(SimpleCheckers.OwnerOnly())
