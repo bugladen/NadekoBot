@@ -2,18 +2,32 @@ ________________________________________________________________________________
 *Thanks to @Flatbread for making this guide*
 ________________________________________________________________________________
 
-#### Setting Up NadekoBot v0.93.2
+#### Setting Up NadekoBot v0.98
 ###### Prerequisites: 
 1) NET Framework 4.5.2 (or 4.6)
-- Download nadeko using updater https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0
-- Rename credentials_example.json into credentials.json. (Note: If you do not see a .json after credentials_example.json, do not add the .json. You likely have "Hide file extensions" as enabled.)
-- Go to (https://discordapp.com/developers/applications/me). Log in if you have to with your Discord account. Press "New Application" and fill out an App Name and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on "Create a Bot User" and confirm it. You will then see the bot's username, ID and token. Reveal and copy the token and the bot ID.
-- Open up credentials.json. Paste the token into the Token field, between the quotes. Paste the ID into the BotID field. Leave email and password fields empty. Save and close credentials.json.
-- Go into data folder and make sure you have config.json file. If there is no config.json, rename the config_example.json to config.json. [REFERENCE IMAGE](https://cdn.discordapp.com/attachments/117523346618318850/178813495872192513/unknown.png)
+- **Here is a video tutorial, thanks to @LawlyPopz for making it** :+1: http://pushzz.xyz/i/b7b63.mp4
+- Start with making a folder, lets name it `Nadeko`
+- Make sure you have **7zip** installed, if not then head to http://www.7-zip.org/download.html and download/install it.
+- Now head to https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0 and download `WINDOWS.-.nadeupdater.7z`
+- Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
+- You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
+- Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
+- You can try the stable release, but its better to get the newest release if you want all features upgrades. So for that press `2 ` and hit `Enter ` (read everything shows up on screen)
+- It should ask you `Are you sure you want to update?` and for that type `y ` and hit `Enter ` 
+- It should complete downloading (should take a while) and you can type `3 ` and hit `Enter ` and close it.
+- You should now see a new folder `NadekoBot ` inside our `Nadeko ` folder.
+- Open it and head over to https://github.com/Kwoth/NadekoBot/blob/master/README.md to setup credentials or just check it out for your knowledge.
+- **For Basic Credentials Setup:**
+- Rename `credentials_example.json ` into `credentials.json ` (Note: If you do not see a **.json** after `credentials_example.json `, do not add the **.json**. `You are most likely to have "Hide file extensions" as enabled. `)
+- **Go to:** http://discord.kongslien.net/guide.html **for detailed guidance with screenshots.** or :arrow_down:
+- **Follow for textual guidelines:** Go here https://discordapp.com/developers/applications/me
+- Log in with your Discord account. Press **New Application** and fill out an **App Name** and, optionally, an app description and icon. Afterwards, create the application. Once the application is created, click on **Create a Bot User** and confirm it. You will then see the bot's username, ID and token. Reveal and copy the **token** and the **bot ID** *(one by one xD)*.
+- Open up `credentials.json` with **NotePad++** Paste the **token** into the **Token** field, between the `"quotes"`. Paste the **Bot ID** into the **BotID** field, when done, *Save* and *close* `credentials.json`
+- **To Invite your bot to your server:**
 - Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: 
-https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303 with it. Go to that link and you will be able to add your bot to your server.
+`https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303 ` with it. Go to that link and you will be able to add your bot to your server.
 - Start NadekoBot.exe. In a text channel, **not a direct message**, type in [.uid @______] without the brackets, filling in the underlined portion with your name and send the message. Your bot will reply with a number; this is your ID. Copy this ID and close NadekoBot.exe.   
-- Reopen credentials.json. Paste your ID into the square brackets ("OwnerIds": [1231312313]). You can add multiple owners by separating IDs with a comma. Close and save credentials.json.  
+- Reopen credentials.json. Paste your ID into the square brackets ("OwnerIds": [1231312313]). **Just paste/replace your ID with existing and keep the default format intact, you don't need to add extra space or anything else.** You can add multiple owners by separating IDs with a comma. Close and save credentials.json.  
 
 
 ________________________________________________________________________________
