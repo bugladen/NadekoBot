@@ -44,16 +44,16 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Prefix + "listcustomreactions")
-            .Alias(Prefix + "lcr")
-            .Description($"Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:{Prefix}lcr 1")
-            .Parameter("num", ParameterType.Required)
-            .Do(async e =>
-            {
-                int num;
-                if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) return;
-                string result = GetCustomsOnPage(num - 1); //People prefer starting with 1
-                await e.Channel.SendMessage(result);
-            });
+                .Alias(Prefix + "lcr")
+                .Description($"Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:{Prefix}lcr 1")
+                .Parameter("num", ParameterType.Required)
+                .Do(async e =>
+                {
+                    int num;
+                    if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) return;
+                    string result = GetCustomsOnPage(num - 1); //People prefer starting with 1
+                    await e.Channel.SendMessage(result);
+                });
 
             cgb.CreateCommand(Prefix + "deletecustomreaction")
                 .Alias(Prefix + "dcr")
