@@ -12,9 +12,9 @@ ________________________________________________________________________________
 - Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
 - You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
 - Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
-- You can try the stable release, but its better to get the newest release if you want all features upgrades. So for that press `2 ` and hit `Enter ` (read everything shows up on screen)
+- You can try the stable release, but its better to get the newest release if you want all features/upgrades. So for that press `2 ` and hit `Enter ` (read everything shows up on screen)
 - It should ask you `Are you sure you want to update?` and for that type `y ` and hit `Enter ` 
-- It should complete downloading (should take a while) and you can type `3 ` and hit `Enter ` and close it.
+- It should complete downloading (might take a while) and you can type `3 ` and hit `Enter ` and close it.
 - You should now see a new folder `NadekoBot ` inside our `Nadeko ` folder.
 - Open it and head over to https://github.com/Kwoth/NadekoBot/blob/master/README.md to setup credentials or just check it out for your knowledge.
 - **For Basic Credentials Setup:**
