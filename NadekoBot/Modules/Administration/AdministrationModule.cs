@@ -986,7 +986,7 @@ namespace NadekoBot.Modules.Administration
                         if (string.IsNullOrWhiteSpace(game))
                             return;
                         var en = e.Server.Users
-                            .Where(u => u.CurrentGame?.ToUpperInvariant() == game)
+                            .Where(u => u.CurrentGame?.Name.ToUpperInvariant() == game)
                                 .Select(u => $"{u.Name}");
 
                         var arr = en as string[] ?? en.ToArray();
