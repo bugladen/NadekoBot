@@ -995,7 +995,6 @@ namespace NadekoBot.Modules.Administration
                             await e.Channel.SendMessage("Nobody. (not 100% sure)");
                         else
                             await e.Channel.SendMessage("• " + string.Join("\n• ", arr));
-
                     });
 
             });
