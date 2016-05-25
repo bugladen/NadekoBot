@@ -372,7 +372,7 @@ namespace NadekoBot.Modules.Permissions
                     .Description("Sets a module's permission at the channel level.\n**Usage**: ;cm [module_name] enable [channel_name]")
                     .Do(async e =>
                     {
-                         try
+                        try
                         {
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
@@ -391,7 +391,7 @@ namespace NadekoBot.Modules.Permissions
                                 await e.Channel.SendMessage($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{e.Channel.Name}** channel.").ConfigureAwait(false);
                             }
                             else
-                            {                                
+                            {
                                 var channel = PermissionHelper.ValidateChannel(e.Server, channelArg);
 
                                 PermissionsHandler.SetChannelModulePermission(channel, module, state);
@@ -560,7 +560,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var chArg = e.GetArg("channel");
-                            var channel = string.IsNullOrWhiteSpace(chArg) ? e.Channel :PermissionHelper.ValidateChannel(e.Server, chArg);
+                            var channel = string.IsNullOrWhiteSpace(chArg) ? e.Channel : PermissionHelper.ValidateChannel(e.Server, chArg);
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
                                 PermissionsHandler.SetChannelModulePermission(channel, module.Name, state);
@@ -701,7 +701,7 @@ namespace NadekoBot.Modules.Permissions
                    });
 
                 cgb.CreateCommand(Prefix + "cbl")
-                    .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;ubl [channel_mention]")
+                    .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;cbl [channel_mention]")
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e =>
                     {

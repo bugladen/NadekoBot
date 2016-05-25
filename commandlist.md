@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5987.230`
+Version: `NadekoBot v0.9.5989.40535`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -17,12 +17,14 @@ Command and aliases | Description | Usage
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Owner Only!**
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle. **Owner Only!**
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Owner Only!**
+`.repeatinvoke`, `.repinv`  |  Immediately shows the repeat message and restarts the timer.
 `.repeat`  |  Repeat a message every X minutes. If no parameters are specified, repeat is disabled. Requires manage messages. | `.repeat 5 Hello there`
 `.rotateplaying`, `.ropl`  |  Toggles rotation of playing status of the dynamic strings you specified earlier.
 `.addplaying`, `.adpl`  |  Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia%
 `.listplaying`, `.lipl`  |  Lists all playing statuses with their corresponding number.
 `.removeplaying`, `.repl`, `.rmpl`  |  Removes a playing string on a given number.
 `.slowmode`  |  Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.
+`.cleanv+t`  |  Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.**
 `.v+t`, `.voice+text`  |  Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.
 `.scsc`  |  Starts an instance of cross server channel. You will get a token as a DMthat other people will use to tune in to the same instance
 `.jcsc`  |  Joins current channel to an instance of cross server channel using the token.
@@ -132,7 +134,7 @@ Command and aliases | Description | Usage
 `;arc`, `;allrolecommands`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [role_name]
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
 `;uubl`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
-`;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;ubl [channel_mention]
+`;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;cbl [channel_mention]
 `;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl [channel_mention]
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;sbl [servername/serverid]
 
