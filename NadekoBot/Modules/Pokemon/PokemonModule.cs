@@ -292,7 +292,7 @@ namespace NadekoBot.Modules.Pokemon
                         var targetType = stringToPokemonType(targetTypeStr);
                         if (targetType == null)
                         {
-                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL").ConfigureAwait(false);
+                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\n" + string.Join(", ", NadekoBot.Config.PokemonTypes.Select(t => t.Name.ToUpperInvariant()))).ConfigureAwait(false);
                             return;
                         }
                         if (targetType == GetPokeType(e.User.Id))
