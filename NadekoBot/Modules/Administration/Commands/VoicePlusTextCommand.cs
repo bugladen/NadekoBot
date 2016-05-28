@@ -6,6 +6,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
 namespace NadekoBot.Modules.Administration.Commands
@@ -91,12 +92,26 @@ namespace NadekoBot.Modules.Administration.Commands
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .Do(async e =>
                 {
+                    if (!e.Server.CurrentUser.ServerPermissions.ManageChannels)
+                    {
+                        await e.Channel.SendMessage("`I have insufficient permission to do that.`");
+                        return;
+                    }
+
                     var allTxtChannels = e.Server.TextChannels.Where(c => c.Name.EndsWith("-voice"));
                     var validTxtChannelNames = e.Server.VoiceChannels.Select(c => GetChannelName(c.Name));
 
                     var invalidTxtChannels = allTxtChannels.Where(c => !validTxtChannelNames.Contains(c.Name));
 
-                    invalidTxtChannels.ForEach(async c => await c.Delete());
+                    foreach (var c in invalidTxtChannels)
+                    {
+                        try
+                        {
+                            await c.Delete();
+                        }
+                        catch { }
+                        await Task.Delay(500);
+                    }
 
                     await e.Channel.SendMessage("`Done.`");
                 });
