@@ -12,7 +12,9 @@ using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
 using NadekoBot.Modules.Help;
+#if !NADEKO_RELEASE
 using NadekoBot.Modules.Music;
+#endif
 using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.Modules.Permissions.Classes;
@@ -178,7 +180,9 @@ namespace NadekoBot
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
             modules.Add(new GamesModule(), "Games", ModuleFilter.None);
+#if !NADEKO_RELEASE
             modules.Add(new MusicModule(), "Music", ModuleFilter.None);
+#endif
             modules.Add(new SearchesModule(), "Searches", ModuleFilter.None);
             modules.Add(new NSFWModule(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClansModule(), "ClashOfClans", ModuleFilter.None);
@@ -211,8 +215,12 @@ namespace NadekoBot
                     Console.ReadKey();
                     return;
                 }
-
+#if NADEKO_RELEASE
+                await Task.Delay(100000).ConfigureAwait(false);
+#else
                 await Task.Delay(1000).ConfigureAwait(false);
+#endif
+
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");
