@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new StreamNotifications(this));
             commands.Add(new ConverterCommand(this));
             commands.Add(new RedditCommand(this));
-			commands.Add(new WowJokeCommand(this));
+            commands.Add(new WowJokeCommand(this));
             rng = new Random();
         }
 
@@ -187,9 +187,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                return;
                            try
                            {
-                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 150) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
+                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=50&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
-                               await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
+                               var items = obj["items"] as JArray;
+                               await e.Channel.SendMessage(items[rng.Next(0, items.Count)]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
                            {

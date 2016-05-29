@@ -227,36 +227,36 @@ namespace NadekoBot.Modules.Conversations
                 }
 
                 cgb.CreateCommand("slm")
-                                .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
-                                .Do(async e =>
-                                {
+                    .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
+                    .Do(async e =>
+                    {
 
-                                    Message msg = null;
-                                    var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false))
-                                    .Where(m => m.MentionedUsers.Contains(e.User))
-                                    .OrderByDescending(m => m.Timestamp);
-                                    if (msgs.Any())
-                                        msg = msgs.First();
-                                    else
-                                    {
-                                        var attempt = 0;
-                                        Message lastMessage = null;
-                                        while (msg == null && attempt++ < 5)
-                                        {
-                                            var msgsarr = await e.Channel.DownloadMessages(100, lastMessage?.Id).ConfigureAwait(false);
-                                            msg = msgsarr
-                                        .Where(m => m.MentionedUsers.Contains(e.User))
-                                        .OrderByDescending(m => m.Timestamp)
-                                        .FirstOrDefault();
-                                            lastMessage = msgsarr.OrderBy(m => m.Timestamp).First();
-                                        }
-                                    }
-                                    if (msg != null)
-                                        await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText}")
-                                           .ConfigureAwait(false);
-                                    else
-                                        await e.Channel.SendMessage("I can't find a message mentioning you.").ConfigureAwait(false);
-                                });
+                        Message msg = null;
+                        var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false))
+                        .Where(m => m.MentionedUsers.Contains(e.User))
+                        .OrderByDescending(m => m.Timestamp);
+                        if (msgs.Any())
+                            msg = msgs.First();
+                        else
+                        {
+                            var attempt = 0;
+                            Message lastMessage = null;
+                            while (msg == null && attempt++ < 5)
+                            {
+                                var msgsarr = await e.Channel.DownloadMessages(100, lastMessage?.Id).ConfigureAwait(false);
+                                msg = msgsarr
+                            .Where(m => m.MentionedUsers.Contains(e.User))
+                            .OrderByDescending(m => m.Timestamp)
+                            .FirstOrDefault();
+                                lastMessage = msgsarr.OrderBy(m => m.Timestamp).First();
+                            }
+                        }
+                        if (msg != null)
+                            await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText}")
+                                .ConfigureAwait(false);
+                        else
+                            await e.Channel.SendMessage("I can't find a message mentioning you.").ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand("hide")
                     .Description("Hides Nadeko in plain sight!11!!")
