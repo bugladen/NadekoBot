@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.Administration
                                 }
                                 try
                                 {
-                                    await e.Server.Ban(usr).ConfigureAwait(false);
+                                    await e.Server.Ban(usr, 7).ConfigureAwait(false);
 
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id).ConfigureAwait(false);
                                 }
@@ -986,7 +986,7 @@ namespace NadekoBot.Modules.Administration
                         if (string.IsNullOrWhiteSpace(game))
                             return;
                         var en = e.Server.Users
-                            .Where(u => u.CurrentGame?.Name.ToUpperInvariant() == game)
+                                .Where(u => u.CurrentGame?.Name?.ToUpperInvariant() == game)
                                 .Select(u => $"{u.Name}");
 
                         var arr = en as string[] ?? en.ToArray();
