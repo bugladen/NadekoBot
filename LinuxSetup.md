@@ -48,6 +48,11 @@ Note if the command is not be initiated, hit **Enter**
 <pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
 </code></pre>
 
+**2.5)**
+*ONLY DEBIAN 8 and later*
+<pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
+</code></pre>
+
 **3)**
 <pre><code class="language-bash">apt-get install mono-devel
 </code></pre>
