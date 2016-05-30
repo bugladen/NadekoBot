@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5989.40535`
+Version: `NadekoBot v0.9.5994.39626`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -240,6 +240,8 @@ Command and aliases | Description | Usage
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~convert`  |  Convert quantities from>to. Like `~convert m>km 1000`
 `~convertlist`  |  List of the convertable dimensions and currencies.
+`~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes.
+`~calculate`, `~calc`  |  Evaluate a mathematical expression. |  ~calc 1+1
 `~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes.
 `~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
 `~yt`  |  Searches youtubes and shows the first result
