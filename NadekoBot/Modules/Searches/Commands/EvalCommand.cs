@@ -29,7 +29,6 @@ namespace NadekoBot.Modules.Searches.Commands
             string expression = e.GetArg("expression")?.Trim();
             if (string.IsNullOrWhiteSpace(expression))
             {
-                await e.Channel.SendMessage("Must give expression");
                 return;
             }
             string answer = Evaluate(expression);
