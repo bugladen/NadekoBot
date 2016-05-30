@@ -1,15 +1,15 @@
-﻿using NadekoBot.Classes;
-using System;
+﻿using Discord.Commands;
 using Mathos.Parser;
-using System.Threading.Tasks;
-using Discord.Commands;
+using NadekoBot.Classes;
+using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class EvalCommand : DiscordCommand
+    class CalcCommand : DiscordCommand
     {
-        public EvalCommand(DiscordModule module) : base(module)
+        public CalcCommand(DiscordModule module) : base(module)
         {
         }
 
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 await e.Channel.SendMessage($"Expression {expression} failed to evaluate");
                 return;
             }
-            await e.Channel.SendMessage($"`result: {answer}`");
+            await e.Channel.SendMessage($"⚙ `{answer}`");
         };
 
         private string Evaluate(string expression)
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Searches.Commands
             }
         }
 
-        
+
 
         class CustomParser : MathParser
         {
@@ -71,8 +71,8 @@ namespace NadekoBot.Modules.Searches.Commands
 
             static decimal Factorial(decimal x)
             {
-                decimal y = x-1;
-                while (y >0)
+                decimal y = x - 1;
+                while (y > 0)
                 {
                     x = x * y--;
                 }

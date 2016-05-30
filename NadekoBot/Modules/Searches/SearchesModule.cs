@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new ConverterCommand(this));
             commands.Add(new RedditCommand(this));
 			commands.Add(new WowJokeCommand(this));
-            commands.Add(new EvalCommand(this));
+            commands.Add(new CalcCommand(this));
             commands.Add(new WowJokeCommand(this));
             rng = new Random();
         }
