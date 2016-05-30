@@ -166,9 +166,19 @@ namespace NadekoBot.Modules.Administration.Commands
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage(
-$@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
+                if (!string.IsNullOrWhiteSpace(e.Message.Text))
+                {
+                    await ch.SendMessage(
+    $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
+                }
+                else
+                {
+                    await ch.SendMessage(
+    $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
+                }
+
             }
             catch { }
         }
@@ -181,9 +191,18 @@ $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
                     return;
-                await ch.SendMessage(
-$@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
+                if (!string.IsNullOrWhiteSpace(e.Message.Text))
+                {
+                    await ch.SendMessage(
+    $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
+                }
+                else
+                {
+                    await ch.SendMessage(
+    $@"🕔`{prettyCurrentTime}` **File Deleted** `#{e.Channel.Name}`
+👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
+                }
             }
             catch { }
         }
