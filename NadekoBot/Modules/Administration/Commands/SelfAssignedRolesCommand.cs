@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Administration.Commands
         public SelfAssignedRolesCommand(DiscordModule module) : base(module) { }
         internal override void Init(CommandGroupBuilder cgb)
         {
-            cgb.CreateCommand(".asar")
+            cgb.CreateCommand(Module.Prefix + "asar")
                 .Description("Adds a role, or list of roles separated by whitespace" +
                              "(use quotations for multiword roles) to the list of self-assignable roles.\n**Usage**: .asar Gamer")
                 .Parameter("roles", ParameterType.Multiple)
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(".rsar")
+            cgb.CreateCommand(Module.Prefix + "rsar")
                 .Description("Removes a specified role from the list of self-assignable roles.")
                 .Parameter("role", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.CanManageRoles)
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(".lsar")
+            cgb.CreateCommand(Module.Prefix + "lsar")
                 .Description("Lits all self-assignable roles.")
                 .Parameter("roles", ParameterType.Multiple)
                 .Do(async e =>
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(".iam")
+            cgb.CreateCommand(Module.Prefix + "iam")
                 .Description("Adds a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
                              "\n**Usage**: .iam Gamer")
@@ -132,8 +132,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     catch { }
                 });
 
-            cgb.CreateCommand(".iamn")
-                .Alias(".iamnot")
+            cgb.CreateCommand(Module.Prefix + "iamn")
+                .Alias(Module.Prefix + "iamnot")
                 .Description("Removes a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
                              "\n**Usage**: .iamn Gamer")
