@@ -989,14 +989,13 @@ namespace NadekoBot.Modules.Administration
                                 .Where(u => u.CurrentGame?.Name?.ToUpperInvariant() == game)
                                 .Select(u => u.Name);
 
-
                         var arr = en as string[] ?? en.ToArray();
 
                         int i = 0;
                         if (arr.Length == 0)
                             await e.Channel.SendMessage("Nobody. (not 100% sure)");
                         else
-                            await e.Channel.SendMessage(string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join(" ", ig.Select(el => $"{el,-35}")))));
+                            await e.Channel.SendMessage(string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))));
                     });
 
             });
