@@ -720,11 +720,13 @@ namespace NadekoBot.Modules.Administration
                         var avatarAddress = e.GetArg("img");
                         var imageStream = await SearchHelper.GetResponseStreamAsync(avatarAddress).ConfigureAwait(false);
                         var image = System.Drawing.Image.FromStream(imageStream);
-                        // Save the image to disk.
-                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
                         await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream()).ConfigureAwait(false);
+
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.").ConfigureAwait(false);
+
+                        // Save the image to disk.
+                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
                     });
 
                 cgb.CreateCommand(Prefix + "setgame")
