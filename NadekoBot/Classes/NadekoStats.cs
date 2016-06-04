@@ -206,7 +206,7 @@ namespace NadekoBot
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
-            Console.WriteLine($">>Command {e.Command.Text}");
+            Console.WriteLine($">> Cmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
             await Task.Run(() =>
             {
                 try

@@ -29,13 +29,14 @@ namespace NadekoBot.Classes.Help.Commands
             }).ConfigureAwait(false);
         };
         public static string HelpString => (NadekoBot.IsBot
-                                           ? $"To add me to your server, use this link** -> <https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303>\n"
+                                           ? $"To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303>\n"
                                            : $"To invite me to your server, just send me an invite link here.") +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
                                            $"You can use `{NadekoBot.Config.CommandPrefixes.Help}commands ModuleName`" +
                                            $" (for example `{NadekoBot.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
-                                           $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
-                                           "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>";
+                                           $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n\n" +
+                                           "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>\n\n" +
+                                           "Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
 
         public static string DMHelpString => NadekoBot.Config.DMHelpString;
 
