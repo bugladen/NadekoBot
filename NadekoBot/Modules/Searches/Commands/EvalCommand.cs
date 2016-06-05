@@ -49,11 +49,11 @@ namespace NadekoBot.Modules.Searches.Commands
                 string result = parser.Parse(expression).ToString();
                 return result;
             }
-            catch (OverflowException e)
+            catch (OverflowException)
             {
                 return $"Overflow error on {expression}";
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return $"\"{expression}\" was not formatted correctly";
             }

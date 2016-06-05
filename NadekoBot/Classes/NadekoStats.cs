@@ -14,7 +14,7 @@ using System.Timers;
 
 namespace NadekoBot
 {
-    public class NadekoStats
+    public class NadekoStats : IDisposable
     {
         public static NadekoStats Instance { get; } = new NadekoStats();
 
@@ -230,6 +230,21 @@ namespace NadekoBot
                     Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                carbonClient.Dispose();
+            }
+
         }
     }
 }
