@@ -24,8 +24,6 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Do(async e =>
                 {
                     var arg = e.GetArg("arg")?.Trim();
-                    if (string.IsNullOrWhiteSpace(arg))
-                        return;
                     var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
                                  NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
                     if (server == null)
@@ -33,7 +31,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage("Cannot find that server").ConfigureAwait(false);
                         return;
                     }
-                    var serverId = server.Id;
                     if (!server.IsOwner)
                     {
                         await server.Leave();
