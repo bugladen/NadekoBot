@@ -63,13 +63,13 @@ namespace NadekoBot.Modules.Trello
                 }
             };
 
-            manager.CreateCommands("trello ", cgb =>
+            manager.CreateCommands("", cgb =>
             {
 
                 cgb.AddCheck(PermissionChecker.Instance);
 
-                cgb.CreateCommand("join")
-                    .Alias("j")
+                cgb.CreateCommand(Prefix + "join")
+                    .Alias(Prefix + "j")
                     .Description("Joins a server")
                     .Parameter("code", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Trello
                         }
                     });
 
-                cgb.CreateCommand("bind")
+                cgb.CreateCommand(Prefix + "bind")
                     .Description("Bind a trello bot to a single channel. " +
                                  "You will receive notifications from your board when something is added or edited." +
                                  "\n**Usage**: bind [board_id]")
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Trello
                         }
                     });
 
-                cgb.CreateCommand("unbind")
+                cgb.CreateCommand(Prefix + "unbind")
                     .Description("Unbinds a bot from the channel and board.")
                     .Do(async e =>
                     {
@@ -122,8 +122,8 @@ namespace NadekoBot.Modules.Trello
 
                     });
 
-                cgb.CreateCommand("lists")
-                    .Alias("list")
+                cgb.CreateCommand(Prefix + "lists")
+                    .Alias(Prefix + "list")
                     .Description("Lists all lists yo ;)")
                     .Do(async e =>
                     {
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Trello
                                        .ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("cards")
+                cgb.CreateCommand(Prefix + "cards")
                     .Description("Lists all cards from the supplied list. You can supply either a name or an index.")
                     .Parameter("list_name", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e =>
