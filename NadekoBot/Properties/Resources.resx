@@ -322,4 +322,7 @@
   <data name="_9_of_spades" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\cards\9_of_spades.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="rose_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\rose_overlay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
