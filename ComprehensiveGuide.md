@@ -5,7 +5,6 @@ ________________________________________________________________________________
 #### Setting Up NadekoBot v0.98
 ###### Prerequisites: 
 1) NET Framework 4.5.2 (or 4.6)
-- **Here is a video tutorial, thanks to @LawlyPopz for making it** :+1: http://pushzz.xyz/i/b7b63.mp4
 - Start with making a folder, lets name it `Nadeko`
 - Make sure you have **7zip** installed, if not then head to http://www.7-zip.org/download.html and download/install it.
 - Now head to https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0 and download `WINDOWS.-.nadeupdater.7z`
@@ -37,6 +36,7 @@ ________________________________________________________________________________
 1) FFMPEG, Static Build Version (See below) Google Account  
 2) Soundcloud Account (if you want soundcloud support)
 - Download FFMPEG through the link (https://ffmpeg.zeranoe.com/builds/).
+- Check out this gif to set up `ffmpeg` PATH before reading below http://i.imgur.com/aR5l1Hn.gif *(thanks to PooPeePants#7135)*
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\\ffmpeg\\bin**). Save and close.
 - Go to console.developers.google.com and log in.
 - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
