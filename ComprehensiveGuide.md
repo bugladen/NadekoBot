@@ -35,7 +35,7 @@ ________________________________________________________________________________
 ###### Prerequisites: 
 1) FFMPEG, Static Build Version (See below) Google Account  
 2) Soundcloud Account (if you want soundcloud support)
-- Create a folder in `ffmpeg` in your main windows directory. We will use **C:\ffmpeg** (for our example)
+- Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
 - Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
 - Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
 - Before proceeding, check out this gif to set up `ffmpeg` PATH correctly before reading below http://i.imgur.com/aR5l1Hn.gif *(thanks to PooPeePants#7135)*
