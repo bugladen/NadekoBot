@@ -33,14 +33,14 @@ ________________________________________________________________________________
 
 #### Setting Up NadekoBot For Music
 ###### Prerequisites: 
-1) FFMPEG, Static Build Version (See below) Google Account  
+1) Google Account  
 2) Soundcloud Account (if you want soundcloud support)
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
 - Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
 - Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
 - Before proceeding, check out this gif to set up `ffmpeg` PATH correctly before reading below http://i.imgur.com/aR5l1Hn.gif *(thanks to PooPeePants#7135)*
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
-- Go to console.developers.google.com and log in.
+- Go to https://console.developers.google.com and log in.
 - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
 - Under the "Other Popular APIs" section, enable "URL Shortener API". Under the "YouTube APIs" section, enable "YouTube Data API". Also enable Custom Search Api.
 - On the left tab, access Credentials. There will be a line saying "If you wish to skip this step and create an API key, client ID or service account." Click on API Key, and then Server Key in the new window that appears. Enter in a name for the server key. A new window will appear with your Google API key. Copy the key.
