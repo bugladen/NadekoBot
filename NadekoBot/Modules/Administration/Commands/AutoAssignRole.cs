@@ -32,8 +32,8 @@ namespace NadekoBot.Modules.Administration.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-            cgb.CreateCommand(Module.Prefix + "aar")
-                .Alias(Module.Prefix + "autoassignrole")
+            cgb.CreateCommand(Module.Prefix + "autoassignrole")
+                .Alias(Module.Prefix + "aar")
                 .Description($"Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable")
                 .Parameter("role", ParameterType.Unparsed)
                 .AddCheck(new SimpleCheckers.ManageRoles())
@@ -42,6 +42,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (!e.Server.CurrentUser.ServerPermissions.ManageRoles)
                     {
                         await e.Channel.SendMessage("I do not have the permission to manage roles.");
+                        return;
                     }
                     var r = e.GetArg("role")?.Trim();
 

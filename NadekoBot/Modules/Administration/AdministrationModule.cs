@@ -30,12 +30,14 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new InfoCommands(this));
             commands.Add(new CustomReactionsCommands(this));
             commands.Add(new AutoAssignRole(this));
+            commands.Add(new SelfCommands(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
 
         public override void Install(ModuleManager manager)
         {
+            
             manager.CreateCommands("", cgb =>
             {
 
