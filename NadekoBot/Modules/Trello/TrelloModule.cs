@@ -68,24 +68,6 @@ namespace NadekoBot.Modules.Trello
 
                 cgb.AddCheck(PermissionChecker.Instance);
 
-                cgb.CreateCommand(Prefix + "join")
-                    .Alias(Prefix + "j")
-                    .Description("Joins a server")
-                    .Parameter("code", Discord.Commands.ParameterType.Required)
-                    .Do(async e =>
-                    {
-                        if (!NadekoBot.IsOwner(e.User.Id) || NadekoBot.IsBot) return;
-                        try
-                        {
-                            await (await client.GetInvite(e.GetArg("code")).ConfigureAwait(false)).Accept()
-                                               .ConfigureAwait(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
-                    });
-
                 cgb.CreateCommand(Prefix + "bind")
                     .Description("Bind a trello bot to a single channel. " +
                                  "You will receive notifications from your board when something is added or edited." +
