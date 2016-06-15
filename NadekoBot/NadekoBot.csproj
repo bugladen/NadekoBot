@@ -140,6 +140,7 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Modules\Conversations\Commands\RipCommand.cs" />
     <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
     <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
     <Compile Include="Modules\Programming\ProgrammingModule.cs" />
