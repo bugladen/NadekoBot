@@ -91,6 +91,11 @@ namespace NadekoBot.Classes.JSONModels
             } }
         };
 
+        public Dictionary<string, string> FAQ = new Dictionary<string, string>()
+        {
+            {"Q1: Does Nadeko have music?", "A: The official Nadeko currently does not have music, which means you'll have to host a version yourself (see Q2)" }
+        };
+
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
