@@ -1,16 +1,16 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
 using NadekoBot.Classes.Conversations.Commands;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
+using NadekoBot.Classes;
+using System.Drawing.Drawing2D;
 using NadekoBot.Modules.Permissions.Classes;
 using NadekoBot.Properties;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Conversations
                             return;
                         var usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         var text = "";
-                        var avatar = await GetAvatar(usr.AvatarUrl);
+			var avatar = await GetAvatar(usr.AvatarUrl);
                         text = usr?.Name ?? e.GetArg("user");
                         var file = RipUser(text, avatar, string.IsNullOrWhiteSpace(e.GetArg("year"))
                                 ? null
@@ -204,7 +204,6 @@ namespace NadekoBot.Modules.Conversations
                         await e.Channel.SendFile("ripzor_m8.png",
                                             file);
                     });
-
                 if (!NadekoBot.Config.DontJoinServers)
                 {
                     cgb.CreateCommand("j")
@@ -321,6 +320,7 @@ namespace NadekoBot.Modules.Conversations
             });
         }
 
+
         /// <summary>
         /// Create a RIP image of the given name and avatar, with an optional year
         /// </summary>
@@ -332,16 +332,11 @@ namespace NadekoBot.Modules.Conversations
         {
             var bm = Resources.rip;
             var offset = name.Length * 2;
-
             var fontSize = 20;
-
             if (name.Length > 10)
             {
                 fontSize -= (name.Length - 10) / 2;
             }
-            //var avatar = Image.FromStream(await SearchHelper.GetResponseStreamAsync(aviLink));
-
-
 
             //TODO use measure string
             var g = Graphics.FromImage(bm);
@@ -354,7 +349,6 @@ namespace NadekoBot.Modules.Conversations
             g.Dispose();
 
             return bm.ToStream(ImageFormat.Png);
-
         }
 
 
@@ -375,9 +369,6 @@ namespace NadekoBot.Modules.Conversations
             return bmp;
 
         }
-
-
-
         private static Func<CommandEventArgs, Task> SayYes()
             => async e => await e.Channel.SendMessage("Yes. :)").ConfigureAwait(false);
     }
