@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -75,6 +74,7 @@ namespace NadekoBot.Modules.Translator.Helpers
             this.TranslationTime = TimeSpan.Zero;
             DateTime tmStart = DateTime.Now;
             string translation = string.Empty;
+            string text = string.Empty;
 
             try
             {
@@ -83,31 +83,26 @@ namespace NadekoBot.Modules.Translator.Helpers
                                             GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage),
                                             GoogleTranslator.LanguageEnumToIdentifier(targetLanguage),
                                             HttpUtility.UrlEncode(sourceText));
-                string outputFile = Path.GetTempFileName();
                 using (WebClient wc = new WebClient())
                 {
                     wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-                    wc.DownloadFile(url, outputFile);
+                    text = wc.DownloadString(url);
                 }
 
                 // Get translated text
-                if (File.Exists(outputFile))
+                // Get phrase collection
+                // string text = File.ReadAllText(outputFile);
+                int index = text.IndexOf(string.Format(",,\"{0}\"", GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage)));
+                if (index == -1)
                 {
-
-                    // Get phrase collection
-                    string text = File.ReadAllText(outputFile);
-                    int index = text.IndexOf(string.Format(",,\"{0}\"", GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage)));
-                    if (index == -1)
+                    // Translation of single word
+                    int startQuote = text.IndexOf('\"');
+                    if (startQuote != -1)
                     {
-                        // Translation of single word
-                        int startQuote = text.IndexOf('\"');
-                        if (startQuote != -1)
+                        int endQuote = text.IndexOf('\"', startQuote + 1);
+                        if (endQuote != -1)
                         {
-                            int endQuote = text.IndexOf('\"', startQuote + 1);
-                            if (endQuote != -1)
-                            {
-                                translation = text.Substring(startQuote + 1, endQuote - startQuote - 1);
-                            }
+                            translation = text.Substring(startQuote + 1, endQuote - startQuote - 1);
                         }
                     }
                     else
