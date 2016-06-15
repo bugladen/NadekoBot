@@ -4,18 +4,13 @@ using Discord.Modules;
 using NadekoBot.Classes.Conversations.Commands;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
-using NadekoBot.Classes;
-using System.Drawing.Drawing2D;
+using NadekoBot.Modules.Conversations.Commands;
 using NadekoBot.Modules.Permissions.Classes;
-using NadekoBot.Properties;
 using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Conversations.Commands;
 
 namespace NadekoBot.Modules.Conversations
 {
@@ -188,32 +183,6 @@ namespace NadekoBot.Modules.Conversations
                         await e.Channel.SendMessage(str).ConfigureAwait(false);
                     });
 
-                
-                if (!NadekoBot.Config.DontJoinServers)
-                {
-                    cgb.CreateCommand("j")
-                        .Description("Joins a server using a code.")
-                        .Parameter("id", ParameterType.Required)
-                        .Do(async e =>
-                        {
-                            var invite = await client.GetInvite(e.Args[0]).ConfigureAwait(false);
-                            if (invite != null)
-                            {
-                                try
-                                {
-                                    await invite.Accept().ConfigureAwait(false);
-                                }
-                                catch
-                                {
-                                    await e.Channel.SendMessage("Failed to accept invite.").ConfigureAwait(false);
-                                }
-                                await e.Channel.SendMessage("I got in!").ConfigureAwait(false);
-                                return;
-                            }
-                            await e.Channel.SendMessage("Invalid code.").ConfigureAwait(false);
-                        });
-                }
-
                 cgb.CreateCommand("slm")
                     .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
                     .Do(async e =>
@@ -306,7 +275,7 @@ namespace NadekoBot.Modules.Conversations
         }
 
 
-        
+
         private static Func<CommandEventArgs, Task> SayYes()
             => async e => await e.Channel.SendMessage("Yes. :)").ConfigureAwait(false);
     }

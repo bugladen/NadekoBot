@@ -728,7 +728,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         if (e.GetArg("new_name") == null) return;
 
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_name")).ConfigureAwait(false);
+                        await client.CurrentUser.Edit("", e.GetArg("new_name")).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "newavatar")
@@ -744,7 +744,7 @@ namespace NadekoBot.Modules.Administration
                         var avatarAddress = e.GetArg("img");
                         var imageStream = await SearchHelper.GetResponseStreamAsync(avatarAddress).ConfigureAwait(false);
                         var image = System.Drawing.Image.FromStream(imageStream);
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream()).ConfigureAwait(false);
+                        await client.CurrentUser.Edit("", avatar: image.ToStream()).ConfigureAwait(false);
 
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.").ConfigureAwait(false);

@@ -131,6 +131,17 @@ namespace NadekoBot.Classes.JSONModels
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
         public string DMHelpString { get; set; } = "Type `-h` for help.";
+        public string HelpString { get; set; } = @"You can use `{0}modules` command to see a list of all modules.
+You can use `{0}commands ModuleName`
+(for example `{0}commands Administration`) to see a list of all of the commands in that module.
+For a specific command help, use `{0}h ""Command name""` (for example `-h ""!m q""`)
+
+
+**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
+<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+
+
+Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
     }
 
     public class CommandPrefixesModel
