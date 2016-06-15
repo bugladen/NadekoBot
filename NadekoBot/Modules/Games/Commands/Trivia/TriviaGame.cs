@@ -2,7 +2,6 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,10 +78,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token).ConfigureAwait(false);
 
                 }
-                catch (TaskCanceledException)
-                {
-                    Console.WriteLine("Trivia cancelled");
-                }
+                catch (TaskCanceledException) { } //means someone guessed the answer
                 GameActive = false;
                 if (!triviaCancelSource.IsCancellationRequested)
                     await channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false);

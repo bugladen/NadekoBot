@@ -30,12 +30,14 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new InfoCommands(this));
             commands.Add(new CustomReactionsCommands(this));
             commands.Add(new AutoAssignRole(this));
+            commands.Add(new SelfCommands(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
 
         public override void Install(ModuleManager manager)
         {
+            
             manager.CreateCommands("", cgb =>
             {
 
@@ -720,11 +722,13 @@ namespace NadekoBot.Modules.Administration
                         var avatarAddress = e.GetArg("img");
                         var imageStream = await SearchHelper.GetResponseStreamAsync(avatarAddress).ConfigureAwait(false);
                         var image = System.Drawing.Image.FromStream(imageStream);
-                        // Save the image to disk.
-                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
                         await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream()).ConfigureAwait(false);
+
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.").ConfigureAwait(false);
+
+                        // Save the image to disk.
+                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
                     });
 
                 cgb.CreateCommand(Prefix + "setgame")
@@ -996,6 +1000,21 @@ namespace NadekoBot.Modules.Administration
                             await e.Channel.SendMessage("Nobody. (not 100% sure)");
                         else
                             await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))) + "\n```");
+                    });
+
+                cgb.CreateCommand(Prefix + "leave")
+                    .Description("Leaves a server with a supplied ID.\n**Usage**: `.leave 493243292839`")
+                    .Parameter("num", ParameterType.Required)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        var srvr = NadekoBot.Client.Servers.Where(s => s.Id.ToString() == e.GetArg("num").Trim()).FirstOrDefault();
+                        if (srvr == null)
+                        {
+                            return;
+                        }
+                        await srvr.Leave();
+                        await e.Channel.SendMessage("`Done.`");
                     });
 
             });

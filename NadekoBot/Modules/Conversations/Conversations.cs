@@ -258,28 +258,6 @@ namespace NadekoBot.Modules.Conversations
                             await e.Channel.SendMessage("I can't find a message mentioning you.").ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("hide")
-                    .Description("Hides Nadeko in plain sight!11!!")
-                    .Do(async e =>
-                    {
-                        using (var ms = Resources.hidden.ToStream(ImageFormat.Png))
-                        {
-                            await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: ms).ConfigureAwait(false);
-                        }
-                        await e.Channel.SendMessage("*hides*").ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand("unhide")
-                    .Description("Unhides Nadeko in plain sight!1!!1")
-                    .Do(async e =>
-                    {
-                        using (var fs = new FileStream("data/avatar.png", FileMode.Open))
-                        {
-                            await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: fs).ConfigureAwait(false);
-                        }
-                        await e.Channel.SendMessage("*unhides*").ConfigureAwait(false);
-                    });
-
                 cgb.CreateCommand("dump")
                     .Description("Dumps all of the invites it can to dump.txt.** Owner Only.**")
                     .Do(async e =>

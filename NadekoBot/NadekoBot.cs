@@ -48,21 +48,6 @@ namespace NadekoBot
         {
             Console.OutputEncoding = Encoding.Unicode;
 
-            //var lines = File.ReadAllLines("data/input.txt");
-            //HashSet<dynamic> list = new HashSet<dynamic>();
-            //for (int i = 0; i < lines.Length; i += 3) {
-            //    dynamic obj = new JArray();
-            //    obj.Text = lines[i];
-            //    obj.Author = lines[i + 1];
-            //    if (obj.Author.StartsWith("-"))
-            //        obj.Author = obj.Author.Substring(1, obj.Author.Length - 1).Trim();
-            //    list.Add(obj);
-            //}
-
-            //File.WriteAllText("data/quotes.json", Newtonsoft.Json.JsonConvert.SerializeObject(list, Formatting.Indented));
-
-            //Console.ReadKey();
-            // generate credentials example so people can know about the changes i make
             try
             {
                 File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
@@ -252,7 +237,7 @@ namespace NadekoBot
 
         public static bool IsOwner(ulong id) => Creds.OwnerIds.Contains(id);
 
-        public async Task SendMessageToOwner(string message)
+        public static async Task SendMessageToOwner(string message)
         {
             if (Config.ForwardMessages && OwnerPrivateChannel != null)
                 await OwnerPrivateChannel.SendMessage(message).ConfigureAwait(false);

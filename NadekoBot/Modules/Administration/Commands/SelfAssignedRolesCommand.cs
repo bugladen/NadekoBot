@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "lsar")
-                .Description("Lits all self-assignable roles.")
+                .Description("Lists all self-assignable roles.")
                 .Parameter("roles", ParameterType.Multiple)
                 .Do(async e =>
                 {

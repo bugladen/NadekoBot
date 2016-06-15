@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "award")
-                    .Description("Gives someone a certain amount of flowers. **Owner only!**")
+                    .Description("Gives someone a certain amount of flowers. **Owner only!**\n**Usage**: `$award 100 @person`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)

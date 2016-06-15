@@ -142,7 +142,7 @@ namespace NadekoBot.Classes.JSONModels
         public string ClashOfClans { get; set; } = ",";
         public string Help { get; set; } = "-";
         public string Music { get; set; } = "!m";
-        public string Trello { get; set; } = "trello";
+        public string Trello { get; set; } = "trello ";
         public string Games { get; set; } = ">";
         public string Gambling { get; set; } = "$";
         public string Permissions { get; set; } = ";";
