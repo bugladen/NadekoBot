@@ -53,38 +53,6 @@ namespace NadekoBot.Modules.Help
                         await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", cmdsArray.Select(c => c.Text)))
                                        .ConfigureAwait(false);
                     });
-                cgb.CreateCommand(Prefix + "faq")
-                .Description("Browse the FAQ\n**Usage**: `-faq 1` `-faq Q5`")
-                .Parameter("index", ParameterType.Unparsed)
-                .Do(async e =>
-                {
-                    string message = "Something went wrong";
-                    string indexString = e.GetArg("index")?.Trim().ToLowerInvariant();
-                    Regex questiona = new Regex(@"q(uestion)?\s*(?<number>\d+)");
-                    var m = questiona.Match(indexString);
-                    if (m.Success)
-                    {
-                        int index;
-                        if (!int.TryParse(m.Groups["number"].Value, out index) || index < 1|| index > NadekoBot.Config.FAQ.Count)
-                        {
-                            message = "Valid index required";
-                            await e.Channel.SendMessage(message).ConfigureAwait(false);
-                            return;
-                        }
-                        var question = NadekoBot.Config.FAQ.Skip(--index).FirstOrDefault();
-                        message = Discord.Format.Bold(question.Key) + "\n\n" + Discord.Format.Italics(question.Value);
-                        
-                    }
-                    else
-                    {
-                        int index;
-                        if (!int.TryParse(indexString, out index) || index < 0) index =1;
-                        message = NadekoBot.Config.FAQ.GetOnPage(--index);
-                    }
-                    await e.Channel.SendMessage(message).ConfigureAwait(false);
-                });
-
-            });
         }
     }
 }

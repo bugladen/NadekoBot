@@ -1,7 +1,4 @@
 {
-  "FAQ": {
-    "Q1: Does Nadeko have music?": "A: The official Nadeko currently does not have music, which means you'll have to host a version yourself (see Q2)"
-  },
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
