@@ -4,7 +4,6 @@ using NadekoBot.Classes.Help.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.Help
 {
@@ -17,7 +16,7 @@ namespace NadekoBot.Modules.Help
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
-        
+
 
 
         public override void Install(ModuleManager manager)
@@ -53,6 +52,7 @@ namespace NadekoBot.Modules.Help
                         await e.Channel.SendMessage("`List of commands:` \n• " + string.Join("\n• ", cmdsArray.Select(c => c.Text)))
                                        .ConfigureAwait(false);
                     });
+            });
         }
     }
 }

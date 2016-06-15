@@ -91,7 +91,6 @@ namespace NadekoBot.Classes.JSONModels
             } }
         };
 
-
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
