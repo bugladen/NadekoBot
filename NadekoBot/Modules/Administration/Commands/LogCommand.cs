@@ -328,14 +328,13 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                 });
 
             cgb.CreateCommand(Module.Prefix + "logserver")
-                  .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Owner Only!**")
+                  .Description("Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Bot Owner Only!**")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(DoFunc());
 
             cgb.CreateCommand(Module.Prefix + "userpresence")
-                  .Description("Starts logging to this channel when someone from the server goes online/offline/idle. **Owner Only!**")
-                  .AddCheck(SimpleCheckers.OwnerOnly())
+                  .Description("Starts logging to this channel when someone from the server goes online/offline/idle.")
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
@@ -351,9 +350,8 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                   });
 
             cgb.CreateCommand(Module.Prefix + "voicepresence")
-                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Owner Only!**")
+                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.")
                   .Parameter("all", ParameterType.Optional)
-                  .AddCheck(SimpleCheckers.OwnerOnly())
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {

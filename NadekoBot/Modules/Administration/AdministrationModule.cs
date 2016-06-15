@@ -630,7 +630,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "heap")
-                  .Description("Shows allocated memory - **Owner Only!**")
+                  .Description("Shows allocated memory - **Bot Owner Only!**")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e =>
                   {
@@ -710,7 +710,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "die")
                     .Alias(Prefix + "graceful")
-                    .Description("Shuts the bot down and notifies users about the restart. **Owner Only!**")
+                    .Description("Shuts the bot down and notifies users about the restart. **Bot Owner Only!**")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -721,7 +721,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "newname")
                     .Alias(Prefix + "setname")
-                    .Description("Give the bot a new name. **Owner Only!**")
+                    .Description("Give the bot a new name. **Bot Owner Only!**")
                     .Parameter("new_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -733,7 +733,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "newavatar")
                     .Alias(Prefix + "setavatar")
-                    .Description("Sets a new avatar image for the NadekoBot. **Owner Only!**")
+                    .Description("Sets a new avatar image for the NadekoBot. **Bot Owner Only!**")
                     .Parameter("img", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -754,7 +754,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "setgame")
-                  .Description("Sets the bots game. **Owner Only!**")
+                  .Description("Sets the bots game. **Bot Owner Only!**")
                   .Parameter("set_game", ParameterType.Unparsed)
                   .Do(e =>
                   {
@@ -781,23 +781,23 @@ namespace NadekoBot.Modules.Administration
                 Channel commsChannel = null;
 
                 cgb.CreateCommand(Prefix + "commsuser")
-                            .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Owner Only!**")
-                            .Parameter("name", ParameterType.Unparsed)
-                            .AddCheck(SimpleCheckers.OwnerOnly())
-                            .Do(async e =>
-                            {
-                                commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                                if (commsUser != null)
-                                {
-                                    commsChannel = null;
-                                    await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
-                                }
-                                else
-                                    await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
-                            });
+                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Bot Owner Only!**")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
+                        if (commsUser != null)
+                        {
+                            commsChannel = null;
+                            await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
+                        }
+                        else
+                            await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand(Prefix + "commsserver")
-                    .Description("Sets a server for through-bot communication. **Owner Only!**")
+                    .Description("Sets a server for through-bot communication. **Bot Owner Only!**")
                     .Parameter("server", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -810,7 +810,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "commschannel")
-                    .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Owner Only!**")
+                    .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Bot Owner Only!**")
                     .Parameter("ch", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -826,7 +826,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "send")
-                    .Description("Send a message to someone on a different server through the bot. **Owner Only!**\n**Usage**: .send Message text multi word!")
+                    .Description("Send a message to someone on a different server through the bot. **Bot Owner Only!**\n**Usage**: .send Message text multi word!")
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -903,7 +903,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "unstuck")
-                  .Description("Clears the message queue. **Owner Only!**")
+                  .Description("Clears the message queue. **Bot Owner Only!**")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e =>
                   {
@@ -974,7 +974,7 @@ namespace NadekoBot.Modules.Administration
                   });
 
                 cgb.CreateCommand(Prefix + "announce")
-                    .Description($"Sends a message to all servers' general channel bot is connected to.**Owner Only!**\n**Usage**: {Prefix}announce Useless spam")
+                    .Description($"Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!**\n**Usage**: {Prefix}announce Useless spam")
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>

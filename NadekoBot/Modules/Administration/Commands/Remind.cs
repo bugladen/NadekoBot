@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "remindmsg")
                 .Description("Sets message for when the remind is triggered. " +
                     " Available placeholders are %user% - user who ran the command, %message% -" +
-                    " Message specified in the remind, %target% - target channel of the remind. **Owner only!**")
+                    " Message specified in the remind, %target% - target channel of the remind. **Bot Owner Only!**")
                 .Parameter("msg", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>

@@ -20,7 +20,6 @@ namespace NadekoBot.Modules.Conversations
         public Conversations()
         {
             commands.Add(new CopyCommand(this));
-            commands.Add(new RequestsCommand(this));
             commands.Add(new RipCommand(this));
         }
 

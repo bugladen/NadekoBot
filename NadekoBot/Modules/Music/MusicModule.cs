@@ -299,7 +299,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("lopl")
-                    .Description("Queues all songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
+                    .Description("Queues all songs from a directory. **Bot Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -339,7 +339,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("lo")
-                    .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m lo C:/music/mysong.mp3`")
+                    .Description("Queues a local file by specifying a full path. **Bot Owner Only!**\n**Usage**: `!m lo C:/music/mysong.mp3`")
                     .Parameter("path", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -393,7 +393,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("cleanup")
-                    .Description("Cleans up hanging voice connections. **Owner Only!**\n**Usage**: `!m cleanup`")
+                    .Description("Cleans up hanging voice connections. **Bot Owner Only!**\n**Usage**: `!m cleanup`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(e =>
                     {
