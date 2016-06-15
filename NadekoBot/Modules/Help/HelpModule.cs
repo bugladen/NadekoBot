@@ -17,6 +17,8 @@ namespace NadekoBot.Modules.Help
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
 
+
+
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>

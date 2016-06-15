@@ -733,6 +733,16 @@ namespace NadekoBot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap rose_overlay {
+            get {
+                object obj = ResourceManager.GetObject("rose_overlay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap tails {
             get {
                 object obj = ResourceManager.GetObject("tails", resourceCulture);

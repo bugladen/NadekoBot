@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Extensions
@@ -180,6 +181,52 @@ namespace NadekoBot.Extensions
             }
         }
 
+        public static string GetOnPage<T>(this IEnumerable<T> source, int pageIndex, int itemsPerPage = 5)
+        {
+            var items = source.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
+            if (!items.Any())
+            {
+                return $"No items on page {pageIndex + 1}.";
+            }
+            var sb = new StringBuilder($"---page {pageIndex + 1} --\n");
+            var itemsDC = items as IEnumerable<KeyValuePair<string, IEnumerable<string>>>;
+            var itemsDS = items as IEnumerable<KeyValuePair<string, string>>;
+            if (itemsDC != null)
+            {
+                foreach (var item in itemsDC)
+                {
+                    sb.Append($"{ Format.Code(item.Key)}\n");
+                    int i = 1;
+                    var last = item.Value.Last();
+                    foreach (var value in item.Value)
+                    {
+                        if (last != value)
+                            sb.AppendLine("  `├" + i++ + "─`" + Format.Bold(value));
+                        else
+                            sb.AppendLine("  `└" + i++ + "─`" + Format.Bold(value));
+                    }
+
+                }
+            }
+            else if (itemsDS != null)
+            {
+                foreach (var item in itemsDS)
+                {
+                    sb.Append($"{ Format.Code(item.Key)}\n");
+                    sb.AppendLine("  `└─`" + Format.Bold(item.Value));
+                }
+                
+            }
+            else
+            {
+                foreach (var item in items)
+                {
+                    sb.Append($"{ Format.Code(item.ToString())} \n");
+                }
+            }
+            
+            return sb.ToString();
+        }
         /// <summary>
         /// Gets the program runtime
         /// </summary>
