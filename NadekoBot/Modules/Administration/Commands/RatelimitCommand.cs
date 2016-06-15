@@ -42,15 +42,9 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "slowmode")
                 .Description("Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.")
-                .Parameter("minutes", ParameterType.Optional)
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e =>
                 {
-                    //var minutesStr = e.GetArg("minutes");
-                    //if (string.IsNullOrWhiteSpace(minutesStr)) {
-                    //    RatelimitingChannels.Remove(e.Channel.Id);
-                    //    return;
-                    //}
                     ConcurrentDictionary<ulong, DateTime> throwaway;
                     if (RatelimitingChannels.TryRemove(e.Channel.Id, out throwaway))
                     {

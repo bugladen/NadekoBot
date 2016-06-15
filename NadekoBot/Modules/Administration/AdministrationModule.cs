@@ -6,9 +6,7 @@ using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
 using NadekoBot.Modules.Permissions.Classes;
-using Newtonsoft.Json.Linq;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +35,7 @@ namespace NadekoBot.Modules.Administration
 
         public override void Install(ModuleManager manager)
         {
-            
+
             manager.CreateCommands("", cgb =>
             {
 
@@ -307,6 +305,42 @@ namespace NadekoBot.Modules.Administration
                                     await e.Server.Ban(usr, 7).ConfigureAwait(false);
 
                                     await e.Channel.SendMessage("Banned user " + usr.Name + " Id: " + usr.Id).ConfigureAwait(false);
+                                }
+                                catch
+                                {
+                                    await e.Channel.SendMessage("Error. Most likely I don't have sufficient permissions.").ConfigureAwait(false);
+                                }
+                            }
+                        });
+
+                cgb.CreateCommand(Prefix + "sb").Alias(Prefix + "softban")
+                    .Parameter("user", ParameterType.Required)
+                    .Parameter("msg", ParameterType.Optional)
+                    .Description("Bans and then unbans a user by id or name with an optional message.\n**Usage**: .sb \"@some Guy\" Your behaviour is toxic.")
+                        .Do(async e =>
+                        {
+                            var msg = e.GetArg("msg");
+                            var user = e.GetArg("user");
+                            if (e.User.ServerPermissions.BanMembers)
+                            {
+                                var usr = e.Server.FindUsers(user).FirstOrDefault();
+                                if (usr == null)
+                                {
+                                    await e.Channel.SendMessage("User not found.").ConfigureAwait(false);
+                                    return;
+                                }
+                                if (!string.IsNullOrWhiteSpace(msg))
+                                {
+                                    await usr.SendMessage($"**You have been SOFT-BANNED from `{e.Server.Name}` server.**\n" +
+                                                          $"Reason: {msg}").ConfigureAwait(false);
+                                    await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
+                                }
+                                try
+                                {
+                                    await e.Server.Ban(usr, 7).ConfigureAwait(false);
+                                    await e.Server.Unban(usr).ConfigureAwait(false);
+
+                                    await e.Channel.SendMessage("Soft-Banned user " + usr.Name + " Id: " + usr.Id).ConfigureAwait(false);
                                 }
                                 catch
                                 {
@@ -685,18 +719,6 @@ namespace NadekoBot.Modules.Administration
                         Environment.Exit(0);
                     });
 
-                //cgb.CreateCommand(Prefix + "newnick")
-                //    .Alias(Prefix + "setnick")
-                //    .Description("Give the bot a new nickname. You need manage server permissions.")
-                //    .Parameter("new_nick", ParameterType.Unparsed)
-                //    .AddCheck(SimpleCheckers.ManageServer())
-                //    .Do(async e =>
-                //    {
-                //        if (e.GetArg("new_nick") == null) return;
-
-                //        await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_nick")).ConfigureAwait(false);
-                //    });
-
                 cgb.CreateCommand(Prefix + "newname")
                     .Alias(Prefix + "setname")
                     .Description("Give the bot a new name. **Owner Only!**")
@@ -880,21 +902,6 @@ namespace NadekoBot.Modules.Administration
                         }).ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand(Prefix + "parsetosql")
-                  .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
-                  .AddCheck(SimpleCheckers.OwnerOnly())
-                  .Do(async e =>
-                  {
-                      await Task.Run(() =>
-                      {
-                          SaveParseToDb<Announcement>("data/parsedata/Announcements.json");
-                          SaveParseToDb<DataModels.Command>("data/parsedata/CommandsRan.json");
-                          SaveParseToDb<Request>("data/parsedata/Requests.json");
-                          SaveParseToDb<Stats>("data/parsedata/Stats.json");
-                          SaveParseToDb<TypingArticle>("data/parsedata/TypingArticles.json");
-                      }).ConfigureAwait(false);
-                  });
-
                 cgb.CreateCommand(Prefix + "unstuck")
                   .Description("Clears the message queue. **Owner Only!**")
                   .AddCheck(SimpleCheckers.OwnerOnly())
@@ -917,7 +924,6 @@ namespace NadekoBot.Modules.Administration
                         }).ConfigureAwait(false);
                     });
 
-                //THIS IS INTENTED TO BE USED ONLY BY THE ORIGINAL BOT OWNER
                 cgb.CreateCommand(Prefix + "adddon")
                     .Alias(Prefix + "donadd")
                     .Description("Add a donator to the database.")
@@ -1018,20 +1024,6 @@ namespace NadekoBot.Modules.Administration
                     });
 
             });
-        }
-
-        public void SaveParseToDb<T>(string where) where T : IDataModel
-        {
-            try
-            {
-                var data = File.ReadAllText(where);
-                var arr = JObject.Parse(data)["results"] as JArray;
-                if (arr == null)
-                    return;
-                var objects = arr.Select(x => x.ToObject<T>());
-                DbHandler.Instance.InsertMany(objects);
-            }
-            catch { }
         }
     }
 }

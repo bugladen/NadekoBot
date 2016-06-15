@@ -110,7 +110,8 @@ namespace NadekoBot.Modules.Translator.Helpers
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         // Translation of phrase
                         text = text.Substring(0, index);
                         text = text.Replace("],[", ",");
@@ -180,134 +181,135 @@ namespace NadekoBot.Modules.Translator.Helpers
         {
             if (GoogleTranslator._languageModeMap == null)
             {
-                GoogleTranslator._languageModeMap = new Dictionary<string, string>();
-                GoogleTranslator._languageModeMap.Add("afrikaans", "af");
-                GoogleTranslator._languageModeMap.Add("albanian", "sq");
-                GoogleTranslator._languageModeMap.Add("arabic", "ar");
-                GoogleTranslator._languageModeMap.Add("armenian", "hy");
-                GoogleTranslator._languageModeMap.Add("azerbaijani", "az");
-                GoogleTranslator._languageModeMap.Add("basque", "eu");
-                GoogleTranslator._languageModeMap.Add("belarusian", "be");
-                GoogleTranslator._languageModeMap.Add("bengali", "bn");
-                GoogleTranslator._languageModeMap.Add("bulgarian", "bg");
-                GoogleTranslator._languageModeMap.Add("catalan", "ca");
-                GoogleTranslator._languageModeMap.Add("chinese", "zh-CN");
-                GoogleTranslator._languageModeMap.Add("croatian", "hr");
-                GoogleTranslator._languageModeMap.Add("czech", "cs");
-                GoogleTranslator._languageModeMap.Add("danish", "da");
-                GoogleTranslator._languageModeMap.Add("dutch", "nl");
-                GoogleTranslator._languageModeMap.Add("english", "en");
-                GoogleTranslator._languageModeMap.Add("esperanto", "eo");
-                GoogleTranslator._languageModeMap.Add("estonian", "et");
-                GoogleTranslator._languageModeMap.Add("filipino", "tl");
-                GoogleTranslator._languageModeMap.Add("finnish", "fi");
-                GoogleTranslator._languageModeMap.Add("french", "fr");
-                GoogleTranslator._languageModeMap.Add("galician", "gl");
-                GoogleTranslator._languageModeMap.Add("german", "de");
-                GoogleTranslator._languageModeMap.Add("georgian", "ka");
-                GoogleTranslator._languageModeMap.Add("greek", "el");
-                GoogleTranslator._languageModeMap.Add("haitian Creole", "ht");
-                GoogleTranslator._languageModeMap.Add("hebrew", "iw");
-                GoogleTranslator._languageModeMap.Add("hindi", "hi");
-                GoogleTranslator._languageModeMap.Add("hungarian", "hu");
-                GoogleTranslator._languageModeMap.Add("icelandic", "is");
-                GoogleTranslator._languageModeMap.Add("indonesian", "id");
-                GoogleTranslator._languageModeMap.Add("irish", "ga");
-                GoogleTranslator._languageModeMap.Add("italian", "it");
-                GoogleTranslator._languageModeMap.Add("japanese", "ja");
-                GoogleTranslator._languageModeMap.Add("korean", "ko");
-                GoogleTranslator._languageModeMap.Add("lao", "lo");
-                GoogleTranslator._languageModeMap.Add("latin", "la");
-                GoogleTranslator._languageModeMap.Add("latvian", "lv");
-                GoogleTranslator._languageModeMap.Add("lithuanian", "lt");
-                GoogleTranslator._languageModeMap.Add("macedonian", "mk");
-                GoogleTranslator._languageModeMap.Add("malay", "ms");
-                GoogleTranslator._languageModeMap.Add("maltese", "mt");
-                GoogleTranslator._languageModeMap.Add("norwegian", "no");
-                GoogleTranslator._languageModeMap.Add("persian", "fa");
-                GoogleTranslator._languageModeMap.Add("polish", "pl");
-                GoogleTranslator._languageModeMap.Add("portuguese", "pt");
-                GoogleTranslator._languageModeMap.Add("romanian", "ro");
-                GoogleTranslator._languageModeMap.Add("russian", "ru");
-                GoogleTranslator._languageModeMap.Add("serbian", "sr");
-                GoogleTranslator._languageModeMap.Add("slovak", "sk");
-                GoogleTranslator._languageModeMap.Add("slovenian", "sl");
-                GoogleTranslator._languageModeMap.Add("spanish", "es");
-                GoogleTranslator._languageModeMap.Add("swahili", "sw");
-                GoogleTranslator._languageModeMap.Add("swedish", "sv");
-                GoogleTranslator._languageModeMap.Add("tamil", "ta");
-                GoogleTranslator._languageModeMap.Add("telugu", "te");
-                GoogleTranslator._languageModeMap.Add("thai", "th");
-                GoogleTranslator._languageModeMap.Add("turkish", "tr");
-                GoogleTranslator._languageModeMap.Add("ukrainian", "uk");
-                GoogleTranslator._languageModeMap.Add("urdu", "ur");
-                GoogleTranslator._languageModeMap.Add("vietnamese", "vi");
-                GoogleTranslator._languageModeMap.Add("welsh", "cy");
-                GoogleTranslator._languageModeMap.Add("yiddish", "yi");
+                GoogleTranslator._languageModeMap = new Dictionary<string, string>() {
+                    { "afrikaans", "af"},
+                    { "albanian", "sq"},
+                    { "arabic", "ar"},
+                    { "armenian", "hy"},
+                    { "azerbaijani", "az"},
+                    { "basque", "eu"},
+                    { "belarusian", "be"},
+                    { "bengali", "bn"},
+                    { "bulgarian", "bg"},
+                    { "catalan", "ca"},
+                    { "chinese", "zh-CN"},
+                    { "croatian", "hr"},
+                    { "czech", "cs"},
+                    { "danish", "da"},
+                    { "dutch", "nl"},
+                    { "english", "en"},
+                    { "esperanto", "eo"},
+                    { "estonian", "et"},
+                    { "filipino", "tl"},
+                    { "finnish", "fi"},
+                    { "french", "fr"},
+                    { "galician", "gl"},
+                    { "german", "de"},
+                    { "georgian", "ka"},
+                    { "greek", "el"},
+                    { "haitian Creole", "ht"},
+                    { "hebrew", "iw"},
+                    { "hindi", "hi"},
+                    { "hungarian", "hu"},
+                    { "icelandic", "is"},
+                    { "indonesian", "id"},
+                    { "irish", "ga"},
+                    { "italian", "it"},
+                    { "japanese", "ja"},
+                    { "korean", "ko"},
+                    { "lao", "lo"},
+                    { "latin", "la"},
+                    { "latvian", "lv"},
+                    { "lithuanian", "lt"},
+                    { "macedonian", "mk"},
+                    { "malay", "ms"},
+                    { "maltese", "mt"},
+                    { "norwegian", "no"},
+                    { "persian", "fa"},
+                    { "polish", "pl"},
+                    { "portuguese", "pt"},
+                    { "romanian", "ro"},
+                    { "russian", "ru"},
+                    { "serbian", "sr"},
+                    { "slovak", "sk"},
+                    { "slovenian", "sl"},
+                    { "spanish", "es"},
+                    { "swahili", "sw"},
+                    { "swedish", "sv"},
+                    { "tamil", "ta"},
+                    { "telugu", "te"},
+                    { "thai", "th"},
+                    { "turkish", "tr"},
+                    { "ukrainian", "uk"},
+                    { "urdu", "ur"},
+                    { "vietnamese", "vi"},
+                    { "welsh", "cy"},
+                    { "yiddish", "yi"},
 
-                GoogleTranslator._languageModeMap.Add("af", "af");
-                GoogleTranslator._languageModeMap.Add("sq", "sq");
-                GoogleTranslator._languageModeMap.Add("ar", "ar");
-                GoogleTranslator._languageModeMap.Add("hy", "hy");
-                GoogleTranslator._languageModeMap.Add("az", "az");
-                GoogleTranslator._languageModeMap.Add("eu", "eu");
-                GoogleTranslator._languageModeMap.Add("be", "be");
-                GoogleTranslator._languageModeMap.Add("bn", "bn");
-                GoogleTranslator._languageModeMap.Add("bg", "bg");
-                GoogleTranslator._languageModeMap.Add("ca", "ca");
-                GoogleTranslator._languageModeMap.Add("zh-CN", "zh-CN");
-                GoogleTranslator._languageModeMap.Add("hr", "hr");
-                GoogleTranslator._languageModeMap.Add("cs", "cs");
-                GoogleTranslator._languageModeMap.Add("da", "da");
-                GoogleTranslator._languageModeMap.Add("nl", "nl");
-                GoogleTranslator._languageModeMap.Add("en", "en");
-                GoogleTranslator._languageModeMap.Add("eo", "eo");
-                GoogleTranslator._languageModeMap.Add("et", "et");
-                GoogleTranslator._languageModeMap.Add("tl", "tl");
-                GoogleTranslator._languageModeMap.Add("fi", "fi");
-                GoogleTranslator._languageModeMap.Add("fr", "fr");
-                GoogleTranslator._languageModeMap.Add("gl", "gl");
-                GoogleTranslator._languageModeMap.Add("de", "de");
-                GoogleTranslator._languageModeMap.Add("ka", "ka");
-                GoogleTranslator._languageModeMap.Add("el", "el");
-                GoogleTranslator._languageModeMap.Add("ht", "ht");
-                GoogleTranslator._languageModeMap.Add("iw", "iw");
-                GoogleTranslator._languageModeMap.Add("hi", "hi");
-                GoogleTranslator._languageModeMap.Add("hu", "hu");
-                GoogleTranslator._languageModeMap.Add("is", "is");
-                GoogleTranslator._languageModeMap.Add("id", "id");
-                GoogleTranslator._languageModeMap.Add("ga", "ga");
-                GoogleTranslator._languageModeMap.Add("it", "it");
-                GoogleTranslator._languageModeMap.Add("ja", "ja");
-                GoogleTranslator._languageModeMap.Add("ko", "ko");
-                GoogleTranslator._languageModeMap.Add("lo", "lo");
-                GoogleTranslator._languageModeMap.Add("la", "la");
-                GoogleTranslator._languageModeMap.Add("lv", "lv");
-                GoogleTranslator._languageModeMap.Add("lt", "lt");
-                GoogleTranslator._languageModeMap.Add("mk", "mk");
-                GoogleTranslator._languageModeMap.Add("ms", "ms");
-                GoogleTranslator._languageModeMap.Add("mt", "mt");
-                GoogleTranslator._languageModeMap.Add("no", "no");
-                GoogleTranslator._languageModeMap.Add("fa", "fa");
-                GoogleTranslator._languageModeMap.Add("pl", "pl");
-                GoogleTranslator._languageModeMap.Add("pt", "pt");
-                GoogleTranslator._languageModeMap.Add("ro", "ro");
-                GoogleTranslator._languageModeMap.Add("ru", "ru");
-                GoogleTranslator._languageModeMap.Add("sr", "sr");
-                GoogleTranslator._languageModeMap.Add("sk", "sk");
-                GoogleTranslator._languageModeMap.Add("sl", "sl");
-                GoogleTranslator._languageModeMap.Add("es", "es");
-                GoogleTranslator._languageModeMap.Add("sw", "sw");
-                GoogleTranslator._languageModeMap.Add("sv", "sv");
-                GoogleTranslator._languageModeMap.Add("ta", "ta");
-                GoogleTranslator._languageModeMap.Add("te", "te");
-                GoogleTranslator._languageModeMap.Add("th", "th");
-                GoogleTranslator._languageModeMap.Add("tr", "tr");
-                GoogleTranslator._languageModeMap.Add("uk", "uk");
-                GoogleTranslator._languageModeMap.Add("ur", "ur");
-                GoogleTranslator._languageModeMap.Add("vi", "vi");
-                GoogleTranslator._languageModeMap.Add("cy", "cy");
-                GoogleTranslator._languageModeMap.Add("yi", "yi");
+                    { "af", "af"},
+                    { "sq", "sq"},
+                    { "ar", "ar"},
+                    { "hy", "hy"},
+                    { "az", "az"},
+                    { "eu", "eu"},
+                    { "be", "be"},
+                    { "bn", "bn"},
+                    { "bg", "bg"},
+                    { "ca", "ca"},
+                    { "zh-CN", "zh-CN"},
+                    { "hr", "hr"},
+                    { "cs", "cs"},
+                    { "da", "da"},
+                    { "nl", "nl"},
+                    { "en", "en"},
+                    { "eo", "eo"},
+                    { "et", "et"},
+                    { "tl", "tl"},
+                    { "fi", "fi"},
+                    { "fr", "fr"},
+                    { "gl", "gl"},
+                    { "de", "de"},
+                    { "ka", "ka"},
+                    { "el", "el"},
+                    { "ht", "ht"},
+                    { "iw", "iw"},
+                    { "hi", "hi"},
+                    { "hu", "hu"},
+                    { "is", "is"},
+                    { "id", "id"},
+                    { "ga", "ga"},
+                    { "it", "it"},
+                    { "ja", "ja"},
+                    { "ko", "ko"},
+                    { "lo", "lo"},
+                    { "la", "la"},
+                    { "lv", "lv"},
+                    { "lt", "lt"},
+                    { "mk", "mk"},
+                    { "ms", "ms"},
+                    { "mt", "mt"},
+                    { "no", "no"},
+                    { "fa", "fa"},
+                    { "pl", "pl"},
+                    { "pt", "pt"},
+                    { "ro", "ro"},
+                    { "ru", "ru"},
+                    { "sr", "sr"},
+                    { "sk", "sk"},
+                    { "sl", "sl"},
+                    { "es", "es"},
+                    { "sw", "sw"},
+                    { "sv", "sv"},
+                    { "ta", "ta"},
+                    { "te", "te"},
+                    { "th", "th"},
+                    { "tr", "tr"},
+                    { "uk", "uk"},
+                    { "ur", "ur"},
+                    { "vi", "vi"},
+                    { "cy", "cy"},
+                    { "yi", "yi"},
+                };
             }
         }
 

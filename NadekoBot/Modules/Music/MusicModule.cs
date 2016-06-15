@@ -23,22 +23,6 @@ namespace NadekoBot.Modules.Music
 
         public MusicModule()
         {
-            // ready for 1.0
-            //NadekoBot.Client.UserUpdated += (s, e) =>
-            //{
-            //    try
-            //    {
-            //        if (e.Before.VoiceChannel != e.After.VoiceChannel &&
-            //           e.Before.VoiceChannel.Members.Count() == 0)
-            //        {
-            //            MusicPlayer musicPlayer;
-            //            if (!MusicPlayers.TryRemove(e.Server, out musicPlayer)) return;
-            //            musicPlayer.Destroy();
-            //        }
-            //    }
-            //    catch { }
-            //};
-
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Music;
@@ -129,6 +113,7 @@ namespace NadekoBot.Modules.Music
                 cgb.CreateCommand("lq")
                     .Alias("ls").Alias("lp")
                     .Description("Lists up to 15 currently queued songs.\n**Usage**: `!m lq`")
+                    .Parameter("page", ParameterType.Optional)
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
@@ -137,6 +122,13 @@ namespace NadekoBot.Modules.Music
                             await e.Channel.SendMessage("🎵 No active music player.").ConfigureAwait(false);
                             return;
                         }
+
+                        int page;
+                        if (!int.TryParse(e.GetArg("page"), out page) || page <= 0)
+                        {
+                            page = 1;
+                        }
+
                         var currentSong = musicPlayer.CurrentSong;
                         if (currentSong == null)
                             return;
@@ -145,13 +137,15 @@ namespace NadekoBot.Modules.Music
                             toSend += "🔂";
                         else if (musicPlayer.RepeatPlaylist)
                             toSend += "🔁";
-                        toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued.` ";
+                        toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued. Showing page {page}` ";
                         if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
                             toSend += "**Song queue is full!**\n";
                         else
                             toSend += "\n";
-                        var number = 1;
-                        await e.Channel.SendMessage(toSend + string.Join("\n", musicPlayer.Playlist.Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
+                        const int itemsPerPage = 15;
+                        int startAt = itemsPerPage * (page - 1);
+                        var number = 1 + startAt;
+                        await e.Channel.SendMessage(toSend + string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("np")
