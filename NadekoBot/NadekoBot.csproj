@@ -201,7 +201,6 @@
     <Compile Include="Modules\Games\Commands\Trivia\TriviaGame.cs" />
     <Compile Include="Modules\Games\Commands\Trivia\TriviaQuestion.cs" />
     <Compile Include="Modules\Games\Commands\Trivia\TriviaQuestionPool.cs" />
-    <Compile Include="Modules\Conversations\Commands\RequestsCommand.cs" />
     <Compile Include="Modules\Administration\Commands\ServerGreetCommand.cs" />
     <Compile Include="Modules\Games\Commands\SpeedTyping.cs" />
     <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
