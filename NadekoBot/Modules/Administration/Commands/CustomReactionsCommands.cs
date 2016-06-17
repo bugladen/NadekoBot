@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             var Prefix = Module.Prefix;
 
-            cgb.CreateCommand(Prefix + "addcustomreaction")
+            cgb.CreateCommand(Prefix + "addcustreact")
                 .Alias(Prefix + "acr")
                 .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**  \n**Usage**: {Prefix}acr \"hello\" I love saying hello to %user%")
                 .AddCheck(SimpleCheckers.OwnerOnly())
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
                 });
 
-            cgb.CreateCommand(Prefix + "listcustomreactions")
+            cgb.CreateCommand(Prefix + "listcustreact")
                 .Alias(Prefix + "lcr")
                 .Description($"Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:{Prefix}lcr 1")
                 .Parameter("num", ParameterType.Required)
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(result).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(Prefix + "deletecustomreaction")
+            cgb.CreateCommand(Prefix + "delcustreact")
                 .Alias(Prefix + "dcr")
                 .Description("Deletes a custom reaction with given name (and index)")
                 .Parameter("name", ParameterType.Required)

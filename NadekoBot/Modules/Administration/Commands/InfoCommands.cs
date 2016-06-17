@@ -16,8 +16,8 @@ namespace NadekoBot.Modules.Administration.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-            cgb.CreateCommand(Module.Prefix + "sinfo")
-                .Alias(Module.Prefix + "serverinfo")
+            cgb.CreateCommand(Module.Prefix + "serverinfo")
+                .Alias(Module.Prefix + "sinfo")
                 .Description($"Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.\n**Usage**:{Module.Prefix}sinfo Some Server")
                 .Parameter("server", ParameterType.Optional)
                 .Do(async e =>
@@ -47,8 +47,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(Module.Prefix + "cinfo")
-                .Alias(Module.Prefix + "channelinfo")
+            cgb.CreateCommand(Module.Prefix + "channelinfo")
+                .Alias(Module.Prefix + "cinfo")
                 .Description($"Shows info about the channel. If no channel is supplied, it defaults to current one.\n**Usage**:{Module.Prefix}cinfo #some-channel")
                 .Parameter("channel", ParameterType.Optional)
                 .Do(async e =>
@@ -69,8 +69,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(Module.Prefix + "uinfo")
-                .Alias(Module.Prefix + "userinfo")
+            cgb.CreateCommand(Module.Prefix + "userinfo")
+                .Alias(Module.Prefix + "uinfo")
                 .Description($"Shows info about the user. If no user is supplied, it defaults a user running the command.\n**Usage**:{Module.Prefix}uinfo @SomeUser")
                 .Parameter("user", ParameterType.Optional)
                 .Do(async e =>

@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new StreamNotifications(this));
             commands.Add(new ConverterCommand(this));
             commands.Add(new RedditCommand(this));
-			commands.Add(new WowJokeCommand(this));
+            commands.Add(new WowJokeCommand(this));
             commands.Add(new CalcCommand(this));
             commands.Add(new WowJokeCommand(this));
             rng = new Random();
@@ -472,7 +473,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var red = Convert.ToInt32(arg1.Substring(0, 2), 16);
                         var green = Convert.ToInt32(arg1.Substring(2, 2), 16);
                         var blue = Convert.ToInt32(arg1.Substring(4, 2), 16);
-                        var brush = new SolidBrush(Color.FromArgb(red, green, blue));
+                        var brush = new SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
 
                         using (Graphics g = Graphics.FromImage(img))
                         {
@@ -482,6 +483,29 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                         await e.Channel.SendFile("arg1.png", img.ToStream());
                     });
+
+
+                cgb.CreateCommand(Prefix + "videocall")
+                  .Description("Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
+                  .Parameter("arg", ParameterType.Unparsed)
+                  .Do(async e =>
+                  {
+                      try
+                      {
+                          var allUsrs = e.Message.MentionedUsers.Union(new User[] { e.User });
+                          var allUsrsArray = allUsrs as User[] ?? allUsrs.ToArray();
+                          var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Name[0].ToString()));
+                          str += new Random().Next();
+                          foreach (var usr in allUsrsArray)
+                          {
+                              await usr.SendMessage(str).ConfigureAwait(false);
+                          }
+                      }
+                      catch (Exception ex)
+                      {
+                          Console.WriteLine(ex);
+                      }
+                  });
             });
         }
     }

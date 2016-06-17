@@ -139,8 +139,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     catch { }
                 });
 
-            cgb.CreateCommand(Module.Prefix + "iamn")
-                .Alias(Module.Prefix + "iamnot")
+            cgb.CreateCommand(Module.Prefix + "iamnot")
+                .Alias(Module.Prefix + "iamn")
                 .Description("Removes a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
                              "\n**Usage**: .iamn Gamer")
