@@ -7,7 +7,8 @@ ________________________________________________________________________________
 1) NET Framework 4.5.2 (or 4.6)
 - Start with making a folder, lets name it `Nadeko`
 - Make sure you have **7zip** installed, if not then head to http://www.7-zip.org/download.html and download/install it.
-- Now head to https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0 and download `WINDOWS.-.nadeupdater.7z`
+- Now head to https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0 and download `WINDOWS.-.nadeupdater.7z
+    - *Alternatively, you can download nadekobot from [releases](https://github.com/Kwoth/NadekoBot/releases) and extract the zip yourself. That is what updater does, except it makes it easier for you to update because it doesn't overwrite important files. If you are downloading releases you will have to be careful about your config, credentials, and other files you edited in order to preserve your data every time you update.*
 - Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
 - You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
 - Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
