@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Help
                     .Description("List all bot modules.")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)))
+                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)) + $"\n`Type \"{Prefix}commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
                     });
 
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Help
                             return;
                         }
                         var i = 0;
-                        await e.Channel.SendMessage("`List Of Commands:`\n```xl\n" + string.Join("\n", cmdsArray.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"{el.Text,-22}")))) + "\n``` `You can type \"-h command name\" to see the help about that specific command.`").ConfigureAwait(false);
+                        await e.Channel.SendMessage("`List Of Commands:`\n```xl\n" + string.Join("\n", cmdsArray.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"{el.Text,-22}")))) + $"\n``` `You can type \"{Prefix}h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
                     });
             });
         }
