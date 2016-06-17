@@ -121,7 +121,14 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
-                    await e.User.AddRoles(role).ConfigureAwait(false);
+                    try
+                    {
+                        await e.User.AddRoles(role).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`");
+                    }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000);
                     await msg.Delete();
