@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions[name].Add(message);
                     else
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
                     await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
 
                 });
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     int num;
                     if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) return;
                     string result = GetCustomsOnPage(num - 1); //People prefer starting with 1
-                    await e.Channel.SendMessage(result);
+                    await e.Channel.SendMessage(result).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Prefix + "deletecustomreaction")
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        await e.Channel.SendMessage("Could not find given commandname");
+                        await e.Channel.SendMessage("Could not find given commandname").ConfigureAwait(false);
                         return;
                     }
                     string message = "";
@@ -94,8 +94,8 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions.Remove(name);
                         message = $"Deleted custom reaction: `{name}`";
                     }
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
-                    await e.Channel.SendMessage(message);
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
+                    await e.Channel.SendMessage(message).ConfigureAwait(false);
                 });
         }
 

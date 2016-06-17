@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Music.Classes
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
         public SongInfo SongInfo { get; }
 
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(4.MiB());
+        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(NadekoBot.Config.BufferSize);
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }

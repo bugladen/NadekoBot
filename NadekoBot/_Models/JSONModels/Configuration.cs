@@ -1,4 +1,5 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ namespace NadekoBot.Classes.JSONModels
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
+        public int BufferSize { get; set; } = 4.MiB();
 
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();

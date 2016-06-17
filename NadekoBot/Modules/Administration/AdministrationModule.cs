@@ -150,7 +150,7 @@ namespace NadekoBot.Modules.Administration
                         var roleToEdit = e.Server.FindRoles(r1).FirstOrDefault();
                         if (roleToEdit == null)
                         {
-                            await e.Channel.SendMessage("Can't find that role.");
+                            await e.Channel.SendMessage("Can't find that role.").ConfigureAwait(false);
                             return;
                         }
 
@@ -158,15 +158,15 @@ namespace NadekoBot.Modules.Administration
                         {
                             if (roleToEdit.Position > e.Server.CurrentUser.Roles.Max(r => r.Position))
                             {
-                                await e.Channel.SendMessage("I can't edit roles higher than my highest role.");
+                                await e.Channel.SendMessage("I can't edit roles higher than my highest role.").ConfigureAwait(false);
                                 return;
                             }
                             await roleToEdit.Edit(r2);
-                            await e.Channel.SendMessage("Role renamed.");
+                            await e.Channel.SendMessage("Role renamed.").ConfigureAwait(false);
                         }
                         catch (Exception)
                         {
-                            await e.Channel.SendMessage("Failed to rename role. Probably insufficient permissions.");
+                            await e.Channel.SendMessage("Failed to rename role. Probably insufficient permissions.").ConfigureAwait(false);
                         }
                     });
 
@@ -945,7 +945,7 @@ namespace NadekoBot.Modules.Administration
                                     UserName = donator.Name,
                                     UserId = (long)donator.Id
                                 });
-                                e.Channel.SendMessage("Successfuly added a new donator. 👑");
+                                e.Channel.SendMessage("Successfuly added a new donator. 👑").ConfigureAwait(false);
                             }
                             catch { }
                         }).ConfigureAwait(false);
@@ -981,10 +981,10 @@ namespace NadekoBot.Modules.Administration
                     {
                         foreach (var ch in NadekoBot.Client.Servers.Select(s => s.DefaultChannel))
                         {
-                            await ch.SendMessage(e.GetArg("msg"));
+                            await ch.SendMessage(e.GetArg("msg")).ConfigureAwait(false);
                         }
 
-                        await e.Channel.SendMessage(":ok:");
+                        await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "whoplays")
@@ -1003,9 +1003,9 @@ namespace NadekoBot.Modules.Administration
 
                         int i = 0;
                         if (arr.Length == 0)
-                            await e.Channel.SendMessage("Nobody. (not 100% sure)");
+                            await e.Channel.SendMessage("Nobody. (not 100% sure)").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))) + "\n```");
+                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "leave")
@@ -1019,8 +1019,8 @@ namespace NadekoBot.Modules.Administration
                         {
                             return;
                         }
-                        await srvr.Leave();
-                        await e.Channel.SendMessage("`Done.`");
+                        await srvr.Leave().ConfigureAwait(false);
+                        await e.Channel.SendMessage("`Done.`").ConfigureAwait(false);
                     });
 
             });

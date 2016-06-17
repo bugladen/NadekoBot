@@ -29,13 +29,13 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                     if (!server.IsOwner)
                     {
-                        await server.Leave();
+                        await server.Leave().ConfigureAwait(false);
                     }
                     else
                     {
-                        await server.Delete();
+                        await server.Delete().ConfigureAwait(false);
                     }
-                    await NadekoBot.SendMessageToOwner("Left server " + server.Name);
+                    await NadekoBot.SendMessageToOwner("Left server " + server.Name).ConfigureAwait(false);
                 });
         }
     }

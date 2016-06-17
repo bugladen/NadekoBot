@@ -127,14 +127,14 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                     catch
                     {
-                        await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`");
+                        await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
                     }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000);
                     await msg.Delete();
                     try
                     {
-                        await e.Message.Delete();
+                        await e.Message.Delete().ConfigureAwait(false);
                     }
                     catch { }
                 });
