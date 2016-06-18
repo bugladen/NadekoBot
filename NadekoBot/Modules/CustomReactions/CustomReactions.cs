@@ -1,5 +1,6 @@
 using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace NadekoBot.Modules.CustomReactions
                     {new Regex("%mention%"), (e,m) => NadekoBot.BotMention },
                     {new Regex("%user%"), (e,m) => e.User.Mention },
                     {new Regex("%target%"), (e,m) => e.GetArg("args")?.Trim() ?? "" },
+
                  };
         }
 
@@ -51,13 +53,8 @@ namespace NadekoBot.Modules.CustomReactions
                          .Do(async e =>
                           {
                               string str = command.Value[rng.Next(0, command.Value.Count())];
-                              foreach (var key in commandFuncs.Keys)
-                              {
-                                  foreach (Match m in key.Matches(str))
-                                  {
-                                      str = str.Replace(m.Value, commandFuncs[key](e, m));
-                                  }
-                              }
+                              commandFuncs.Keys.ForEach(key => str = key.Replace(str, m => commandFuncs[key](e, m)));
+                              
 
                               await e.Channel.SendMessage(str).ConfigureAwait(false);
                           });
