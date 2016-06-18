@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.Music
                         await msg.Edit("🎵 `Playlist queue complete.`").ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("localplaylist")
+                cgb.CreateCommand("localplaylst")
                     .Alias("lopl")
                     .Description("Queues all songs from a directory. **Bot Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
@@ -417,7 +417,7 @@ namespace NadekoBot.Modules.Music
                         }
                     });
 
-                cgb.CreateCommand("repeatcursong")
+                cgb.CreateCommand("reptcursong")
                     .Alias("rcs")
                     .Description("Toggles repeat of current song.\n**Usage**: `!m rcs`")
                     .Do(async e =>
@@ -435,7 +435,7 @@ namespace NadekoBot.Modules.Music
                                                         .ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("repeatplaylist")
+                cgb.CreateCommand("rpeatplaylst")
                     .Alias("rpl")
                     .Description("Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).\n**Usage**: `!m rpl`")
                     .Do(async e =>
