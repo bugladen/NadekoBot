@@ -39,7 +39,8 @@ namespace NadekoBot.Modules.Conversations.Commands
                             file = RipName(text, string.IsNullOrWhiteSpace(e.GetArg("year"))
                                     ? null
                                     : e.GetArg("year"));
-                        } else
+                        }
+                        else
                         {
                             var avatar = await GetAvatar(usr.AvatarUrl);
                             text = usr.Name;
@@ -63,16 +64,13 @@ namespace NadekoBot.Modules.Conversations.Commands
         public Stream RipUser(string name, Image avatar, string year = null)
         {
             var bm = Resources.rip;
-            var offset = name.Length * 2;
-            var fontSize = 20;
-            if (name.Length > 10)
-            {
-                fontSize -= (name.Length - 10) / 2;
-            }
-
-            //TODO use measure string
+            int width = 300;
+            var fontSize = width / name.Length  -2;
+            if (fontSize > 20) fontSize = 20;
             var g = Graphics.FromImage(bm);
-            g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, 100 - offset, 220);
+            Font nameFont = new Font("Comic Sans MS", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            SizeF nameSize = g.MeasureString(name, nameFont);
+            g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, (bm.Width /2 - 8) - (nameSize.Width /2), 243 - nameSize.Height);
             g.DrawString((year ?? "?") + " - " + DateTime.Now.Year, new Font("Consolas", 12, FontStyle.Bold), Brushes.Black, 80, 240);
 
             g.DrawImage(avatar, 80, 135);
@@ -86,19 +84,14 @@ namespace NadekoBot.Modules.Conversations.Commands
         public Stream RipName(string name, string year = null)
         {
             var bm = Resources.rip;
-
+            int width = 190;
             var offset = name.Length * 5;
-
-            var fontSize = 20;
-
-            if (name.Length > 10)
-            {
-                fontSize -= (name.Length - 10) / 2;
-            }
-
-            //TODO use measure string
+            var fontSize = width / name.Length;
+            if (fontSize > 20) fontSize = 20;
             var g = Graphics.FromImage(bm);
-            g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, 100 - offset, 200);
+            Font nameFont = new Font("Comic Sans MS", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            SizeF nameSize = g.MeasureString(name, nameFont);
+            g.DrawString(name, nameFont, Brushes.Black, (bm.Width / 2) - (nameSize.Width / 2), 200);
             g.DrawString((year ?? "?") + " - " + DateTime.Now.Year, new Font("Consolas", 12, FontStyle.Bold), Brushes.Black, 80, 235);
             g.Flush();
             g.Dispose();
