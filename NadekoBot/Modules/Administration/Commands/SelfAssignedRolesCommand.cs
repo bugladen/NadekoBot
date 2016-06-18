@@ -121,19 +121,26 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
-                    await e.User.AddRoles(role).ConfigureAwait(false);
+                    try
+                    {
+                        await e.User.AddRoles(role).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                    }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000);
                     await msg.Delete();
                     try
                     {
-                        await e.Message.Delete();
+                        await e.Message.Delete().ConfigureAwait(false);
                     }
                     catch { }
                 });
 
-            cgb.CreateCommand(Module.Prefix + "iamn")
-                .Alias(Module.Prefix + "iamnot")
+            cgb.CreateCommand(Module.Prefix + "iamnot")
+                .Alias(Module.Prefix + "iamn")
                 .Description("Removes a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
                              "\n**Usage**: .iamn Gamer")

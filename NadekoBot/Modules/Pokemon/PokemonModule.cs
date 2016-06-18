@@ -194,8 +194,8 @@ namespace NadekoBot.Modules.Pokemon
                         await e.Channel.SendMessage(response).ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand(Prefix + "ml")
-                    .Alias("movelist")
+                cgb.CreateCommand(Prefix + "movelist")
+                    .Alias(Prefix + "ml")
                     .Description("Lists the moves you are able to use")
                     .Do(async e =>
                     {

@@ -6,17 +6,16 @@ namespace NadekoBot.Classes.JSONModels
 {
     public class Credentials
     {
-        public string Username = "myemail@email.com";
-        public string Password = "xxxxxxx";
-        public string Token = "";
-        public ulong BotId = 1231231231231;
-        public string GoogleAPIKey = "";
-        public ulong[] OwnerIds = { 123123123123, 5675675679845 };
-        public string TrelloAppKey = "";
-        public string SoundCloudClientID = "";
-        public string MashapeKey = "";
-        public string LOLAPIKey = "";
-        public string CarbonKey = "";
+        public string Token { get; set; } = "";
+        public string ClientId { get; set; } = "116275390695079945";
+        public ulong BotId { get; set; } = 1231231231231;
+        public ulong[] OwnerIds { get; set; } = { 123123123123, 5675675679845 };
+        public string GoogleAPIKey { get; set; } = "";
+        public string SoundCloudClientID { get; set; } = "";
+        public string MashapeKey { get; set; } = "";
+        public string LOLAPIKey { get; set; } = "";
+        public string TrelloAppKey { get; set; } = "";
+        public string CarbonKey { get; set; } = "";
     }
     [DebuggerDisplay("{items[0].id.playlistId}")]
     public class YoutubePlaylistSearch

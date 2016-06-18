@@ -75,8 +75,8 @@ namespace NadekoBot.Modules.ClashOfClans
                         //war with the index X started.
                     });
 
-                cgb.CreateCommand(Prefix + "sw")
-                    .Alias(Prefix + "startwar")
+                cgb.CreateCommand(Prefix + "startwar")
+                    .Alias(Prefix + "sw")
                     .Description("Starts a war with a given number.")
                     .Parameter("number", ParameterType.Required)
                     .Do(async e =>
@@ -177,8 +177,8 @@ namespace NadekoBot.Modules.ClashOfClans
                         }
                     });
 
-                cgb.CreateCommand(Prefix + "cf")
-                    .Alias(Prefix + "claimfinish")
+                cgb.CreateCommand(Prefix + "claimfinish")
+                    .Alias(Prefix + "cf")
                     .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)

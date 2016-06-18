@@ -19,9 +19,9 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             var Prefix = Module.Prefix;
 
-            cgb.CreateCommand(Prefix + "addcustomreaction")
+            cgb.CreateCommand(Prefix + "addcustreact")
                 .Alias(Prefix + "acr")
-                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Owner Only!**  \n**Usage**: {Prefix}acr \"hello\" I love saying hello to %user%")
+                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**  \n**Usage**: {Prefix}acr \"hello\" I love saying hello to %user%")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Parameter("name", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)
@@ -38,12 +38,12 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions[name].Add(message);
                     else
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
                     await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
 
                 });
 
-            cgb.CreateCommand(Prefix + "listcustomreactions")
+            cgb.CreateCommand(Prefix + "listcustreact")
                 .Alias(Prefix + "lcr")
                 .Description($"Lists all current custom reactions (paginated with 5 commands per page).\n**Usage**:{Prefix}lcr 1")
                 .Parameter("num", ParameterType.Required)
@@ -52,10 +52,10 @@ namespace NadekoBot.Modules.Administration.Commands
                     int num;
                     if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) return;
                     string result = GetCustomsOnPage(num - 1); //People prefer starting with 1
-                    await e.Channel.SendMessage(result);
+                    await e.Channel.SendMessage(result).ConfigureAwait(false);
                 });
 
-            cgb.CreateCommand(Prefix + "deletecustomreaction")
+            cgb.CreateCommand(Prefix + "delcustreact")
                 .Alias(Prefix + "dcr")
                 .Description("Deletes a custom reaction with given name (and index)")
                 .Parameter("name", ParameterType.Required)
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        await e.Channel.SendMessage("Could not find given commandname");
+                        await e.Channel.SendMessage("Could not find given commandname").ConfigureAwait(false);
                         return;
                     }
                     string message = "";
@@ -94,8 +94,8 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions.Remove(name);
                         message = $"Deleted custom reaction: `{name}`";
                     }
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig());
-                    await e.Channel.SendMessage(message);
+                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
+                    await e.Channel.SendMessage(message).ConfigureAwait(false);
                 });
         }
 

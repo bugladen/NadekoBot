@@ -1,4 +1,5 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ namespace NadekoBot.Classes.JSONModels
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool IsRotatingStatus { get; set; } = false;
+        public int BufferSize { get; set; } = 4.MiB();
 
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
@@ -131,6 +133,17 @@ namespace NadekoBot.Classes.JSONModels
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
         public string DMHelpString { get; set; } = "Type `-h` for help.";
+        public string HelpString { get; set; } = @"You can use `{0}modules` command to see a list of all modules.
+You can use `{0}commands ModuleName`
+(for example `{0}commands Administration`) to see a list of all of the commands in that module.
+For a specific command help, use `{0}h ""Command name""` (for example `-h ""!m q""`)
+
+
+**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
+<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+
+
+Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
     }
 
     public class CommandPrefixesModel
