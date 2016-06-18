@@ -21,12 +21,14 @@ namespace NadekoBot.Modules.CustomReactions
         {
             commandFuncs = new Dictionary<Regex, Func<CommandEventArgs, Match, string>>
                  {
-                    {new Regex(@"%rng(?:%|:(\d{0,9})-(\d{0,9})%)"), (e,m) => {
+                    {new Regex(@"(?:%rng%|%rng:(\d{1,9})-(\d{1,9})%)"), (e,m) => {
                         int start, end;
-                        if (int.TryParse(m.Groups[1].Value, out start) && int.TryParse(m.Groups[2].Value, out end)) {
+                        if (m.Groups[1].Success)
+                        {
+                            start = int.Parse(m.Groups[1].Value);
+                            end = int.Parse(m.Groups[2].Value);
                             return rng.Next(start, end).ToString();
-                        }
-                        else return rng.Next().ToString();
+                        }else return rng.Next().ToString();
                         } },
                     {new Regex("%mention%"), (e,m) => NadekoBot.BotMention },
                     {new Regex("%user%"), (e,m) => e.User.Mention },
@@ -54,7 +56,7 @@ namespace NadekoBot.Modules.CustomReactions
                           {
                               string str = command.Value[rng.Next(0, command.Value.Count())];
                               commandFuncs.Keys.ForEach(key => str = key.Replace(str, m => commandFuncs[key](e, m)));
-                              
+
 
                               await e.Channel.SendMessage(str).ConfigureAwait(false);
                           });
