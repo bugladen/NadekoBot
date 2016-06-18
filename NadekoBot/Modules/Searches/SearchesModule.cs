@@ -393,8 +393,8 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         await e.Channel.SendMessage("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆").ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand(Prefix + "mi")
-                .Alias(Prefix + "magicitem")
+                cgb.CreateCommand(Prefix + "magicitem")
+                .Alias(Prefix + "mi")
                 .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
                 .Do(async e =>
                 {
