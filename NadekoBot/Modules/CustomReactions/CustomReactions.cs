@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.CustomReactions
         {
             commandFuncs = new Dictionary<Regex, Func<CommandEventArgs, Match, string>>
                  {
-                    {new Regex(@"%rng:?(\d{0,9})-?(\d{0,9})%"), (e,m) => {
+                    {new Regex(@"%rng(?:%|:(\d{0,9})-(\d{0,9})%)"), (e,m) => {
                         int start, end;
                         if (int.TryParse(m.Groups[1].Value, out start) && int.TryParse(m.Groups[2].Value, out end)) {
                             return rng.Next(start, end).ToString();
