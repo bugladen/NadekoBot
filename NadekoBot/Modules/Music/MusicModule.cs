@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand("listqueue")
                     .Alias("lq")
-                    .Description("Lists up to 15 currently queued songs.\n**Usage**: `!m lq`")
+                    .Description("Lists 15 currently queued songs per page. Default page is 1.\n**Usage**: `!m lq` or `!m lq 2`")
                     .Parameter("page", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -430,6 +430,7 @@ namespace NadekoBot.Modules.Music
 
                         var s = playlist[n1 - 1];
                         playlist.Insert(n2 - 1, s);
+                        playlist.RemoveAt(n1 - 1);
 
                         await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`");
 
