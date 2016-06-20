@@ -30,7 +30,7 @@ namespace NadekoBot.Classes.Help.Commands
         };
         public static string HelpString {
             get {
-                var str = string.IsNullOrWhiteSpace(NadekoBot.Creds.ClientId) && !NadekoBot.Config.DontJoinServers
+                var str = !string.IsNullOrWhiteSpace(NadekoBot.Creds.ClientId) && !NadekoBot.Config.DontJoinServers
                     ? String.Format("To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>\n", NadekoBot.Creds.ClientId)
                     : "";
                 return str + String.Format(NadekoBot.Config.HelpString, NadekoBot.Config.CommandPrefixes.Help);

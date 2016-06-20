@@ -368,7 +368,8 @@ namespace NadekoBot.Modules.Music
                         musicPlayer.MoveToVoiceChannel(voiceChannel);
                     });
 
-                cgb.CreateCommand("rm")
+                cgb.CreateCommand("remove")
+                    .Alias("rm")
                     .Description("Remove a song by its # in the queue, or 'all' to remove whole queue.\n**Usage**: `!m rm 5`")
                     .Parameter("num", ParameterType.Required)
                     .Do(async e =>
@@ -397,6 +398,41 @@ namespace NadekoBot.Modules.Music
                         var song = (musicPlayer.Playlist as List<Song>)?[num - 1];
                         musicPlayer.RemoveSongAt(num - 1);
                         await e.Channel.SendMessage($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**").ConfigureAwait(false);
+                    });
+
+                //var msRegex = new Regex(@"(?<n1>\d+)>(?<n2>\d+)", RegexOptions.Compiled);
+                cgb.CreateCommand("movesong")
+                    .Alias("ms")
+                    .Description($"Moves a song from one position to another.\n**Usage**: `{Prefix} ms` 5>3")
+                    .Parameter("fromto")
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                        {
+                            return;
+                        }
+                        var fromto = e.GetArg("fromto").Trim();
+                        var fromtoArr = fromto.Split('>');
+
+                        int n1;
+                        int n2;
+
+                        var playlist = musicPlayer.Playlist as List<Song> ?? musicPlayer.Playlist.ToList();
+
+                        if (fromtoArr.Length != 2 || !int.TryParse(fromtoArr[0], out n1) ||
+                            !int.TryParse(fromtoArr[1], out n2) || n1 < 1 || n2 < 1 || n1 == n2 ||
+                            n1 > playlist.Count || n2 > playlist.Count)
+                        {
+                            await e.Channel.SendMessage("`Invalid input.`");
+                            return;
+                        }
+
+                        var s = playlist[n1 - 1];
+                        playlist.Insert(n2 - 1, s);
+
+                        await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`");
+
                     });
 
                 cgb.CreateCommand("cleanup")
