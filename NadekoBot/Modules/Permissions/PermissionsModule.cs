@@ -637,7 +637,7 @@ namespace NadekoBot.Modules.Permissions
                 cgb.CreateCommand(Prefix + "allrolecmds").Alias(Prefix + "arc")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Parameter("channel", ParameterType.Unparsed)
+                    .Parameter("role", ParameterType.Unparsed)
                     .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [role_name]")
                     .Do(async e =>
                     {
@@ -645,12 +645,27 @@ namespace NadekoBot.Modules.Permissions
                         {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
-                            foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                            if (e.GetArg("role")?.ToLower() == "all")
                             {
-                                PermissionsHandler.SetRoleCommandPermission(role, command.Text, state);
+                                foreach (var role in e.Server.Roles)
+                                {
+                                    foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                                    {
+                                        PermissionsHandler.SetRoleCommandPermission(role, command.Text, state);
+                                    }
+                                }
+                                await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **all roles** role.").ConfigureAwait(false);
                             }
-                            await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.").ConfigureAwait(false);
+                            else
+                            {
+                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+
+                                foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                                {
+                                    PermissionsHandler.SetRoleCommandPermission(role, command.Text, state);
+                                }
+                                await e.Channel.SendMessage($"All commands from the **{module}** module have been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.").ConfigureAwait(false);
+                            }
                         }
                         catch (ArgumentException exArg)
                         {
