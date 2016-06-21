@@ -30,6 +30,7 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new RedditCommand(this));
             commands.Add(new WowJokeCommand(this));
             commands.Add(new CalcCommand(this));
+            commands.Add(new OsuCommands(this));
             rng = new Random();
         }
 
@@ -254,38 +255,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       catch (Exception ex)
                       {
                           await e.Channel.SendMessage($"💢 Error {ex.Message}").ConfigureAwait(false);
-                      }
-                  });
-
-                cgb.CreateCommand(Prefix + "osu")
-                  .Description("Shows osu stats for a player.\n**Usage**:~osu Name")
-                  .Parameter("usr", ParameterType.Unparsed)
-                  .Do(async e =>
-                  {
-                      if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
-                          return;
-
-                      using (WebClient cl = new WebClient())
-                      {
-                          try
-                          {
-                              cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-                              cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
-                              cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2"));
-                              cl.DownloadDataCompleted += async (s, cle) =>
-                              {
-                                  try
-                                  {
-                                      await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result)).ConfigureAwait(false);
-                                      await e.Channel.SendMessage($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
-                                  }
-                                  catch { }
-                              };
-                          }
-                          catch
-                          {
-                              await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\").ConfigureAwait(false);
-                          }
                       }
                   });
 
