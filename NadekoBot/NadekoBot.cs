@@ -105,6 +105,9 @@ namespace NadekoBot
             Console.WriteLine(string.IsNullOrWhiteSpace(Creds.SoundCloudClientID)
                 ? "No soundcloud Client ID found. Soundcloud streaming is disabled."
                 : "SoundCloud streaming enabled.");
+            Console.WriteLine(string.IsNullOrWhiteSpace(Creds.OsuAPIKey)
+                ? "No osu! api key found. Song & top score lookups will not work. User lookups still available."
+                : "osu! API key provided.");
 
             BotMention = $"<@{Creds.BotId}>";
 

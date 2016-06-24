@@ -249,7 +249,9 @@ Command and aliases | Description | Usage
 `~ir`  |  Pulls a random image using a search parameter. |  ~ir cute kitten
 `~lmgtfy`  |  Google something for an idiot.
 `~hs`  |  Searches for a Hearthstone card and shows its image. Takes a while to complete. | ~hs Ysera
-`~osu`  |  Shows osu stats for a player. | ~osu Name
+`~osu u`  |  Shows osu stats for a player. Optional mode. | ~osu u rrtyui std
+`~osu b`  |  Shows osu stats for a beatmap. | ~osu b https://osu.ppy.sh/b/992685
+`~osu top5`  |  Shows an osu player's top 5 plays. Optional mode. | ~osu top5 Dusk ctb
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
 `~quote`  |  Shows a random quote.
