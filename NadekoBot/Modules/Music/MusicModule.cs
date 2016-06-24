@@ -430,7 +430,8 @@ namespace NadekoBot.Modules.Music
 
                         var s = playlist[n1 - 1];
                         playlist.Insert(n2 - 1, s);
-                        playlist.RemoveAt(n1 - 1);
+                        var nn1 = n2 < n1 ? n1 : n1 - 1;
+                        playlist.RemoveAt(nn1);
 
                         await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`");
 
