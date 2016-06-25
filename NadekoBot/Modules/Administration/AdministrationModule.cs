@@ -280,7 +280,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "ban").Alias(Prefix + "b")
                     .Parameter("user", ParameterType.Required)
-                    .Parameter("msg", ParameterType.Optional)
+                    .Parameter("msg", ParameterType.Unparsed)
                     .Description("Bans a user by id or name with an optional message.\n**Usage**: .b \"@some Guy\" Your behaviour is toxic.")
                         .Do(async e =>
                         {
@@ -315,7 +315,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "softban").Alias(Prefix + "sb")
                     .Parameter("user", ParameterType.Required)
-                    .Parameter("msg", ParameterType.Optional)
+                    .Parameter("msg", ParameterType.Unparsed)
                     .Description("Bans and then unbans a user by id or name with an optional message.\n**Usage**: .sb \"@some Guy\" Your behaviour is toxic.")
                         .Do(async e =>
                         {
