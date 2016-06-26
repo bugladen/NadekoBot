@@ -33,6 +33,14 @@ namespace NadekoBot.Classes
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
                 conn.Execute(Queries.TransactionTriggerQuery);
+                try
+                {
+                    conn.Execute(Queries.DeletePlaylistTriggerQuery);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
@@ -208,4 +216,11 @@ INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded)
             NEW.DateAdded);
 END
 ";
+    public static string DeletePlaylistTriggerQuery = @"
+CREATE TRIGGER music_playlist
+AFTER DELETE ON MusicPlaylist
+FOR EACH ROW
+BEGIN
+    DELETE FROM PlaylistSongInfo WHERE PlaylistId = OLD.Id;
+END";
 }

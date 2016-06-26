@@ -610,6 +610,23 @@ namespace NadekoBot.Modules.Music
                             e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```");
                     });
 
+                cgb.CreateCommand("deleteplaylist")
+                    .Alias("delpls")
+                    .Description("Deletes a saved playlist. Only if you made it or if you are the bot owner. | `!m delpls animu-5`")
+                    .Parameter("pl", ParameterType.Required)
+                    .Do(async e =>
+                    {
+                        var pl = e.GetArg("pl").Trim().Split('-')[1];
+                        if (string.IsNullOrWhiteSpace(pl))
+                            return;
+                        var plnum = int.Parse(pl);
+                        if (NadekoBot.IsOwner(e.User.Id))
+                            DbHandler.Instance.Delete<MusicPlaylist>(plnum);
+                        else
+                            DbHandler.Instance.DeleteWhere<MusicPlaylist>(mp => mp.Id == plnum && (long)e.User.Id == mp.CreatorId);
+                        await e.Channel.SendMessage("`Ok.` :ok:");
+                    });
+
                 cgb.CreateCommand("goto")
                     .Description("Goes to a specific time in seconds in a song.")
                     .Parameter("time")
