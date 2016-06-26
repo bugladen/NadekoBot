@@ -810,67 +810,51 @@ namespace NadekoBot.Modules.Administration
                         await e.User.SendMessage(output).ConfigureAwait(false);
                     });
 
-                Server commsServer = null;
-                User commsUser = null;
-                Channel commsChannel = null;
-
-                cgb.CreateCommand(Prefix + "commsuser")
-                    .Description("Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Bot Owner Only!**")
-                    .Parameter("name", ParameterType.Unparsed)
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
-                        if (commsUser != null)
-                        {
-                            commsChannel = null;
-                            await e.Channel.SendMessage("User for comms set.").ConfigureAwait(false);
-                        }
-                        else
-                            await e.Channel.SendMessage("No server specified or user.").ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand(Prefix + "commsserver")
-                    .Description("Sets a server for through-bot communication. **Bot Owner Only!**")
-                    .Parameter("server", ParameterType.Unparsed)
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        commsServer = client.FindServers(e.GetArg("server")).FirstOrDefault();
-                        if (commsServer != null)
-                            await e.Channel.SendMessage("Server for comms set.").ConfigureAwait(false);
-                        else
-                            await e.Channel.SendMessage("No such server.").ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand(Prefix + "commschannel")
-                    .Description("Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Bot Owner Only!**")
-                    .Parameter("ch", ParameterType.Unparsed)
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        commsChannel = commsServer?.FindChannels(e.GetArg("ch"), ChannelType.Text).FirstOrDefault();
-                        if (commsChannel != null)
-                        {
-                            commsUser = null;
-                            await e.Channel.SendMessage("Server for comms set.").ConfigureAwait(false);
-                        }
-                        else
-                            await e.Channel.SendMessage("No server specified or channel is invalid.").ConfigureAwait(false);
-                    });
-
                 cgb.CreateCommand(Prefix + "send")
-                    .Description("Send a message to someone on a different server through the bot. **Bot Owner Only!**\n**Usage**: .send Message text multi word!")
+                    .Description("Send a message to someone on a different server through the bot. **Bot Owner Only!**\n**Usage**: `.send serverid|u:user_id Send this to a user!` or `.send serverid|c:channel_id Send this to a channel!`")
+                    .Parameter("ids", ParameterType.Required)
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        if (commsUser != null)
-                            await commsUser.SendMessage(e.GetArg("msg")).ConfigureAwait(false);
-                        else if (commsChannel != null)
-                            await commsChannel.SendMessage(e.GetArg("msg")).ConfigureAwait(false);
+                        var msg = e.GetArg("msg")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(msg))
+                            return;
+
+                        var ids = e.GetArg("ids").Split('-');
+                        if (ids.Length != 2)
+                            return;
+                        var sid = ulong.Parse(ids[0]);
+                        var server = NadekoBot.Client.Servers.Where(s => s.Id == sid).FirstOrDefault();
+
+                        if (server == null)
+                            return;
+
+                        if (ids[1].ToUpperInvariant().StartsWith("C:"))
+                        {
+                            var cid = ulong.Parse(ids[1].Substring(2));
+                            var channel = server.TextChannels.Where(c => c.Id == cid).FirstOrDefault();
+                            if (channel == null)
+                            {
+                                return;
+                            }
+                            await channel.SendMessage(msg);
+                        }
+                        else if (ids[1].ToUpperInvariant().StartsWith("U:"))
+                        {
+                            var uid = ulong.Parse(ids[1].Substring(2));
+                            var user = server.Users.Where(u => u.Id == uid).FirstOrDefault();
+                            if (user == null)
+                            {
+                                return;
+                            }
+                            await user.SendMessage(msg);
+                        }
                         else
-                            await e.Channel.SendMessage("Failed. Make sure you've specified server and [channel or user]").ConfigureAwait(false);
+                        {
+                            await e.Channel.SendMessage("`Invalid format.`");
+                        }
                     });
 
                 cgb.CreateCommand(Prefix + "mentionrole")
