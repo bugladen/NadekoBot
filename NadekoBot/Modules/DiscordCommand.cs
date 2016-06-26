@@ -16,6 +16,11 @@ namespace NadekoBot.Classes
         protected DiscordModule Module { get; }
 
         /// <summary>
+        /// Parent module's prefix
+        /// </summary>
+        protected string Prefix => Module.Prefix;
+
+        /// <summary>
         /// Creates a new instance of discord command,
         /// use ": base(module)" in the derived class'
         /// constructor to make sure module is assigned

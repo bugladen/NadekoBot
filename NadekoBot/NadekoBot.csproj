@@ -149,6 +149,7 @@
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
+    <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
     <Compile Include="Modules\Searches\Commands\WowJokes.cs" />
@@ -495,6 +496,7 @@
     <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
     <None Include="resources\images\rose_overlay.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
