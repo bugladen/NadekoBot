@@ -108,6 +108,18 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private ObservableCollection<StreamNotificationConfig> observingStreams;
+
+        [JsonIgnore]
+        private bool autoDeleteMessagesOnCommand = false;
+        public bool AutoDeleteMessagesOnCommand {
+            get { return autoDeleteMessagesOnCommand; }
+            set {
+                autoDeleteMessagesOnCommand = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<StreamNotificationConfig> ObservingStreams {
             get { return observingStreams; }
             set {

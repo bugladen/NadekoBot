@@ -29,6 +29,22 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new CustomReactionsCommands(this));
             commands.Add(new AutoAssignRole(this));
             commands.Add(new SelfCommands(this));
+
+            NadekoBot.Client.GetService<CommandService>().CommandExecuted += DeleteCommandMessage;
+        }
+
+        private void DeleteCommandMessage(object sender, CommandEventArgs e)
+        {
+            if (e.Server == null || e.Channel.IsPrivate)
+                return;
+            var conf = SpecificConfigurations.Default.Of(e.Server.Id);
+            if (!conf.AutoDeleteMessagesOnCommand)
+                return;
+            try
+            {
+                e.Message.Delete();
+            }
+            catch { }
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
@@ -44,6 +60,21 @@ namespace NadekoBot.Modules.Administration
                 var client = manager.Client;
 
                 commands.ForEach(cmd => cmd.Init(cgb));
+
+                cgb.CreateCommand(Prefix + "delmsgoncmd")
+                    .Description("Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.")
+                    .AddCheck(SimpleCheckers.ManageServer())
+                    .Do(async e =>
+                    {
+                        var conf = SpecificConfigurations.Default.Of(e.Server.Id);
+                        conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
+                        Classes.JSONModels.ConfigHandler.SaveConfig();
+                        if (conf.AutoDeleteMessagesOnCommand)
+                            await e.Channel.SendMessage("❗`Now automatically deleting successfull command invokations.`");
+                        else
+                            await e.Channel.SendMessage("❗`Stopped automatic deletion of successfull command invokations.`");
+
+                    });
 
                 cgb.CreateCommand(Prefix + "restart")
                     .Description("Restarts the bot. Might not work.")
