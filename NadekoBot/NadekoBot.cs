@@ -22,6 +22,7 @@ using NadekoBot.Modules.Pokemon;
 using NadekoBot.Modules.Searches;
 using NadekoBot.Modules.Translator;
 using NadekoBot.Modules.Trello;
+using NadekoBot.Modules.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,7 @@ namespace NadekoBot
             //install modules
             modules.Add(new HelpModule(), "Help", ModuleFilter.None);
             modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
+            modules.Add(new UtilityModule(), "Utility", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);

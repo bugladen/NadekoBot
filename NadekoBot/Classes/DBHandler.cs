@@ -32,6 +32,7 @@ namespace NadekoBot.Classes
                 conn.CreateTable<SongInfo>();
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
+                conn.CreateTable<Incident>();
                 conn.Execute(Queries.TransactionTriggerQuery);
                 try
                 {
@@ -205,7 +206,7 @@ public class PlaylistData
 
 public static class Queries
 {
-    public static string TransactionTriggerQuery = @"
+    public const string TransactionTriggerQuery = @"
 CREATE TRIGGER IF NOT EXISTS OnTransactionAdded
 AFTER INSERT ON CurrencyTransaction
 BEGIN
@@ -216,8 +217,8 @@ INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded)
             NEW.DateAdded);
 END
 ";
-    public static string DeletePlaylistTriggerQuery = @"
-CREATE TRIGGER music_playlist
+    public const string DeletePlaylistTriggerQuery = @"
+CREATE TRIGGER IF NOT EXISTS music_playlist
 AFTER DELETE ON MusicPlaylist
 FOR EACH ROW
 BEGIN

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Timers;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace NadekoBot.Modules.Utility.Commands
 {
     class Remind : DiscordCommand
     {
