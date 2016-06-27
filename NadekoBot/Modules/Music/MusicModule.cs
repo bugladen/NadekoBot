@@ -677,10 +677,26 @@ namespace NadekoBot.Modules.Music
                             return;
                         await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>");
                     });
+
+                cgb.CreateCommand("autoplay")
+                    .Alias("ap")
+                    .Description("Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)")
+                    .Do(async e =>
+                    {
+
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+
+                        if (!musicPlayer.ToggleAutoplay())
+                            await e.Channel.SendMessage("🎶`Autoplay disabled.`");
+                        else
+                            await e.Channel.SendMessage("🎶`Autoplay enabled.`");
+                    });
             });
         }
 
-        private async Task QueueSong(Channel textCh, Channel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
+        public static async Task QueueSong(Channel textCh, Channel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
         {
             if (voiceCh == null || voiceCh.Server != textCh.Server)
             {
@@ -713,8 +729,15 @@ namespace NadekoBot.Modules.Music
                             if (playingMessage != null)
                                 await playingMessage.Delete().ConfigureAwait(false);
                             lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
+                            if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                            {
+                                await QueueSong(textCh, voiceCh, await SearchHelper.GetRelatedVideoId(song.SongInfo.Query), silent, musicType).ConfigureAwait(false);
+                            }
                         }
-                        catch { }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
                 };
                 mp.OnStarted += async (s, song) =>
@@ -745,14 +768,14 @@ namespace NadekoBot.Modules.Music
                 var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count}`").ConfigureAwait(false);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Task.Run(async () =>
-                {
-                    await Task.Delay(10000).ConfigureAwait(false);
-                    try
-                    {
-                        await queuedMessage.Delete().ConfigureAwait(false);
-                    }
-                    catch { }
-                }).ConfigureAwait(false);
+                                {
+                                    await Task.Delay(10000).ConfigureAwait(false);
+                                    try
+                                    {
+                                        await queuedMessage.Delete().ConfigureAwait(false);
+                                    }
+                                    catch { }
+                                }).ConfigureAwait(false);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }

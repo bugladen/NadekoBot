@@ -50,6 +50,7 @@ namespace NadekoBot.Modules.Music.Classes
         private bool Destroyed { get; set; } = false;
         public bool RepeatSong { get; private set; } = false;
         public bool RepeatPlaylist { get; private set; } = false;
+        public bool Autoplay { get; private set; } = false;
 
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume)
         {
@@ -239,5 +240,7 @@ namespace NadekoBot.Modules.Music.Classes
         internal bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
 
         internal bool ToggleRepeatPlaylist() => this.RepeatPlaylist = !this.RepeatPlaylist;
+
+        internal bool ToggleAutoplay() => this.Autoplay = !this.Autoplay;
     }
 }
