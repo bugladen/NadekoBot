@@ -103,6 +103,14 @@ namespace NadekoBot.Classes
             }
         }
 
+        internal void UpdateAll<T>(IEnumerable<T> objs) where T : IDataModel
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                conn.UpdateAll(objs);
+            }
+        }
+
         internal HashSet<T> GetAllRows<T>() where T : IDataModel, new()
         {
             using (var conn = new SQLiteConnection(FilePath))

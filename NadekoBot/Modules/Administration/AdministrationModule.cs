@@ -27,6 +27,7 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new CustomReactionsCommands(this));
             commands.Add(new AutoAssignRole(this));
             commands.Add(new SelfCommands(this));
+            commands.Add(new IncidentsCommands(this));
 
             NadekoBot.Client.GetService<CommandService>().CommandExecuted += DeleteCommandMessage;
         }

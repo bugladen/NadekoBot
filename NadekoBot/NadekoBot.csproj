@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="Modules\Administration\Commands\AutoAssignRole.cs" />
     <Compile Include="Modules\Administration\Commands\CustomReactionsCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand - Copy.cs" />
     <Compile Include="Modules\Administration\Commands\SelfCommands.cs" />
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
     <Compile Include="Modules\Utility\Commands\InfoCommands.cs" />
     <Compile Include="Modules\Utility\Commands\Remind.cs" />
-    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\IncidentsCommands.cs" />
     <Compile Include="Modules\ClashOfClans\ClashOfClansModule.cs" />
     <Compile Include="Modules\Permissions\Commands\FilterWordsCommand.cs" />
     <Compile Include="Modules\Permissions\Commands\FilterInvitesCommand.cs" />

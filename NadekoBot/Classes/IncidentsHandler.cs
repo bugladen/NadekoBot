@@ -1,18 +1,25 @@
-﻿using System;
-using System.IO;
+﻿using NadekoBot.DataModels;
+using System;
 
 namespace NadekoBot.Classes
 {
     internal static class IncidentsHandler
     {
-        public static void Add(ulong serverId, string text)
+        public static void Add(ulong serverId, ulong channelId, string text)
         {
-            Directory.CreateDirectory("data/incidents");
-            File.AppendAllText($"data/incidents/{serverId}.txt", text + "\n--------------------------\n");
             var def = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"INCIDENT: {text}");
             Console.ForegroundColor = def;
+            var incident = new Incident
+            {
+                ChannelId = (long)channelId,
+                ServerId = (long)serverId,
+                Text = text,
+                Read = false
+            };
+
+            DbHandler.Instance.InsertData<Incident>(incident);
         }
     }
 }
