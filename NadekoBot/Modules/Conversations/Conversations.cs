@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes.Conversations.Commands;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Conversations.Commands;
@@ -19,7 +18,6 @@ namespace NadekoBot.Modules.Conversations
         private const string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
         public Conversations()
         {
-            commands.Add(new CopyCommand(this));
             commands.Add(new RipCommand(this));
         }
 
