@@ -31,6 +31,7 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new CalcCommand(this));
             commands.Add(new OsuCommands(this));
             commands.Add(new PokemonSearchCommands(this));
+            commands.Add(new MemegenCommands(this));
             rng = new Random();
         }
 

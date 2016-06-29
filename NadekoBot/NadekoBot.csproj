@@ -149,6 +149,7 @@
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
+    <Compile Include="Modules\Searches\Commands\MemegenCommands.cs" />
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
@@ -210,7 +211,6 @@
     <Compile Include="Modules\Games\Commands\SpeedTyping.cs" />
     <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Modules\Conversations\Commands\CopyCommand.cs" />
     <Compile Include="Modules\Gambling\DiceRollCommand.cs" />
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
