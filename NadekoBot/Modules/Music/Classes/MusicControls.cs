@@ -174,6 +174,7 @@ namespace NadekoBot.Modules.Music.Classes
                 throw new ArgumentNullException(nameof(s));
             lock (playlistLock)
             {
+                s.MusicPlayer = this;
                 playlist.Add(s);
             }
         }

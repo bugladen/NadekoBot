@@ -6,6 +6,7 @@ using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Music.Classes;
 using NadekoBot.Modules.Permissions.Classes;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -300,6 +301,37 @@ namespace NadekoBot.Modules.Music
                             catch { }
                         }
                         await msg.Edit("🎵 `Playlist queue complete.`").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand("soundcloudpl")
+                    .Alias("scpl")
+                    .Description("Queue a soundcloud playlist using a link. | `!m scpl https://soundcloud.com/saratology/sets/symphony`")
+                    .Parameter("pl", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var pl = e.GetArg("pl")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(pl))
+                            return;
+
+                        var scvids = JObject.Parse(await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}"))["tracks"].ToObject<SoundCloudVideo[]>();
+                        await QueueSong(e.Channel, e.User.VoiceChannel, scvids[0].TrackLink);
+
+                        MusicPlayer mp;
+                        if (!MusicPlayers.TryGetValue(e.Server, out mp))
+                            return;
+
+                        foreach (var svideo in scvids.Skip(1))
+                        {
+                            mp.AddSong(new Song(new Classes.SongInfo
+                            {
+                                Title = svideo.FullName,
+                                Provider = "SoundCloud",
+                                Uri = svideo.StreamLink,
+                                ProviderType = MusicType.Normal,
+                                Query = svideo.TrackLink,
+                            }));
+                        }
                     });
 
                 cgb.CreateCommand("localplaylst")
@@ -757,8 +789,6 @@ namespace NadekoBot.Modules.Music
                 return mp;
             });
             var resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
-            resolvedSong.MusicPlayer = musicPlayer;
-
             musicPlayer.AddSong(resolvedSong);
             if (!silent)
             {
