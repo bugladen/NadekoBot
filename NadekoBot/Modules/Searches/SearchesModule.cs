@@ -475,6 +475,21 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       }
                   });
 
+                cgb.CreateCommand(Prefix + "av")
+                    .Alias(Prefix + "avatar")
+                    .Parameter("mention", ParameterType.Required)
+                    .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
+                    .Do(async e =>
+                    {
+                        var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
+                        if (usr == null)
+                        {
+                            await e.Channel.SendMessage("Invalid user specified.").ConfigureAwait(false);
+                            return;
+                        }
+                        await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+                    });
+
             });
         }
     }
