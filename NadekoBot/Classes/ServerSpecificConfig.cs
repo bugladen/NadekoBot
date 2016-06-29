@@ -66,6 +66,7 @@ namespace NadekoBot.Classes
             get { return voicePlusTextEnabled; }
             set {
                 voicePlusTextEnabled = value;
+                if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
         }
@@ -76,6 +77,7 @@ namespace NadekoBot.Classes
             get { return sendPrivateMessageOnMention; }
             set {
                 sendPrivateMessageOnMention = value;
+                if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
         }
@@ -130,6 +132,17 @@ namespace NadekoBot.Classes
                         if (!SpecificConfigurations.Instantiated) return;
                         OnPropertyChanged();
                     };
+            }
+        }
+
+        [JsonIgnore]
+        private float defaultMusicVolume = 1f;
+        public float DefaultMusicVolume {
+            get { return defaultMusicVolume; }
+            set {
+                defaultMusicVolume = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
             }
         }
 

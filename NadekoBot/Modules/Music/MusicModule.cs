@@ -19,7 +19,6 @@ namespace NadekoBot.Modules.Music
     {
 
         public static ConcurrentDictionary<Server, MusicPlayer> MusicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
-        public static ConcurrentDictionary<ulong, float> DefaultMusicVolumes = new ConcurrentDictionary<ulong, float>();
 
         public MusicModule()
         {
@@ -200,7 +199,8 @@ namespace NadekoBot.Modules.Music
                             await e.Channel.SendMessage("Volume number invalid.").ConfigureAwait(false);
                             return;
                         }
-                        DefaultMusicVolumes.AddOrUpdate(e.Server.Id, volume / 100, (key, newval) => volume / 100);
+                        var conf = SpecificConfigurations.Default.Of(e.Server.Id);
+                        conf.DefaultMusicVolume = volume / 100;
                         await e.Channel.SendMessage($"🎵 `Default volume set to {volume}%`").ConfigureAwait(false);
                     });
 
@@ -709,10 +709,7 @@ namespace NadekoBot.Modules.Music
 
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Server, server =>
             {
-                float? vol = null;
-                float throwAway;
-                if (DefaultMusicVolumes.TryGetValue(server.Id, out throwAway))
-                    vol = throwAway;
+                float vol = SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
                 var mp = new MusicPlayer(voiceCh, vol);
 
 

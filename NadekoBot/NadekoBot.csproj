@@ -136,7 +136,7 @@
   <ItemGroup>
     <Compile Include="Modules\Administration\Commands\AutoAssignRole.cs" />
     <Compile Include="Modules\Administration\Commands\CustomReactionsCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand - Copy.cs" />
+    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\Administration\Commands\SelfCommands.cs" />
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
