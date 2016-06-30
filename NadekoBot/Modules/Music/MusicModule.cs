@@ -53,30 +53,24 @@ namespace NadekoBot.Modules.Music
                 cgb.CreateCommand("stop")
                     .Alias("s")
                     .Description("Stops the music and clears the playlist. Stays in the channel.\n**Usage**: `!m s`")
-                    .Do(async e =>
+                    .Do(e =>
                     {
-                        await Task.Run(() =>
-                        {
-                            MusicPlayer musicPlayer;
-                            if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
-                            if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                                musicPlayer.Stop();
-                        }).ConfigureAwait(false);
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
+                        if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                            musicPlayer.Stop();
                     });
 
                 cgb.CreateCommand("destroy")
                     .Alias("d")
                     .Description("Completely stops the music and unbinds the bot from the channel. " +
                                  "(may cause weird behaviour)\n**Usage**: `!m d`")
-                    .Do(async e =>
+                    .Do(e =>
                     {
-                        await Task.Run(() =>
-                        {
-                            MusicPlayer musicPlayer;
-                            if (!MusicPlayers.TryRemove(e.Server, out musicPlayer)) return;
-                            if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                                musicPlayer.Destroy();
-                        }).ConfigureAwait(false);
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryRemove(e.Server, out musicPlayer)) return;
+                        if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                            musicPlayer.Destroy();
                     });
 
                 cgb.CreateCommand("pause")
