@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Help.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
@@ -54,10 +55,8 @@ namespace NadekoBot.Modules.Help
                         }
                         var i = 0;
                         if (module != "customreactions" && module != "conversations")
-                            await e.Channel.SendMessage("`List Of Commands:`\n```xl\n" +
-                                string.Join("\n", cmdsArray.GroupBy(item => (i++) / 3)
-                                      .Select(ig => string.Join("", ig.Select(el => $"{el.Text,-15}" + $"{"[" + el.Aliases.FirstOrDefault() + "]",-8}"))))
-                                      + $"\n```")
+                            await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,
+                                el => $"{el.Text,-15}{"[" + el.Aliases.FirstOrDefault() + "]",-8}"))
                                             .ConfigureAwait(false);
                         else
                             await e.Channel.SendMessage("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));

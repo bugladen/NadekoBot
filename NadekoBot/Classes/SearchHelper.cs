@@ -377,5 +377,13 @@ namespace NadekoBot.Classes
                 return url;
             }
         }
+
+        public static string ShowInPrettyCode<T>(IEnumerable<T> items, Func<T, string> howToPrint, int cols = 3)
+        {
+            var i = 0;
+            return "```xl\n" + string.Join("\n", items.GroupBy(item => (i++) / cols)
+                                      .Select(ig => string.Join("", ig.Select(el => howToPrint(el)))))
+                                      + $"\n```";
+        }
     }
 }
