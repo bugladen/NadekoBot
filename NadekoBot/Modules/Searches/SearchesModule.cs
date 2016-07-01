@@ -185,29 +185,30 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "ir")
                    .Description("Pulls a random image using a search parameter.\n**Usage**: ~ir cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
-                       .Do(async e =>
-                       {
-                           if (string.IsNullOrWhiteSpace(e.GetArg("query")))
-                               return;
-                           try
-                           {
-                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=50&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
-                               var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
-                               var items = obj["items"] as JArray;
-                               await e.Channel.SendMessage(items[rng.Next(0, items.Count)]["link"].ToString()).ConfigureAwait(false);
-                           }
-                           catch (HttpRequestException exception)
-                           {
-                               if (exception.Message.Contains("403 (Forbidden)"))
-                               {
-                                   await e.Channel.SendMessage("Daily limit reached!");
-                               }
-                               else
-                               {
-                                   await e.Channel.SendMessage("Something went wrong.");
-                               }
-                           }
-                       });
+                   .Do(async e =>
+                    {
+                        if (string.IsNullOrWhiteSpace(e.GetArg("query")))
+                            return;
+                        try
+                        {
+                            var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
+                            var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
+                            var items = obj["items"] as JArray;
+                            await e.Channel.SendMessage(items[0]["link"].ToString()).ConfigureAwait(false);
+                        }
+                        catch (HttpRequestException exception)
+                        {
+                            if (exception.Message.Contains("403 (Forbidden)"))
+                            {
+                                await e.Channel.SendMessage("Daily limit reached!");
+                            }
+                            else
+                            {
+                                await e.Channel.SendMessage("Something went wrong.");
+                            }
+                        }
+                    });
+
                 cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
