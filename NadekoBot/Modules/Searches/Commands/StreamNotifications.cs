@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Searches.Commands
             checkTimer.Start();
         }
 
-        private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream)
+        private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream, bool checkCache = true)
         {
             bool isLive;
             string response;
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Searches.Commands
             {
                 case StreamNotificationConfig.StreamType.Hitbox:
                     var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
-                    if (cachedStatuses.TryGetValue(hitboxUrl, out result))
+                    if (checkCache && cachedStatuses.TryGetValue(hitboxUrl, out result))
                         return result;
                     response = await SearchHelper.GetResponseStringAsync(hitboxUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     return result;
                 case StreamNotificationConfig.StreamType.Twitch:
                     var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
-                    if (cachedStatuses.TryGetValue(twitchUrl, out result))
+                    if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
                         return result;
                     response = await SearchHelper.GetResponseStringAsync(twitchUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     return result;
                 case StreamNotificationConfig.StreamType.Beam:
                     var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
-                    if (cachedStatuses.TryGetValue(beamUrl, out result))
+                    if (checkCache && cachedStatuses.TryGetValue(beamUrl, out result))
                         return result;
                     response = await SearchHelper.GetResponseStringAsync(beamUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
@@ -142,6 +142,93 @@ namespace NadekoBot.Modules.Searches.Commands
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Beam));
+
+            cgb.CreateCommand(Module.Prefix + "checkhitbox")
+                .Alias(Module.Prefix + "chhb")
+                .Description("Checks if a certain user is streaming on the hitbox platform." +
+                             "\n**Usage**: ~chhb SomeStreamer")
+                .Parameter("username", ParameterType.Unparsed)
+                .AddCheck(SimpleCheckers.ManageServer())
+                .Do(async e =>
+                {
+                    var stream = e.GetArg("username")?.Trim();
+                    if (string.IsNullOrWhiteSpace(stream))
+                        return;
+                    try
+                    {
+                        var streamStatus = (await GetStreamStatus(new StreamNotificationConfig
+                        {
+                            Username = stream,
+                            Type = StreamNotificationConfig.StreamType.Hitbox
+                        }));
+                        if (streamStatus.Item1)
+                        {
+                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                        }
+                    }
+                    catch
+                    {
+                        await e.Channel.SendMessage("No channel found.");
+                    }
+                });
+
+            cgb.CreateCommand(Module.Prefix + "checktwitch")
+                .Alias(Module.Prefix + "chtw")
+                .Description("Checks if a certain user is streaming on the twitch platform." +
+                             "\n**Usage**: ~chtw SomeStreamer")
+                .AddCheck(SimpleCheckers.ManageServer())
+                .Parameter("username", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var stream = e.GetArg("username")?.Trim();
+                    if (string.IsNullOrWhiteSpace(stream))
+                        return;
+                    try
+                    {
+                        var streamStatus = (await GetStreamStatus(new StreamNotificationConfig
+                        {
+                            Username = stream,
+                            Type = StreamNotificationConfig.StreamType.Twitch
+                        }));
+                        if (streamStatus.Item1)
+                        {
+                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                        }
+                    }
+                    catch
+                    {
+                        await e.Channel.SendMessage("No channel found.");
+                    }
+                });
+
+            cgb.CreateCommand(Module.Prefix + "checkbeam")
+                .Alias(Module.Prefix + "chbm")
+                .Description("Checks if a certain user is streaming on the beam platform." +
+                             "\n**Usage**: ~chbm SomeStreamer")
+                .AddCheck(SimpleCheckers.ManageServer())
+                .Parameter("username", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var stream = e.GetArg("username")?.Trim();
+                    if (string.IsNullOrWhiteSpace(stream))
+                        return;
+                    try
+                    {
+                        var streamStatus = (await GetStreamStatus(new StreamNotificationConfig
+                        {
+                            Username = stream,
+                            Type = StreamNotificationConfig.StreamType.Beam
+                        }));
+                        if (streamStatus.Item1)
+                        {
+                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                        }
+                    }
+                    catch
+                    {
+                        await e.Channel.SendMessage("No channel found.");
+                    }
+                });
 
             cgb.CreateCommand(Module.Prefix + "removestream")
                 .Alias(Module.Prefix + "rms")
