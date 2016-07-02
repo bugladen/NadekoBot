@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "editcustreact")
                 .Alias(Prefix + "ecr")
-                .Description("Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message | `.ecr \"%mention% disguise\" 2 Test 123`")
+                .Description("Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only** | `.ecr \"%mention% disguise\" 2 Test 123`")
                 .Parameter("name", ParameterType.Required)
                 .Parameter("index", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)

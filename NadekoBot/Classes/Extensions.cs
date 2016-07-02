@@ -215,7 +215,7 @@ namespace NadekoBot.Extensions
                     sb.Append($"{ Format.Code(item.Key)}\n");
                     sb.AppendLine("  `└─`" + Format.Bold(item.Value));
                 }
-                
+
             }
             else
             {
@@ -224,7 +224,7 @@ namespace NadekoBot.Extensions
                     sb.Append($"{ Format.Code(item.ToString())} \n");
                 }
             }
-            
+
             return sb.ToString();
         }
         /// <summary>
@@ -352,5 +352,15 @@ namespace NadekoBot.Extensions
             await Task.Run(() => images.Merge(reverseScaleFactor)).ConfigureAwait(false);
 
         public static string Unmention(this string str) => str.Replace("@", "ම");
+
+        public static Stream ToStream(this string str)
+        {
+            var sw = new StreamWriter(new MemoryStream());
+            sw.Write(str);
+            sw.Flush();
+            sw.BaseStream.Position = 0;
+            return sw.BaseStream;
+        }
+
     }
 }
