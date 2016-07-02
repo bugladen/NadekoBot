@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -103,7 +104,8 @@ namespace NadekoBot.Modules.Games.Commands
 
             cgb.CreateCommand(Prefix + "gencurrency")
                 .Alias(Prefix + "gc")
-                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. | `gc`")
+                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Requires Manage Messages permission. | `>gc`")
+                .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e =>
                 {
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
