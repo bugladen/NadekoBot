@@ -109,6 +109,22 @@ namespace NadekoBot.Classes
         }
 
         [JsonIgnore]
+        private ObservableCollection<ulong> generateCurrencyChannels;
+
+        public ObservableCollection<ulong> GenerateCurrencyChannels {
+            get { return generateCurrencyChannels; }
+            set {
+                generateCurrencyChannels = value;
+                if (value != null)
+                    generateCurrencyChannels.CollectionChanged += (s, e) =>
+                    {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
+
+        [JsonIgnore]
         private ObservableCollection<StreamNotificationConfig> observingStreams;
 
         [JsonIgnore]
@@ -150,6 +166,7 @@ namespace NadekoBot.Classes
         {
             ListOfSelfAssignableRoles = new ObservableCollection<ulong>();
             ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
+            GenerateCurrencyChannels = new ObservableCollection<ulong>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
