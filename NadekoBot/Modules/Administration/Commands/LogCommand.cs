@@ -13,9 +13,12 @@ namespace NadekoBot.Modules.Administration.Commands
     internal class LogCommand : DiscordCommand
     {
 
-        private readonly ConcurrentDictionary<Server, Channel> logs = new ConcurrentDictionary<Server, Channel>();
-        private readonly ConcurrentDictionary<Server, Channel> loggingPresences = new ConcurrentDictionary<Server, Channel>();
-        private readonly ConcurrentDictionary<Channel, Channel> voiceChannelLog = new ConcurrentDictionary<Channel, Channel>();
+        //server-channel
+        private readonly ConcurrentDictionary<ulong, ulong> logs = new ConcurrentDictionary<ulong, ulong>();
+        //server-channel
+        private readonly ConcurrentDictionary<ulong, ulong> loggingPresences = new ConcurrentDictionary<ulong, ulong>();
+        //channel-channel
+        private readonly ConcurrentDictionary<ulong, ulong> voiceChannelLog = new ConcurrentDictionary<ulong, ulong>();
 
         private string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
 
@@ -58,8 +61,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 if (e.Before.Name != e.After.Name)
                     await ch.SendMessage($@"`{prettyCurrentTime}` **Channel Name Changed** `#{e.Before.Name}` (*{e.After.Id}*)
@@ -76,8 +82,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"❗`{prettyCurrentTime}`❗`Channel Deleted:` #{e.Channel.Name} (*{e.Channel.Id}*)").ConfigureAwait(false);
             }
@@ -88,8 +97,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"`{prettyCurrentTime}`🆕`Channel Created:` #{e.Channel.Mention} (*{e.Channel.Id}*)").ConfigureAwait(false);
             }
@@ -100,8 +112,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"`{prettyCurrentTime}`♻`User was unbanned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
@@ -112,8 +127,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"`{prettyCurrentTime}`✅`User joined:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
@@ -124,8 +142,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"`{prettyCurrentTime}`❗`User left:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
@@ -136,8 +157,11 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage($"❗`{prettyCurrentTime}`❌`User banned:` **{e.User.Name}** ({e.User.Id})").ConfigureAwait(false);
             }
@@ -146,14 +170,16 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public Func<CommandEventArgs, Task> DoFunc() => async e =>
         {
-            Channel ch;
-            if (!logs.TryRemove(e.Server, out ch))
+            ulong chId;
+            if (!logs.TryRemove(e.Server.Id, out chId))
             {
-                logs.TryAdd(e.Server, e.Channel);
+                logs.TryAdd(e.Server.Id, e.Channel.Id);
                 await e.Channel.SendMessage($"❗**I WILL BEGIN LOGGING SERVER ACTIVITY IN THIS CHANNEL**❗").ConfigureAwait(false);
                 return;
             }
-
+            Channel ch;
+            if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
+                return;
             await e.Channel.SendMessage($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
         };
 
@@ -163,8 +189,11 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId) || e.Channel.Id == chId)
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 if (!string.IsNullOrWhiteSpace(e.Message.Text))
                 {
@@ -188,8 +217,11 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId) || e.Channel.Id == chId)
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 if (!string.IsNullOrWhiteSpace(e.Message.Text))
                 {
@@ -212,8 +244,11 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId) || e.Channel.Id == chId)
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 await ch.SendMessage(
 $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
@@ -227,17 +262,25 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
         {
             try
             {
-                Channel ch;
-                if (loggingPresences.TryGetValue(e.Server, out ch))
-                    if (e.Before.Status != e.After.Status)
+                ulong chId;
+                if (!loggingPresences.TryGetValue(e.Server.Id, out chId))
+                {
+                    Channel ch;
+                    if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) != null)
                     {
-                        await ch.SendMessage($"`{prettyCurrentTime}`**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
+                        if (e.Before.Status != e.After.Status)
+                        {
+                            await ch.SendMessage($"`{prettyCurrentTime}`**{e.Before.Name}** is now **{e.After.Status}**.").ConfigureAwait(false);
+                        }
                     }
+                }
             }
             catch { }
 
             try
             {
+                ulong notifyChBeforeId;
+                ulong notifyChAfterId;
                 Channel notifyChBefore = null;
                 Channel notifyChAfter = null;
                 var beforeVch = e.Before.VoiceChannel;
@@ -246,11 +289,11 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                 var notifyJoin = false;
                 if ((beforeVch != null || afterVch != null) && (beforeVch != afterVch)) // this means we need to notify for sure.
                 {
-                    if (beforeVch != null && voiceChannelLog.TryGetValue(beforeVch, out notifyChBefore))
+                    if (beforeVch != null && voiceChannelLog.TryGetValue(beforeVch.Id, out notifyChBeforeId) && (notifyChBefore = e.Before.Server.TextChannels.FirstOrDefault(tc => tc.Id == notifyChBeforeId)) != null)
                     {
                         notifyLeave = true;
                     }
-                    if (afterVch != null && voiceChannelLog.TryGetValue(afterVch, out notifyChAfter))
+                    if (afterVch != null && voiceChannelLog.TryGetValue(afterVch.Id, out notifyChAfterId) && (notifyChAfter = e.After.Server.TextChannels.FirstOrDefault(tc => tc.Id == notifyChAfterId)) != null)
                     {
                         notifyJoin = true;
                     }
@@ -272,8 +315,11 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
 
             try
             {
+                ulong chId;
+                if (!logs.TryGetValue(e.Server.Id, out chId))
+                    return;
                 Channel ch;
-                if (!logs.TryGetValue(e.Server, out ch))
+                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                     return;
                 string str = $"🕔`{prettyCurrentTime}`";
                 if (e.Before.Name != e.After.Name)
@@ -338,10 +384,10 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
-                      Channel ch;
-                      if (!loggingPresences.TryRemove(e.Server, out ch))
+                      ulong chId;
+                      if (!loggingPresences.TryRemove(e.Server.Id, out chId))
                       {
-                          loggingPresences.TryAdd(e.Server, e.Channel);
+                          loggingPresences.TryAdd(e.Server.Id, e.Channel.Id);
                           await e.Channel.SendMessage($"**User presence notifications enabled.**").ConfigureAwait(false);
                           return;
                       }
@@ -360,7 +406,7 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                       {
                           foreach (var voiceChannel in e.Server.VoiceChannels)
                           {
-                              voiceChannelLog.TryAdd(voiceChannel, e.Channel);
+                              voiceChannelLog.TryAdd(voiceChannel.Id, e.Channel.Id);
                           }
                           await e.Channel.SendMessage("Started logging user presence for **ALL** voice channels!").ConfigureAwait(false);
                           return;
@@ -371,10 +417,10 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                           await e.Channel.SendMessage("💢 You are not in a voice channel right now. If you are, please rejoin it.").ConfigureAwait(false);
                           return;
                       }
-                      Channel throwaway;
-                      if (!voiceChannelLog.TryRemove(e.User.VoiceChannel, out throwaway))
+                      ulong throwaway;
+                      if (!voiceChannelLog.TryRemove(e.User.VoiceChannel.Id, out throwaway))
                       {
-                          voiceChannelLog.TryAdd(e.User.VoiceChannel, e.Channel);
+                          voiceChannelLog.TryAdd(e.User.VoiceChannel.Id, e.Channel.Id);
                           await e.Channel.SendMessage($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
                       }
                       else
