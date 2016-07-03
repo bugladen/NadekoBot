@@ -6,7 +6,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace NadekoBot.Modules.Translator.Helpers
@@ -47,7 +48,7 @@ namespace NadekoBot.Modules.Translator.Helpers
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <returns>The translation.</returns>
-        public string Translate
+        public async Task<string> Translate
             (string sourceText,
              string sourceLanguage,
              string targetLanguage)
@@ -62,10 +63,10 @@ namespace NadekoBot.Modules.Translator.Helpers
                                         GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage),
                                         GoogleTranslator.LanguageEnumToIdentifier(targetLanguage),
                                         HttpUtility.UrlEncode(sourceText));
-            using (WebClient wc = new WebClient())
+            using (HttpClient http = new HttpClient())
             {
-                wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-                text = wc.DownloadString(url);
+                http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+                text = await http.GetStringAsync(url);
             }
 
             return JArray.Parse(text)[0][0][0].ToString();
