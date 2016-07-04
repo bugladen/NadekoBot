@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "osu")
-                  .Description("Shows osu stats for a player.\n**Usage**: `~osu Name` or `~osu Name `")
+                  .Description("Shows osu stats for a player.\n**Usage**: `~osu Name` or `~osu Name taiko`")
                   .Parameter("usr", ParameterType.Required)
                   .Parameter("mode", ParameterType.Unparsed)
                   .Do(async e =>

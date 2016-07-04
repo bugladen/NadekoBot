@@ -380,7 +380,7 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                           await e.Channel.SendMessage($"**User presence notifications enabled.**").ConfigureAwait(false);
                           return;
                       }
-
+                      SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = null;
                       await e.Channel.SendMessage($"**User presence notifications disabled.**").ConfigureAwait(false);
                   });
 
