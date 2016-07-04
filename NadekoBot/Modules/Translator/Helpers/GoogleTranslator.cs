@@ -28,15 +28,6 @@ namespace NadekoBot.Modules.Translator.Helpers
                 return GoogleTranslator._languageModeMap.Keys.OrderBy(p => p);
             }
         }
-
-        /// <summary>
-        /// Gets the error.
-        /// </summary>
-        public Exception Error {
-            get;
-            private set;
-        }
-
         #endregion
 
         #region Public methods
@@ -66,7 +57,7 @@ namespace NadekoBot.Modules.Translator.Helpers
             using (HttpClient http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-                text = await http.GetStringAsync(url);
+                text = await http.GetStringAsync(url).ConfigureAwait(false);
             }
 
             return JArray.Parse(text)[0][0][0].ToString();

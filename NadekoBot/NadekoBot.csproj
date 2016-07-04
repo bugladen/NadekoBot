@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ObservableConcurrentDictionary.cs" />
     <Compile Include="Modules\Administration\Commands\AutoAssignRole.cs" />
     <Compile Include="Modules\Administration\Commands\CustomReactionsCommands.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
@@ -496,7 +497,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
+    <Content Include="Classes\lib\ScaredFingers.UnitsConversion.dll" />
     <None Include="resources\images\rose_overlay.png" />
   </ItemGroup>
   <ItemGroup />

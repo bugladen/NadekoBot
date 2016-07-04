@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Translator
                 if (string.IsNullOrWhiteSpace(text))
                     return;
 
-                string translation = await t.Translate(text, from, to);
+                string translation = await t.Translate(text, from, to).ConfigureAwait(false);
                 await e.Channel.SendMessage(translation).ConfigureAwait(false);
             }
             catch (Exception ex)
