@@ -32,7 +32,16 @@ namespace NadekoBot.Classes
                 conn.CreateTable<SongInfo>();
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
+                conn.CreateTable<Incident>();
                 conn.Execute(Queries.TransactionTriggerQuery);
+                try
+                {
+                    conn.Execute(Queries.DeletePlaylistTriggerQuery);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
@@ -91,6 +100,14 @@ namespace NadekoBot.Classes
             using (var conn = new SQLiteConnection(FilePath))
             {
                 conn.Update(o, typeof(T));
+            }
+        }
+
+        internal void UpdateAll<T>(IEnumerable<T> objs) where T : IDataModel
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                conn.UpdateAll(objs);
             }
         }
 
@@ -181,7 +198,7 @@ Limit 20 OFFSET ?", num * 20);
         {
             using (var conn = new SQLiteConnection(FilePath))
             {
-                return conn.Table<CurrencyState>().Take(n).ToList().OrderBy(cs => -cs.Value);
+                return conn.Table<CurrencyState>().OrderBy(cs => -cs.Value).Take(n).ToList();
             }
         }
     }
@@ -197,7 +214,7 @@ public class PlaylistData
 
 public static class Queries
 {
-    public static string TransactionTriggerQuery = @"
+    public const string TransactionTriggerQuery = @"
 CREATE TRIGGER IF NOT EXISTS OnTransactionAdded
 AFTER INSERT ON CurrencyTransaction
 BEGIN
@@ -208,4 +225,11 @@ INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded)
             NEW.DateAdded);
 END
 ";
+    public const string DeletePlaylistTriggerQuery = @"
+CREATE TRIGGER IF NOT EXISTS music_playlist
+AFTER DELETE ON MusicPlaylist
+FOR EACH ROW
+BEGIN
+    DELETE FROM PlaylistSongInfo WHERE PlaylistId = OLD.Id;
+END";
 }

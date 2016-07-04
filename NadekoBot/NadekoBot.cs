@@ -22,6 +22,7 @@ using NadekoBot.Modules.Pokemon;
 using NadekoBot.Modules.Searches;
 using NadekoBot.Modules.Translator;
 using NadekoBot.Modules.Trello;
+using NadekoBot.Modules.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,6 +106,9 @@ namespace NadekoBot
             Console.WriteLine(string.IsNullOrWhiteSpace(Creds.SoundCloudClientID)
                 ? "No soundcloud Client ID found. Soundcloud streaming is disabled."
                 : "SoundCloud streaming enabled.");
+            Console.WriteLine(string.IsNullOrWhiteSpace(Creds.OsuAPIKey)
+                ? "No osu! api key found. Song & top score lookups will not work. User lookups still available."
+                : "osu! API key provided.");
 
             BotMention = $"<@{Creds.BotId}>";
 
@@ -160,6 +164,7 @@ namespace NadekoBot
             //install modules
             modules.Add(new HelpModule(), "Help", ModuleFilter.None);
             modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
+            modules.Add(new UtilityModule(), "Utility", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);

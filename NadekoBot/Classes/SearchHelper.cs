@@ -176,6 +176,33 @@ namespace NadekoBot.Classes
                 return null;
         }
 
+        public static async Task<string> GetRelatedVideoId(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
+            var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(id);
+            if (match.Length > 1)
+            {
+                id = match.Groups["id"].Value;
+            }
+            var response = await GetResponseStringAsync(
+                                    $"https://www.googleapis.com/youtube/v3/search?" +
+                                    $"part=snippet&maxResults=1&type=video" +
+                                    $"&relatedToVideoId={id}" +
+                                    $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
+            JObject obj = JObject.Parse(response);
+
+            var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
+
+            if (data.items.Length > 0)
+            {
+                var toReturn = "http://www.youtube.com/watch?v=" + data.items[0].id.videoId.ToString();
+                return toReturn;
+            }
+            else
+                return null;
+        }
+
         public static async Task<string> GetPlaylistIdByKeyword(string query)
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
@@ -349,6 +376,14 @@ namespace NadekoBot.Classes
                 Console.WriteLine(ex.ToString());
                 return url;
             }
+        }
+
+        public static string ShowInPrettyCode<T>(IEnumerable<T> items, Func<T, string> howToPrint, int cols = 3)
+        {
+            var i = 0;
+            return "```xl\n" + string.Join("\n", items.GroupBy(item => (i++) / cols)
+                                      .Select(ig => string.Join("", ig.Select(el => howToPrint(el)))))
+                                      + $"\n```";
         }
     }
 }

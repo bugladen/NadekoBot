@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        private Song(SongInfo songInfo)
+        public Song(SongInfo songInfo)
         {
             this.SongInfo = songInfo;
         }
@@ -65,6 +65,12 @@ namespace NadekoBot.Modules.Music.Classes
             s.MusicPlayer = MusicPlayer;
             s.State = StreamState.Queued;
             return s;
+        }
+
+        public Song SetMusicPlayer(MusicPlayer mp)
+        {
+            this.MusicPlayer = mp;
+            return this;
         }
 
         private Task BufferSong(CancellationToken cancelToken) =>

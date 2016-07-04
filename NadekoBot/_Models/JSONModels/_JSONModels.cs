@@ -16,6 +16,7 @@ namespace NadekoBot.Classes.JSONModels
         public string LOLAPIKey { get; set; } = "";
         public string TrelloAppKey { get; set; } = "";
         public string CarbonKey { get; set; } = "";
+        public string OsuAPIKey { get; set; } = "";
     }
     [DebuggerDisplay("{items[0].id.playlistId}")]
     public class YoutubePlaylistSearch

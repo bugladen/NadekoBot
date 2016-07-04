@@ -37,3 +37,7 @@ Tests/bin
 NadekoBot/bin/Debug/data/nadekobot.sqlite
 NadekoBot/bin/Debug/data/config.json
 NadekoBot/bin/Debug/data/ServerSpecificConfigs.json
+NadekoBot.sln.iml
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml

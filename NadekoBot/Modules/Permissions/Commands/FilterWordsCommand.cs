@@ -23,9 +23,9 @@ namespace NadekoBot.Modules.Permissions.Commands
                     if (serverPerms.Words.Any(w => wordsInMessage.Contains(w)))
                     {
                         await args.Message.Delete().ConfigureAwait(false);
-                        IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
-                                                             $"BANNED WORD in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
-                                                             $"Full message: [[{args.Message.Text}]]");
+                        IncidentsHandler.Add(args.Server.Id, args.Channel.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
+                                                             $"BANNED WORD in [{args.Channel.Name}/{args.Channel.Id}] channel.\n" +
+                                                             $"`Full message:` {args.Message.Text}");
                         if (serverPerms.Verbose)
                             await args.Channel.SendMessage($"{args.User.Mention} One or more of the words you used " +
                                                            $"in that sentence are not allowed here.")

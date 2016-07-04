@@ -25,9 +25,9 @@ namespace NadekoBot.Modules.Permissions.Commands
                     if (filterRegex.IsMatch(args.Message.RawText))
                     {
                         await args.Message.Delete().ConfigureAwait(false);
-                        IncidentsHandler.Add(args.Server.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
-                                                             $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel. " +
-                                                             $"Full message: [[{args.Message.Text}]]");
+                        IncidentsHandler.Add(args.Server.Id, args.Channel.Id, $"User [{args.User.Name}/{args.User.Id}] posted " +
+                                                             $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel.\n" +
+                                                             $"`Full message:` {args.Message.Text}");
                         if (serverPerms.Verbose)
                             await args.Channel.SendMessage($"{args.User.Mention} Invite links are not " +
                                                            $"allowed on this channel.")

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 
 namespace NadekoBot.Modules.Searches
@@ -30,6 +29,9 @@ namespace NadekoBot.Modules.Searches
             commands.Add(new RedditCommand(this));
             commands.Add(new WowJokeCommand(this));
             commands.Add(new CalcCommand(this));
+            commands.Add(new OsuCommands(this));
+            commands.Add(new PokemonSearchCommands(this));
+            commands.Add(new MemegenCommands(this));
             rng = new Random();
         }
 
@@ -183,29 +185,30 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "ir")
                    .Description("Pulls a random image using a search parameter.\n**Usage**: ~ir cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
-                       .Do(async e =>
-                       {
-                           if (string.IsNullOrWhiteSpace(e.GetArg("query")))
-                               return;
-                           try
-                           {
-                               var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=50&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
-                               var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
-                               var items = obj["items"] as JArray;
-                               await e.Channel.SendMessage(items[rng.Next(0, items.Count)]["link"].ToString()).ConfigureAwait(false);
-                           }
-                           catch (HttpRequestException exception)
-                           {
-                               if (exception.Message.Contains("403 (Forbidden)"))
-                               {
-                                   await e.Channel.SendMessage("Daily limit reached!");
-                               }
-                               else
-                               {
-                                   await e.Channel.SendMessage("Something went wrong.");
-                               }
-                           }
-                       });
+                   .Do(async e =>
+                    {
+                        if (string.IsNullOrWhiteSpace(e.GetArg("query")))
+                            return;
+                        try
+                        {
+                            var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
+                            var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
+                            var items = obj["items"] as JArray;
+                            await e.Channel.SendMessage(items[0]["link"].ToString()).ConfigureAwait(false);
+                        }
+                        catch (HttpRequestException exception)
+                        {
+                            if (exception.Message.Contains("403 (Forbidden)"))
+                            {
+                                await e.Channel.SendMessage("Daily limit reached!");
+                            }
+                            else
+                            {
+                                await e.Channel.SendMessage("Something went wrong.");
+                            }
+                        }
+                    });
+
                 cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")
                     .Parameter("ffs", ParameterType.Unparsed)
@@ -254,38 +257,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       catch (Exception ex)
                       {
                           await e.Channel.SendMessage($"💢 Error {ex.Message}").ConfigureAwait(false);
-                      }
-                  });
-
-                cgb.CreateCommand(Prefix + "osu")
-                  .Description("Shows osu stats for a player.\n**Usage**:~osu Name")
-                  .Parameter("usr", ParameterType.Unparsed)
-                  .Do(async e =>
-                  {
-                      if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
-                          return;
-
-                      using (WebClient cl = new WebClient())
-                      {
-                          try
-                          {
-                              cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-                              cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
-                              cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2"));
-                              cl.DownloadDataCompleted += async (s, cle) =>
-                              {
-                                  try
-                                  {
-                                      await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result)).ConfigureAwait(false);
-                                      await e.Channel.SendMessage($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
-                                  }
-                                  catch { }
-                              };
-                          }
-                          catch
-                          {
-                              await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\").ConfigureAwait(false);
-                          }
                       }
                   });
 
@@ -505,6 +476,22 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                           Console.WriteLine(ex);
                       }
                   });
+
+                cgb.CreateCommand(Prefix + "av")
+                    .Alias(Prefix + "avatar")
+                    .Parameter("mention", ParameterType.Required)
+                    .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
+                    .Do(async e =>
+                    {
+                        var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
+                        if (usr == null)
+                        {
+                            await e.Channel.SendMessage("Invalid user specified.").ConfigureAwait(false);
+                            return;
+                        }
+                        await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+                    });
+
             });
         }
     }
