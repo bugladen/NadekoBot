@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6015.37609`
+Version: `NadekoBot v0.9.6029.16666`
 ### Help  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -44,16 +44,16 @@ Command and aliases | Description | Usage
 `.lsar`  |  Lists all self-assignable roles.
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamnot`, `.iamn`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
-`.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
-`.remindmsg`  |  Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot Owner Only!**
-`.serverinfo`, `.sinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
-`.channelinfo`, `.cinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
-`.userinfo`, `.uinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
 `.addcustreact`, `.acr`  |  Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   |  .acr "hello" I love saying hello to %user%
-`.listcustreact`, `.lcr`  |  Lists all current custom reactions (paginated with 5 commands per page). | .lcr 1
+`.listcustreact`, `.lcr`  |  Lists all current custom reactions (paginated with 30 commands per page). | .lcr 1
+`.showcustreact`, `.scr`  |  Shows all possible responses from a single custom reaction. | .scr %mention% bb
+`.editcustreact`, `.ecr`  |  Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only** | `.ecr "%mention% disguise" 2 Test 123`
 `.delcustreact`, `.dcr`  |  Deletes a custom reaction with given name (and index)
 `.autoassignrole`, `.aar`  |  Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable
 `.leave`  |  Makes Nadeko leave the server. Either name or id required. |  `.leave 123123123331`
+`.listincidents`, `.lin`  |  List all UNREAD incidents and flags them as read.
+`.listallincidents`, `.lain`  |  Sends you a file containing all incidents and flags them as read.
+`.delmsgoncmd`  |  Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.
 `.restart`  |  Restarts the bot. Might not work.
 `.setrole`, `.sr`  |  Sets a role for a given user. |  .sr @User Guest
 `.removerole`, `.rr`  |  Removes a role from a given user. |  .rr @User Admin
@@ -61,7 +61,6 @@ Command and aliases | Description | Usage
 `.removeallroles`, `.rar`  |  Removes all roles from a mentioned user. |  .rar @User
 `.createrole`, `.cr`  |  Creates a role with a given name. |  `.r Awesome Role`
 `.rolecolor`, `.rc`  |  Set a role's color to the hex or 0-255 rgb color value provided. |  `.color Admin 255 200 100` or `.color Admin ffba55`
-`.roles`  |  List all roles on this server or a single user if specified.
 `.ban`, `.b`  |  Bans a user by id or name with an optional message. |  .b "@some Guy" Your behaviour is toxic.
 `.softban`, `.sb`  |  Bans and then unbans a user by id or name with an optional message. |  .sb "@some Guy" Your behaviour is toxic.
 `.kick`, `.k`  |  Kicks a mentioned user.
@@ -75,30 +74,38 @@ Command and aliases | Description | Usage
 `.creatxtchanl`, `.ctch`  |  Creates a new text channel with a given name.
 `.settopic`, `.st`  |  Sets a topic on the current channel. |  `.st My new topic`
 `.setchanlname`, `.schn`  |  Changed the name of the current channel.
-`.userid`, `.uid`  |  Shows user ID.
-`.channelid`, `.cid`  |  Shows current channel ID.
-`.serverid`, `.sid`  |  Shows current server ID.
-`.stats`  |  Shows some basic stats for Nadeko.
-`.dysyd`  |  Shows some basic stats for Nadeko.
 `.heap`  |  Shows allocated memory - **Bot Owner Only!**
 `.prune`, `.clr`  |  `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. |  `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die`  |  Shuts the bot down and notifies users about the restart. **Bot Owner Only!**
 `.setname`, `.newnm`  |  Give the bot a new name. **Bot Owner Only!**
-`.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. **Bot Owner Only!**
+`.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** |  `.setavatar https://i.ytimg.com/vi/WDudkR1eTMM/maxresdefault.jpg`
 `.setgame`  |  Sets the bots game. **Bot Owner Only!**
-`.checkmyperms`  |  Checks your userspecific permissions on this channel.
-`.commsuser`  |  Sets a user for through-bot communication. Only works if server is set. Resets commschannel. **Bot Owner Only!**
-`.commsserver`  |  Sets a server for through-bot communication. **Bot Owner Only!**
-`.commschannel`  |  Sets a channel for through-bot communication. Only works if server is set. Resets commsuser. **Bot Owner Only!**
-`.send`  |  Send a message to someone on a different server through the bot. **Bot Owner Only!** |  .send Message text multi word!
+`.send`  |  Send a message to someone on a different server through the bot. **Bot Owner Only!** |  `.send serverid|u:user_id Send this to a user!` or `.send serverid|c:channel_id Send this to a channel!`
 `.mentionrole`, `.menro`  |  Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.
-`.inrole`  |  Lists every person from the provided role or roles (separated by a ',') on this server.
 `.unstuck`  |  Clears the message queue. **Bot Owner Only!**
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.donadd`  |  Add a donator to the database.
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!** |  .announce Useless spam
-`.whoplays`  |  Shows a list of users who are playing the specified game.
 `.leave`  |  Leaves a server with a supplied ID. |  `.leave 493243292839`
+`.savechat`  |  Saves a number of messages to a text file and sends it to you. **Bot Owner Only** | `.chatsave 150`
+
+### Utility  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
+`.remindmsg`  |  Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot Owner Only!**
+`.serverinfo`, `.sinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
+`.channelinfo`, `.cinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
+`.userinfo`, `.uinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
+`.whoplays`  |  Shows a list of users who are playing the specified game.
+`.inrole`  |  Lists every person from the provided role or roles (separated by a ',') on this server.
+`.checkmyperms`  |  Checks your userspecific permissions on this channel.
+`.stats`  |  Shows some basic stats for Nadeko.
+`.dysyd`  |  Shows some basic stats for Nadeko.
+`.userid`, `.uid`  |  Shows user ID.
+`.channelid`, `.cid`  |  Shows current channel ID.
+`.serverid`, `.sid`  |  Shows current server ID.
+`.roles`  |  List all roles on this server or a single user if specified.
 
 ### Permissions  
 Command and aliases | Description | Usage
@@ -145,8 +152,6 @@ Command and aliases | Description | Usage
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
 `...`  |  Shows a random quote with a specified name. |  .. abc
 `..qdel`, `..quotedelete`  |  Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. |  `..qdel abc`
-`@BotName copyme`, `@BotName cm`  |  Nadeko starts copying everything you say. Disable with cs
-`@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
 `@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
@@ -156,7 +161,6 @@ Command and aliases | Description | Usage
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
-`@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -186,6 +190,7 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
+`>gencurrency`, `>gc`  |  Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission. | `>gc`
 `>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels |  >leet 3 Hello
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
@@ -195,34 +200,37 @@ Command and aliases | Description | Usage
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!m next`, `!m n`, `!m skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
-`!m stop`, `!m s`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
-`!m destroy`, `!m d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
-`!m pause`, `!m p`  |  Pauses or Unpauses the song. |  `!m p`
-`!m queue`, `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m listqueue`, `!m lq`  |  Lists up to 15 currently queued songs. |  `!m lq`
-`!m nowplaying`, `!m np`  |  Shows the song currently playing. |  `!m np`
-`!m volume`, `!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
-`!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
-`!m mute`, `!m min`  |  Sets the music volume to 0% |  `!m min`
-`!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
-`!m half`  |  Sets the music volume to 50%. |  `!m half`
-`!m shuffle`, `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m playlist`, `!m pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
-`!m localplaylst`, `!m lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
-`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
-`!m local`, `!m lo`  |  Queues a local file by specifying a full path. **Bot Owner Only!** |  `!m lo C:/music/mysong.mp3`
-`!m move`, `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
-`!m remove`, `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
-`!m movesong`, `!m ms`  |  Moves a song from one position to another. |  `!m ms` 5>3
-`!m cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
-`!m reptcursong`, `!m rcs`  |  Toggles repeat of current song. |  `!m rcs`
-`!m rpeatplaylst`, `!m rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
-`!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
-`!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
-`!m playlists`, `!m pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
-`!m goto`  |  Goes to a specific time in seconds in a song.
-`!m getlink`, `!m gl`  |  Shows a link to the currently playing song.
+`! next`, `! n`, `! skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
+`! stop`, `! s`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
+`! destroy`, `! d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
+`! pause`, `! p`  |  Pauses or Unpauses the song. |  `!m p`
+`! queue`, `! q`, `! yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`! listqueue`, `! lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
+`! nowplaying`, `! np`  |  Shows the song currently playing. |  `!m np`
+`! volume`, `! vol`  |  Sets the music volume 0-100% |  `!m vol 50`
+`! defvol`, `! dv`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
+`! mute`, `! min`  |  Sets the music volume to 0% |  `!m min`
+`! max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
+`! half`  |  Sets the music volume to 50%. |  `!m half`
+`! shuffle`, `! sh`  |  Shuffles the current playlist. |  `!m sh`
+`! playlist`, `! pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`! soundcloudpl`, `! scpl`  |  Queue a soundcloud playlist using a link. | `!m scpl https://soundcloud.com/saratology/sets/symphony`
+`! localplaylst`, `! lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
+`! radio`, `! ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
+`! local`, `! lo`  |  Queues a local file by specifying a full path. **Bot Owner Only!** |  `!m lo C:/music/mysong.mp3`
+`! move`, `! mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
+`! remove`, `! rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
+`! movesong`, `! ms`  |  Moves a song from one position to another. |  `! ms` 5>3
+`! cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
+`! reptcursong`, `! rcs`  |  Toggles repeat of current song. |  `!m rcs`
+`! rpeatplaylst`, `! rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
+`! save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
+`! load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
+`! playlists`, `! pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
+`! deleteplaylist`, `! delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. | `!m delpls animu-5`
+`! goto`  |  Goes to a specific time in seconds in a song.
+`! getlink`, `! gl`  |  Shows a link to the currently playing song.
+`! autoplay`, `! ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -232,13 +240,22 @@ Command and aliases | Description | Usage
 `~hitbox`, `~hb`  |  Notifies this channel when a certain user starts streaming. |  ~hitbox SomeStreamer
 `~twitch`, `~tw`  |  Notifies this channel when a certain user starts streaming. |  ~twitch SomeStreamer
 `~beam`, `~bm`  |  Notifies this channel when a certain user starts streaming. |  ~beam SomeStreamer
+`~checkhitbox`, `~chhb`  |  Checks if a certain user is streaming on the hitbox platform. |  ~chhb SomeStreamer
+`~checktwitch`, `~chtw`  |  Checks if a certain user is streaming on the twitch platform. |  ~chtw SomeStreamer
+`~checkbeam`, `~chbm`  |  Checks if a certain user is streaming on the beam platform. |  ~chbm SomeStreamer
 `~removestream`, `~rms`  |  Removes notifications of a certain streamer on this channel. |  ~rms SomeGuy
 `~liststreams`, `~ls`  |  Lists all streams you are following on this server. |  ~ls
 `~convert`  |  Convert quantities from>to. Like `~convert m>km 1000`
 `~convertlist`  |  List of the convertable dimensions and currencies.
 `~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes.
 `~calculate`, `~calc`  |  Evaluate a mathematical expression. |  ~calc 1+1
-`~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes.
+`~osu`  |  Shows osu stats for a player. |  `~osu Name` or `~osu Name taiko`
+`~osu b`  |  Shows information about an osu beatmap. | ~osu b https://osu.ppy.sh/s/127712
+`~osu top5`  |  Displays a user's top 5 plays.  | ~osu top5 Name
+`~pokemon`, `~poke`  |  Searches for a pokemon.
+`~pokemonability`, `~pokab`  |  Searches for a pokemon ability.
+`~memelist`  |  Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/
+`~memegen`  |  Generates a meme from memelist with top and bottom text. | `~memegen biw "gets iced coffee" "in the winter"`
 `~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
@@ -249,9 +266,6 @@ Command and aliases | Description | Usage
 `~ir`  |  Pulls a random image using a search parameter. |  ~ir cute kitten
 `~lmgtfy`  |  Google something for an idiot.
 `~hs`  |  Searches for a Hearthstone card and shows its image. Takes a while to complete. | ~hs Ysera
-`~osu u`  |  Shows osu stats for a player. Optional mode. | ~osu u rrtyui std
-`~osu b`  |  Shows osu stats for a beatmap. | ~osu b https://osu.ppy.sh/b/992685
-`~osu top5`  |  Shows an osu player's top 5 plays. Optional mode. | ~osu top5 Dusk ctb
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
 `~quote`  |  Shows a random quote.
@@ -266,6 +280,7 @@ Command and aliases | Description | Usage
 `~wiki`  |  Gives you back a wikipedia link
 `~clr`  |  Shows you what color corresponds to that hex. |  `~clr 00ff00`
 `~videocall`  |  Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.
+`~av`, `~avatar`  |  Shows a mentioned person's avatar. |  ~av @X
 
 ### NSFW  
 Command and aliases | Description | Usage
