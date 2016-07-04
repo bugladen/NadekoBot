@@ -238,7 +238,7 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
             var config = SpecificConfigurations.Default.Of(e.Server.Id);
             try
             {
-                var chId = config.LogServerChannel;
+                var chId = config.LogPresenceChannel;
                 if (chId != null)
                 {
                     Channel ch;
@@ -365,6 +365,8 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                       Channel ch;
                       if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
                           return;
+                          
+                      SpecificConfigurations.Default.Of (e.Server.Id).LogServerChannel = null;
                       await e.Channel.SendMessage($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
                   });
 
@@ -373,14 +375,14 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
-                      var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
+                      var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogPresenceChannel;
                       if (chId == null)
                       {
-                          SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = e.Channel.Id;
+                          SpecificConfigurations.Default.Of(e.Server.Id).LogPresenceChannel = e.Channel.Id;
                           await e.Channel.SendMessage($"**User presence notifications enabled.**").ConfigureAwait(false);
                           return;
                       }
-                      SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = null;
+                      SpecificConfigurations.Default.Of(e.Server.Id).LogPresenceChannel = null;
                       await e.Channel.SendMessage($"**User presence notifications disabled.**").ConfigureAwait(false);
                   });
 

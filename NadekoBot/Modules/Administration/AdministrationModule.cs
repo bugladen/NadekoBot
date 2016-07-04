@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
-                    .Description("Restarts the bot. Might not work.")
+                    .Description("Restarts the bot. Might not work. **Bot Owner Only**")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
