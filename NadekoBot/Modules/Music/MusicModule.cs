@@ -58,7 +58,10 @@ namespace NadekoBot.Modules.Music
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer)) return;
                         if (e.User.VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                        {
+                            musicPlayer.Autoplay = false;
                             musicPlayer.Stop();
+                        }
                     });
 
                 cgb.CreateCommand("destroy")
