@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6029.36463`
+Version: `NadekoBot v0.9.6030.3793`
 ### Help  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -208,7 +208,7 @@ Command and aliases | Description | Usage
 `!m listqueue`, `!m lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
 `!m nowplaying`, `!m np`  |  Shows the song currently playing. |  `!m np`
 `!m volume`, `!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
-`!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
+`!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Persists through restarts. |  `!m dv 80`
 `!m mute`, `!m min`  |  Sets the music volume to 0% |  `!m min`
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
 `!m half`  |  Sets the music volume to 50%. |  `!m half`
