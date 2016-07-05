@@ -201,7 +201,7 @@ namespace NadekoBot.Modules.Music
                 cgb.CreateCommand("defvol")
                     .Alias("dv")
                     .Description("Sets the default music volume when music playback is started (0-100)." +
-                                 " Does not persist through restarts.\n**Usage**: `!m dv 80`")
+                                 " Persists through restarts.\n**Usage**: `!m dv 80`")
                     .Parameter("val", ParameterType.Required)
                     .Do(async e =>
                     {
