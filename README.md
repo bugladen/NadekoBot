@@ -6,5 +6,3 @@
 ## INSTRUCTIONS, FAQ ---> [Wiki](https://github.com/Kwoth/NadekoBot/wiki)
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
-
-Kwoth is my magical girl.
