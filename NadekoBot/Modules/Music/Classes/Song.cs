@@ -27,8 +27,9 @@ namespace NadekoBot.Modules.Music.Classes
     {
         public StreamState State { get; internal set; }
         public string PrettyName =>
-            $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
+            $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
         public SongInfo SongInfo { get; }
+        public string QueuerName { get; set; }
 
         private PoopyBuffer songBuffer { get; } = new PoopyBuffer(NadekoBot.Config.BufferSize);
 

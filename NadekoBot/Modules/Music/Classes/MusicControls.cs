@@ -168,13 +168,14 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        public void AddSong(Song s)
+        public void AddSong(Song s, string username)
         {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
             lock (playlistLock)
             {
                 s.MusicPlayer = this;
+                s.QueuerName = username.TrimTo(10);
                 playlist.Add(s);
             }
         }

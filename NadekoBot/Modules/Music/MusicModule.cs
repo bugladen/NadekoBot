@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("query")).ConfigureAwait(false);
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, e.GetArg("query")).ConfigureAwait(false);
                         if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
@@ -308,7 +308,7 @@ namespace NadekoBot.Modules.Music
                         {
                             try
                             {
-                                await QueueSong(e.Channel, e.User.VoiceChannel, id, true).ConfigureAwait(false);
+                                await QueueSong(e.User, e.Channel, e.User.VoiceChannel, id, true).ConfigureAwait(false);
                             }
                             catch { }
                         }
@@ -327,7 +327,7 @@ namespace NadekoBot.Modules.Music
                             return;
 
                         var scvids = JObject.Parse(await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}"))["tracks"].ToObject<SoundCloudVideo[]>();
-                        await QueueSong(e.Channel, e.User.VoiceChannel, scvids[0].TrackLink);
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, scvids[0].TrackLink);
 
                         MusicPlayer mp;
                         if (!MusicPlayers.TryGetValue(e.Server, out mp))
@@ -342,7 +342,7 @@ namespace NadekoBot.Modules.Music
                                 Uri = svideo.StreamLink,
                                 ProviderType = MusicType.Normal,
                                 Query = svideo.TrackLink,
-                            }));
+                            }), e.User.Name);
                         }
                     });
 
@@ -362,7 +362,7 @@ namespace NadekoBot.Modules.Music
                                                 .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
                             foreach (var file in fileEnum)
                             {
-                                await QueueSong(e.Channel, e.User.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                                await QueueSong(e.User, e.Channel, e.User.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
                             }
                             await e.Channel.SendMessage("🎵 `Directory queue complete.`").ConfigureAwait(false);
                         }
@@ -379,7 +379,7 @@ namespace NadekoBot.Modules.Music
                             await e.Channel.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                             return;
                         }
-                        await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("radio_link"), musicType: MusicType.Radio).ConfigureAwait(false);
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, e.GetArg("radio_link"), musicType: MusicType.Radio).ConfigureAwait(false);
                         if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
@@ -397,7 +397,7 @@ namespace NadekoBot.Modules.Music
                         var arg = e.GetArg("path");
                         if (string.IsNullOrWhiteSpace(arg))
                             return;
-                        await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("path"), musicType: MusicType.Local).ConfigureAwait(false);
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, e.GetArg("path"), musicType: MusicType.Local).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("move")
@@ -628,7 +628,7 @@ namespace NadekoBot.Modules.Music
                         {
                             try
                             {
-                                await QueueSong(textCh, voiceCh, si.Query, true, (MusicType)si.ProviderType).ConfigureAwait(false);
+                                await QueueSong(e.User, textCh, voiceCh, si.Query, true, (MusicType)si.ProviderType).ConfigureAwait(false);
                             }
                             catch (Exception ex)
                             {
@@ -740,7 +740,7 @@ namespace NadekoBot.Modules.Music
             });
         }
 
-        public static async Task QueueSong(Channel textCh, Channel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
+        public static async Task QueueSong(User queuer, Channel textCh, Channel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
         {
             if (voiceCh == null || voiceCh.Server != textCh.Server)
             {
@@ -772,7 +772,7 @@ namespace NadekoBot.Modules.Music
                             lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
-                                await QueueSong(textCh, voiceCh, await SearchHelper.GetRelatedVideoId(song.SongInfo.Query), silent, musicType).ConfigureAwait(false);
+                                await QueueSong(queuer, textCh, voiceCh, await SearchHelper.GetRelatedVideoId(song.SongInfo.Query), silent, musicType).ConfigureAwait(false);
                             }
                         }
                         catch (Exception e)
@@ -801,7 +801,7 @@ namespace NadekoBot.Modules.Music
                 return mp;
             });
             var resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
-            musicPlayer.AddSong(resolvedSong);
+            musicPlayer.AddSong(resolvedSong, queuer.Name);
             if (!silent)
             {
                 var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count}`").ConfigureAwait(false);
