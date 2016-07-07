@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -179,33 +180,26 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "claimfinish")
                     .Alias(Prefix + "cf")
-                    .Description($"Finish your claim if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Alias(Prefix + "cf3")
+                    .Alias(Prefix + "claimfinish3")
+                    .Description($"Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
-                    .Do(async e =>
-                    {
-                        var warInfo = GetInfo(e);
-                        if (warInfo == null || warInfo.Item1.Count == 0)
-                        {
-                            await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
-                            return;
-                        }
-                        var usr =
-                            string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
-                            e.User.Name :
-                            e.GetArg("other_name");
+                    .Do(e => FinishClaim(e));
 
-                        var war = warInfo.Item1[warInfo.Item2];
-                        try
-                        {
-                            var baseNum = war.FinishClaim(usr);
-                            await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            await e.Channel.SendMessage($"💢🔰 {ex.Message}").ConfigureAwait(false);
-                        }
-                    });
+                cgb.CreateCommand(Prefix + "claimfinish2")
+                    .Alias(Prefix + "cf2")
+                    .Description($"Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Parameter("number", ParameterType.Required)
+                    .Parameter("other_name", ParameterType.Unparsed)
+                    .Do(e => FinishClaim(e, 2));
+
+                cgb.CreateCommand(Prefix + "claimfinish1")
+                    .Alias(Prefix + "cf1")
+                    .Description($"Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Parameter("number", ParameterType.Required)
+                    .Parameter("other_name", ParameterType.Unparsed)
+                    .Do(e => FinishClaim(e, 1));
 
                 cgb.CreateCommand(Prefix + "unclaim")
                     .Alias(Prefix + "uncall")
@@ -255,6 +249,31 @@ namespace NadekoBot.Modules.ClashOfClans
                         warsInfo.Item1.RemoveAt(warsInfo.Item2);
                     });
             });
+        }
+
+        private async Task FinishClaim(CommandEventArgs e, int stars = 3)
+        {
+            var warInfo = GetInfo(e);
+            if (warInfo == null || warInfo.Item1.Count == 0)
+            {
+                await e.Channel.SendMessage("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
+            }
+            var usr =
+                string.IsNullOrWhiteSpace(e.GetArg("other_name")) ?
+                e.User.Name :
+                e.GetArg("other_name");
+
+            var war = warInfo.Item1[warInfo.Item2];
+            try
+            {
+                var baseNum = war.FinishClaim(usr, stars);
+                await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await e.Channel.SendMessage($"💢🔰 {ex.Message}").ConfigureAwait(false);
+            }
         }
 
         private static Tuple<List<ClashWar>, int> GetInfo(CommandEventArgs e)
