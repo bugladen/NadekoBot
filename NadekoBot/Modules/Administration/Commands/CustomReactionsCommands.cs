@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     int i = 1;
                     foreach (var reaction in items)
                     {
-                        message.AppendLine($"[{i++}] " + Format.Code(reaction));
+                        message.AppendLine($"[{i++}] " + Format.Code(Format.Escape(reaction)));
                     }
                     await e.Channel.SendMessage(message.ToString());
                 });

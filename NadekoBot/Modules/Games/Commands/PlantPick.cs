@@ -42,8 +42,10 @@ namespace NadekoBot.Modules.Games.Commands
                     if ((rnd % 50) == 0)
                     {
                         var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
-                        await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
+                        var msg2 = await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
                         plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                        await Task.Delay(5000);
+                        await msg2.Delete();
                     }
                 }
             }
