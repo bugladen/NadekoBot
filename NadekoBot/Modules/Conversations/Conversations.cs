@@ -100,15 +100,6 @@ namespace NadekoBot.Modules.Conversations
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
-                cgb.CreateCommand("uptime")
-                    .Description("Shows how long Nadeko has been running for.")
-                    .Do(async e =>
-                    {
-                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        var str = string.Format("I have been running for {0} days, {1} hours, and {2} minutes.", time.Days, time.Hours, time.Minutes);
-                        await e.Channel.SendMessage(str).ConfigureAwait(false);
-                    });
-
                 cgb.CreateCommand("die")
                     .Description("Works only for the owner. Shuts the bot down.")
                     .Do(async e =>
