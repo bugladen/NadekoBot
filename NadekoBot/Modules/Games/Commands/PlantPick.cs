@@ -31,19 +31,23 @@ namespace NadekoBot.Modules.Games.Commands
 
         private async void PotentialFlowerGeneration(object sender, Discord.MessageEventArgs e)
         {
-            if (e.Server == null || e.Channel.IsPrivate)
-                return;
-            var config = Classes.SpecificConfigurations.Default.Of(e.Server.Id);
-            if (config.GenerateCurrencyChannels.Contains(e.Channel.Id))
+            try
             {
-                var rnd = Math.Abs(GetRandomNumber());
-                if ((rnd % 50) == 0)
+                if (e.Server == null || e.Channel.IsPrivate)
+                    return;
+                var config = Classes.SpecificConfigurations.Default.Of(e.Server.Id);
+                if (config.GenerateCurrencyChannels.Contains(e.Channel.Id))
                 {
-                    var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
-                    await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
-                    plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                    var rnd = Math.Abs(GetRandomNumber());
+                    if ((rnd % 50) == 0)
+                    {
+                        var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
+                        await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
+                        plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                    }
                 }
             }
+            catch { }
         }
         //channelid/messageid pair
         ConcurrentDictionary<ulong, Message> plantedFlowerChannels = new ConcurrentDictionary<ulong, Message>();
