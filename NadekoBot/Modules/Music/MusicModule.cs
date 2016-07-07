@@ -275,7 +275,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand("playlist")
                     .Alias("pl")
-                    .Description("Queues up to 50 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
+                    .Description("Queues up to 500 songs from a youtube playlist specified by a link, or keywords.\n**Usage**: `!m pl playlist link or name`")
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
