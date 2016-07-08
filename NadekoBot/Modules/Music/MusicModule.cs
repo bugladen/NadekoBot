@@ -217,7 +217,8 @@ namespace NadekoBot.Modules.Music
                         await e.Channel.SendMessage($"🎵 `Default volume set to {volume}%`").ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand("mute").Alias("min")
+                cgb.CreateCommand("mute")
+                    .Alias("min")
                     .Description("Sets the music volume to 0%\n**Usage**: `!m min`")
                     .Do(e =>
                     {
