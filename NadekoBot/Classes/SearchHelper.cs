@@ -145,8 +145,6 @@ namespace NadekoBot.Classes
 
         public static async Task<string> FindYoutubeUrlByKeywords(string keywords)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
-                throw new InvalidCredentialException("Google API Key is missing.");
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords), "Query not specified.");
             if (keywords.Length > 150)
@@ -158,6 +156,10 @@ namespace NadekoBot.Classes
             {
                 return $"https://www.youtube.com/watch?v={match.Groups["id"].Value}";
             }
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+                throw new InvalidCredentialException("Google API Key is missing.");
+
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +
                                     $"part=snippet&maxResults=1" +
