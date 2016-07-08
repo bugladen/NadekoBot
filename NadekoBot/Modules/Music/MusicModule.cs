@@ -230,7 +230,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand("max")
-                    .Description("Sets the music volume to 100% (real max is actually 150%).\n**Usage**: `!m max`")
+                    .Description("Sets the music volume to 100%.\n**Usage**: `!m max`")
                     .Do(e =>
                     {
                         MusicPlayer musicPlayer;
@@ -296,7 +296,7 @@ namespace NadekoBot.Modules.Music
                         var ids = await SearchHelper.GetVideoIDs(plId, 500).ConfigureAwait(false);
                         if (ids == null || ids.Count == 0)
                         {
-                            await e.Channel.SendMessage($"🎵`Failed to find any songs.`");
+                            await e.Channel.SendMessage($"🎵 `Failed to find any songs.`");
                             return;
                         }
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
@@ -310,6 +310,8 @@ namespace NadekoBot.Modules.Music
                             {
                                 await QueueSong(e.User, e.Channel, e.User.VoiceChannel, id, true).ConfigureAwait(false);
                             }
+                            catch (PlaylistFullException)
+                            { break; }
                             catch { }
                         }
                         await msg.Edit("🎵 `Playlist queue complete.`").ConfigureAwait(false);
@@ -335,14 +337,18 @@ namespace NadekoBot.Modules.Music
 
                         foreach (var svideo in scvids.Skip(1))
                         {
-                            mp.AddSong(new Song(new Classes.SongInfo
+                            try
                             {
-                                Title = svideo.FullName,
-                                Provider = "SoundCloud",
-                                Uri = svideo.StreamLink,
-                                ProviderType = MusicType.Normal,
-                                Query = svideo.TrackLink,
-                            }), e.User.Name);
+                                mp.AddSong(new Song(new Classes.SongInfo
+                                {
+                                    Title = svideo.FullName,
+                                    Provider = "SoundCloud",
+                                    Uri = svideo.StreamLink,
+                                    ProviderType = MusicType.Normal,
+                                    Query = svideo.TrackLink,
+                                }), e.User.Name);
+                            }
+                            catch (PlaylistFullException) { break; }
                         }
                     });
 
@@ -362,7 +368,15 @@ namespace NadekoBot.Modules.Music
                                                 .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
                             foreach (var file in fileEnum)
                             {
-                                await QueueSong(e.User, e.Channel, e.User.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                                try
+                                {
+                                    await QueueSong(e.User, e.Channel, e.User.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                                }
+                                catch (PlaylistFullException)
+                                {
+                                    break;
+                                }
+                                catch { }
                             }
                             await e.Channel.SendMessage("🎵 `Directory queue complete.`").ConfigureAwait(false);
                         }
@@ -479,6 +493,29 @@ namespace NadekoBot.Modules.Music
 
                         await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`");
 
+                    });
+
+                cgb.CreateCommand("setmaxqueue")
+                    .Alias("smq")
+                    .Description($"Sets a maximum queue size. Supply 0 or no argument to have no limit. \n**Usage**: `{Prefix} smq` 50 or `{Prefix} smq`")
+                    .Parameter("size", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                        {
+                            return;
+                        }
+
+                        var sizeStr = e.GetArg("size")?.Trim();
+                        uint size = 0;
+                        if (string.IsNullOrWhiteSpace(sizeStr) || !uint.TryParse(sizeStr, out size))
+                        {
+                            size = 0;
+                        }
+
+                        musicPlayer.MaxQueueSize = size;
+                        await e.Channel.SendMessage($"🎵 `Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}`");
                     });
 
                 cgb.CreateCommand("cleanup")
@@ -629,6 +666,10 @@ namespace NadekoBot.Modules.Music
                             try
                             {
                                 await QueueSong(e.User, textCh, voiceCh, si.Query, true, (MusicType)si.ProviderType).ConfigureAwait(false);
+                            }
+                            catch (PlaylistFullException)
+                            {
+                                break;
                             }
                             catch (Exception ex)
                             {
@@ -800,8 +841,19 @@ namespace NadekoBot.Modules.Music
                 };
                 return mp;
             });
-            var resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
-            musicPlayer.AddSong(resolvedSong, queuer.Name);
+            Song resolvedSong;
+            try
+            {
+                musicPlayer.ThrowIfQueueFull();
+                resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
+
+                musicPlayer.AddSong(resolvedSong, queuer.Name);
+            }
+            catch (PlaylistFullException)
+            {
+                await textCh.SendMessage($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` ");
+                throw;
+            }
             if (!silent)
             {
                 var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count}`").ConfigureAwait(false);
