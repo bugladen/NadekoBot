@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games.Commands
                     if (!plantpickCooldowns.TryGetValue(e.Channel.Id, out lastSpawned) || (lastSpawned + new TimeSpan(0, cd, 0)) < now)
                     {
                         var rnd = Math.Abs(GetRandomNumber());
-                        if ((rnd % 2) == 0)
+                        if ((rnd % 50) == 0)
                         {
                             var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
                             var msg2 = await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
