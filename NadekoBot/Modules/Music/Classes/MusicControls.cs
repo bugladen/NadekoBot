@@ -12,7 +12,8 @@ namespace NadekoBot.Modules.Music.Classes
     {
         Radio,
         Normal,
-        Local
+        Local,
+        Soundcloud
     }
 
     public enum StreamState

@@ -108,20 +108,20 @@ namespace NadekoBot.Modules.Music
                         }
                     });
 
-                //cgb.CreateCommand("soundcloudqueue")
-                //    .Alias("sq")
-                //    .Description("Queue a soundcloud song using keywords. Bot will join your voice channel." +
-                //                 "**You must be in a voice channel**.\n**Usage**: `!m sq Dream Of Venice`")
-                //    .Parameter("query", ParameterType.Unparsed)
-                //    .Do(async e =>
-                //    {
-                //        await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("query")).ConfigureAwait(false);
-                //        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
-                //        {
-                //            await Task.Delay(10000).ConfigureAwait(false);
-                //            await e.Message.Delete().ConfigureAwait(false);
-                //        }
-                //    });
+                cgb.CreateCommand("soundcloudqueue")
+                    .Alias("sq")
+                    .Description("Queue a soundcloud song using keywords. Bot will join your voice channel." +
+                                 "**You must be in a voice channel**.\n**Usage**: `!m sq Dream Of Venice`")
+                    .Parameter("query", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, e.GetArg("query"), musicType: MusicType.Soundcloud).ConfigureAwait(false);
+                        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
+                        {
+                            await Task.Delay(10000).ConfigureAwait(false);
+                            await e.Message.Delete().ConfigureAwait(false);
+                        }
+                    });
 
                 cgb.CreateCommand("listqueue")
                     .Alias("lq")
@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Music
                         var ids = await SearchHelper.GetVideoIDs(plId, 500).ConfigureAwait(false);
                         if (ids == null || ids.Count == 0)
                         {
-                            await e.Channel.SendMessage($"🎵 `Failed to find any songs.`");
+                            await e.Channel.SendMessage($"🎵 `Failed to find any songs.`").ConfigureAwait(false);
                             return;
                         }
                         //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
@@ -329,8 +329,8 @@ namespace NadekoBot.Modules.Music
                         if (string.IsNullOrWhiteSpace(pl))
                             return;
 
-                        var scvids = JObject.Parse(await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}"))["tracks"].ToObject<SoundCloudVideo[]>();
-                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, scvids[0].TrackLink);
+                        var scvids = JObject.Parse(await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                        await QueueSong(e.User, e.Channel, e.User.VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                         MusicPlayer mp;
                         if (!MusicPlayers.TryGetValue(e.Server, out mp))
@@ -483,7 +483,7 @@ namespace NadekoBot.Modules.Music
                             !int.TryParse(fromtoArr[1], out n2) || n1 < 1 || n2 < 1 || n1 == n2 ||
                             n1 > playlist.Count || n2 > playlist.Count)
                         {
-                            await e.Channel.SendMessage("`Invalid input.`");
+                            await e.Channel.SendMessage("`Invalid input.`").ConfigureAwait(false);
                             return;
                         }
 
@@ -492,7 +492,7 @@ namespace NadekoBot.Modules.Music
                         var nn1 = n2 < n1 ? n1 : n1 - 1;
                         playlist.RemoveAt(nn1);
 
-                        await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`");
+                        await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
 
                     });
 
@@ -691,9 +691,9 @@ namespace NadekoBot.Modules.Music
                             return;
                         var result = DbHandler.Instance.GetPlaylistData(num);
                         if (result.Count == 0)
-                            e.Channel.SendMessage($"`No saved playlists found on page {num}`");
+                            e.Channel.SendMessage($"`No saved playlists found on page {num}`").ConfigureAwait(false);
                         else
-                            e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```");
+                            e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("deleteplaylist")
@@ -710,7 +710,7 @@ namespace NadekoBot.Modules.Music
                             DbHandler.Instance.Delete<MusicPlaylist>(plnum);
                         else
                             DbHandler.Instance.DeleteWhere<MusicPlaylist>(mp => mp.Id == plnum && (long)e.User.Id == mp.CreatorId);
-                        await e.Channel.SendMessage("`Ok.` :ok:");
+                        await e.Channel.SendMessage("`Ok.` :ok:").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("goto")
@@ -761,7 +761,7 @@ namespace NadekoBot.Modules.Music
                         var curSong = musicPlayer.CurrentSong;
                         if (curSong == null)
                             return;
-                        await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>");
+                        await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("autoplay")
@@ -775,9 +775,9 @@ namespace NadekoBot.Modules.Music
                             return;
 
                         if (!musicPlayer.ToggleAutoplay())
-                            await e.Channel.SendMessage("🎶`Autoplay disabled.`");
+                            await e.Channel.SendMessage("🎶`Autoplay disabled.`").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("🎶`Autoplay enabled.`");
+                            await e.Channel.SendMessage("🎶`Autoplay enabled.`").ConfigureAwait(false);
                     });
             });
         }
