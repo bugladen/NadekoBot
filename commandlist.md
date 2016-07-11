@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6030.3793`
+Version: `NadekoBot v0.9.6036.24599`
 ### Help  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -45,7 +45,7 @@ Command and aliases | Description | Usage
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamnot`, `.iamn`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.addcustreact`, `.acr`  |  Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   |  .acr "hello" I love saying hello to %user%
-`.listcustreact`, `.lcr`  |  Lists all current custom reactions (paginated with 30 commands per page). | .lcr 1
+`.listcustreact`, `.lcr`  |  Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you.  | .lcr 1
 `.showcustreact`, `.scr`  |  Shows all possible responses from a single custom reaction. | .scr %mention% bb
 `.editcustreact`, `.ecr`  |  Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only** | `.ecr "%mention% disguise" 2 Test 123`
 `.delcustreact`, `.dcr`  |  Deletes a custom reaction with given name (and index)
@@ -153,7 +153,6 @@ Command and aliases | Description | Usage
 `...`  |  Shows a random quote with a specified name. |  .. abc
 `..qdel`, `..quotedelete`  |  Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. |  `..qdel abc`
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
-`@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
@@ -190,7 +189,7 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
-`>gencurrency`, `>gc`  |  Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission. | `>gc`
+`>gencurrency`, `>gc`  |  Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. | `>gc` or `>gc 60`
 `>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels |  >leet 3 Hello
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
@@ -205,15 +204,16 @@ Command and aliases | Description | Usage
 `!m destroy`, `!m d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
 `!m pause`, `!m p`  |  Pauses or Unpauses the song. |  `!m p`
 `!m queue`, `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!m soundcloudqueue`, `!m sq`  |  Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**. |  `!m sq Dream Of Venice`
 `!m listqueue`, `!m lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
 `!m nowplaying`, `!m np`  |  Shows the song currently playing. |  `!m np`
 `!m volume`, `!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
 `!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Persists through restarts. |  `!m dv 80`
 `!m mute`, `!m min`  |  Sets the music volume to 0% |  `!m min`
-`!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
+`!m max`  |  Sets the music volume to 100%. |  `!m max`
 `!m half`  |  Sets the music volume to 50%. |  `!m half`
 `!m shuffle`, `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m playlist`, `!m pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`!m playlist`, `!m pl`  |  Queues up to 500 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
 `!m soundcloudpl`, `!m scpl`  |  Queue a soundcloud playlist using a link. | `!m scpl https://soundcloud.com/saratology/sets/symphony`
 `!m localplaylst`, `!m lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
 `!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
@@ -221,6 +221,7 @@ Command and aliases | Description | Usage
 `!m move`, `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
 `!m remove`, `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
 `!m movesong`, `!m ms`  |  Moves a song from one position to another. |  `!m ms` 5>3
+`!m setmaxqueue`, `!m smq`  |  Sets a maximum queue size. Supply 0 or no argument to have no limit.  |  `!m smq` 50 or `!m smq`
 `!m cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
 `!m reptcursong`, `!m rcs`  |  Toggles repeat of current song. |  `!m rcs`
 `!m rpeatplaylst`, `!m rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
@@ -253,7 +254,7 @@ Command and aliases | Description | Usage
 `~osu b`  |  Shows information about an osu beatmap. | ~osu b https://osu.ppy.sh/s/127712
 `~osu top5`  |  Displays a user's top 5 plays.  | ~osu top5 Name
 `~pokemon`, `~poke`  |  Searches for a pokemon.
-`~pokemonability`, `~pokab`  |  Searches for a pokemon ability.
+`~pokemonability`, `~pokeab`  |  Searches for a pokemon ability.
 `~memelist`  |  Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/
 `~memegen`  |  Generates a meme from memelist with top and bottom text. | `~memegen biw "gets iced coffee" "in the winter"`
 `~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
@@ -301,14 +302,16 @@ Command and aliases | Description | Usage
 `,startwar`, `,sw`  |  Starts a war with a given number.
 `,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
 `,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] [optional_other_name]
-`,claimfinish`, `,cf`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish`, `,cf`, `,cf3`, `,claimfinish3`  |  Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish2`, `,cf2`  |  Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish1`, `,cf1`  |  Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
 `,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] [optional_other_name]
 `,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
 
 ### Pokegame  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>attack`  |  Attacks a target with the given move
+`>attack`  |  Attacks a target with the given move. Use `>movelist` to see a list of moves your type can use. | `>attack "vine whip" @someguy`
 `>movelist`, `>ml`  |  Lists the moves you are able to use
 `>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
 `>type`  |  Get the poketype of the target. |  >type @someone
