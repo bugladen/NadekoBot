@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "rolepermscopy")
                     .Alias(Prefix + "rpc")
-                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one role to another.\n**Usage**:`{Prefix}rpc Some Role ~ Some other role`")
+                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one role to another. |`{Prefix}rpc Some Role ~ Some other role`")
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Permissions
                     });
                 cgb.CreateCommand(Prefix + "chnlpermscopy")
                     .Alias(Prefix + "cpc")
-                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one channel to another.\n**Usage**:`{Prefix}cpc Some Channel ~ Some other channel`")
+                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one channel to another. |`{Prefix}cpc Some Channel ~ Some other channel`")
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Permissions
                     });
                 cgb.CreateCommand(Prefix + "usrpermscopy")
                     .Alias(Prefix + "upc")
-                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one role to another.\n**Usage**:`{Prefix}upc @SomeUser ~ @SomeOtherUser`")
+                    .Description($"Copies BOT PERMISSIONS (not discord permissions) from one role to another. |`{Prefix}upc @SomeUser ~ @SomeOtherUser`")
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "verbose")
                     .Alias(Prefix + "v")
-                    .Description("Sets whether to show when a command/module is blocked.\n**Usage**: ;verbose true")
+                    .Description("Sets whether to show when a command/module is blocked. | ;verbose true")
                     .Parameter("arg", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "roleperms")
                     .Alias(Prefix + "rp")
-                    .Description("Shows banned permissions for a certain role. No argument means for everyone.\n**Usage**: ;rp AwesomeRole")
+                    .Description("Shows banned permissions for a certain role. No argument means for everyone. | ;rp AwesomeRole")
                     .Parameter("role", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -194,7 +194,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "chnlperms")
                     .Alias(Prefix + "cp")
-                    .Description("Shows banned permissions for a certain channel. No argument means for this channel.\n**Usage**: ;cp #dev")
+                    .Description("Shows banned permissions for a certain channel. No argument means for this channel. | ;cp #dev")
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "userperms")
                     .Alias(Prefix + "up")
-                    .Description("Shows banned permissions for a certain user. No argument means for yourself.\n**Usage**: ;up Kwoth")
+                    .Description("Shows banned permissions for a certain user. No argument means for yourself. | ;up Kwoth")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Permissions
                     .Alias(Prefix + "sm")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a module's permission at the server level.\n**Usage**: ;sm [module_name] enable")
+                    .Description("Sets a module's permission at the server level. | ;sm \"module name\" enable")
                     .Do(async e =>
                     {
                         try
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules.Permissions
                 cgb.CreateCommand(Prefix + "srvrcmd").Alias(Prefix + "sc")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets a command's permission at the server level.\n**Usage**: ;sc [command_name] disable")
+                    .Description("Sets a command's permission at the server level. | ;sc \"command name\" disable")
                     .Do(async e =>
                     {
                         try
@@ -294,7 +294,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the role level.\n**Usage**: ;rm [module_name] enable [role_name]")
+                    .Description("Sets a module's permission at the role level. | ;rm \"module name\" enable MyRole")
                     .Do(async e =>
                     {
                         try
@@ -332,7 +332,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the role level.\n**Usage**: ;rc [command_name] disable [role_name]")
+                    .Description("Sets a command's permission at the role level. | ;rc \"command name\" disable MyRole")
                     .Do(async e =>
                     {
                         try
@@ -370,7 +370,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the channel level.\n**Usage**: ;cm [module_name] enable [channel_name]")
+                    .Description("Sets a module's permission at the channel level. | ;cm \"module name\" enable SomeChannel")
                     .Do(async e =>
                     {
                         try
@@ -413,7 +413,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the channel level.\n**Usage**: ;cc [command_name] enable [channel_name]")
+                    .Description("Sets a command's permission at the channel level. | ;cc \"command name\" enable SomeChannel")
                     .Do(async e =>
                     {
                         try
@@ -451,7 +451,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
-                    .Description("Sets a module's permission at the user level.\n**Usage**: ;um [module_name] enable [user_name]")
+                    .Description("Sets a module's permission at the user level. | ;um \"module name\" enable SomeUsername")
                     .Do(async e =>
                     {
                         try
@@ -477,7 +477,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("command", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("user", ParameterType.Unparsed)
-                    .Description("Sets a command's permission at the user level.\n**Usage**: ;uc [command_name] enable [user_name]")
+                    .Description("Sets a command's permission at the user level. | ;uc \"command name\" enable SomeUsername")
                     .Do(async e =>
                     {
                         try
@@ -501,7 +501,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "allsrvrmdls").Alias(Prefix + "asm")
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets permissions for all modules at the server level.\n**Usage**: ;asm [enable/disable]")
+                    .Description("Sets permissions for all modules at the server level. | ;asm [enable/disable]")
                     .Do(async e =>
                     {
                         try
@@ -527,7 +527,7 @@ namespace NadekoBot.Modules.Permissions
                 cgb.CreateCommand(Prefix + "allsrvrcmds").Alias(Prefix + "asc")
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
-                    .Description("Sets permissions for all commands from a certain module at the server level.\n**Usage**: ;asc [module_name] [enable/disable]")
+                    .Description("Sets permissions for all commands from a certain module at the server level. | ;asc \"module name\" [enable/disable]")
                     .Do(async e =>
                     {
                         try
@@ -554,7 +554,7 @@ namespace NadekoBot.Modules.Permissions
                 cgb.CreateCommand(Prefix + "allchnlmdls").Alias(Prefix + "acm")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all modules at the channel level.\n**Usage**: ;acm [enable/disable] [channel_name]")
+                    .Description("Sets permissions for all modules at the channel level. | ;acm [enable/disable] SomeChannel")
                     .Do(async e =>
                     {
                         try
@@ -583,7 +583,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("channel", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the channel level.\n**Usage**: ;acc [module_name] [enable/disable] [channel_name]")
+                    .Description("Sets permissions for all commands from a certain module at the channel level. | ;acc \"module name\" [enable/disable] SomeChannel")
                     .Do(async e =>
                     {
                         try
@@ -610,7 +610,7 @@ namespace NadekoBot.Modules.Permissions
                 cgb.CreateCommand(Prefix + "allrolemdls").Alias(Prefix + "arm")
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets permissions for all modules at the role level.\n**Usage**: ;arm [enable/disable] [role_name]")
+                    .Description("Sets permissions for all modules at the role level. | ;arm [enable/disable] MyRole")
                     .Do(async e =>
                     {
                         try
@@ -638,7 +638,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("module", ParameterType.Required)
                     .Parameter("bool", ParameterType.Required)
                     .Parameter("role", ParameterType.Unparsed)
-                    .Description("Sets permissions for all commands from a certain module at the role level.\n**Usage**: ;arc [module_name] [enable/disable] [role_name]")
+                    .Description("Sets permissions for all commands from a certain module at the role level. | ;arc \"module name\" [enable/disable] MyRole")
                     .Do(async e =>
                     {
                         try
@@ -678,7 +678,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "ubl")
-                    .Description("Blacklists a mentioned user.\n**Usage**: ;ubl [user_mention]")
+                    .Description("Blacklists a mentioned user. | ;ubl [user_mention]")
                     .Parameter("user", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -694,7 +694,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "uubl")
-                   .Description($"Unblacklists a mentioned user.\n**Usage**: {Prefix}uubl [user_mention]")
+                   .Description($"Unblacklists a mentioned user. | {Prefix}uubl [user_mention]")
                    .Parameter("user", ParameterType.Unparsed)
                    .AddCheck(SimpleCheckers.OwnerOnly())
                    .Do(async e =>
@@ -717,7 +717,7 @@ namespace NadekoBot.Modules.Permissions
                    });
 
                 cgb.CreateCommand(Prefix + "cbl")
-                    .Description("Blacklists a mentioned channel (#general for example).\n**Usage**: ;cbl [channel_mention]")
+                    .Description("Blacklists a mentioned channel (#general for example). | ;cbl #some_channel")
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -732,7 +732,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "cubl")
-                    .Description("Unblacklists a mentioned channel (#general for example).\n**Usage**: ;cubl [channel_mention]")
+                    .Description("Unblacklists a mentioned channel (#general for example). | ;cubl #some_channel")
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -747,7 +747,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "sbl")
-                    .Description("Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY**\n**Usage**: ;sbl [servername/serverid]")
+                    .Description("Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** | ;sbl [servername/serverid]")
                     .Parameter("server", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>

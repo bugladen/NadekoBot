@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "$$")
-                    .Description(string.Format("Check how much {0}s a person has. (Defaults to yourself)\n**Usage**:`{1}$$` or `{1}$$ @Someone`",
+                    .Description(string.Format("Check how much {0}s a person has. (Defaults to yourself) |`{1}$$` or `{1}$$ @Someone`",
                         NadekoBot.Config.CurrencyName, Prefix))
                     .Parameter("all", ParameterType.Unparsed)
                     .Do(async e =>
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "award")
-                    .Description("Gives someone a certain amount of flowers. **Bot Owner Only!**\n**Usage**: `$award 100 @person`")
+                    .Description("Gives someone a certain amount of flowers. **Bot Owner Only!** | `$award 100 @person`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)

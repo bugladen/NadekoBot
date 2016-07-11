@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "voicenotif")
-                  .Description("Enables notifications on who joined/left the voice channel.\n**Usage**:.voicenotif Karaoke club")
+                  .Description("Enables notifications on who joined/left the voice channel. |.voicenotif Karaoke club")
                   .Parameter("voice_name", ParameterType.Unparsed)
                   .Do(DoFunc());
         }

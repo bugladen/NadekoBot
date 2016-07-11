@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 cgb.CreateCommand(Prefix + "createwar")
                     .Alias(Prefix + "cw")
                     .Description(
-                        $"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name.\n**Usage**:{Prefix}cw 15 The Enemy Clan")
+                        $"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. |{Prefix}cw 15 The Enemy Clan")
                     .Parameter("size")
                     .Parameter("enemy_clan", ParameterType.Unparsed)
                     .Do(async e =>
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "listwar")
                     .Alias(Prefix + "lw")
-                    .Description($"Shows the active war claims by a number. Shows all wars in a short way if no number is specified.\n**Usage**: {Prefix}lw [war_number] or {Prefix}lw")
+                    .Description($"Shows the active war claims by a number. Shows all wars in a short way if no number is specified. | {Prefix}lw [war_number] or {Prefix}lw")
                     .Parameter("number", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 cgb.CreateCommand(Prefix + "claim")
                     .Alias(Prefix + "call")
                     .Alias(Prefix + "c")
-                    .Description($"Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. \n**Usage**: {Prefix}call [war_number] [base_number] [optional_other_name]")
+                    .Description($"Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  | {Prefix}call [war_number] [base_number] [optional_other_name]")
                     .Parameter("number")
                     .Parameter("baseNumber")
                     .Parameter("other_name", ParameterType.Unparsed)
@@ -182,21 +182,21 @@ namespace NadekoBot.Modules.ClashOfClans
                     .Alias(Prefix + "cf")
                     .Alias(Prefix + "cf3")
                     .Alias(Prefix + "claimfinish3")
-                    .Description($"Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Description($"Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else. | {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(e => FinishClaim(e));
 
                 cgb.CreateCommand(Prefix + "claimfinish2")
                     .Alias(Prefix + "cf2")
-                    .Description($"Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Description($"Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else. | {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(e => FinishClaim(e, 2));
 
                 cgb.CreateCommand(Prefix + "claimfinish1")
                     .Alias(Prefix + "cf1")
-                    .Description($"Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else.\n**Usage**: {Prefix}cf [war_number] [optional_other_name]")
+                    .Description($"Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else. | {Prefix}cf [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(e => FinishClaim(e, 1));
@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 cgb.CreateCommand(Prefix + "unclaim")
                     .Alias(Prefix + "uncall")
                     .Alias(Prefix + "uc")
-                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim\n**Usage**: {Prefix}uc [war_number] [optional_other_name]")
+                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim | {Prefix}uc [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(async e =>
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "endwar")
                     .Alias(Prefix + "ew")
-                    .Description($"Ends the war with a given index.\n**Usage**:{Prefix}ew [war_number]")
+                    .Description($"Ends the war with a given index. |{Prefix}ew [war_number]")
                     .Parameter("number")
                     .Do(async e =>
                     {

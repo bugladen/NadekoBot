@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                 .Alias(Module.Prefix + "cfw")
                 .Description("Enables or disables automatic deleting of messages containing banned words on the channel." +
                              "If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once." +
-                             "\n**Usage**: ;cfw enable #general-chat")
+                             " | ;cfw enable #general-chat")
                 .Parameter("bool")
                 .Parameter("channel", ParameterType.Optional)
                 .Do(async e =>
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Permissions.Commands
             cgb.CreateCommand(Module.Prefix + "addfilterword")
                .Alias(Module.Prefix + "afw")
                .Description("Adds a new word to the list of filtered words" +
-                            "\n**Usage**: ;afw poop")
+                            " | ;afw poop")
                .Parameter("word", ParameterType.Unparsed)
                .Do(async e =>
                {
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Permissions.Commands
             cgb.CreateCommand(Module.Prefix + "rmvfilterword")
                .Alias(Module.Prefix + "rfw")
                .Description("Removes the word from the list of filtered words" +
-                            "\n**Usage**: ;rw poop")
+                            " | ;rw poop")
                .Parameter("word", ParameterType.Unparsed)
                .Do(async e =>
                {
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Permissions.Commands
             cgb.CreateCommand(Module.Prefix + "lstfilterwords")
                .Alias(Module.Prefix + "lfw")
                .Description("Shows a list of filtered words" +
-                            "\n**Usage**: ;lfw")
+                            " | ;lfw")
                .Do(async e =>
                {
                    try
@@ -152,7 +152,7 @@ namespace NadekoBot.Modules.Permissions.Commands
 
             cgb.CreateCommand(Module.Prefix + "srvrfilterwords")
                 .Alias(Module.Prefix + "sfw")
-                .Description("Enables or disables automatic deleting of messages containing forbidden words on the server.\n**Usage**: ;sfw disable")
+                .Description("Enables or disables automatic deleting of messages containing forbidden words on the server. | ;sfw disable")
                 .Parameter("bool")
                 .Do(async e =>
                 {

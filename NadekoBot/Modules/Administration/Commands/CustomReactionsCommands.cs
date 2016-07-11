@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "addcustreact")
                 .Alias(Prefix + "acr")
-                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**  \n**Usage**: {Prefix}acr \"hello\" I love saying hello to %user%")
+                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   | {Prefix}acr \"hello\" I love saying hello to %user%")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Parameter("name", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "listcustreact")
                 .Alias(Prefix + "lcr")
-                .Description($"Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you. \n**Usage**:{Prefix}lcr 1")
+                .Description($"Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you.  |{Prefix}lcr 1")
                 .Parameter("num", ParameterType.Required)
                 .Do(async e =>
                 {
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "showcustreact")
                 .Alias(Prefix + "scr")
-                .Description($"Shows all possible responses from a single custom reaction.\n**Usage**:{Prefix}scr %mention% bb")
+                .Description($"Shows all possible responses from a single custom reaction. |{Prefix}scr %mention% bb")
                 .Parameter("name", ParameterType.Unparsed)
                 .Do(async e =>
                 {

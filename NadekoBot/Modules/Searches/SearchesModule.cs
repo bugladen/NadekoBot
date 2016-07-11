@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Searches
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "we")
-                    .Description($"Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.\n**Usage**: {Prefix}we Moscow RF")
+                    .Description($"Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. | {Prefix}we Moscow RF")
                     .Parameter("city", ParameterType.Required)
                     .Parameter("country", ParameterType.Required)
                     .Do(async e =>
@@ -157,7 +157,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "i")
-                   .Description("Pulls the first image found using a search parameter. Use ~ir for different results.\n**Usage**: ~i cute kitten")
+                   .Description("Pulls the first image found using a search parameter. Use ~ir for different results. | ~i cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
                        .Do(async e =>
                        {
@@ -183,7 +183,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                        });
 
                 cgb.CreateCommand(Prefix + "ir")
-                   .Description("Pulls a random image using a search parameter.\n**Usage**: ~ir cute kitten")
+                   .Description("Pulls a random image using a search parameter. | ~ir cute kitten")
                    .Parameter("query", ParameterType.Unparsed)
                    .Do(async e =>
                     {
@@ -220,7 +220,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "hs")
-                  .Description("Searches for a Hearthstone card and shows its image. Takes a while to complete.\n**Usage**:~hs Ysera")
+                  .Description("Searches for a Hearthstone card and shows its image. Takes a while to complete. |~hs Ysera")
                   .Parameter("name", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -261,7 +261,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                   });
 
                 cgb.CreateCommand(Prefix + "ud")
-                  .Description("Searches Urban Dictionary for a word.\n**Usage**:~ud Pineapple")
+                  .Description("Searches Urban Dictionary for a word. |~ud Pineapple")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -290,7 +290,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                   });
                 // thanks to Blaubeerwald
                 cgb.CreateCommand(Prefix + "#")
-                 .Description("Searches Tagdef.com for a hashtag.\n**Usage**:~# ff")
+                 .Description("Searches Tagdef.com for a hashtag. |~# ff")
                   .Parameter("query", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -404,7 +404,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "safebooru")
-                    .Description("Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~safebooru yuri+kissing")
+                    .Description("Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | ~safebooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -431,7 +431,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "clr")
-                    .Description("Shows you what color corresponds to that hex.\n**Usage**: `~clr 00ff00`")
+                    .Description("Shows you what color corresponds to that hex. | `~clr 00ff00`")
                     .Parameter("color", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -480,7 +480,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "av")
                     .Alias(Prefix + "avatar")
                     .Parameter("mention", ParameterType.Required)
-                    .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
+                    .Description("Shows a mentioned person's avatar. | ~av @X")
                     .Do(async e =>
                     {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();

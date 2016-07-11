@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Utility.Commands
         {
             cgb.CreateCommand(Module.Prefix + "serverinfo")
                 .Alias(Module.Prefix + "sinfo")
-                .Description($"Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.\n**Usage**:{Module.Prefix}sinfo Some Server")
+                .Description($"Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. |{Module.Prefix}sinfo Some Server")
                 .Parameter("server", ParameterType.Optional)
                 .Do(async e =>
                 {
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility.Commands
 
             cgb.CreateCommand(Module.Prefix + "channelinfo")
                 .Alias(Module.Prefix + "cinfo")
-                .Description($"Shows info about the channel. If no channel is supplied, it defaults to current one.\n**Usage**:{Module.Prefix}cinfo #some-channel")
+                .Description($"Shows info about the channel. If no channel is supplied, it defaults to current one. |{Module.Prefix}cinfo #some-channel")
                 .Parameter("channel", ParameterType.Optional)
                 .Do(async e =>
                 {
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Utility.Commands
 
             cgb.CreateCommand(Module.Prefix + "userinfo")
                 .Alias(Module.Prefix + "uinfo")
-                .Description($"Shows info about the user. If no user is supplied, it defaults a user running the command.\n**Usage**:{Module.Prefix}uinfo @SomeUser")
+                .Description($"Shows info about the user. If no user is supplied, it defaults a user running the command. |{Module.Prefix}uinfo @SomeUser")
                 .Parameter("user", ParameterType.Optional)
                 .Do(async e =>
                 {

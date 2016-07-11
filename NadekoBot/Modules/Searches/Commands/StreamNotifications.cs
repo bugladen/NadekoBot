@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "hitbox")
                 .Alias(Module.Prefix + "hb")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             "\n**Usage**: ~hitbox SomeStreamer")
+                             " | ~hitbox SomeStreamer")
                 .Parameter("username", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Hitbox));
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "twitch")
                 .Alias(Module.Prefix + "tw")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             "\n**Usage**: ~twitch SomeStreamer")
+                             " | ~twitch SomeStreamer")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Twitch));
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "beam")
                 .Alias(Module.Prefix + "bm")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             "\n**Usage**: ~beam SomeStreamer")
+                             " | ~beam SomeStreamer")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Beam));
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checkhitbox")
                 .Alias(Module.Prefix + "chhb")
                 .Description("Checks if a certain user is streaming on the hitbox platform." +
-                             "\n**Usage**: ~chhb SomeStreamer")
+                             " | ~chhb SomeStreamer")
                 .Parameter("username", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checktwitch")
                 .Alias(Module.Prefix + "chtw")
                 .Description("Checks if a certain user is streaming on the twitch platform." +
-                             "\n**Usage**: ~chtw SomeStreamer")
+                             " | ~chtw SomeStreamer")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checkbeam")
                 .Alias(Module.Prefix + "chbm")
                 .Description("Checks if a certain user is streaming on the beam platform." +
-                             "\n**Usage**: ~chbm SomeStreamer")
+                             " | ~chbm SomeStreamer")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "removestream")
                 .Alias(Module.Prefix + "rms")
                 .Description("Removes notifications of a certain streamer on this channel." +
-                             "\n**Usage**: ~rms SomeGuy")
+                             " | ~rms SomeGuy")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -261,7 +261,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "liststreams")
                 .Alias(Module.Prefix + "ls")
                 .Description("Lists all streams you are following on this server." +
-                             "\n**Usage**: ~ls")
+                             " | ~ls")
                 .Do(async e =>
                 {
 

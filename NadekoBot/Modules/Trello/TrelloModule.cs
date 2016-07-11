@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Trello
                 cgb.CreateCommand(Prefix + "bind")
                     .Description("Bind a trello bot to a single channel. " +
                                  "You will receive notifications from your board when something is added or edited." +
-                                 "\n**Usage**: bind [board_id]")
+                                 " | bind [board_id]")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {

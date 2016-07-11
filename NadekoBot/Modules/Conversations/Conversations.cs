@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Conversations
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand("..")
-                    .Description("Adds a new quote with the specified name (single word) and message (no limit).\n**Usage**: .. abc My message")
+                    .Description("Adds a new quote with the specified name (single word) and message (no limit). | .. abc My message")
                     .Parameter("keyword", ParameterType.Required)
                     .Parameter("text", ParameterType.Unparsed)
                     .Do(async e =>
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("...")
-                    .Description("Shows a random quote with a specified name.\n**Usage**: .. abc")
+                    .Description("Shows a random quote with a specified name. | .. abc")
                     .Parameter("keyword", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Conversations
 
                 cgb.CreateCommand("..qdel")
                     .Alias("..quotedelete")
-                    .Description("Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.\n**Usage**: `..qdel abc`")
+                    .Description("Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. | `..qdel abc`")
                     .Parameter("quote", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("fire")
-                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
+                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
                     {

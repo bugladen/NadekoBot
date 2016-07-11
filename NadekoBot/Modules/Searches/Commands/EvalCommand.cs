@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             cgb.CreateCommand(Module.Prefix + "calculate")
                 .Alias(Module.Prefix + "calc")
-                .Description("Evaluate a mathematical expression.\n**Usage**: ~calc 1+1")
+                .Description("Evaluate a mathematical expression. | ~calc 1+1")
                 .Parameter("expression", ParameterType.Unparsed)
                 .Do(EvalFunc());
         }
