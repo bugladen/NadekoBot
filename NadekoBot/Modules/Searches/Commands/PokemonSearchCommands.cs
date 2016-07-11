@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 .Parameter("abil", ParameterType.Unparsed)
                 .Do(async e =>
                 {
-                    var ab = e.GetArg("abil")?.Trim().ToUpperInvariant();
+                    var ab = e.GetArg("abil")?.Trim().ToUpperInvariant().Replace(" ", "");
                     if (string.IsNullOrWhiteSpace(ab))
                         return;
                     foreach (var kvp in pokemonAbilities)
