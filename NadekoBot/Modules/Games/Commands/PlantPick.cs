@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Games.Commands
                             e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.");
                             return;
                         }
-                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1);
+                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1).GetAwaiter().GetResult();
                         if (!removed)
                         {
                             e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").Wait();

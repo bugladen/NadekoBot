@@ -84,6 +84,7 @@ namespace NadekoBot.Classes.JSONModels
 
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
+        public bool ForwardToAllOwners { get; set; } = false;
         public bool IsRotatingStatus { get; set; } = false;
         public int BufferSize { get; set; } = 4.MiB();
 
