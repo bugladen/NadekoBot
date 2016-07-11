@@ -359,7 +359,7 @@ namespace NadekoBot.Classes
 
                 using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync().ConfigureAwait(false)))
                 {
-                    var json = "{\"longUrl\":\"" + url + "\"}";
+                    var json = "{\"longUrl\":\"" + Uri.EscapeDataString(url) + "\"}";
                     streamWriter.Write(json);
                 }
 

@@ -55,11 +55,15 @@ namespace NadekoBot.Modules.Help
                         }
                         var i = 0;
                         if (module != "customreactions" && module != "conversations")
+                        {
                             await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,
                                 el => $"{el.Text,-15}{"[" + el.Aliases.FirstOrDefault() + "]",-8}"))
                                             .ConfigureAwait(false);
+                        }
                         else
+                        {
                             await e.Channel.SendMessage("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                        }
                         await e.Channel.SendMessage($"`You can type \"{Prefix}h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
                     });
             });

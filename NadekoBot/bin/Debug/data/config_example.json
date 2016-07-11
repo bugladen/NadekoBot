@@ -1,6 +1,7 @@
 {
   "DontJoinServers": false,
   "ForwardMessages": true,
+  "ForwardToAllOwners": false,
   "IsRotatingStatus": false,
   "BufferSize": 4194304,
   "Quotes": [],

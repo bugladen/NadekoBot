@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,16 +47,29 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "listcustreact")
                 .Alias(Prefix + "lcr")
-                .Description($"Lists all current custom reactions (paginated with 30 commands per page).\n**Usage**:{Prefix}lcr 1")
+                .Description($"Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you. \n**Usage**:{Prefix}lcr 1")
                 .Parameter("num", ParameterType.Required)
                 .Do(async e =>
                 {
+                    var numStr = e.GetArg("num");
+
+                    if (numStr.ToUpperInvariant() == "ALL")
+                    {
+                        var fullstr = String.Join("\n", NadekoBot.Config.CustomReactions.Select(kvp => kvp.Key));
+                        do
+                        {
+                            var str = string.Concat(fullstr.Take(1900));
+                            fullstr = new string(fullstr.Skip(1900).ToArray());
+                            await e.User.SendMessage("```xl\n" + str + "```");
+                        } while (fullstr.Length != 0);
+                        return;
+                    }
                     int num;
-                    if (!int.TryParse(e.GetArg("num"), out num) || num <= 0) num = 1;
+                    if (!int.TryParse(numStr, out num) || num <= 0) num = 1;
                     var cmds = GetCustomsOnPage(num - 1);
                     if (!cmds.Any())
                     {
-                        await e.Channel.SendMessage("");
+                        await e.Channel.SendMessage("`There are no custom reactions.`");
                     }
                     else
                     {

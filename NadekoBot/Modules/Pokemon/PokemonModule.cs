@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Pokemon
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "attack")
-                    .Description("Attacks a target with the given move")
+                    .Description($"Attacks a target with the given move. Use `{Prefix}movelist` to see a list of moves your type can use. | `{Prefix}attack \"vine whip\" @someguy`")
                     .Parameter("move", ParameterType.Required)
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
