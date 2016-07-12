@@ -121,12 +121,10 @@ Note if the command is not be initiated, hit **Enter**
 
 ######NOW WE NEED TO IMPORT SOME DISCORD CERTS
 **13)**
-<pre><code class="language-bash">mozroots --import --ask-remove --machine
-</code></pre>
+`certmgr -ssl https://discordapp.com`
 
 **14)**
-<pre><code class="language-bash">certmgr --ssl https://gateway.discord.gg
-</code></pre>
+`certmgr --ssl https://gateway.discord.gg`
 
 Type `yes` and hit Enter **(three times - as it will ask for three times)**
 
