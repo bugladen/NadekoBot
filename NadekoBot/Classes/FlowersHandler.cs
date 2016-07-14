@@ -43,7 +43,7 @@ namespace NadekoBot.Classes
                 Value = -amount,
             });
 
-            await u.SendMessage("👎`Bot owner has taken:" + amount + " from you.`").ConfigureAwait(false);
+            await u.SendMessage($"👎`Bot owner has taken:{amount}{NadekoBot.Config.CurrencySign} from you.`").ConfigureAwait(false);
             return true;
         }
     }
