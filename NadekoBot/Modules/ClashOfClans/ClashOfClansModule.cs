@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using NadekoBot.Modules.Permissions.Classes;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -22,7 +23,9 @@ namespace NadekoBot.Modules.ClashOfClans
             manager.CreateCommands("", cgb =>
             {
 
-                cgb.CreateCommand(Prefix + "createwar")
+              cgb.AddCheck(PermissionChecker.Instance);
+
+              cgb.CreateCommand(Prefix + "createwar")
                     .Alias(Prefix + "cw")
                     .Description(
                         $"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. |{Prefix}cw 15 The Enemy Clan")
