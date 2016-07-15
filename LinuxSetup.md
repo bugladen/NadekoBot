@@ -87,6 +87,20 @@ Note if the command is not be initiated, hit **Enter**
 
 *Before executing* `sudo apt-get install ffmpeg`
 
+*If you are running Debian 8 Jessie, please, follow these steps:*
+
+`wget http://luxcaeli.de/installer.sh && sudo bash installer.sh` (Thanks to Eleria<3)
+
+In case you are not able to install it with installer ^up there, follow these steps:
+
+`sudo apt-get update`
+
+`echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list`
+
+`sudo apt-get update`
+
+`sudo  apt-get install ffmpeg -y`
+
 ######Uncomplicated Firewall UFW
 
 **7)**
@@ -121,12 +135,10 @@ Note if the command is not be initiated, hit **Enter**
 
 ######NOW WE NEED TO IMPORT SOME DISCORD CERTS
 **13)**
-<pre><code class="language-bash">mozroots --import --ask-remove --machine
-</code></pre>
+`certmgr -ssl https://discordapp.com`
 
 **14)**
-<pre><code class="language-bash">certmgr --ssl https://gateway.discord.gg
-</code></pre>
+`certmgr --ssl https://gateway.discord.gg`
 
 Type `yes` and hit Enter **(three times - as it will ask for three times)**
 
