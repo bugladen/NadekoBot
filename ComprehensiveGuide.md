@@ -33,7 +33,21 @@ ________________________________________________________________________________
 ________________________________________________________________________________
 
 #### Setting Up NadekoBot For Music
-###### Prerequisites: 
+###### Setting up `ffmpeg` with installer:
+1) Google Account  
+2) Soundcloud Account (if you want soundcloud support)
+3) Download installer here: http://luxcaeli.de/owncloud/s/fIxSgh4Nde3Td6e/download
+4) Run the installer
+5) Follow these steps on how to setup API keys:
+- Go to https://console.developers.google.com and log in.
+- Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
+- Under the "Other Popular APIs" section, enable "URL Shortener API". Under the "YouTube APIs" section, enable "YouTube Data API". Also enable Custom Search Api.
+- On the left tab, access Credentials. There will be a line saying "If you wish to skip this step and create an API key, client ID or service account." Click on API Key, and then Server Key in the new window that appears. Enter in a name for the server key. A new window will appear with your Google API key. Copy the key.
+- Open up credentials.json. For "GoogleAPIKey", fill in with the new key.
+- Go to (https://soundcloud.com/you/apps/new). Enter a name for the app and create it. You will see a page with the title of your app, and a field labeled Client ID. Copy the ID. In credentials.json, fill in "SoundcloudClientID" with the copied ID.
+- Restart your computer.
+
+###### Prerequisites for manual `ffmpeg` setup: 
 1) Google Account  
 2) Soundcloud Account (if you want soundcloud support)
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
@@ -47,3 +61,4 @@ ________________________________________________________________________________
 - On the left tab, access Credentials. There will be a line saying "If you wish to skip this step and create an API key, client ID or service account." Click on API Key, and then Server Key in the new window that appears. Enter in a name for the server key. A new window will appear with your Google API key. Copy the key.
 - Open up credentials.json. For "GoogleAPIKey", fill in with the new key.
 - Go to (https://soundcloud.com/you/apps/new). Enter a name for the app and create it. You will see a page with the title of your app, and a field labeled Client ID. Copy the ID. In credentials.json, fill in "SoundcloudClientID" with the copied ID.
+- Restart your computer.
