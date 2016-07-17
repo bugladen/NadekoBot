@@ -890,21 +890,6 @@ namespace NadekoBot.Modules.Administration
                         await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
                     });
 
-                cgb.CreateCommand(Prefix + "leave")
-                    .Description("Leaves a server with a supplied ID. | `.leave 493243292839`")
-                    .Parameter("num", ParameterType.Required)
-                    .AddCheck(SimpleCheckers.OwnerOnly())
-                    .Do(async e =>
-                    {
-                        var srvr = NadekoBot.Client.Servers.Where(s => s.Id.ToString() == e.GetArg("num").Trim()).FirstOrDefault();
-                        if (srvr == null)
-                        {
-                            return;
-                        }
-                        await srvr.Leave().ConfigureAwait(false);
-                        await e.Channel.SendMessage("`Done.`").ConfigureAwait(false);
-                    });
-
                 cgb.CreateCommand(Prefix + "savechat")
                     .Description("Saves a number of messages to a text file and sends it to you. **Bot Owner Only** | `.chatsave 150`")
                     .Parameter("cnt", ParameterType.Required)
