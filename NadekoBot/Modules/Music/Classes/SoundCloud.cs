@@ -1,4 +1,5 @@
 ﻿using NadekoBot.Classes;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -34,18 +35,22 @@ namespace NadekoBot.Modules.Music.Classes
 
     public class SoundCloudVideo
     {
-        public string Kind = "";
-        public long Id = 0;
-        public SoundCloudUser User = new SoundCloudUser();
-        public string Title = "";
+        public string Kind { get; set; } = "";
+        public long Id { get; set; } = 0;
+        public SoundCloudUser User { get; set; } = new SoundCloudUser();
+        public string Title { get; set; } = "";
+        [JsonIgnore]
         public string FullName => User.Name + " - " + Title;
-        public bool Streamable = false;
+        public bool Streamable { get; set; } = false;
+        [JsonProperty("permalink_url")]
+        public string TrackLink { get; set; } = "";
+        [JsonIgnore]
         public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Creds.SoundCloudClientID}";
     }
     public class SoundCloudUser
     {
         [Newtonsoft.Json.JsonProperty("username")]
-        public string Name;
+        public string Name { get; set; }
     }
     /*
     {"kind":"track",

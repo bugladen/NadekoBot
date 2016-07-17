@@ -1,10 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands
@@ -18,11 +20,31 @@ namespace NadekoBot.Modules.Games.Commands
     /// </summary>
     class PlantPick : DiscordCommand
     {
+
+        private Random rng;
         public PlantPick(DiscordModule module) : base(module)
         {
-
+            NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
+            rng = new Random();
         }
 
+
+        private async void PotentialFlowerGeneration(object sender, Discord.MessageEventArgs e)
+        {
+            if (e.Server == null || e.Channel.IsPrivate)
+                return;
+            var config = Classes.SpecificConfigurations.Default.Of(e.Server.Id);
+            if (config.GenerateCurrencyChannels.Contains(e.Channel.Id))
+            {
+                var rnd = Math.Abs(GetRandomNumber());
+                if ((rnd % 50) == 0)
+                {
+                    var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
+                    await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
+                    plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                }
+            }
+        }
         //channelid/messageid pair
         ConcurrentDictionary<ulong, Message> plantedFlowerChannels = new ConcurrentDictionary<ulong, Message>();
 
@@ -65,8 +87,7 @@ namespace NadekoBot.Modules.Games.Commands
                             return;
                         }
 
-                        var rng = new Random();
-                        var file = Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
+                        var file = GetRandomCurrencyImagePath();
                         Message msg;
                         //todo send message after, not in lock
                         if (file == null)
@@ -80,6 +101,38 @@ namespace NadekoBot.Modules.Games.Commands
                     await Task.Delay(20000).ConfigureAwait(false);
                     await msg2.Delete().ConfigureAwait(false);
                 });
+
+            cgb.CreateCommand(Prefix + "gencurrency")
+                .Alias(Prefix + "gc")
+                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Requires Manage Messages permission. | `>gc`")
+                .AddCheck(SimpleCheckers.ManageMessages())
+                .Do(async e =>
+                {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    if (config.GenerateCurrencyChannels.Remove(e.Channel.Id))
+                    {
+                        await e.Channel.SendMessage("`Currency generation disabled on this channel.`");
+                    }
+                    else
+                    {
+                        config.GenerateCurrencyChannels.Add(e.Channel.Id);
+                        await e.Channel.SendMessage("`Currency generation enabled on this channel.`");
+                    }
+                });
+        }
+
+        private string GetRandomCurrencyImagePath() =>
+            Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
+
+        int GetRandomNumber()
+        {
+            using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
+            {
+                byte[] rno = new byte[4];
+                rg.GetBytes(rno);
+                int randomvalue = BitConverter.ToInt32(rno, 0);
+                return randomvalue;
+            }
         }
     }
 }

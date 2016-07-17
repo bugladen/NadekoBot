@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Music.Classes
         private bool Destroyed { get; set; } = false;
         public bool RepeatSong { get; private set; } = false;
         public bool RepeatPlaylist { get; private set; } = false;
-        public bool Autoplay { get; private set; } = false;
+        public bool Autoplay { get; set; } = false;
 
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume)
         {
@@ -174,6 +174,7 @@ namespace NadekoBot.Modules.Music.Classes
                 throw new ArgumentNullException(nameof(s));
             lock (playlistLock)
             {
+                s.MusicPlayer = this;
                 playlist.Add(s);
             }
         }

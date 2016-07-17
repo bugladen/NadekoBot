@@ -198,7 +198,7 @@ Limit 20 OFFSET ?", num * 20);
         {
             using (var conn = new SQLiteConnection(FilePath))
             {
-                return conn.Table<CurrencyState>().Take(n).ToList().OrderBy(cs => -cs.Value);
+                return conn.Table<CurrencyState>().OrderByDescending(cs => cs.Value).Take(n).ToList();
             }
         }
     }

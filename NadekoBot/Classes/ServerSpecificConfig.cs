@@ -82,6 +82,45 @@ namespace NadekoBot.Classes
             }
         }
 
+        [JsonProperty("LogChannel")]
+        private ulong? logServerChannel = null;
+        [JsonIgnore]
+        public ulong? LogServerChannel {
+            get { return logServerChannel; }
+            set {
+                logServerChannel = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("LogPresenceChannel")]
+        private ulong? logPresenceChannel = null;
+        [JsonIgnore]
+        public ulong? LogPresenceChannel {
+            get { return logPresenceChannel; }
+            set {
+                logPresenceChannel = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private ObservableConcurrentDictionary<ulong, ulong> voiceChannelLog;
+        public ObservableConcurrentDictionary<ulong, ulong> VoiceChannelLog {
+            get { return voiceChannelLog; }
+            set {
+                voiceChannelLog = value;
+                if (value != null)
+                    voiceChannelLog.CollectionChanged += (s, e) =>
+                    {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
+
         [JsonIgnore]
         private ObservableCollection<ulong> listOfSelfAssignableRoles;
         public ObservableCollection<ulong> ListOfSelfAssignableRoles {
@@ -111,7 +150,19 @@ namespace NadekoBot.Classes
         }
 
         [JsonIgnore]
-        private ObservableCollection<StreamNotificationConfig> observingStreams;
+        private ObservableCollection<ulong> generateCurrencyChannels;
+        public ObservableCollection<ulong> GenerateCurrencyChannels {
+            get { return generateCurrencyChannels; }
+            set {
+                generateCurrencyChannels = value;
+                if (value != null)
+                    generateCurrencyChannels.CollectionChanged += (s, e) =>
+                    {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
 
         [JsonIgnore]
         private bool autoDeleteMessagesOnCommand = false;
@@ -137,6 +188,9 @@ namespace NadekoBot.Classes
             }
         }
 
+
+        [JsonIgnore]
+        private ObservableCollection<StreamNotificationConfig> observingStreams;
         public ObservableCollection<StreamNotificationConfig> ObservingStreams {
             get { return observingStreams; }
             set {
@@ -165,6 +219,8 @@ namespace NadekoBot.Classes
         {
             ListOfSelfAssignableRoles = new ObservableCollection<ulong>();
             ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
+            GenerateCurrencyChannels = new ObservableCollection<ulong>();
+            VoiceChannelLog = new ObservableConcurrentDictionary<ulong, ulong>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };

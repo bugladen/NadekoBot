@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ObservableConcurrentDictionary.cs" />
     <Compile Include="Modules\Administration\Commands\AutoAssignRole.cs" />
     <Compile Include="Modules\Administration\Commands\CustomReactionsCommands.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
+    <Compile Include="Modules\Searches\Commands\MemegenCommands.cs" />
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
@@ -210,7 +212,6 @@
     <Compile Include="Modules\Games\Commands\SpeedTyping.cs" />
     <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Modules\Conversations\Commands\CopyCommand.cs" />
     <Compile Include="Modules\Gambling\DiceRollCommand.cs" />
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
@@ -496,7 +497,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
+    <Content Include="Classes\lib\ScaredFingers.UnitsConversion.dll" />
     <None Include="resources\images\rose_overlay.png" />
   </ItemGroup>
   <ItemGroup />

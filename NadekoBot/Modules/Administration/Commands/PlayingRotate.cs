@@ -51,11 +51,9 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         if (PlayingPlaceholders.Count == 0
                             || NadekoBot.Config.RotatingStatuses.Count == 0
-                            || i >= PlayingPlaceholders.Count
                             || i >= NadekoBot.Config.RotatingStatuses.Count)
                         {
-                            i = -1;
-                            return;
+                            i = 0;
                         }
                         status = NadekoBot.Config.RotatingStatuses[i];
                         status = PlayingPlaceholders.Aggregate(status,

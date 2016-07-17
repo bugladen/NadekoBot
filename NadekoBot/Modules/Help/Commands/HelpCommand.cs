@@ -86,7 +86,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
                     await e.Channel.SendMessage(
-@"**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>
+@"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
 
 **WINDOWS SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
 

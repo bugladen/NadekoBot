@@ -6,8 +6,11 @@ using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
 using NadekoBot.Modules.Permissions.Classes;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -76,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
-                    .Description("Restarts the bot. Might not work.")
+                    .Description("Restarts the bot. Might not work. **Bot Owner Only**")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -900,6 +903,33 @@ namespace NadekoBot.Modules.Administration
                         }
                         await srvr.Leave().ConfigureAwait(false);
                         await e.Channel.SendMessage("`Done.`").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "savechat")
+                    .Description("Saves a number of messages to a text file and sends it to you. **Bot Owner Only** | `.chatsave 150`")
+                    .Parameter("cnt", ParameterType.Required)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        var cntstr = e.GetArg("cnt")?.Trim();
+                        int cnt;
+                        if (!int.TryParse(cntstr, out cnt))
+                            return;
+                        ulong? lastmsgId = null;
+                        var sb = new StringBuilder();
+                        var msgs = new List<Message>(cnt);
+                        while (cnt > 0)
+                        {
+                            var dlcnt = cnt < 100 ? cnt : 100;
+
+                            var dledMsgs = await e.Channel.DownloadMessages(dlcnt, lastmsgId);
+                            if (!dledMsgs.Any())
+                                break;
+                            msgs.AddRange(dledMsgs);
+                            lastmsgId = msgs[msgs.Count - 1].Id;
+                            cnt -= 100;
+                        }
+                        await e.User.SendFile($"Chatlog-{e.Server.Name}/#{e.Channel.Name}-{DateTime.Now}.txt", JsonConvert.SerializeObject(new { Messages = msgs.Select(s => s.ToString()) }, Formatting.Indented).ToStream());
                     });
 
             });
