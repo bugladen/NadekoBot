@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those that fainted. Costs a {NadekoBot.Config.CurrencyName}  |{Prefix}revive @someone")
+                    .Description($"Heals someone. Revives those who fainted. Costs a {NadekoBot.Config.CurrencyName} | {Prefix}revive @someone")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
