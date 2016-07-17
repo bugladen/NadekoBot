@@ -13,7 +13,6 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class GamblingModule : DiscordModule
     {
-
         public GamblingModule()
         {
             commands.Add(new DrawCommand(this));
@@ -82,11 +81,11 @@ namespace NadekoBot.Modules.Gambling
 
                         if (userFlowers < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You have only {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                             return;
                         }
 
-                        FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount);
+                        await FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount).ConfigureAwait(false);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount).ConfigureAwait(false);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
@@ -132,9 +131,56 @@ namespace NadekoBot.Modules.Gambling
                         if (mentionedUser == null)
                             return;
 
-                        FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
+                        await FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount).ConfigureAwait(false);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "betroll")
+                    .Alias(Prefix + "br")
+                    .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | {Prefix}br 5")
+                    .Parameter("amount",ParameterType.Required)
+                    .Do(async e =>
+                    {
+                        var amountstr = e.GetArg("amount").Trim();
+                        int amount;
+
+                        if (!int.TryParse(amountstr, out amount) || amount < 1)
+                            return;
+
+                        var userFlowers = GetUserFlowers(e.User.Id);
+
+                        if (userFlowers < amount)
+                        {
+                            await e.Channel.SendMessage($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                            return;
+                        }
+
+                        await FlowersHandler.RemoveFlowers(e.User, "Betroll Gamble", (int)amount);
+
+                        var rng = new Random().Next(0, 101);
+                        var str = $"{e.User.Mention} `You rolled {rng}.` ";
+                        if (rng < 67)
+                        {
+                            str += "Better luck next time.";
+                        }
+                        else if (rng < 90)
+                        {
+                            str += $"Congratulations! You won {amount * 2}{NadekoBot.Config.CurrencySign} for rolling above 66";
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 2, true);
+                        }
+                        else if (rng < 100)
+                        {
+                            str += $"Congratulations! You won {amount * 3}{NadekoBot.Config.CurrencySign} for rolling above 90.";
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 3, true);
+                        }
+                        else {
+                            str += $"👑 Congratulations! You won {amount * 10}{NadekoBot.Config.CurrencySign} for rolling **100**. 👑";
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true);
+                        }
+
+                        await e.Channel.SendMessage(str);
+                        
                     });
 
                 cgb.CreateCommand(Prefix + "leaderboard")
@@ -154,7 +200,7 @@ namespace NadekoBot.Modules.Gambling
                             (cur, cs) => cur.AppendLine(
     $@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━┫
 ┃{(e.Server.Users.Where(u => u.Id == (ulong)cs.UserId).FirstOrDefault()?.Name.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Value,5} ┃")
-                                    ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```");
+                                    ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
                     });
             });
         }
