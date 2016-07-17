@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Gambling
                             return;
                         }
 
-                        await FlowersHandler.RemoveFlowers(e.User, "Betroll Gamble", (int)amount);
+                        await FlowersHandler.RemoveFlowers(e.User, "Betroll Gamble", (int)amount, true);
 
                         var rng = new Random().Next(0, 101);
                         var str = $"{e.User.Mention} `You rolled {rng}.` ";
