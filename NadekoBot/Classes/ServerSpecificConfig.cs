@@ -97,6 +97,8 @@ namespace NadekoBot.Classes
             }
         }
 
+
+
         [JsonIgnore]
         private ulong autoAssignedRole = 0;
         public ulong AutoAssignedRole {
@@ -117,6 +119,19 @@ namespace NadekoBot.Classes
             get { return autoDeleteMessagesOnCommand; }
             set {
                 autoDeleteMessagesOnCommand = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private bool exclusiveSelfAssignedRoles = false;
+        public bool ExclusiveSelfAssignedRoles
+        {
+            get { return exclusiveSelfAssignedRoles; }
+            set
+            {
+                exclusiveSelfAssignedRoles = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
