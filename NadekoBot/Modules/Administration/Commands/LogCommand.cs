@@ -51,8 +51,9 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || config.LogserverIgnoreChannels.Contains(e.After.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -72,8 +73,9 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -87,8 +89,9 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -164,8 +167,9 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null || e.Channel.Id == chId)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || e.Channel.Id == chId || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -192,8 +196,9 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null || e.Channel.Id == chId)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || e.Channel.Id == chId || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -219,8 +224,9 @@ namespace NadekoBot.Modules.Administration.Commands
             {
                 if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
-                var chId = SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel;
-                if (chId == null || e.Channel.Id == chId)
+                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                var chId = config.LogServerChannel;
+                if (chId == null || e.Channel.Id == chId || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
                     return;
                 Channel ch;
                 if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
@@ -369,6 +375,25 @@ $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
                       SpecificConfigurations.Default.Of (e.Server.Id).LogServerChannel = null;
                       await e.Channel.SendMessage($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
                   });
+
+
+            cgb.CreateCommand(Prefix + "logignore")
+                .Alias($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.")
+                .AddCheck(SimpleCheckers.OwnerOnly())
+                .AddCheck(SimpleCheckers.ManageServer())
+                .Do(async e =>
+                {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    if (config.LogserverIgnoreChannels.Remove(e.Channel.Id))
+                    {
+                        await e.Channel.SendMessage($"`{Prefix}logserver will stop ignoring this channel.`");
+                    }
+                    else
+                    {
+                        config.LogserverIgnoreChannels.Add(e.Channel.Id);
+                        await e.Channel.SendMessage($"`{Prefix}logserver will ignore this channel.`");
+                    }
+                });
 
             cgb.CreateCommand(Module.Prefix + "userpresence")
                   .Description("Starts logging to this channel when someone from the server goes online/offline/idle.")

@@ -100,6 +100,21 @@ namespace NadekoBot.Classes
             }
         }
 
+        [JsonIgnore]
+        private ObservableCollection<ulong> logserverIgnoreChannels;
+        public ObservableCollection<ulong> LogserverIgnoreChannels {
+            get { return logserverIgnoreChannels; }
+            set {
+                logserverIgnoreChannels = value;
+                if (value != null)
+                    logserverIgnoreChannels.CollectionChanged += (s, e) =>
+                    {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
+
         [JsonProperty("LogPresenceChannel")]
         private ulong? logPresenceChannel = null;
         [JsonIgnore]
@@ -212,6 +227,7 @@ namespace NadekoBot.Classes
             ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
             GenerateCurrencyChannels = new ObservableConcurrentDictionary<ulong, int>();
             VoiceChannelLog = new ObservableConcurrentDictionary<ulong, ulong>();
+            LogserverIgnoreChannels = new ObservableCollection<ulong>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
