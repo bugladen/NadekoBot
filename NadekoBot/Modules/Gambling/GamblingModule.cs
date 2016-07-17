@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Gambling
                             return;
                         }
 
-                        await FlowersHandler.RemoveFlowers(e.User, "Betroll Gamble", (int)amount, true);
+                        await FlowersHandler.RemoveFlowers(e.User, "Betroll Gamble", (int)amount, true).ConfigureAwait(false);
 
                         var rng = new Random().Next(0, 101);
                         var str = $"{e.User.Mention} `You rolled {rng}.` ";
@@ -167,19 +167,19 @@ namespace NadekoBot.Modules.Gambling
                         else if (rng < 90)
                         {
                             str += $"Congratulations! You won {amount * 2}{NadekoBot.Config.CurrencySign} for rolling above 66";
-                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 2, true);
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 2, true).ConfigureAwait(false);
                         }
                         else if (rng < 100)
                         {
                             str += $"Congratulations! You won {amount * 3}{NadekoBot.Config.CurrencySign} for rolling above 90.";
-                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 3, true);
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 3, true).ConfigureAwait(false);
                         }
                         else {
                             str += $"👑 Congratulations! You won {amount * 10}{NadekoBot.Config.CurrencySign} for rolling **100**. 👑";
-                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true);
+                            await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true).ConfigureAwait(false);
                         }
 
-                        await e.Channel.SendMessage(str);
+                        await e.Channel.SendMessage(str).ConfigureAwait(false);
                         
                     });
 
@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Gambling
             });
         }
 
-        private static long GetUserFlowers(ulong userId) =>
+        public static long GetUserFlowers(ulong userId) =>
             Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
     }
 }
