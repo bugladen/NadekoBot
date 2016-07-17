@@ -46,7 +46,9 @@ namespace NadekoBot.Modules.Help
                         if (string.IsNullOrWhiteSpace(module))
                             return;
                         var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
-                                                    .Where(c => c.Category.ToLower() == module);
+                                                    .Where(c => c.Category.ToLower() == module)
+                                                    .OrderBy(c=>c.Text)
+                                                    .AsEnumerable();
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())
                         {

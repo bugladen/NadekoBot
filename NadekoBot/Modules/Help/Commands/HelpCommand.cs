@@ -43,7 +43,7 @@ namespace NadekoBot.Classes.Help.Commands
         {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
+######You can donate on paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";
