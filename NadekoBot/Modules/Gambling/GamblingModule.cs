@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Gambling
                             return;
                         }
 
-                        await FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount).ConfigureAwait(false);
+                        await FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount, true).ConfigureAwait(false);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount).ConfigureAwait(false);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
