@@ -364,15 +364,15 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "magicitem")
-                .Alias(Prefix + "mi")
-                .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
-                .Do(async e =>
-                {
-                    var magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
-                    var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
+                    .Alias(Prefix + "mi")
+                    .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
+                    .Do(async e =>
+                    {
+                        var magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
+                        var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 
-                    await e.Channel.SendMessage(item).ConfigureAwait(false);
-                });
+                        await e.Channel.SendMessage(item).ConfigureAwait(false);
+                    });
 
                 cgb.CreateCommand(Prefix + "revav")
                     .Description("Returns a google reverse image search for someone's avatar.")

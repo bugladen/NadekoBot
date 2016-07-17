@@ -27,7 +27,13 @@ namespace NadekoBot.Classes
                 {
                     configs = JsonConvert
                         .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
-                            File.ReadAllText(filePath));
+                            File.ReadAllText(filePath), new JsonSerializerSettings() {
+                                Error = (s,e) => {
+                                    if (e.ErrorContext.Member.ToString() == "GenerateCurrencyChannels") {
+                                        e.ErrorContext.Handled = true;
+                                    }
+                                }
+                            });
                 }
                 catch (Exception ex)
                 {
@@ -239,7 +245,7 @@ namespace NadekoBot.Classes
 
         public override int GetHashCode()
         {
-            return (int)((int)ServerId + Username.Length + (int)Type);
+            return (int)ServerId + Username.Length + (int)Type;
         }
     }
 }
