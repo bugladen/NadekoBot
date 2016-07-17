@@ -53,7 +53,6 @@ namespace NadekoBot.Modules.Help
                             await e.Channel.SendMessage("That module does not exist.").ConfigureAwait(false);
                             return;
                         }
-                        var i = 0;
                         if (module != "customreactions" && module != "conversations")
                         {
                             await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,

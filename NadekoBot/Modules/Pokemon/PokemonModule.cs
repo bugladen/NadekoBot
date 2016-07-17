@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those who fainted. Costs a {NadekoBot.Config.CurrencyName} | {Prefix}revive @someone")
+                    .Description($"Heals someone. Revives those who fainted. Costs a {NadekoBot.Config.CurrencyName} | {Prefix}heal @someone")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -242,7 +242,7 @@ namespace NadekoBot.Modules.Pokemon
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
-                            FlowersHandler.RemoveFlowers(e.User, $"Poke-Heal {target}", amount);
+                            await FlowersHandler.RemoveFlowers(e.User, $"Poke-Heal {target}", amount).ConfigureAwait(false);
                             //healing
                             targetStats.Hp = targetStats.MaxHp;
                             if (HP < 0)
@@ -309,7 +309,7 @@ namespace NadekoBot.Modules.Pokemon
                             await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
                             return;
                         }
-                        FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
+                        await FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount).ConfigureAwait(false);
                         //Actually changing the type here
                         var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
                         Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id.Value);
