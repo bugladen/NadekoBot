@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         var amountStr = e.GetArg("amount")?.Trim();
                         long amount;
-                        if (!long.TryParse(amountStr, out amount) || amount < 0)
+                        if (!long.TryParse(amountStr, out amount) || amount <= 0)
                             return;
 
                         var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
