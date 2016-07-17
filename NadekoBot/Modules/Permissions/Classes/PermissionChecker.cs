@@ -14,6 +14,9 @@ namespace NadekoBot.Modules.Permissions.Classes
     {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
+        //key - sid:command
+        //value - userid
+        private ConcurrentDictionary<string, ulong> commandCooldowns = new ConcurrentDictionary<string, ulong>();
         private HashSet<ulong> timeBlackList { get; } = new HashSet<ulong>();
 
         static PermissionChecker() { }
@@ -50,15 +53,23 @@ namespace NadekoBot.Modules.Permissions.Classes
             if (timeBlackList.Contains(user.Id))
                 return false;
 
-            timeBlackList.Add(user.Id);
-
             if (!channel.IsPrivate && !channel.Server.CurrentUser.GetPermissions(channel).SendMessages)
             {
                 return false;
             }
-            //{
-            //    user.SendMessage($"I ignored your command in {channel.Server.Name}/#{channel.Name} because i don't have permissions to write to it. Please use `;acm channel_name 0` in that server instead of muting me.").GetAwaiter().GetResult();
-            //}
+
+            timeBlackList.Add(user.Id);
+
+            ServerPermissions perms;
+            PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms);
+
+            AddUserCooldown(user.Server.Id, user.Id, command.Text.ToLower());
+            if (commandCooldowns.Keys.Contains(user.Server.Id+":"+command.Text.ToLower()))
+            {
+                if(perms?.Verbose == true)
+                    error = $"{user.Mention} You have a cooldown on that command.";
+                return false;
+            }
 
             try
             {
@@ -76,8 +87,6 @@ namespace NadekoBot.Modules.Permissions.Classes
                     catch { }
                     if (user.Server.Owner.Id == user.Id || (role != null && user.HasRole(role)))
                         return true;
-                    ServerPermissions perms;
-                    PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms);
                     throw new Exception($"You don't have the necessary role (**{(perms?.PermissionsControllerRole ?? "Nadeko")}**) to change permissions.");
                 }
 
@@ -129,8 +138,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 Console.WriteLine($"Exception in canrun: {ex}");
                 try
                 {
-                    ServerPermissions perms;
-                    if (PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms) && perms.Verbose)
+                    if (perms != null && perms.Verbose)
                         //if verbose - print errors
                         error = ex.Message;
                 }
@@ -140,6 +148,27 @@ namespace NadekoBot.Modules.Permissions.Classes
                 }
                 return false;
             }
+        }
+
+        public void AddUserCooldown(ulong serverId, ulong userId, string commandName) {
+            commandCooldowns.TryAdd(commandName, userId);
+            var tosave = serverId + ":" + commandName;
+            Task.Run(async () =>
+            {
+                ServerPermissions perms;
+                PermissionsHandler.PermissionsDict.TryGetValue(serverId, out perms);
+                int cd;
+                if (!perms.CommandCooldowns.TryGetValue(commandName,out cd)) {
+                    return;
+                }
+                if (commandCooldowns.TryAdd(tosave, userId))
+                {
+                    await Task.Delay(cd * 1000);
+                    ulong throwaway;
+                    commandCooldowns.TryRemove(tosave, out throwaway);
+                }
+
+            });
         }
     }
 }
