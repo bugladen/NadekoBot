@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Utility.Commands
                 .Description("Sends a message to you or a channel after certain amount of time. " +
                              "First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. " +
                              "Third argument is a (multiword)message. " +
-                             "\n**Usage**: `.remind me 1d5h Do something` or `.remind #general Start now!`")
+                             " | `.remind me 1d5h Do something` or `.remind #general Start now!`")
                 .Parameter("meorchannel", ParameterType.Required)
                 .Parameter("time", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)

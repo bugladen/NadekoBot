@@ -2,9 +2,9 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6030.3793`
+Version: `NadekoBot v0.9.6036.32870`
 ### Help  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `-h`, `-help`, `@BotName help`, `@BotName h`, `~h`  |  Either shows a help for a single command, or PMs you help link if no arguments are specified. |  '-h !m q' or just '-h' 
 `-hgit`  |  Generates the commandlist.md file. **Bot Owner Only!**
@@ -14,7 +14,7 @@ Command and aliases | Description | Usage
 `-commands`, `.commands`  |  List all of the bot's commands from a certain module.
 
 ### Administration  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `.grdel`  |  Toggles automatic deletion of greet and bye messages.
 `.greet`  |  Toggles anouncements on the current channel when someone joins the server.
@@ -45,9 +45,9 @@ Command and aliases | Description | Usage
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamnot`, `.iamn`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.addcustreact`, `.acr`  |  Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   |  .acr "hello" I love saying hello to %user%
-`.listcustreact`, `.lcr`  |  Lists all current custom reactions (paginated with 30 commands per page). | .lcr 1
+`.listcustreact`, `.lcr`  |  Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you.  | .lcr 1
 `.showcustreact`, `.scr`  |  Shows all possible responses from a single custom reaction. | .scr %mention% bb
-`.editcustreact`, `.ecr`  |  Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only** | `.ecr "%mention% disguise" 2 Test 123`
+`.editcustreact`, `.ecr`  |  Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only** |  `.ecr "%mention% disguise" 2 Test 123`
 `.delcustreact`, `.dcr`  |  Deletes a custom reaction with given name (and index)
 `.autoassignrole`, `.aar`  |  Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable
 `.leave`  |  Makes Nadeko leave the server. Either name or id required. |  `.leave 123123123331`
@@ -87,10 +87,10 @@ Command and aliases | Description | Usage
 `.donadd`  |  Add a donator to the database.
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!** |  .announce Useless spam
 `.leave`  |  Leaves a server with a supplied ID. |  `.leave 493243292839`
-`.savechat`  |  Saves a number of messages to a text file and sends it to you. **Bot Owner Only** | `.chatsave 150`
+`.savechat`  |  Saves a number of messages to a text file and sends it to you. **Bot Owner Only** |  `.chatsave 150`
 
 ### Utility  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
 `.remindmsg`  |  Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot Owner Only!**
@@ -108,7 +108,7 @@ Command and aliases | Description | Usage
 `.roles`  |  List all roles on this server or a single user if specified.
 
 ### Permissions  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `;chnlfilterinv`, `;cfi`  |  Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once. |  ;cfi enable #general-chat
 `;srvrfilterinv`, `;sfi`  |  Enables or disables automatic deleting of invites on the server. |  ;sfi disable
@@ -126,34 +126,33 @@ Command and aliases | Description | Usage
 `;roleperms`, `;rp`  |  Shows banned permissions for a certain role. No argument means for everyone. |  ;rp AwesomeRole
 `;chnlperms`, `;cp`  |  Shows banned permissions for a certain channel. No argument means for this channel. |  ;cp #dev
 `;userperms`, `;up`  |  Shows banned permissions for a certain user. No argument means for yourself. |  ;up Kwoth
-`;srvrmdl`, `;sm`  |  Sets a module's permission at the server level. |  ;sm [module_name] enable
-`;srvrcmd`, `;sc`  |  Sets a command's permission at the server level. |  ;sc [command_name] disable
-`;rolemdl`, `;rm`  |  Sets a module's permission at the role level. |  ;rm [module_name] enable [role_name]
-`;rolecmd`, `;rc`  |  Sets a command's permission at the role level. |  ;rc [command_name] disable [role_name]
-`;chnlmdl`, `;cm`  |  Sets a module's permission at the channel level. |  ;cm [module_name] enable [channel_name]
-`;chnlcmd`, `;cc`  |  Sets a command's permission at the channel level. |  ;cc [command_name] enable [channel_name]
-`;usrmdl`, `;um`  |  Sets a module's permission at the user level. |  ;um [module_name] enable [user_name]
-`;usrcmd`, `;uc`  |  Sets a command's permission at the user level. |  ;uc [command_name] enable [user_name]
+`;srvrmdl`, `;sm`  |  Sets a module's permission at the server level. |  ;sm "module name" enable
+`;srvrcmd`, `;sc`  |  Sets a command's permission at the server level. |  ;sc "command name" disable
+`;rolemdl`, `;rm`  |  Sets a module's permission at the role level. |  ;rm "module name" enable MyRole
+`;rolecmd`, `;rc`  |  Sets a command's permission at the role level. |  ;rc "command name" disable MyRole
+`;chnlmdl`, `;cm`  |  Sets a module's permission at the channel level. |  ;cm "module name" enable SomeChannel
+`;chnlcmd`, `;cc`  |  Sets a command's permission at the channel level. |  ;cc "command name" enable SomeChannel
+`;usrmdl`, `;um`  |  Sets a module's permission at the user level. |  ;um "module name" enable SomeUsername
+`;usrcmd`, `;uc`  |  Sets a command's permission at the user level. |  ;uc "command name" enable SomeUsername
 `;allsrvrmdls`, `;asm`  |  Sets permissions for all modules at the server level. |  ;asm [enable/disable]
-`;allsrvrcmds`, `;asc`  |  Sets permissions for all commands from a certain module at the server level. |  ;asc [module_name] [enable/disable]
-`;allchnlmdls`, `;acm`  |  Sets permissions for all modules at the channel level. |  ;acm [enable/disable] [channel_name]
-`;allchnlcmds`, `;acc`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc [module_name] [enable/disable] [channel_name]
-`;allrolemdls`, `;arm`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] [role_name]
-`;allrolecmds`, `;arc`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc [module_name] [enable/disable] [role_name]
+`;allsrvrcmds`, `;asc`  |  Sets permissions for all commands from a certain module at the server level. |  ;asc "module name" [enable/disable]
+`;allchnlmdls`, `;acm`  |  Sets permissions for all modules at the channel level. |  ;acm [enable/disable] SomeChannel
+`;allchnlcmds`, `;acc`  |  Sets permissions for all commands from a certain module at the channel level. |  ;acc "module name" [enable/disable] SomeChannel
+`;allrolemdls`, `;arm`  |  Sets permissions for all modules at the role level. |  ;arm [enable/disable] MyRole
+`;allrolecmds`, `;arc`  |  Sets permissions for all commands from a certain module at the role level. |  ;arc "module name" [enable/disable] MyRole
 `;ubl`  |  Blacklists a mentioned user. |  ;ubl [user_mention]
 `;uubl`  |  Unblacklists a mentioned user. |  ;uubl [user_mention]
-`;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;cbl [channel_mention]
-`;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl [channel_mention]
+`;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;cbl #some_channel
+`;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl #some_channel
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;sbl [servername/serverid]
 
 ### Conversations  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `..`  |  Adds a new quote with the specified name (single word) and message (no limit). |  .. abc My message
 `...`  |  Shows a random quote with a specified name. |  .. abc
 `..qdel`, `..quotedelete`  |  Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. |  `..qdel abc`
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
-`@BotName uptime`  |  Shows how long Nadeko has been running for.
 `@BotName die`  |  Works only for the owner. Shuts the bot down.
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
@@ -163,7 +162,7 @@ Command and aliases | Description | Usage
 `@BotName ab`  |  Try to get 'abalabahaha'
 
 ### Gambling  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `$draw`  |  Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. |  $draw [x]
 `$shuffle`, `$sh`  |  Reshuffles all cards back into the deck.
@@ -178,7 +177,7 @@ Command and aliases | Description | Usage
 `$leaderboard`, `$lb`  |  
 
 ### Games  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `>t`  |  Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question. | `>t nohint` or `>t 5 nohint`
 `>tl`  |  Shows a current trivia leaderboard.
@@ -190,7 +189,7 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
-`>gencurrency`, `>gc`  |  Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission. | `>gc`
+`>gencurrency`, `>gc`  |  Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. |  `>gc` or `>gc 60`
 `>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels |  >leet 3 Hello
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
@@ -198,42 +197,44 @@ Command and aliases | Description | Usage
 `>linux`  |  Prints a customizable Linux interjection |  `>linux Spyware Windows`
 
 ### Music  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `!m next`, `!m n`, `!m skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
 `!m stop`, `!m s`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
 `!m destroy`, `!m d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
 `!m pause`, `!m p`  |  Pauses or Unpauses the song. |  `!m p`
 `!m queue`, `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!m soundcloudqueue`, `!m sq`  |  Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**. |  `!m sq Dream Of Venice`
 `!m listqueue`, `!m lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
 `!m nowplaying`, `!m np`  |  Shows the song currently playing. |  `!m np`
 `!m volume`, `!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
 `!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Persists through restarts. |  `!m dv 80`
 `!m mute`, `!m min`  |  Sets the music volume to 0% |  `!m min`
-`!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
+`!m max`  |  Sets the music volume to 100%. |  `!m max`
 `!m half`  |  Sets the music volume to 50%. |  `!m half`
 `!m shuffle`, `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m playlist`, `!m pl`  |  Queues up to 50 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
-`!m soundcloudpl`, `!m scpl`  |  Queue a soundcloud playlist using a link. | `!m scpl https://soundcloud.com/saratology/sets/symphony`
+`!m playlist`, `!m pl`  |  Queues up to 500 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`!m soundcloudpl`, `!m scpl`  |  Queue a soundcloud playlist using a link. |  `!m scpl https://soundcloud.com/saratology/sets/symphony`
 `!m localplaylst`, `!m lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
 `!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
 `!m local`, `!m lo`  |  Queues a local file by specifying a full path. **Bot Owner Only!** |  `!m lo C:/music/mysong.mp3`
 `!m move`, `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
 `!m remove`, `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
 `!m movesong`, `!m ms`  |  Moves a song from one position to another. |  `!m ms` 5>3
+`!m setmaxqueue`, `!m smq`  |  Sets a maximum queue size. Supply 0 or no argument to have no limit.  |  `!m smq` 50 or `!m smq`
 `!m cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
 `!m reptcursong`, `!m rcs`  |  Toggles repeat of current song. |  `!m rcs`
 `!m rpeatplaylst`, `!m rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 `!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
 `!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
 `!m playlists`, `!m pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
-`!m deleteplaylist`, `!m delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. | `!m delpls animu-5`
+`!m deleteplaylist`, `!m delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. |  `!m delpls animu-5`
 `!m goto`  |  Goes to a specific time in seconds in a song.
 `!m getlink`, `!m gl`  |  Shows a link to the currently playing song.
 `!m autoplay`, `!m ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)
 
 ### Searches  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `~lolchamp`  |  Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. | ~lolchamp Riven or ~lolchamp Annie sup
 `~lolban`  |  Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.
@@ -253,9 +254,9 @@ Command and aliases | Description | Usage
 `~osu b`  |  Shows information about an osu beatmap. | ~osu b https://osu.ppy.sh/s/127712
 `~osu top5`  |  Displays a user's top 5 plays.  | ~osu top5 Name
 `~pokemon`, `~poke`  |  Searches for a pokemon.
-`~pokemonability`, `~pokab`  |  Searches for a pokemon ability.
+`~pokemonability`, `~pokeab`  |  Searches for a pokemon ability.
 `~memelist`  |  Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/
-`~memegen`  |  Generates a meme from memelist with top and bottom text. | `~memegen biw "gets iced coffee" "in the winter"`
+`~memegen`  |  Generates a meme from memelist with top and bottom text. |  `~memegen biw "gets iced coffee" "in the winter"`
 `~we`  |  Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. |  ~we Moscow RF
 `~yt`  |  Searches youtubes and shows the first result
 `~ani`, `~anime`, `~aq`  |  Queries anilist for an anime and shows the first result.
@@ -283,7 +284,7 @@ Command and aliases | Description | Usage
 `~av`, `~avatar`  |  Shows a mentioned person's avatar. |  ~av @X
 
 ### NSFW  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri+kissing
 `~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
@@ -295,33 +296,35 @@ Command and aliases | Description | Usage
 `~butts`, `~ass`, `~butt`  |  Real adult content.
 
 ### ClashOfClans  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | ,cw 15 The Enemy Clan
 `,startwar`, `,sw`  |  Starts a war with a given number.
 `,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
 `,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] [optional_other_name]
-`,claimfinish`, `,cf`  |  Finish your claim if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish`, `,cf`, `,cf3`, `,claimfinish3`  |  Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish2`, `,cf2`  |  Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
+`,claimfinish1`, `,cf1`  |  Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
 `,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim |  ,uc [war_number] [optional_other_name]
 `,endwar`, `,ew`  |  Ends the war with a given index. | ,ew [war_number]
 
 ### Pokegame  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
-`>attack`  |  Attacks a target with the given move
+`>attack`  |  Attacks a target with the given move. Use `>movelist` to see a list of moves your type can use. |  `>attack "vine whip" @someguy`
 `>movelist`, `>ml`  |  Lists the moves you are able to use
 `>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
 `>type`  |  Get the poketype of the target. |  >type @someone
 `>settype`  |  Set your poketype. Costs a NadekoFlower. |  >settype fire
 
 ### Translator  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `~translate`, `~trans`  |  Translates from>to text. From the given language to the destiation language. |  ~trans en>fr Hello
 `~translangs`  |  List the valid languages for translation.
 
 ### Customreactions  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `\o\`  |  Custom reaction. | \o\
 `/o/`  |  Custom reaction. | /o/
@@ -340,7 +343,7 @@ Command and aliases | Description | Usage
 `@BotName disguise`, `<@!119777021319577610> disguise`  |  Custom reaction. | %mention% disguise
 
 ### Trello  
-Command and aliases | Description | Usage
+Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `trello bind`  |  Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited. |  bind [board_id]
 `trello unbind`  |  Unbinds a bot from the channel and board.

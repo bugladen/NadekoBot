@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Gambling
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "draw")
-                .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.\n**Usage**: $draw [x]")
+                .Description("Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. | $draw [x]")
                 .Parameter("count", ParameterType.Optional)
                 .Do(DrawCardFunc());
 

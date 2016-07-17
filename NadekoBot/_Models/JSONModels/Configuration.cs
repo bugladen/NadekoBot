@@ -3,25 +3,14 @@ using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace NadekoBot.Classes.JSONModels
 {
     public class Configuration
     {
-        public bool DontJoinServers { get; set; } = false;
-        public bool ForwardMessages { get; set; } = true;
-        public bool IsRotatingStatus { get; set; } = false;
-        public int BufferSize { get; set; } = 4.MiB();
-
         [JsonIgnore]
-        public List<Quote> Quotes { get; set; } = new List<Quote>();
-
-        [JsonIgnore]
-        public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
-
-        public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
-
-        public Dictionary<string, List<string>> CustomReactions { get; set; } = new Dictionary<string, List<string>>()
+        public static readonly Dictionary<string, List<string>> DefaultCustomReactions = new Dictionary<string, List<string>>
         {
             {@"\o\", new List<string>()
             { "/o/" } },
@@ -93,6 +82,22 @@ namespace NadekoBot.Classes.JSONModels
             } }
         };
 
+        public bool DontJoinServers { get; set; } = false;
+        public bool ForwardMessages { get; set; } = true;
+        public bool ForwardToAllOwners { get; set; } = false;
+        public bool IsRotatingStatus { get; set; } = false;
+        public int BufferSize { get; set; } = 4.MiB();
+
+        public List<Quote> Quotes { get; set; } = new List<Quote>();
+
+        [JsonIgnore]
+        public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
+
+        public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, List<string>> CustomReactions { get; set; }
+
         public List<string> RotatingStatuses { get; set; } = new List<string>();
         public CommandPrefixesModel CommandPrefixes { get; set; } = new CommandPrefixesModel();
         public HashSet<ulong> ServerBlacklist { get; set; } = new HashSet<ulong>();
@@ -104,6 +109,22 @@ namespace NadekoBot.Classes.JSONModels
             143515953525817344
         };
 
+        [OnDeserialized]
+        internal void OnDeserialized(StreamingContext context)
+        {
+            if (CustomReactions == null)
+            {
+                CustomReactions = DefaultCustomReactions;
+            }
+        }
+        [OnSerializing]
+        internal void OnSerializing(StreamingContext context)
+        {
+            if (CustomReactions == null)
+            {
+                CustomReactions = DefaultCustomReactions;
+            }
+        }
 
         public string[] _8BallResponses { get; set; } =
             {

@@ -42,7 +42,7 @@ namespace NadekoBot
         public static string BotMention { get; set; } = "";
         public static bool Ready { get; set; } = false;
 
-        private static Channel OwnerPrivateChannel { get; set; }
+        private static List<Channel> OwnerPrivateChannels { get; set; }
 
         private static void Main()
         {
@@ -196,7 +196,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(100000).ConfigureAwait(false);
+                await Task.Delay(120000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
@@ -205,15 +205,19 @@ namespace NadekoBot
                 Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");
 
-                try
-                {
-                    OwnerPrivateChannel = await Client.CreatePrivateChannel(Creds.OwnerIds[0]).ConfigureAwait(false);
-                }
-                catch
-                {
-                    Console.WriteLine("Failed creating private channel with the first owner listed in credentials.json");
-                }
 
+                OwnerPrivateChannels = new List<Channel>(Creds.OwnerIds.Length);
+                foreach (var id in Creds.OwnerIds)
+                {
+                    try
+                    {
+                        OwnerPrivateChannels.Add(await Client.CreatePrivateChannel(id).ConfigureAwait(false));
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Failed creating private channel with the owner {id} listed in credentials.json");
+                    }
+                }
                 Client.ClientAPI.SendingRequest += (s, e) =>
                 {
                     var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
@@ -234,8 +238,18 @@ namespace NadekoBot
 
         public static async Task SendMessageToOwner(string message)
         {
-            if (Config.ForwardMessages && OwnerPrivateChannel != null)
-                await OwnerPrivateChannel.SendMessage(message).ConfigureAwait(false);
+            if (Config.ForwardMessages && OwnerPrivateChannels.Any())
+                if (Config.ForwardToAllOwners)
+                    OwnerPrivateChannels.ForEach(async c =>
+                    {
+                        try { await c.SendMessage(message).ConfigureAwait(false); } catch { }
+                    });
+                else
+                {
+                    var c = OwnerPrivateChannels.FirstOrDefault();
+                    if (c != null)
+                        await c.SendMessage(message).ConfigureAwait(false);
+                }
         }
 
         private static bool repliedRecently = false;
@@ -248,8 +262,8 @@ namespace NadekoBot
                 if (ConfigHandler.IsBlackListed(e))
                     return;
 
-                if (Config.ForwardMessages && !NadekoBot.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannel != null)
-                    await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```").ConfigureAwait(false);
+                if (Config.ForwardMessages && !NadekoBot.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannels.Any())
+                    await SendMessageToOwner(e.User + ": ```\n" + e.Message.Text + "\n```").ConfigureAwait(false);
 
                 if (repliedRecently) return;
 

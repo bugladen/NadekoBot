@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Classes.ClashOfClans
 {
+    public enum DestroyStars
+    {
+        One, Two, Three
+    }
     internal class Caller
     {
         public string CallUser { get; }
@@ -14,6 +18,9 @@ namespace NadekoBot.Classes.ClashOfClans
         public DateTime TimeAdded { get; private set; }
 
         public bool BaseDestroyed { get; internal set; }
+
+        public int Stars { get; set; } = 3;
+
 
         public Caller(string callUser, DateTime timeAdded, bool baseDestroyed)
         {
@@ -148,7 +155,7 @@ namespace NadekoBot.Classes.ClashOfClans
                 {
                     if (bases[i].BaseDestroyed)
                     {
-                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` ⭐ ⭐ ⭐");
+                        sb.AppendLine($"`{i + 1}.` ✅ `{bases[i].CallUser}` {new string('⭐', bases[i].Stars)}");
                     }
                     else
                     {
@@ -161,13 +168,14 @@ namespace NadekoBot.Classes.ClashOfClans
             return sb.ToString();
         }
 
-        internal int FinishClaim(string user)
+        internal int FinishClaim(string user, int stars = 3)
         {
             user = user.Trim();
             for (var i = 0; i < bases.Length; i++)
             {
                 if (bases[i]?.BaseDestroyed != false || bases[i]?.CallUser != user) continue;
                 bases[i].BaseDestroyed = true;
+                bases[i].Stars = stars;
                 return i;
             }
             throw new InvalidOperationException($"@{user} You are either not participating in that war, or you already destroyed a base.");

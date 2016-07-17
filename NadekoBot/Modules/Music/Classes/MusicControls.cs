@@ -12,7 +12,8 @@ namespace NadekoBot.Modules.Music.Classes
     {
         Radio,
         Normal,
-        Local
+        Local,
+        Soundcloud
     }
 
     public enum StreamState
@@ -51,6 +52,7 @@ namespace NadekoBot.Modules.Music.Classes
         public bool RepeatSong { get; private set; } = false;
         public bool RepeatPlaylist { get; private set; } = false;
         public bool Autoplay { get; set; } = false;
+        public uint MaxQueueSize { get; set; } = 0;
 
         public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume)
         {
@@ -168,13 +170,15 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        public void AddSong(Song s)
+        public void AddSong(Song s, string username)
         {
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
+            ThrowIfQueueFull();
             lock (playlistLock)
             {
                 s.MusicPlayer = this;
+                s.QueuerName = username.TrimTo(10);
                 playlist.Add(s);
             }
         }
@@ -243,5 +247,13 @@ namespace NadekoBot.Modules.Music.Classes
         internal bool ToggleRepeatPlaylist() => this.RepeatPlaylist = !this.RepeatPlaylist;
 
         internal bool ToggleAutoplay() => this.Autoplay = !this.Autoplay;
+
+        internal void ThrowIfQueueFull()
+        {
+            if (MaxQueueSize == 0)
+                return;
+            if (playlist.Count >= MaxQueueSize)
+                throw new PlaylistFullException();
+        }
     }
 }

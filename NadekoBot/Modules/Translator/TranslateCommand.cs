@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Translator
         {
             cgb.CreateCommand(Module.Prefix + "translate")
                 .Alias(Module.Prefix + "trans")
-                .Description($"Translates from>to text. From the given language to the destiation language.\n**Usage**: {Module.Prefix}trans en>fr Hello")
+                .Description($"Translates from>to text. From the given language to the destiation language. | {Module.Prefix}trans en>fr Hello")
                 .Parameter("langs", ParameterType.Required)
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(TranslateFunc());

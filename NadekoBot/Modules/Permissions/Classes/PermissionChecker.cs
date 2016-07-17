@@ -4,6 +4,7 @@ using Discord.Commands.Permissions;
 using NadekoBot.Classes.JSONModels;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions.Classes
@@ -13,7 +14,7 @@ namespace NadekoBot.Modules.Permissions.Classes
     {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
-        private ConcurrentDictionary<User, DateTime> timeBlackList { get; } = new ConcurrentDictionary<User, DateTime>();
+        private HashSet<ulong> timeBlackList { get; } = new HashSet<ulong>();
 
         static PermissionChecker() { }
         private PermissionChecker()
@@ -46,10 +47,10 @@ namespace NadekoBot.Modules.Permissions.Classes
                 return false;
             }
 
-            if (timeBlackList.ContainsKey(user))
+            if (timeBlackList.Contains(user.Id))
                 return false;
 
-            timeBlackList.TryAdd(user, DateTime.Now);
+            timeBlackList.Add(user.Id);
 
             if (!channel.IsPrivate && !channel.Server.CurrentUser.GetPermissions(channel).SendMessages)
             {

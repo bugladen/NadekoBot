@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             cgb.CreateCommand(Module.Prefix + "calculate")
                 .Alias(Module.Prefix + "calc")
-                .Description("Evaluate a mathematical expression.\n**Usage**: ~calc 1+1")
+                .Description("Evaluate a mathematical expression. | ~calc 1+1")
                 .Parameter("expression", ParameterType.Unparsed)
                 .Do(EvalFunc());
         }
@@ -49,11 +49,11 @@ namespace NadekoBot.Modules.Searches.Commands
                 string result = parser.Parse(expression).ToString();
                 return result;
             }
-            catch (OverflowException e)
+            catch (OverflowException)
             {
                 return $"Overflow error on {expression}";
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return $"\"{expression}\" was not formatted correctly";
             }

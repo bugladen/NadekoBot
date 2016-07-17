@@ -25,7 +25,7 @@ namespace NadekoBot.Classes.Help.Commands
                     .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
                                         c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
                 if (com != null)
-                    await e.Channel.SendMessage($"`Help for '{com.Text}':` {com.Description}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($"**__Help for `{com.Text}`__ / __`{("" + com.Aliases.FirstOrDefault() + "" ?? "")}`__**\n**Desc:** {com.Description.Replace("|", "\n**Usage:**")}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -62,7 +62,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 helpstr += PrintCommandHelp(com);
             }
             helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
-            helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
+            helpstr = helpstr.Replace(" |", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
             File.WriteAllText("../../../commandlist.md", helpstr);
 #else
@@ -74,7 +74,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")

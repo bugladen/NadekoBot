@@ -28,22 +28,34 @@ namespace NadekoBot.Modules.Games.Commands
             rng = new Random();
         }
 
+        private static readonly ConcurrentDictionary<ulong, DateTime> plantpickCooldowns = new ConcurrentDictionary<ulong, DateTime>();
 
         private async void PotentialFlowerGeneration(object sender, Discord.MessageEventArgs e)
         {
-            if (e.Server == null || e.Channel.IsPrivate)
-                return;
-            var config = Classes.SpecificConfigurations.Default.Of(e.Server.Id);
-            if (config.GenerateCurrencyChannels.Contains(e.Channel.Id))
+            try
             {
-                var rnd = Math.Abs(GetRandomNumber());
-                if ((rnd % 50) == 0)
-                {
-                    var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
-                    await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
-                    plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
-                }
+                if (e.Server == null || e.Channel.IsPrivate || e.Message.IsAuthor)
+                    return;
+                var config = Classes.SpecificConfigurations.Default.Of(e.Server.Id);
+                var now = DateTime.Now;
+                int cd;
+                DateTime lastSpawned;
+                if (config.GenerateCurrencyChannels.TryGetValue(e.Channel.Id, out cd))
+                    if (!plantpickCooldowns.TryGetValue(e.Channel.Id, out lastSpawned) || (lastSpawned + new TimeSpan(0, cd, 0)) < now)
+                    {
+                        var rnd = Math.Abs(GetRandomNumber());
+                        if ((rnd % 50) == 0)
+                        {
+                            var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
+                            var msg2 = await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
+                            plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                            plantpickCooldowns.AddOrUpdate(e.Channel.Id, now, (i, d) => now);
+                            await Task.Delay(5000);
+                            await msg2.Delete();
+                        }
+                    }
             }
+            catch { }
         }
         //channelid/messageid pair
         ConcurrentDictionary<ulong, Message> plantedFlowerChannels = new ConcurrentDictionary<ulong, Message>();
@@ -80,7 +92,7 @@ namespace NadekoBot.Modules.Games.Commands
                             e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.");
                             return;
                         }
-                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1);
+                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1).GetAwaiter().GetResult();
                         if (!removed)
                         {
                             e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").Wait();
@@ -104,19 +116,27 @@ namespace NadekoBot.Modules.Games.Commands
 
             cgb.CreateCommand(Prefix + "gencurrency")
                 .Alias(Prefix + "gc")
-                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Requires Manage Messages permission. | `>gc`")
+                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. | `>gc` or `>gc 60`")
                 .AddCheck(SimpleCheckers.ManageMessages())
+                .Parameter("cd", ParameterType.Unparsed)
                 .Do(async e =>
                 {
+                    var cdStr = e.GetArg("cd");
+                    int cd = 2;
+                    if (!int.TryParse(cdStr, out cd) || cd < 0)
+                    {
+                        cd = 2;
+                    }
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
-                    if (config.GenerateCurrencyChannels.Remove(e.Channel.Id))
+                    int throwaway;
+                    if (config.GenerateCurrencyChannels.TryRemove(e.Channel.Id, out throwaway))
                     {
                         await e.Channel.SendMessage("`Currency generation disabled on this channel.`");
                     }
                     else
                     {
-                        config.GenerateCurrencyChannels.Add(e.Channel.Id);
-                        await e.Channel.SendMessage("`Currency generation enabled on this channel.`");
+                        if (config.GenerateCurrencyChannels.TryAdd(e.Channel.Id, cd))
+                            await e.Channel.SendMessage($"`Currency generation enabled on this channel. Cooldown is {cd} minutes.`");
                     }
                 });
         }

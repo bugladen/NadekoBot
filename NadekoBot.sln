@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot", "NadekoBot\NadekoBot.csproj", "{27A886F5-CDDA-4F4A-81EE-6DAFCCE9DE46}"
 EndProject
@@ -13,13 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Modules", "disc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Net.Commands", "discord.net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj", "{1B5603B4-6F8F-4289-B945-7BAAE523D740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{45B2545D-C612-4919-B34C-D65EA1371C51}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{7bfef748-b934-4621-9b11-6302e3a9f6b3}*SharedItemsImports = 4
 		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{1b5603b4-6f8f-4289-b945-7baae523d740}*SharedItemsImports = 4
 		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{3091164f-66ae-4543-a63d-167c1116241d}*SharedItemsImports = 4
+		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{7bfef748-b934-4621-9b11-6302e3a9f6b3}*SharedItemsImports = 4
 		discord.net\src\Discord.Net.Shared\Discord.Net.Shared.projitems*{8d71a857-879a-4a10-859e-5ff824ed6688}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,14 +67,6 @@ Global
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.NadekoRelease|Any CPU.Build.0 = Release|Any CPU
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5603B4-6F8F-4289-B945-7BAAE523D740}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.NadekoRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.NadekoRelease|Any CPU.Build.0 = Release|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45B2545D-C612-4919-B34C-D65EA1371C51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
