@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     var msg = new StringBuilder($"There are `{config.ListOfSelfAssignableRoles.Count}` self assignable roles:\n");
                     var toRemove = new HashSet<ulong>();
-                    foreach (var roleId in config.ListOfSelfAssignableRoles)
+                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r=>r.ToString()))
                     {
                         var role = e.Server.GetRole(roleId);
                         if (role == null)
