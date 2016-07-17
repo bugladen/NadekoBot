@@ -53,6 +53,15 @@ Note if the command is not be initiated, hit **Enter**
 <pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
 </code></pre>
 
+**2.6)**
+*ONLY CentOS 7, Fedora 19 (and later)*
+<pre><code class="language-bash">yum install yum-util
+</code></pre>
+<pre><code class="language-bash">rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+</code></pre>
+<pre><code class="language-bash">yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
+</code></pre>
+
 **3)**
 <pre><code class="language-bash">apt-get install mono-devel
 </code></pre>
@@ -67,6 +76,18 @@ Note if the command is not be initiated, hit **Enter**
 **5)**
 <pre><code class="language-bash">sudo apt-get install libopus-dev
 </code></pre>
+
+**In case you are having issues with Mono where you get a random string and the bot won't run, do this:**
+
+<pre><code class="language-bash">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+</code></pre>
+<pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+</code></pre>
+<pre><code class="language-bash">apt-get install ca-certificates-mono
+</code></pre>
+<pre><code class="language-bash">mozroots --import --sync
+</code></pre>
+
 
 ######FFMPEG
 
