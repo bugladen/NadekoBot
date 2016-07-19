@@ -1,9 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -44,21 +46,18 @@ namespace NadekoBot.Modules.Games.Commands
                     if (!plantpickCooldowns.TryGetValue(e.Channel.Id, out lastSpawned) || (lastSpawned + new TimeSpan(0, cd, 0)) < now)
                     {
                         var rnd = Math.Abs(GetRandomNumber());
-                        if ((rnd % 50) == 0)
+                        if ((rnd % 2) == 0)
                         {
-                            var msg = await e.Channel.SendFile(GetRandomCurrencyImagePath());
-                            var msg2 = await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`");
-                            plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msg, (u, m) => { m.Delete().GetAwaiter().GetResult(); return msg; });
+                            var msgs = new[] { await e.Channel.SendFile(GetRandomCurrencyImagePath()), await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`") };
+                            plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msgs, (u, m) => { m.ForEach(async msgToDelete => { try { await msgToDelete.Delete(); } catch { } }); return msgs; });
                             plantpickCooldowns.AddOrUpdate(e.Channel.Id, now, (i, d) => now);
-                            await Task.Delay(5000);
-                            await msg2.Delete();
                         }
                     }
             }
             catch { }
         }
         //channelid/messageid pair
-        ConcurrentDictionary<ulong, Message> plantedFlowerChannels = new ConcurrentDictionary<ulong, Message>();
+        ConcurrentDictionary<ulong, IEnumerable<Message>> plantedFlowerChannels = new ConcurrentDictionary<ulong, IEnumerable<Message>>();
 
         private object locker = new object();
 
@@ -68,22 +67,24 @@ namespace NadekoBot.Modules.Games.Commands
                 .Description("Picks a flower planted in this channel.")
                 .Do(async e =>
                 {
-                    Message msg;
+                    IEnumerable<Message> msgs;
 
                     await e.Message.Delete().ConfigureAwait(false);
-                    if (!plantedFlowerChannels.TryRemove(e.Channel.Id, out msg))
+                    if (!plantedFlowerChannels.TryRemove(e.Channel.Id, out msgs))
                         return;
 
-                    await msg.Delete().ConfigureAwait(false);
+                    foreach(var msgToDelete in msgs)
+                        await msgToDelete.Delete().ConfigureAwait(false);
+
                     await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
-                    msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
+                    var msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
                     await Task.Delay(10000).ConfigureAwait(false);
                     await msg.Delete().ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "plant")
                 .Description("Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)")
-                .Do(async e =>
+                .Do(e =>
                 {
                     lock (locker)
                     {
@@ -92,7 +93,7 @@ namespace NadekoBot.Modules.Games.Commands
                             e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.");
                             return;
                         }
-                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1).GetAwaiter().GetResult();
+                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1, true).GetAwaiter().GetResult();
                         if (!removed)
                         {
                             e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").Wait();
@@ -106,12 +107,10 @@ namespace NadekoBot.Modules.Games.Commands
                             msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
                         else
                             msg = e.Channel.SendFile(file).GetAwaiter().GetResult();
-                        plantedFlowerChannels.TryAdd(e.Channel.Id, msg);
+                        var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
+                        var msg2 = e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").GetAwaiter().GetResult();
+                        plantedFlowerChannels.TryAdd(e.Channel.Id, new[] { msg, msg2 });
                     }
-                    var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                    var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick");
-                    await Task.Delay(20000).ConfigureAwait(false);
-                    await msg2.Delete().ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Prefix + "gencurrency")
