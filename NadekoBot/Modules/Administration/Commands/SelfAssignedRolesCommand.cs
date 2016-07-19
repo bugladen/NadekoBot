@@ -94,6 +94,19 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
                 });
 
+
+
+            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix +"tesar")
+                .Description("toggle whether the self-assigned roles should be exclusive")
+                .AddCheck(SimpleCheckers.CanManageRoles)
+                .Do(async e =>
+                {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+                    string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
+                    await e.Channel.SendMessage("Self assigned roles are now " + exl);
+                });
+
             cgb.CreateCommand(Module.Prefix + "iam")
                 .Description("Adds a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
@@ -119,6 +132,12 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (e.User.HasRole(role))
                     {
                         await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
+                        return;
+                    }
+                    var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
+                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
+                    {
+                        await e.Channel.SendMessage($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
                         return;
                     }
                     try
