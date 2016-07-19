@@ -45,8 +45,8 @@ namespace NadekoBot.Modules.Games.Commands
                 if (config.GenerateCurrencyChannels.TryGetValue(e.Channel.Id, out cd))
                     if (!plantpickCooldowns.TryGetValue(e.Channel.Id, out lastSpawned) || (lastSpawned + new TimeSpan(0, cd, 0)) < now)
                     {
-                        var rnd = Math.Abs(GetRandomNumber());
-                        if ((rnd % 2) == 0)
+                        var rnd = Math.Abs(rng.Next(0,101));
+                        if (rnd == 0)
                         {
                             var msgs = new[] { await e.Channel.SendFile(GetRandomCurrencyImagePath()), await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`") };
                             plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msgs, (u, m) => { m.ForEach(async msgToDelete => { try { await msgToDelete.Delete(); } catch { } }); return msgs; });

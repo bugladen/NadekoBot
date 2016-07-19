@@ -27,8 +27,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
               cgb.CreateCommand(Prefix + "createwar")
                     .Alias(Prefix + "cw")
-                    .Description(
-                        $"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. |{Prefix}cw 15 The Enemy Clan")
+                    .Description($"Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. |{Prefix}cw 15 The Enemy Clan")
                     .Parameter("size")
                     .Parameter("enemy_clan", ParameterType.Unparsed)
                     .Do(async e =>
