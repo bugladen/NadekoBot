@@ -15,6 +15,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Web;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -216,6 +217,18 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     {
                         if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
                         await e.Channel.SendMessage(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl())
+                                       .ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "google")
+                    .Description("Get a google search link for some terms.")
+                    .Parameter("terms", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var terms = e.GetArg("terms")?.Trim().Replace(' ', '+');
+                        if (string.IsNullOrWhiteSpace(terms))
+                            return;
+                        await e.Channel.SendMessage($"https://google.com/search?q={ HttpUtility.UrlEncode(terms) }")
                                        .ConfigureAwait(false);
                     });
 
