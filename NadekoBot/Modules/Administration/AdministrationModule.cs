@@ -633,22 +633,13 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
                     {
+                        Message[] msgs;
                         if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            await Task.Run(async () =>
-                            {
-                                var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id);
-                                foreach (var m in msgs)
-                                {
-                                    try
-                                    {
-                                        await m.Delete().ConfigureAwait(false);
-                                    }
-                                    catch { }
-                                    await Task.Delay(100).ConfigureAwait(false);
-                                }
-
-                            }).ConfigureAwait(false);
+                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
+                            if (!msgs.Any())
+                                return;
+                            await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
                             return;
                         }
                         if (!e.User.GetPermissions(e.Channel).ManageMessages)
@@ -665,11 +656,7 @@ namespace NadekoBot.Modules.Administration
                             if (val <= 0)
                                 return;
                             val++;
-                            foreach (var msg in await e.Channel.DownloadMessages(val).ConfigureAwait(false))
-                            {
-                                await msg.Delete().ConfigureAwait(false);
-                                await Task.Delay(100).ConfigureAwait(false);
-                            }
+                            await e.Channel.DeleteMessages((await e.Channel.DownloadMessages(val).ConfigureAwait(false)).ToArray()).ConfigureAwait(false);
                             return;
                         }
                         //else if first argument is user
@@ -679,20 +666,10 @@ namespace NadekoBot.Modules.Administration
                         val = 100;
                         if (!int.TryParse(e.GetArg("num"), out val))
                             val = 100;
-                        await Task.Run(async () =>
-                        {
-                            var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val);
-                            foreach (var m in msgs)
-                            {
-                                try
-                                {
-                                    await m.Delete().ConfigureAwait(false);
-                                }
-                                catch { }
-                                await Task.Delay(100).ConfigureAwait(false);
-                            }
-
-                        }).ConfigureAwait(false);
+                        msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val).ToArray();
+                        if (!msgs.Any())
+                            return;
+                        await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "die")
