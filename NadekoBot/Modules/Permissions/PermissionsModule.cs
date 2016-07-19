@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands;
@@ -808,6 +809,24 @@ namespace NadekoBot.Modules.Permissions
                         {
                             await e.Channel.SendMessage("Something went terribly wrong - " + ex.Message).ConfigureAwait(false);
                         }
+                    });
+
+                cgb.CreateCommand(Prefix + "allcmdcooldowns")
+                    .Alias(Prefix + "acmdcds")
+                    .Description("Shows a list of all commands and their respective cooldowns.")
+                    .Do(async e =>
+                    {
+                        ServerPermissions perms;
+                        PermissionsHandler.PermissionsDict.TryGetValue(e.Server.Id, out perms);
+                        if (perms == null)
+                            return;
+
+                        if (!perms.CommandCooldowns.Any())
+                        {
+                            await e.Channel.SendMessage("`No command cooldowns set.`").ConfigureAwait(false);
+                            return;
+                        }
+                        await e.Channel.SendMessage(SearchHelper.ShowInPrettyCode(perms.CommandCooldowns.Select(c=>c.Key+ ": "+c.Value+" secs"),s=>$"{s,-30}",2)).ConfigureAwait(false);
                     });
             });
         }

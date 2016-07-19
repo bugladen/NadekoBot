@@ -55,9 +55,11 @@ namespace NadekoBot.Modules.Permissions.Classes
             if (string.IsNullOrWhiteSpace(commandText))
                 throw new ArgumentNullException(nameof(commandText));
 
+            var normalizedCmdTxt = commandText.Trim().ToUpperInvariant();
+
             foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
             {
-                if (com.Text.ToLower().Equals(commandText.Trim().ToLower()))
+                if (com.Text.ToUpperInvariant().Equals(normalizedCmdTxt) || com.Aliases.Select(c=>c.ToUpperInvariant()).Contains(normalizedCmdTxt))
                     return com.Text;
             }
             throw new NullReferenceException("That command does not exist.");
