@@ -21,12 +21,12 @@ namespace NadekoBot.Classes
             if (silent)
                 return;
 
-            var flows = amount +" " + NadekoBot.Config.CurrencySign;
+            var flows = amount + " " + NadekoBot.Config.CurrencySign;
 
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }
 
-        public static bool RemoveFlowers(Discord.User u, string reason, int amount)
+        public static async Task<bool> RemoveFlowers(Discord.User u, string reason, int amount, bool silent=false, string message="👎`Bot owner has taken {0}{1} from you.`")
         {
             if (amount <= 0)
                 return false;
@@ -42,6 +42,11 @@ namespace NadekoBot.Classes
                 UserId = (long)u.Id,
                 Value = -amount,
             });
+
+            if (silent)
+                return true;
+
+            await u.SendMessage(string.Format(message,amount,NadekoBot.Config.CurrencySign)).ConfigureAwait(false);
             return true;
         }
     }

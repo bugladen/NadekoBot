@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Games.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "leet")
-                .Description($"Converts a text to leetspeak with 6 (1-6) severity levels\n**Usage**: {Module.Prefix}leet 3 Hello")
+                .Description($"Converts a text to leetspeak with 6 (1-6) severity levels | {Module.Prefix}leet 3 Hello")
                 .Parameter("level", ParameterType.Required)
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(async e =>

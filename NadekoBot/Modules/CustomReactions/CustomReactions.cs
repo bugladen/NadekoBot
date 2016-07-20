@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.CustomReactions
                      var c = cgb.CreateCommand(commandName);
                      if (commandName.Contains(NadekoBot.BotMention))
                          c.Alias(commandName.Replace("<@", "<@!"));
-                     c.Description($"Custom reaction.\n**Usage**:{command.Key}")
+                     c.Description($"Custom reaction. |{command.Key}")
                          .Parameter("args", ParameterType.Unparsed)
                          .Do(async e =>
                           {

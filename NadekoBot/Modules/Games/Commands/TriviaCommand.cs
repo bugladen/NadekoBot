@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Games.Commands
             cgb.CreateCommand(Module.Prefix + "t")
                 .Description($"Starts a game of trivia. You can add nohint to prevent hints." +
                               "First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question." +
-                              $"\n**Usage**:`{Module.Prefix}t nohint` or `{Module.Prefix}t 5 nohint`")
+                              $" |`{Module.Prefix}t nohint` or `{Module.Prefix}t 5 nohint`")
                 .Parameter("args", ParameterType.Multiple)
                 .Do(async e =>
                 {

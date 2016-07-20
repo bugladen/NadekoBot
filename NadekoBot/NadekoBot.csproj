@@ -144,6 +144,7 @@
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Modules\Conversations\Commands\RipCommand.cs" />
     <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
+    <Compile Include="Modules\Music\Classes\PlaylistFullException.cs" />
     <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
     <Compile Include="Modules\Programming\ProgrammingModule.cs" />
     <Compile Include="Modules\Searches\Commands\EvalCommand.cs" />

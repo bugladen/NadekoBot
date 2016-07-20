@@ -27,8 +27,9 @@ namespace NadekoBot.Modules.Music.Classes
     {
         public StreamState State { get; internal set; }
         public string PrettyName =>
-            $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}`";
+            $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
         public SongInfo SongInfo { get; }
+        public string QueuerName { get; set; }
 
         private PoopyBuffer songBuffer { get; } = new PoopyBuffer(NadekoBot.Config.BufferSize);
 
@@ -244,16 +245,30 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 if (SoundCloud.Default.IsSoundCloudLink(query))
                 {
-                    var svideo = await SoundCloud.Default.GetVideoAsync(query).ConfigureAwait(false);
+                    var svideo = await SoundCloud.Default.ResolveVideoAsync(query).ConfigureAwait(false);
                     return new Song(new SongInfo
                     {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
                         Uri = svideo.StreamLink,
                         ProviderType = musicType,
-                        Query = query,
+                        Query = svideo.TrackLink,
                     });
                 }
+
+                if (musicType == MusicType.Soundcloud)
+                {
+                    var svideo = await SoundCloud.Default.GetVideoByQueryAsync(query).ConfigureAwait(false);
+                    return new Song(new SongInfo
+                    {
+                        Title = svideo.FullName,
+                        Provider = "SoundCloud",
+                        Uri = svideo.StreamLink,
+                        ProviderType = MusicType.Normal,
+                        Query = svideo.TrackLink,
+                    });
+                }
+
                 var link = await SearchHelper.FindYoutubeUrlByKeywords(query).ConfigureAwait(false);
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");

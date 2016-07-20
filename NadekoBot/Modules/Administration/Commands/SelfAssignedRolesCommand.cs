@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "asar")
                 .Description("Adds a role, or list of roles separated by whitespace" +
-                             "(use quotations for multiword roles) to the list of self-assignable roles.\n**Usage**: .asar Gamer")
+                             "(use quotations for multiword roles) to the list of self-assignable roles. | .asar Gamer")
                 .Parameter("roles", ParameterType.Multiple)
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .Do(async e =>
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     var msg = new StringBuilder($"There are `{config.ListOfSelfAssignableRoles.Count}` self assignable roles:\n");
                     var toRemove = new HashSet<ulong>();
-                    foreach (var roleId in config.ListOfSelfAssignableRoles)
+                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r=>r.ToString()))
                     {
                         var role = e.Server.GetRole(roleId);
                         if (role == null)
@@ -94,10 +94,23 @@ namespace NadekoBot.Modules.Administration.Commands
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
                 });
 
+
+
+            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix +"tesar")
+                .Description("toggle whether the self-assigned roles should be exclusive")
+                .AddCheck(SimpleCheckers.CanManageRoles)
+                .Do(async e =>
+                {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+                    string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
+                    await e.Channel.SendMessage("Self assigned roles are now " + exl);
+                });
+
             cgb.CreateCommand(Module.Prefix + "iam")
                 .Description("Adds a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
-                             "\n**Usage**: .iam Gamer")
+                             " | .iam Gamer")
                 .Parameter("role", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -121,6 +134,12 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
+                    var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
+                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
+                    {
+                        await e.Channel.SendMessage($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
+                        return;
+                    }
                     try
                     {
                         await e.User.AddRoles(role).ConfigureAwait(false);
@@ -130,8 +149,8 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
                     }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
-                    await Task.Delay(3000);
-                    await msg.Delete();
+                    await Task.Delay(3000).ConfigureAwait(false);
+                    await msg.Delete().ConfigureAwait(false);
                     try
                     {
                         await e.Message.Delete().ConfigureAwait(false);
@@ -143,7 +162,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Alias(Module.Prefix + "iamn")
                 .Description("Removes a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
-                             "\n**Usage**: .iamn Gamer")
+                             " | .iamn Gamer")
                 .Parameter("role", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -168,7 +187,14 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     }
                     await e.User.RemoveRoles(role).ConfigureAwait(false);
-                    await e.Channel.SendMessage($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
+                    var msg = await e.Channel.SendMessage($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
+                    await Task.Delay(3000).ConfigureAwait(false);
+                    await msg.Delete().ConfigureAwait(false);
+                    try
+                    {
+                        await e.Message.Delete().ConfigureAwait(false);
+                    }
+                    catch { }
                 });
         }
     }

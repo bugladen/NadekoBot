@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetmsg")
-                .Description("Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message.\n**Usage**: .greetmsg Welcome to the server, %user%.")
+                .Description("Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. | .greetmsg Welcome to the server, %user%.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -278,7 +278,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "byemsg")
-                .Description("Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.\n**Usage**: .byemsg %user% has left the server.")
+                .Description("Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. | .byemsg %user% has left the server.")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {

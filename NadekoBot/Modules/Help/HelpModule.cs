@@ -46,20 +46,25 @@ namespace NadekoBot.Modules.Help
                         if (string.IsNullOrWhiteSpace(module))
                             return;
                         var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
-                                                    .Where(c => c.Category.ToLower() == module);
+                                                    .Where(c => c.Category.ToLower() == module)
+                                                    .OrderBy(c=>c.Text)
+                                                    .AsEnumerable();
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())
                         {
                             await e.Channel.SendMessage("That module does not exist.").ConfigureAwait(false);
                             return;
                         }
-                        var i = 0;
                         if (module != "customreactions" && module != "conversations")
+                        {
                             await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,
                                 el => $"{el.Text,-15}{"[" + el.Aliases.FirstOrDefault() + "]",-8}"))
                                             .ConfigureAwait(false);
+                        }
                         else
+                        {
                             await e.Channel.SendMessage("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                        }
                         await e.Channel.SendMessage($"`You can type \"{Prefix}h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
                     });
             });

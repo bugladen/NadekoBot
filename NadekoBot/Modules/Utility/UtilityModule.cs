@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Utility
                     .Description("Shows some basic stats for Nadeko.")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
+                        await e.Channel.SendMessage(await NadekoStats.Instance.GetStats()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "dysyd")
