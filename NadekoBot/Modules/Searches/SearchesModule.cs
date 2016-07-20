@@ -226,10 +226,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Parameter("terms", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var terms = e.GetArg("terms")?.Trim().Replace(' ', '+');
+                        var terms = e.GetArg("terms")?.Trim();
                         if (string.IsNullOrWhiteSpace(terms))
                             return;
-                        await e.Channel.SendMessage($"https://google.com/search?q={ HttpUtility.UrlEncode(terms) }")
+                        await e.Channel.SendMessage($"https://google.com/search?q={ HttpUtility.UrlEncode(terms).Replace(' ', '+') }")
                                        .ConfigureAwait(false);
                     });
 
