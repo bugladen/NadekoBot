@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Music
                         else if (musicPlayer.RepeatPlaylist)
                             toSend += "🔁";
                         toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued. Showing page {page}` ";
-                        if (musicPlayer.Playlist.Count >= MusicPlayer.MaximumPlaylistSize)
+                        if (musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
                             toSend += "**Song queue is full!**\n";
                         else
                             toSend += "\n";

@@ -27,8 +27,6 @@ namespace NadekoBot.Modules.Music.Classes
 
     public class MusicPlayer
     {
-        public static int MaximumPlaylistSize => 50;
-
         private IAudioClient audioClient { get; set; }
 
         private readonly List<Song> playlist = new List<Song>();
