@@ -41,6 +41,7 @@ namespace NadekoBot
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
         public static string BotMention { get; set; } = "";
         public static bool Ready { get; set; } = false;
+        public static Action OnReady { get; set; } = delegate { };
 
         private static List<Channel> OwnerPrivateChannels { get; set; }
 
@@ -196,7 +197,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(150000).ConfigureAwait(false);
+                await Task.Delay(90000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
@@ -229,6 +230,7 @@ namespace NadekoBot
                 };
                 PermissionsHandler.Initialize();
                 NadekoBot.Ready = true;
+                NadekoBot.OnReady();
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -277,5 +279,3 @@ namespace NadekoBot
         }
     }
 }
-
-//95520984584429568 meany
