@@ -1,8 +1,8 @@
 ######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
+######You can donate on paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6036.32870`
+Version: `NadekoBot v0.9.6045.36710`
 ### Help  
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
@@ -25,6 +25,7 @@ Command and aliases |  Description |  Usage
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Bot Owner Only!**
+`.logignore`  |  Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle.
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.
 `.repeatinvoke`, `.repinv`  |  Immediately shows the repeat message and restarts the timer.
@@ -42,6 +43,7 @@ Command and aliases |  Description |  Usage
 `.asar`  |  Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. |  .asar Gamer
 `.rsar`  |  Removes a specified role from the list of self-assignable roles.
 `.lsar`  |  Lists all self-assignable roles.
+`.togglexclsar`, `.tesar`  |  toggle whether the self-assigned roles should be exclusive
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamnot`, `.iamn`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.addcustreact`, `.acr`  |  Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   |  .acr "hello" I love saying hello to %user%
@@ -86,7 +88,6 @@ Command and aliases |  Description |  Usage
 `.donators`  |  List of lovely people who donated to keep this project alive.
 `.donadd`  |  Add a donator to the database.
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!** |  .announce Useless spam
-`.leave`  |  Leaves a server with a supplied ID. |  `.leave 493243292839`
 `.savechat`  |  Saves a number of messages to a text file and sends it to you. **Bot Owner Only** |  `.chatsave 150`
 
 ### Utility  
@@ -145,6 +146,8 @@ Command and aliases |  Description |  Usage
 `;cbl`  |  Blacklists a mentioned channel (#general for example). |  ;cbl #some_channel
 `;cubl`  |  Unblacklists a mentioned channel (#general for example). |  ;cubl #some_channel
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  ;sbl [servername/serverid]
+`;cmdcooldown`, `;cmdcd`  |  Sets a cooldown per user for a command. Set 0 to clear. |  `;cmdcd "some cmd" 5`
+`;allcmdcooldowns`, `;acmdcds`  |  Shows a list of all commands and their respective cooldowns.
 
 ### Conversations  
 Command and aliases |  Description |  Usage
@@ -157,7 +160,6 @@ Command and aliases |  Description |  Usage
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
-`@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
 
@@ -167,13 +169,16 @@ Command and aliases |  Description |  Usage
 `$draw`  |  Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. |  $draw [x]
 `$shuffle`, `$sh`  |  Reshuffles all cards back into the deck.
 `$flip`  |  Flips coin(s) - heads or tails, and shows an image. |  `$flip` or `$flip 3`
+`$betflip`, `$bf`  |  Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet. |  `$bf 5 heads` or `$bf 3 t`
 `$roll`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
+`$rolluo`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
 `$$$`  |  Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @Someone`
 `$give`  |  Give someone a certain amount of NadekoFlowers
 `$award`  |  Gives someone a certain amount of flowers. **Bot Owner Only!** |  `$award 100 @person`
 `$take`  |  Takes a certain amount of flowers from someone. **Bot Owner Only!**
+`$betroll`, `$br`  |  Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. |  $br 5
 `$leaderboard`, `$lb`  |  
 
 ### Games  
@@ -199,39 +204,39 @@ Command and aliases |  Description |  Usage
 ### Music  
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
-`!m next`, `!m n`, `!m skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
-`!m stop`, `!m s`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
-`!m destroy`, `!m d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
-`!m pause`, `!m p`  |  Pauses or Unpauses the song. |  `!m p`
-`!m queue`, `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
-`!m soundcloudqueue`, `!m sq`  |  Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**. |  `!m sq Dream Of Venice`
-`!m listqueue`, `!m lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
-`!m nowplaying`, `!m np`  |  Shows the song currently playing. |  `!m np`
-`!m volume`, `!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
-`!m defvol`, `!m dv`  |  Sets the default music volume when music playback is started (0-100). Persists through restarts. |  `!m dv 80`
-`!m mute`, `!m min`  |  Sets the music volume to 0% |  `!m min`
-`!m max`  |  Sets the music volume to 100%. |  `!m max`
-`!m half`  |  Sets the music volume to 50%. |  `!m half`
-`!m shuffle`, `!m sh`  |  Shuffles the current playlist. |  `!m sh`
-`!m playlist`, `!m pl`  |  Queues up to 500 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
-`!m soundcloudpl`, `!m scpl`  |  Queue a soundcloud playlist using a link. |  `!m scpl https://soundcloud.com/saratology/sets/symphony`
-`!m localplaylst`, `!m lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
-`!m radio`, `!m ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf |  `!m ra radio link here`
-`!m local`, `!m lo`  |  Queues a local file by specifying a full path. **Bot Owner Only!** |  `!m lo C:/music/mysong.mp3`
-`!m move`, `!m mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
-`!m remove`, `!m rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
-`!m movesong`, `!m ms`  |  Moves a song from one position to another. |  `!m ms` 5>3
-`!m setmaxqueue`, `!m smq`  |  Sets a maximum queue size. Supply 0 or no argument to have no limit.  |  `!m smq` 50 or `!m smq`
-`!m cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
-`!m reptcursong`, `!m rcs`  |  Toggles repeat of current song. |  `!m rcs`
-`!m rpeatplaylst`, `!m rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
-`!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
-`!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
-`!m playlists`, `!m pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
-`!m deleteplaylist`, `!m delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. |  `!m delpls animu-5`
-`!m goto`  |  Goes to a specific time in seconds in a song.
-`!m getlink`, `!m gl`  |  Shows a link to the currently playing song.
-`!m autoplay`, `!m ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)
+`!!next`, `!!n`, `!!skip`  |  Goes to the next song in the queue. You have to be in the same voice channel as the bot. |  `!m n`
+`!!stop`, `!!s`  |  Stops the music and clears the playlist. Stays in the channel. |  `!m s`
+`!!destroy`, `!!d`  |  Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour) |  `!m d`
+`!!pause`, `!!p`  |  Pauses or Unpauses the song. |  `!m p`
+`!!queue`, `!!q`, `!!yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
+`!!soundcloudqueue`, `!!sq`  |  Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**. |  `!m sq Dream Of Venice`
+`!!listqueue`, `!!lq`  |  Lists 15 currently queued songs per page. Default page is 1. |  `!m lq` or `!m lq 2`
+`!!nowplaying`, `!!np`  |  Shows the song currently playing. |  `!m np`
+`!!volume`, `!!vol`  |  Sets the music volume 0-100% |  `!m vol 50`
+`!!defvol`, `!!dv`  |  Sets the default music volume when music playback is started (0-100). Persists through restarts. |  `!m dv 80`
+`!!mute`, `!!min`  |  Sets the music volume to 0% |  `!m min`
+`!!max`  |  Sets the music volume to 100%. |  `!m max`
+`!!half`  |  Sets the music volume to 50%. |  `!m half`
+`!!shuffle`, `!!sh`  |  Shuffles the current playlist. |  `!m sh`
+`!!playlist`, `!!pl`  |  Queues up to 500 songs from a youtube playlist specified by a link, or keywords. |  `!m pl playlist link or name`
+`!!soundcloudpl`, `!!scpl`  |  Queue a soundcloud playlist using a link. |  `!m scpl https://soundcloud.com/saratology/sets/symphony`
+`!!localplaylst`, `!!lopl`  |  Queues all songs from a directory. **Bot Owner Only!** |  `!m lopl C:/music/classical`
+`!!radio`, `!!ra`  |  Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>) |  `!m ra radio link here`
+`!!local`, `!!lo`  |  Queues a local file by specifying a full path. **Bot Owner Only!** |  `!m lo C:/music/mysong.mp3`
+`!!move`, `!!mv`  |  Moves the bot to your voice channel. (works only if music is already playing) |  `!m mv`
+`!!remove`, `!!rm`  |  Remove a song by its # in the queue, or 'all' to remove whole queue. |  `!m rm 5`
+`!!movesong`, `!!ms`  |  Moves a song from one position to another. |  `!! ms` 5>3
+`!!setmaxqueue`, `!!smq`  |  Sets a maximum queue size. Supply 0 or no argument to have no limit.  |  `!! smq` 50 or `!! smq`
+`!!cleanup`  |  Cleans up hanging voice connections. **Bot Owner Only!** |  `!m cleanup`
+`!!reptcursong`, `!!rcs`  |  Toggles repeat of current song. |  `!m rcs`
+`!!rpeatplaylst`, `!!rpl`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
+`!!save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
+`!!load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
+`!!playlists`, `!!pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!m pls 1`
+`!!deleteplaylist`, `!!delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. |  `!m delpls animu-5`
+`!!goto`  |  Goes to a specific time in seconds in a song.
+`!!getlink`, `!!gl`  |  Shows a link to the currently playing song.
+`!!autoplay`, `!!ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)
 
 ### Searches  
 Command and aliases |  Description |  Usage
@@ -266,6 +271,7 @@ Command and aliases |  Description |  Usage
 `~i`  |  Pulls the first image found using a search parameter. Use ~ir for different results. |  ~i cute kitten
 `~ir`  |  Pulls a random image using a search parameter. |  ~ir cute kitten
 `~lmgtfy`  |  Google something for an idiot.
+`~google`, `~g`  |  Get a google search link for some terms.
 `~hs`  |  Searches for a Hearthstone card and shows its image. Takes a while to complete. | ~hs Ysera
 `~ud`  |  Searches Urban Dictionary for a word. | ~ud Pineapple
 `~#`  |  Searches Tagdef.com for a hashtag. | ~# ff
@@ -313,7 +319,7 @@ Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `>attack`  |  Attacks a target with the given move. Use `>movelist` to see a list of moves your type can use. |  `>attack "vine whip" @someguy`
 `>movelist`, `>ml`  |  Lists the moves you are able to use
-`>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
+`>heal`  |  Heals someone. Revives those who fainted. Costs a NadekoFlower |  >heal @someone
 `>type`  |  Get the poketype of the target. |  >type @someone
 `>settype`  |  Set your poketype. Costs a NadekoFlower. |  >settype fire
 
@@ -331,16 +337,17 @@ Command and aliases |  Description |  Usage
 `moveto`  |  Custom reaction. | moveto
 `comeatmebro`  |  Custom reaction. | comeatmebro
 `e`  |  Custom reaction. | e
-`@BotName insult`, `<@!119777021319577610> insult`  |  Custom reaction. | %mention% insult
-`@BotName praise`, `<@!119777021319577610> praise`  |  Custom reaction. | %mention% praise
-`@BotName pat`, `<@!119777021319577610> pat`  |  Custom reaction. | %mention% pat
-`@BotName cry`, `<@!119777021319577610> cry`  |  Custom reaction. | %mention% cry
-`@BotName are you real?`, `<@!119777021319577610> are you real?`  |  Custom reaction. | %mention% are you real?
-`@BotName are you there?`, `<@!119777021319577610> are you there?`  |  Custom reaction. | %mention% are you there?
-`@BotName draw`, `<@!119777021319577610> draw`  |  Custom reaction. | %mention% draw
-`@BotName bb`, `<@!119777021319577610> bb`  |  Custom reaction. | %mention% bb
-`@BotName call`, `<@!119777021319577610> call`  |  Custom reaction. | %mention% call
-`@BotName disguise`, `<@!119777021319577610> disguise`  |  Custom reaction. | %mention% disguise
+`@BotName insult`, `<@!116275390695079945> insult`  |  Custom reaction. | %mention% insult
+`@BotName praise`, `<@!116275390695079945> praise`  |  Custom reaction. | %mention% praise
+`@BotName pat`, `<@!116275390695079945> pat`  |  Custom reaction. | %mention% pat
+`@BotName cry`, `<@!116275390695079945> cry`  |  Custom reaction. | %mention% cry
+`@BotName are you real?`, `<@!116275390695079945> are you real?`  |  Custom reaction. | %mention% are you real?
+`@BotName are you there?`, `<@!116275390695079945> are you there?`  |  Custom reaction. | %mention% are you there?
+`@BotName draw`, `<@!116275390695079945> draw`  |  Custom reaction. | %mention% draw
+`@BotName bb`, `<@!116275390695079945> bb`  |  Custom reaction. | %mention% bb
+`@BotName call`, `<@!116275390695079945> call`  |  Custom reaction. | %mention% call
+`@BotName disguise`, `<@!116275390695079945> disguise`  |  Custom reaction. | %mention% disguise
+`~hentai`  |  Custom reaction. | ~hentai
 
 ### Trello  
 Command and aliases |  Description |  Usage
