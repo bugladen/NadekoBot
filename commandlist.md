@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6045.31170`
+Version: `NadekoBot v0.9.6045.36710`
 ### Help  
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
@@ -25,7 +25,7 @@ Command and aliases |  Description |  Usage
 `.greetpm`  |  Toggles whether the greet messages will be sent in a PM or in the text channel.
 `.spmom`  |  Toggles whether mentions of other offline users on your server will send a pm to them.
 `.logserver`  |  Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Bot Owner Only!**
-`.logignore`, `Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.`  |  
+`.logignore`  |  Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.
 `.userpresence`  |  Starts logging to this channel when someone from the server goes online/offline/idle.
 `.voicepresence`  |  Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.
 `.repeatinvoke`, `.repinv`  |  Immediately shows the repeat message and restarts the timer.
