@@ -226,7 +226,7 @@ namespace NadekoBot.Modules.Gambling.Helpers
             {
                 return kvp.Key;
             }
-            return "High card " + cards.Max().GetName();
+            return "High card " + (cards.FirstOrDefault(c => c.Number == 1)?.GetName() ?? cards.Max().GetName());
         }
     }
 }
