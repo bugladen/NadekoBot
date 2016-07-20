@@ -221,6 +221,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "google")
+                    .Alias(Prefix + "g")
                     .Description("Get a google search link for some terms.")
                     .Parameter("terms", ParameterType.Unparsed)
                     .Do(async e =>
