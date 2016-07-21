@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Translator.Helpers
                 text = await http.GetStringAsync(url).ConfigureAwait(false);
             }
 
-            return (string.Join("", JArray.Parse(text)[0].Select(x => x[0])));
+            return (string.Concat(JArray.Parse(text)[0].Select(x => x[0])));
         }
 
         #endregion
