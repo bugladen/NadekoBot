@@ -24,8 +24,13 @@ namespace NadekoBot.Classes.Help.Commands
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
                                         c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
+
+                var str = "";
+                var alias = com.Aliases.FirstOrDefault();
+                if (alias != null)
+                    str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($"**__Help for `{com.Text}`__ / __`{("" + com.Aliases.FirstOrDefault() + "" ?? "")}`__**\n**Desc:** {com.Description.Replace("|", "\n**Usage:**")}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {com.Description.Replace("|", "\n**Usage:**")}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
