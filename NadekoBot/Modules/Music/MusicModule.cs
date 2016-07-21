@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Music
                         else if (musicPlayer.RepeatPlaylist)
                             toSend += "🔁";
                         toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued. Showing page {page}` ";
-                        if (musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
+                        if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
                             toSend += "**Song queue is full!**\n";
                         else
                             toSend += "\n";
@@ -300,7 +300,6 @@ namespace NadekoBot.Modules.Music
                             await e.Channel.SendMessage($"🎵 `Failed to find any songs.`").ConfigureAwait(false);
                             return;
                         }
-                        //todo TEMPORARY SOLUTION, USE RESOLVE QUEUE IN THE FUTURE
                         var idArray = ids as string[] ?? ids.ToArray();
                         var count = idArray.Length;
                         var msg =
