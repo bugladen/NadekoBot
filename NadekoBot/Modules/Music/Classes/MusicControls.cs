@@ -22,7 +22,6 @@ namespace NadekoBot.Modules.Music.Classes
     {
         Resolving,
         Queued,
-        Buffering, //not using it atm
         Playing,
         Completed
     }
@@ -35,7 +34,7 @@ namespace NadekoBot.Modules.Music.Classes
         public IReadOnlyCollection<Song> Playlist => playlist;
         private readonly object playlistLock = new object();
 
-        public Song CurrentSong { get; set; } = default(Song);
+        public Song CurrentSong { get; private set; }
         private CancellationTokenSource SongCancelSource { get; set; }
         private CancellationToken cancelToken { get; set; }
 
@@ -103,20 +102,22 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         try
                         {
-                            if (audioClient.State != ConnectionState.Connected)
+                            if (audioClient?.State != ConnectionState.Connected)
                             {
                                 audioClient = await PlaybackVoiceChannel.JoinAudio();
                                 continue;
                             }
 
-                            var song = CurrentSong;
+                            CurrentSong = GetNextSong();
+                            RemoveSongAt(0);
 
-                            if (song == null)
+                            if (CurrentSong == null)
                                 continue;
 
                             try
                             {
-                                await song.Play(audioClient, cancelToken);
+                                OnStarted(this, CurrentSong);
+                                await CurrentSong.Play(audioClient, cancelToken);
                             }
                             catch (OperationCanceledException)
                             {
@@ -124,17 +125,19 @@ namespace NadekoBot.Modules.Music.Classes
                                 SongCancelSource = new CancellationTokenSource();
                                 cancelToken = SongCancelSource.Token;
                             }
-                            OnCompleted(this, song);
+                            OnCompleted(this, CurrentSong);
 
                             if (RepeatPlaylist)
-                                AddSong(song, song.QueuerName);
+                                AddSong(CurrentSong, CurrentSong.QueuerName);
 
                             if (RepeatSong)
-                                AddSong(song, 0);
+                                AddSong(CurrentSong, 0);
+                            
                         }
                         finally
                         {
                             await Task.Delay(300).ConfigureAwait(false);
+                            CurrentSong = null;
                         }
                     }
                 }
@@ -149,18 +152,20 @@ namespace NadekoBot.Modules.Music.Classes
 
         public void Next()
         {
-            Paused = false;
-            SongCancelSource.Cancel();
+            actionQueue.Enqueue(() =>
+            {
+                Paused = false;
+                SongCancelSource.Cancel();
+            });
         }
 
         public void Stop()
         {
             actionQueue.Enqueue(() =>
             {
-                playlist.Clear();
-                CurrentSong = null;
                 RepeatPlaylist = false;
                 RepeatSong = false;
+                playlist.Clear();
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
             });
@@ -245,9 +250,10 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(() =>
             {
-                playlist.Clear();
+                RepeatPlaylist = false;
+                RepeatSong = false;
                 Destroyed = true;
-                CurrentSong = null;
+                playlist.Clear();
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
                 audioClient.Disconnect();
