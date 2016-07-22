@@ -161,9 +161,7 @@ namespace NadekoBot.Classes
             using (var conn = new SQLiteConnection(FilePath))
             {
                 foreach (var o in ocol)
-                {
-                    conn.InsertOrReplace(o, typeof(T));
-                }
+                    conn.InsertOrReplace(o);
             }
         }
 
