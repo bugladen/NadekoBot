@@ -102,7 +102,6 @@ namespace NadekoBot.Modules.Games.Commands
 
                         var file = GetRandomCurrencyImagePath();
                         Message msg;
-                        //todo send message after, not in lock
                         if (file == null)
                             msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
                         else

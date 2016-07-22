@@ -190,8 +190,6 @@ namespace NadekoBot.Modules.Games.Commands
 
                     await e.Channel.SendMessage("Added new article for typing game.").ConfigureAwait(false);
                 });
-
-            //todo add user submissions
         }
     }
 }
