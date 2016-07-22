@@ -738,7 +738,7 @@ namespace NadekoBot.Modules.Administration
                         if (string.IsNullOrWhiteSpace(msg))
                             return;
 
-                        var ids = e.GetArg("ids").Split('-');
+                        var ids = e.GetArg("ids").Split('|');
                         if (ids.Length != 2)
                             return;
                         var sid = ulong.Parse(ids[0]);
