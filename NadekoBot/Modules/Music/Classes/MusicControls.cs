@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Music.Classes
 
         private readonly List<Song> playlist = new List<Song>();
         public IReadOnlyCollection<Song> Playlist => playlist;
-        private readonly object playlistLock = new object();
 
         public Song CurrentSong { get; private set; }
         private CancellationTokenSource SongCancelSource { get; set; }
