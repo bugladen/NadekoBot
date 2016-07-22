@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Discord.Net;
 using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
@@ -145,10 +146,12 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         await e.User.AddRoles(role).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
+                    catch(HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                    }
+                    catch (Exception)
                     {
                         await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
-                        Console.WriteLine(ex);
                     }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000).ConfigureAwait(false);
