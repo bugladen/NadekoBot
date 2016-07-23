@@ -135,8 +135,8 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
-                            await Task.Delay(300).ConfigureAwait(false);
                             CurrentSong = null;
+                            await Task.Delay(300).ConfigureAwait(false);
                         }
                     }
                 }
