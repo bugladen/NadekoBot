@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Classes.JSONModels
 {
@@ -187,12 +189,16 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
 
     public static class ConfigHandler
     {
-        private static readonly object configLock = new object();
-        public static void SaveConfig()
+        private static readonly SemaphoreSlim configLock = new SemaphoreSlim(1, 1);
+        public static async Task SaveConfig()
         {
-            lock (configLock)
+            await configLock.WaitAsync();
+            try
             {
                 File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
+            }
+            finally {
+                configLock.Release();
             }
         }
 

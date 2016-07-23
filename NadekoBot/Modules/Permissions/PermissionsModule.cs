@@ -689,7 +689,7 @@ namespace NadekoBot.Modules.Permissions
                             if (!e.Message.MentionedUsers.Any()) return;
                             var usr = e.Message.MentionedUsers.First();
                             NadekoBot.Config.UserBlacklist.Add(usr.Id);
-                            ConfigHandler.SaveConfig();
+                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted user {usr.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
                     });
@@ -707,7 +707,7 @@ namespace NadekoBot.Modules.Permissions
                            if (NadekoBot.Config.UserBlacklist.Contains(usr.Id))
                            {
                                NadekoBot.Config.UserBlacklist.Remove(usr.Id);
-                               ConfigHandler.SaveConfig();
+                               await ConfigHandler.SaveConfig().ConfigureAwait(false);
                                await e.Channel.SendMessage($"`Sucessfully unblacklisted user {usr.Name}`").ConfigureAwait(false);
                            }
                            else
@@ -727,7 +727,7 @@ namespace NadekoBot.Modules.Permissions
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
                             NadekoBot.Config.UserBlacklist.Add(ch.Id);
-                            ConfigHandler.SaveConfig();
+                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
                     });
@@ -742,7 +742,7 @@ namespace NadekoBot.Modules.Permissions
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
                             NadekoBot.Config.UserBlacklist.Remove(ch.Id);
-                            ConfigHandler.SaveConfig();
+                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
                     });
@@ -767,7 +767,7 @@ namespace NadekoBot.Modules.Permissions
                             }
                             var serverId = server.Id;
                             NadekoBot.Config.ServerBlacklist.Add(serverId);
-                            ConfigHandler.SaveConfig();
+                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             //cleanup trivias and typeracing
                             Modules.Games.Commands.Trivia.TriviaGame trivia;
                             TriviaCommands.RunningTrivias.TryRemove(serverId, out trivia);

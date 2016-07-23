@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Classes
 {
@@ -27,9 +29,12 @@ namespace NadekoBot.Classes
                 {
                     configs = JsonConvert
                         .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
-                            File.ReadAllText(filePath), new JsonSerializerSettings() {
-                                Error = (s,e) => {
-                                    if (e.ErrorContext.Member.ToString() == "GenerateCurrencyChannels") {
+                            File.ReadAllText(filePath), new JsonSerializerSettings()
+                            {
+                                Error = (s, e) =>
+                                {
+                                    if (e.ErrorContext.Member.ToString() == "GenerateCurrencyChannels")
+                                    {
                                         e.ErrorContext.Handled = true;
                                     }
                                 }
@@ -52,13 +57,18 @@ namespace NadekoBot.Classes
         public ServerSpecificConfig Of(ulong id) =>
             configs.GetOrAdd(id, _ => new ServerSpecificConfig());
 
-        private readonly object saveLock = new object();
+        private readonly SemaphoreSlim saveLock = new SemaphoreSlim(1, 1);
 
-        public void Save()
+        public async Task Save()
         {
-            lock (saveLock)
+            await saveLock.WaitAsync();
+            try
             {
                 File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented));
+            }
+            finally
+            {
+                saveLock.Release();
             }
         }
     }
@@ -245,7 +255,7 @@ namespace NadekoBot.Classes
             LogserverIgnoreChannels = new ObservableCollection<ulong>();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
+        public event PropertyChangedEventHandler PropertyChanged = async delegate { await SpecificConfigurations.Default.Save().ConfigureAwait(false); };
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

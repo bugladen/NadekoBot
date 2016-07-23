@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 {
     internal class TriviaGame
     {
-        private readonly object _guessLock = new object();
+        private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1,1);
 
         private Server server { get; }
         private Channel channel { get; }
@@ -113,7 +113,8 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
 
                 var guess = false;
-                lock (_guessLock)
+                await _guessLock.WaitAsync().ConfigureAwait(false);
+                try
                 {
                     if (GameActive && CurrentQuestion.IsAnswerCorrect(e.Message.Text) && !triviaCancelSource.IsCancellationRequested)
                     {
@@ -122,6 +123,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                         guess = true;
                     }
                 }
+                catch { _guessLock.Release(); }
                 if (!guess) return;
                 triviaCancelSource.Cancel();
                 await channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
