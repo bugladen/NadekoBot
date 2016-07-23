@@ -362,5 +362,7 @@ namespace NadekoBot.Extensions
             return sw.BaseStream;
         }
 
+        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+
     }
 }
