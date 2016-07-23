@@ -1,8 +1,10 @@
 {
   "DontJoinServers": false,
   "ForwardMessages": true,
+  "ForwardToAllOwners": false,
   "IsRotatingStatus": false,
   "BufferSize": 4194304,
+  "Quotes": [],
   "RemindMessageFormat": "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗",
   "CustomReactions": {
     "\\o\\": [
@@ -81,7 +83,7 @@
     "Conversations": "<@{0}>",
     "ClashOfClans": ",",
     "Help": "-",
-    "Music": "!m",
+    "Music": "!!",
     "Trello": "trello ",
     "Games": ">",
     "Gambling": "$",

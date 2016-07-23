@@ -42,12 +42,12 @@ namespace NadekoBot.Modules.Searches.Commands
                 });
 
             cgb.CreateCommand(Prefix + "pokemonability")
-                .Alias(Prefix + "pokab")
+                .Alias(Prefix + "pokeab")
                 .Description("Searches for a pokemon ability.")
                 .Parameter("abil", ParameterType.Unparsed)
                 .Do(async e =>
                 {
-                    var ab = e.GetArg("abil")?.Trim().ToUpperInvariant();
+                    var ab = e.GetArg("abil")?.Trim().ToUpperInvariant().Replace(" ", "");
                     if (string.IsNullOrWhiteSpace(ab))
                         return;
                     foreach (var kvp in pokemonAbilities)

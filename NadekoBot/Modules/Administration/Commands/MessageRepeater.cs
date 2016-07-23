@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
-                             "repeat is disabled. Requires manage messages.\n**Usage**:`.repeat 5 Hello there`")
+                             "repeat is disabled. Requires manage messages. |`.repeat 5 Hello there`")
                 .Parameter("minutes", ParameterType.Optional)
                 .Parameter("msg", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageMessages())

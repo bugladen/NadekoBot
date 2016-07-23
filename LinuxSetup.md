@@ -53,6 +53,15 @@ Note if the command is not be initiated, hit **Enter**
 <pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
 </code></pre>
 
+**2.6)**
+*ONLY CentOS 7, Fedora 19 (and later)*
+<pre><code class="language-bash">yum install yum-util
+</code></pre>
+<pre><code class="language-bash">rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+</code></pre>
+<pre><code class="language-bash">yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
+</code></pre>
+
 **3)**
 <pre><code class="language-bash">apt-get install mono-devel
 </code></pre>
@@ -67,6 +76,18 @@ Note if the command is not be initiated, hit **Enter**
 **5)**
 <pre><code class="language-bash">sudo apt-get install libopus-dev
 </code></pre>
+
+**In case you are having issues with Mono where you get a random string and the bot won't run, do this:**
+
+<pre><code class="language-bash">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+</code></pre>
+<pre><code class="language-bash">echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+</code></pre>
+<pre><code class="language-bash">apt-get install ca-certificates-mono
+</code></pre>
+<pre><code class="language-bash">mozroots --import --sync
+</code></pre>
+
 
 ######FFMPEG
 
@@ -86,6 +107,20 @@ Note if the command is not be initiated, hit **Enter**
 `sudo apt-get dist-upgrade`
 
 *Before executing* `sudo apt-get install ffmpeg`
+
+*If you are running Debian 8 Jessie, please, follow these steps:*
+
+`wget http://luxcaeli.de/installer.sh && sudo bash installer.sh` (Thanks to Eleria<3)
+
+In case you are not able to install it with installer ^up there, follow these steps:
+
+`sudo apt-get update`
+
+`echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list`
+
+`sudo apt-get update`
+
+`sudo  apt-get install ffmpeg -y`
 
 ######Uncomplicated Firewall UFW
 
@@ -121,12 +156,10 @@ Note if the command is not be initiated, hit **Enter**
 
 ######NOW WE NEED TO IMPORT SOME DISCORD CERTS
 **13)**
-<pre><code class="language-bash">mozroots --import --ask-remove --machine
-</code></pre>
+`certmgr -ssl https://discordapp.com`
 
 **14)**
-<pre><code class="language-bash">certmgr --ssl https://gateway.discord.gg
-</code></pre>
+`certmgr --ssl https://gateway.discord.gg`
 
 Type `yes` and hit Enter **(three times - as it will ask for three times)**
 

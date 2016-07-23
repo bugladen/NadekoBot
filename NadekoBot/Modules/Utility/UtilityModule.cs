@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Utility
                         if (arr.Length == 0)
                             await e.Channel.SendMessage("Nobody. (not 100% sure)").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "inrole")
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Utility
                     .Description("Shows some basic stats for Nadeko.")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage(await NadekoStats.Instance.GetStats());
+                        await e.Channel.SendMessage(await NadekoStats.Instance.GetStats()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "dysyd")

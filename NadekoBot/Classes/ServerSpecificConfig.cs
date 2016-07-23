@@ -27,7 +27,13 @@ namespace NadekoBot.Classes
                 {
                     configs = JsonConvert
                         .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
-                            File.ReadAllText(filePath));
+                            File.ReadAllText(filePath), new JsonSerializerSettings() {
+                                Error = (s,e) => {
+                                    if (e.ErrorContext.Member.ToString() == "GenerateCurrencyChannels") {
+                                        e.ErrorContext.Handled = true;
+                                    }
+                                }
+                            });
                 }
                 catch (Exception ex)
                 {
@@ -94,6 +100,21 @@ namespace NadekoBot.Classes
             }
         }
 
+        [JsonIgnore]
+        private ObservableCollection<ulong> logserverIgnoreChannels;
+        public ObservableCollection<ulong> LogserverIgnoreChannels {
+            get { return logserverIgnoreChannels; }
+            set {
+                logserverIgnoreChannels = value;
+                if (value != null)
+                    logserverIgnoreChannels.CollectionChanged += (s, e) =>
+                    {
+                        if (!SpecificConfigurations.Instantiated) return;
+                        OnPropertyChanged();
+                    };
+            }
+        }
+
         [JsonProperty("LogPresenceChannel")]
         private ulong? logPresenceChannel = null;
         [JsonIgnore]
@@ -136,6 +157,8 @@ namespace NadekoBot.Classes
             }
         }
 
+
+
         [JsonIgnore]
         private ulong autoAssignedRole = 0;
         public ulong AutoAssignedRole {
@@ -148,8 +171,8 @@ namespace NadekoBot.Classes
         }
 
         [JsonIgnore]
-        private ObservableCollection<ulong> generateCurrencyChannels;
-        public ObservableCollection<ulong> GenerateCurrencyChannels {
+        private ObservableConcurrentDictionary<ulong, int> generateCurrencyChannels;
+        public ObservableConcurrentDictionary<ulong, int> GenerateCurrencyChannels {
             get { return generateCurrencyChannels; }
             set {
                 generateCurrencyChannels = value;
@@ -168,6 +191,19 @@ namespace NadekoBot.Classes
             get { return autoDeleteMessagesOnCommand; }
             set {
                 autoDeleteMessagesOnCommand = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        private bool exclusiveSelfAssignedRoles = false;
+        public bool ExclusiveSelfAssignedRoles
+        {
+            get { return exclusiveSelfAssignedRoles; }
+            set
+            {
+                exclusiveSelfAssignedRoles = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
@@ -204,8 +240,9 @@ namespace NadekoBot.Classes
         {
             ListOfSelfAssignableRoles = new ObservableCollection<ulong>();
             ObservingStreams = new ObservableCollection<StreamNotificationConfig>();
-            GenerateCurrencyChannels = new ObservableCollection<ulong>();
+            GenerateCurrencyChannels = new ObservableConcurrentDictionary<ulong, int>();
             VoiceChannelLog = new ObservableConcurrentDictionary<ulong, ulong>();
+            LogserverIgnoreChannels = new ObservableCollection<ulong>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { SpecificConfigurations.Default.Save(); };
@@ -239,7 +276,7 @@ namespace NadekoBot.Classes
 
         public override int GetHashCode()
         {
-            return (int)((int)ServerId + Username.Length + (int)Type);
+            return (int)ServerId + Username.Length + (int)Type;
         }
     }
 }

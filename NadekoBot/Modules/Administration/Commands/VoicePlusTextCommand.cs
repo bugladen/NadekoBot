@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Administration.Commands
                                                    sendMessages: PermValue.Deny)).ConfigureAwait(false);
                     }
                     var afterVch = e.After.VoiceChannel;
-                    if (afterVch != null)
+                    if (afterVch != null && e.Server.AFKChannel != afterVch)
                     {
                         var textChannel = e.Server.FindChannels(
                                                     GetChannelName(afterVch.Name),

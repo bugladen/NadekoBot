@@ -5,6 +5,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Classes.Help.Commands
@@ -24,8 +25,13 @@ namespace NadekoBot.Classes.Help.Commands
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
                                         c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
+
+                var str = "";
+                var alias = com.Aliases.FirstOrDefault();
+                if (alias != null)
+                    str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($"`Help for '{com.Text}':` {com.Description}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -43,7 +49,7 @@ namespace NadekoBot.Classes.Help.Commands
         {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
+######You can donate on paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";
@@ -62,7 +68,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 helpstr += PrintCommandHelp(com);
             }
             helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
-            helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
+            helpstr = helpstr.Replace(" |", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
             File.WriteAllText("../../../commandlist.md", helpstr);
 #else
@@ -74,7 +80,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")

@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Games
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "choose")
-                  .Description("Chooses a thing from a list of things\n**Usage**: >choose Get up;Sleep;Sleep more")
+                  .Description("Chooses a thing from a list of things | >choose Get up;Sleep;Sleep more")
                   .Parameter("list", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Games
                     });
 
                 cgb.CreateCommand(Prefix + "rps")
-                    .Description("Play a game of rocket paperclip scissors with Nadeko.\n**Usage**: >rps scissors")
+                    .Description("Play a game of rocket paperclip scissors with Nadeko. | >rps scissors")
                     .Parameter("input", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games
                     });
 
                 cgb.CreateCommand(Prefix + "linux")
-                    .Description($"Prints a customizable Linux interjection\n**Usage**: `{Prefix}linux Spyware Windows`")
+                    .Description($"Prints a customizable Linux interjection | `{Prefix}linux Spyware Windows`")
                     .Parameter("gnu", ParameterType.Required)
                     .Parameter("linux", ParameterType.Required)
                     .Do(async e =>

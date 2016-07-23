@@ -9,13 +9,14 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Conversations
 {
     internal class Conversations : DiscordModule
     {
-        private const string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
+        private const string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
         public Conversations()
         {
             commands.Add(new RipCommand(this));
@@ -32,7 +33,7 @@ namespace NadekoBot.Modules.Conversations
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand("..")
-                    .Description("Adds a new quote with the specified name (single word) and message (no limit).\n**Usage**: .. abc My message")
+                    .Description("Adds a new quote with the specified name (single word) and message (no limit). | .. abc My message")
                     .Parameter("keyword", ParameterType.Required)
                     .Parameter("text", ParameterType.Unparsed)
                     .Do(async e =>
@@ -53,7 +54,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("...")
-                    .Description("Shows a random quote with a specified name.\n**Usage**: .. abc")
+                    .Description("Shows a random quote with a specified name. | .. abc")
                     .Parameter("keyword", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -73,7 +74,7 @@ namespace NadekoBot.Modules.Conversations
 
                 cgb.CreateCommand("..qdel")
                     .Alias("..quotedelete")
-                    .Description("Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.\n**Usage**: `..qdel abc`")
+                    .Description("Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it. | `..qdel abc`")
                     .Parameter("quote", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -99,15 +100,6 @@ namespace NadekoBot.Modules.Conversations
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
-
-                cgb.CreateCommand("uptime")
-                    .Description("Shows how long Nadeko has been running for.")
-                    .Do(async e =>
-                    {
-                        var time = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-                        var str = string.Format("I have been running for {0} days, {1} hours, and {2} minutes.", time.Days, time.Hours, time.Minutes);
-                        await e.Channel.SendMessage(str).ConfigureAwait(false);
-                    });
 
                 cgb.CreateCommand("die")
                     .Description("Works only for the owner. Shuts the bot down.")
@@ -158,58 +150,27 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("fire")
-                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.\n**Usage**: @NadekoBot fire [x]")
+                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | @NadekoBot fire [x]")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
                     {
-                        var count = 1;
-                        int.TryParse(e.Args[0], out count);
-                        if (count == 0)
+                        int count;
+                        if (string.IsNullOrWhiteSpace(e.Args[0]))
                             count = 1;
+                        else
+                            int.TryParse(e.Args[0], out count);
                         if (count < 1 || count > 12)
                         {
-                            await e.Channel.SendMessage("Number must be between 0 and 12").ConfigureAwait(false);
+                            await e.Channel.SendMessage("Number must be between 1 and 12").ConfigureAwait(false);
                             return;
                         }
 
-                        var str = "";
+                        var str = new StringBuilder();
                         for (var i = 0; i < count; i++)
                         {
-                            str += firestr;
+                            str.Append(firestr);
                         }
-                        await e.Channel.SendMessage(str).ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand("slm")
-                    .Description("Shows the message where you were last mentioned in this channel (checks last 10k messages)")
-                    .Do(async e =>
-                    {
-
-                        Message msg = null;
-                        var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false))
-                        .Where(m => m.MentionedUsers.Contains(e.User))
-                        .OrderByDescending(m => m.Timestamp);
-                        if (msgs.Any())
-                            msg = msgs.First();
-                        else
-                        {
-                            var attempt = 0;
-                            Message lastMessage = null;
-                            while (msg == null && attempt++ < 5)
-                            {
-                                var msgsarr = await e.Channel.DownloadMessages(100, lastMessage?.Id).ConfigureAwait(false);
-                                msg = msgsarr
-                            .Where(m => m.MentionedUsers.Contains(e.User))
-                            .OrderByDescending(m => m.Timestamp)
-                            .FirstOrDefault();
-                                lastMessage = msgsarr.OrderBy(m => m.Timestamp).First();
-                            }
-                        }
-                        if (msg != null)
-                            await e.Channel.SendMessage($"Last message mentioning you was at {msg.Timestamp}\n**Message from {msg.User.Name}:** {msg.RawText}")
-                                .ConfigureAwait(false);
-                        else
-                            await e.Channel.SendMessage("I can't find a message mentioning you.").ConfigureAwait(false);
+                        await e.Channel.SendMessage(str.ToString()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand("dump")

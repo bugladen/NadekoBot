@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                 .Alias(Module.Prefix + "cfi")
                 .Description("Enables or disables automatic deleting of invites on the channel." +
                              "If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once." +
-                             "\n**Usage**: ;cfi enable #general-chat")
+                             " | ;cfi enable #general-chat")
                 .Parameter("bool")
                 .Parameter("channel", ParameterType.Optional)
                 .Do(async e =>
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Permissions.Commands
 
             cgb.CreateCommand(Module.Prefix + "srvrfilterinv")
                 .Alias(Module.Prefix + "sfi")
-                .Description("Enables or disables automatic deleting of invites on the server.\n**Usage**: ;sfi disable")
+                .Description("Enables or disables automatic deleting of invites on the server. | ;sfi disable")
                 .Parameter("bool")
                 .Do(async e =>
                 {

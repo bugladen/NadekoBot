@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Conversations.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand("rip")
-                    .Description("Shows a grave image of someone with a start year\n**Usage**: @NadekoBot rip @Someone 2000")
+                    .Description("Shows a grave image of someone with a start year | @NadekoBot rip @Someone 2000")
                     .Parameter("user", ParameterType.Required)
                     .Parameter("year", ParameterType.Optional)
                     .Do(async e =>

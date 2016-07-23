@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "leave")
-                .Description("Makes Nadeko leave the server. Either name or id required.\n**Usage**: `.leave 123123123331`")
+                .Description("Makes Nadeko leave the server. Either name or id required. | `.leave 123123123331`")
                 .Parameter("arg", ParameterType.Required)
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
