@@ -144,6 +144,18 @@ namespace NadekoBot.Modules.Utility
                         }
                         await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles)).ConfigureAwait(false);
                     });
+
+
+                cgb.CreateCommand(Prefix + "channeltopic")
+                    .Alias(Prefix + "ct")
+                    .Description($"Sends current channel's topic as a message. | `{Prefix}ct`")
+                    .Do(async e =>
+                    {
+                        var topic = e.Channel.Topic;
+                        if (string.IsNullOrWhiteSpace(topic))
+                            return;
+                        await e.Channel.SendMessage(topic).ConfigureAwait(false);
+                    });
             });
         }
     }
