@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                 byte[] buffer = new byte[blockSize];
-                var read = songBuffer.Read(buffer, blockSize);
+                var read = await songBuffer.ReadAsync(buffer, blockSize).ConfigureAwait(false);
                 unchecked
                 {
                     bytesSent += (ulong)read;

@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Music.Classes
 
         private readonly List<Song> playlist = new List<Song>();
         public IReadOnlyCollection<Song> Playlist => playlist;
-        private readonly object playlistLock = new object();
 
         public Song CurrentSong { get; private set; }
         private CancellationTokenSource SongCancelSource { get; set; }
@@ -136,8 +135,8 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
-                            await Task.Delay(300).ConfigureAwait(false);
                             CurrentSong = null;
+                            await Task.Delay(300).ConfigureAwait(false);
                         }
                     }
                 }

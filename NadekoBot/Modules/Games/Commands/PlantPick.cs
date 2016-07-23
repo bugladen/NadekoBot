@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands
@@ -59,7 +60,7 @@ namespace NadekoBot.Modules.Games.Commands
         //channelid/messageid pair
         ConcurrentDictionary<ulong, IEnumerable<Message>> plantedFlowerChannels = new ConcurrentDictionary<ulong, IEnumerable<Message>>();
 
-        private object locker = new object();
+        private SemaphoreSlim locker = new SemaphoreSlim(1,1);
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -84,33 +85,34 @@ namespace NadekoBot.Modules.Games.Commands
 
             cgb.CreateCommand(Module.Prefix + "plant")
                 .Description("Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)")
-                .Do(e =>
+                .Do(async e =>
                 {
-                    lock (locker)
+                    await locker.WaitAsync().ConfigureAwait(false);
+                    try
                     {
                         if (plantedFlowerChannels.ContainsKey(e.Channel.Id))
                         {
-                            e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.");
+                            await e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.").ConfigureAwait(false);
                             return;
                         }
-                        var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1, true).GetAwaiter().GetResult();
+                        var removed = await FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1, true).ConfigureAwait(false);
                         if (!removed)
                         {
-                            e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").Wait();
+                            await e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").ConfigureAwait(false);
                             return;
                         }
 
                         var file = GetRandomCurrencyImagePath();
                         Message msg;
-                        //todo send message after, not in lock
                         if (file == null)
-                            msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
+                            msg = await e.Channel.SendMessage(NadekoBot.Config.CurrencySign).ConfigureAwait(false);
                         else
-                            msg = e.Channel.SendFile(file).GetAwaiter().GetResult();
+                            msg = await e.Channel.SendFile(file).ConfigureAwait(false);
                         var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                        var msg2 = e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").GetAwaiter().GetResult();
+                        var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
                         plantedFlowerChannels.TryAdd(e.Channel.Id, new[] { msg, msg2 });
                     }
+                    finally { locker.Release();  }
                 });
 
             cgb.CreateCommand(Prefix + "gencurrency")
@@ -130,12 +132,12 @@ namespace NadekoBot.Modules.Games.Commands
                     int throwaway;
                     if (config.GenerateCurrencyChannels.TryRemove(e.Channel.Id, out throwaway))
                     {
-                        await e.Channel.SendMessage("`Currency generation disabled on this channel.`");
+                        await e.Channel.SendMessage("`Currency generation disabled on this channel.`").ConfigureAwait(false);
                     }
                     else
                     {
                         if (config.GenerateCurrencyChannels.TryAdd(e.Channel.Id, cd))
-                            await e.Channel.SendMessage($"`Currency generation enabled on this channel. Cooldown is {cd} minutes.`");
+                            await e.Channel.SendMessage($"`Currency generation enabled on this channel. Cooldown is {cd} minutes.`").ConfigureAwait(false);
                     }
                 });
         }

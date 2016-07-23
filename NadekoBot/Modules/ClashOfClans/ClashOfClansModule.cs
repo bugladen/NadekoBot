@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Permissions.Classes;
+using System.Threading;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -15,8 +16,6 @@ namespace NadekoBot.Modules.ClashOfClans
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.ClashOfClans;
 
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
-
-        private readonly object writeLock = new object();
 
         public override void Install(ModuleManager manager)
         {

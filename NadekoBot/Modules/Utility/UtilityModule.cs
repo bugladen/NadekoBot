@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Utility
                         if (arr.Length == 0)
                             await e.Channel.SendMessage("Nobody. (not 100% sure)").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Join("", ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "inrole")
@@ -143,6 +143,18 @@ namespace NadekoBot.Modules.Utility
                             return;
                         }
                         await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles)).ConfigureAwait(false);
+                    });
+
+
+                cgb.CreateCommand(Prefix + "channeltopic")
+                    .Alias(Prefix + "ct")
+                    .Description($"Sends current channel's topic as a message. | `{Prefix}ct`")
+                    .Do(async e =>
+                    {
+                        var topic = e.Channel.Topic;
+                        if (string.IsNullOrWhiteSpace(topic))
+                            return;
+                        await e.Channel.SendMessage(topic).ConfigureAwait(false);
                     });
             });
         }

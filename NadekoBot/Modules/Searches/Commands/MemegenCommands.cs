@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Searches.Commands
                                 string.Join("\n", JsonConvert.DeserializeObject<Dictionary<string, string>>(await SearchHelper.GetResponseStringAsync("http://memegen.link/templates/"))
                                       .Select(kvp => Path.GetFileName(kvp.Value))
                                       .GroupBy(item => (i++) / 4)
-                                      .Select(ig => string.Join("", ig.Select(el => $"{el,-17}"))))
+                                      .Select(ig => string.Concat(ig.Select(el => $"{el,-17}"))))
                                       + $"\n```").ConfigureAwait(false);
                 });
 

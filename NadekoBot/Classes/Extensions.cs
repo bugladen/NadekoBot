@@ -46,10 +46,10 @@ namespace NadekoBot.Extensions
             if (num == 0)
                 return string.Empty;
             if (num <= 3)
-                return string.Join("", str.Select(c => '.'));
+                return string.Concat(str.Select(c => '.'));
             if (str.Length < num)
                 return str;
-            return string.Join("", str.Take(num - 3)) + (hideDots ? "" : "...");
+            return string.Concat(str.Take(num - 3)) + (hideDots ? "" : "...");
         }
         /// <summary>
         /// Removes trailing S or ES (if specified) on the given string if the num is 1
@@ -237,7 +237,7 @@ namespace NadekoBot.Extensions
 
         public static string Matrix(this string s)
             =>
-                string.Join("", s.Select(c => c.ToString() + " ̵̢̬̜͉̞̭̖̰͋̉̎ͬ̔̇̌̀".TrimTo(rng.Next(0, 12), true)));
+                string.Concat(s.Select(c => c.ToString() + " ̵̢̬̜͉̞̭̖̰͋̉̎ͬ̔̇̌̀".TrimTo(rng.Next(0, 12), true)));
         //.Replace("`", "");
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
