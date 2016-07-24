@@ -3,6 +3,7 @@ using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -31,9 +32,7 @@ namespace NadekoBot.Modules.Music.Classes
         public SongInfo SongInfo { get; }
         public string QueuerName { get; set; }
 
-        private PoopyBuffer songBuffer { get; set; }
-
-        private bool prebufferingComplete { get; set; } = false;
+        private bool bufferingCompleted { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
 
         public string PrettyCurrentTime()
@@ -74,7 +73,7 @@ namespace NadekoBot.Modules.Music.Classes
             return this;
         }
 
-        private Task BufferSong(CancellationToken cancelToken) =>
+        private Task BufferSong(string filename, CancellationToken cancelToken) =>
             Task.Factory.StartNew(async () =>
             {
                 Process p = null;
@@ -89,40 +88,38 @@ namespace NadekoBot.Modules.Music.Classes
                         RedirectStandardError = false,
                         CreateNoWindow = true,
                     });
-                    const int blockSize = 3840;
-                    var buffer = new byte[blockSize];
-                    var attempt = 0;
-                    while (!cancelToken.IsCancellationRequested)
+                    var prebufferSize = 100ul.MiB();
+                    using (var outStream = new FileStream(filename, FileMode.Append, FileAccess.Write, FileShare.Read))
                     {
-                        var read = 0;
-                        try
+                        byte[] buffer = new byte[81920];
+                        int bytesRead;
+                        while ((bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) != 0)
                         {
-                            read = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, blockSize, cancelToken)
-                                          .ConfigureAwait(false);
+                            await outStream.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
+                            while ((ulong)outStream.Length - bytesSent > prebufferSize)
+                                await Task.Delay(100, cancelToken);
                         }
-                        catch
-                        {
-                            return;
-                        }
-                        if (read == 0)
-                            if (attempt++ == 50)
-                                break;
-                            else
-                                await Task.Delay(100, cancelToken).ConfigureAwait(false);
-                        else
-                            attempt = 0;
-                        await songBuffer.WriteAsync(buffer, read, cancelToken).ConfigureAwait(false);
-                        if (songBuffer.ContentLength > 2.MB())
-                            prebufferingComplete = true;
                     }
+                        
+                    bufferingCompleted = true;
+                }
+                catch (System.ComponentModel.Win32Exception) {
+                    var oldclr = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
+Please install and configure FFMPEG to play music. 
+Check the guides for your platform on how to setup ffmpeg correctly:
+    Windows Guide: https://goo.gl/SCv72y
+    Linux Guide:  https://goo.gl/rRhjCp");
+                    Console.ForegroundColor = oldclr;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Buffering errored: {ex.Message}");
+                    Console.WriteLine($"Buffering stopped: {ex.Message}");
                 }
                 finally
                 {
-                    Console.WriteLine($"Buffering done." + $" [{songBuffer.ContentLength}]");
+                    Console.WriteLine($"Buffering done.");
                     if (p != null)
                     {
                         try
@@ -137,53 +134,82 @@ namespace NadekoBot.Modules.Music.Classes
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
-            // initialize the buffer here because if this song was playing before (requeued), we must delete old buffer data
-            songBuffer = new PoopyBuffer(NadekoBot.Config.BufferSize); 
+            var filename = Path.Combine(MusicModule.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            var bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
-            var bufferAttempts = 0;
-            const int waitPerAttempt = 500;
-            var toAttemptTimes = SongInfo.ProviderType != MusicType.Normal ? 5 : 9;
-            while (!prebufferingComplete && bufferAttempts++ < toAttemptTimes)
+            var bufferTask = BufferSong(filename, cancelToken).ConfigureAwait(false);
+
+            var inStream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
+
+            bytesSent = 0;
+
+            try
             {
-                await Task.Delay(waitPerAttempt, cancelToken).ConfigureAwait(false);
-            }
-            Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
-            const int blockSize = 3840;
-            var attempt = 0;
-            while (!cancelToken.IsCancellationRequested)
-            {
-                //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
-                byte[] buffer = new byte[blockSize];
-                var read = await songBuffer.ReadAsync(buffer, blockSize).ConfigureAwait(false);
-                unchecked
+                var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken);
+                var sw = new Stopwatch();
+                sw.Start();
+                var t = await Task.WhenAny(prebufferingTask, Task.Delay(5000, cancelToken));
+                if (t != prebufferingTask)
                 {
-                    bytesSent += (ulong)read;
+                    Console.WriteLine("Prebuffering timed out or canceled. Cannot get any data from the stream.");
+                    return;
                 }
-                if (read == 0)
-                    if (attempt++ == 20)
-                    {
-                        voiceClient.Wait();
-                        Console.WriteLine($"Song finished. [{songBuffer.ContentLength}]");
-                        break;
-                    }
-                    else
-                        await Task.Delay(100, cancelToken).ConfigureAwait(false);
-                else
-                    attempt = 0;
+                else if(prebufferingTask.IsCanceled)
+                {
+                    Console.WriteLine("Prebuffering timed out. Cannot get any data from the stream.");
+                    return;
+                }
+                sw.Stop();
+                Console.WriteLine("Prebuffering successfully completed in "+ sw.Elapsed);
 
-                while (this.MusicPlayer.Paused)
-                    await Task.Delay(200, cancelToken).ConfigureAwait(false);
-                buffer = AdjustVolume(buffer, MusicPlayer.Volume);
-                voiceClient.Send(buffer, 0, read);
+                const int blockSize = 3840;
+                var attempt = 0;
+                byte[] buffer = new byte[blockSize];
+                while (!cancelToken.IsCancellationRequested)
+                {
+                    //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
+                    var read = inStream.Read(buffer, 0, buffer.Length);
+                    //await inStream.CopyToAsync(voiceClient.OutputStream);
+                    unchecked
+                    {
+                        bytesSent += (ulong)read;
+                    }
+                    if (read == 0)
+                        if (attempt++ == 20)
+                        {
+                            voiceClient.Wait();
+                            break;
+                        }
+                        else
+                            await Task.Delay(100, cancelToken).ConfigureAwait(false);
+                    else
+                        attempt = 0;
+
+                    while (this.MusicPlayer.Paused)
+                        await Task.Delay(200, cancelToken).ConfigureAwait(false);
+
+                    buffer = AdjustVolume(buffer, MusicPlayer.Volume);
+                    voiceClient.Send(buffer, 0, read);
+                }
             }
-            Console.WriteLine("Awiting buffer task");
-            await bufferTask;
-            Console.WriteLine("Buffer task done.");
-            voiceClient.Clear();
-            cancelToken.ThrowIfCancellationRequested();
+            finally
+            {
+                await bufferTask;
+                await Task.Run(() => voiceClient.Clear());
+                inStream.Dispose();
+                try { File.Delete(filename); } catch { }
+            }
         }
 
+        private async Task CheckPrebufferingAsync(Stream inStream, CancellationToken cancelToken)
+        {
+            while (!bufferingCompleted && inStream.Length < 2.MiB())
+            {
+                await Task.Delay(100, cancelToken);
+            }
+            Console.WriteLine("Buffering successfull");
+        }
+
+        /*
         //stackoverflow ftw
         private static byte[] AdjustVolume(byte[] audioSamples, float volume)
         {
@@ -209,6 +235,33 @@ namespace NadekoBot.Modules.Music.Classes
 
             }
             return array;
+        }
+        */
+
+        //aidiakapi ftw
+        public unsafe static byte[] AdjustVolume(byte[] audioSamples, float volume)
+        {
+            Contract.Requires(audioSamples != null);
+            Contract.Requires(audioSamples.Length % 2 == 0);
+            Contract.Requires(volume >= 0f && volume <= 1f);
+            Contract.Assert(BitConverter.IsLittleEndian);
+
+            if (Math.Abs(volume - 1f) < 0.0001f) return audioSamples;
+
+            // 16-bit precision for the multiplication
+            int volumeFixed = (int)Math.Round(volume * 65536d);
+
+            int count = audioSamples.Length / 2;
+
+            fixed (byte* srcBytes = audioSamples)
+            {
+                short* src = (short*)srcBytes;
+
+                for (int i = count; i != 0; i--, src++)
+                    *src = (short)(((*src) * volumeFixed) >> 16);
+            }
+
+            return audioSamples;
         }
 
         public static async Task<Song> ResolveSong(string query, MusicType musicType = MusicType.Normal)

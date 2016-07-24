@@ -18,11 +18,16 @@ namespace NadekoBot.Modules.Music
 {
     internal class MusicModule : DiscordModule
     {
-
         public static ConcurrentDictionary<Server, MusicPlayer> MusicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
+
+        public const string MusicDataPath = "data/musicdata";
 
         public MusicModule()
         {
+            //it can fail if its currenctly opened or doesn't exist. Either way i don't care
+            try { Directory.Delete(MusicDataPath, true); } catch { }
+
+            Directory.CreateDirectory(MusicDataPath);
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Music;
