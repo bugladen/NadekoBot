@@ -636,7 +636,8 @@ namespace NadekoBot.Modules.Administration
                         Message[] msgs;
                         if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
+                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false));//.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
+                            msgs = msgs.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
                             if (!msgs.Any())
                                 return;
                             await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
