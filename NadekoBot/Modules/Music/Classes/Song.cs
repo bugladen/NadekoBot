@@ -94,6 +94,16 @@ namespace NadekoBot.Modules.Music.Classes
                         await p.StandardOutput.BaseStream.CopyToAsync(outStream, 81920, cancelToken);
                     prebufferingComplete = true;
                 }
+                catch (System.ComponentModel.Win32Exception) {
+                    var oldclr = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
+Please install and configure FFMPEG to play music. 
+Check the guides for your platform on how to setup ffmpeg correctly:
+    Windows Guide: https://goo.gl/SCv72y
+    Linux Guide:  https://goo.gl/rRhjCp");
+                    Console.ForegroundColor = oldclr;
+                }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Buffering errored: {ex.Message}");
