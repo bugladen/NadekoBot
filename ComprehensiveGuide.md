@@ -37,7 +37,7 @@ ________________________________________________________________________________
 1) Google Account  
 2) Soundcloud Account (if you want soundcloud support)
 
-3) Download installer here: http://luxcaeli.de/owncloud/s/fIxSgh4Nde3Td6e/download
+3) Download installer here: https://mega.nz/#!O1F3HZDa!EfHsy_89vy0zyQV_L28S3Gizsd0KD5EN1OyWpd55ep0
 
 4) Run the installer
 
