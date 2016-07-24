@@ -5,7 +5,7 @@
 
 ######Keep this helpful video handy [Linux Setup Video][Linux Setup Video] (thanks to klincheR) it contains how to set up the Digital Ocean droplet aswell.
 
-####Setting up NadekoBot local
+####Setting up NadekoBot
 Assuming you have followed the link above to created an account in Digital Ocean and video to set up the bot until you get the `IP address and root password (in email)` to login, its time to begin.
 
 #### Prerequisites
@@ -57,9 +57,9 @@ Note if the command is not being initiated, hit **Enter**
 
 **Type** `y` **hit Enter**
 
-####Opus Voice Codec
 
 **4)**
+Opus Voice Codec
 
 `sudo apt-get install libopus0 opus-tools`
 
@@ -127,13 +127,16 @@ In case you are not able to install it with installer ^up there, follow these st
 **10)**
 `sudo ufw allow ssh`
 
-#####Unzip
+
 
 **11)**
+Unzip
+
 `apt-get install unzip`
 
-####TMUX
 **12)**
+TMUX
+
 `apt-get install tmux`
 
 **Type** `y` **hit Enter**
