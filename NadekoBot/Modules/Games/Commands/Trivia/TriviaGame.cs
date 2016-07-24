@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                         guess = true;
                     }
                 }
-                catch { _guessLock.Release(); }
+                finally { _guessLock.Release(); }
                 if (!guess) return;
                 triviaCancelSource.Cancel();
                 await channel.SendMessage($"☑️ {e.User.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
