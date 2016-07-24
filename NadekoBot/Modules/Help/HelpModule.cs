@@ -46,14 +46,15 @@ namespace NadekoBot.Modules.Help
                         if (string.IsNullOrWhiteSpace(module))
                             return;
                         var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
-                                                    .Where(c => c.Category.ToLower() == module);
+                                                    .Where(c => c.Category.ToLower() == module)
+                                                    .OrderBy(c=>c.Text)
+                                                    .AsEnumerable();
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())
                         {
                             await e.Channel.SendMessage("That module does not exist.").ConfigureAwait(false);
                             return;
                         }
-                        var i = 0;
                         if (module != "customreactions" && module != "conversations")
                         {
                             await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,

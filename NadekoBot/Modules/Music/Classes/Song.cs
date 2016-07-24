@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Music.Classes
         public SongInfo SongInfo { get; }
         public string QueuerName { get; set; }
 
-        private PoopyBuffer songBuffer { get; } = new PoopyBuffer(NadekoBot.Config.BufferSize);
+        private PoopyBuffer songBuffer { get; set; }
 
         private bool prebufferingComplete { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
@@ -137,6 +137,9 @@ namespace NadekoBot.Modules.Music.Classes
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
+            // initialize the buffer here because if this song was playing before (requeued), we must delete old buffer data
+            songBuffer = new PoopyBuffer(NadekoBot.Config.BufferSize); 
+
             var bufferTask = BufferSong(cancelToken).ConfigureAwait(false);
             var bufferAttempts = 0;
             const int waitPerAttempt = 500;
@@ -145,7 +148,6 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 await Task.Delay(waitPerAttempt, cancelToken).ConfigureAwait(false);
             }
-            cancelToken.ThrowIfCancellationRequested();
             Console.WriteLine($"Prebuffering done? in {waitPerAttempt * bufferAttempts}");
             const int blockSize = 3840;
             var attempt = 0;

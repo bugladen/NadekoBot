@@ -384,7 +384,7 @@ namespace NadekoBot.Classes
         {
             var i = 0;
             return "```xl\n" + string.Join("\n", items.GroupBy(item => (i++) / cols)
-                                      .Select(ig => string.Join("", ig.Select(el => howToPrint(el)))))
+                                      .Select(ig => string.Concat(ig.Select(el => howToPrint(el)))))
                                       + $"\n```";
         }
     }

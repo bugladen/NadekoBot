@@ -175,7 +175,7 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
         public string Conversations { get; set; } = "<@{0}>";
         public string ClashOfClans { get; set; } = ",";
         public string Help { get; set; } = "-";
-        public string Music { get; set; } = "!m";
+        public string Music { get; set; } = "!!";
         public string Trello { get; set; } = "trello ";
         public string Games { get; set; } = ">";
         public string Gambling { get; set; } = "$";

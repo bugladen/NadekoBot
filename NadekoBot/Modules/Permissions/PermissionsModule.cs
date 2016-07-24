@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands;
@@ -775,6 +776,57 @@ namespace NadekoBot.Modules.Permissions
 
                             await e.Channel.SendMessage($"`Sucessfully blacklisted server {server.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "cmdcooldown")
+                    .Alias(Prefix+ "cmdcd")
+                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. | `{Prefix}cmdcd \"some cmd\" 5`")
+                    .Parameter("command", ParameterType.Required)
+                    .Parameter("secs",ParameterType.Required)
+                    .AddCheck(SimpleCheckers.ManageMessages())
+                    .Do(async e =>
+                    {
+                        try
+                        {
+                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
+                            var secsStr = e.GetArg("secs").Trim();
+                            int secs;
+                            if (!int.TryParse(secsStr, out secs) || secs < 0 || secs > 3600)
+                                throw new ArgumentOutOfRangeException("secs", "Invalid second parameter. (Must be a number between 0 and 3600)");
+
+
+                            PermissionsHandler.SetCommandCooldown(e.Server, command, secs);
+                            if(secs == 0)
+                                await e.Channel.SendMessage($"Command **{command}** has no coooldown now.").ConfigureAwait(false);
+                            else
+                                await e.Channel.SendMessage($"Command **{command}** now has a **{secs} {(secs==1 ? "second" : "seconds")}** cooldown.").ConfigureAwait(false);
+                        }
+                        catch (ArgumentException exArg)
+                        {
+                            await e.Channel.SendMessage(exArg.Message).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            await e.Channel.SendMessage("Something went terribly wrong - " + ex.Message).ConfigureAwait(false);
+                        }
+                    });
+
+                cgb.CreateCommand(Prefix + "allcmdcooldowns")
+                    .Alias(Prefix + "acmdcds")
+                    .Description("Shows a list of all commands and their respective cooldowns.")
+                    .Do(async e =>
+                    {
+                        ServerPermissions perms;
+                        PermissionsHandler.PermissionsDict.TryGetValue(e.Server.Id, out perms);
+                        if (perms == null)
+                            return;
+
+                        if (!perms.CommandCooldowns.Any())
+                        {
+                            await e.Channel.SendMessage("`No command cooldowns set.`").ConfigureAwait(false);
+                            return;
+                        }
+                        await e.Channel.SendMessage(SearchHelper.ShowInPrettyCode(perms.CommandCooldowns.Select(c=>c.Key+ ": "+c.Value+" secs"),s=>$"{s,-30}",2)).ConfigureAwait(false);
                     });
             });
         }

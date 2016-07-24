@@ -5,6 +5,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Classes.Help.Commands
@@ -24,8 +25,13 @@ namespace NadekoBot.Classes.Help.Commands
                 var com = NadekoBot.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
                                         c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
+
+                var str = "";
+                var alias = com.Aliases.FirstOrDefault();
+                if (alias != null)
+                    str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($"**__Help for `{com.Text}`__ / __`{("" + com.Aliases.FirstOrDefault() + "" ?? "")}`__**\n**Desc:** {com.Description.Replace("|", "\n**Usage:**")}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -43,7 +49,7 @@ namespace NadekoBot.Classes.Help.Commands
         {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
+######You can donate on paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";

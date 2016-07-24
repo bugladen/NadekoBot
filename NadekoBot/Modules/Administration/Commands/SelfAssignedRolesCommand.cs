@@ -1,6 +1,8 @@
 ﻿using Discord.Commands;
+using Discord.Net;
 using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,7 +76,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     var msg = new StringBuilder($"There are `{config.ListOfSelfAssignableRoles.Count}` self assignable roles:\n");
                     var toRemove = new HashSet<ulong>();
-                    foreach (var roleId in config.ListOfSelfAssignableRoles)
+                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r=>r.ToString()))
                     {
                         var role = e.Server.GetRole(roleId);
                         if (role == null)
@@ -92,6 +94,19 @@ namespace NadekoBot.Modules.Administration.Commands
                         config.ListOfSelfAssignableRoles.Remove(id);
                     }
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
+                });
+
+
+
+            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix +"tesar")
+                .Description("toggle whether the self-assigned roles should be exclusive")
+                .AddCheck(SimpleCheckers.CanManageRoles)
+                .Do(async e =>
+                {
+                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+                    config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+                    string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
+                    await e.Channel.SendMessage("Self assigned roles are now " + exl);
                 });
 
             cgb.CreateCommand(Module.Prefix + "iam")
@@ -121,11 +136,20 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
+                    var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
+                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
+                    {
+                        await e.Channel.SendMessage($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
+                        return;
+                    }
                     try
                     {
                         await e.User.AddRoles(role).ConfigureAwait(false);
                     }
-                    catch
+                    catch(HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                    }
+                    catch (Exception)
                     {
                         await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
                     }
