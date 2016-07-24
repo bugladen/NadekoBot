@@ -303,6 +303,15 @@ namespace NadekoBot.Extensions
         public static int GiB(this int value) => value.MiB() * 1024;
         public static int GB(this int value) => value.MB() * 1000;
 
+        public static ulong KiB(this ulong value) => value * 1024;
+        public static ulong KB(this ulong value) => value * 1000;
+
+        public static ulong MiB(this ulong value) => value.KiB() * 1024;
+        public static ulong MB(this ulong value) => value.KB() * 1000;
+
+        public static ulong GiB(this ulong value) => value.MiB() * 1024;
+        public static ulong GB(this ulong value) => value.MB() * 1000;
+
         public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null)
         {
             if (format == null)
