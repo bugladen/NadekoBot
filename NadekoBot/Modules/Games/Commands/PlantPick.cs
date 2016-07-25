@@ -79,8 +79,15 @@ namespace NadekoBot.Modules.Games.Commands
 
                     await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
                     var msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
-                    await Task.Delay(10000).ConfigureAwait(false);
-                    await msg.Delete().ConfigureAwait(false);
+                    ThreadPool.QueueUserWorkItem(async (state) =>
+                    {
+                        try
+                        {
+                            await Task.Delay(10000).ConfigureAwait(false);
+                            await msg.Delete().ConfigureAwait(false);
+                        }
+                        catch { }
+                    });
                 });
 
             cgb.CreateCommand(Module.Prefix + "plant")
