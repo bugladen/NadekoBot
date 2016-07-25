@@ -41,9 +41,9 @@ namespace NadekoBot
             var commandService = NadekoBot.Client.GetService<CommandService>();
 
             statsStopwatch.Start();
-#if !NADEKO_RELEASE
+
             commandService.CommandExecuted += StatsCollector_RanCommand;
-#endif
+
             Task.Run(StartCollecting);
 
             commandLogTimer.Start();
@@ -208,6 +208,7 @@ namespace NadekoBot
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
             Console.WriteLine($">> Cmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+#if !NADEKO_RELEASE
             await Task.Run(() =>
             {
                 try
@@ -231,6 +232,7 @@ namespace NadekoBot
                     Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
+#endif
         }
     }
 }
