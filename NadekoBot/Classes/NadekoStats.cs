@@ -41,8 +41,9 @@ namespace NadekoBot
             var commandService = NadekoBot.Client.GetService<CommandService>();
 
             statsStopwatch.Start();
+#if !NADEKO_RELEASE
             commandService.CommandExecuted += StatsCollector_RanCommand;
-
+#endif
             Task.Run(StartCollecting);
 
             commandLogTimer.Start();

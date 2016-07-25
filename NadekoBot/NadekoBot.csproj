@@ -56,6 +56,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PRIVATE|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -189,6 +190,7 @@
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Modules\Conversations\Commands\RipCommand.cs" />
     <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
+    <Compile Include="Modules\Gambling\Commands\AnimalRacing.cs" />
     <Compile Include="Modules\Music\Classes\PlaylistFullException.cs" />
     <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
     <Compile Include="Modules\Programming\ProgrammingModule.cs" />

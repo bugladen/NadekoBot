@@ -90,6 +90,17 @@ namespace NadekoBot.Classes.JSONModels
         public bool IsRotatingStatus { get; set; } = false;
         public int BufferSize { get; set; } = 4.MiB();
 
+        public string[] RaceAnimals { get; internal set; } = {
+                "🐼",
+                "🐻",
+                "🐧",
+                "🐨",
+                "🐬",
+                "🐞",
+                "🦀",
+                "🦄" };
+
+        [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
 
         [JsonIgnore]

@@ -138,7 +138,7 @@ namespace NadekoBot.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
-        public static void Shuffle<T>(this IList<T> list)
+        public static IList<T> Shuffle<T>(this IList<T> list)
         {
 
             // Thanks to @Joe4Evr for finding a bug in the old version of the shuffle
@@ -160,6 +160,7 @@ namespace NadekoBot.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
+            return list;
         }
 
         /// <summary>
