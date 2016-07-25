@@ -35,14 +35,30 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             cgb.CreateCommand(Prefix + "joinrace")
                 .Alias(Prefix + "jr")
-                .Description("Joins a new race")
+                .Description("Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5`")
+                .Parameter("amount", ParameterType.Optional)
                 .Do(async e => {
-                    AnimalRace ar;
 
+                    int amount;
+                    if (!int.TryParse(e.GetArg("amount"), out amount) || amount < 0)
+                        amount = 0;
+
+                    var userFlowers = GamblingModule.GetUserFlowers(e.User.Id);
+
+                    if (userFlowers < amount)
+                    {
+                        await e.Channel.SendMessage($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                        return;
+                    }
+
+                    if (amount > 0)
+                        await FlowersHandler.RemoveFlowers(e.User, "BetRace", (int)amount, true).ConfigureAwait(false);
+
+                    AnimalRace ar;
                     if (!AnimalRaces.TryGetValue(e.Server.Id, out ar)) {
                         await e.Channel.SendMessage("No race exists on this server");
                     }
-                    await ar.JoinRace(e.User);
+                    await ar.JoinRace(e.User, amount);
                     
                 });
         }
@@ -88,6 +104,9 @@ namespace NadekoBot.Modules.Gambling.Commands
                     }
                     else {
                         await raceChannel.SendMessage("🏁`Race failed to start since there was not enough participants.`");
+                        var p = participants.FirstOrDefault();
+                        if (p != null)
+                            await FlowersHandler.AddFlowersAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
                         End();
                         return;
                     }
@@ -145,7 +164,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                         }
                         else
                             await msg.Edit(text);
-
+                        
                         await Task.Delay(2500);
                     }
                 }
@@ -153,7 +172,17 @@ namespace NadekoBot.Modules.Gambling.Commands
                 {
                     NadekoBot.Client.MessageReceived -= Client_MessageReceived;
                 }
-                await raceChannel.SendMessage($"🏁 {winner.User.Mention} as {winner.Animal} `Won the race!`");
+
+                if (winner.AmountBet > 0)
+                {
+                    var wonAmount = winner.AmountBet * (participants.Count - 1);
+                    await FlowersHandler.AddFlowersAsync(winner.User, "Won a Race", wonAmount).ConfigureAwait(false);
+                    await raceChannel.SendMessage($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{NadekoBot.Config.CurrencySign}!**");
+                }
+                else
+                {
+                    await raceChannel.SendMessage($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race!**");
+                }
 
             }
 
@@ -172,7 +201,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                 }
             }
 
-            public async Task<bool> JoinRace(User u)
+            public async Task<bool> JoinRace(User u, int amount = 0)
             {
                 var animal = "";
                 if (!animals.TryDequeue(out animal))
@@ -180,7 +209,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                     await raceChannel.SendMessage($"{u.Mention} `There is no running race on this server.`");
                     return false;
                 }
-                var p = new Participant(u, animal);
+                var p = new Participant(u, animal, amount);
                 if (participants.Contains(p))
                 {
                     await raceChannel.SendMessage($"{u.Mention} `You already joined this race.`");
@@ -192,7 +221,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                     return false;
                 }
                 participants.Add(p);
-                await raceChannel.SendMessage($"{u.Mention} **joined the race as a {p.Animal}**");
+                await raceChannel.SendMessage($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {NadekoBot.Config.CurrencyName.SnPl(amount)}!**" : "**"));
                 return true;
             }
         }
@@ -201,16 +230,18 @@ namespace NadekoBot.Modules.Gambling.Commands
         {
             public User User { get; set; }
             public string Animal { get; set; }
+            public int AmountBet { get; set; }
 
             public float Coeff { get; set; }
             public int Total { get; set; }
 
             public int Place { get; set; } = 0;
 
-            public Participant(User u, string a)
+            public Participant(User u, string a, int amount)
             {
                 this.User = u;
                 this.Animal = a;
+                this.AmountBet = amount;
             }
 
             public override int GetHashCode()
