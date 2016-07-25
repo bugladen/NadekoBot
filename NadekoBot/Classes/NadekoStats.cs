@@ -106,7 +106,7 @@ namespace NadekoBot
                     if (e.Channel.IsPrivate)
                         return;
                     if (e.Channel.Type == ChannelType.Text)
-                        VoiceChannelsCount++;
+                        TextChannelsCount--;
                     else if (e.Channel.Type == ChannelType.Voice)
                         VoiceChannelsCount--;
                 }
