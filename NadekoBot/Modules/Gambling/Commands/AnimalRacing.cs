@@ -91,27 +91,33 @@ namespace NadekoBot.Modules.Gambling.Commands
                 var fullgame = CheckForFullGameAsync(token);
                 Task.Run(async () =>
                 {
-                    await raceChannel.SendMessage($"🏁`Race is starting in 20 seconds or when the room is full. Type $jr to join the race.`");
-                    var t = await Task.WhenAny(Task.Delay(20000, token), fullgame);
-                    Started = true;
-                    cancelSource.Cancel();
-                    if (t == fullgame)
+                    try
                     {
-                        await raceChannel.SendMessage("🏁`Race full, starting right now!`");
-                    }
-                    else if (participants.Count > 1) {
-                        await raceChannel.SendMessage("🏁`Game starting with " + participants.Count + " praticipants.`");
-                    }
-                    else {
-                        await raceChannel.SendMessage("🏁`Race failed to start since there was not enough participants.`");
-                        var p = participants.FirstOrDefault();
-                        if (p != null)
-                            await FlowersHandler.AddFlowersAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                        await raceChannel.SendMessage($"🏁`Race is starting in 20 seconds or when the room is full. Type $jr to join the race.`");
+                        var t = await Task.WhenAny(Task.Delay(20000, token), fullgame);
+                        Started = true;
+                        cancelSource.Cancel();
+                        if (t == fullgame)
+                        {
+                            await raceChannel.SendMessage("🏁`Race full, starting right now!`");
+                        }
+                        else if (participants.Count > 1)
+                        {
+                            await raceChannel.SendMessage("🏁`Game starting with " + participants.Count + " praticipants.`");
+                        }
+                        else
+                        {
+                            await raceChannel.SendMessage("🏁`Race failed to start since there was not enough participants.`");
+                            var p = participants.FirstOrDefault();
+                            if (p != null)
+                                await FlowersHandler.AddFlowersAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                            End();
+                            return;
+                        }
+                        await Task.Run(StartRace);
                         End();
-                        return;
                     }
-                    await Task.Run(StartRace);
-                    End();
+                    catch { }
                 });
             }
 
