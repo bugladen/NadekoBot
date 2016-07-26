@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Conversations
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand("..")
-                    .Description("Adds a new quote with the specified name (single word) and message (no limit). | .. abc My message")
+                    .Description("Adds a new quote with the specified name (single word) and message (no limit). | `.. abc My message`")
                     .Parameter("keyword", ParameterType.Required)
                     .Parameter("text", ParameterType.Unparsed)
                     .Do(async e =>
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("...")
-                    .Description("Shows a random quote with a specified name. | .. abc")
+                    .Description("Shows a random quote with a specified name. | `... abc`")
                     .Parameter("keyword", ParameterType.Required)
                     .Do(async e =>
                     {

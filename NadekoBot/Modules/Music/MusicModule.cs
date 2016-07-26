@@ -713,7 +713,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand(Prefix + "goto")
-                    .Description("Goes to a specific time in seconds in a song.")
+                    .Description($"Goes to a specific time in seconds in a song. | {Prefix}goto 30")
                     .Parameter("time")
                     .Do(async e =>
                     {
