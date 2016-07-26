@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.NSFW
                             await e.Channel.SendMessage("`No results.`");
                     });
                 cgb.CreateCommand(Prefix + "danbooru")
-                    .Description($"Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | {Prefix}danbooru yuri+kissing")
+                    .Description($"Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | `{Prefix}danbooru yuri+kissing`")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.NSFW
                             await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "gelbooru")
-                    .Description($"Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | {Prefix}gelbooru yuri+kissing")
+                    .Description($"Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | `{Prefix}gelbooru yuri+kissing`")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.NSFW
                     });
 
                 cgb.CreateCommand(Prefix + "rule34")
-                    .Description($"Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | {Prefix}rule34 yuri+kissing")
+                    .Description($"Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | `{Prefix}rule34 yuri+kissing`")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.NSFW
                             await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "e621")
-                    .Description($"Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. | {Prefix}e621 yuri kissing")
+                    .Description($"Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. | `{Prefix}e621 yuri kissing`")
                     .Parameter("tag", ParameterType.Unparsed)
                     .Do(async e =>
                     {
