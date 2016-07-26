@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Administration
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "delmsgoncmd")
-                    .Description($"Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.")
+                    .Description("Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.")
                     .AddCheck(SimpleCheckers.ManageServer())
                     .Do(async e =>
                     {
