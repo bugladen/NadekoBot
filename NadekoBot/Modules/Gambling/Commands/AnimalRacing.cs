@@ -194,9 +194,8 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             private void Client_MessageReceived(object sender, MessageEventArgs e)
             {
-                if (e.Message.IsAuthor)
+                if (e.Message.IsAuthor || e.Channel.IsPrivate || e.Channel != raceChannel)
                     return;
-                Console.WriteLine("Message received " + messagesSinceGameStarted);
                 messagesSinceGameStarted++;
             }
 

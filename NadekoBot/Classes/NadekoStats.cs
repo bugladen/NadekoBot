@@ -46,11 +46,20 @@ namespace NadekoBot
 
             commandService.CommandExecuted += StatsCollector_RanCommand;
             commandService.CommandFinished += CommandService_CommandFinished;
-            File.Create("errors.txt");
-            commandService.CommandErrored += (s, e) => File.AppendAllText("errors.txt", $@"Command: {e.Command}
+            commandService.CommandErrored += (s, e) =>
+            {
+                try
+                {
+                    if (e.ErrorType == CommandErrorType.Exception)
+                        File.AppendAllText("errors.txt", $@"Command: {e.Command}
 {e.Exception}
 -------------------------------------
 ");
+                }
+                catch {
+                    Console.WriteLine("Command errored errorring");
+                }
+            };
 
             Task.Run(StartCollecting);
 
