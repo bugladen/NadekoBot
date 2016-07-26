@@ -58,6 +58,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 //Can't this be disabled if the modules is disabled too :)
                 var callExpire = new TimeSpan(2, 0, 0);
                 var warExpire = new TimeSpan(23, 0, 0);
+                bool changed = false;
                 while (true)
                 {
                     try
@@ -72,21 +73,29 @@ namespace NadekoBot.Modules.ClashOfClans
                             List<ClashWar> newVal = new List<ClashWar>();
                             foreach (var w in cw.Value)
                             {
-                                if (!w.Ended && (DateTime.Now - w.StartedAt <= warExpire))
+                                //We add when A: the war is not ended
+                                if (w.WarState != WarState.Ended)
                                 {
+                                    //and B: the war has not expired
+                                    if ((w.WarState == WarState.Started && DateTime.Now - w.StartedAt <= warExpire) || w.WarState == WarState.Created)
+                                    {
                                         newVal.Add(w);
+                                    }
                                 }
                             }
                             //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.Now - w.StartedAt >= warExpire)).ToList();
                             foreach (var exWar in cw.Value.Except(newVal))
                             {
-                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} ({exWar.Size}v{exWar.Size})has ended.");
+                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} has ended");
                             }
-                            ClashWars.AddOrUpdate(cw.Key, newVal, (x, s) => newVal);
-                            if (cw.Value.Count == 0)
+                           
+                            if (newVal.Count == 0)
                             {
                                 List<ClashWar> obj;
                                 ClashWars.TryRemove(cw.Key, out obj);
+                            } else
+                            {
+                                ClashWars.AddOrUpdate(cw.Key, newVal, (x, s) => newVal);
                             }
                         }
                         if (hash != ClashWars.GetHashCode()) //something changed 
@@ -182,7 +191,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "startwar")
                     .Alias(Prefix + "sw")
-                    .Description($"Starts a war with a given number. | `{Prefix}sw 1`")
+                    .Description("Starts a war with a given number.")
                     .Parameter("number", ParameterType.Required)
                     .Do(async e =>
                     {
@@ -202,6 +211,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         {
                             await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} HAS ALREADY STARTED**").ConfigureAwait(false);
                         }
+                        Save();
                     });
 
                 cgb.CreateCommand(Prefix + "listwar")
@@ -233,6 +243,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             }
                             await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                             return;
+                            
                         }
                         //if number is not null, print the war needed
                         var warsInfo = GetInfo(e);
@@ -274,6 +285,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             var war = warsInfo.Item1[warsInfo.Item2];
                             war.Call(usr, baseNum - 1);
                             await e.Channel.SendMessage($"🔰**{usr}** claimed a base #{baseNum} for a war against {war.ShortPrint()}").ConfigureAwait(false);
+                            Save();
                         }
                         catch (Exception ex)
                         {
@@ -327,6 +339,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             var war = warsInfo.Item1[warsInfo.Item2];
                             var baseNumber = war.Uncall(usr);
                             await e.Channel.SendMessage($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}").ConfigureAwait(false);
+                            Save();
                         }
                         catch (Exception ex)
                         {
@@ -351,6 +364,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                         var size = warsInfo.Item1[warsInfo.Item2].Size;
                         warsInfo.Item1.RemoveAt(warsInfo.Item2);
+                        Save();
                     });
             });
 
@@ -376,6 +390,7 @@ namespace NadekoBot.Modules.ClashOfClans
             {
                 var baseNum = war.FinishClaim(usr, stars);
                 await e.Channel.SendMessage($"❗🔰{e.User.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
+                Save();
             }
             catch (Exception ex)
             {

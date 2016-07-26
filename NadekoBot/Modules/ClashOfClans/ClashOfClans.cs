@@ -14,10 +14,14 @@ namespace NadekoBot.Classes.ClashOfClans
     {
         One, Two, Three
     }
+    public enum WarState
+    {
+        Started, Ended, Created
+    }
     [System.Serializable]
     internal class Caller
     {
-        public string CallUser { get; }
+        public string CallUser { get; set; }
 
         public DateTime TimeAdded { get; set; }
 
@@ -25,6 +29,7 @@ namespace NadekoBot.Classes.ClashOfClans
 
         public int Stars { get; set; } = 3;
 
+        public Caller() { }
 
         public Caller(string callUser, DateTime timeAdded, bool baseDestroyed)
         {
@@ -48,17 +53,18 @@ namespace NadekoBot.Classes.ClashOfClans
     {
         private static TimeSpan callExpire => new TimeSpan(2, 0, 0);
 
-        public string EnemyClan { get; }
-        public int Size { get; }
+        public string EnemyClan { get; set; }
+        public int Size { get; set; }
 
-        public Caller[] Bases { get; }
-        public bool Started { get; set; } = false;
+        public Caller[] Bases { get; set; }
+        public WarState WarState { get; set; } = WarState.Created;
+        //public bool Started { get; set; } = false;
         public DateTime StartedAt { get; private set; }
-        public bool Ended { get; private set; } = false;
+        //public bool Ended { get; private set; } = false;
 
         public ulong ServerId { get; set; }
         public ulong ChannelId { get; set; }
-
+        
         [JsonIgnore]
         public Discord.Channel Channel { get; internal set; }
 
@@ -74,12 +80,13 @@ namespace NadekoBot.Classes.ClashOfClans
             this.Bases = new Caller[size];
             this.ServerId = serverId;
             this.ChannelId = channelId;
-            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
+            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s=>s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
         }
 
         internal void End()
         {
-            Ended = true;
+            //Ended = true;
+            WarState = WarState.Ended;
         }
 
         internal void Call(string u, int baseNumber)
@@ -99,9 +106,12 @@ namespace NadekoBot.Classes.ClashOfClans
 
         internal void Start()
         {
-            if (Started)
-                throw new InvalidOperationException();
-            Started = true;
+            if (WarState == WarState.Started)
+                throw new InvalidOperationException("War already started");
+            //if (Started)
+            //    throw new InvalidOperationException();
+            //Started = true;
+            WarState = WarState.Started;
             StartedAt = DateTime.Now;
             foreach (var b in Bases.Where(b => b != null))
             {
@@ -129,7 +139,7 @@ namespace NadekoBot.Classes.ClashOfClans
             var sb = new StringBuilder();
 
             sb.AppendLine($"🔰**WAR AGAINST `{EnemyClan}` ({Size} v {Size}) INFO:**");
-            if (!Started)
+            if (WarState == WarState.Created)
                 sb.AppendLine("`not started`");
             for (var i = 0; i < Bases.Length; i++)
             {
@@ -145,7 +155,7 @@ namespace NadekoBot.Classes.ClashOfClans
                     }
                     else
                     {
-                        var left = Started ? callExpire - (DateTime.Now - Bases[i].TimeAdded) : callExpire;
+                        var left =(WarState == WarState.Started) ? callExpire - (DateTime.Now - Bases[i].TimeAdded) : callExpire;
                         sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
                 }
