@@ -717,7 +717,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "setgame")
-                  .Description($"Sets the bots game. **Bot Owner Only!** | {Prefix}setgame Playing with kwoth")
+                  .Description($"Sets the bots game. **Bot Owner Only!** | `{Prefix}setgame Playing with kwoth`")
                   .Parameter("set_game", ParameterType.Unparsed)
                   .Do(e =>
                   {
