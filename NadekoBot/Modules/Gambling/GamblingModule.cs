@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "take")
-                    .Description($"Takes a certain amount of flowers from someone. **Bot Owner Only!** | {Prefix}take 1 \"@someguy\"")
+                    .Description($"Takes a certain amount of flowers from someone. **Bot Owner Only!** | `{Prefix}take 1 \"@someguy\"`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("rektperson", ParameterType.Unparsed)
