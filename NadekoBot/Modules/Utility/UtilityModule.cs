@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Utility
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "whoplays")
-                    .Description("Shows a list of users who are playing the specified game.")
+                    .Description($"Shows a list of users who are playing the specified game. | `{Prefix}whoplays Overwatch`")
                     .Parameter("game", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "inrole")
-                    .Description("Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.")
+                    .Description($"Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission. | `{Prefix}inrole Role`")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "userid").Alias(Prefix + "uid")
-                    .Description("Shows user ID.")
+                    .Description($"Shows user ID. | `{Prefix}uid` or `{Prefix}uid \"@SomeGuy\"")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -126,11 +126,11 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "channelid").Alias(Prefix + "cid")
-                    .Description("Shows current channel ID.")
+                    .Description($"Shows current channel ID. | `{Prefix}cid`")
                     .Do(async e => await e.Channel.SendMessage("This channel's ID is " + e.Channel.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "serverid").Alias(Prefix + "sid")
-                    .Description("Shows current server ID.")
+                    .Description($"Shows current server ID. | `{Prefix}sid`")
                     .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "roles")

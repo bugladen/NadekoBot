@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Trello
                 cgb.CreateCommand(Prefix + "bind")
                     .Description("Bind a trello bot to a single channel. " +
                                  "You will receive notifications from your board when something is added or edited." +
-                                 " | bind [board_id]")
+                                 $" | `{Prefix}bind [board_id]`")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Trello
                     });
 
                 cgb.CreateCommand(Prefix + "cards")
-                    .Description("Lists all cards from the supplied list. You can supply either a name or an index.")
+                    .Description($"Lists all cards from the supplied list. You can supply either a name or an index. | `{Prefix}cards index`")
                     .Parameter("list_name", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e =>
                     {
