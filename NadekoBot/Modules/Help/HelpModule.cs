@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Help
 
                 cgb.CreateCommand(Prefix + "commands")
                     .Alias(".commands")
-                    .Description($"List all of the bot's commands from a certain module.")
+                    .Description("List all of the bot's commands from a certain module.")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e =>
                     {
