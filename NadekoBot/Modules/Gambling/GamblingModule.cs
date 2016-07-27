@@ -4,6 +4,7 @@ using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Commands;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace NadekoBot.Modules.Gambling
             commands.Add(new DrawCommand(this));
             commands.Add(new FlipCoinCommand(this));
             commands.Add(new DiceRollCommand(this));
+            commands.Add(new AnimalRacing(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Gambling;

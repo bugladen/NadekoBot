@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions[name].Add(message);
                     else
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
+                    await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                     await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
 
                 });
@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     index = index - 1;
                     NadekoBot.Config.CustomReactions[name][index] = msg;
 
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
+                    await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                     await e.Channel.SendMessage($"Edited response #{index + 1} from `{name}`").ConfigureAwait(false);
                 });
 
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions.Remove(name);
                         message = $"Deleted custom reaction: `{name}`";
                     }
-                    await Task.Run(() => Classes.JSONModels.ConfigHandler.SaveConfig()).ConfigureAwait(false);
+                    await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                     await e.Channel.SendMessage(message).ConfigureAwait(false);
                 });
         }

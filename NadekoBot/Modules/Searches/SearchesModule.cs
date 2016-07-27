@@ -157,6 +157,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                 .ConfigureAwait(false);
                     });
 
+                cgb.CreateCommand(Prefix + "randomdog")
+                    .Alias(Prefix + "woof")
+                    .Description("Shows a random dog image.")
+                    .Do(async e =>
+                    {
+                        await e.Channel.SendMessage("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
+                    });
+
                 cgb.CreateCommand(Prefix + "i")
                    .Description($"Pulls the first image found using a search parameter. Use ~ir for different results. | `{Prefix}i cute kitten`")
                    .Parameter("query", ParameterType.Unparsed)

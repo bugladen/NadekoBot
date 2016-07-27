@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         var conf = SpecificConfigurations.Default.Of(e.Server.Id);
                         conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
-                        Classes.JSONModels.ConfigHandler.SaveConfig();
+                        await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                         if (conf.AutoDeleteMessagesOnCommand)
                             await e.Channel.SendMessage("❗`Now automatically deleting successfull command invokations.`");
                         else
@@ -636,7 +636,8 @@ namespace NadekoBot.Modules.Administration
                         Message[] msgs;
                         if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
+                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false));//.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
+                            msgs = msgs.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
                             if (!msgs.Any())
                                 return;
                             await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
