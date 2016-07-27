@@ -58,7 +58,6 @@ namespace NadekoBot.Modules.ClashOfClans
                 //Can't this be disabled if the modules is disabled too :)
                 var callExpire = new TimeSpan(2, 0, 0);
                 var warExpire = new TimeSpan(23, 0, 0);
-                bool changed = false;
                 while (true)
                 {
                     try
@@ -77,16 +76,16 @@ namespace NadekoBot.Modules.ClashOfClans
                                 if (w.WarState != WarState.Ended)
                                 {
                                     //and B: the war has not expired
-                                    if ((w.WarState == WarState.Started && DateTime.Now - w.StartedAt <= warExpire) || w.WarState == WarState.Created)
+                                    if ((w.WarState == WarState.Started && DateTime.UtcNow - w.StartedAt <= warExpire) || w.WarState == WarState.Created)
                                     {
                                         newVal.Add(w);
                                     }
                                 }
                             }
-                            //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.Now - w.StartedAt >= warExpire)).ToList();
+                            //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.UtcNow - w.StartedAt >= warExpire)).ToList();
                             foreach (var exWar in cw.Value.Except(newVal))
                             {
-                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} has ended");
+                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} ({exWar.Size}v{exWar.Size}) has ended");
                             }
                            
                             if (newVal.Count == 0)
@@ -130,7 +129,7 @@ namespace NadekoBot.Modules.ClashOfClans
             for (var i = 0; i < Bases.Length; i++)
             {
                 if (Bases[i] == null) continue;
-                if (!Bases[i].BaseDestroyed && DateTime.Now - Bases[i].TimeAdded >= callExpire)
+                if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
                     await war.Channel.SendMessage($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
                     Bases[i] = null;
