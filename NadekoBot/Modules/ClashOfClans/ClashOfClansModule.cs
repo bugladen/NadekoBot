@@ -1,15 +1,15 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes.ClashOfClans;
+using NadekoBot.Modules.Permissions.Classes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Permissions.Classes;
-using System.Linq;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -87,12 +87,13 @@ namespace NadekoBot.Modules.ClashOfClans
                             {
                                 await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} ({exWar.Size}v{exWar.Size}) has ended");
                             }
-                           
+
                             if (newVal.Count == 0)
                             {
                                 List<ClashWar> obj;
                                 ClashWars.TryRemove(cw.Key, out obj);
-                            } else
+                            }
+                            else
                             {
                                 ClashWars.AddOrUpdate(cw.Key, newVal, (x, s) => newVal);
                             }
@@ -137,11 +138,6 @@ namespace NadekoBot.Modules.ClashOfClans
             }
         }
 
-
-
-
-
-
         #region commands
         public override void Install(ModuleManager manager)
         {
@@ -180,13 +176,13 @@ namespace NadekoBot.Modules.ClashOfClans
 
 
                           var cw = new ClashWar(enemyClan, size, e.Server.Id, e.Channel.Id);
-                        //cw.Start();
+                          //cw.Start();
 
-                        wars.Add(cw);
+                          wars.Add(cw);
                           await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
                           Save();
-                        //war with the index X started.
-                    });
+                          //war with the index X started.
+                      });
 
                 cgb.CreateCommand(Prefix + "startwar")
                     .Alias(Prefix + "sw")
@@ -242,7 +238,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             }
                             await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                             return;
-                            
+
                         }
                         //if number is not null, print the war needed
                         var warsInfo = GetInfo(e);
