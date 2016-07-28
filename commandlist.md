@@ -1,8 +1,9 @@
 ######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com`
+######You can donate on patreon: `https://patreon.com/nadekobot`
+######or paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.6051.26856`
+Version: `NadekoBot v0.9.6053.28429`
 ### Help  
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
@@ -178,7 +179,7 @@ Command and aliases |  Description |  Usage
 `$joinrace`, `$jr`  |  Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. |  `$jr` or `$jr 5`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role. |  `$raffle` or `$raffle RoleName
 `$$$`  |  Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @Someone`
-`$give`  |  Give someone a certain amount of NadekoFlowers
+`$give`  |  Give someone a certain amount of NadekoFlowers|`$give 1 "@SomeGuy"`
 `$award`  |  Gives someone a certain amount of flowers. **Bot Owner Only!** |  `$award 100 @person`
 `$take`  |  Takes a certain amount of flowers from someone. **Bot Owner Only!** |  `$take 1 "@someguy"`
 `$betroll`, `$br`  |  Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. |  $br 5
@@ -237,7 +238,7 @@ Command and aliases |  Description |  Usage
 `!!load`  |  Loads a playlist under a certain name.  |  `!!load classical-1`
 `!!playlists`, `!!pls`  |  Lists all playlists. Paginated. 20 per page. Default page is 0. | `!!pls 1`
 `!!deleteplaylist`, `!!delpls`  |  Deletes a saved playlist. Only if you made it or if you are the bot owner. |  `!!delpls animu-5`
-`!!goto`  |  Goes to a specific time in seconds in a song. |  !!goto 30
+`!!goto`  |  Goes to a specific time in seconds in a song. |  `!!goto 30`
 `!!getlink`, `!!gl`  |  Shows a link to the currently playing song.
 `!!autoplay`, `!!ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)
 
@@ -309,7 +310,7 @@ Command and aliases |  Description |  Usage
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | ,cw 15 The Enemy Clan
-`,startwar`, `,sw`  |  Starts a war with a given number. |  `,sw 1`
+`,startwar`, `,sw`  |  Starts a war with a given number.
 `,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  ,lw [war_number] or ,lw
 `,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  ,call [war_number] [base_number] [optional_other_name]
 `,claimfinish`, `,cf`, `,cf3`, `,claimfinish3`  |  Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else. |  ,cf [war_number] [optional_other_name]
