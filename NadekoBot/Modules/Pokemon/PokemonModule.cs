@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Pokemon
 
                 cgb.CreateCommand(Prefix + "movelist")
                     .Alias(Prefix + "ml")
-                    .Description("Lists the moves you are able to use")
+                    .Description($"Lists the moves you are able to use | `{Prefix}ml`")
                     .Do(async e =>
                     {
                         var userType = GetPokeType(e.User.Id);
