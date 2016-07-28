@@ -406,7 +406,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         if (!e.User.ServerPermissions.MuteMembers)
                         {
-                            await e.Channel.SendMessage("You do not have permission to do that.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                             return;
                         }
                         if (!e.Message.MentionedUsers.Any())
@@ -421,7 +421,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -447,7 +447,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -474,7 +474,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -501,7 +501,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
