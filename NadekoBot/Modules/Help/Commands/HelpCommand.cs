@@ -31,7 +31,7 @@ namespace NadekoBot.Classes.Help.Commands
                 if (alias != null)
                     str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -49,7 +49,8 @@ namespace NadekoBot.Classes.Help.Commands
         {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com`
+######You can donate on patreon: `https://patreon.com/nadekobot`
+######or paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";
