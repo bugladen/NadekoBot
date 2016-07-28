@@ -222,6 +222,8 @@ Type/ Copy and hit **Enter**.
 
 Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will ditach the nadeko session using TMUX), and you can finally close PuTTY now.
 
+Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with it. Go to that link and you will be able to add your bot to your server.
+
 **NOW YOU HAVE YOUR OWN NADEKO BOT** `Thanks to Kwoth <3`
 
 ######SOME MORE INFO (JUST TO KNOW):
