@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Administration
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "delmsgoncmd")
-                    .Description("Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.")
+                    .Description($"Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only. | `{Prefix}delmsgoncmd`")
                     .AddCheck(SimpleCheckers.ManageServer())
                     .Do(async e =>
                     {
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
-                    .Description("Restarts the bot. Might not work. **Bot Owner Only**")
+                    .Description($"Restarts the bot. Might not work. **Bot Owner Only** | `{Prefix}restart`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -617,7 +617,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "heap")
-                  .Description("Shows allocated memory - **Bot Owner Only!**")
+                  .Description($"Shows allocated memory - **Bot Owner Only!** | `{Prefix}heap`")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e =>
                   {
@@ -628,7 +628,8 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(Prefix + "clr")
                     .Description(
-    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`")
+                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. "+
+                    $"| `{Prefix}prune` or `{Prefix}prune 5` or `{Prefix}prune @Someone` or `{Prefix}prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
@@ -674,7 +675,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "die")
-                    .Description("Shuts the bot down and notifies users about the restart. **Bot Owner Only!**")
+                    .Description($"Shuts the bot down and notifies users about the restart. **Bot Owner Only!** | `{Prefix}die`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -807,7 +808,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "unstuck")
-                  .Description("Clears the message queue. **Bot Owner Only!**")
+                  .Description($"Clears the message queue. **Bot Owner Only!** | `{Prefix}unstuck`")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e =>
                   {
@@ -829,7 +830,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "donadd")
-                    .Description($"Add a donator to the database. | `.donadd Donate Amount`")
+                    .Description($"Add a donator to the database. | `{Prefix}donadd Donate Amount`")
                     .Parameter("donator")
                     .Parameter("amount")
                     .AddCheck(SimpleCheckers.OwnerOnly())

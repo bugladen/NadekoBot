@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Searches.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "convert")
-                .Description("Convert quantities from>to. Like `~convert m>km 1000`")
+                .Description($"Convert quantities from>to. | `{Prefix}convert m>km 1000`")
                 .Parameter("from-to", ParameterType.Required)
                 .Parameter("quantity", ParameterType.Optional)
                 .Do(ConvertFunc());

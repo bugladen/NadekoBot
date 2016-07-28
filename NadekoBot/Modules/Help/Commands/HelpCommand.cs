@@ -81,16 +81,16 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | `-h !m q` or just `-h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("Generates the commandlist.md file. **Bot Owner Only!**")
+                .Description($"Generates the commandlist.md file. **Bot Owner Only!** | `{Prefix}hgit`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")
-                .Description("Sends a readme and a guide links to the channel.")
+                .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
 @"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
@@ -103,7 +103,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project!")
+                .Description("Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
