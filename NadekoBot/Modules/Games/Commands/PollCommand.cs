@@ -15,11 +15,6 @@ namespace NadekoBot.Modules.Games.Commands
 
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
-        public Func<CommandEventArgs, Task> DoFunc()
-        {
-            throw new NotImplementedException();
-        }
-
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "poll")

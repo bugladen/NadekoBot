@@ -46,6 +46,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <NoWarn>
     </NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,6 +56,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PRIVATE|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -78,13 +80,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -115,6 +118,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="libvideo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -186,6 +190,7 @@
     <Compile Include="Classes\FlowersHandler.cs" />
     <Compile Include="Modules\Conversations\Commands\RipCommand.cs" />
     <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
+    <Compile Include="Modules\Gambling\Commands\AnimalRacing.cs" />
     <Compile Include="Modules\Music\Classes\PlaylistFullException.cs" />
     <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
     <Compile Include="Modules\Programming\ProgrammingModule.cs" />
@@ -197,6 +202,7 @@
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
+    <Compile Include="_Models\DataModels\TestDataModel.cs" />
     <Compile Include="_Models\DataModels\Incident.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
@@ -259,7 +265,6 @@
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
     <Compile Include="Modules\Help\Commands\HelpCommand.cs" />
-    <Compile Include="Modules\Administration\Commands\VoiceNotificationCommand.cs" />
     <Compile Include="Modules\Administration\Commands\VoicePlusTextCommand.cs" />
     <Compile Include="Modules\Administration\AdministrationModule.cs" />
     <Compile Include="Modules\Conversations\Conversations.cs" />

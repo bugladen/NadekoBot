@@ -197,7 +197,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(90000).ConfigureAwait(false);
+                await Task.Delay(100000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif

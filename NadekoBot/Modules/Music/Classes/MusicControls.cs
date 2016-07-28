@@ -113,17 +113,10 @@ namespace NadekoBot.Modules.Music.Classes
                             if (CurrentSong == null)
                                 continue;
 
-                            try
-                            {
-                                OnStarted(this, CurrentSong);
-                                await CurrentSong.Play(audioClient, cancelToken);
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                Console.WriteLine("Song canceled");
-                                SongCancelSource = new CancellationTokenSource();
-                                cancelToken = SongCancelSource.Token;
-                            }
+                            
+                            OnStarted(this, CurrentSong);
+                            await CurrentSong.Play(audioClient, cancelToken);
+
                             OnCompleted(this, CurrentSong);
 
                             if (RepeatPlaylist)
@@ -135,8 +128,14 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
-                            await Task.Delay(300).ConfigureAwait(false);
+                            if (!cancelToken.IsCancellationRequested)
+                            {
+                                SongCancelSource.Cancel();
+                            }
+                            SongCancelSource = new CancellationTokenSource();
+                            cancelToken = SongCancelSource.Token;
                             CurrentSong = null;
+                            await Task.Delay(300).ConfigureAwait(false);
                         }
                     }
                 }

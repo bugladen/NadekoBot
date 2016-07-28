@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     var msg = new StringBuilder($"There are `{config.ListOfSelfAssignableRoles.Count}` self assignable roles:\n");
                     var toRemove = new HashSet<ulong>();
-                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r=>r.ToString()))
+                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r => r.ToString()))
                     {
                         var role = e.Server.GetRole(roleId);
                         if (role == null)
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
 
 
-            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix +"tesar")
+            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix + "tesar")
                 .Description("toggle whether the self-assigned roles should be exclusive")
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .Do(async e =>
@@ -146,12 +146,13 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         await e.User.AddRoles(role).ConfigureAwait(false);
                     }
-                    catch(HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                     {
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                        return;
                     }
                     var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000).ConfigureAwait(false);

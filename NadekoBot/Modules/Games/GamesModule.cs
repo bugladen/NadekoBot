@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Games
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "choose")
-                  .Description("Chooses a thing from a list of things | >choose Get up;Sleep;Sleep more")
+                  .Description($"Chooses a thing from a list of things | `{Prefix}choose Get up;Sleep;Sleep more`")
                   .Parameter("list", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Games
                   });
 
                 cgb.CreateCommand(Prefix + "8ball")
-                    .Description("Ask the 8ball a yes/no question.")
+                    .Description($"Ask the 8ball a yes/no question. | `{Prefix}8ball should i do something`")
                     .Parameter("question", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -60,14 +60,14 @@ namespace NadekoBot.Modules.Games
                         try
                         {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}`")
+                                $":question: `Question` __**{question}**__ \n🎱 `8Ball Answers` __**{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}**__")
                                     .ConfigureAwait(false);
                         }
                         catch { }
                     });
 
                 cgb.CreateCommand(Prefix + "rps")
-                    .Description("Play a game of rocket paperclip scissors with Nadeko. | >rps scissors")
+                    .Description($"Play a game of rocket paperclip scissors with Nadeko. | `{Prefix}rps scissors`")
                     .Parameter("input", ParameterType.Required)
                     .Do(async e =>
                     {

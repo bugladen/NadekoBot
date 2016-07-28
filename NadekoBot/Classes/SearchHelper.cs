@@ -364,9 +364,7 @@ namespace NadekoBot.Classes
                 }
 
                 var httpResponse = (await httpWebRequest.GetResponseAsync().ConfigureAwait(false)) as HttpWebResponse;
-                if (httpResponse == null) return "HTTP_RESPONSE_ERROR";
                 var responseStream = httpResponse.GetResponseStream();
-                if (responseStream == null) return "RESPONSE_STREAM ERROR";
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     var responseText = await streamReader.ReadToEndAsync().ConfigureAwait(false);
@@ -375,6 +373,7 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Shortening of this url failed: " + url);
                 Console.WriteLine(ex.ToString());
                 return url;
             }

@@ -4,6 +4,7 @@ using Discord.Modules;
 using NadekoBot.Classes;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Commands;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace NadekoBot.Modules.Gambling
             commands.Add(new DrawCommand(this));
             commands.Add(new FlipCoinCommand(this));
             commands.Add(new DiceRollCommand(this));
+            commands.Add(new AnimalRacing(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Gambling;
@@ -31,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "raffle")
-                    .Description("Prints a name and ID of a random user from the online list from the (optional) role.")
+                    .Description($"Prints a name and ID of a random user from the online list from the (optional) role. | `{Prefix}raffle` or `{Prefix}raffle RoleName")
                     .Parameter("role", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -61,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "give")
-                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName))
+                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName)+ $"|`{Prefix}give 1 \"@SomeGuy\"`")
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
@@ -93,7 +95,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "award")
-                    .Description("Gives someone a certain amount of flowers. **Bot Owner Only!** | `$award 100 @person`")
+                    .Description($"Gives someone a certain amount of flowers. **Bot Owner Only!** | `{Prefix}award 100 @person`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
@@ -115,7 +117,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "take")
-                    .Description("Takes a certain amount of flowers from someone. **Bot Owner Only!**")
+                    .Description($"Takes a certain amount of flowers from someone. **Bot Owner Only!** | `{Prefix}take 1 \"@someguy\"`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("rektperson", ParameterType.Unparsed)
