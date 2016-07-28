@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "listincidents")
                 .Alias(Prefix + "lin")
-                .Description("List all UNREAD incidents and flags them as read.")
+                .Description($"List all UNREAD incidents and flags them as read. | `{Prefix}lin`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
                 {
@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "listallincidents")
                 .Alias(Prefix + "lain")
-                .Description("Sends you a file containing all incidents and flags them as read.")
+                .Description($"Sends you a file containing all incidents and flags them as read. | `{Prefix}lain`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
                 {

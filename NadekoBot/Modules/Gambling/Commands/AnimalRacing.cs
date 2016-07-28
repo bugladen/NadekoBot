@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Gambling.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Prefix + "race")
-                .Description("Starts a new animal race.")
+                .Description($"Starts a new animal race. | `{Prefix}race`")
                 .Do(e => {
                     var ar = new AnimalRace(e.Server.Id, e.Channel);
                     if (ar.Fail)
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             cgb.CreateCommand(Prefix + "joinrace")
                 .Alias(Prefix + "jr")
-                .Description("Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5`")
+                .Description($"Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `{Prefix}jr` or `{Prefix}jr 5`")
                 .Parameter("amount", ParameterType.Optional)
                 .Do(async e => {
 
