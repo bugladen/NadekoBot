@@ -35,11 +35,9 @@ ________________________________________________________________________________
 #### Setting Up NadekoBot For Music
 ###### Setting up `ffmpeg` with installer:
 1) Google Account  
-2) Soundcloud Account (if you want soundcloud support)
-
-3) Download installer here: http://luxcaeli.de/owncloud/s/fIxSgh4Nde3Td6e/download
-
-4) Run the installer
+2) Soundcloud Account (if you want soundcloud support)  
+3) Download installer here: https://goo.gl/lQZnsH (pick the one for your system, either 32 or 64bit and then click 'download')  
+4) Run the installer  
 
 5) Follow these steps on how to setup API keys:
 - Go to https://console.developers.google.com and log in.

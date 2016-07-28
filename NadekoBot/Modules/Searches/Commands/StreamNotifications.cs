@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     }
                 }
                 catch { }
-                ConfigHandler.SaveConfig();
+                await ConfigHandler.SaveConfig().ConfigureAwait(false);
             };
             checkTimer.Start();
         }
@@ -254,7 +254,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     }
 
                     config.ObservingStreams.Remove(toRemove);
-                    ConfigHandler.SaveConfig();
+                    await ConfigHandler.SaveConfig().ConfigureAwait(false);
                     await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.").ConfigureAwait(false);
                 });
 

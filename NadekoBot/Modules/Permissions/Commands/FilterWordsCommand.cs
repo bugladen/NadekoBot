@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                             var chan = string.IsNullOrWhiteSpace(chanStr)
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
-                            PermissionsHandler.SetChannelWordPermission(chan, state);
+                            await PermissionsHandler.SetChannelWordPermission(chan, state).ConfigureAwait(false);
                             await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.").ConfigureAwait(false);
                             return;
                         }
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Permissions.Commands
 
                         foreach (var curChannel in e.Server.TextChannels)
                         {
-                            PermissionsHandler.SetChannelWordPermission(curChannel, state);
+                            await PermissionsHandler.SetChannelWordPermission(curChannel, state).ConfigureAwait(false);
                         }
                         await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.").ConfigureAwait(false);
                     }
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                        var word = e.GetArg("word");
                        if (string.IsNullOrWhiteSpace(word))
                            return;
-                       PermissionsHandler.AddFilteredWord(e.Server, word.ToLowerInvariant().Trim());
+                       await PermissionsHandler.AddFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
                        await e.Channel.SendMessage($"Successfully added new filtered word.").ConfigureAwait(false);
 
                    }
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                        var word = e.GetArg("word");
                        if (string.IsNullOrWhiteSpace(word))
                            return;
-                       PermissionsHandler.RemoveFilteredWord(e.Server, word.ToLowerInvariant().Trim());
+                       await PermissionsHandler.RemoveFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
                        await e.Channel.SendMessage($"Successfully removed filtered word.").ConfigureAwait(false);
 
                    }
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                     try
                     {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                        PermissionsHandler.SetServerWordPermission(e.Server, state);
+                        await PermissionsHandler.SetServerWordPermission(e.Server, state).ConfigureAwait(false);
                         await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** on this server.")
                                        .ConfigureAwait(false);
 

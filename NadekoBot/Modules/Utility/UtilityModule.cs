@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Utility
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "whoplays")
-                    .Description("Shows a list of users who are playing the specified game.")
+                    .Description($"Shows a list of users who are playing the specified game. | `{Prefix}whoplays Overwatch`")
                     .Parameter("game", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -52,16 +52,15 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "inrole")
-                    .Description("Lists every person from the provided role or roles (separated by a ',') on this server.")
+                    .Description($"Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission. | `{Prefix}inrole Role`")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e =>
                     {
                         await Task.Run(async () =>
                         {
-                            if (!e.User.ServerPermissions.MentionEveryone) return;
                             var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
                             string send = $"`Here is a list of users in a specfic role:`";
-                            foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str)))
+                            foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str) && str != "@everyone" && str != "everyone"))
                             {
                                 var role = e.Server.FindRoles(roleStr).FirstOrDefault();
                                 if (role == null) continue;
@@ -71,6 +70,11 @@ namespace NadekoBot.Modules.Utility
 
                             while (send.Length > 2000)
                             {
+                                if (!e.User.ServerPermissions.ManageMessages)
+                                {
+                                    await e.Channel.SendMessage($"{e.User.Mention} you are not allowed to use this command on roles with a lot of users in them to prevent abuse.");
+                                    return;
+                                }
                                 var curstr = send.Substring(0, 2000);
                                 await
                                     e.Channel.Send(curstr.Substring(0,
@@ -110,7 +114,7 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "userid").Alias(Prefix + "uid")
-                    .Description("Shows user ID.")
+                    .Description($"Shows user ID. | `{Prefix}uid` or `{Prefix}uid \"@SomeGuy\"")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -122,11 +126,11 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "channelid").Alias(Prefix + "cid")
-                    .Description("Shows current channel ID.")
+                    .Description($"Shows current channel ID. | `{Prefix}cid`")
                     .Do(async e => await e.Channel.SendMessage("This channel's ID is " + e.Channel.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "serverid").Alias(Prefix + "sid")
-                    .Description("Shows current server ID.")
+                    .Description($"Shows current server ID. | `{Prefix}sid`")
                     .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "roles")
@@ -143,6 +147,18 @@ namespace NadekoBot.Modules.Utility
                             return;
                         }
                         await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles)).ConfigureAwait(false);
+                    });
+
+
+                cgb.CreateCommand(Prefix + "channeltopic")
+                    .Alias(Prefix + "ct")
+                    .Description($"Sends current channel's topic as a message. | `{Prefix}ct`")
+                    .Do(async e =>
+                    {
+                        var topic = e.Channel.Topic;
+                        if (string.IsNullOrWhiteSpace(topic))
+                            return;
+                        await e.Channel.SendMessage(topic).ConfigureAwait(false);
                     });
             });
         }

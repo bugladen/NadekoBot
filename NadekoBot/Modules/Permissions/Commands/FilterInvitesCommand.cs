@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                             var chan = string.IsNullOrWhiteSpace(chanStr)
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
-                            PermissionsHandler.SetChannelFilterInvitesPermission(chan, state);
+                            await PermissionsHandler.SetChannelFilterInvitesPermission(chan, state).ConfigureAwait(false);
                             await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.")
                                             .ConfigureAwait(false);
                             return;
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Permissions.Commands
 
                         foreach (var curChannel in e.Server.TextChannels)
                         {
-                            PermissionsHandler.SetChannelFilterInvitesPermission(curChannel, state);
+                            await PermissionsHandler.SetChannelFilterInvitesPermission(curChannel, state).ConfigureAwait(false);
                         }
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.")
                                        .ConfigureAwait(false);
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                     try
                     {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                        PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state);
+                        await PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state).ConfigureAwait(false);
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
                                        .ConfigureAwait(false);
 
