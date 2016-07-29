@@ -22,6 +22,7 @@ obj/
 NadekoBot/bin/debug/*.*
 NadekoBot/bin/debug/data/permissions
 NadekoBot/bin/debug/data/incidents
+NadekoBot/bin/debug/data/musicdata
 NadekoBot/bin/NadekoRelease/*.*
 !NadekoBot/bin/Debug/data/currency_images/*
 Tests/bin
