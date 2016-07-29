@@ -46,21 +46,7 @@ namespace NadekoBot
 
             commandService.CommandExecuted += StatsCollector_RanCommand;
             commandService.CommandFinished += CommandService_CommandFinished;
-            commandService.CommandErrored += (s, e) =>
-            {
-                try
-                {
-                    if (e.ErrorType == CommandErrorType.Exception)
-                        File.AppendAllText("errors.txt", $@"Command: {e.Command}
-{e.Exception}
--------------------------------------
-");
-                }
-                catch
-                {
-                    Console.WriteLine("Command errored errorring");
-                }
-            };
+            commandService.CommandErrored += CommandService_CommandFinished;
 
             Task.Run(StartCollecting);
 
@@ -237,10 +223,31 @@ namespace NadekoBot
 
         private void CommandService_CommandFinished(object sender, CommandEventArgs e)
         {
+
             DateTime dt;
             if (!commandTracker.TryGetValue(e.Message.Id, out dt))
                 return;
-            Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+            try
+            {
+                if (e is CommandErrorEventArgs)
+                {
+                    var er = e as CommandErrorEventArgs;
+                    if (er.ErrorType == CommandErrorType.Exception)
+                    {
+                        File.AppendAllText("errors.txt", $@"Command: {er.Command}
+{er.Exception}
+-------------------------------------
+");
+                        Console.WriteLine($">>COMMAND ERRORED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                }
+            }
+            catch { }
         }
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
