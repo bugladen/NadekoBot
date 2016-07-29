@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Gambling
                 .Do(FlipCoinFunc());
 
             cgb.CreateCommand(Module.Prefix + "betflip")
-                .Alias(Prefix + "bf")
+                .Alias(Prefix+"bf")
                 .Description($"Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet. | `{Prefix}bf 5 heads` or `{Prefix}bf 3 t`")
                 .Parameter("amount", ParameterType.Required)
                 .Parameter("guess", ParameterType.Required)
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Gambling
             if (!int.TryParse(amountstr, out amount) || amount < 1)
                 return;
 
-            var userFlowers = await GamblingModule.GetUserFlowers(e.User.Id).ConfigureAwait(false);
+            var userFlowers = GamblingModule.GetUserFlowers(e.User.Id);
 
             if (userFlowers < amount)
             {
@@ -57,13 +57,11 @@ namespace NadekoBot.Modules.Gambling
 
             var guess = guessStr == "HEADS" || guessStr == "H";
             bool result = false;
-            if (rng.Next(0, 2) == 1)
-            {
+            if (rng.Next(0, 2) == 1) {
                 await e.Channel.SendFile("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
                 result = true;
             }
-            else
-            {
+            else {
                 await e.Channel.SendFile("tails.png", Properties.Resources.tails.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
             }
 

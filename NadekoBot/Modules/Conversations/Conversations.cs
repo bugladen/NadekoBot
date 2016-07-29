@@ -40,13 +40,14 @@ namespace NadekoBot.Modules.Conversations
                         var text = e.GetArg("text");
                         if (string.IsNullOrWhiteSpace(text))
                             return;
-                        await Classes.DbHandler.Instance.Connection.InsertAsync(new DataModels.UserQuote()
-                        {
-                            DateAdded = DateTime.Now,
-                            Keyword = e.GetArg("keyword").ToLowerInvariant(),
-                            Text = text,
-                            UserName = e.User.Name,
-                        }).ConfigureAwait(false);
+                        await Task.Run(() =>
+                            Classes.DbHandler.Instance.Connection.Insert(new DataModels.UserQuote()
+                            {
+                                DateAdded = DateTime.Now,
+                                Keyword = e.GetArg("keyword").ToLowerInvariant(),
+                                Text = text,
+                                UserName = e.User.Name,
+                            })).ConfigureAwait(false);
 
                         await e.Channel.SendMessage("`New quote added.`").ConfigureAwait(false);
                     });
@@ -61,7 +62,7 @@ namespace NadekoBot.Modules.Conversations
                             return;
 
                         var quote =
-                            await Classes.DbHandler.Instance.GetRandom<DataModels.UserQuote>(
+                            Classes.DbHandler.Instance.GetRandom<DataModels.UserQuote>(
                                 uqm => uqm.Keyword == keyword);
 
                         if (quote != null)
@@ -79,10 +80,13 @@ namespace NadekoBot.Modules.Conversations
                         var text = e.GetArg("quote")?.Trim();
                         if (string.IsNullOrWhiteSpace(text))
                             return;
-                        if (NadekoBot.IsOwner(e.User.Id))
-                            await Classes.DbHandler.Instance.DeleteWhere<UserQuote>(uq => uq.Keyword == text);
-                        else
-                            await Classes.DbHandler.Instance.DeleteWhere<UserQuote>(uq => uq.Keyword == text && uq.UserName == e.User.Name);
+                        await Task.Run(() =>
+                        {
+                            if (NadekoBot.IsOwner(e.User.Id))
+                                Classes.DbHandler.Instance.DeleteWhere<UserQuote>(uq => uq.Keyword == text);
+                            else
+                                Classes.DbHandler.Instance.DeleteWhere<UserQuote>(uq => uq.Keyword == text && uq.UserName == e.User.Name);
+                        }).ConfigureAwait(false);
 
                         await e.Channel.SendMessage("`Done.`").ConfigureAwait(false);
                     });

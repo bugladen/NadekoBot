@@ -818,11 +818,14 @@ namespace NadekoBot.Modules.Administration
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e =>
                     {
-                        var rows = await DbHandler.Instance.GetAllRows<Donator>().ConfigureAwait(false);
-                        var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
-                        string str = $"**Thanks to the people listed below for making this project happen!**\n";
+                        await Task.Run(async () =>
+                        {
+                            var rows = DbHandler.Instance.GetAllRows<Donator>();
+                            var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
+                            string str = $"**Thanks to the people listed below for making this project happen!**\n";
 
-                        await e.Channel.SendMessage(str + string.Join("⭐", donatorsOrdered.Select(d => d.UserName))).ConfigureAwait(false);
+                            await e.Channel.SendMessage(str + string.Join("⭐", donatorsOrdered.Select(d => d.UserName))).ConfigureAwait(false);
+                        }).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "donadd")
@@ -832,20 +835,23 @@ namespace NadekoBot.Modules.Administration
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
-                        var amount = int.Parse(e.GetArg("amount"));
-                        if (donator == null) return;
-                        try
+                        await Task.Run(() =>
                         {
-                            await DbHandler.Instance.Connection.InsertAsync(new Donator
+                            var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
+                            var amount = int.Parse(e.GetArg("amount"));
+                            if (donator == null) return;
+                            try
                             {
-                                Amount = amount,
-                                UserName = donator.Name,
-                                UserId = (long)donator.Id
-                            }).ConfigureAwait(false);
-                            await e.Channel.SendMessage("Successfuly added a new donator. 👑").ConfigureAwait(false);
-                        }
-                        catch { }
+                                DbHandler.Instance.Connection.Insert(new Donator
+                                {
+                                    Amount = amount,
+                                    UserName = donator.Name,
+                                    UserId = (long)donator.Id
+                                });
+                                e.Channel.SendMessage("Successfuly added a new donator. 👑").ConfigureAwait(false);
+                            }
+                            catch { }
+                        }).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "announce")

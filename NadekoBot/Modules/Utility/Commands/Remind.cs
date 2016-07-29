@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Utility.Commands
 
         public Remind(DiscordModule module) : base(module)
         {
-            var remList = DbHandler.Instance.GetAllRows<Reminder>().GetAwaiter().GetResult();
+            var remList = DbHandler.Instance.GetAllRows<Reminder>();
 
             reminders = remList.Select(StartNewReminder).ToList();
         }
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Utility.Commands
                 }
                 finally
                 {
-                    await DbHandler.Instance.Delete<Reminder>(r.Id.Value).ConfigureAwait(false);
+                    DbHandler.Instance.Delete<Reminder>(r.Id.Value);
                     t.Stop();
                     t.Dispose();
                 }
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Utility.Commands
                         UserId = (long)e.User.Id,
                         ServerId = (long)e.Server.Id
                     };
-                    await DbHandler.Instance.Connection.InsertAsync(rem).ConfigureAwait(false);
+                    DbHandler.Instance.Connection.Insert(rem);
 
                     reminders.Add(StartNewReminder(rem));
 

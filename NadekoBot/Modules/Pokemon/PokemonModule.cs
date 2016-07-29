@@ -9,7 +9,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Pokemon
 {
@@ -40,10 +39,10 @@ namespace NadekoBot.Modules.Pokemon
             return damage;
         }
 
-        private async Task<PokemonType> GetPokeType(ulong id)
+        private PokemonType GetPokeType(ulong id)
         {
 
-            var db = await DbHandler.Instance.GetAllRows<UserPokeTypes>().ConfigureAwait(false);
+            var db = DbHandler.Instance.GetAllRows<UserPokeTypes>();
             Dictionary<long, string> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
             if (setTypes.ContainsKey((long)id))
             {
@@ -135,7 +134,7 @@ namespace NadekoBot.Modules.Pokemon
                         }
 
                         //Check whether move can be used
-                        PokemonType userType = await GetPokeType(e.User.Id).ConfigureAwait(false);
+                        PokemonType userType = GetPokeType(e.User.Id);
 
                         var enabledMoves = userType.Moves;
                         if (!enabledMoves.Contains(move.ToLowerInvariant()))
@@ -145,7 +144,7 @@ namespace NadekoBot.Modules.Pokemon
                         }
 
                         //get target type
-                        PokemonType targetType = await GetPokeType(target.Id).ConfigureAwait(false);
+                        PokemonType targetType = GetPokeType(target.Id);
                         //generate damage
                         int damage = GetDamage(userType, targetType);
                         //apply damage to target
@@ -200,7 +199,7 @@ namespace NadekoBot.Modules.Pokemon
                     .Description($"Lists the moves you are able to use | `{Prefix}ml`")
                     .Do(async e =>
                     {
-                        var userType = await GetPokeType(e.User.Id).ConfigureAwait(false);
+                        var userType = GetPokeType(e.User.Id);
                         var movesList = userType.Moves;
                         var str = $"**Moves for `{userType.Name}` type.**";
                         foreach (string m in movesList)
@@ -236,7 +235,7 @@ namespace NadekoBot.Modules.Pokemon
                             }
                             //Payment~
                             var amount = 1;
-                            var pts = (await Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id).ConfigureAwait(false))?.Value ?? 0;
+                            var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                             if (pts < amount)
                             {
                                 await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
@@ -277,7 +276,7 @@ namespace NadekoBot.Modules.Pokemon
                             await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
                             return;
                         }
-                        var pType = await GetPokeType(usr.Id).ConfigureAwait(false);
+                        var pType = GetPokeType(usr.Id);
                         await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
 
                     });
@@ -296,7 +295,7 @@ namespace NadekoBot.Modules.Pokemon
                             await e.Channel.SendMessage("Invalid type specified. Type must be one of:\n" + string.Join(", ", NadekoBot.Config.PokemonTypes.Select(t => t.Name.ToUpperInvariant()))).ConfigureAwait(false);
                             return;
                         }
-                        if (targetType == await GetPokeType(e.User.Id).ConfigureAwait(false))
+                        if (targetType == GetPokeType(e.User.Id))
                         {
                             await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Icon}").ConfigureAwait(false);
                             return;
@@ -304,7 +303,7 @@ namespace NadekoBot.Modules.Pokemon
 
                         //Payment~
                         var amount = 1;
-                        var pts = (await DbHandler.Instance.GetStateByUserId((long)e.User.Id).ConfigureAwait(false))?.Value ?? 0;
+                        var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
                             await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
@@ -312,19 +311,19 @@ namespace NadekoBot.Modules.Pokemon
                         }
                         await FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount).ConfigureAwait(false);
                         //Actually changing the type here
-                        var preTypes = await DbHandler.Instance.GetAllRows<UserPokeTypes>().ConfigureAwait(false);
+                        var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
                         Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id.Value);
                         if (Dict.ContainsKey((long)e.User.Id))
                         {
                             //delete previous type
-                            await DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]).ConfigureAwait(false);
+                            DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
                         }
 
-                        await DbHandler.Instance.Connection.InsertAsync(new UserPokeTypes
+                        DbHandler.Instance.Connection.Insert(new UserPokeTypes
                         {
                             UserId = (long)e.User.Id,
                             type = targetType.Name
-                        }).ConfigureAwait(false);
+                        }, typeof(UserPokeTypes));
 
                         //Now for the response
 

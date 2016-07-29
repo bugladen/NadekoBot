@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Administration.Commands
             NadekoBot.Client.UserJoined += UserJoined;
             NadekoBot.Client.UserLeft += UserLeft;
 
-            var data = Classes.DbHandler.Instance.GetAllRows<DataModels.Announcement>().GetAwaiter().GetResult();
+            var data = Classes.DbHandler.Instance.GetAllRows<DataModels.Announcement>();
 
             if (!data.Any()) return;
             foreach (var obj in data)

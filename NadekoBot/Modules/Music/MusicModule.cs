@@ -612,13 +612,13 @@ namespace NadekoBot.Modules.Music
                             CreatorName = e.User.Name,
                             Name = name.ToLowerInvariant(),
                         };
-                        await DbHandler.Instance.SaveAll(songInfos).ConfigureAwait(false);
-                        await DbHandler.Instance.Save(playlist).ConfigureAwait(false);
-                        await DbHandler.Instance.Connection.InsertAllAsync(songInfos.Select(s => new PlaylistSongInfo
+                        DbHandler.Instance.SaveAll(songInfos);
+                        DbHandler.Instance.Save(playlist);
+                        DbHandler.Instance.Connection.InsertAll(songInfos.Select(s => new PlaylistSongInfo
                         {
                             PlaylistId = playlist.Id.Value,
                             SongInfoId = s.Id.Value
-                        })).ConfigureAwait(false);
+                        }), typeof(PlaylistSongInfo));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 
@@ -650,7 +650,7 @@ namespace NadekoBot.Modules.Music
                         if (!int.TryParse(parts[1], out playlistNumber))
                             return;
 
-                        var playlist = DbHandler.Instance.Connection.FindAsync<MusicPlaylist>(
+                        var playlist = DbHandler.Instance.FindOne<MusicPlaylist>(
                             p => p.Id == playlistNumber);
 
                         if (playlist == null)
@@ -659,11 +659,11 @@ namespace NadekoBot.Modules.Music
                             return;
                         }
 
-                        var psis = await DbHandler.Instance.Connection.Table<PlaylistSongInfo>().Where(psi =>
-                            psi.PlaylistId == playlist.Id).ToListAsync().ConfigureAwait(false);
+                        var psis = DbHandler.Instance.FindAll<PlaylistSongInfo>(psi =>
+                            psi.PlaylistId == playlist.Id);
 
-                        var songInfos = await Task.WhenAll(psis.Select(async psi => await DbHandler.Instance
-                            .Connection.FindAsync<DataModels.SongInfo>(si => si.Id == psi.SongInfoId))).ConfigureAwait(false);
+                        var songInfos = psis.Select(psi => DbHandler.Instance
+                            .FindOne<DataModels.SongInfo>(si => si.Id == psi.SongInfoId));
 
                         await e.Channel.SendMessage($"`Attempting to load {songInfos.Count()} songs`").ConfigureAwait(false);
                         foreach (var si in songInfos)
@@ -687,17 +687,17 @@ namespace NadekoBot.Modules.Music
                     .Alias(Prefix + "pls")
                     .Description($"Lists all playlists. Paginated. 20 per page. Default page is 0. |`{Prefix}pls 1`")
                     .Parameter("num", ParameterType.Optional)
-                    .Do(async e =>
+                    .Do(e =>
                     {
                         int num = 0;
                         int.TryParse(e.GetArg("num"), out num);
                         if (num < 0)
                             return;
-                        var result = await DbHandler.Instance.GetPlaylistData(num);
+                        var result = DbHandler.Instance.GetPlaylistData(num);
                         if (result.Count == 0)
-                            await e.Channel.SendMessage($"`No saved playlists found on page {num}`").ConfigureAwait(false);
+                            e.Channel.SendMessage($"`No saved playlists found on page {num}`").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```").ConfigureAwait(false);
+                            e.Channel.SendMessage($"```js\n--- List of saved playlists ---\n\n" + string.Join("\n", result.Select(r => $"'{r.Name}-{r.Id}' by {r.Creator} ({r.SongCnt} songs)")) + $"\n\n        --- Page {num} ---```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "deleteplaylist")
@@ -711,9 +711,9 @@ namespace NadekoBot.Modules.Music
                             return;
                         var plnum = int.Parse(pl);
                         if (NadekoBot.IsOwner(e.User.Id))
-                            await DbHandler.Instance.Delete<MusicPlaylist>(plnum).ConfigureAwait(false);
+                            DbHandler.Instance.Delete<MusicPlaylist>(plnum);
                         else
-                            await DbHandler.Instance.DeleteWhere<MusicPlaylist>(mp => mp.Id == plnum && (long)e.User.Id == mp.CreatorId).ConfigureAwait(false);
+                            DbHandler.Instance.DeleteWhere<MusicPlaylist>(mp => mp.Id == plnum && (long)e.User.Id == mp.CreatorId);
                         await e.Channel.SendMessage("`Ok.` :ok:").ConfigureAwait(false);
                     });
 
@@ -771,22 +771,20 @@ namespace NadekoBot.Modules.Music
                             var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
                             if (selSong == null)
                             {
-                                await e.Channel.SendMessage("Could not select song, likely wrong index");
-
-                            }
-                            else
+                                await e.Channel.SendMessage("Could not select song, likely wrong index"); 
+                                
+                            } else
                             {
                                 await e.Channel.SendMessage($"🎶`Selected song {selSong.SongInfo.Title}:` <{selSong.SongInfo.Query}>").ConfigureAwait(false);
                             }
-                        }
-                        else
+                        } else
                         {
                             var curSong = musicPlayer.CurrentSong;
                             if (curSong == null)
                                 return;
                             await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
                         }
-
+                        
                     });
 
                 cgb.CreateCommand(Prefix + "autoplay")

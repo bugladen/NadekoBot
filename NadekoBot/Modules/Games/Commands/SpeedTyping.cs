@@ -15,9 +15,9 @@ namespace NadekoBot.Modules.Games.Commands
 
     public static class SentencesProvider
     {
-        internal static async Task<string> GetRandomSentence()
+        internal static string GetRandomSentence()
         {
-            var data = await DbHandler.Instance.GetAllRows<TypingArticle>();
+            var data = DbHandler.Instance.GetAllRows<TypingArticle>();
             try
             {
                 return data.ToList()[new Random().Next(0, data.Count())].Text;
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Games.Commands
             {
                 if (IsActive) return; // can't start running game
                 IsActive = true;
-                CurrentSentence = await SentencesProvider.GetRandomSentence().ConfigureAwait(false);
+                CurrentSentence = SentencesProvider.GetRandomSentence();
                 var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
                 await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
@@ -182,11 +182,11 @@ namespace NadekoBot.Modules.Games.Commands
                 {
                     if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    await DbHandler.Instance.Connection.InsertAsync(new TypingArticle
+                    DbHandler.Instance.Connection.Insert(new TypingArticle
                     {
                         Text = e.GetArg("text"),
                         DateAdded = DateTime.Now
-                    }).ConfigureAwait(false);
+                    });
 
                     await e.Channel.SendMessage("Added new article for typing game.").ConfigureAwait(false);
                 });
