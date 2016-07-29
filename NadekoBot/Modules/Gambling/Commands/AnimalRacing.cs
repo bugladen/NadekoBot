@@ -59,6 +59,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                     if (!AnimalRaces.TryGetValue(e.Server.Id, out ar))
                     {
                         await e.Channel.SendMessage("No race exists on this server");
+                        return;
                     }
                     await ar.JoinRace(e.User, amount);
 
