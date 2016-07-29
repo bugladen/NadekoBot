@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Games.Commands
                 {
                     if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    DbHandler.Instance.InsertData(new TypingArticle
+                    DbHandler.Instance.Connection.Insert(new TypingArticle
                     {
                         Text = e.GetArg("text"),
                         DateAdded = DateTime.Now

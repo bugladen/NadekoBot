@@ -8,7 +8,6 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,7 +41,7 @@ namespace NadekoBot.Modules.Conversations
                         if (string.IsNullOrWhiteSpace(text))
                             return;
                         await Task.Run(() =>
-                            Classes.DbHandler.Instance.InsertData(new DataModels.UserQuote()
+                            Classes.DbHandler.Instance.Connection.Insert(new DataModels.UserQuote()
                             {
                                 DateAdded = DateTime.Now,
                                 Keyword = e.GetArg("keyword").ToLowerInvariant(),

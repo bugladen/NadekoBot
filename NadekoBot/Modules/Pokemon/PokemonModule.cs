@@ -319,11 +319,11 @@ namespace NadekoBot.Modules.Pokemon
                             DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
                         }
 
-                        DbHandler.Instance.InsertData(new UserPokeTypes
+                        DbHandler.Instance.Connection.Insert(new UserPokeTypes
                         {
                             UserId = (long)e.User.Id,
                             type = targetType.Name
-                        });
+                        }, typeof(UserPokeTypes));
 
                         //Now for the response
 

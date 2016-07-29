@@ -614,11 +614,11 @@ namespace NadekoBot.Modules.Music
                         };
                         DbHandler.Instance.SaveAll(songInfos);
                         DbHandler.Instance.Save(playlist);
-                        DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
+                        DbHandler.Instance.Connection.InsertAll(songInfos.Select(s => new PlaylistSongInfo
                         {
                             PlaylistId = playlist.Id.Value,
                             SongInfoId = s.Id.Value
-                        }));
+                        }), typeof(PlaylistSongInfo));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 

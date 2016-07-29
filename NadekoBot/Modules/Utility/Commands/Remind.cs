@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Utility.Commands
                         UserId = (long)e.User.Id,
                         ServerId = (long)e.Server.Id
                     };
-                    DbHandler.Instance.InsertData(rem);
+                    DbHandler.Instance.Connection.Insert(rem);
 
                     reminders.Add(StartNewReminder(rem));
 

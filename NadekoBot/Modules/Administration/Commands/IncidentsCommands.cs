@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     var sid = (long)e.Server.Id;
                     var incs = DbHandler.Instance.FindAll<Incident>(i => i.ServerId == sid && i.Read == false);
-                    DbHandler.Instance.UpdateAll<Incident>(incs.Select(i => { i.Read = true; return i; }));
+                    DbHandler.Instance.Connection.UpdateAll(incs.Select(i => { i.Read = true; return i; }));
 
                     await e.User.SendMessage(string.Join("\n----------------------", incs.Select(i => i.Text)));
                 });
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     var sid = (long)e.Server.Id;
                     var incs = DbHandler.Instance.FindAll<Incident>(i => i.ServerId == sid);
-                    DbHandler.Instance.UpdateAll<Incident>(incs.Select(i => { i.Read = true; return i; }));
+                    DbHandler.Instance.Connection.UpdateAll(incs.Select(i => { i.Read = true; return i; }));
                     var data = string.Join("\n----------------------\n", incs.Select(i => i.Text));
                     MemoryStream ms = new MemoryStream();
                     var sw = new StreamWriter(ms);

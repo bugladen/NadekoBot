@@ -56,7 +56,8 @@ namespace NadekoBot
 -------------------------------------
 ");
                 }
-                catch {
+                catch
+                {
                     Console.WriteLine("Command errored errorring");
                 }
             };
@@ -208,7 +209,7 @@ namespace NadekoBot
                                                                         .ConfigureAwait(false);
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DbHandler.Instance.InsertData(new DataModels.Stats
+                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Stats
                     {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
@@ -252,7 +253,7 @@ namespace NadekoBot
                 try
                 {
                     commandsRan++;
-                    Classes.DbHandler.Instance.InsertData(new DataModels.Command
+                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Command
                     {
                         ServerId = (long)(e.Server?.Id ?? 0),
                         ServerName = e.Server?.Name ?? "--Direct Message--",

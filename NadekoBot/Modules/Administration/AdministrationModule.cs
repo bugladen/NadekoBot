@@ -842,7 +842,7 @@ namespace NadekoBot.Modules.Administration
                             if (donator == null) return;
                             try
                             {
-                                DbHandler.Instance.InsertData(new Donator
+                                DbHandler.Instance.Connection.Insert(new Donator
                                 {
                                     Amount = amount,
                                     UserName = donator.Name,
