@@ -614,11 +614,11 @@ namespace NadekoBot.Modules.Music
                         };
                         DbHandler.Instance.SaveAll(songInfos);
                         DbHandler.Instance.Save(playlist);
-                        DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
+                        DbHandler.Instance.Connection.InsertAll(songInfos.Select(s => new PlaylistSongInfo
                         {
                             PlaylistId = playlist.Id.Value,
                             SongInfoId = s.Id.Value
-                        }));
+                        }), typeof(PlaylistSongInfo));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 
@@ -718,7 +718,7 @@ namespace NadekoBot.Modules.Music
                     });
 
                 cgb.CreateCommand(Prefix + "goto")
-                    .Description($"Goes to a specific time in seconds in a song. | {Prefix}goto 30")
+                    .Description($"Goes to a specific time in seconds in a song. | `{Prefix}goto 30`")
                     .Parameter("time")
                     .Do(async e =>
                     {

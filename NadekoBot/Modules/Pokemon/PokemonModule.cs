@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Pokemon
 
                 cgb.CreateCommand(Prefix + "movelist")
                     .Alias(Prefix + "ml")
-                    .Description("Lists the moves you are able to use")
+                    .Description($"Lists the moves you are able to use | `{Prefix}ml`")
                     .Do(async e =>
                     {
                         var userType = GetPokeType(e.User.Id);
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those who fainted. Costs a {NadekoBot.Config.CurrencyName} | {Prefix}heal @someone")
+                    .Description($"Heals someone. Revives those who fainted. Costs a {NadekoBot.Config.CurrencyName} | `{Prefix}heal @someone`")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -263,7 +263,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "type")
-                    .Description($"Get the poketype of the target. | {Prefix}type @someone")
+                    .Description($"Get the poketype of the target. | `{Prefix}type @someone`")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "settype")
-                    .Description($"Set your poketype. Costs a {NadekoBot.Config.CurrencyName}. | {Prefix}settype fire")
+                    .Description($"Set your poketype. Costs a {NadekoBot.Config.CurrencyName}. | `{Prefix}settype fire`")
                     .Parameter("targetType", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -319,11 +319,11 @@ namespace NadekoBot.Modules.Pokemon
                             DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
                         }
 
-                        DbHandler.Instance.InsertData(new UserPokeTypes
+                        DbHandler.Instance.Connection.Insert(new UserPokeTypes
                         {
                             UserId = (long)e.User.Id,
                             type = targetType.Name
-                        });
+                        }, typeof(UserPokeTypes));
 
                         //Now for the response
 

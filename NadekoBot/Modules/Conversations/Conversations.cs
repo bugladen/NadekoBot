@@ -8,7 +8,6 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,7 +41,7 @@ namespace NadekoBot.Modules.Conversations
                         if (string.IsNullOrWhiteSpace(text))
                             return;
                         await Task.Run(() =>
-                            Classes.DbHandler.Instance.InsertData(new DataModels.UserQuote()
+                            Classes.DbHandler.Instance.Connection.Insert(new DataModels.UserQuote()
                             {
                                 DateAdded = DateTime.Now,
                                 Keyword = e.GetArg("keyword").ToLowerInvariant(),
@@ -102,7 +101,7 @@ namespace NadekoBot.Modules.Conversations
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("die")
-                    .Description("Works only for the owner. Shuts the bot down.")
+                    .Description("Works only for the owner. Shuts the bot down. | `@NadekoBot die`")
                     .Do(async e =>
                     {
                         if (NadekoBot.IsOwner(e.User.Id))
@@ -119,7 +118,7 @@ namespace NadekoBot.Modules.Conversations
                 randServerSw.Start();
 
                 cgb.CreateCommand("do you love me")
-                    .Description("Replies with positive answer only to the bot owner.")
+                    .Description("Replies with positive answer only to the bot owner. | `@NadekoBot do you love me`")
                     .Do(async e =>
                     {
                         if (NadekoBot.IsOwner(e.User.Id))
@@ -130,7 +129,7 @@ namespace NadekoBot.Modules.Conversations
 
                 cgb.CreateCommand("how are you")
                     .Alias("how are you?")
-                    .Description("Replies positive only if bot owner is online.")
+                    .Description("Replies positive only if bot owner is online. | `@NadekoBot how are you`")
                     .Do(async e =>
                     {
                         if (NadekoBot.IsOwner(e.User.Id))
@@ -150,7 +149,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("fire")
-                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | @NadekoBot fire [x]")
+                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | `@NadekoBot fire [x]`")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -174,7 +173,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("dump")
-                    .Description("Dumps all of the invites it can to dump.txt.** Owner Only.**")
+                    .Description("Dumps all of the invites it can to dump.txt.** Owner Only.** | `@NadekoBot dump`")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
@@ -201,7 +200,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("ab")
-                    .Description("Try to get 'abalabahaha'")
+                    .Description("Try to get 'abalabahaha'| `@NadekoBot ab`")
                     .Do(async e =>
                     {
                         string[] strings = { "ba", "la", "ha" };

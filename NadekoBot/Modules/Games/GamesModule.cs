@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Games
                         try
                         {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}`")
+                                $":question: `Question` __**{question}**__ \n🎱 `8Ball Answers` __**{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}**__")
                                     .ConfigureAwait(false);
                         }
                         catch { }

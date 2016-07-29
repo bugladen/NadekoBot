@@ -31,7 +31,7 @@ namespace NadekoBot.Classes.Help.Commands
                 if (alias != null)
                     str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -49,7 +49,8 @@ namespace NadekoBot.Classes.Help.Commands
         {
             string helpstr =
 $@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com`
+######You can donate on patreon: `https://patreon.com/nadekobot`
+######or paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";
@@ -80,16 +81,16 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | `-h !m q` or just `-h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("Generates the commandlist.md file. **Bot Owner Only!**")
+                .Description($"Generates the commandlist.md file. **Bot Owner Only!** | `{Prefix}hgit`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")
-                .Description("Sends a readme and a guide links to the channel.")
+                .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
 @"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
@@ -102,7 +103,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project!")
+                .Description("Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
