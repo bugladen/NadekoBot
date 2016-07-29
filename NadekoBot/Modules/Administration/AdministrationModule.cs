@@ -628,20 +628,19 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(Prefix + "clr")
                     .Description(
-                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. "+
+                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. " +
                     $"| `{Prefix}prune` or `{Prefix}prune 5` or `{Prefix}prune @Someone` or `{Prefix}prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
                     {
-                        Message[] msgs;
                         if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false));//.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
-                            msgs = msgs.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
-                            if (!msgs.Any())
+                            var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User?.Id == e.Server.CurrentUser.Id)?.ToArray();
+                            if (msgs == null || !msgs.Any())
                                 return;
-                            await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
+                            var toDelete = msgs as Message[] ?? msgs.ToArray();
+                            await e.Channel.DeleteMessages(toDelete).ConfigureAwait(false);
                             return;
                         }
                         if (!e.User.GetPermissions(e.Channel).ManageMessages)
@@ -668,10 +667,10 @@ namespace NadekoBot.Modules.Administration
                         val = 100;
                         if (!int.TryParse(e.GetArg("num"), out val))
                             val = 100;
-                        msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val).ToArray();
-                        if (!msgs.Any())
+                        var mesgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User?.Id == usr.Id).Take(val);
+                        if (mesgs == null || !mesgs.Any())
                             return;
-                        await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
+                        await e.Channel.DeleteMessages(mesgs as Message[] ?? mesgs.ToArray()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "die")
