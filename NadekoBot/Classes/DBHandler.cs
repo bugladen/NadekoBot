@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Classes
 {
@@ -13,31 +14,24 @@ namespace NadekoBot.Classes
 
         private string FilePath { get; } = "data/nadekobot.sqlite";
 
-        public SQLiteConnection Connection { get; set; }
+        public SQLiteAsyncConnection Connection { get; set; }
 
         static DbHandler() { }
         public DbHandler()
         {
-            Connection = new SQLiteConnection(FilePath);
-            Connection.CreateTable<Stats>();
-            Connection.CreateTable<Command>();
-            Connection.CreateTable<Announcement>();
-            Connection.CreateTable<Request>();
-            Connection.CreateTable<TypingArticle>();
-            Connection.CreateTable<CurrencyState>();
-            Connection.CreateTable<CurrencyTransaction>();
-            Connection.CreateTable<Donator>();
-            Connection.CreateTable<UserPokeTypes>();
-            Connection.CreateTable<UserQuote>();
-            Connection.CreateTable<Reminder>();
-            Connection.CreateTable<SongInfo>();
-            Connection.CreateTable<PlaylistSongInfo>();
-            Connection.CreateTable<MusicPlaylist>();
-            Connection.CreateTable<Incident>();
-            Connection.Execute(Queries.TransactionTriggerQuery);
+            DbHandlerAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task DbHandlerAsync()
+        {
+            Connection = new SQLiteAsyncConnection(FilePath);
+            await Connection.CreateTablesAsync<Stats, Command, Announcement, Request, TypingArticle>();
+            await Connection.CreateTablesAsync<CurrencyState, CurrencyTransaction, Donator, UserPokeTypes, UserQuote>();
+            await Connection.CreateTablesAsync<Reminder, SongInfo, PlaylistSongInfo, MusicPlaylist, Incident>();
+            await Connection.ExecuteAsync(Queries.TransactionTriggerQuery);
             try
             {
-                Connection.Execute(Queries.DeletePlaylistTriggerQuery);
+                await Connection.ExecuteAsync(Queries.DeletePlaylistTriggerQuery);
             }
             catch (Exception ex)
             {
@@ -45,78 +39,50 @@ namespace NadekoBot.Classes
             }
         }
 
-        internal T FindOne<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        internal async Task DeleteWhere<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
         {
-            return Connection.Table<T>().Where(p).FirstOrDefault();
-
+            var item = await Connection.Table<T>().Where(p).FirstOrDefaultAsync();
+            if (item != null)
+                await Connection.DeleteAsync(item);
         }
 
-        internal IList<T> FindAll<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        internal async Task<HashSet<T>> GetAllRows<T>() where T : IDataModel, new() => new HashSet<T>(await Connection.Table<T>().ToListAsync());
+
+        internal Task<CurrencyState> GetStateByUserId(long id) => Connection.Table<CurrencyState>().Where(x => x.UserId == id).FirstOrDefaultAsync();
+
+        internal async Task<T> Delete<T>(int id) where T : IDataModel, new()
         {
-
-            return Connection.Table<T>().Where(p).ToList();
-
-        }
-
-        internal void DeleteWhere<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
-        {
-            var id = Connection.Table<T>().Where(p).FirstOrDefault()?.Id;
-            if (id.HasValue)
-                Connection.Delete<T>(id);
-        }
-
-        internal HashSet<T> GetAllRows<T>() where T : IDataModel, new()
-        {
-            return new HashSet<T>(Connection.Table<T>());
-        }
-
-        internal CurrencyState GetStateByUserId(long id)
-        {
-            return Connection.Table<CurrencyState>().Where(x => x.UserId == id).FirstOrDefault();
-        }
-
-        internal T Delete<T>(int id) where T : IDataModel, new()
-        {
-            var found = Connection.Find<T>(id);
+            var found = await Connection.FindAsync<T>(id);
             if (found != null)
-                Connection.Delete<T>(found.Id);
+                await Connection.DeleteAsync(found);
             return found;
         }
 
         /// <summary>
         /// Updates an existing object or creates a new one
         /// </summary>
-        internal void Save<T>(T o) where T : IDataModel, new()
-        {
-            var found = Connection.Find<T>(o.Id);
-            if (found == null)
-                Connection.Insert(o, typeof(T));
-            else
-                Connection.Update(o, typeof(T));
-        }
+        internal Task<int> Save<T>(T o) where T : IDataModel, new() => Connection.InsertOrReplaceAsync(o);
 
         /// <summary>
         /// Updates an existing object or creates a new one
         /// </summary>
-        internal void SaveAll<T>(IEnumerable<T> ocol) where T : IDataModel, new()
+        internal async Task SaveAll<T>(IEnumerable<T> ocol) where T : IDataModel, new()
         {
             foreach (var o in ocol)
-                Connection.InsertOrReplace(o);
+                await Connection.InsertOrReplaceAsync(o);
         }
 
-        internal T GetRandom<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        internal async Task<T> GetRandom<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
         {
             var r = new Random();
-            return Connection.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
+            return (await Connection.Table<T>().Where(p).ToListAsync()).OrderBy(x => r.Next()).FirstOrDefault();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="num">Page number (0+)</param>
         /// <returns></returns>
-        internal List<PlaylistData> GetPlaylistData(int num)
-        {
-            return Connection.Query<PlaylistData>(
+        internal Task<List<PlaylistData>> GetPlaylistData(int num) => Connection.QueryAsync<PlaylistData>(
 @"SELECT mp.Name as 'Name',mp.Id as 'Id', mp.CreatorName as 'Creator', Count(*) as 'SongCnt' FROM MusicPlaylist as mp
 INNER JOIN PlaylistSongInfo as psi
 ON mp.Id = psi.PlaylistId
@@ -124,12 +90,7 @@ Group BY mp.Name
 Order By mp.DateAdded desc
 Limit 20 OFFSET ?", num * 20);
 
-        }
-
-        internal IEnumerable<CurrencyState> GetTopRichest(int n = 10)
-        {
-            return Connection.Table<CurrencyState>().OrderByDescending(cs => cs.Value).Take(n).ToList();
-        }
+        internal async Task<IEnumerable<CurrencyState>> GetTopRichest(int n = 10) => (await Connection.Table<CurrencyState>().OrderByDescending(cs => cs.Value).Take(n).ToListAsync());
     }
 }
 

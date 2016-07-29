@@ -19,8 +19,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Do(async e =>
                 {
                     var sid = (long)e.Server.Id;
-                    var incs = DbHandler.Instance.FindAll<Incident>(i => i.ServerId == sid && i.Read == false);
-                    DbHandler.Instance.Connection.UpdateAll(incs.Select(i => { i.Read = true; return i; }));
+                    var incs = await DbHandler.Instance.Connection.Table<Incident>().Where(i => i.ServerId == sid && i.Read == false).ToListAsync();
+                    await DbHandler.Instance.Connection.UpdateAllAsync(incs.Select(i => { i.Read = true; return i; }));
 
                     await e.User.SendMessage(string.Join("\n----------------------", incs.Select(i => i.Text)));
                 });
@@ -32,8 +32,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Do(async e =>
                 {
                     var sid = (long)e.Server.Id;
-                    var incs = DbHandler.Instance.FindAll<Incident>(i => i.ServerId == sid);
-                    DbHandler.Instance.Connection.UpdateAll(incs.Select(i => { i.Read = true; return i; }));
+                    var incs = await DbHandler.Instance.Connection.Table<Incident>().Where(i => i.ServerId == sid).ToListAsync();
+                    await DbHandler.Instance.Connection.UpdateAllAsync(incs.Select(i => { i.Read = true; return i; }));
                     var data = string.Join("\n----------------------\n", incs.Select(i => i.Text));
                     MemoryStream ms = new MemoryStream();
                     var sw = new StreamWriter(ms);

@@ -1,11 +1,12 @@
 ﻿using NadekoBot.DataModels;
 using System;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Classes
 {
     internal static class IncidentsHandler
     {
-        public static void Add(ulong serverId, ulong channelId, string text)
+        public static Task Add(ulong serverId, ulong channelId, string text)
         {
             var def = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
@@ -19,7 +20,7 @@ namespace NadekoBot.Classes
                 Read = false
             };
 
-            DbHandler.Instance.Connection.Insert(incident, typeof(Incident));
+            return DbHandler.Instance.Connection.InsertAsync(incident);
         }
     }
 }

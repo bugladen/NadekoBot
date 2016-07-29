@@ -8,14 +8,11 @@ namespace NadekoBot.Classes
         {
             if (amount <= 0)
                 return;
-            await Task.Run(() =>
+            await DbHandler.Instance.Connection.InsertAsync(new DataModels.CurrencyTransaction
             {
-                DbHandler.Instance.Connection.Insert(new DataModels.CurrencyTransaction
-                {
-                    Reason = reason,
-                    UserId = (long)u.Id,
-                    Value = amount,
-                });
+                Reason = reason,
+                UserId = (long)u.Id,
+                Value = amount,
             }).ConfigureAwait(false);
 
             if (silent)
@@ -26,27 +23,27 @@ namespace NadekoBot.Classes
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }
 
-        public static async Task<bool> RemoveFlowers(Discord.User u, string reason, int amount, bool silent=false, string message="👎`Bot owner has taken {0}{1} from you.`")
+        public static async Task<bool> RemoveFlowers(Discord.User u, string reason, int amount, bool silent = false, string message = "👎`Bot owner has taken {0}{1} from you.`")
         {
             if (amount <= 0)
                 return false;
             var uid = (long)u.Id;
-            var state = DbHandler.Instance.FindOne<DataModels.CurrencyState>(cs => cs.UserId == uid);
+            var state = await DbHandler.Instance.Connection.Table<DataModels.CurrencyState>().Where(cs => cs.UserId == uid).FirstOrDefaultAsync();
 
             if (state.Value < amount)
                 return false;
 
-            DbHandler.Instance.Connection.Insert(new DataModels.CurrencyTransaction
+            await DbHandler.Instance.Connection.InsertAsync(new DataModels.CurrencyTransaction
             {
                 Reason = reason,
                 UserId = (long)u.Id,
                 Value = -amount,
-            });
+            }).ConfigureAwait(false);
 
             if (silent)
                 return true;
 
-            await u.SendMessage(string.Format(message,amount,NadekoBot.Config.CurrencySign)).ConfigureAwait(false);
+            await u.SendMessage(string.Format(message, amount, NadekoBot.Config.CurrencySign)).ConfigureAwait(false);
             return true;
         }
     }

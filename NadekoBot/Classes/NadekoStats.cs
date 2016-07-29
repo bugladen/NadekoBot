@@ -195,7 +195,7 @@ namespace NadekoBot
                                                                         .ConfigureAwait(false);
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Stats
+                    await Classes.DbHandler.Instance.Connection.InsertAsync(new DataModels.Stats
                     {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
@@ -255,29 +255,26 @@ namespace NadekoBot
             commandTracker.TryAdd(e.Message.Id, DateTime.UtcNow);
             Console.WriteLine($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
 #if !NADEKO_RELEASE
-            await Task.Run(() =>
+            try
             {
-                try
+                commandsRan++;
+                await Classes.DbHandler.Instance.Connection.InsertAsync(new DataModels.Command
                 {
-                    commandsRan++;
-                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Command
-                    {
-                        ServerId = (long)(e.Server?.Id ?? 0),
-                        ServerName = e.Server?.Name ?? "--Direct Message--",
-                        ChannelId = (long)e.Channel.Id,
-                        ChannelName = e.Channel.IsPrivate ? "--Direct Message" : e.Channel.Name,
-                        UserId = (long)e.User.Id,
-                        UserName = e.User.Name,
-                        CommandName = e.Command.Text,
-                        DateAdded = DateTime.Now
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Probably unimportant error in ran command DB write.");
-                    Console.WriteLine(ex);
-                }
-            }).ConfigureAwait(false);
+                    ServerId = (long)(e.Server?.Id ?? 0),
+                    ServerName = e.Server?.Name ?? "--Direct Message--",
+                    ChannelId = (long)e.Channel.Id,
+                    ChannelName = e.Channel.IsPrivate ? "--Direct Message" : e.Channel.Name,
+                    UserId = (long)e.User.Id,
+                    UserName = e.User.Name,
+                    CommandName = e.Command.Text,
+                    DateAdded = DateTime.Now
+                }).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Probably unimportant error in ran command DB write.");
+                Console.WriteLine(ex);
+            }
 #endif
         }
     }

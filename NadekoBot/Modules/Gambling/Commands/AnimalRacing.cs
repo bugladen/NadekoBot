@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                     if (!int.TryParse(e.GetArg("amount"), out amount) || amount < 0)
                         amount = 0;
 
-                    var userFlowers = GamblingModule.GetUserFlowers(e.User.Id);
+                    var userFlowers = await GamblingModule.GetUserFlowers(e.User.Id).ConfigureAwait(false);
 
                     if (userFlowers < amount)
                     {

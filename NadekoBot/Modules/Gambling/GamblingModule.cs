@@ -9,6 +9,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -57,13 +58,13 @@ namespace NadekoBot.Modules.Gambling
                     .Do(async e =>
                     {
                         var usr = e.Message.MentionedUsers.FirstOrDefault() ?? e.User;
-                        var pts = GetUserFlowers(usr.Id);
+                        var pts = await GetUserFlowers(usr.Id).ConfigureAwait(false);
                         var str = $"{usr.Name} has {pts} {NadekoBot.Config.CurrencySign}";
                         await e.Channel.SendMessage(str).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "give")
-                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName)+ $"|`{Prefix}give 1 \"@SomeGuy\"`")
+                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName) + $"|`{Prefix}give 1 \"@SomeGuy\"`")
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
@@ -79,7 +80,7 @@ namespace NadekoBot.Modules.Gambling
                         if (mentionedUser == null)
                             return;
 
-                        var userFlowers = GetUserFlowers(e.User.Id);
+                        var userFlowers = await GetUserFlowers(e.User.Id).ConfigureAwait(false);
 
                         if (userFlowers < amount)
                         {
@@ -141,7 +142,7 @@ namespace NadekoBot.Modules.Gambling
                 cgb.CreateCommand(Prefix + "betroll")
                     .Alias(Prefix + "br")
                     .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `{Prefix}br 5`")
-                    .Parameter("amount",ParameterType.Required)
+                    .Parameter("amount", ParameterType.Required)
                     .Do(async e =>
                     {
                         var amountstr = e.GetArg("amount").Trim();
@@ -150,7 +151,7 @@ namespace NadekoBot.Modules.Gambling
                         if (!int.TryParse(amountstr, out amount) || amount < 1)
                             return;
 
-                        var userFlowers = GetUserFlowers(e.User.Id);
+                        var userFlowers = await GetUserFlowers(e.User.Id).ConfigureAwait(false);
 
                         if (userFlowers < amount)
                         {
@@ -176,13 +177,14 @@ namespace NadekoBot.Modules.Gambling
                             str += $"Congratulations! You won {amount * 3}{NadekoBot.Config.CurrencySign} for rolling above 90.";
                             await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 3, true).ConfigureAwait(false);
                         }
-                        else {
+                        else
+                        {
                             str += $"👑 Congratulations! You won {amount * 10}{NadekoBot.Config.CurrencySign} for rolling **100**. 👑";
                             await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true).ConfigureAwait(false);
                         }
 
                         await e.Channel.SendMessage(str).ConfigureAwait(false);
-                        
+
                     });
 
                 cgb.CreateCommand(Prefix + "leaderboard")
@@ -190,7 +192,7 @@ namespace NadekoBot.Modules.Gambling
                     .Description($"Displays bot currency leaderboard | {Prefix}lb")
                     .Do(async e =>
                     {
-                        var richestTemp = DbHandler.Instance.GetTopRichest();
+                        var richestTemp = await DbHandler.Instance.GetTopRichest().ConfigureAwait(false);
                         var richest = richestTemp as CurrencyState[] ?? richestTemp.ToArray();
                         if (richest.Length == 0)
                             return;
@@ -208,7 +210,7 @@ namespace NadekoBot.Modules.Gambling
             });
         }
 
-        public static long GetUserFlowers(ulong userId) =>
-            Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
+        public static async Task<long> GetUserFlowers(ulong userId) =>
+            (await Classes.DbHandler.Instance.GetStateByUserId((long)userId))?.Value ?? 0;
     }
 }
