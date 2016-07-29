@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
+using NadekoBot.Extensions;
 using System.Text;
 
 //taken from 
@@ -291,7 +292,7 @@ namespace NadekoBot.Modules.Games.Commands
                 }
                 #endregion
             }
-            return sb.ToString(); // Return result.
+            return sb.ToString().TrimTo(1995); // Return result.
         }
 
         internal override void Init(CommandGroupBuilder cgb)
