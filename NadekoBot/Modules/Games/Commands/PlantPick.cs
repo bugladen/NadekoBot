@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Games.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "pick")
-                .Description("Picks a flower planted in this channel.")
+                .Description($"Picks a flower planted in this channel. | `{Prefix}pick`")
                 .Do(async e =>
                 {
                     IEnumerable<Message> msgs;
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Games.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "plant")
-                .Description("Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)")
+                .Description($"Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost) | `{Prefix}plant`")
                 .Do(async e =>
                 {
                     await locker.WaitAsync().ConfigureAwait(false);
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Games.Commands
 
             cgb.CreateCommand(Prefix + "gencurrency")
                 .Alias(Prefix + "gc")
-                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. | `>gc` or `>gc 60`")
+                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. | `{Prefix}gc` or `{Prefix}gc 60`")
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Parameter("cd", ParameterType.Unparsed)
                 .Do(async e =>

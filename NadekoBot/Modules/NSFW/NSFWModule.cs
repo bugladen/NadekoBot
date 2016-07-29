@@ -84,14 +84,14 @@ namespace NadekoBot.Modules.NSFW
                         await e.Channel.SendMessage(await SearchHelper.GetE621ImageLink(tag).ConfigureAwait(false)).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "cp")
-                    .Description("We all know where this will lead you to.")
+                    .Description($"We all know where this will lead you to. | `{Prefix}cp`")
                     .Parameter("anything", ParameterType.Unparsed)
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "boobs")
-                    .Description("Real adult content.")
+                    .Description($"Real adult content. | `{Prefix}boobs`")
                     .Do(async e =>
                     {
                         try
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.NSFW
                     });
                 cgb.CreateCommand(Prefix + "butts")
                     .Alias(Prefix + "ass", Prefix + "butt")
-                    .Description("Real adult content.")
+                    .Description($"Real adult content. | `{Prefix}butts` or `{Prefix}ass`")
                     .Do(async e =>
                     {
                         try
