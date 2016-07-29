@@ -4,6 +4,7 @@ using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -27,16 +28,16 @@ namespace NadekoBot.Modules.NSFW
                     .Do(async e =>
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
-                        var gel = await SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false);
-                        if (gel != null)
-                            await e.Channel.SendMessage(":heart: Gelbooru: " + gel)
-                                           .ConfigureAwait(false);
-                        var dan = await SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false);
-                        if (dan != null)
-                            await e.Channel.SendMessage(":heart: Danbooru: " + dan)
-                                           .ConfigureAwait(false);
-                        if (dan == null && gel == null)
+
+                        var links = await Task.WhenAll(SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag), SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag), SearchHelper.GetRule34ImageLink(tag)).ConfigureAwait(false);
+
+                        if (links.Length == 0)
+                        {
                             await e.Channel.SendMessage("`No results.`");
+                            return;
+                        }
+
+                        await e.Channel.SendMessage(String.Join("\n\n", links)).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "danbooru")
                     .Description($"Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) | `{Prefix}danbooru yuri+kissing`")
