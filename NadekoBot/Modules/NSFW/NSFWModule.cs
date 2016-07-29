@@ -4,6 +4,7 @@ using NadekoBot.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.NSFW
@@ -29,9 +30,9 @@ namespace NadekoBot.Modules.NSFW
                     {
                         var tag = e.GetArg("tag")?.Trim() ?? "";
 
-                        var links = await Task.WhenAll(SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag), SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag), SearchHelper.GetRule34ImageLink(tag)).ConfigureAwait(false);
+                        var links = await Task.WhenAll(SearchHelper.GetGelbooruImageLink("rating%3Aexplicit+" + tag), SearchHelper.GetDanbooruImageLink("rating%3Aexplicit+" + tag)).ConfigureAwait(false);
 
-                        if (links.Length == 0)
+                        if (links.All(l => l == null))
                         {
                             await e.Channel.SendMessage("`No results.`");
                             return;
