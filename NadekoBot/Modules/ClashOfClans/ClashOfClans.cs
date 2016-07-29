@@ -1,11 +1,7 @@
-﻿using Discord.Commands;
+﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 //using Manatee.Json.Serialization;
 
 namespace NadekoBot.Classes.ClashOfClans
@@ -40,7 +36,7 @@ namespace NadekoBot.Classes.ClashOfClans
 
         public void ResetTime()
         {
-            TimeAdded = DateTime.Now;
+            TimeAdded = DateTime.UtcNow;
         }
 
         public void Destroy()
@@ -59,12 +55,12 @@ namespace NadekoBot.Classes.ClashOfClans
         public Caller[] Bases { get; set; }
         public WarState WarState { get; set; } = WarState.Created;
         //public bool Started { get; set; } = false;
-        public DateTime StartedAt { get; private set; }
+        public DateTime StartedAt { get; set; }
         //public bool Ended { get; private set; } = false;
 
         public ulong ServerId { get; set; }
         public ulong ChannelId { get; set; }
-        
+
         [JsonIgnore]
         public Discord.Channel Channel { get; internal set; }
 
@@ -80,7 +76,7 @@ namespace NadekoBot.Classes.ClashOfClans
             this.Bases = new Caller[size];
             this.ServerId = serverId;
             this.ChannelId = channelId;
-            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s=>s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
+            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
         }
 
         internal void End()
@@ -101,7 +97,7 @@ namespace NadekoBot.Classes.ClashOfClans
                     throw new ArgumentException($"@{u} You already claimed base #{i + 1}. You can't claim a new one.");
             }
 
-            Bases[baseNumber] = new Caller(u.Trim(), DateTime.Now, false);
+            Bases[baseNumber] = new Caller(u.Trim(), DateTime.UtcNow, false);
         }
 
         internal void Start()
@@ -112,7 +108,7 @@ namespace NadekoBot.Classes.ClashOfClans
             //    throw new InvalidOperationException();
             //Started = true;
             WarState = WarState.Started;
-            StartedAt = DateTime.Now;
+            StartedAt = DateTime.UtcNow;
             foreach (var b in Bases.Where(b => b != null))
             {
                 b.ResetTime();
@@ -155,7 +151,7 @@ namespace NadekoBot.Classes.ClashOfClans
                     }
                     else
                     {
-                        var left =(WarState == WarState.Started) ? callExpire - (DateTime.Now - Bases[i].TimeAdded) : callExpire;
+                        var left = (WarState == WarState.Started) ? callExpire - (DateTime.UtcNow - Bases[i].TimeAdded) : callExpire;
                         sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
                 }

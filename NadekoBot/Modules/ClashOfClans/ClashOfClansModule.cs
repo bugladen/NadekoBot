@@ -1,15 +1,15 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes.ClashOfClans;
+using NadekoBot.Modules.Permissions.Classes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Permissions.Classes;
-using System.Linq;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -58,7 +58,6 @@ namespace NadekoBot.Modules.ClashOfClans
                 //Can't this be disabled if the modules is disabled too :)
                 var callExpire = new TimeSpan(2, 0, 0);
                 var warExpire = new TimeSpan(23, 0, 0);
-                bool changed = false;
                 while (true)
                 {
                     try
@@ -77,23 +76,24 @@ namespace NadekoBot.Modules.ClashOfClans
                                 if (w.WarState != WarState.Ended)
                                 {
                                     //and B: the war has not expired
-                                    if ((w.WarState == WarState.Started && DateTime.Now - w.StartedAt <= warExpire) || w.WarState == WarState.Created)
+                                    if ((w.WarState == WarState.Started && DateTime.UtcNow - w.StartedAt <= warExpire) || w.WarState == WarState.Created)
                                     {
                                         newVal.Add(w);
                                     }
                                 }
                             }
-                            //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.Now - w.StartedAt >= warExpire)).ToList();
+                            //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.UtcNow - w.StartedAt >= warExpire)).ToList();
                             foreach (var exWar in cw.Value.Except(newVal))
                             {
-                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} has ended");
+                                await exWar.Channel.SendMessage($"War against {exWar.EnemyClan} ({exWar.Size}v{exWar.Size}) has ended");
                             }
-                           
+
                             if (newVal.Count == 0)
                             {
                                 List<ClashWar> obj;
                                 ClashWars.TryRemove(cw.Key, out obj);
-                            } else
+                            }
+                            else
                             {
                                 ClashWars.AddOrUpdate(cw.Key, newVal, (x, s) => newVal);
                             }
@@ -130,18 +130,13 @@ namespace NadekoBot.Modules.ClashOfClans
             for (var i = 0; i < Bases.Length; i++)
             {
                 if (Bases[i] == null) continue;
-                if (!Bases[i].BaseDestroyed && DateTime.Now - Bases[i].TimeAdded >= callExpire)
+                if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
                     await war.Channel.SendMessage($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
                     Bases[i] = null;
                 }
             }
         }
-
-
-
-
-
 
         #region commands
         public override void Install(ModuleManager manager)
@@ -181,13 +176,13 @@ namespace NadekoBot.Modules.ClashOfClans
 
 
                           var cw = new ClashWar(enemyClan, size, e.Server.Id, e.Channel.Id);
-                        //cw.Start();
+                          //cw.Start();
 
-                        wars.Add(cw);
+                          wars.Add(cw);
                           await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
                           Save();
-                        //war with the index X started.
-                    });
+                          //war with the index X started.
+                      });
 
                 cgb.CreateCommand(Prefix + "startwar")
                     .Alias(Prefix + "sw")
@@ -243,7 +238,7 @@ namespace NadekoBot.Modules.ClashOfClans
                             }
                             await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                             return;
-                            
+
                         }
                         //if number is not null, print the war needed
                         var warsInfo = GetInfo(e);
