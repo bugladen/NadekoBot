@@ -107,12 +107,11 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
-$@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
-Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
+$@"You can support the project on patreon. <https://patreon.com/nadekobot> or
+You can send donations to `nadekodiscordbot@gmail.com`
+Don't forget to leave your discord name or id in the message.
 
-*If you want to support in some other way or on a different platform, please message me*"
-                    ).ConfigureAwait(false);
+**Thank you** ♥️").ConfigureAwait(false);
                 });
         }
 
