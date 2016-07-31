@@ -48,8 +48,8 @@ namespace NadekoBot.Classes.Help.Commands
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
             string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on patreon: `https://patreon.com/nadekobot`
+$@"######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+######You can donate on patreon: <https://patreon.com/nadekobot>
 ######or paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  

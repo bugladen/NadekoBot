@@ -771,20 +771,22 @@ namespace NadekoBot.Modules.Music
                             var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
                             if (selSong == null)
                             {
-                                await e.Channel.SendMessage("Could not select song, likely wrong index"); 
-                                
-                            } else
+                                await e.Channel.SendMessage("Could not select song, likely wrong index");
+
+                            }
+                            else
                             {
                                 await e.Channel.SendMessage($"🎶`Selected song {selSong.SongInfo.Title}:` <{selSong.SongInfo.Query}>").ConfigureAwait(false);
                             }
-                        } else
+                        }
+                        else
                         {
                             var curSong = musicPlayer.CurrentSong;
                             if (curSong == null)
                                 return;
                             await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
                         }
-                        
+
                     });
 
                 cgb.CreateCommand(Prefix + "autoplay")
@@ -837,7 +839,7 @@ namespace NadekoBot.Modules.Music
                             lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
-                                await QueueSong(queuer, textCh, voiceCh, await SearchHelper.GetRelatedVideoId(song.SongInfo.Query), silent, musicType).ConfigureAwait(false);
+                                await QueueSong(queuer, textCh, voiceCh, (await SearchHelper.GetRelatedVideoIds(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
                             }
                         }
                         catch (Exception e)
