@@ -52,8 +52,7 @@ $@"######For more information and how to setup your own NadekoBot, go to: <http:
 ######You can donate on patreon: <https://patreon.com/nadekobot>
 ######or paypal: `nadekodiscordbot@gmail.com`
 
-#NadekoBot List Of Commands  
-Version: `{NadekoStats.Instance.BotVersion}`";
+#NadekoBot List Of Commands  ";
 
 
             string lastCategory = "";
