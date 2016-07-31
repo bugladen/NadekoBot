@@ -614,11 +614,11 @@ namespace NadekoBot.Modules.Music
                         };
                         DbHandler.Instance.SaveAll(songInfos);
                         DbHandler.Instance.Save(playlist);
-                        DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
+                        DbHandler.Instance.Connection.InsertAll(songInfos.Select(s => new PlaylistSongInfo
                         {
                             PlaylistId = playlist.Id.Value,
                             SongInfoId = s.Id.Value
-                        }));
+                        }), typeof(PlaylistSongInfo));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 
@@ -756,16 +756,35 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand(Prefix + "getlink")
                     .Alias(Prefix + "gl")
-                    .Description("Shows a link to the currently playing song.")
+                    .Description("Shows a link to the song in the queue by index, or the currently playing song by default.")
+                    .Parameter("index", ParameterType.Optional)
                     .Do(async e =>
                     {
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
-                        var curSong = musicPlayer.CurrentSong;
-                        if (curSong == null)
-                            return;
-                        await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
+                        int index;
+                        string arg = e.GetArg("index")?.Trim();
+                        if (!string.IsNullOrEmpty(arg) && int.TryParse(arg, out index))
+                        {
+
+                            var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
+                            if (selSong == null)
+                            {
+                                await e.Channel.SendMessage("Could not select song, likely wrong index"); 
+                                
+                            } else
+                            {
+                                await e.Channel.SendMessage($"🎶`Selected song {selSong.SongInfo.Title}:` <{selSong.SongInfo.Query}>").ConfigureAwait(false);
+                            }
+                        } else
+                        {
+                            var curSong = musicPlayer.CurrentSong;
+                            if (curSong == null)
+                                return;
+                            await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
+                        }
+                        
                     });
 
                 cgb.CreateCommand(Prefix + "autoplay")

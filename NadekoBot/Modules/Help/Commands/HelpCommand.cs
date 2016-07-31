@@ -81,16 +81,16 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
+                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | `-h !m q` or just `-h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("Generates the commandlist.md file. **Bot Owner Only!**")
+                .Description($"Generates the commandlist.md file. **Bot Owner Only!** | `{Prefix}hgit`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")
-                .Description("Sends a readme and a guide links to the channel.")
+                .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
 @"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
@@ -103,16 +103,15 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project!")
+                .Description("Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
-$@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
-Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
+$@"You can support the project on patreon. <https://patreon.com/nadekobot> or
+You can send donations to `nadekodiscordbot@gmail.com`
+Don't forget to leave your discord name or id in the message.
 
-*If you want to support in some other way or on a different platform, please message me*"
-                    ).ConfigureAwait(false);
+**Thank you** ♥️").ConfigureAwait(false);
                 });
         }
 

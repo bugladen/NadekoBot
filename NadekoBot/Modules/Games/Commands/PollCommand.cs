@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Games.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "poll")
-                  .Description("Creates a poll, only person who has manage server permission can do it. | >poll Question?;Answer1;Answ 2;A_3")
+                  .Description($"Creates a poll, only person who has manage server permission can do it. | `{Prefix}poll Question?;Answer1;Answ 2;A_3`")
                   .Parameter("allargs", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Games.Commands
                       }).ConfigureAwait(false);
                   });
             cgb.CreateCommand(Module.Prefix + "pollend")
-                  .Description("Stops active poll on this server and prints the results in this channel.")
+                  .Description($"Stops active poll on this server and prints the results in this channel. | `{Prefix}pollend`")
                   .Do(async e =>
                   {
                       if (!e.User.ServerPermissions.ManageChannels)

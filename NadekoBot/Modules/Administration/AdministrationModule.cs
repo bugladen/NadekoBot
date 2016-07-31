@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Administration
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "delmsgoncmd")
-                    .Description("Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only.")
+                    .Description($"Toggles the automatic deletion of user's successful command message to prevent chat flood. Server Manager Only. | `{Prefix}delmsgoncmd`")
                     .AddCheck(SimpleCheckers.ManageServer())
                     .Do(async e =>
                     {
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
-                    .Description("Restarts the bot. Might not work. **Bot Owner Only**")
+                    .Description($"Restarts the bot. Might not work. **Bot Owner Only** | `{Prefix}restart`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -406,7 +406,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         if (!e.User.ServerPermissions.MuteMembers)
                         {
-                            await e.Channel.SendMessage("You do not have permission to do that.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                             return;
                         }
                         if (!e.Message.MentionedUsers.Any())
@@ -421,7 +421,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -447,7 +447,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -474,7 +474,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -501,7 +501,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("I do not have permission to do that most likely.").ConfigureAwait(false);
+                            await e.Channel.SendMessage("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
                         }
                     });
 
@@ -617,7 +617,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "heap")
-                  .Description("Shows allocated memory - **Bot Owner Only!**")
+                  .Description($"Shows allocated memory - **Bot Owner Only!** | `{Prefix}heap`")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(async e =>
                   {
@@ -628,19 +628,19 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(Prefix + "clr")
                     .Description(
-    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`")
+                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. " +
+                    $"| `{Prefix}prune` or `{Prefix}prune 5` or `{Prefix}prune @Someone` or `{Prefix}prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
                     .Do(async e =>
                     {
-                        Message[] msgs;
                         if (string.IsNullOrWhiteSpace(e.GetArg("user_or_num"))) // if nothing is set, clear nadeko's messages, no permissions required
                         {
-                            msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false));//.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
-                            msgs = msgs.Where(m => m.User.Id == e.Server.CurrentUser.Id).ToArray();
-                            if (!msgs.Any())
+                            var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User?.Id == e.Server.CurrentUser.Id)?.ToArray();
+                            if (msgs == null || !msgs.Any())
                                 return;
-                            await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
+                            var toDelete = msgs as Message[] ?? msgs.ToArray();
+                            await e.Channel.DeleteMessages(toDelete).ConfigureAwait(false);
                             return;
                         }
                         if (!e.User.GetPermissions(e.Channel).ManageMessages)
@@ -667,14 +667,14 @@ namespace NadekoBot.Modules.Administration
                         val = 100;
                         if (!int.TryParse(e.GetArg("num"), out val))
                             val = 100;
-                        msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val).ToArray();
-                        if (!msgs.Any())
+                        var mesgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User?.Id == usr.Id).Take(val);
+                        if (mesgs == null || !mesgs.Any())
                             return;
-                        await e.Channel.DeleteMessages(msgs).ConfigureAwait(false);
+                        await e.Channel.DeleteMessages(mesgs as Message[] ?? mesgs.ToArray()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "die")
-                    .Description("Shuts the bot down and notifies users about the restart. **Bot Owner Only!**")
+                    .Description($"Shuts the bot down and notifies users about the restart. **Bot Owner Only!** | `{Prefix}die`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
@@ -807,7 +807,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "unstuck")
-                  .Description("Clears the message queue. **Bot Owner Only!**")
+                  .Description($"Clears the message queue. **Bot Owner Only!** | `{Prefix}unstuck`")
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e =>
                   {
@@ -829,7 +829,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "donadd")
-                    .Description($"Add a donator to the database. | `.donadd Donate Amount`")
+                    .Description($"Add a donator to the database. | `{Prefix}donadd Donate Amount`")
                     .Parameter("donator")
                     .Parameter("amount")
                     .AddCheck(SimpleCheckers.OwnerOnly())
@@ -842,7 +842,7 @@ namespace NadekoBot.Modules.Administration
                             if (donator == null) return;
                             try
                             {
-                                DbHandler.Instance.InsertData(new Donator
+                                DbHandler.Instance.Connection.Insert(new Donator
                                 {
                                     Amount = amount,
                                     UserName = donator.Name,

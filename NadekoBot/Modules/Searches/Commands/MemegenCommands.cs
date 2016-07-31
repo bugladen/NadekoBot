@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Prefix + "memelist")
-                .Description("Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/")
+                .Description($"Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/ | `{Prefix}memelist`")
                 .Do(async e =>
                 {
                     int i = 0;
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 });
 
             cgb.CreateCommand(Prefix + "memegen")
-                .Description("Generates a meme from memelist with top and bottom text. | `~memegen biw \"gets iced coffee\" \"in the winter\"`")
+                .Description($"Generates a meme from memelist with top and bottom text. | `{Prefix}memegen biw \"gets iced coffee\" \"in the winter\"`")
                 .Parameter("meme", ParameterType.Required)
                 .Parameter("toptext", ParameterType.Required)
                 .Parameter("bottext", ParameterType.Required)
