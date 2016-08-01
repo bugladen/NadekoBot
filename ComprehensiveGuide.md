@@ -2,7 +2,7 @@ ________________________________________________________________________________
 *Thanks to @Flatbread and Mirai for making this guide*
 ________________________________________________________________________________
 
-#### Setting Up NadekoBot v0.98
+### Setting Up NadekoBot on Windows
 #### Prerequisites 
 - 1) [NET Framework][NET Framework] 4.5.2 (or 4.6)
 - 2) [FFMPEG][FFMPEG] 
