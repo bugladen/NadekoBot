@@ -815,7 +815,7 @@ namespace NadekoBot.Modules.Administration
                   });
 
                 cgb.CreateCommand(Prefix + "donators")
-                    .Description("List of lovely people who donated to keep this project alive.")
+                    .Description("List of lovely people who donated to keep this project alive. | `{Prefix}donators`")
                     .Do(async e =>
                     {
                         await Task.Run(async () =>
