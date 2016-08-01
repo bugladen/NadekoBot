@@ -168,21 +168,21 @@ namespace NadekoBot.Modules.Games.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "typestart")
-                .Description("Starts a typing contest.")
+                .Description($"Starts a typing contest. | `{Prefix}typestart`")
                 .Do(DoFunc());
 
             cgb.CreateCommand(Module.Prefix + "typestop")
-                .Description("Stops a typing contest on the current channel.")
+                .Description($"Stops a typing contest on the current channel. | `{Prefix}typestop`")
                 .Do(QuitFunc());
 
             cgb.CreateCommand(Module.Prefix + "typeadd")
-                .Description("Adds a new article to the typing contest. Owner only.")
+                .Description($"Adds a new article to the typing contest. Owner only. | `{Prefix}typeadd wordswords`")
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(async e =>
                 {
                     if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
-                    DbHandler.Instance.InsertData(new TypingArticle
+                    DbHandler.Instance.Connection.Insert(new TypingArticle
                     {
                         Text = e.GetArg("text"),
                         DateAdded = DateTime.Now

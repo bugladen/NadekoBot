@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Games.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "tl")
-                .Description("Shows a current trivia leaderboard.")
+                .Description($"Shows a current trivia leaderboard. | `{Prefix}tl`")
                 .Do(async e =>
                 {
                     TriviaGame trivia;
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Games.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "tq")
-                .Description("Quits current trivia after current question.")
+                .Description($"Quits current trivia after current question. | `{Prefix}tq`")
                 .Do(async e =>
                 {
                     TriviaGame trivia;

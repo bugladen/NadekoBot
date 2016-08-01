@@ -10,7 +10,7 @@ namespace NadekoBot.Classes
                 return;
             await Task.Run(() =>
             {
-                DbHandler.Instance.InsertData(new DataModels.CurrencyTransaction
+                DbHandler.Instance.Connection.Insert(new DataModels.CurrencyTransaction
                 {
                     Reason = reason,
                     UserId = (long)u.Id,
@@ -36,7 +36,7 @@ namespace NadekoBot.Classes
             if (state.Value < amount)
                 return false;
 
-            DbHandler.Instance.InsertData(new DataModels.CurrencyTransaction
+            DbHandler.Instance.Connection.Insert(new DataModels.CurrencyTransaction
             {
                 Reason = reason,
                 UserId = (long)u.Id,

@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Music.Classes
         public IReadOnlyCollection<Song> Playlist => playlist;
 
         public Song CurrentSong { get; private set; }
-        private CancellationTokenSource SongCancelSource { get; set; }
+        public CancellationTokenSource SongCancelSource { get; private set; }
         private CancellationToken cancelToken { get; set; }
 
         public bool Paused { get; set; }

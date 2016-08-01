@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Games.Commands
             cgb.CreateCommand(Module.Prefix + "betray")
                 .Description("BETRAY GAME. Betray nadeko next turn." +
                              "If Nadeko cooperates - you get extra points, nadeko loses a LOT." +
-                             "If Nadeko betrays - you both lose some points.")
+                             $"If Nadeko betrays - you both lose some points. | `{Prefix}betray`")
                 .Do(async e =>
                 {
                     await ReceiveAnswer(e, Answers.Betray).ConfigureAwait(false);
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Games.Commands
             cgb.CreateCommand(Module.Prefix + "cooperate")
                 .Description("BETRAY GAME. Cooperate with nadeko next turn." +
                              "If Nadeko cooperates - you both get bonus points." +
-                             "If Nadeko betrays - you lose A LOT, nadeko gets extra.")
+                             $"If Nadeko betrays - you lose A LOT, nadeko gets extra. | `{Prefix}cooperater`")
                 .Do(async e =>
                 {
 

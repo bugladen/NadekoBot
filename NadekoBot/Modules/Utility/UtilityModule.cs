@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "checkmyperms")
-                    .Description("Checks your userspecific permissions on this channel.")
+                    .Description($"Checks your userspecific permissions on this channel. | `{Prefix}checkmyperms`")
                     .Do(async e =>
                     {
                         var output = "```\n";
@@ -100,21 +100,21 @@ namespace NadekoBot.Modules.Utility
                     });
 
                 cgb.CreateCommand(Prefix + "stats")
-                    .Description("Shows some basic stats for Nadeko.")
+                    .Description($"Shows some basic stats for Nadeko. | `{Prefix}stats`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage(await NadekoStats.Instance.GetStats()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "dysyd")
-                    .Description("Shows some basic stats for Nadeko.")
+                    .Description($"Shows some basic stats for Nadeko. | `{Prefix}dysyd`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage((await NadekoStats.Instance.GetStats()).Matrix().TrimTo(1990)).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "userid").Alias(Prefix + "uid")
-                    .Description($"Shows user ID. | `{Prefix}uid` or `{Prefix}uid \"@SomeGuy\"")
+                    .Description($"Shows user ID. | `{Prefix}uid` or `{Prefix}uid \"@SomeGuy\"`")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
