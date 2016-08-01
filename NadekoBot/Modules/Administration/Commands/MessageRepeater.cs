@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "repeatinvoke")
                 .Alias(Module.Prefix + "repinv")
-                .Description("Immediately shows the repeat message and restarts the timer. | `{Prefix}repinv`")
+                .Description($"Immediately shows the repeat message and restarts the timer. | `{Prefix}repinv`")
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e =>
                 {
