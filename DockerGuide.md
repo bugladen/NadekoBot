@@ -1,7 +1,7 @@
 ## Docker guide with digitalocean
 
 #####Prerequisites:
-- Digital ocean account (you can use my reflink to support the project and get 10$ after you register m.do.co/c/46b4d3d44795/)
+- Digital ocean account (you can use my reflink to support the project and get 10$ after you register http://m.do.co/c/46b4d3d44795/ )
 - Putty (get it here http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - A bot account - (follow http://discord.kongslien.net/guide.html)
 - Common sense
