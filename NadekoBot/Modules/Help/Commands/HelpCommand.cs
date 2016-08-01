@@ -48,12 +48,11 @@ namespace NadekoBot.Classes.Help.Commands
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
             string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on patreon: `https://patreon.com/nadekobot`
+$@"######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+######You can donate on patreon: <https://patreon.com/nadekobot>
 ######or paypal: `nadekodiscordbot@gmail.com`
 
-#NadekoBot List Of Commands  
-Version: `{NadekoStats.Instance.BotVersion}`";
+#NadekoBot List Of Commands  ";
 
 
             string lastCategory = "";
@@ -81,7 +80,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | `-h !m q` or just `-h` ")
+                .Description($"Either shows a help for a single command, or PMs you help link if no arguments are specified. | `{Prefix}h !m q` or just `{Prefix}h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
@@ -103,7 +102,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project! | `{Prefix}donate` or `~donate`")
+                .Description($"Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
