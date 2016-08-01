@@ -231,6 +231,7 @@
     <Compile Include="Modules\Music\Classes\MusicControls.cs" />
     <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
     <Compile Include="Modules\Music\Classes\Song.cs" />
+	<Compile Include="Modules\Music\Classes\SongBuffer.cs" />
     <Compile Include="Modules\Music\Classes\SoundCloud.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionChecker.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionHelper.cs" />
