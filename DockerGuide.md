@@ -43,3 +43,5 @@ CTRL+X then CTRL+Y to save
 type `docker start nadeko`  
 
 Your bot is running, enjoy
+
+*When you want to update the bot, just type `docker restart nadeko` as it always downloads latest prerelease*
