@@ -26,10 +26,12 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 
 ######MONO (Source: [Mono Source][Mono Source])
 
-**1)**
+**1) Installing Mono**
 
 `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
+
 `echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list`
+
 `sudo apt-get update`
 
 Note if the command is not being initiated, hit **Enter**
@@ -47,7 +49,9 @@ Note if the command is not being initiated, hit **Enter**
 *ONLY CentOS 7, Fedora 19 (and later)*
 
 `yum install yum-util`
+
 `rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"`
+
 `yum-config-manager --add-repo http://download.mono-project.com/repo/centos/`
 
 **3)**
@@ -71,8 +75,11 @@ Opus Voice Codec
 **In case you are having issues with Mono where you get a random string and the bot won't run, do this:**
 
 `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
+
 `echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list`
+
 `apt-get install ca-certificates-mono`
+
 `mozroots --import --sync`
 
 
