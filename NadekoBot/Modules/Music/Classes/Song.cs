@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Music.Classes
         public SongInfo SongInfo { get; }
         public string QueuerName { get; set; }
 
-        private bool bufferingCompleted { get; set; } = false;
         public MusicPlayer MusicPlayer { get; set; }
 
         public string PrettyCurrentTime()
@@ -73,78 +72,22 @@ namespace NadekoBot.Modules.Music.Classes
             return this;
         }
 
-        private Task BufferSong(string filename, CancellationToken cancelToken) =>
-            Task.Factory.StartNew(async () =>
-            {
-                Process p = null;
-                try
-                {
-                    p = Process.Start(new ProcessStartInfo
-                    {
-                        FileName = "ffmpeg",
-                        Arguments = $"-ss {skipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = false,
-                        CreateNoWindow = true,
-                    });
-                    var prebufferSize = 100ul.MiB();
-                    using (var outStream = new FileStream(filename, FileMode.Append, FileAccess.Write, FileShare.Read))
-                    {
-                        byte[] buffer = new byte[81920];
-                        int bytesRead;
-                        while ((bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) != 0)
-                        {
-                            await outStream.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
-                            while ((ulong)outStream.Length - bytesSent > prebufferSize)
-                                await Task.Delay(100, cancelToken);
-                        }
-                    }
-                        
-                    bufferingCompleted = true;
-                }
-                catch (System.ComponentModel.Win32Exception) {
-                    var oldclr = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
-Please install and configure FFMPEG to play music. 
-Check the guides for your platform on how to setup ffmpeg correctly:
-    Windows Guide: https://goo.gl/SCv72y
-    Linux Guide:  https://goo.gl/rRhjCp");
-                    Console.ForegroundColor = oldclr;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Buffering stopped: {ex.Message}");
-                }
-                finally
-                {
-                    Console.WriteLine($"Buffering done.");
-                    if (p != null)
-                    {
-                        try
-                        {
-                            p.Kill();
-                        }
-                        catch { }
-                        p.Dispose();
-                    }
-                }
-            }, TaskCreationOptions.LongRunning);
-
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
             var filename = Path.Combine(MusicModule.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            var bufferTask = BufferSong(filename, cancelToken).ConfigureAwait(false);
+            SongBuffer sb = new SongBuffer(filename, SongInfo, skipTo);
+            var bufferTask = sb.BufferSong(cancelToken).ConfigureAwait(false);
 
-            var inStream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
+            var inStream = new FileStream(sb.GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write); ;
 
             bytesSent = 0;
 
             try
             {
-                var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken);
+                var attempt = 0;             
+
+                var prebufferingTask = CheckPrebufferingAsync(inStream, sb, cancelToken);
                 var sw = new Stopwatch();
                 sw.Start();
                 var t = await Task.WhenAny(prebufferingTask, Task.Delay(5000, cancelToken));
@@ -162,7 +105,6 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 Console.WriteLine("Prebuffering successfully completed in "+ sw.Elapsed);
 
                 const int blockSize = 3840;
-                var attempt = 0;
                 byte[] buffer = new byte[blockSize];
                 while (!cancelToken.IsCancellationRequested)
                 {
@@ -173,14 +115,31 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                     {
                         bytesSent += (ulong)read;
                     }
-                    if (read == 0)
-                        if (attempt++ == 20)
+                    if (read < blockSize)
+                    {
+                        if (sb.IsNextFileReady())
                         {
-                            voiceClient.Wait();
-                            break;
+                            inStream.Dispose();
+                            inStream = new FileStream(sb.GetNextFile(), FileMode.Open, FileAccess.Read, FileShare.Write);
+                            read += inStream.Read(buffer, read, buffer.Length - read);
+                            attempt = 0;
+                        }
+                        if (read == 0)
+                        {
+                            if (sb.BufferingCompleted)
+                                break;
+                            if (attempt++ == 20)
+                            {
+                                voiceClient.Wait();
+                                MusicPlayer.SongCancelSource.Cancel();
+                                break;
+                            }
+                            else
+                                await Task.Delay(100, cancelToken).ConfigureAwait(false);                         
                         }
                         else
-                            await Task.Delay(100, cancelToken).ConfigureAwait(false);
+                            attempt = 0;
+                    }
                     else
                         attempt = 0;
 
@@ -195,14 +154,16 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             {
                 await bufferTask;
                 await Task.Run(() => voiceClient.Clear());
-                inStream.Dispose();
-                try { File.Delete(filename); } catch { }
+                if(inStream != null)
+                    inStream.Dispose();
+                Console.WriteLine("l");
+                sb.CleanFiles();
             }
         }
 
-        private async Task CheckPrebufferingAsync(Stream inStream, CancellationToken cancelToken)
+        private async Task CheckPrebufferingAsync(Stream inStream, SongBuffer sb, CancellationToken cancelToken)
         {
-            while (!bufferingCompleted && inStream.Length < 2.MiB())
+            while (!sb.BufferingCompleted && inStream.Length < 2.MiB())
             {
                 await Task.Delay(100, cancelToken);
             }

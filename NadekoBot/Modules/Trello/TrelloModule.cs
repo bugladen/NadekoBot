@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Trello
                     });
 
                 cgb.CreateCommand(Prefix + "unbind")
-                    .Description("Unbinds a bot from the channel and board.")
+                    .Description($"Unbinds a bot from the channel and board. | `{Prefix}unbind`")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Trello
 
                 cgb.CreateCommand(Prefix + "lists")
                     .Alias(Prefix + "list")
-                    .Description("Lists all lists yo ;)")
+                    .Description($"Lists all lists yo ;) | {Prefix}list")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
