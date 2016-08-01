@@ -4,7 +4,7 @@
 - Digital ocean account (you can use my [reflink][reflink] to support the project and get 10$ after you register)
 - [PuTTY][PuTTY] 
 - A bot account - follow this [guide][guide]
-- Common sense
+
 
 - Click on the create droplet button
 ![img](http://i.imgur.com/g2ayOcC.png)
