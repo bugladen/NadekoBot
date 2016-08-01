@@ -87,6 +87,9 @@ namespace NadekoBot.Classes.JSONModels
             } },
             { "%mention% threaten", new List<string>() {
                 "You wanna die, %target%?"
+            } },
+            { "%mention% archer", new List<string>() {
+                "http://i.imgur.com/Bha9NhL.jpg"
             } }
         };
 
