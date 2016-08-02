@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Trello
 
                 cgb.CreateCommand(Prefix + "lists")
                     .Alias(Prefix + "list")
-                    .Description($"Lists all lists yo ;) | {Prefix}list")
+                    .Description($"Lists all lists, yo ;) | `{Prefix}list`")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;

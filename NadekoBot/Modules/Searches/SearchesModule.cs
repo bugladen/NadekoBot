@@ -149,7 +149,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomcat")
                     .Alias(Prefix + "meow")
-                    .Description("Shows a random cat image.")
+                    .Description("Shows a random cat image. | `{Prefix}meow`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage(JObject.Parse(
@@ -159,7 +159,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomdog")
                     .Alias(Prefix + "woof")
-                    .Description("Shows a random dog image.")
+                    .Description("Shows a random dog image. | `{Prefix}woof`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
