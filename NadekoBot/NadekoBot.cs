@@ -13,7 +13,7 @@ using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
 using NadekoBot.Modules.Help;
 #if !NADEKO_RELEASE
-using NadekoBot.Modules.Music
+using NadekoBot.Modules.Music;
 #endif
 using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
