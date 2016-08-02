@@ -49,7 +49,6 @@ namespace NadekoBot.Modules.Permissions.Classes
             {
                 return false;
             }
-
             if (timeBlackList.Contains(user.Id))
                 return false;
 
@@ -64,9 +63,9 @@ namespace NadekoBot.Modules.Permissions.Classes
             PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms);
 
             AddUserCooldown(user.Server.Id, user.Id, command.Text.ToLower());
-            if (commandCooldowns.Keys.Contains(user.Server.Id+":"+command.Text.ToLower()))
+            if (commandCooldowns.Keys.Contains(user.Server.Id + ":" + command.Text.ToLower()))
             {
-                if(perms?.Verbose == true)
+                if (perms?.Verbose == true)
                     error = $"{user.Mention} You have a cooldown on that command.";
                 return false;
             }
@@ -150,7 +149,8 @@ namespace NadekoBot.Modules.Permissions.Classes
             }
         }
 
-        public void AddUserCooldown(ulong serverId, ulong userId, string commandName) {
+        public void AddUserCooldown(ulong serverId, ulong userId, string commandName)
+        {
             commandCooldowns.TryAdd(commandName, userId);
             var tosave = serverId + ":" + commandName;
             Task.Run(async () =>
@@ -158,7 +158,8 @@ namespace NadekoBot.Modules.Permissions.Classes
                 ServerPermissions perms;
                 PermissionsHandler.PermissionsDict.TryGetValue(serverId, out perms);
                 int cd;
-                if (!perms.CommandCooldowns.TryGetValue(commandName,out cd)) {
+                if (!perms.CommandCooldowns.TryGetValue(commandName, out cd))
+                {
                     return;
                 }
                 if (commandCooldowns.TryAdd(tosave, userId))
