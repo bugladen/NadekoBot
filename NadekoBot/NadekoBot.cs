@@ -13,7 +13,7 @@ using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
 using NadekoBot.Modules.Help;
 #if !NADEKO_RELEASE
-using NadekoBot.Modules.Music;
+using NadekoBot.Modules.Music
 #endif
 using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
@@ -121,8 +121,8 @@ namespace NadekoBot
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
-                                      $"Message: {e.Message}" +
-                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}"),
+                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}" +
+                                      $"Message: {e.Message}"),
             });
 
             //create a command service
@@ -197,7 +197,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(120000).ConfigureAwait(false);
+                await Task.Delay(150000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
