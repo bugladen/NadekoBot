@@ -756,7 +756,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand(Prefix + "getlink")
                     .Alias(Prefix + "gl")
-                    .Description("Shows a link to the song in the queue by index, or the currently playing song by default.")
+                    .Description("Shows a link to the song in the queue by index, or the currently playing song by default. | `{Prefix}gl`")
                     .Parameter("index", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -791,7 +791,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand(Prefix + "autoplay")
                     .Alias(Prefix + "ap")
-                    .Description("Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)")
+                    .Description("Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty) | `{Prefix}ap`")
                     .Do(async e =>
                     {
 

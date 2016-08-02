@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "iam")
                 .Description("Adds a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
-                             $" | {Prefix}iam Gamer")
+                             $" | `{Prefix}iam Gamer`")
                 .Parameter("role", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 .Alias(Module.Prefix + "iamn")
                 .Description("Removes a role to you that you choose. " +
                              "Role must be on a list of self-assignable roles." +
-                             $" | {Prefix}iamn Gamer")
+                             $" | `{Prefix}iamn Gamer`")
                 .Parameter("role", ParameterType.Unparsed)
                 .Do(async e =>
                 {
