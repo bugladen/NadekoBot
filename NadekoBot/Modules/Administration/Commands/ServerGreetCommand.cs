@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "grdel")
-                .Description("Toggles automatic deletion of greet and bye messages.")
+                .Description($"Toggles automatic deletion of greet and bye messages. **Needs Manage Server Permissions.**| `{Prefix}grdel`")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -232,7 +232,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greet")
-                .Description("Toggles anouncements on the current channel when someone joins the server.")
+                .Description($"Toggles anouncements on the current channel when someone joins the server. **Needs Manage Server Permissions.**| `{Prefix}greet`")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetmsg")
-                .Description("Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. | .greetmsg Welcome to the server, %user%.")
+                .Description($"Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**| `{Prefix}greetmsg Welcome to the server, %user%.`")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -265,7 +265,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "bye")
-                .Description("Toggles anouncements on the current channel when someone leaves the server.")
+                .Description($"Toggles anouncements on the current channel when someone leaves the server. | `{Prefix}bye`")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -278,7 +278,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "byemsg")
-                .Description("Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. | .byemsg %user% has left the server.")
+                .Description($"Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. **Needs Manage Server Permissions.**| `{Prefix}byemsg %user% has left the server.`")
                 .Parameter("msg", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "byepm")
-                .Description("Toggles whether the good bye messages will be sent in a PM or in the text channel.")
+                .Description($"Toggles whether the good bye messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `{Prefix}byepm`")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
@@ -313,7 +313,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "greetpm")
-                .Description("Toggles whether the greet messages will be sent in a PM or in the text channel.")
+                .Description($"Toggles whether the greet messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `{Prefix}greetpm`")
                 .Do(async e =>
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;

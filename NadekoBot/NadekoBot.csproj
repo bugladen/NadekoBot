@@ -162,7 +162,6 @@
       <HintPath>lib\ScaredFingers.UnitsConversion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -202,6 +201,8 @@
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="_Models\DataModels\TestDataModel.cs" />
     <Compile Include="_Models\DataModels\Incident.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Modules\Music\Classes\MusicControls.cs" />
     <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
     <Compile Include="Modules\Music\Classes\Song.cs" />
+    <Compile Include="Modules\Music\Classes\SongBuffer.cs" />
     <Compile Include="Modules\Music\Classes\SoundCloud.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionChecker.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionHelper.cs" />
@@ -264,7 +266,6 @@
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
     <Compile Include="Modules\Help\Commands\HelpCommand.cs" />
-    <Compile Include="Modules\Administration\Commands\VoiceNotificationCommand.cs" />
     <Compile Include="Modules\Administration\Commands\VoicePlusTextCommand.cs" />
     <Compile Include="Modules\Administration\AdministrationModule.cs" />
     <Compile Include="Modules\Conversations\Conversations.cs" />
@@ -296,8 +297,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Classes\NadekoStats.cs" />
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -550,6 +549,13 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets'))" />
+  </Target>
+  <Import Project="..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

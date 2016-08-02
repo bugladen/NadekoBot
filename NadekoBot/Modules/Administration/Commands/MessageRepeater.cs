@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "repeatinvoke")
                 .Alias(Module.Prefix + "repinv")
-                .Description("Immediately shows the repeat message and restarts the timer.")
+                .Description($"Immediately shows the repeat message and restarts the timer. **Needs Manage Messages Permissions.**| `{Prefix}repinv`")
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e =>
                 {
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "repeat")
                 .Description("Repeat a message every X minutes. If no parameters are specified, " +
-                             "repeat is disabled. Requires manage messages. |`.repeat 5 Hello there`")
+                             $"repeat is disabled. **Needs Manage Messages Permissions.** |`{Prefix}repeat 5 Hello there`")
                 .Parameter("minutes", ParameterType.Optional)
                 .Parameter("msg", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageMessages())

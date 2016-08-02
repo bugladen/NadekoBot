@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Gambling
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "flip")
-                .Description("Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3`")
+                .Description($"Flips coin(s) - heads or tails, and shows an image. | `{Prefix}flip` or `{Prefix}flip 3`")
                 .Parameter("count", ParameterType.Optional)
                 .Do(FlipCoinFunc());
 

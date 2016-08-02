@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "permrole")
                     .Alias(Prefix + "pr")
-                    .Description("Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.")
+                    .Description($"Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'. | `{Prefix}pr role`")
                     .Parameter("role", ParameterType.Unparsed)
                      .Do(async e =>
                      {
@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "srvrperms")
                     .Alias(Prefix + "sp")
-                    .Description("Shows banned permissions for this server.")
+                    .Description($"Shows banned permissions for this server. | `{Prefix}sp`")
                     .Do(async e =>
                     {
                         var perms = PermissionsHandler.GetServerPermissions(e.Server);
@@ -813,7 +813,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "allcmdcooldowns")
                     .Alias(Prefix + "acmdcds")
-                    .Description("Shows a list of all commands and their respective cooldowns.")
+                    .Description("Shows a list of all commands and their respective cooldowns. | `{Prefix}acmdcds`")
                     .Do(async e =>
                     {
                         ServerPermissions perms;

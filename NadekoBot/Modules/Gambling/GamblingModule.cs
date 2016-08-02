@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
                 commands.ForEach(com => com.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "raffle")
-                    .Description($"Prints a name and ID of a random user from the online list from the (optional) role. | `{Prefix}raffle` or `{Prefix}raffle RoleName")
+                    .Description($"Prints a name and ID of a random user from the online list from the (optional) role. | `{Prefix}raffle` or `{Prefix}raffle RoleName`")
                     .Parameter("role", ParameterType.Optional)
                     .Do(async e =>
                     {
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "give")
-                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName))
+                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName)+ $"|`{Prefix}give 1 \"@SomeGuy\"`")
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "betroll")
                     .Alias(Prefix + "br")
-                    .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | {Prefix}br 5")
+                    .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `{Prefix}br 5`")
                     .Parameter("amount",ParameterType.Required)
                     .Do(async e =>
                     {
@@ -187,6 +187,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "leaderboard")
                     .Alias(Prefix + "lb")
+                    .Description($"Displays bot currency leaderboard | `{Prefix}lb`")
                     .Do(async e =>
                     {
                         var richestTemp = DbHandler.Instance.GetTopRichest();

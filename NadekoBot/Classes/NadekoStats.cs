@@ -46,20 +46,7 @@ namespace NadekoBot
 
             commandService.CommandExecuted += StatsCollector_RanCommand;
             commandService.CommandFinished += CommandService_CommandFinished;
-            commandService.CommandErrored += (s, e) =>
-            {
-                try
-                {
-                    if (e.ErrorType == CommandErrorType.Exception)
-                        File.AppendAllText("errors.txt", $@"Command: {e.Command}
-{e.Exception}
--------------------------------------
-");
-                }
-                catch {
-                    Console.WriteLine("Command errored errorring");
-                }
-            };
+            commandService.CommandErrored += CommandService_CommandFinished;
 
             Task.Run(StartCollecting);
 
@@ -208,7 +195,7 @@ namespace NadekoBot
                                                                         .ConfigureAwait(false);
                     var connectedServers = NadekoBot.Client.Servers.Count();
 
-                    Classes.DbHandler.Instance.InsertData(new DataModels.Stats
+                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Stats
                     {
                         OnlineUsers = onlineUsers,
                         RealOnlineUsers = realOnlineUsers,
@@ -236,10 +223,31 @@ namespace NadekoBot
 
         private void CommandService_CommandFinished(object sender, CommandEventArgs e)
         {
+
             DateTime dt;
             if (!commandTracker.TryGetValue(e.Message.Id, out dt))
                 return;
-            Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+            try
+            {
+                if (e is CommandErrorEventArgs)
+                {
+                    var er = e as CommandErrorEventArgs;
+                    if (er.ErrorType == CommandErrorType.Exception)
+                    {
+                        File.AppendAllText("errors.txt", $@"Command: {er.Command}
+{er.Exception}
+-------------------------------------
+");
+                        Console.WriteLine($">>COMMAND ERRORED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                }
+            }
+            catch { }
         }
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
@@ -252,7 +260,7 @@ namespace NadekoBot
                 try
                 {
                     commandsRan++;
-                    Classes.DbHandler.Instance.InsertData(new DataModels.Command
+                    Classes.DbHandler.Instance.Connection.Insert(new DataModels.Command
                     {
                         ServerId = (long)(e.Server?.Id ?? 0),
                         ServerName = e.Server?.Name ?? "--Direct Message--",

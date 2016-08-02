@@ -117,12 +117,12 @@ namespace NadekoBot
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
-                ConnectionTimeout = 120000,
+                ConnectionTimeout = 180000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
-                                      $"Message: {e.Message}" +
-                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}"),
+                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}" +
+                                      $"Message: {e.Message}"),
             });
 
             //create a command service
@@ -197,7 +197,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(100000).ConfigureAwait(false);
+                await Task.Delay(150000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif

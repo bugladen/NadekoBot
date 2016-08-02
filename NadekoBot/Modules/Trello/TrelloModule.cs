@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Trello
                 cgb.CreateCommand(Prefix + "bind")
                     .Description("Bind a trello bot to a single channel. " +
                                  "You will receive notifications from your board when something is added or edited." +
-                                 $" | `{Prefix}bind [board_id]`")
+                                 $" **Bot Owner Only!**| `{Prefix}bind [board_id]`")
                     .Parameter("board_id", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Trello
                     });
 
                 cgb.CreateCommand(Prefix + "unbind")
-                    .Description("Unbinds a bot from the channel and board.")
+                    .Description($"Unbinds a bot from the channel and board. **Bot Owner Only!**| `{Prefix}unbind`")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Trello
 
                 cgb.CreateCommand(Prefix + "lists")
                     .Alias(Prefix + "list")
-                    .Description("Lists all lists yo ;)")
+                    .Description($"Lists all lists, yo ;) **Bot Owner Only!**| `{Prefix}list`")
                     .Do(async e =>
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Trello
                     });
 
                 cgb.CreateCommand(Prefix + "cards")
-                    .Description($"Lists all cards from the supplied list. You can supply either a name or an index. | `{Prefix}cards index`")
+                    .Description($"Lists all cards from the supplied list. You can supply either a name or an index. **Bot Owner Only!**| `{Prefix}cards index`")
                     .Parameter("list_name", Discord.Commands.ParameterType.Unparsed)
                     .Do(async e =>
                     {

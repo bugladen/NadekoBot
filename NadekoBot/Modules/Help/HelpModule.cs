@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Help
 
                 cgb.CreateCommand(Prefix + "modules")
                     .Alias(".modules")
-                    .Description("List all bot modules.")
+                    .Description($"List all bot modules. | `{Prefix}modules` or `.modules`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)) + $"\n`Type \"{Prefix}commands module_name\" to get a list of commands in that module.`")
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Help
 
                 cgb.CreateCommand(Prefix + "commands")
                     .Alias(".commands")
-                    .Description("List all of the bot's commands from a certain module.")
+                    .Description($"List all of the bot's commands from a certain module. | `{Prefix}commands` or `.commands`")
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e =>
                     {

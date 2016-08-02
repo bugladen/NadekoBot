@@ -86,7 +86,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "ani")
                     .Alias(Prefix + "anime", Prefix + "aq")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description("Queries anilist for an anime and shows the first result.")
+                    .Description($"Queries anilist for an anime and shows the first result. | `{Prefix}aq aquarion evol`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -106,7 +106,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "imdb")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description($"Queries imdb for movies or series, show first result. | `{Prefix}imdb query`")
+                    .Description($"Queries imdb for movies or series, show first result. | `{Prefix}imdb Batman vs Superman`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -130,7 +130,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "mang")
                     .Alias(Prefix + "manga").Alias(Prefix + "mq")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description($"Queries anilist for a manga and shows the first result. | `{Prefix}mq query`")
+                    .Description($"Queries anilist for a manga and shows the first result. | `{Prefix}mq Shingeki no kyojin`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -149,7 +149,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomcat")
                     .Alias(Prefix + "meow")
-                    .Description("Shows a random cat image.")
+                    .Description($"Shows a random cat image. | `{Prefix}meow`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage(JObject.Parse(
@@ -159,7 +159,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomdog")
                     .Alias(Prefix + "woof")
-                    .Description("Shows a random dog image.")
+                    .Description($"Shows a random dog image. | `{Prefix}woof`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
@@ -341,7 +341,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                   });
 
                 cgb.CreateCommand(Prefix + "quote")
-                    .Description("Shows a random quote.")
+                    .Description($"Shows a random quote. | `{Prefix}quote`")
                     .Do(async e =>
                     {
                         var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
@@ -349,7 +349,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "catfact")
-                    .Description("Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>")
+                    .Description($"Shows a random catfact from <http://catfacts-api.appspot.com/api/facts> | `{Prefix}catfact`")
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
@@ -360,7 +360,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "yomama")
                     .Alias(Prefix + "ym")
-                    .Description("Shows a random joke from <http://api.yomomma.info/>")
+                    .Description($"Shows a random joke from <http://api.yomomma.info/> | `{Prefix}ym`")
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
@@ -369,7 +369,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randjoke")
                     .Alias(Prefix + "rj")
-                    .Description("Shows a random joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Description($"Shows a random joke from <http://tambal.azurewebsites.net/joke/random> | `{Prefix}rj`")
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
@@ -378,7 +378,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "chucknorris")
                     .Alias(Prefix + "cn")
-                    .Description("Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>")
+                    .Description($"Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random> | `{Prefix}cn`")
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
@@ -387,7 +387,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "magicitem")
                     .Alias(Prefix + "mi")
-                    .Description("Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>")
+                    .Description($"Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items> | `{Prefix}mi`")
                     .Do(async e =>
                     {
                         var magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
@@ -397,7 +397,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "revav")
-                    .Description($"Returns a google reverse image search for someone's avatar. | `{Prefix}revav \"@SomeGuy\"")
+                    .Description($"Returns a google reverse image search for someone's avatar. | `{Prefix}revav \"@SomeGuy\"`")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -502,7 +502,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "av")
                     .Alias(Prefix + "avatar")
                     .Parameter("mention", ParameterType.Required)
-                    .Description($"Shows a mentioned person's avatar. | `{Prefix}av @X`")
+                    .Description($"Shows a mentioned person's avatar. | `{Prefix}av \"@SomeGuy\"`")
                     .Do(async e =>
                     {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();

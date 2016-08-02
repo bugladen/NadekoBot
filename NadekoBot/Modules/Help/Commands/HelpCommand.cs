@@ -31,7 +31,7 @@ namespace NadekoBot.Classes.Help.Commands
                 if (alias != null)
                     str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -48,11 +48,11 @@ namespace NadekoBot.Classes.Help.Commands
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
             string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com`
+$@"######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+######You can donate on patreon: <https://patreon.com/nadekobot>
+######or paypal: `nadekodiscordbot@gmail.com`
 
-#NadekoBot List Of Commands  
-Version: `{NadekoStats.Instance.BotVersion}`";
+#NadekoBot List Of Commands  ";
 
 
             string lastCategory = "";
@@ -80,16 +80,16 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
+                .Description($"Either shows a help for a single command, or PMs you help link if no arguments are specified. | `{Prefix}h !m q` or just `{Prefix}h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("Generates the commandlist.md file. **Bot Owner Only!**")
+                .Description($"Generates the commandlist.md file. **Bot Owner Only!** | `{Prefix}hgit`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")
-                .Description("Sends a readme and a guide links to the channel.")
+                .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
 @"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
@@ -102,16 +102,15 @@ Version: `{NadekoStats.Instance.BotVersion}`";
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project!")
+                .Description($"Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
-$@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
-Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
+$@"You can support the project on patreon. <https://patreon.com/nadekobot> or
+You can send donations to `nadekodiscordbot@gmail.com`
+Don't forget to leave your discord name or id in the message.
 
-*If you want to support in some other way or on a different platform, please message me*"
-                    ).ConfigureAwait(false);
+**Thank you** ♥️").ConfigureAwait(false);
                 });
         }
 

@@ -25,16 +25,13 @@ namespace NadekoBot.Classes
     {
         private static DateTime lastRefreshed = DateTime.MinValue;
         private static string token { get; set; } = "";
-        private static readonly HttpClient httpClient = new HttpClient();
 
         public static async Task<Stream> GetResponseStreamAsync(string url,
             IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            //if its a post or there are no headers, use static httpclient
-            // if there are headers and it's get, it's not threadsafe
-            var cl = headers == null || method == RequestHttpMethod.Post ? httpClient : new HttpClient();
+            var cl = new HttpClient();
             cl.DefaultRequestHeaders.Clear();
             switch (method)
             {
@@ -178,7 +175,7 @@ namespace NadekoBot.Classes
                 return null;
         }
 
-        public static async Task<string> GetRelatedVideoId(string id)
+        public static async Task<IEnumerable<string>> GetRelatedVideoIds(string id, int count = 1)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
@@ -189,20 +186,14 @@ namespace NadekoBot.Classes
             }
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +
-                                    $"part=snippet&maxResults=1&type=video" +
+                                    $"part=snippet&maxResults={count}&type=video" +
                                     $"&relatedToVideoId={id}" +
                                     $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
             JObject obj = JObject.Parse(response);
 
             var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
 
-            if (data.items.Length > 0)
-            {
-                var toReturn = "http://www.youtube.com/watch?v=" + data.items[0].id.videoId.ToString();
-                return toReturn;
-            }
-            else
-                return null;
+            return data.items.Select(v => "http://www.youtube.com/watch?v=" + v.id.videoId);
         }
 
         public static async Task<string> GetPlaylistIdByKeyword(string query)

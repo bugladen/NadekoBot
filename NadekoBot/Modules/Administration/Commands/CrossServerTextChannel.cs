@@ -64,8 +64,8 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "scsc")
-                .Description("Starts an instance of cross server channel. You will get a token as a DM" +
-                             "that other people will use to tune in to the same instance")
+                .Description("Starts an instance of cross server channel. You will get a token as a DM " +
+                             $"that other people will use to tune in to the same instance. **Bot Owner Only.** | `{Prefix}scsc`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "jcsc")
-                .Description("Joins current channel to an instance of cross server channel using the token.")
+                .Description($"Joins current channel to an instance of cross server channel using the token. **Needs Manage Server Permissions.**| `{Prefix}jcsc`")
                 .Parameter("token")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "lcsc")
-                .Description("Leaves Cross server channel instance from this channel")
+                .Description($"Leaves Cross server channel instance from this channel. **Needs Manage Server Permissions.**| `{Prefix}lcsc`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
                 {

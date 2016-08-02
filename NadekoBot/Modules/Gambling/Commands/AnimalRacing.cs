@@ -1,14 +1,13 @@
-﻿using NadekoBot.Classes;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Extensions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.Commands;
-using System.Collections.Concurrent;
-using Discord;
-using NadekoBot.Extensions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Commands
 {
@@ -23,8 +22,9 @@ namespace NadekoBot.Modules.Gambling.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Prefix + "race")
-                .Description("Starts a new animal race.")
-                .Do(e => {
+                .Description($"Starts a new animal race. | `{Prefix}race`")
+                .Do(e =>
+                {
                     var ar = new AnimalRace(e.Server.Id, e.Channel);
                     if (ar.Fail)
                     {
@@ -35,9 +35,10 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             cgb.CreateCommand(Prefix + "joinrace")
                 .Alias(Prefix + "jr")
-                .Description("Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5`")
+                .Description($"Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `{Prefix}jr` or `{Prefix}jr 5`")
                 .Parameter("amount", ParameterType.Optional)
-                .Do(async e => {
+                .Do(async e =>
+                {
 
                     int amount;
                     if (!int.TryParse(e.GetArg("amount"), out amount) || amount < 0)
@@ -55,11 +56,13 @@ namespace NadekoBot.Modules.Gambling.Commands
                         await FlowersHandler.RemoveFlowers(e.User, "BetRace", (int)amount, true).ConfigureAwait(false);
 
                     AnimalRace ar;
-                    if (!AnimalRaces.TryGetValue(e.Server.Id, out ar)) {
+                    if (!AnimalRaces.TryGetValue(e.Server.Id, out ar))
+                    {
                         await e.Channel.SendMessage("No race exists on this server");
+                        return;
                     }
                     await ar.JoinRace(e.User, amount);
-                    
+
                 });
         }
 
@@ -93,7 +96,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                 {
                     try
                     {
-                        await raceChannel.SendMessage($"🏁`Race is starting in 20 seconds or when the room is full. Type $jr to join the race.`");
+                        await raceChannel.SendMessage($"🏁`Race is starting in 20 seconds or when the room is full. Type {NadekoBot.Config.CommandPrefixes.Gambling}jr to join the race.`");
                         var t = await Task.WhenAny(Task.Delay(20000, token), fullgame);
                         Started = true;
                         cancelSource.Cancel();
@@ -103,7 +106,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                         }
                         else if (participants.Count > 1)
                         {
-                            await raceChannel.SendMessage("🏁`Game starting with " + participants.Count + " praticipants.`");
+                            await raceChannel.SendMessage("🏁`Game starting with " + participants.Count + " participants.`");
                         }
                         else
                         {
@@ -127,7 +130,8 @@ namespace NadekoBot.Modules.Gambling.Commands
                 AnimalRaces.TryRemove(serverId, out throwaway);
             }
 
-            private async Task StartRace() {
+            private async Task StartRace()
+            {
                 var rng = new Random();
                 Participant winner = null;
                 Message msg = null;
@@ -163,14 +167,14 @@ namespace NadekoBot.Modules.Gambling.Commands
 |🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🔚|";
                         if (msg == null || messagesSinceGameStarted >= 10) // also resend the message if channel was spammed
                         {
-                            if(msg != null)
+                            if (msg != null)
                                 try { await msg.Delete(); } catch { }
                             msg = await raceChannel.SendMessage(text);
                             messagesSinceGameStarted = 0;
                         }
                         else
                             await msg.Edit(text);
-                        
+
                         await Task.Delay(2500);
                     }
                 }
@@ -199,10 +203,11 @@ namespace NadekoBot.Modules.Gambling.Commands
                 messagesSinceGameStarted++;
             }
 
-            private async Task CheckForFullGameAsync(CancellationToken cancelToken) {
+            private async Task CheckForFullGameAsync(CancellationToken cancelToken)
+            {
                 while (animals.Count > 0)
                 {
-                    await Task.Delay(100,cancelToken);
+                    await Task.Delay(100, cancelToken);
                 }
             }
 
@@ -257,8 +262,8 @@ namespace NadekoBot.Modules.Gambling.Commands
             public override bool Equals(object obj)
             {
                 var p = obj as Participant;
-                return  p == null?
-                    false:
+                return p == null ?
+                    false :
                     p.User == User;
             }
 
@@ -279,7 +284,8 @@ namespace NadekoBot.Modules.Gambling.Commands
                 {
                     return str + "`3rd`";
                 }
-                else {
+                else
+                {
                     return str + $"`{Place}th`";
                 }
 

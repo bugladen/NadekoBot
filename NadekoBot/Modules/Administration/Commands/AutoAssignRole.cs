@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "autoassignrole")
                 .Alias(Module.Prefix + "aar")
-                .Description($"Automaticaly assigns a specified role to every user who joins the server. Type `.aar` to disable, `.aar Role Name` to enable")
+                .Description($"Automaticaly assigns a specified role to every user who joins the server. **Needs Manage Roles Permissions.** |`{Prefix}aar` to disable, `{Prefix}aar Role Name` to enable")
                 .Parameter("role", ParameterType.Unparsed)
                 .AddCheck(new SimpleCheckers.ManageRoles())
                 .Do(async e =>

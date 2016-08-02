@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "osu")
-                  .Description("Shows osu stats for a player. | `~osu Name` or `~osu Name taiko`")
+                  .Description($"Shows osu stats for a player. | `{Prefix}osu Name` or `{Prefix}osu Name taiko`")
                   .Parameter("usr", ParameterType.Required)
                   .Parameter("mode", ParameterType.Unparsed)
                   .Do(async e =>
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches.Commands
                   });
 
             cgb.CreateCommand(Module.Prefix + "osu b")
-                .Description("Shows information about an osu beatmap. |~osu b https://osu.ppy.sh/s/127712")
+                .Description($"Shows information about an osu beatmap. |`{Prefix}osu b` https://osu.ppy.sh/s/127712`")
                 .Parameter("map", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "osu top5")
-                .Description("Displays a user's top 5 plays.  |~osu top5 Name")
+                .Description($"Displays a user's top 5 plays.  |`{Prefix}osu top5 Name`")
                 .Parameter("usr", ParameterType.Required)
                 .Parameter("mode", ParameterType.Unparsed)
                 .Do(async e =>

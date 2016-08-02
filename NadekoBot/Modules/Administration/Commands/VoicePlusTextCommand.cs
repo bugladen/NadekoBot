@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "cleanv+t")
                 .Alias(Module.Prefix + "cv+t")
-                .Description("Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.**")
+                .Description($"Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.\nNeeds Manage Roles and Manage Channels Permissions.** | `{Prefix}cleanv+t`")
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .Do(async e =>
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "voice+text")
                 .Alias(Module.Prefix + "v+t")
                 .Description("Creates a text channel for each voice channel only users in that voice channel can see." +
-                             "If you are server owner, keep in mind you will see them all the time regardless.")
+                             $"If you are server owner, keep in mind you will see them all the time regardless. **Needs Manage Roles and Manage Channels Permissions.**| `{Prefix}voice+text`")
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .Do(async e =>
