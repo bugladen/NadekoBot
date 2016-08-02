@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "osu top5")
-                .Description($"Displays a user's top 5 plays.  |{Prefix}osu top5 Name")
+                .Description($"Displays a user's top 5 plays.  |`{Prefix}osu top5 Name`")
                 .Parameter("usr", ParameterType.Required)
                 .Parameter("mode", ParameterType.Unparsed)
                 .Do(async e =>

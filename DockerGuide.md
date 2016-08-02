@@ -43,6 +43,7 @@ Open putty and type ip adress **you got in your email** with port 22
 - Type `nano /nadeko/credentials.json` and type in your `credentials`  
 - CTRL+X then CTRL+Y to save  
 - Type `docker start nadeko`  
+- Type `docker logs -f nadeko` to see the console output
 
 **Your bot is running, enjoy! o/**
 

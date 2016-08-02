@@ -86,7 +86,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "ani")
                     .Alias(Prefix + "anime", Prefix + "aq")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description($"Queries anilist for an anime and shows the first result. | `{Prefix}aq aquerion evol`")
+                    .Description($"Queries anilist for an anime and shows the first result. | `{Prefix}aq aquarion evol`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -106,7 +106,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "imdb")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description($"Queries imdb for movies or series, show first result. | `{Prefix}imdb query`")
+                    .Description($"Queries imdb for movies or series, show first result. | `{Prefix}imdb Batman vs Superman`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -130,7 +130,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "mang")
                     .Alias(Prefix + "manga").Alias(Prefix + "mq")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description($"Queries anilist for a manga and shows the first result. | `{Prefix}mq query`")
+                    .Description($"Queries anilist for a manga and shows the first result. | `{Prefix}mq Shingeki no kyojin`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -149,7 +149,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomcat")
                     .Alias(Prefix + "meow")
-                    .Description("Shows a random cat image. | `{Prefix}meow`")
+                    .Description($"Shows a random cat image. | `{Prefix}meow`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage(JObject.Parse(
@@ -159,7 +159,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                 cgb.CreateCommand(Prefix + "randomdog")
                     .Alias(Prefix + "woof")
-                    .Description("Shows a random dog image. | `{Prefix}woof`")
+                    .Description($"Shows a random dog image. | `{Prefix}woof`")
                     .Do(async e =>
                     {
                         await e.Channel.SendMessage("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
@@ -502,7 +502,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "av")
                     .Alias(Prefix + "avatar")
                     .Parameter("mention", ParameterType.Required)
-                    .Description($"Shows a mentioned person's avatar. | `{Prefix}av @X`")
+                    .Description($"Shows a mentioned person's avatar. | `{Prefix}av \"@SomeGuy\"`")
                     .Do(async e =>
                     {
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
