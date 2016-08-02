@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "leaderboard")
                     .Alias(Prefix + "lb")
-                    .Description($"Displays bot currency leaderboard | {Prefix}lb")
+                    .Description($"Displays bot currency leaderboard | `{Prefix}lb`")
                     .Do(async e =>
                     {
                         var richestTemp = DbHandler.Instance.GetTopRichest();
