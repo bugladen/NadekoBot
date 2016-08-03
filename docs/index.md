@@ -8,7 +8,7 @@
 	- [OSX Guide](guides/macguide.md)
 	- [Building from Source](guides/fromsource.md)
 	- [Docker Guide](guides/dockerguide.md)
-- [Commands List](Kwoth/NadekoBot/blob/master/commandlist.md)
+- [Commands List](commandlist.md)
 - [Permissions System](permissions.md)
 - [JSON Explanations](explanations.md)
 - [Custiom Reactions](customreactions.md)
