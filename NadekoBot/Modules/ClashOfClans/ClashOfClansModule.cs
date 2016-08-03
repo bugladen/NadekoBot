@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "startwar")
                     .Alias(Prefix + "sw")
-                    .Description("Starts a war with a given number. | `{Prefix}sw 15`")
+                    .Description($"Starts a war with a given number. | `{Prefix}sw 15`")
                     .Parameter("number", ParameterType.Required)
                     .Do(async e =>
                     {

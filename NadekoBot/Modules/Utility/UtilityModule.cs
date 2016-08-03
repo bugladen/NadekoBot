@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                     .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "roles")
-                    .Description("List all roles on this server or a single user if specified. | `{Prefix}roles`")
+                    .Description($"List all roles on this server or a single user if specified. | `{Prefix}roles`")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {

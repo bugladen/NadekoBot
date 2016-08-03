@@ -813,7 +813,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "allcmdcooldowns")
                     .Alias(Prefix + "acmdcds")
-                    .Description("Shows a list of all commands and their respective cooldowns. | `{Prefix}acmdcds`")
+                    .Description($"Shows a list of all commands and their respective cooldowns. | `{Prefix}acmdcds`")
                     .Do(async e =>
                     {
                         ServerPermissions perms;

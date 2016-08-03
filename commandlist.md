@@ -107,7 +107,7 @@ Command and aliases |  Description |  Usage
 `.userid`, `.uid`  |  Shows user ID. |  `.uid` or `.uid "@SomeGuy"`
 `.channelid`, `.cid`  |  Shows current channel ID. |  `.cid`
 `.serverid`, `.sid`  |  Shows current server ID. |  `.sid`
-`.roles`  |  List all roles on this server or a single user if specified. |  `{Prefix}roles`
+`.roles`  |  List all roles on this server or a single user if specified. |  `.roles`
 `.channeltopic`, `.ct`  |  Sends current channel's topic as a message. |  `.ct`
 
 ### Permissions  
@@ -149,7 +149,7 @@ Command and aliases |  Description |  Usage
 `;cubl`  |  Unblacklists a mentioned channel (#general for example). |  `;cubl #some_channel`
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  `;sbl [servername/serverid]`
 `;cmdcooldown`, `;cmdcd`  |  Sets a cooldown per user for a command. Set 0 to clear. |  `;cmdcd "some cmd" 5`
-`;allcmdcooldowns`, `;acmdcds`  |  Shows a list of all commands and their respective cooldowns. |  `{Prefix}acmdcds`
+`;allcmdcooldowns`, `;acmdcds`  |  Shows a list of all commands and their respective cooldowns. |  `;acmdcds`
 
 ### Conversations  
 Command and aliases |  Description |  Usage
@@ -260,7 +260,7 @@ Command and aliases |  Description |  Usage
 `~wowjoke`  |  Get one of Kwoth's penultimate WoW jokes. |  `~wowjoke`
 `~calculate`, `~calc`  |  Evaluate a mathematical expression. |  `~calc 1+1`
 `~osu`  |  Shows osu stats for a player. |  `~osu Name` or `~osu Name taiko`
-`~osu b`  |  Shows information about an osu beatmap. | `~osu b` https://osu.ppy.sh/s/127712`
+`~osu b`  |  Shows information about an osu beatmap. | `~osu b` https://osu.ppy.sh/s/127712
 `~osu top5`  |  Displays a user's top 5 plays.  | `~osu top5 Name`
 `~pokemon`, `~poke`  |  Searches for a pokemon. |  `~poke Sylveon`
 `~pokemonability`, `~pokeab`  |  Searches for a pokemon ability. |  `~pokeab "water gun"`
@@ -310,7 +310,7 @@ Command and aliases |  Description |  Usage
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `,createwar`, `,cw`  |  Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. |  `,cw 15 The Enemy Clan`
-`,startwar`, `,sw`  |  Starts a war with a given number. |  `{Prefix}sw 15`
+`,startwar`, `,sw`  |  Starts a war with a given number. |  `,sw 15`
 `,listwar`, `,lw`  |  Shows the active war claims by a number. Shows all wars in a short way if no number is specified. |  `,lw [war_number] or ,lw`
 `,claim`, `,call`, `,c`  |  Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  |  `,call [war_number] [base_number] [optional_other_name]`
 `,claimfinish`, `,cf`, `,cf3`, `,claimfinish3`  |  Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else. |  `,cf [war_number] [optional_other_name]`
