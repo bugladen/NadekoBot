@@ -8,7 +8,7 @@
 	- [OSX Guide](guides/macguide.md)
 	- [Building from Source](guides/fromsource.md)
 	- [Docker Guide](guides/dockerguide.md)
-- [Commands List](commandlist.md)
+- [Commands List](commandslist.md)
 - [Permissions System](permissions.md)
 - [JSON Explanations](explanations.md)
 - [Custiom Reactions](customreactions.md)
