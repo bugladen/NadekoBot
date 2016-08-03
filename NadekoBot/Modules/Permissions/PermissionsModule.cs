@@ -679,7 +679,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "ubl")
-                    .Description($"Blacklists a mentioned user. | `{Prefix}ubl [user_mention]`")
+                    .Description($"Blacklists a mentioned user. **Bot Owner Only!**| `{Prefix}ubl [user_mention]`")
                     .Parameter("user", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -695,7 +695,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "uubl")
-                   .Description($"Unblacklists a mentioned user. | `{Prefix}uubl [user_mention]`")
+                   .Description($"Unblacklists a mentioned user. **Bot Owner Only!** | `{Prefix}uubl [user_mention]`")
                    .Parameter("user", ParameterType.Unparsed)
                    .AddCheck(SimpleCheckers.OwnerOnly())
                    .Do(async e =>
@@ -780,7 +780,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "cmdcooldown")
                     .Alias(Prefix+ "cmdcd")
-                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. | `{Prefix}cmdcd \"some cmd\" 5`")
+                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. **Needs Manager Messages Permissions**| `{Prefix}cmdcd \"some cmd\" 5`")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("secs",ParameterType.Required)
                     .AddCheck(SimpleCheckers.ManageMessages())
