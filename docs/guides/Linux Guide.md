@@ -36,12 +36,14 @@ Note if the command is not being initiated, hit **Enter**
 
 **2)**
 
-`echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
+`echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | 
+sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 
 **2.5)**
 *ONLY DEBIAN 8 and later*
 
-`echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
+`echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | 
+sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 
 **2.6)**
 *ONLY CentOS 7, Fedora 19 (and later)*
@@ -206,7 +208,8 @@ Type/ Copy and hit **Enter**.
 
 `tmux new -s nadeko`
 
-**^this will create a new session named “nadeko”** `(you can replace “nadeko” with anything you prefer and remember its your session name) so you can run the bot in background without having to keep running PuTTY in the background.`
+**^this will create a new session named “nadeko”** `(you can replace “nadeko” with anything you prefer and remember 
+its your session name) so you can run the bot in background without having to keep running PuTTY in the background.`
 
 `cd nadeko`
 

@@ -67,7 +67,10 @@ ________________________________________________________________________________
 - Now you are the bot owner.
 - You can add `User IDs` from the other users by separating IDs with a comma if you want to have more owners.
 
-`*Alternatively, you can download nadekobot from [Releases][Releases] and extract the zip yourself. That is what updater does, except it makes it easier for you to update because it doesn't overwrite important files. If you are downloading releases you will have to be careful about your config, credentials, and other files you edited in order to preserve your data every time you update.`
+`*Alternatively, you can download nadekobot from [Releases][Releases] and extract the zip yourself. 
+That is what updater does, except it makes it easier for you to update because it doesn't overwrite 
+important files.If you are downloading releases you will have to be careful about your config, 
+credentials, and other files you edited in order to preserve your data every time you update.`
 
 ________________________________________________________________________________
 
