@@ -161,22 +161,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ScaredFingers.UnitsConversion.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\sqlite-net-pcl.1.1.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCL.batteries, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.bundle_green.0.9.2\lib\net45\SQLitePCL.batteries.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCL.raw, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.raw.0.9.2\lib\net45\SQLitePCL.raw.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCLPlugin_esqlite3, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.plugin.sqlite3.net45.0.9.2\lib\net45\SQLitePCLPlugin_esqlite3.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
@@ -217,6 +201,7 @@
     <Compile Include="Modules\Searches\Commands\OsuCommands.cs" />
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
+    <Compile Include="SQLite.cs" />
     <Compile Include="_Models\DataModels\TestDataModel.cs" />
     <Compile Include="_Models\DataModels\Incident.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
@@ -231,7 +216,7 @@
     <Compile Include="Modules\Music\Classes\MusicControls.cs" />
     <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
     <Compile Include="Modules\Music\Classes\Song.cs" />
-	<Compile Include="Modules\Music\Classes\SongBuffer.cs" />
+    <Compile Include="Modules\Music\Classes\SongBuffer.cs" />
     <Compile Include="Modules\Music\Classes\SoundCloud.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionChecker.cs" />
     <Compile Include="Modules\Permissions\Classes\PermissionHelper.cs" />

@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Utility
                         if (arr.Length == 0)
                             await e.Channel.SendMessage("Nobody. (not 100% sure)").ConfigureAwait(false);
                         else
-                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+                            await e.Channel.SendMessage("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"â€¢ {el,-35}")))) + "\n```").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "inrole")
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                     .Do(async e => await e.Channel.SendMessage("This server's ID is " + e.Server.Id).ConfigureAwait(false));
 
                 cgb.CreateCommand(Prefix + "roles")
-                    .Description("List all roles on this server or a single user if specified.")
+                    .Description($"List all roles on this server or a single user if specified. | `{Prefix}roles`")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -143,10 +143,10 @@ namespace NadekoBot.Modules.Utility
                             var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
                             if (usr == null) return;
 
-                            await e.Channel.SendMessage($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles)).ConfigureAwait(false);
+                            await e.Channel.SendMessage($"`List of roles for **{usr.Name}**:` \nâ€¢ " + string.Join("\nâ€¢ ", usr.Roles)).ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles)).ConfigureAwait(false);
+                        await e.Channel.SendMessage("`List of roles:` \nâ€¢ " + string.Join("\nâ€¢ ", e.Server.Roles)).ConfigureAwait(false);
                     });
 
 

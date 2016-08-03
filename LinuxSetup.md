@@ -153,7 +153,7 @@ TMUX
 `certmgr -ssl https://discordapp.com`
 
 **14)**
-`certmgr --ssl https://gateway.discord.gg`
+`certmgr -ssl https://gateway.discord.gg`
 
 Type `yes` and hit Enter **(three times - as it will ask for three times)**
 

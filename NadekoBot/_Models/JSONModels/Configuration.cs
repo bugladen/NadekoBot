@@ -81,6 +81,15 @@ namespace NadekoBot.Classes.JSONModels
                 "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
                 "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
 
+            } },
+            {"%mention% inv", new List<string>() {
+                "To invite your bot, click on this link -> <https://discordapp.com/oauth2/authorize?client_id=%target%&scope=bot&permissions=66186303>"
+            } },
+            { "%mention% threaten", new List<string>() {
+                "You wanna die, %target%?"
+            } },
+            { "%mention% archer", new List<string>() {
+                "http://i.imgur.com/Bha9NhL.jpg"
             } }
         };
 
@@ -208,7 +217,8 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
             {
                 File.WriteAllText("data/config.json", JsonConvert.SerializeObject(NadekoBot.Config, Formatting.Indented));
             }
-            finally {
+            finally
+            {
                 configLock.Release();
             }
         }

@@ -375,7 +375,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
 
             cgb.CreateCommand(Module.Prefix + "spmom")
-                .Description($"Toggles whether mentions of other offline users on your server will send a pm to them. | `{Prefix}spmom`")
+                .Description($"Toggles whether mentions of other offline users on your server will send a pm to them. **Needs Manage Server Permissions.**| `{Prefix}spmom`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
                 {
@@ -413,7 +413,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
 
             cgb.CreateCommand(Prefix + "logignore")
-                .Description($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. | `{Prefix}logignore`")
+                .Description($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Bot Owner Only!**| `{Prefix}logignore`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
@@ -431,7 +431,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "userpresence")
-                  .Description($"Starts logging to this channel when someone from the server goes online/offline/idle. | `{Prefix}userpresence`")
+                  .Description($"Starts logging to this channel when someone from the server goes online/offline/idle. **Needs Manage Server Permissions.**| `{Prefix}userpresence`")
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
@@ -447,7 +447,7 @@ namespace NadekoBot.Modules.Administration.Commands
                   });
 
             cgb.CreateCommand(Module.Prefix + "voicepresence")
-                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. | `{Prefix}voicerpresence`")
+                  .Description($"Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Needs Manage Server Permissions.**| `{Prefix}voicerpresence`")
                   .Parameter("all", ParameterType.Optional)
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>

@@ -82,6 +82,15 @@
       "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
       "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
       "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
+    ],
+    "%mention% inv": [
+      "To invite your bot, click on this link -> <https://discordapp.com/oauth2/authorize?client_id=%target%&scope=bot&permissions=66186303>"
+    ],
+    "%mention% threaten": [
+      "You wanna die, %target%?"
+    ],
+    "%mention% archer": [
+      "http://i.imgur.com/Bha9NhL.jpg"
     ]
   },
   "RotatingStatuses": [],

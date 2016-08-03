@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "asar")
                 .Description("Adds a role, or list of roles separated by whitespace" +
-                             $"(use quotations for multiword roles) to the list of self-assignable roles. | `{Prefix}asar Gamer`")
+                             $"(use quotations for multiword roles) to the list of self-assignable roles. **Needs Manage Roles Permissions.**| `{Prefix}asar Gamer`")
                 .Parameter("roles", ParameterType.Multiple)
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .Do(async e =>
