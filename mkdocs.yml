@@ -3,16 +3,16 @@ pages:
 - Home: index.md
 - About: about.md
 - Guides:
-    - Windows Guide: guides/comprehensiveguide.md
-    - Linux Guide: guides/linuxguide.md
-    - OSX Guide: guides/macguide.md
-    - Building from Source: guides/fromsource.md
-    - Docker Guide: guides/dockerguide.md
+    - Windows Guide: guides/Windows Guide.md
+    - Linux Guide: guides/Linux Guide.md
+    - OSX Guide: guides/OSX Guide.md
+    - Building from Source: guides/Building from Source.md
+    - Docker Guide: guides/Docker Guide.md
 - Commands List: commandlist.md
-- Permissions System: permissions.md
-- JSON Explanations: explanations.md
-- Custom Commands: customreactions.md
-- Frequently Asked Questions: FAQ.md
-- Contribution Guide: contributionguide.md
+- Permissions System: Permissions System.md
+- JSON Explanations: JSON Explanations.md
+- Custom Commands: Custom Reactions.md
+- Frequently Asked Questions: Frequently Asked Questions.md
+- Contribution Guide: Contribution Guide.md
 
 theme: readthedocs
