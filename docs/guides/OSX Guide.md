@@ -1,7 +1,7 @@
 ### Setting Up NadekoBot on OSX
 #### Prerequisites 
 - 1) [Homebrew][Homebrew]
-- 2) [Mono][Mono] from Source
+- 2) Mono
 - 3) Google Account
 - 4) Soundcloud Account (if you want soundcloud support)
 - 5) Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom][Atom]
@@ -10,15 +10,26 @@
 
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
+Run `brew update` to fetch the latest package data.
 ####Installing dependencies
 ```
 brew install git
 brew install ffmpeg
+brew update && brew upgrade ffmpeg
 brew install opus
+brew install opus-tools
+brew install opusfile
 brew install libffi
 brew install libsodium
 brew install tmux
 ```
+
+####Installing xcode-select
+Xcode command line tools. You will do this in Terminal.app by running the following command line:
+
+`xcode-select --install`
+
+A dialog box will open asking if you want to install `xcode-select`. Select install and finish the installation.
 
 ####Installing Mono
 - Building Mono dependencies:
