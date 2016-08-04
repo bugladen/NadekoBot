@@ -685,7 +685,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "setname")
                     .Alias(Prefix + "newnm")
-                    .Description($"Give the bot a new name. **Bot Owner Only!** | {Prefix}newnm BotName")
+                    .Description($"Give the bot a new name. **Bot Owner Only!** | `{Prefix}newnm BotName`")
                     .Parameter("new_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
