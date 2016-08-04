@@ -94,7 +94,7 @@ ________________________________________________________________________________
     - In `credentials.json`, fill in `"SoundcloudClientID"` with the copied ID.
 - Restart your computer.
 
-####Prerequisites for manual `ffmpeg` setup: 
+####Manual `ffmpeg` setup 
 **Do this step in case you were not able to install `ffmpeg` with the installer.**
 
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
