@@ -14,3 +14,4 @@
 - [Custiom Reactions](Custom Reactions.md)
 - [Frequently Asked Questions](Frequently Asked Questions.md)
 - [Contribution Guide](Contribution Guide.md)
+- [<3 Donate <3](Donate.md)
