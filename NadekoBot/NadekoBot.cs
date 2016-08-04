@@ -231,7 +231,7 @@ namespace NadekoBot
 #if NADEKO_RELEASE
                 Client.ClientAPI.SentRequest += (s, e) =>
                 {
-                    Console.WriteLine($"[Request sent in {e.Milliseconds}]");
+                    Console.WriteLine($"[Request of type {e.Request.GetType()} sent in {e.Milliseconds}]");
                 };
 #endif
                 PermissionsHandler.Initialize();
