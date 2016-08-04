@@ -20,18 +20,24 @@ namespace NadekoBot.Modules.Searches.Commands
         };
 
         private ConcurrentDictionary<string, Tuple<bool, string>> cachedStatuses = new ConcurrentDictionary<string, Tuple<bool, string>>();
+        private bool FirstPass { get; set; } = true;
 
         public StreamNotifications(DiscordModule module) : base(module)
         {
 
-            checkTimer.Elapsed += async (s, e) =>
+            checkTimer.Elapsed += (s, e) => Task.Run(async () =>
             {
+
                 cachedStatuses.Clear();
                 try
                 {
                     var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
                     if (!streams.Any()) return;
 
+                    var clr = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Getting {streams.Count()} streams.");
+                    Console.ForegroundColor = clr;
                     foreach (var stream in streams)
                     {
                         Tuple<bool, string> data;
@@ -47,6 +53,8 @@ namespace NadekoBot.Modules.Searches.Commands
                         if (data.Item1 != stream.LastStatus)
                         {
                             stream.LastStatus = data.Item1;
+                            if (FirstPass)
+                                continue;
                             var server = NadekoBot.Client.GetServer(stream.ServerId);
                             var channel = server?.GetChannel(stream.ChannelId);
                             if (channel == null)
@@ -66,10 +74,15 @@ namespace NadekoBot.Modules.Searches.Commands
                             await channel.SendMessage(msg).ConfigureAwait(false);
                         }
                     }
+                    FirstPass = false;
+
+                    clr = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Getting {streams.Count()} streams.");
+                    Console.ForegroundColor = clr;
                 }
                 catch { }
-                await ConfigHandler.SaveConfig().ConfigureAwait(false);
-            };
+            });
             //start checking only after ready, because we need all servers to be initialized
             NadekoBot.OnReady += checkTimer.Start;
         }
