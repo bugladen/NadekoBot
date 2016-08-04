@@ -697,7 +697,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "newavatar")
                     .Alias(Prefix + "setavatar")
-                    .Description($"Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `{Prefix}setavatar https://i.ytimg.com/vi/WDudkR1eTMM/maxresdefault.jpg`")
+                    .Description($"Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `{Prefix}setavatar http://i.imgur.com/xTG3a1I.jpg`")
                     .Parameter("img", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>

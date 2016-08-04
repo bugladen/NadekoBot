@@ -77,7 +77,7 @@ Needs Manage Roles and Manage Channels Permissions.** | `.cleanv+t`
 `.prune`, `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die` | Shuts the bot down and notifies users about the restart. **Bot Owner Only!** | `.die`
 `.setname`, `.newnm` | Give the bot a new name. **Bot Owner Only!** | .newnm BotName
-`.newavatar`, `.setavatar` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `.setavatar https://i.ytimg.com/vi/WDudkR1eTMM/maxresdefault.jpg`
+`.newavatar`, `.setavatar` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `.setavatar http://i.imgur.com/xTG3a1I.jpg`
 `.setgame` | Sets the bots game. **Bot Owner Only!** | `.setgame Playing with kwoth`
 `.send` | Send a message to someone on a different server through the bot. **Bot Owner Only!** | `.send sid|u:uid Hello user!` or `.send sid|c:cid Message to channel!` (cid = channel id, sid = server id)
 `.mentionrole`, `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission. | `.menro RoleName`
