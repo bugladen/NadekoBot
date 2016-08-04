@@ -44,7 +44,8 @@ ________________________________________________________________________________
 - Copy `Bot ID` and replace it with the example one in your `credentials.json`.
 - Save your `credentials.json` but keep it open. We need to put your `User ID` and owner.
 
-####Inviting your bot to your server - [Invite Guide][Invite Guide]
+####Inviting your bot to your server 
+- [Invite Guide][Invite Guide]
 - Create a new server in Discord.
 - Copy your `Client ID` from your [DiscordApp][DiscordApp].
 - Replace `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
