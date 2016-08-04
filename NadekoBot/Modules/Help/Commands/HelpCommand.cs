@@ -92,7 +92,7 @@ namespace NadekoBot.Classes.Help.Commands
 #if DEBUG
             File.WriteAllText("../../../docs/Commands List.md", helpstr.ToString());
 #else
-            File.WriteAllText("commandlist.md", helpstr);
+            File.WriteAllText("commandlist.md", helpstr.ToString());
 #endif
         };
 

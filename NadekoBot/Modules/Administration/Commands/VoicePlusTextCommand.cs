@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration.Commands
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
-            NadekoBot.Client.UserUpdated += async (sender, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.UserUpdated += async (sender, e) =>
             {
                 try
                 {
