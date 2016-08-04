@@ -5,6 +5,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -47,30 +48,24 @@ namespace NadekoBot.Classes.Help.Commands
 
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
-            string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can donate on patreon: <https://patreon.com/nadekobot>
-######or paypal: `nadekodiscordbot@gmail.com`
+            var helpstr = new StringBuilder();
 
-#NadekoBot List Of Commands  ";
-
-
-            string lastCategory = "";
+            var lastCategory = "";
             foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
             {
                 if (com.Category != lastCategory)
                 {
-                    helpstr += "\n### " + com.Category + "  \n";
-                    helpstr += "Command and aliases | Description | Usage\n";
-                    helpstr += "----------------|--------------|-------\n";
+                    helpstr.AppendLine("\n### " + com.Category + "  ");
+                    helpstr.AppendLine("Command and aliases | Description | Usage");
+                    helpstr.AppendLine("----------------|--------------|-------");
                     lastCategory = com.Category;
                 }
-                helpstr += PrintCommandHelp(com);
+                helpstr.AppendLine(PrintCommandHelp(com));
             }
             helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
             helpstr = helpstr.Replace(" |", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
-            File.WriteAllText("../../../commandlist.md", helpstr);
+            File.WriteAllText("../../../docs/Commands List.md", helpstr.ToString());
 #else
             File.WriteAllText("commandlist.md", helpstr);
 #endif
@@ -92,13 +87,8 @@ $@"######For more information and how to setup your own NadekoBot, go to: <http:
                 .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
-@"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
-
-**WINDOWS SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
-
-**LINUX SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/LinuxSetup.md>
-
-**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>").ConfigureAwait(false));
+@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
+**Hosting Guides and docs can be found here**: <http://nadekobot.rtfd.io>").ConfigureAwait(false));
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")

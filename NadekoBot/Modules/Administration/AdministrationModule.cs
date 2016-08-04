@@ -728,7 +728,7 @@ namespace NadekoBot.Modules.Administration
                   });
 
                 cgb.CreateCommand(Prefix + "send")
-                    .Description($"Send a message to someone on a different server through the bot. **Bot Owner Only!** | `{Prefix}send serverid|u:user_id Send this to a user!` or `{Prefix}send serverid|c:channel_id Send this to a channel!`")
+                    .Description($"Send a message to someone on a different server through the bot. **Bot Owner Only!** | `{Prefix}send sid|u:uid Hello user!` or `{Prefix}send sid|c:cid Message to channel!` (cid = channel id, sid = server id)")
                     .Parameter("ids", ParameterType.Required)
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
