@@ -135,7 +135,7 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will dit
 
 ####Setting NadekoBot Music
 
-For Music Setup and API keys check [Windows Guide](Windows Guide.md) and [JSON Explanations](JSON Explanations.md).
+For Music Setup and API keys check [Setting up NadekoBot for Music](Windows Guide.md#setting-up-nadekobot-for-music) and [JSON Explanations](JSON Explanations.md).
 
 ####Some more Info (just in case)
 
