@@ -1,6 +1,4 @@
-######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can donate on patreon: <https://patreon.com/nadekobot>
-######or paypal: `nadekodiscordbot@gmail.com`
+You can donate on [Patreon](https://patreon.com/nadekobot) or paypal: `nadekodiscordbot@gmail.com`
 
 #NadekoBot List Of Commands  
 ### Help  
