@@ -31,8 +31,7 @@ Command and aliases | Description | Usage
 `.listplaying`, `.lipl` | Lists all playing statuses with their corresponding number. **Bot Owner Only!**| `.lipl`
 `.removeplaying`, `.repl`, `.rmpl` | Removes a playing string on a given number. **Bot Owner Only!**| `.rmpl`
 `.slowmode` | Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds. **Needs Manage Messages Permissions.**| `.slowmode`
-`.cleanv+t`, `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.
-Needs Manage Roles and Manage Channels Permissions.** | `.cleanv+t`
+`.cleanv+t`, `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.** | `.cleanv+t`
 `.voice+text`, `.v+t` | Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless. **Needs Manage Roles and Manage Channels Permissions.**| `.voice+text`
 `.scsc` | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot Owner Only.** | `.scsc`
 `.jcsc` | Joins current channel to an instance of cross server channel using the token. **Needs Manage Server Permissions.**| `.jcsc`
@@ -76,7 +75,7 @@ Needs Manage Roles and Manage Channels Permissions.** | `.cleanv+t`
 `.heap` | Shows allocated memory - **Bot Owner Only!** | `.heap`
 `.prune`, `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die` | Shuts the bot down and notifies users about the restart. **Bot Owner Only!** | `.die`
-`.setname`, `.newnm` | Give the bot a new name. **Bot Owner Only!** | .newnm BotName
+`.setname`, `.newnm` | Give the bot a new name. **Bot Owner Only!** | `.newnm BotName`
 `.newavatar`, `.setavatar` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `.setavatar http://i.imgur.com/xTG3a1I.jpg`
 `.setgame` | Sets the bots game. **Bot Owner Only!** | `.setgame Playing with kwoth`
 `.send` | Send a message to someone on a different server through the bot. **Bot Owner Only!** | `.send sid|u:uid Hello user!` or `.send sid|c:cid Message to channel!` (cid = channel id, sid = server id)
