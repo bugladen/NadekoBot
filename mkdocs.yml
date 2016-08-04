@@ -1,4 +1,5 @@
 site_name: NadekoBot
+repo_url: https://github.com/Kwoth/NadekoBot
 pages:
 - Home: index.md
 - About: about.md
