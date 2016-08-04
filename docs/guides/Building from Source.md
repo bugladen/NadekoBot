@@ -1,5 +1,5 @@
 ###Building from Source
-For easy setup and no programming knowledge, you can use [Updater](https://github.com/Kwoth/NadekoUpdater/releases/latest) or download release from [Releases](https://github.com/Kwoth/NadekoBot/releases) and follow the [Comprehensive Guide](https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md)
+For easy setup and no programming knowledge, you can use [Updater](https://github.com/Kwoth/NadekoUpdater/releases/latest) or download release from [Releases](https://github.com/Kwoth/NadekoBot/releases) and follow the [Windows Guide](Windows Guide.md)
 
 In your bin/debug folder (or next to your exe if you are using release version), you must have a file called 'credentials.json' in which you will store all the necessary data to make the bot know who the owner is, and your api keys.
 
