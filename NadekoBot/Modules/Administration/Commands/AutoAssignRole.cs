@@ -10,7 +10,7 @@ namespace NadekoBot.Modules.Administration.Commands
     {
         public AutoAssignRole(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.UserJoined += (s, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.UserJoined += (s, e) =>
             {
                 try
                 {

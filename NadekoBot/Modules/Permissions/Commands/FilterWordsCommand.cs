@@ -11,7 +11,7 @@ namespace NadekoBot.Modules.Permissions.Commands
     {
         public FilterWords(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += async (sender, args) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.MessageReceived += async (sender, args) =>
             {
                 if (args.Channel.IsPrivate || args.User.Id == NadekoBot.Client.CurrentUser.Id) return;
                 try

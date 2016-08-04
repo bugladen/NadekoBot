@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public RatelimitCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.MessageReceived += async (s, e) =>
             {
                 if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;

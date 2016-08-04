@@ -324,7 +324,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand(Prefix + "soundcloudpl")
                     .Alias(Prefix + "scpl")
-                    .Description($"Queue a soundcloud playlist using a link. | `{Prefix}scpl https://soundcloud.com/saratology/sets/symphony`")
+                    .Description($"Queue a soundcloud playlist using a link. | `{Prefix}scpl soundcloudseturl`")
                     .Parameter("pl", ParameterType.Unparsed)
                     .Do(async e =>
                     {
