@@ -24,6 +24,17 @@ brew install libsodium
 brew install tmux
 ```
 
+####Check your `FFMPEG`
+
+**In case your `FFMPEG` wasnt installed properly**
+
+- `brew options ffmpeg`
+- `brew install ffmpeg --with-x --with-y --with-z` etc.
+- `brew update && brew upgrade` (Update formulae and Homebrew itself && Install newer versions of outdated packages)
+- `brew prune` (Remove dead symlinks from Homebrew’s prefix)
+- `brew doctor` (Check your Homebrew installation for common issues)
+- Then try `brew install ffmpeg` again.
+
 ####Installing xcode-select
 Xcode command line tools. You will do this in Terminal.app by running the following command line:
 
@@ -66,6 +77,15 @@ To build Mono in 64 bit mode instead use this to configure the build:
 ^ do not copy-paste it
 
 - Unzip the downloaded file in our `Nadeko` folder
+
+####Creating DiscordBot application
+- Go to [DiscordApp][DiscordApp].
+- Log in with your Discord account.
+- On the left side, press `New Application`.
+- Fill out the `App Name` (your bot's name, in this case), put the image you want, and add an app description(optional).
+- Create the application.
+- Once the application is created, click on `Create a Bot User` and confirm it.
+- Keep this window open for now.
  
 ####Setting up Credentials.json file
 - In our `NadekoBot` folder you should have `.json` file named `credentials_example.json`. (Note: If you do not see a **.json** after `credentials_example.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
