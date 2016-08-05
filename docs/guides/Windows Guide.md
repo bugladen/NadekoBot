@@ -11,7 +11,7 @@ ________________________________________________________________________________
 - 5) [7zip][7zip] (or whatever you are using, WinRar)
 - 6) [Notepad++][Notepad++]
 
-####Guide: 
+####Guide 
 
 - Create a folder, name it `Nadeko`.
 - Head to [Releases][Releases]* and download `WINDOWS.-.nadeupdater.7z`.
