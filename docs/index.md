@@ -28,3 +28,6 @@ In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we
 
 [img]: https://discordcdn.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
+[GitHub]: https://github.com/Kwoth/NadekoBot
+[Issues]: https://github.com/Kwoth/NadekoBot/issues
+[dev]: https://github.com/Kwoth/NadekoBot/tree/dev
