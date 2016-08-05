@@ -7,7 +7,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if NADEKO_RELEASE
 using System.IO;
+#endif
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -227,6 +229,7 @@ namespace NadekoBot
             DateTime dt;
             if (!commandTracker.TryGetValue(e.Message.Id, out dt))
                 return;
+#if NADEKO_RELEASE
             try
             {
                 if (e is CommandErrorEventArgs)
@@ -248,6 +251,7 @@ namespace NadekoBot
                 }
             }
             catch { }
+#endif
         }
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)

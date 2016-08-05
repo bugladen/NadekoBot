@@ -61,10 +61,31 @@ namespace NadekoBot.Classes
             IEnumerable<KeyValuePair<string, string>> headers = null,
             RequestHttpMethod method = RequestHttpMethod.Get)
         {
-
-            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method).ConfigureAwait(false)))
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+            var cl = new HttpClient();
+            cl.DefaultRequestHeaders.Clear();
+            switch (method)
             {
-                return await streamReader.ReadToEndAsync().ConfigureAwait(false);
+                case RequestHttpMethod.Get:
+                    if (headers != null)
+                    {
+                        foreach (var header in headers)
+                        {
+                            cl.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                        }
+                    }
+                    return await cl.GetStringAsync(url).ConfigureAwait(false);
+                case RequestHttpMethod.Post:
+                    FormUrlEncodedContent formContent = null;
+                    if (headers != null)
+                    {
+                        formContent = new FormUrlEncodedContent(headers);
+                    }
+                    var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
+                    return await message.Content.ReadAsStringAsync().ConfigureAwait(false);
+                default:
+                    throw new NotImplementedException("That type of request is unsupported.");
             }
         }
 

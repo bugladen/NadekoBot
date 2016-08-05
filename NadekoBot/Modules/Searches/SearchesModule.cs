@@ -300,10 +300,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       {
                           var items = JObject.Parse(res);
                           var sb = new System.Text.StringBuilder();
-                          sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
-                          sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                          sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
-                          await e.Channel.SendMessage(sb.ToString());
+                          var item = items["list"][0];
+                          sb.AppendLine($"`Term:` {item["word"].ToString()}");
+                          sb.AppendLine($"`Definition:` {item["definition"].ToString()}");
+                          sb.Append($"`Link:` <{item["permalink"].ToString()}>");
+                          await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                       }
                       catch
                       {
