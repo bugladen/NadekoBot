@@ -726,7 +726,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Add(ch.Id);
+                            NadekoBot.Config.ChannelBlacklist.Add(ch.Id);
                             await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
@@ -741,9 +741,14 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Remove(ch.Id);
-                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
-                            await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
+                            if (NadekoBot.Config.ChannelBlacklist.Contains(ch.Id))
+                            {
+                                NadekoBot.Config.ChannelBlacklist.Remove(ch.Id);
+                                await ConfigHandler.SaveConfig().ConfigureAwait(false);
+                                await e.Channel.SendMessage($"`Sucessfully unblacklisted channel {ch.Name}`").ConfigureAwait(false);
+                            }
+                            else
+                                await e.Channel.SendMessage($"`{ch.Name} was not in blacklist`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
                     });
 
