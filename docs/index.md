@@ -3,6 +3,11 @@ To invite NadekoBot to your server, click on the image bellow:
 
 [![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
 
+NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
+
+Here you can read current [Issues][Issues].
+
+If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we can provide support.
 ##Content
 - [About](about.md)
