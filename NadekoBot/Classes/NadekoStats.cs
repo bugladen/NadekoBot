@@ -7,6 +7,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if NADEKO_RELEASE
+using System.IO;
+#endif
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -247,7 +250,7 @@ namespace NadekoBot
                     Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
                 }
             }
-            catch { }      
+            catch { }
 #endif
         }
 
