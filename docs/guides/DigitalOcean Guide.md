@@ -131,6 +131,7 @@ Now time to **move bot to background** and to do that, press **CTRL+B+D** (this 
 
 Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with it. Go to that link and you will be able to add your bot to your server.
 Or check this guide also [Inviting your bot to your server](Windows Guide.md#inviting-your-bot-to-your-server)
+
 ####How to restart Nadeko with the server (for science)
 
 - Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
