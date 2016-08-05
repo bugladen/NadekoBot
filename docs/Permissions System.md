@@ -1,6 +1,6 @@
 # Overview
 Ever stuck handling your Nadeko permissions? Look no further than this guide!
-We'll handle a few example cases that we've seen frequently on the help channel, as well as explaining the order of permissions in general. Any command used here can be found in the [Commands list](https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md#permissions)
+We'll handle a few example cases that we've seen frequently on the help channel, as well as explaining the order of permissions in general. Any command used here can be found in the [Commands list](Commands List.md#permissions)
 
 # How does it work?
 Permissions are handy to set up to limit who in your server can use what. by default, every command is enabled for everyone, except for the administration commands, like `.kick` and `.prune`, which are set to correspond to discord's permissions, (kicking and managing messages respectively here), the permissions module, which we will show in the next paragraph, and some other commands throughout the other modules that are owner-only, meaning that only someone who has his or her id in the list of owners of the bot can use them. 
@@ -70,7 +70,7 @@ Follow that with another space and, to enable it, type one of the following: [1,
 
 Follow that with another space and the name of the user, role, channel. (depending on the first letter you picked)
 
-###### Examples
+###### Examples #1
 - **;rm NSFW 0 [Role_Name]**  Disables the NSFW module for the role, <Role_Name>.
 - **;cc "!!n" 0 [Channel_Name]**  Disables skipping to the next song in the channel, <Channel_Name>.
 - **;uc "!!q" 1 [User_Name]**  Enables queuing of songs for the user, <User_Name>.
@@ -78,7 +78,7 @@ Follow that with another space and the name of the user, role, channel. (dependi
 
 Check permissions by using the letter of the level you want to check followed by a p, and then the name of the level in which you want to check. If there is no name, it will default to yourself for users, the @everyone role for roles, and the channel in which the command is sent for channels.
 
-###### Examples 
+###### Examples #2
 - ;cp [Channel_Name]
 - ;rp [Role_Name]
 

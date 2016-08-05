@@ -34,7 +34,7 @@
 - **OsuAPIKey** - needed for osu top5 and beatmap commands. 
 - **CarbonKey** - carbonitex.net key if your bot is listed there in order to send stats (probably nobody needs this)
 
-Next to your exe you must also have a `data folder` in which there is `config.jso`n (among other things) which will contain some user specific config, like should the Bot join servers, should DMs to bot be forwarded to you and a list of IDs of blacklisted users, channels and servers. If you do not have `config.json`, you can should `config_example.json` to `config.json`.
+Next to your exe you must also have a `data folder` in which there is `config.jso`n (among other things) which will contain some user specific config, like should the Bot join servers, should DMs to bot be forwarded to you and a list of IDs of blacklisted users, channels and servers. If you do not have `config.json`, you should rename `config_example.json` to `config.json`.
 
 [SoundcloudApp]: http://soundcloud.com/you/apps/new
 [Your SC Apps]: http://soundcloud.com/you/apps

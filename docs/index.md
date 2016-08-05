@@ -12,6 +12,7 @@ In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we
 	- [OSX Guide](guides/OSX Guide.md)
 	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
+	- [DigitalOcean Guide](guides/DigitalOcean Guide.md)
 - [Commands List](Commands List.md)
 - [Permissions System](Permissions System.md)
 - [JSON Explanations](JSON Explanations.md)
