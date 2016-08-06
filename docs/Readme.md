@@ -5,6 +5,7 @@
 - *Bot Owner Only* commands refer to the commands only the **owner** of the bot can use.
 - *Bot Owner Only* commands do **not** refer to the owner of the **server**, just the owner of the **bot**.
 - *Owner of the bot* is a person who is **hosting** his own bot, and his **ID** is inside of **credentials.json** file.
+- You are **not** the bot **owner** if you invited the bot using **Carbonitex** or other invitation links.
 
 ###Music on the public Nadeko
 
