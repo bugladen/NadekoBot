@@ -19,7 +19,9 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
 	- [DigitalOcean Guide](guides/DigitalOcean Guide.md)
-- [Commands List](Commands List.md)
+- Commands
+	- [Readme](Readme.md)
+	- [Commands List](Commands List.md)
 - [Permissions System](Permissions System.md)
 - [JSON Explanations](JSON Explanations.md)
 - [Custiom Reactions](Custom Reactions.md)
