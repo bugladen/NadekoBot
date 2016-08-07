@@ -40,8 +40,7 @@ ________________________________________________________________________________
 - In there you will see fields like `Token`, `ClientId`, `BotId`, `OwnerIDs`.
 - In your [DiscordApp][DiscordApp], under `Bot User` part, you will see the `Token:click to reveal` part, click to reveal it.
 - Copy your bot's token, and put it between `" "` in your `credentials.json` file.
-- Copy `Client ID` and replace it with the example one in your `credentials.json`.
-- Copy `Bot ID` and replace it with the example one in your `credentials.json`.
+- Copy `Client ID` and replace it with the example one in your `credentials.json` in `Client ID` **and** `BotID` field.
 - Save your `credentials.json` but keep it open. We need to put your `User ID` and owner.
 
 ####Inviting your bot to your server 
