@@ -144,7 +144,7 @@ For Music Setup and API keys check [Setting up NadekoBot for Music](Windows Guid
 
 [Homebrew]: http://brew.sh/
 [Mono]: http://www.mono-project.com/docs/compiling-mono/mac/
-[Releases]: //github.com/Kwoth/NadekoUpdater/releases/tag/v1.0
+[Releases]: https://github.com/Kwoth/NadekoBot/releases
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Atom]: https://atom.io/
 [Invite Guide]: http://discord.kongslien.net/guide.html
