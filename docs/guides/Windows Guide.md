@@ -14,7 +14,7 @@ ________________________________________________________________________________
 ####Guide 
 
 - Create a folder, name it `Nadeko`.
-- Head to [Releases][Releases]* and download `WINDOWS.-.nadeupdater.7z`.
+- Head to [Updater Releases Page][Updater] and download `WINDOWS.-.nadeupdater.7z`.
 - Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
 - You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
 - Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
@@ -108,6 +108,7 @@ ________________________________________________________________________________
 [NET Framework]: https://www.microsoft.com/en-us/download/details.aspx?id=48130
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Installer
 [7zip]: http://www.7-zip.org/download.html
+[Updater]: https://github.com/Kwoth/NadekoUpdater/releases
 [Releases]: https://github.com/Kwoth/NadekoBot/releases
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Notepad++]: https://notepad-plus-plus.org/
