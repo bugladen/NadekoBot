@@ -298,7 +298,7 @@ namespace NadekoBot.Modules.Music.Classes
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
 
-                var m = Regex.Match(query, @"\?t=((?<h>\d*)h)?((?<m>\d*)m)?((?<s>\d*)s)?");
+                var m = Regex.Match(query, @"\?t=((?<h>\d*)h)?((?<m>\d*)m)?((?<s>\d*)s?)?");
                 int gotoTime = 0;
                 if (m.Captures.Count > 0)
                 {
