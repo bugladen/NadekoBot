@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Gambling
 
             cgb.CreateCommand(Module.Prefix + "rolluo")
                 .Description("Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered)." +
-                             $" If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `{Prefix}roll` or `{Prefix}roll` 7 or `{Prefix}roll 3d5`")
+                             $" If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `{Prefix}rolluo` or `{Prefix}rolluo 7` or `{Prefix}rolluo 3d5`")
                 .Parameter("num", ParameterType.Optional)
                 .Do(RollFunc(false));
 

@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches.Commands
                   });
 
             cgb.CreateCommand(Module.Prefix + "osu b")
-                .Description($"Shows information about an osu beatmap. |`{Prefix}osu b` https://osu.ppy.sh/s/127712")
+                .Description($"Shows information about an osu beatmap. |`{Prefix}osu b https://osu.ppy.sh/s/127712`")
                 .Parameter("map", ParameterType.Unparsed)
                 .Do(async e =>
                 {
