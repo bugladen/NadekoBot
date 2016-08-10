@@ -466,7 +466,7 @@ namespace NadekoBot.Modules.Music
                 //var msRegex = new Regex(@"(?<n1>\d+)>(?<n2>\d+)", RegexOptions.Compiled);
                 cgb.CreateCommand(Prefix + "movesong")
                     .Alias(Prefix + "ms")
-                    .Description($"Moves a song from one position to another. | `{Prefix} ms` 5>3")
+                    .Description($"Moves a song from one position to another. | `{Prefix} ms 5>3`")
                     .Parameter("fromto")
                     .Do(async e =>
                     {
@@ -502,7 +502,7 @@ namespace NadekoBot.Modules.Music
 
                 cgb.CreateCommand(Prefix + "setmaxqueue")
                     .Alias(Prefix + "smq")
-                    .Description($"Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `{Prefix}smq` 50 or `{Prefix}smq`")
+                    .Description($"Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `{Prefix}smq 50` or `{Prefix}smq`")
                     .Parameter("size", ParameterType.Unparsed)
                     .Do(async e =>
                     {
