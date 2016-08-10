@@ -101,6 +101,7 @@ namespace NadekoBot.Modules.Translator.Helpers
                     { "catalan", "ca"},
                     { "chinese-traditional", "zh-TW"},
                     { "chinese-simplified", "zh-CN"},
+                    { "chinese", "zh-CN"},
                     { "croatian", "hr"},
                     { "czech", "cs"},
                     { "danish", "da"},
