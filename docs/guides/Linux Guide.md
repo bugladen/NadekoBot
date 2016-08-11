@@ -37,12 +37,14 @@ Note if the command is not being initiated, hit **Enter**
 
 **2)**
 
-`echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
+`echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo 
+tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 
 ####Mono on Debian 8 and later
 **2.5)**
 
-`echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list`
+`echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | sudo 
+tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 
 ####Mono on CentOS 7, Fedora 19 (and later) and later
 **2.6)**
