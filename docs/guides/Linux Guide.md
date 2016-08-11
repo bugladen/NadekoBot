@@ -202,7 +202,8 @@ Type/ Copy and hit **Enter**.
 
 `tmux new -s nadeko`
 
-**^this will create a new session named “nadeko”** `(you can replace “nadeko” with anything you prefer and remember its your session name) so you can run the bot in background without having to keep running PuTTY in the background.`
+**^this will create a new session named “nadeko”** `(you can replace “nadeko” with anything you prefer and remember 
+its your session name) so you can run the bot in background without having to keep running PuTTY in the background.`
 
 `cd nadeko`
 
@@ -210,6 +211,10 @@ Type/ Copy and hit **Enter**.
 `mono NadekoBot.exe`
 
 **CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING**
+
+####Setting up Nadeko Music
+
+For how to set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](Windows Guide.md#setting-up-nadekobot-for-music)
 
 Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will ditach the nadeko session using TMUX), and you can finally close PuTTY now.
 
