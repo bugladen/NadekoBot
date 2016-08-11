@@ -1,4 +1,6 @@
 #NadekoBot Documentation
+:us: [:cn:](Coming Soon) [:fr:](Coming Soon) [:it:](Coming Soon) [:de:](Coming Soon) [:es:](Coming Soon) [:ru:](Coming Soon)
+
 To invite NadekoBot to your server, click on the image bellow:
 
 [![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
