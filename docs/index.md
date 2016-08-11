@@ -18,7 +18,6 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 	- [OSX Guide](guides/OSX Guide.md)
 	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
-	- [DigitalOcean Guide](guides/DigitalOcean Guide.md)
 - Commands
 	- [Readme](Readme.md)
 	- [Commands List](Commands List.md)
