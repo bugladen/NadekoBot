@@ -46,4 +46,4 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 [French]: http://i.imgur.com/g2ARPF6.png?1
 [Dutch]: http://i.imgur.com/SadddLj.png?1
 [Norwegian]: http://i.imgur.com/TCVa0V8.png?1
-[Serbian]: https://images-2.discordapp.net/.eJwFwVEOwiAMANC78C-VUibuNg0jbAmshNYv49197-s-q7vdnWZTd4Dj0iLr8GqyuFXfRFqvPC_1RQawGZdz1NsUwiunDVPAjJi3kJEAQyTMRPQmpEjxmUDrQwf37ufd3O8PJj4i4g.EJW-cekqknU54_wLTGLNySbM-IM.png
+[Serbian]: http://i.imgur.com/5evoUbU.png
