@@ -1,5 +1,5 @@
 #NadekoBot Documentation
-[![English][English]](link) [![German][German]](link) [![Norwegian][Norwegian]](link) [![Chinese][Chinese]](link) [![Italian][Italian]](link) [![Spanish][Spanish]](link) [![French][French]](link) [![Dutch][Dutch]](link) [![Russian][Russian]](link) 
+[![English][English]](link) [![German][German]](link) [![Norwegian][Norwegian]](link) [![Chinese][Chinese]](link) [![Italian][Italian]](link) [![Spanish][Spanish]](link) [![French][French]](http://nadekobotfrance.readthedocs.io/fr/latest/) [![Dutch][Dutch]](link) [![Serbian][Serbian]](link) [![Russian][Russian]](link) 
 
 
 To invite NadekoBot to your server, click on the image bellow:
@@ -46,3 +46,4 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 [French]: http://i.imgur.com/g2ARPF6.png?1
 [Dutch]: http://i.imgur.com/SadddLj.png?1
 [Norwegian]: http://i.imgur.com/TCVa0V8.png?1
+[Serbian]: https://images-2.discordapp.net/.eJwFwVEOwiAMANC78C-VUibuNg0jbAmshNYv49197-s-q7vdnWZTd4Dj0iLr8GqyuFXfRFqvPC_1RQawGZdz1NsUwiunDVPAjJi3kJEAQyTMRPQmpEjxmUDrQwf37ufd3O8PJj4i4g.EJW-cekqknU54_wLTGLNySbM-IM.png
