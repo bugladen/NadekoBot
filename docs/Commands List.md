@@ -14,9 +14,9 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `.grdel` | Toggles automatic deletion of greet and bye messages. **Needs Manage Server Permissions.**| `.grdel`
 `.greet` | Toggles anouncements on the current channel when someone joins the server. **Needs Manage Server Permissions.**| `.greet`
-`.greetmsg` | Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**| `.greetmsg Welcome to the server, %user%.`
+`.greetmsg` | Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**| `.greetmsg Welcome, %user%.`
 `.bye` | Toggles anouncements on the current channel when someone leaves the server. | `.bye`
-`.byemsg` | Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. **Needs Manage Server Permissions.**| `.byemsg %user% has left the server.`
+`.byemsg` | Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. **Needs Manage Server Permissions.**| `.byemsg %user% has left.`
 `.byepm` | Toggles whether the good bye messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `.byepm`
 `.greetpm` | Toggles whether the greet messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `.greetpm`
 `.spmom` | Toggles whether mentions of other offline users on your server will send a pm to them. **Needs Manage Server Permissions.**| `.spmom`
@@ -73,7 +73,7 @@ Command and aliases | Description | Usage
 `.settopic`, `.st` | Sets a topic on the current channel. **Needs Manage Channel Permissions.** | `.st My new topic`
 `.setchanlname`, `.schn` | Changed the name of the current channel. **Needs Manage Channel Permissions.**| `.schn NewName`
 `.heap` | Shows allocated memory - **Bot Owner Only!** | `.heap`
-`.prune`, `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
+`.prune`, `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. **Needs Manage Messages Permissions**| `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die` | Shuts the bot down and notifies users about the restart. **Bot Owner Only!** | `.die`
 `.setname`, `.newnm` | Give the bot a new name. **Bot Owner Only!** | `.newnm BotName`
 `.newavatar`, `.setavatar` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `.setavatar http://i.imgur.com/xTG3a1I.jpg`
@@ -168,7 +168,7 @@ Command and aliases | Description | Usage
 `$flip` | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3`
 `$betflip`, `$bf` | Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t`
 `$roll` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5`
-`$rolluo` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll` 7 or `$roll 3d5`
+`$rolluo` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`
 `$nroll` | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$race` | Starts a new animal race. | `$race`
 `$joinrace`, `$jr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5`
@@ -189,7 +189,7 @@ Command and aliases | Description | Usage
 `>typestart` | Starts a typing contest. | `>typestart`
 `>typestop` | Stops a typing contest on the current channel. | `>typestop`
 `>typeadd` | Adds a new article to the typing contest. Owner only. | `>typeadd wordswords`
-`>poll` | Creates a poll, only person who has manage server permission can do it. | `>poll Question?;Answer1;Answ 2;A_3`
+`>poll` | Creates a poll, only person who has manage server permission can do it. **Needs Manage Server Permissions**| `>poll Question?;Answer1;Answ 2;A_3`
 `>pollend` | Stops active poll on this server and prints the results in this channel. | `>pollend`
 `>pick` | Picks a flower planted in this channel. | `>pick`
 `>plant` | Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost) | `>plant`
@@ -218,14 +218,14 @@ Command and aliases | Description | Usage
 `!!half` | Sets the music volume to 50%. | `!!half`
 `!!shuffle`, `!!sh` | Shuffles the current playlist. | `!!sh`
 `!!playlist`, `!!pl` | Queues up to 500 songs from a youtube playlist specified by a link, or keywords. | `!!pl playlist link or name`
-`!!soundcloudpl`, `!!scpl` | Queue a soundcloud playlist using a link. | `!!scpl https://soundcloud.com/saratology/sets/symphony`
+`!!soundcloudpl`, `!!scpl` | Queue a soundcloud playlist using a link. | `!!scpl soundcloudseturl`
 `!!localplaylst`, `!!lopl` | Queues all songs from a directory. **Bot Owner Only!** | `!!lopl C:/music/classical`
 `!!radio`, `!!ra` | Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>) | `!!ra radio link here`
 `!!local`, `!!lo` | Queues a local file by specifying a full path. **Bot Owner Only!** | `!!lo C:/music/mysong.mp3`
 `!!move`, `!!mv` | Moves the bot to your voice channel. (works only if music is already playing) | `!!mv`
 `!!remove`, `!!rm` | Remove a song by its # in the queue, or 'all' to remove whole queue. | `!!rm 5`
-`!!movesong`, `!!ms` | Moves a song from one position to another. | `!! ms` 5>3
-`!!setmaxqueue`, `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq` 50 or `!!smq`
+`!!movesong`, `!!ms` | Moves a song from one position to another. | `!! ms 5>3`
+`!!setmaxqueue`, `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq 50` or `!!smq`
 `!!cleanup` | Cleans up hanging voice connections. **Bot Owner Only!** | `!!cleanup`
 `!!reptcursong`, `!!rcs` | Toggles repeat of current song. | `!!rcs`
 `!!rpeatplaylst`, `!!rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). | `!!rpl`
@@ -255,7 +255,7 @@ Command and aliases | Description | Usage
 `~wowjoke` | Get one of Kwoth's penultimate WoW jokes. | `~wowjoke`
 `~calculate`, `~calc` | Evaluate a mathematical expression. | `~calc 1+1`
 `~osu` | Shows osu stats for a player. | `~osu Name` or `~osu Name taiko`
-`~osu b` | Shows information about an osu beatmap. |`~osu b` https://osu.ppy.sh/s/127712
+`~osu b` | Shows information about an osu beatmap. |`~osu b https://osu.ppy.sh/s/127712`
 `~osu top5` | Displays a user's top 5 plays.  |`~osu top5 Name`
 `~pokemon`, `~poke` | Searches for a pokemon. | `~poke Sylveon`
 `~pokemonability`, `~pokeab` | Searches for a pokemon ability. | `~pokeab "water gun"`
