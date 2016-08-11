@@ -1,12 +1,11 @@
-<h1>Custom Reactions<img src="http://i.imgur.com/1T2L3xR.png" style="width:15%;  height:auto;"> <span style="width:100%"><a href="https://nadekobot.xyz/">
-<img src="http://i.imgur.com/VtL9Omo.png"  width="0" height="0" border="0">![Imgur](http://i.imgur.com/VtL9Omo.png "@Nekai :P takes you to the nadekobot website")</h1></a></span>
-###<p><strong>Every time you add or remove a custom reaction you will need to restart your bot with either <code>.restart</code> if you are hosting or Nadeko is on VPS, or <code>.die</code> if Nadeko is on Droplet</strong></p>
+##Custom Reactions
+<p><strong>Every time you add or remove a custom reaction you will need to restart your bot with either <code>.restart</code> if you are hosting or Nadeko is on VPS, or <code>.die</code> if Nadeko is on Droplet</strong></p>
 <h3>Important</h3>
 <ul style="list-style-type:disc">
 <li><strong><code>.acr</code>,&nbsp;<code>.dcr</code>,&nbsp;and <code>.ecr</code> Require you to be Bot Owner</strong></li>
 <li>Adding multiple commands of the same name will make Nadeko randomly select one of the command's responses</li>
 </ul>
-<h2>Commands and Their Use</h2>
+###Commands and Their Use
 <table>
 <tr>
 <th>Command Name</th>
@@ -40,7 +39,7 @@
 <dd>-&nbsp;Now everytime someone says "Nice weather" the bot will respond with, "sure is"</dd>
 <dt><strong>●&nbsp;Next, The Response, this follows the name of the command.</strong><dt>
 <dd>-&nbsp;i.e <code>.acr "Nice weather"</code><b><i><code>sure is</code></i></b></dd></dl><p>
-<h3>And finally on to the Placeholders</h3>
+###And finally on to the Placeholders
 <p>There are currently four placeholders, which we will be looking at, with many more to come in the future.<p>
 <table>
 <tr>
