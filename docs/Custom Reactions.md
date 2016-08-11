@@ -65,4 +65,6 @@
  <td>The <code>%rng%</code> generates a random number</td>
  <td><code>.acr Random %rng%</code>
  </tr></table>
+ 
+ Thanks to Nekai for being creative. <3
 
