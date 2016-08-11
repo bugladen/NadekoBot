@@ -31,7 +31,7 @@
 <td align="center"><code>.ecr</code></td>
 <td>Edit a custom reaction, needs: reaction's name, index to change, and new multiword response.</td>
 <td><code>.ecr&nbsp;Hello&nbsp;3&nbsp;What's up</code></td></table>
-<h3>Now that we know the commands let's take a look at the arguments and placeholders available for <code>.acr</code>,</h3>
+<h4>Now that we know the commands let's take a look at the arguments and placeholders available for <code>.acr</code>,</h4>
 <p><code>.addcustreact</code>&nbsp;(<code>.acr</code>)&nbsp;takes two arguments:
 <dl>
 <dt><strong>●&nbsp;First, The name of the command; this directly follows the <code>.acr</code></strong></dt>
