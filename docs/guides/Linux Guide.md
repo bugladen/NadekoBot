@@ -30,9 +30,7 @@ MONO (Source: [Mono Source][Mono Source])
 **1)**
 
 `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
-
 `echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list`
-
 `sudo apt-get update`
 
 Note if the command is not being initiated, hit **Enter**
@@ -50,9 +48,7 @@ Note if the command is not being initiated, hit **Enter**
 **2.6)**
 
 `yum install yum-util`
-
 `rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"`
-
 `yum-config-manager --add-repo http://download.mono-project.com/repo/centos/`
 
 ####Mono Devel
@@ -66,16 +62,12 @@ Note if the command is not being initiated, hit **Enter**
 **In case you are having issues with Mono where you get a random string and the bot won't run, do this:**
 
 `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
-
 `echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list`
-
 `apt-get install ca-certificates-mono`
-
 `mozroots --import --sync`
 
 ####Installing Opus Voice Codec
-**4)**Opus Voice Codec
-
+**4)**
 `sudo apt-get install libopus0 opus-tools`
 
 **Type** `y` **hit Enter**
@@ -95,9 +87,7 @@ NOTE: if its "not installing" then, follow the guide here: [FFMPEG Help Guide][F
 **All you need to do, if you are running UBUNTU 14.04 is initiate these:**
 
 `sudo add-apt-repository ppa:mc3man/trusty-media`
-
 `sudo apt-get update`
-
 `sudo apt-get dist-upgrade`
 
 *Before executing* `sudo apt-get install ffmpeg`
@@ -109,11 +99,8 @@ NOTE: if its "not installing" then, follow the guide here: [FFMPEG Help Guide][F
 In case you are not able to install it with installer ^up there, follow these steps:
 
 `sudo apt-get update`
-
 `echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list`
-
 `sudo apt-get update`
-
 `sudo  apt-get install ffmpeg -y`
 
 ####Uncomplicated Firewall UFW
@@ -136,14 +123,10 @@ In case you are not able to install it with installer ^up there, follow these st
 
 ####Installing Unzip
 **11)**
-Unzip
-
 `apt-get install unzip`
 
 ####Installing TMUX
 **12)**
-TMUX
-
 `apt-get install tmux`
 
 **Type** `y` **hit Enter**
@@ -151,7 +134,6 @@ TMUX
 ####Importing Discord certs
 **13)**
 `certmgr -ssl https://discordapp.com`
-
 **14)**
 `certmgr -ssl https://gateway.discord.gg`
 
@@ -181,7 +163,6 @@ Get the correct link, type `wget`, then *paste the link*, then hit **Enter**.
 **^Do not copy-paste it**
 
 **18)**
-
 Now we need to `unzip` the downloaded zip file and to do that, type the file name as it showed in your screen or just copy from the screen, should be like ` NadekoBot.vx.x.zip`
 
 `unzip NadekoBot.vx.x.zip`
