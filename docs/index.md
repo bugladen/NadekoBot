@@ -1,6 +1,4 @@
 #NadekoBot Documentation
-[![English][English]](link) [![German][German]](link) [![Norwegian][Norwegian]](link) [![Chinese][Chinese]](link) [![Italian][Italian]](link) [![Spanish][Spanish]](link) [![French][French]](http://nadekobotfrance.readthedocs.io/fr/latest/) [![Dutch][Dutch]](link) [![Serbian][Serbian]](link) [![Russian][Russian]](link) 
-
 
 To invite NadekoBot to your server, click on the image bellow:
 
