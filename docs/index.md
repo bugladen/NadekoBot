@@ -1,6 +1,4 @@
 #NadekoBot Documentation
-[![English][English]](link) [![German][German]](link) [![Norwegian][Norwegian]](link) [![Chinese][Chinese]](link) [![Italian][Italian]](link) [![Spanish][Spanish]](link) [![French][French]](link) [![Dutch][Dutch]](link) [![Russian][Russian]](link) 
-
 
 To invite NadekoBot to your server, click on the image bellow:
 
@@ -46,3 +44,4 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 [French]: http://i.imgur.com/g2ARPF6.png?1
 [Dutch]: http://i.imgur.com/SadddLj.png?1
 [Norwegian]: http://i.imgur.com/TCVa0V8.png?1
+[Serbian]: http://i.imgur.com/5evoUbU.png

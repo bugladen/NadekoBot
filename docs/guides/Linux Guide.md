@@ -222,7 +222,7 @@ Copy your CLIENT ID (that's in the same Developer page where you brought your to
 
 **NOW YOU HAVE YOUR OWN NADEKO BOT** `Thanks to Kwoth <3`
 
-####Some more Info (just in case):
+####Some more Info (just in case)
 
 -If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
 -If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
