@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Music.Classes
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
                 throw new ArgumentNullException(nameof(NadekoBot.Creds.SoundCloudClientID));
 
-            var response = await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
+            var response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
 
             var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Music.Classes
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
                 throw new ArgumentNullException(nameof(NadekoBot.Creds.SoundCloudClientID));
 
-            var response = await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
+            var response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
             if (responseObj?.Kind != "track")

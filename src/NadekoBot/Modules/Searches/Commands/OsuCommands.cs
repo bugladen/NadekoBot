@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         var mapId = ResolveMap(e.GetArg("map"));
                         var reqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Creds.OsuAPIKey}&{mapId}";
-                        var obj = JArray.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false))[0];
+                        var obj = JArray.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false))[0];
                         var sb = new System.Text.StringBuilder();
                         var starRating = Math.Round(Double.Parse($"{obj["difficultyrating"]}"), 2);
                         var time = TimeSpan.FromSeconds(Double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
@@ -114,12 +114,12 @@ namespace NadekoBot.Modules.Searches.Commands
                         }
 
                         var reqString = $"https://osu.ppy.sh/api/get_user_best?k={NadekoBot.Creds.OsuAPIKey}&u={Uri.EscapeDataString(e.GetArg("usr"))}&type=string&limit=5&m={m}";
-                        var obj = JArray.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
+                        var obj = JArray.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                         var sb = new System.Text.StringBuilder($"`Top 5 plays for {e.GetArg("usr")}:`\n```xl" + Environment.NewLine);
                         foreach (var item in obj)
                         {
                             var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Creds.OsuAPIKey}&b={item["beatmap_id"]}";
-                            var map = JArray.Parse(await SearchHelper.GetResponseStringAsync(mapReqString).ConfigureAwait(false))[0];
+                            var map = JArray.Parse(await http.GetStringAsync(mapReqString).ConfigureAwait(false))[0];
                             var pp = Math.Round(Double.Parse($"{item["pp"]}"), 2);
                             var acc = CalculateAcc(item, m);
                             var mods = ResolveMods(Int32.Parse($"{item["enabled_mods"]}"));

@@ -190,22 +190,6 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 
-        public static async Task<string> GetSafebooruImageLink(string tag)
-        {
-            var rng = new Random();
-            var url =
-            $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-        }
-
         public static async Task<string> GetRule34ImageLink(string tag)
         {
             var rng = new Random();

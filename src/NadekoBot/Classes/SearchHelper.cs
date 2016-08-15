@@ -133,13 +133,6 @@ namespace NadekoBot.Classes
             token = JObject.Parse(content)["access_token"].ToString();
         }
 
-        public static async Task<bool> ValidateQuery(Discord.Channel ch, string query)
-        {
-            if (!string.IsNullOrEmpty(query.Trim())) return true;
-            await ch.Send("Please specify search parameters.").ConfigureAwait(false);
-            return false;
-        }
-
         public static async Task<string> FindYoutubeUrlByKeywords(string keywords)
         {
             if (string.IsNullOrWhiteSpace(keywords))
@@ -249,10 +242,7 @@ namespace NadekoBot.Classes
 
             return toReturn;
         }
-
-
         
-
         public static async Task<string> ShortenUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) return url;

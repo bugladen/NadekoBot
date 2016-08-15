@@ -16,8 +16,9 @@ namespace NadekoBot
     {
         public static CommandService Commands { get; private set; }
         public static DiscordSocketClient Client { get; private set; }
-        public BotConfiguration Config { get; private set; }
-        public Localization Localizer { get; private set; }
+        public static BotConfiguration Config { get; private set; }
+        public static Localization Localizer { get; private set; }
+        public static BotCredentials Credentials { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
@@ -34,6 +35,7 @@ namespace NadekoBot
             Commands = new CommandService();
             Config = new BotConfiguration();
             Localizer = new Localization();
+            Credentials = new BotCredentials();
             
             //setup DI
             var depMap = new DependencyMap();

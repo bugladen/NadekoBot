@@ -333,7 +333,7 @@ namespace NadekoBot.Modules.Music
                         if (string.IsNullOrWhiteSpace(pl))
                             return;
 
-                        var scvids = JObject.Parse(await SearchHelper.GetResponseStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                        var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
                         await QueueSong(e.User, e.Channel, e.User.VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                         MusicPlayer mp;

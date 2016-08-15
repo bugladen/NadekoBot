@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Searches.Commands
                                   await e.Channel.SendFile("champ.png", champ.ImageStream).ConfigureAwait(false);
                                   return;
                               }
-                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}").ConfigureAwait(false));
+                          var allData = JArray.Parse(await Classes.http.GetStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}").ConfigureAwait(false));
                           JToken data = null;
                           if (role != null)
                           {
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Searches.Commands
                               if (roles[i] == role)
                                   roles[i] = ">" + roles[i] + "<";
                           }
-                          var general = JArray.Parse(await SearchHelper.GetResponseStringAsync($"http://api.champion.gg/stats/" +
+                          var general = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/stats/" +
                                                                                                $"champs/{name}?api_key={NadekoBot.Creds.LOLAPIKey}")
                                                                                                 .ConfigureAwait(false))
                                               .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];

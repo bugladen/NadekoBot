@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 {
                     int i = 0;
                     await channel.SendMessageAsync("`List Of Commands:`\n```xl\n" +
-                                string.Join("\n", JsonConvert.DeserializeObject<Dictionary<string, string>>(await SearchHelper.GetResponseStringAsync("http://memegen.link/templates/"))
+                                string.Join("\n", JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
                                       .Select(kvp => Path.GetFileName(kvp.Value))
                                       .GroupBy(item => (i++) / 4)
                                       .Select(ig => string.Concat(ig.Select(el => $"{el,-17}"))))

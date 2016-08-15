@@ -19,6 +19,7 @@ namespace NadekoBot.Modules.Utility
     {
         public UtilityModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
+
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

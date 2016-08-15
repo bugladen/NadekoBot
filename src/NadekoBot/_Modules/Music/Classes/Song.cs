@@ -324,7 +324,7 @@ namespace NadekoBot.Modules.Music.Classes
             string file = null;
             try
             {
-                file = await SearchHelper.GetResponseStringAsync(query).ConfigureAwait(false);
+                file = await http.GetStringAsync(query).ConfigureAwait(false);
             }
             catch
             {

@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
                     if (checkCache && cachedStatuses.TryGetValue(hitboxUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(hitboxUrl).ConfigureAwait(false);
+                    response = await http.GetStringAsync(hitboxUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = data["media_is_live"].ToString() == "1";
                     result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
                     if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(twitchUrl).ConfigureAwait(false);
+                    response = await http.GetStringAsync(twitchUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
                     result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
                     if (checkCache && cachedStatuses.TryGetValue(beamUrl, out result))
                         return result;
-                    response = await SearchHelper.GetResponseStringAsync(beamUrl).ConfigureAwait(false);
+                    response = await http.GetStringAsync(beamUrl).ConfigureAwait(false);
                     data = JObject.Parse(response);
                     isLive = data["online"].ToObject<bool>() == true;
                     result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
