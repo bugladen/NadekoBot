@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using NadekoBot.Services;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -171,19 +173,21 @@ namespace NadekoBot.Modules.NSFW
 
         public static async Task<string> GetGelbooruImageLink(string tag)
         {
-            var headers = new Dictionary<string, string>() {
-                {"User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"},
-                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
-            };
-            var url =
-                $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url, headers).ConfigureAwait(false);
-            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-            if (matches.Count == 0)
-                return null;
-            var rng = new Random();
-            var match = matches[rng.Next(0, matches.Count)];
-            return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
+                http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+
+                var webpage = await http.GetStringAsync("http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags="+ tag.Replace(" ", "_")).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+
+                var rng = new Random();
+                var match = matches[rng.Next(0, matches.Count)];
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)
@@ -191,12 +195,15 @@ namespace NadekoBot.Modules.NSFW
             var rng = new Random();
             var url =
             $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
-            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-            if (matches.Count == 0)
-                return null;
-            var match = matches[rng.Next(0, matches.Count)];
-            return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                var match = matches[rng.Next(0, matches.Count)];
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
         }
 
         public static async Task<string> GetRule34ImageLink(string tag)
@@ -204,12 +211,15 @@ namespace NadekoBot.Modules.NSFW
             var rng = new Random();
             var url =
             $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
-            var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-            if (matches.Count == 0)
-                return null;
-            var match = matches[rng.Next(0, matches.Count)];
-            return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                var match = matches[rng.Next(0, matches.Count)];
+                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
         }
 
 
@@ -217,15 +227,15 @@ namespace NadekoBot.Modules.NSFW
         {
             try
             {
-                var headers = new Dictionary<string, string>() {
-                    {"User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"},
-                    {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
-                };
-                var data = await GetResponseStreamAsync(
-                    "http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1",
-                    headers);
-                var doc = XDocument.Load(data);
-                return doc.Descendants("file_url").FirstOrDefault().Value;
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
+                    http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                    var data = await http.GetStringAsync("http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1");
+                    var doc = XDocument.Load(data);
+                    return doc.Descendants("file_url").FirstOrDefault().Value;
+                }
             }
             catch (Exception ex)
             {
