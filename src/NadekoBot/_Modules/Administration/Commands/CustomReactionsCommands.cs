@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var message = e.GetArg("message")?.Trim();
                     if (string.IsNullOrWhiteSpace(message))
                     {
-                        await e.Channel.SendMessage($"Incorrect command usage. See -h {Prefix}acr for correct formatting").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"Incorrect command usage. See -h {Prefix}acr for correct formatting").ConfigureAwait(false);
                         return;
                     }
                     if (NadekoBot.Config.CustomReactions.ContainsKey(name))
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     else
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
                     await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
-                    await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"Added {name} : {message}").ConfigureAwait(false);
 
                 });
 
@@ -69,12 +69,12 @@ namespace NadekoBot.Modules.Administration.Commands
                     var cmds = GetCustomsOnPage(num - 1);
                     if (!cmds.Any())
                     {
-                        await e.Channel.SendMessage("`There are no custom reactions.`");
+                        await channel.SendMessageAsync("`There are no custom reactions.`");
                     }
                     else
                     {
                         string result = SearchHelper.ShowInPrettyCode<string>(cmds, s => $"{s,-25}"); //People prefer starting with 1
-                        await e.Channel.SendMessage($"`Showing page {num}:`\n" + result).ConfigureAwait(false);
+                        await channel.SendMessageAsync($"`Showing page {num}:`\n" + result).ConfigureAwait(false);
                     }
                 });
 
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        await e.Channel.SendMessage("`Can't find that custom reaction.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`Can't find that custom reaction.`").ConfigureAwait(false);
                         return;
                     }
                     var items = NadekoBot.Config.CustomReactions[name];
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         message.AppendLine($"[{i++}] " + Format.Code(Format.Escape(reaction)));
                     }
-                    await e.Channel.SendMessage(message.ToString());
+                    await channel.SendMessageAsync(message.ToString());
                 });
 
             cgb.CreateCommand(Prefix + "editcustreact")
@@ -127,21 +127,21 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        await e.Channel.SendMessage("`Could not find given commandname`").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`Could not find given commandname`").ConfigureAwait(false);
                         return;
                     }
 
                     int index;
                     if (!int.TryParse(indexstr, out index) || index < 1 || index > NadekoBot.Config.CustomReactions[name].Count)
                     {
-                        await e.Channel.SendMessage("`Invalid index.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`Invalid index.`").ConfigureAwait(false);
                         return;
                     }
                     index = index - 1;
                     NadekoBot.Config.CustomReactions[name][index] = msg;
 
                     await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
-                    await e.Channel.SendMessage($"Edited response #{index + 1} from `{name}`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"Edited response #{index + 1} from `{name}`").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Prefix + "delcustreact")
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
-                        await e.Channel.SendMessage("Could not find given commandname").ConfigureAwait(false);
+                        await channel.SendMessageAsync("Could not find given commandname").ConfigureAwait(false);
                         return;
                     }
                     string message = "";
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         index = index - 1;
                         if (index < 0 || index > NadekoBot.Config.CustomReactions[name].Count)
                         {
-                            await e.Channel.SendMessage("Given index was out of range").ConfigureAwait(false);
+                            await channel.SendMessageAsync("Given index was out of range").ConfigureAwait(false);
                             return;
 
                         }
@@ -184,7 +184,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         message = $"Deleted custom reaction: `{name}`";
                     }
                     await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
-                    await e.Channel.SendMessage(message).ConfigureAwait(false);
+                    await channel.SendMessageAsync(message).ConfigureAwait(false);
                 });
         }
 

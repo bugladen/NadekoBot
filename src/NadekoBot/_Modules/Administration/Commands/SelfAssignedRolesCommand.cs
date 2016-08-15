@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Administration.Commands
                             msg.AppendLine($":ok:Role **{role.Name}** added to the list.");
                         }
                     }
-                    await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
+                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "rsar")
@@ -55,17 +55,17 @@ namespace NadekoBot.Modules.Administration.Commands
                     var role = e.Server.FindRoles(roleName).FirstOrDefault();
                     if (role == null)
                     {
-                        await e.Channel.SendMessage(":anger:That role does not exist.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
                         return;
                     }
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
                     {
-                        await e.Channel.SendMessage(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
                         return;
                     }
                     config.ListOfSelfAssignableRoles.Remove(role.Id);
-                    await e.Channel.SendMessage($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
+                    await channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "lsar")
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         config.ListOfSelfAssignableRoles.Remove(id);
                     }
-                    await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
+                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
                 });
 
 
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
                     string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
-                    await e.Channel.SendMessage("Self assigned roles are now " + exl);
+                    await channel.SendMessageAsync("Self assigned roles are now " + exl);
                 });
 
             cgb.CreateCommand(Module.Prefix + "iam")
@@ -122,24 +122,24 @@ namespace NadekoBot.Modules.Administration.Commands
                     var role = e.Server.FindRoles(roleName).FirstOrDefault();
                     if (role == null)
                     {
-                        await e.Channel.SendMessage(":anger:That role does not exist.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
                         return;
                     }
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
                     {
-                        await e.Channel.SendMessage(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
                         return;
                     }
                     if (e.User.HasRole(role))
                     {
-                        await e.Channel.SendMessage($":anger:You already have {role.Name} role.").ConfigureAwait(false);
+                        await channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
                     var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
                     if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
                     {
-                        await e.Channel.SendMessage($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
+                        await channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
                         return;
                     }
                     try
@@ -151,10 +151,10 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                     catch (Exception ex)
                     {
-                        await e.Channel.SendMessage($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
                         return;
                     }
-                    var msg = await e.Channel.SendMessage($":ok:You now have {role.Name} role.").ConfigureAwait(false);
+                    var msg = await channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);
                     await Task.Delay(3000).ConfigureAwait(false);
                     await msg.Delete().ConfigureAwait(false);
                     try
@@ -178,22 +178,22 @@ namespace NadekoBot.Modules.Administration.Commands
                     var role = e.Server.FindRoles(roleName).FirstOrDefault();
                     if (role == null)
                     {
-                        await e.Channel.SendMessage(":anger:That role does not exist.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
                         return;
                     }
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
                     if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
                     {
-                        await e.Channel.SendMessage(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
                         return;
                     }
                     if (!e.User.HasRole(role))
                     {
-                        await e.Channel.SendMessage($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
+                        await channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
                         return;
                     }
                     await e.User.RemoveRoles(role).ConfigureAwait(false);
-                    var msg = await e.Channel.SendMessage($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
+                    var msg = await channel.SendMessageAsync($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
                     await Task.Delay(3000).ConfigureAwait(false);
                     await msg.Delete().ConfigureAwait(false);
                     try

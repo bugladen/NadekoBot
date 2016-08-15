@@ -34,10 +34,10 @@ namespace NadekoBot.Modules.Searches.Commands
             string answer = Evaluate(expression);
             if (answer == null)
             {
-                await e.Channel.SendMessage($"Expression {expression} failed to evaluate");
+                await channel.SendMessageAsync($"Expression {expression} failed to evaluate");
                 return;
             }
-            await e.Channel.SendMessage($"⚙ `{answer}`");
+            await channel.SendMessageAsync($"⚙ `{answer}`");
         };
 
         private string Evaluate(string expression)

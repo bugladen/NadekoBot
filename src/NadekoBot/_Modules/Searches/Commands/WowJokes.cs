@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         jokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
                     }
-                    await e.Channel.SendMessage(jokes[new Random().Next(0, jokes.Count)].ToString());
+                    await channel.SendMessageAsync(jokes[new Random().Next(0, jokes.Count)].ToString());
                 });
         }
     }

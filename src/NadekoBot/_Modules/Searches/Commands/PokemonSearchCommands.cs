@@ -34,11 +34,11 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         if (kvp.Key.ToUpperInvariant() == pok.ToUpperInvariant())
                         {
-                            await e.Channel.SendMessage($"`Stats for \"{kvp.Key}\" pokemon:`\n{kvp.Value}");
+                            await channel.SendMessageAsync($"`Stats for \"{kvp.Key}\" pokemon:`\n{kvp.Value}");
                             return;
                         }
                     }
-                    await e.Channel.SendMessage("`No pokemon found.`");
+                    await channel.SendMessageAsync("`No pokemon found.`");
                 });
 
             cgb.CreateCommand(Prefix + "pokemonability")
@@ -54,11 +54,11 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         if (kvp.Key.ToUpperInvariant() == ab)
                         {
-                            await e.Channel.SendMessage($"`Info for \"{kvp.Key}\" ability:`\n{kvp.Value}");
+                            await channel.SendMessageAsync($"`Info for \"{kvp.Key}\" ability:`\n{kvp.Value}");
                             return;
                         }
                     }
-                    await e.Channel.SendMessage("`No ability found.`");
+                    await channel.SendMessageAsync("`No ability found.`");
                 });
         }
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Discord;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace NadekoBot.Classes.ClashOfClans
     {
         Started, Ended, Created
     }
-    [System.Serializable]
+
     internal class Caller
     {
         public string CallUser { get; set; }
@@ -62,7 +63,7 @@ namespace NadekoBot.Classes.ClashOfClans
         public ulong ChannelId { get; set; }
 
         [JsonIgnore]
-        public Discord.Channel Channel { get; internal set; }
+        public ITextChannel Channel { get; internal set; }
 
         /// <summary>
         /// This init is purely for the deserialization
@@ -76,7 +77,15 @@ namespace NadekoBot.Classes.ClashOfClans
             this.Bases = new Caller[size];
             this.ServerId = serverId;
             this.ChannelId = channelId;
-            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
+            this.Channel = NadekoBot.Client.GetGuildsAsync() //nice api you got here volt, 
+                                    .GetAwaiter() //especially like how getguildsasync isn't async at all internally. 
+                                    .GetResult() //But hey, lib has to be async kek
+                                    .FirstOrDefault(s => s.Id == serverId)? // srsly
+                                    .GetChannelsAsync() //wtf is this
+                                    .GetAwaiter() // oh i know, its the implementation detail
+                                    .GetResult() // and makes library look consistent
+                                    .FirstOrDefault(c => c.Id == channelId) // its not common sense to make library work like this.
+                                        as ITextChannel; // oh and don't forget to cast it to this arbitrary bullshit 
         }
 
         internal void End()

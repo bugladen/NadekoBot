@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     if (!e.Server.CurrentUser.ServerPermissions.ManageRoles)
                     {
-                        await e.Channel.SendMessage("I do not have the permission to manage roles.").ConfigureAwait(false);
+                        await channel.SendMessageAsync("I do not have the permission to manage roles.").ConfigureAwait(false);
                         return;
                     }
                     var r = e.GetArg("role")?.Trim();
@@ -52,19 +52,19 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         config.AutoAssignedRole = 0;
 
-                        await e.Channel.SendMessage("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
                         return;
                     }
                     var role = e.Server.FindRoles(r).FirstOrDefault();
 
                     if (role == null)
                     {
-                        await e.Channel.SendMessage("💢 `Role not found.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync("💢 `Role not found.`").ConfigureAwait(false);
                         return;
                     }
 
                     config.AutoAssignedRole = role.Id;
-                    await e.Channel.SendMessage("`Auto assigned role is set.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
 
                 });
         }

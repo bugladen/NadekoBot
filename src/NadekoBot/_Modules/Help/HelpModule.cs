@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Help
                     .Description($"List all bot modules. | `{Prefix}modules` or `.modules`")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)) + $"\n`Type \"{Prefix}commands module_name\" to get a list of commands in that module.`")
+                        await channel.SendMessageAsync("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)) + $"\n`Type \"{Prefix}commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
                     });
 
@@ -52,20 +52,20 @@ namespace NadekoBot.Modules.Help
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())
                         {
-                            await e.Channel.SendMessage("That module does not exist.").ConfigureAwait(false);
+                            await channel.SendMessageAsync("That module does not exist.").ConfigureAwait(false);
                             return;
                         }
                         if (module != "customreactions" && module != "conversations")
                         {
-                            await e.Channel.SendMessage("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,
+                            await channel.SendMessageAsync("`List Of Commands:`\n" + SearchHelper.ShowInPrettyCode<Command>(cmdsArray,
                                 el => $"{el.Text,-15}{"[" + el.Aliases.FirstOrDefault() + "]",-8}"))
                                             .ConfigureAwait(false);
                         }
                         else
                         {
-                            await e.Channel.SendMessage("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                            await channel.SendMessageAsync("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
                         }
-                        await e.Channel.SendMessage($"`You can type \"{Prefix}h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"`You can type \"{Prefix}h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
                     });
             });
         }

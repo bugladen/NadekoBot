@@ -7,13 +7,34 @@ using System.Resources;
 
 namespace NadekoBot.Services
 {
-    public class Localization
+    public class Localization : ILocalization
     {
-        public static string LoadString(string key) => GetOrAddResourceKey(key);
+        public string this[string key] {
+            get {
+                try
+                {
+                    return Resources.ResponseStrings.ResourceManager.GetString(key);
+                }
+                catch (Exception) {
+                    return key;
+                }
+            }
+        }
 
-        private static string GetOrAddResourceKey(string key)
+        public static string LoadCommandString(string key)
         {
-            return Resources.Strings.ResourceManager.GetString(key);
+            try
+            {
+                return Resources.CommandStrings.ResourceManager.GetString(key);
+            }
+            catch (Exception) {
+                return key;
+            }
+        }
+
+        //private static string GetCommandString(string key)
+        //{
+        //    return key;
             //var resx = new List<DictionaryEntry>();
             //var fs = new StreamReader(File.OpenRead("./Strings.resx"));
             //Console.WriteLine(fs.ReadToEnd());
@@ -41,6 +62,6 @@ namespace NadekoBot.Services
             //    writer.Generate();
             //}
             //return key;
-        }
+        //}
     }
 }

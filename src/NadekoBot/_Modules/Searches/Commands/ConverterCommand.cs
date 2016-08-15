@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     msg += curr + "; ";
                 }
 
-                await e.Channel.SendMessage(msg).ConfigureAwait(false);
+                await channel.SendMessageAsync(msg).ConfigureAwait(false);
             };
 
         private Func<CommandEventArgs, Task> ConvertFunc() =>
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     {
                         Unit inUnit = new Unit(fromCode, quantity, table);
                         Unit outUnit = inUnit.Convert(toCode);
-                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
+                        await channel.SendMessageAsync(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
                     }
                     else
                     {
@@ -97,13 +97,13 @@ namespace NadekoBot.Modules.Searches.Commands
                         reInitCurrencyConverterTable();
                         Unit inUnit = currTable.CreateUnit(quantity, from.ToUpperInvariant());
                         Unit outUnit = inUnit.Convert(currTable.CurrencyCode(to.ToUpperInvariant()));
-                        await e.Channel.SendMessage(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
+                        await channel.SendMessageAsync(inUnit.ToString() + " = " + outUnit.ToString()).ConfigureAwait(false);
                     }
                 }
                 catch //(Exception ex)
                 {
                     //Console.WriteLine(ex.ToString());
-                    await e.Channel.SendMessage("Bad input format, or sth went wrong... Try to list them with `" + Module.Prefix + "`convertlist").ConfigureAwait(false);
+                    await channel.SendMessageAsync("Bad input format, or sth went wrong... Try to list them with `" + Module.Prefix + "`convertlist").ConfigureAwait(false);
                 }
             };
 

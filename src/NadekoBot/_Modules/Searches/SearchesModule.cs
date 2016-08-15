@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Searches
 
                         var obj = JObject.Parse(response)["weather"];
 
-                        await e.Channel.SendMessage(
+                        await channel.SendMessageAsync(
 $@"🌍 **Weather for** 【{obj["target"]}】
 📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
 😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
@@ -76,11 +76,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var link = await SearchHelper.FindYoutubeUrlByKeywords(e.GetArg("query")).ConfigureAwait(false);
                         if (string.IsNullOrWhiteSpace(link))
                         {
-                            await e.Channel.SendMessage("No results found for that query.");
+                            await channel.SendMessageAsync("No results found for that query.");
                             return;
                         }
                         var shortUrl = await SearchHelper.ShortenUrl(link).ConfigureAwait(false);
-                        await e.Channel.SendMessage(shortUrl).ConfigureAwait(false);
+                        await channel.SendMessageAsync(shortUrl).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "ani")
@@ -97,11 +97,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("Failed to find that anime.").ConfigureAwait(false);
+                            await channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
                             return;
                         }
 
-                        await e.Channel.SendMessage(result.ToString()).ConfigureAwait(false);
+                        await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "imdb")
@@ -120,11 +120,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("Failed to find that movie.").ConfigureAwait(false);
+                            await channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
                             return;
                         }
 
-                        await e.Channel.SendMessage(result.ToString()).ConfigureAwait(false);
+                        await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "mang")
@@ -141,10 +141,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         }
                         catch
                         {
-                            await e.Channel.SendMessage("Failed to find that anime.").ConfigureAwait(false);
+                            await channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage(result).ConfigureAwait(false);
+                        await channel.SendMessageAsync(result).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "randomcat")
@@ -152,7 +152,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Description($"Shows a random cat image. | `{Prefix}meow`")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage(JObject.Parse(
+                        await channel.SendMessageAsync(JObject.Parse(
                             await SearchHelper.GetResponseStringAsync("http://www.random.cat/meow").ConfigureAwait(false))["file"].ToString())
                                 .ConfigureAwait(false);
                     });
@@ -162,7 +162,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Description($"Shows a random dog image. | `{Prefix}woof`")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
+                        await channel.SendMessageAsync("http://random.dog/" + await SearchHelper.GetResponseStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "i")
@@ -176,17 +176,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                            {
                                var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
                                var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
-                               await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
+                               await channel.SendMessageAsync(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
                            {
                                if (exception.Message.Contains("403 (Forbidden)"))
                                {
-                                   await e.Channel.SendMessage("Daily limit reached!");
+                                   await channel.SendMessageAsync("Daily limit reached!");
                                }
                                else
                                {
-                                   await e.Channel.SendMessage("Something went wrong.");
+                                   await channel.SendMessageAsync("Something went wrong.");
                                }
                            }
                        });
@@ -203,17 +203,17 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(e.GetArg("query"))}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Creds.GoogleAPIKey}";
                             var obj = JObject.Parse(await SearchHelper.GetResponseStringAsync(reqString).ConfigureAwait(false));
                             var items = obj["items"] as JArray;
-                            await e.Channel.SendMessage(items[0]["link"].ToString()).ConfigureAwait(false);
+                            await channel.SendMessageAsync(items[0]["link"].ToString()).ConfigureAwait(false);
                         }
                         catch (HttpRequestException exception)
                         {
                             if (exception.Message.Contains("403 (Forbidden)"))
                             {
-                                await e.Channel.SendMessage("Daily limit reached!");
+                                await channel.SendMessageAsync("Daily limit reached!");
                             }
                             else
                             {
-                                await e.Channel.SendMessage("Something went wrong.");
+                                await channel.SendMessageAsync("Something went wrong.");
                             }
                         }
                     });
@@ -224,7 +224,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         if (e.GetArg("ffs") == null || e.GetArg("ffs").Length < 1) return;
-                        await e.Channel.SendMessage(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl())
+                        await channel.SendMessageAsync(await $"http://lmgtfy.com/?q={ Uri.EscapeUriString(e.GetArg("ffs").ToString()) }".ShortenUrl())
                                        .ConfigureAwait(false);
                     });
 
@@ -237,7 +237,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var terms = e.GetArg("terms")?.Trim();
                         if (string.IsNullOrWhiteSpace(terms))
                             return;
-                        await e.Channel.SendMessage($"https://google.com/search?q={ HttpUtility.UrlEncode(terms).Replace(' ', '+') }")
+                        await channel.SendMessageAsync($"https://google.com/search?q={ HttpUtility.UrlEncode(terms).Replace(' ', '+') }")
                                        .ConfigureAwait(false);
                     });
 
@@ -249,7 +249,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       var arg = e.GetArg("name");
                       if (string.IsNullOrWhiteSpace(arg))
                       {
-                          await e.Channel.SendMessage("💢 Please enter a card name to search for.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
                           return;
                       }
                       await e.Channel.SendIsTyping().ConfigureAwait(false);
@@ -271,14 +271,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                           }
                           if (items.Count > 4)
                           {
-                              await e.Channel.SendMessage("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
+                              await channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
                           }
                           await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
                                          .ConfigureAwait(false);
                       }
                       catch (Exception ex)
                       {
-                          await e.Channel.SendMessage($"💢 Error {ex.Message}").ConfigureAwait(false);
+                          await channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
                       }
                   });
 
@@ -290,7 +290,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       var arg = e.GetArg("query");
                       if (string.IsNullOrWhiteSpace(arg))
                       {
-                          await e.Channel.SendMessage("💢 Please enter a search term.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
                           return;
                       }
                       await e.Channel.SendIsTyping().ConfigureAwait(false);
@@ -303,11 +303,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                           sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                           sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
                           sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
-                          await e.Channel.SendMessage(sb.ToString());
+                          await channel.SendMessageAsync(sb.ToString());
                       }
                       catch
                       {
-                          await e.Channel.SendMessage("💢 Failed finding a definition for that term.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Failed finding a definition for that term.").ConfigureAwait(false);
                       }
                   });
                 // thanks to Blaubeerwald
@@ -319,7 +319,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       var arg = e.GetArg("query");
                       if (string.IsNullOrWhiteSpace(arg))
                       {
-                          await e.Channel.SendMessage("💢 Please enter a search term.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
                           return;
                       }
                       await e.Channel.SendIsTyping().ConfigureAwait(false);
@@ -332,11 +332,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                           sb.AppendLine($"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}");
                           sb.AppendLine($"`Definition:` {items["defs"]["def"]["text"].ToString()}");
                           sb.Append($"`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>");
-                          await e.Channel.SendMessage(sb.ToString());
+                          await channel.SendMessageAsync(sb.ToString());
                       }
                       catch
                       {
-                          await e.Channel.SendMessage("💢 Failed finidng a definition for that tag.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Failed finidng a definition for that tag.").ConfigureAwait(false);
                       }
                   });
 
@@ -345,7 +345,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
-                        await e.Channel.SendMessage(quote).ConfigureAwait(false);
+                        await channel.SendMessageAsync(quote).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "catfact")
@@ -355,7 +355,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var response = await SearchHelper.GetResponseStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
                         if (response == null)
                             return;
-                        await e.Channel.SendMessage($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "yomama")
@@ -364,7 +364,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
-                        await e.Channel.SendMessage("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "randjoke")
@@ -373,7 +373,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                        await e.Channel.SendMessage("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "chucknorris")
@@ -382,7 +382,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     .Do(async e =>
                     {
                         var response = await SearchHelper.GetResponseStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
-                        await e.Channel.SendMessage("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                        await channel.SendMessageAsync("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "magicitem")
@@ -393,7 +393,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
                         var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 
-                        await e.Channel.SendMessage(item).ConfigureAwait(false);
+                        await channel.SendMessageAsync(item).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "revav")
@@ -410,7 +410,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                         if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                             return;
-                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "revimg")
@@ -422,7 +422,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
                         if (string.IsNullOrWhiteSpace(imgLink))
                             return;
-                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={imgLink}").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imgLink}").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "safebooru")
@@ -433,9 +433,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var tag = e.GetArg("tag")?.Trim() ?? "";
                         var link = await SearchHelper.GetSafebooruImageLink(tag).ConfigureAwait(false);
                         if (link == null)
-                            await e.Channel.SendMessage("`No results.`");
+                            await channel.SendMessageAsync("`No results.`");
                         else
-                            await e.Channel.SendMessage(link).ConfigureAwait(false);
+                            await channel.SendMessageAsync(link).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "wiki")
@@ -447,9 +447,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var result = await SearchHelper.GetResponseStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query));
                         var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
                         if (data.Query.Pages[0].Missing)
-                            await e.Channel.SendMessage("`That page could not be found.`");
+                            await channel.SendMessageAsync("`That page could not be found.`");
                         else
-                            await e.Channel.SendMessage(data.Query.Pages[0].FullUrl);
+                            await channel.SendMessageAsync(data.Query.Pages[0].FullUrl);
                     });
 
                 cgb.CreateCommand(Prefix + "clr")
@@ -508,10 +508,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var usr = e.Channel.FindUsers(e.GetArg("mention")).FirstOrDefault();
                         if (usr == null)
                         {
-                            await e.Channel.SendMessage("Invalid user specified.").ConfigureAwait(false);
+                            await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+                        await channel.SendMessageAsync(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
                     });
 
             });

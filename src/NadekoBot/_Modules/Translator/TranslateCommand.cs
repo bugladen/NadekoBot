@@ -32,12 +32,12 @@ namespace NadekoBot.Modules.Translator
                     return;
 
                 string translation = await t.Translate(text, from, to).ConfigureAwait(false);
-                await e.Channel.SendMessage(translation).ConfigureAwait(false);
+                await channel.SendMessageAsync(translation).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                await e.Channel.SendMessage("Bad input format, or something went wrong...").ConfigureAwait(false);
+                await channel.SendMessageAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
             }
 
         };

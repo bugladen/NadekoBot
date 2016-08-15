@@ -163,12 +163,12 @@ namespace NadekoBot.Modules.Searches.Commands
                         }));
                         if (streamStatus.Item1)
                         {
-                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                            await channel.SendMessageAsync($"`Streamer {streamStatus.Item2} is online.`");
                         }
                     }
                     catch
                     {
-                        await e.Channel.SendMessage("No channel found.");
+                        await channel.SendMessageAsync("No channel found.");
                     }
                 });
 
@@ -192,12 +192,12 @@ namespace NadekoBot.Modules.Searches.Commands
                         }));
                         if (streamStatus.Item1)
                         {
-                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                            await channel.SendMessageAsync($"`Streamer {streamStatus.Item2} is online.`");
                         }
                     }
                     catch
                     {
-                        await e.Channel.SendMessage("No channel found.");
+                        await channel.SendMessageAsync("No channel found.");
                     }
                 });
 
@@ -221,12 +221,12 @@ namespace NadekoBot.Modules.Searches.Commands
                         }));
                         if (streamStatus.Item1)
                         {
-                            await e.Channel.SendMessage($"`Streamer {streamStatus.Item2} is online.`");
+                            await channel.SendMessageAsync($"`Streamer {streamStatus.Item2} is online.`");
                         }
                     }
                     catch
                     {
-                        await e.Channel.SendMessage("No channel found.");
+                        await channel.SendMessageAsync("No channel found.");
                     }
                 });
 
@@ -249,13 +249,13 @@ namespace NadekoBot.Modules.Searches.Commands
                                         snc.Username.ToLower().Trim() == username);
                     if (toRemove == null)
                     {
-                        await e.Channel.SendMessage(":anger: No such stream.").ConfigureAwait(false);
+                        await channel.SendMessageAsync(":anger: No such stream.").ConfigureAwait(false);
                         return;
                     }
 
                     config.ObservingStreams.Remove(toRemove);
                     await ConfigHandler.SaveConfig().ConfigureAwait(false);
-                    await e.Channel.SendMessage($":ok: Removed `{toRemove.Username}`'s stream from notifications.").ConfigureAwait(false);
+                    await channel.SendMessageAsync($":ok: Removed `{toRemove.Username}`'s stream from notifications.").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "liststreams")
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Searches.Commands
 
                     if (streamsArray.Length == 0)
                     {
-                        await e.Channel.SendMessage("You are not following any streams on this server.").ConfigureAwait(false);
+                        await channel.SendMessageAsync("You are not following any streams on this server.").ConfigureAwait(false);
                         return;
                     }
 
@@ -288,7 +288,7 @@ namespace NadekoBot.Modules.Searches.Commands
                         return "";
                     }));
 
-                    await e.Channel.SendMessage($"You are following **{streamsArray.Length}** streams on this server.\n\n" + text).ConfigureAwait(false);
+                    await channel.SendMessageAsync($"You are following **{streamsArray.Length}** streams on this server.\n\n" + text).ConfigureAwait(false);
                 });
         }
 
@@ -311,7 +311,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 var exists = config.ObservingStreams.Contains(stream);
                 if (exists)
                 {
-                    await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.").ConfigureAwait(false);
+                    await channel.SendMessageAsync(":anger: I am already notifying that stream on this channel.").ConfigureAwait(false);
                     return;
                 }
                 Tuple<bool, string> data;
@@ -321,7 +321,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 }
                 catch
                 {
-                    await e.Channel.SendMessage(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
+                    await channel.SendMessageAsync(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
                 var msg = $"Stream is currently **{(data.Item1 ? "ONLINE" : "OFFLINE")}** with **{data.Item2}** viewers";
@@ -337,7 +337,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 stream.LastStatus = data.Item1;
                 if (!exists)
                     msg = $":ok: I will notify this channel when status changes.\n{msg}";
-                await e.Channel.SendMessage(msg).ConfigureAwait(false);
+                await channel.SendMessageAsync(msg).ConfigureAwait(false);
                 config.ObservingStreams.Add(stream);
             };
     }

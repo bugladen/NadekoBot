@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Gambling
                         return c;
                     });
 
-                await e.Channel.SendMessage("Deck reshuffled.").ConfigureAwait(false);
+                await channel.SendMessageAsync("Deck reshuffled.").ConfigureAwait(false);
             };
         }
 
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
                     {
-                        await e.Channel.SendMessage("No more cards in a deck.").ConfigureAwait(false);
+                        await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false);
                         break;
                     }
                     var currentCard = cards.DrawACard();
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Gambling
                 await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream()).ConfigureAwait(false);
                 if (cardObjects.Count == 5)
                 {
-                    await e.Channel.SendMessage($"{e.User.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"{e.User.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
                 }
             }
             catch (Exception ex)

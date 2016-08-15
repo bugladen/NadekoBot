@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Searches.Commands
                               }
                               if (data == null)
                               {
-                                  await e.Channel.SendMessage("💢 Data for that role does not exist.").ConfigureAwait(false);
+                                  await channel.SendMessageAsync("💢 Data for that role does not exist.").ConfigureAwait(false);
                                   return;
                               }
                           }
@@ -275,7 +275,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                       catch (Exception ex)
                       {
                           Console.WriteLine(ex);
-                          await e.Channel.SendMessage("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
+                          await channel.SendMessageAsync("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
                       }
                   });
 
@@ -307,11 +307,11 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                               //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
                           }
 
-                          await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
+                          await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
                       }
                       catch (Exception)
                       {
-                          await e.Channel.SendMessage($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
+                          await channel.SendMessageAsync($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
                       }
                   });
         }

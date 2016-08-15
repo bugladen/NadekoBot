@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 .Do(async e =>
                 {
                     int i = 0;
-                    await e.Channel.SendMessage("`List Of Commands:`\n```xl\n" +
+                    await channel.SendMessageAsync("`List Of Commands:`\n```xl\n" +
                                 string.Join("\n", JsonConvert.DeserializeObject<Dictionary<string, string>>(await SearchHelper.GetResponseStringAsync("http://memegen.link/templates/"))
                                       .Select(kvp => Path.GetFileName(kvp.Value))
                                       .GroupBy(item => (i++) / 4)
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     var meme = e.GetArg("meme");
                     var top = Uri.EscapeDataString(e.GetArg("toptext").Replace(' ', '-'));
                     var bot = Uri.EscapeDataString(e.GetArg("bottext").Replace(' ', '-'));
-                    await e.Channel.SendMessage($"http://memegen.link/{meme}/{top}/{bot}.jpg");
+                    await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
                 });
         }
     }

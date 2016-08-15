@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Games.Commands
             //    {
             //        if (gameChannel != null)
             //            return;
-            //        godMsg = await e.Channel.SendMessage("GAME START IN 1 SECOND....").ConfigureAwait(false);
+            //        godMsg = await channel.SendMessageAsync("GAME START IN 1 SECOND....").ConfigureAwait(false);
             //        gameChannel = e.Channel;
             //        players[0] = new BombermanPlayer
             //        {

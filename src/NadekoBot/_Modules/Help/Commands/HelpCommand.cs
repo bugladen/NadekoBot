@@ -31,7 +31,7 @@ namespace NadekoBot.Classes.Help.Commands
                 if (alias != null)
                     str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
+                    await channel.SendMessageAsync($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -91,7 +91,7 @@ $@"######For more information and how to setup your own NadekoBot, go to: <http:
                 .Alias(Module.Prefix + "guide")
                 .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
-                    await e.Channel.SendMessage(
+                    await channel.SendMessageAsync(
 @"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
 
 **WINDOWS SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
@@ -105,7 +105,7 @@ $@"######For more information and how to setup your own NadekoBot, go to: <http:
                 .Description($"Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
-                    await e.Channel.SendMessage(
+                    await channel.SendMessageAsync(
 $@"You can support the project on patreon. <https://patreon.com/nadekobot> or
 You can send donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message.

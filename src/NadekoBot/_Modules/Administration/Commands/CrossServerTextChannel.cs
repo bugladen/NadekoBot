@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (!Subscribers.TryGetValue(token, out set))
                         return;
                     set.Add(e.Channel);
-                    await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
+                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "lcsc")
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     {
                         subscriber.Value.Remove(e.Channel);
                     }
-                    await e.Channel.SendMessage(":ok:").ConfigureAwait(false);
+                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
                 });
         }
     }
