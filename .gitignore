@@ -10,6 +10,7 @@
 obj/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+**/src/NadekoBot/bin
 Tests/bin
 
 # NuGet Packages
