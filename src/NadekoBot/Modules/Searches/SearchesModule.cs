@@ -280,7 +280,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     {
                         await imsg.Channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
                     }
-                    await e.Channel.SendFile(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
+                    await imsg.Channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
                                    .ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -355,7 +355,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
             catch
             {
-                await imsg.Channel.SendMessageAsync("💢 Failed finidng a definition for that tag.").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
             }
         }
 
@@ -529,7 +529,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             {
                 var allUsrs = imsg.MentionedUsers.Append(imsg.Author);
                 var allUsrsArray = allUsrs.ToArray();
-                var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Name[0].ToString()));
+                var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
                 str += new Random().Next();
                 foreach (var usr in allUsrsArray)
                 {
