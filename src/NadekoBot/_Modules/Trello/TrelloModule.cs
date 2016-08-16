@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Trello
                             bound = e.Channel;
                             board = new Board(e.GetArg("board_id").Trim());
                             board.Refresh();
-                            await channel.SendMessageAsync("Successfully bound to this channel and board " + board.Name);
+                            await imsg.Channel.SendMessageAsync("Successfully bound to this channel and board " + board.Name);
                             t.Start();
                         }
                         catch (Exception ex)
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Trello
                         t.Stop();
                         bound = null;
                         board = null;
-                        await channel.SendMessageAsync("Successfully unbound trello from this channel.").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync("Successfully unbound trello from this channel.").ConfigureAwait(false);
 
                     });
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Trello
                     {
                         if (!NadekoBot.IsOwner(e.User.Id)) return;
                         if (bound == null || board == null || bound != e.Channel) return;
-                        await channel.SendMessageAsync("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")))
+                        await imsg.Channel.SendMessageAsync("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")))
                                        .ConfigureAwait(false);
                     });
 
@@ -133,10 +133,10 @@ namespace NadekoBot.Modules.Trello
 
 
                         if (list != null)
-                            await channel.SendMessageAsync("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")))
+                            await imsg.Channel.SendMessageAsync("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")))
                                            .ConfigureAwait(false);
                         else
-                            await channel.SendMessageAsync("No such list.")
+                            await imsg.Channel.SendMessageAsync("No such list.")
                                            .ConfigureAwait(false);
                     });
             });

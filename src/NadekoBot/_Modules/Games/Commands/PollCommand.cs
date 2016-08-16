@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Games.Commands
             var num = 1;
             msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
             msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
-            await channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
         }
 
         public async Task StopPoll(Channel ch)

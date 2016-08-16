@@ -1,94 +1,23 @@
-﻿// Copyright (c) 2015 Ravi Bhavnani
-// License: Code Project Open License
-// http://www.codeproject.com/info/cpol10.aspx
-
-using Newtonsoft.Json.Linq;
-using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace NadekoBot.Modules.Translator.Helpers
+namespace NadekoBot.Modules.Translator
 {
-    /// <summary>
-    /// Translates text using Google's online language tools.
-    /// </summary>
     public class GoogleTranslator
     {
-        #region Properties
+        private static GoogleTranslator _instance;
+        public static GoogleTranslator Instance = _instance ?? (_instance = new GoogleTranslator());
 
-        /// <summary>
-        /// Gets the supported languages.
-        /// </summary>
-        public static IEnumerable<string> Languages {
-            get {
-                GoogleTranslator.EnsureInitialized();
-                return GoogleTranslator._languageModeMap.Keys.OrderBy(p => p);
-            }
-        }
-        #endregion
+        public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
+        private Dictionary<string, string> _languageDictionary;
 
-        #region Public methods
-
-        /// <summary>
-        /// Translates the specified source text.
-        /// </summary>
-        /// <param name="sourceText">The source text.</param>
-        /// <param name="sourceLanguage">The source language.</param>
-        /// <param name="targetLanguage">The target language.</param>
-        /// <returns>The translation.</returns>
-        public async Task<string> Translate
-            (string sourceText,
-             string sourceLanguage,
-             string targetLanguage)
-        {
-            // Initialize
-            DateTime tmStart = DateTime.Now;
-            string text = string.Empty;
-
-
-            // Download translation
-            string url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
-                                        GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage),
-                                        GoogleTranslator.LanguageEnumToIdentifier(targetLanguage),
-                                        HttpUtility.UrlEncode(sourceText));
-            using (HttpClient http = new HttpClient())
-            {
-                http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-                text = await http.GetStringAsync(url).ConfigureAwait(false);
-            }
-
-            return (string.Concat(JArray.Parse(text)[0].Select(x => x[0])));
-        }
-
-        #endregion
-
-        #region Private methods
-
-        /// <summary>
-        /// Converts a language to its identifier.
-        /// </summary>
-        /// <param name="language">The language."</param>
-        /// <returns>The identifier or <see cref="string.Empty"/> if none.</returns>
-        private static string LanguageEnumToIdentifier
-            (string language)
-        {
-            string mode = string.Empty;
-            GoogleTranslator.EnsureInitialized();
-            GoogleTranslator._languageModeMap.TryGetValue(language, out mode);
-            return mode;
-        }
-
-        /// <summary>
-        /// Ensures the translator has been initialized.
-        /// </summary>
-        public static void EnsureInitialized()
-        {
-            if (GoogleTranslator._languageModeMap == null)
-            {
-                GoogleTranslator._languageModeMap = new Dictionary<string, string>() {
+        static GoogleTranslator() { }
+        private GoogleTranslator() {
+            _languageDictionary = new Dictionary<string, string>() {
                     { "afrikaans", "af"},
                     { "albanian", "sq"},
                     { "arabic", "ar"},
@@ -99,6 +28,8 @@ namespace NadekoBot.Modules.Translator.Helpers
                     { "bengali", "bn"},
                     { "bulgarian", "bg"},
                     { "catalan", "ca"},
+                    { "chinese-traditional", "zh-TW"},
+                    { "chinese-simplified", "zh-CN"},
                     { "chinese", "zh-CN"},
                     { "croatian", "hr"},
                     { "czech", "cs"},
@@ -217,18 +148,30 @@ namespace NadekoBot.Modules.Translator.Helpers
                     { "cy", "cy"},
                     { "yi", "yi"},
                 };
-            }
         }
 
-        #endregion
+        public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
+        {
+            string text = string.Empty;
 
-        #region Fields
+            string url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
+                                        ConvertToLanguageCode(sourceLanguage),
+                                        ConvertToLanguageCode(targetLanguage),
+                                       WebUtility.UrlEncode(sourceText));
+            using (HttpClient http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+                text = await http.GetStringAsync(url).ConfigureAwait(false);
+            }
 
-        /// <summary>
-        /// The language to translation mode map.
-        /// </summary>
-        public static Dictionary<string, string> _languageModeMap;
+            return (string.Concat(JArray.Parse(text)[0].Select(x => x[0])));
+        }
 
-        #endregion
+        private string ConvertToLanguageCode(string language)
+        {
+            string mode = string.Empty;
+            _languageDictionary.TryGetValue(language, out mode);
+            return mode;
+        }
     }
 }

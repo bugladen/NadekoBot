@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.CustomReactions
                               commandFuncs.Keys.ForEach(key => str = key.Replace(str, m => commandFuncs[key](e, m)));
 
 
-                              await channel.SendMessageAsync(str).ConfigureAwait(false);
+                              await imsg.Channel.SendMessageAsync(str).ConfigureAwait(false);
                           });
                  }
              });

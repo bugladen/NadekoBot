@@ -14,6 +14,8 @@ namespace NadekoBot.Services.Impl
             }
         }
 
+        public IEnumerable<string> MashapeKey { get; internal set; }
+
         public string Token {
             get {
                 throw new NotImplementedException();

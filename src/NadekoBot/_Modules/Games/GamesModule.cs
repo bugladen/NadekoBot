@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Games
                       var list = arg.Split(';');
                       if (list.Count() < 2)
                           return;
-                      await channel.SendMessageAsync(list[rng.Next(0, list.Length)]).ConfigureAwait(false);
+                      await imsg.Channel.SendMessageAsync(list[rng.Next(0, list.Length)]).ConfigureAwait(false);
                   });
 
                 cgb.CreateCommand(Prefix + "8ball")
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Games
                             return;
                         try
                         {
-                            await channel.SendMessageAsync(
+                            await imsg.Channel.SendMessageAsync(
                                 $":question: `Question` __**{question}**__ \n🎱 `8Ball Answers` __**{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}**__")
                                     .ConfigureAwait(false);
                         }
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Games
                         else
                             msg = $"{e.User.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
 
-                        await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync(msg).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "linux")
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Games
                         var guhnoo = e.Args[0];
                         var loonix = e.Args[1];
 
-                        await channel.SendMessageAsync(
+                        await imsg.Channel.SendMessageAsync(
 $@"
 I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 

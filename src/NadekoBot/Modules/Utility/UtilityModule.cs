@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Utility
             if (string.IsNullOrWhiteSpace(target))
             {
 
-                var enumerable = (await msg.Channel.GetMessagesAsync(limit: 100)).Where(x => x.Author.Id == user.Id);
+                var enumerable = (await msg.Channel.GetMessagesAsync()).Where(x => x.Author.Id == user.Id);
                 await msg.Channel.DeleteMessagesAsync(enumerable);
                 return;
             }
@@ -156,6 +156,7 @@ namespace NadekoBot.Modules.Utility
                     int limit = (count < 100) ? count : 100;
                     var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
                     await msg.Channel.DeleteMessagesAsync(enumerable);
+                    await Task.Delay(1000); // there is a 1 per second per guild ratelimit for deletemessages
                     if (enumerable.Count < limit) break;
                     count -= limit;
                 }
@@ -181,8 +182,14 @@ namespace NadekoBot.Modules.Utility
                     {
                         toDel.AddRange(messages.Where(m => m.Author.Id == mention.Id));
                     }
-                    //TODO check if limit == 100 or there is no limit
-                    await msg.Channel.DeleteMessagesAsync(toDel);
+
+                    var messagesEnum = messages.AsEnumerable();
+                    while (messagesEnum.Count() > 0)
+                    {   
+                        await msg.Channel.DeleteMessagesAsync(messagesEnum.Take(100));
+                        await Task.Delay(1000); // 1 second ratelimit
+                        messagesEnum = messagesEnum.Skip(100);
+                    }
                 }
             }
         }

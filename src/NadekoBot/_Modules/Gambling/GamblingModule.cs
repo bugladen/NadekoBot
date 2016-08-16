@@ -41,13 +41,13 @@ namespace NadekoBot.Modules.Gambling
                         var role = e.Server.FindRoles(arg).FirstOrDefault();
                         if (role == null)
                         {
-                            await channel.SendMessageAsync("💢 Role not found.").ConfigureAwait(false);
+                            await imsg.Channel.SendMessageAsync("💢 Role not found.").ConfigureAwait(false);
                             return;
                         }
                         var members = role.Members.Where(u => u.Status == UserStatus.Online); // only online
                         var membersArray = members as User[] ?? members.ToArray();
                         var usr = membersArray[new Random().Next(0, membersArray.Length)];
-                        await channel.SendMessageAsync($"**Raffled user:** {usr.Name} (id: {usr.Id})").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync($"**Raffled user:** {usr.Name} (id: {usr.Id})").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "$$")
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
                         var usr = e.Message.MentionedUsers.FirstOrDefault() ?? e.User;
                         var pts = GetUserFlowers(usr.Id);
                         var str = $"{usr.Name} has {pts} {NadekoBot.Config.CurrencySign}";
-                        await channel.SendMessageAsync(str).ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync(str).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "give")
@@ -83,14 +83,14 @@ namespace NadekoBot.Modules.Gambling
 
                         if (userFlowers < amount)
                         {
-                            await channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                            await imsg.Channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                             return;
                         }
 
                         await FlowersHandler.RemoveFlowers(e.User, "Gift", (int)amount, true).ConfigureAwait(false);
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount).ConfigureAwait(false);
 
-                        await channel.SendMessageAsync($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
 
                     });
 
@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Gambling
 
                         await FlowersHandler.AddFlowersAsync(mentionedUser, $"Awarded by bot owner. ({e.User.Name}/{e.User.Id})", (int)amount).ConfigureAwait(false);
 
-                        await channel.SendMessageAsync($"{e.User.Mention} successfully awarded {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync($"{e.User.Mention} successfully awarded {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "take")
@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Gambling
 
                         await FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount).ConfigureAwait(false);
 
-                        await channel.SendMessageAsync($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "betroll")
@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Gambling
 
                         if (userFlowers < amount)
                         {
-                            await channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                            await imsg.Channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                             return;
                         }
 
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Gambling
                             await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true).ConfigureAwait(false);
                         }
 
-                        await channel.SendMessageAsync(str).ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync(str).ConfigureAwait(false);
                         
                     });
 
@@ -194,7 +194,7 @@ namespace NadekoBot.Modules.Gambling
                         var richest = richestTemp as CurrencyState[] ?? richestTemp.ToArray();
                         if (richest.Length == 0)
                             return;
-                        await channel.SendMessageAsync(
+                        await imsg.Channel.SendMessageAsync(
                             richest.Aggregate(new StringBuilder(
     $@"```xl
 ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓

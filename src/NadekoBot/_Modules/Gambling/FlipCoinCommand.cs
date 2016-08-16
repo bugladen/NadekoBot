@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Gambling
 
             if (userFlowers < amount)
             {
-                await channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Gambling
             else
                 str = $"{e.User.Mention}`More luck next time.`";
 
-            await channel.SendMessageAsync(str).ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync(str).ConfigureAwait(false);
         };
 
         public Func<CommandEventArgs, Task> FlipCoinFunc() => async e =>
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Gambling
                     await e.Channel.SendFile($"{result} coins.png", imgs.Merge().ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
                     return;
                 }
-                await channel.SendMessageAsync("Invalid number").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("Invalid number").ConfigureAwait(false);
             }
         };
     }

@@ -14,6 +14,9 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using Discord.API;
 using System.Text.RegularExpressions;
+using System.Net;
+using NadekoBot.Modules.Searches.Commands.Models;
+using Google.Apis.YouTube.v3;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -22,9 +25,12 @@ namespace NadekoBot.Modules.Searches
     {
         private readonly Random rng;
 
-        public SearchesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        private IYoutubeService _yt { get; }
+
+        public SearchesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
             rng = new Random();
+            _yt = youtube;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -54,57 +60,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = imsg.Channel as IGuildChannel;
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            var link = await FindYoutubeUrlByKeywords(query).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
+            var result = (await _yt.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(result))
             {
                 await imsg.Channel.SendMessageAsync("No results found for that query.");
                 return;
             }
-            var shortUrl = await link.ShortenUrl().ConfigureAwait(false);
+            var shortUrl = await result.ShortenUrl().ConfigureAwait(false);
             await imsg.Channel.SendMessageAsync(shortUrl).ConfigureAwait(false);
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Anime(IMessage imsg, [Remainder] string query)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-
-            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            string result;
-            try
-            {
-                result = (await GetAnimeData(query).ConfigureAwait(false)).ToString();
-            }
-            catch
-            {
-                await imsg.Channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
-                return;
-            }
-
-            await imsg.Channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
-        }
-
-
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Manga(IMessage imsg, [Remainder] string query)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-
-            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            string result;
-            try
-            {
-                result = (await GetMangaData(query).ConfigureAwait(false)).ToString();
-            }
-            catch
-            {
-                await imsg.Channel.SendMessageAsync("Failed to find that manga.").ConfigureAwait(false);
-                return;
-            }
-            await imsg.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -114,11 +77,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var channel = imsg.Channel as IGuildChannel;
 
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            await e.Channel.SendIsTyping().ConfigureAwait(false);
+            await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string result;
             try
             {
-                var movie = ImdbScraper.ImdbScrape(query, true);
+                var movie = await ImdbScraper.ImdbScrape(query, true);
                 if (movie.Status) result = movie.ToString();
                 else result = "Failed to find that movie.";
             }
@@ -240,55 +203,54 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
-            await imsg.Channel.SendMessageAsync($"https://google.com/search?q={ HttpUtility.UrlEncode(terms).Replace(' ', '+') }")
+            await imsg.Channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
         }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Hearthstone(IMessage imsg, [Remainder] string name)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-            var arg = e.GetArg("name");
-            if (string.IsNullOrWhiteSpace(arg))
-            {
-                await imsg.Channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
-                return;
-            }
-            await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            string response = "";
-            using (var http = new HttpClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
-                response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers)
-                                        .ConfigureAwait(false);
-                try
-                {
-                    var items = JArray.Parse(response);
-                    var images = new List<Image>();
-                    if (items == null)
-                        throw new KeyNotFoundException("Cannot find a card by that name");
-                    var cnt = 0;
-                    items.Shuffle();
-                    foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null))
-                    {
-                        images.Add(
-                            Image.FromStream(await http.GetStreamAsync(item["img"].ToString()).ConfigureAwait(false)));
-                    }
-                    if (items.Count > 4)
-                    {
-                        await imsg.Channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
-                    }
-                    await imsg.Channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
-                                   .ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    await imsg.Channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
-                }
-            }
-        }
+        ////todo drawing
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Hearthstone(IMessage imsg, [Remainder] string name)
+        //{
+        //    var channel = imsg.Channel as IGuildChannel;
+        //    var arg = e.GetArg("name");
+        //    if (string.IsNullOrWhiteSpace(arg))
+        //    {
+        //        await imsg.Channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
+        //        return;
+        //    }
+        //    await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+        //    string response = "";
+        //    using (var http = new HttpClient())
+        //    {
+        //        http.DefaultRequestHeaders.Clear();
+        //        http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+        //        response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers)
+        //                                .ConfigureAwait(false);
+        //        try
+        //        {
+        //            var items = JArray.Parse(response).Shuffle().ToList();
+        //            var images = new List<Image>();
+        //            if (items == null)
+        //                throw new KeyNotFoundException("Cannot find a card by that name");
+        //            var cnt = 0;
+        //            foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null))
+        //            {
+        //                images.Add(
+        //                    Image.FromStream(await http.GetStreamAsync(item["img"].ToString()).ConfigureAwait(false)));
+        //            }
+        //            if (items.Count > 4)
+        //            {
+        //                await imsg.Channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
+        //            }
+        //            await imsg.Channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
+        //                           .ConfigureAwait(false);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await imsg.Channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
+        //        }
+        //    }
+        //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
@@ -307,7 +269,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             {
                 http.DefaultRequestHeaders.Clear();
                 http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
-                var res = await http.GetStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}", headers).ConfigureAwait(false);
+                var res = await http.GetStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
                 try
                 {
                     var items = JObject.Parse(res);
@@ -350,7 +312,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var items = JObject.Parse(res);
                 var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
 `Definition:` {items["defs"]["def"]["text"].ToString()}
-`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>");
+`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>";
                 await imsg.Channel.SendMessageAsync(str);
             }
             catch
@@ -358,16 +320,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await imsg.Channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
             }
         }
+        //todo DB
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Quote(IMessage imsg)
+        //{
+        //    var channel = imsg.Channel as IGuildChannel;
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Quote(IMessage imsg)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-
-            var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
-            await imsg.Channel.SendMessageAsync(quote).ConfigureAwait(false);
-        }
+        //    var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
+        //    await imsg.Channel.SendMessageAsync(quote).ConfigureAwait(false);
+        //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
@@ -381,54 +343,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     return;
                 await imsg.Channel.SendMessageAsync($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
             }
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Yomama(IMessage imsg)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-            using (var http = new HttpClient())
-            {
-                var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
-                await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
-            }
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Randjoke(IMessage imsg)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-            using (var http = new HttpClient())
-            {
-                var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
-            }
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task ChuckNorris(IMessage imsg)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-            using (var http = new HttpClient())
-            {
-                var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
-            }
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task MagicItem(IMessage imsg)
-        {
-            var channel = imsg.Channel as IGuildChannel;
-
-            var magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
-            var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
-
-            await imsg.Channel.SendMessageAsync(item).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -494,30 +408,31 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Clr(IMessage imsg, [Remainder] string color)
-        {
-            var channel = imsg.Channel as IGuildChannel;
+        ////todo Drawing
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Clr(IMessage imsg, [Remainder] string color)
+        //{
+        //    var channel = imsg.Channel as IGuildChannel;
 
-            var arg1 = e.GetArg("color")?.Trim()?.Replace("#", "");
-            if (string.IsNullOrWhiteSpace(arg1))
-                return;
-            var img = new Bitmap(50, 50);
+        //    color = color?.Trim().Replace("#", "");
+        //    if (string.IsNullOrWhiteSpace((string)color))
+        //        return;
+        //    var img = new Bitmap(50, 50);
 
-            var red = Convert.ToInt32(arg1.Substring(0, 2), 16);
-            var green = Convert.ToInt32(arg1.Substring(2, 2), 16);
-            var blue = Convert.ToInt32(arg1.Substring(4, 2), 16);
-            var brush = new SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
+        //    var red = Convert.ToInt32(color.Substring(0, 2), 16);
+        //    var green = Convert.ToInt32(color.Substring(2, 2), 16);
+        //    var blue = Convert.ToInt32(color.Substring(4, 2), 16);
+        //    var brush = new SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
 
-            using (Graphics g = Graphics.FromImage(img))
-            {
-                g.FillRectangle(brush, 0, 0, 50, 50);
-                g.Flush();
-            }
+        //    using (Graphics g = Graphics.FromImage(img))
+        //    {
+        //        g.FillRectangle(brush, 0, 0, 50, 50);
+        //        g.Flush();
+        //    }
 
-            await imsg.Channel.SendFileAsync("arg1.png", img.ToStream());
-        }
+        //    await imsg.Channel.SendFileAsync("arg1.png", img.ToStream());
+        //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]

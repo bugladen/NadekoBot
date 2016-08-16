@@ -19,31 +19,6 @@ namespace NadekoBot.Modules.Translator
         }
         private Func<CommandEventArgs, Task> ListLanguagesFunc() => async e =>
         {
-            try
-            {
-                GoogleTranslator.EnsureInitialized();
-                string s = e.GetArg("search");
-                string ret = "";
-                foreach (string key in GoogleTranslator._languageModeMap.Keys)
-                {
-                    if (!s.Equals(""))
-                    {
-                        if (key.ToLower().Contains(s))
-                        {
-                            ret += " " + key + ";";
-                        }
-                    }
-                    else
-                    {
-                        ret += " " + key + ";";
-                    }
-                }
-                await channel.SendMessageAsync(ret).ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendMessageAsync("Bad input format, or sth went wrong...").ConfigureAwait(false);
-            }
 
         };
     }

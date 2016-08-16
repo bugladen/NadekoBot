@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling.Commands
 
                     if (userFlowers < amount)
                     {
-                        await channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                         return;
                     }
 
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                     AnimalRace ar;
                     if (!AnimalRaces.TryGetValue(e.Server.Id, out ar))
                     {
-                        await channel.SendMessageAsync("No race exists on this server");
+                        await imsg.Channel.SendMessageAsync("No race exists on this server");
                         return;
                     }
                     await ar.JoinRace(e.User, amount);

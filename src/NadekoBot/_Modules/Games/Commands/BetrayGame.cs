@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Games.Commands
                 UserPoints -= 3;
             }
 
-            await channel.SendMessageAsync($"**ROUND {++round}**\n" +
+            await imsg.Channel.SendMessageAsync($"**ROUND {++round}**\n" +
                                         $"{response}\n" +
                                         $"{nadekoResponse}\n" +
                                         $"--------------------------------\n" +
@@ -100,11 +100,11 @@ namespace NadekoBot.Modules.Games.Commands
                                             .ConfigureAwait(false);
             if (round < 10) return;
             if (nadekoPoints == userPoints)
-                await channel.SendMessageAsync("Its a draw").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("Its a draw").ConfigureAwait(false);
             else if (nadekoPoints > userPoints)
-                await channel.SendMessageAsync("Nadeko won.").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("Nadeko won.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("You won.").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("You won.").ConfigureAwait(false);
             nadekoPoints = 0;
             userPoints = 0;
             round = 0;

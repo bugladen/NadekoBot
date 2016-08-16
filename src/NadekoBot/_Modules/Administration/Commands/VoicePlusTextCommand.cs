@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     if (!e.Server.CurrentUser.ServerPermissions.ManageChannels)
                     {
-                        await channel.SendMessageAsync("`I have insufficient permission to do that.`");
+                        await imsg.Channel.SendMessageAsync("`I have insufficient permission to do that.`");
                         return;
                     }
 
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration.Commands
                         await Task.Delay(500);
                     }
 
-                    await channel.SendMessageAsync("`Done.`");
+                    await imsg.Channel.SendMessageAsync("`Done.`");
                 });
 
             cgb.CreateCommand(Module.Prefix + "voice+text")
@@ -139,24 +139,24 @@ namespace NadekoBot.Modules.Administration.Commands
                                 }
                                 catch
                                 {
-                                    await channel.SendMessageAsync(
+                                    await imsg.Channel.SendMessageAsync(
                                             ":anger: Error: Most likely i don't have permissions to do this.")
                                                 .ConfigureAwait(false);
                                     return;
                                 }
                             }
-                            await channel.SendMessageAsync("Successfuly removed voice + text feature.").ConfigureAwait(false);
+                            await imsg.Channel.SendMessageAsync("Successfuly removed voice + text feature.").ConfigureAwait(false);
                             return;
                         }
                         config.VoicePlusTextEnabled = true;
-                        await channel.SendMessageAsync("Successfuly enabled voice + text feature. " +
+                        await imsg.Channel.SendMessageAsync("Successfuly enabled voice + text feature. " +
                                                     "**Make sure the bot has manage roles and manage channels permissions**")
                                                     .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
                     }
                 });
         }

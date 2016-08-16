@@ -17,7 +17,9 @@
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "Discord.Net": "1.0.0-dev",
     "Discord.Net.Commands": "1.0.0-dev",
-    "System.Resources.ResourceWriter": "4.0.0-beta-22816"
+    "System.Resources.ResourceWriter": "4.0.0-beta-22816",
+    "Google.Apis.YouTube.v3": "1.15.0.582",
+    "System.Diagnostics.Contracts": "4.0.1"
   },
 
   "frameworks": {

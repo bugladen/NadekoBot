@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration.Commands
                                  NadekoBot.Client.FindServers(arg).FirstOrDefault();
                     if (server == null)
                     {
-                        await channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
                         return;
                     }
                     if (!server.IsOwner)

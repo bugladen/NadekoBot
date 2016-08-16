@@ -48,12 +48,12 @@ namespace NadekoBot.Modules.Administration.Commands
                     ConcurrentDictionary<ulong, DateTime> throwaway;
                     if (RatelimitingChannels.TryRemove(e.Channel.Id, out throwaway))
                     {
-                        await channel.SendMessageAsync("Slow mode disabled.").ConfigureAwait(false);
+                        await imsg.Channel.SendMessageAsync("Slow mode disabled.").ConfigureAwait(false);
                         return;
                     }
                     if (RatelimitingChannels.TryAdd(e.Channel.Id, new ConcurrentDictionary<ulong, DateTime>()))
                     {
-                        await channel.SendMessageAsync("Slow mode initiated. " +
+                        await imsg.Channel.SendMessageAsync("Slow mode initiated. " +
                                                     "Users can't send more than 1 message every 5 seconds.")
                                                     .ConfigureAwait(false);
                     }

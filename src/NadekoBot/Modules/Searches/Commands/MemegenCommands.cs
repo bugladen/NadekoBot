@@ -5,42 +5,44 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Discord;
+using NadekoBot.Services;
+using System.Threading.Tasks;
+using NadekoBot.Attributes;
+using System.Net.Http;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class MemegenCommands : DiscordCommand
+    public partial class SearchesModule : DiscordModule
     {
-        public MemegenCommands(DiscordModule module) : base(module)
+        public SearchesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 
-        internal override void Init(CommandGroupBuilder cgb)
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Memelist(IMessage imsg)
         {
-            cgb.CreateCommand(Prefix + "memelist")
-                .Description($"Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/ | `{Prefix}memelist`")
-                .Do(async e =>
-                {
-                    int i = 0;
-                    await channel.SendMessageAsync("`List Of Commands:`\n```xl\n" +
-                                string.Join("\n", JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
-                                      .Select(kvp => Path.GetFileName(kvp.Value))
-                                      .GroupBy(item => (i++) / 4)
-                                      .Select(ig => string.Concat(ig.Select(el => $"{el,-17}"))))
-                                      + $"\n```").ConfigureAwait(false);
-                });
+            var channel = imsg.Channel as IGuildChannel;
+            using (var http = new HttpClient())
+            {
+                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
+                                          .Select(kvp => Path.GetFileName(kvp.Value));
 
-            cgb.CreateCommand(Prefix + "memegen")
-                .Description($"Generates a meme from memelist with top and bottom text. | `{Prefix}memegen biw \"gets iced coffee\" \"in the winter\"`")
-                .Parameter("meme", ParameterType.Required)
-                .Parameter("toptext", ParameterType.Required)
-                .Parameter("bottext", ParameterType.Required)
-                .Do(async e =>
-                {
-                    var meme = e.GetArg("meme");
-                    var top = Uri.EscapeDataString(e.GetArg("toptext").Replace(' ', '-'));
-                    var bot = Uri.EscapeDataString(e.GetArg("bottext").Replace(' ', '-'));
-                    await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
-                });
+                await imsg.Channel.SendTableAsync(data, x => $"{x,-17}", 3);
+            }
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Memegen(IMessage imsg, string meme, string topText, string botText)
+        {
+            var channel = imsg.Channel as IGuildChannel;
+
+            var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
+            var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));
+            await imsg.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
         }
     }
 }

@@ -310,7 +310,7 @@ namespace NadekoBot.Modules.Games.Commands
                         return;
                     if (string.IsNullOrWhiteSpace(text))
                         return;
-                    await channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
+                    await imsg.Channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
                 });
         }
     }
