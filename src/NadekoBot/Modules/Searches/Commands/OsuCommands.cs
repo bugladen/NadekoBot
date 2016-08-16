@@ -6,6 +6,7 @@
 //using System.Net;
 //using System.Text.RegularExpressions;
 
+//todo DI into partials
 //namespace NadekoBot.Modules.Searches.Commands
 //{
 //    internal class OsuCommands : DiscordCommand

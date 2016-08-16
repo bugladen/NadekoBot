@@ -9,6 +9,7 @@
 //using NadekoBot.Services;
 //using System.Threading;
 
+//todo DB
 //namespace NadekoBot.Modules.Searches.Commands
 //{
 //    public partial class SearchesModule : DiscordModule

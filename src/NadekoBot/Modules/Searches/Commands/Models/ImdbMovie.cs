@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace NadekoBot.Modules.Searches.Commands.IMDB
+namespace NadekoBot.Modules.Searches.Commands.Models
 {
     public class ImdbMovie
     {
