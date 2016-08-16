@@ -1,5 +1,4 @@
 using Discord.Commands;
-using NadekoBot.Classes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

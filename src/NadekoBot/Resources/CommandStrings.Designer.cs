@@ -2760,6 +2760,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Sends a readme and a guide links to the channel..
+        /// </summary>
+        public static string guide_desc {
+            get {
+                return ResourceManager.GetString("guide_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `-readme` or `-guide`.
+        /// </summary>
+        public static string guide_summary {
+            get {
+                return ResourceManager.GetString("guide_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to readme.
+        /// </summary>
+        public static string guide_text {
+            get {
+                return ResourceManager.GetString("guide_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Either shows a help for a single command, or PMs you help link if no arguments are specified..
         /// </summary>
         public static string h_desc {
@@ -4889,33 +4916,6 @@ namespace NadekoBot.Resources {
         public static string randomdog_text {
             get {
                 return ResourceManager.GetString("randomdog_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sends a readme and a guide links to the channel..
-        /// </summary>
-        public static string readme_desc {
-            get {
-                return ResourceManager.GetString("readme_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `-readme` or `-guide`.
-        /// </summary>
-        public static string readme_summary {
-            get {
-                return ResourceManager.GetString("readme_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to readme.
-        /// </summary>
-        public static string readme_text {
-            get {
-                return ResourceManager.GetString("readme_text", resourceCulture);
             }
         }
         

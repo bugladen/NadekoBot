@@ -4,19 +4,15 @@ using NadekoBot.Modules.Searches.Commands.IMDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using Discord.API;
 using System.Text.RegularExpressions;
 using System.Net;
 using NadekoBot.Modules.Searches.Commands.Models;
-using Google.Apis.YouTube.v3;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -306,7 +302,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
                 res = await http.GetStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(arg)}.json").ConfigureAwait(false);
             }
-                
+
             try
             {
                 var items = JObject.Parse(res);
@@ -355,7 +351,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             if (string.IsNullOrWhiteSpace(usrStr))
                 return;
 
-            var usr = (await channel.Guild.GetUsersAsync()).Where(u=>u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
+            var usr = (await channel.Guild.GetUsersAsync()).Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
 
             if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                 return;
@@ -496,4 +492,3 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         }
     }
 }
-

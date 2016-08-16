@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Classes;
 using NadekoBot.Modules.Games.Commands.Trivia;
 using System;
 using System.Collections.Concurrent;

@@ -135,15 +135,6 @@
   <data name="hgit_summary" xml:space="preserve">
     <value>`-hgit`</value>
   </data>
-  <data name="readme_text" xml:space="preserve">
-    <value>readme</value>
-  </data>
-  <data name="readme_desc" xml:space="preserve">
-    <value>Sends a readme and a guide links to the channel.</value>
-  </data>
-  <data name="readme_summary" xml:space="preserve">
-    <value>`-readme` or `-guide`</value>
-  </data>
   <data name="donate_text" xml:space="preserve">
     <value>donate</value>
   </data>
@@ -2618,5 +2609,14 @@
   </data>
   <data name="cards_summary" xml:space="preserve">
     <value>`trello cards index`</value>
+  </data>
+  <data name="guide_desc" xml:space="preserve">
+    <value>Sends a readme and a guide links to the channel.</value>
+  </data>
+  <data name="guide_summary" xml:space="preserve">
+    <value>`-readme` or `-guide`</value>
+  </data>
+  <data name="guide_text" xml:space="preserve">
+    <value>readme</value>
   </data>
 </root>

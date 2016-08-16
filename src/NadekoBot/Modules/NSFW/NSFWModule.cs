@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using NadekoBot.Services;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace NadekoBot.Modules.NSFW
@@ -16,9 +15,6 @@ namespace NadekoBot.Modules.NSFW
     [Module("~", AppendSpace = false)]
     public class NSFWModule : DiscordModule
     {
-
-        private readonly Random rng = new Random();
-
         public NSFWModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
@@ -117,7 +113,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{rng.Next(0, 9380)}").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new Random().Next(0, 9880) }").ConfigureAwait(false))[0];
                 }
                 await imsg.Channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
@@ -138,7 +134,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{rng.Next(0, 3373)}").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new Random().Next(0, 3873) }").ConfigureAwait(false))[0];
                 }
                 await imsg.Channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }

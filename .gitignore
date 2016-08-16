@@ -10,21 +10,6 @@
 obj/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-**/Bin/Release/
-**/Bin/PRIVATE/
-!**/Bin/Debug/opus.dll
-!**/Bin/Debug/libsodium.dll
-!**/Bin/Debug/Nito.AsyncEx.Enlightenment.dll
-!**/Bin/Debug/Nito.AsyncEx.dll
-!**/Bin/Debug/WebSocket4Net.dll
-!**/Bin/Debug/sqlite3.dll
-!**/Bin/Debug/credentials_example.json
-NadekoBot/bin/debug/*.*
-NadekoBot/bin/debug/data/permissions
-NadekoBot/bin/debug/data/incidents
-NadekoBot/bin/debug/data/musicdata
-NadekoBot/bin/NadekoRelease/*.*
-!NadekoBot/bin/Debug/data/currency_images/*
 Tests/bin
 
 # NuGet Packages

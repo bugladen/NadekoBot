@@ -50,13 +50,18 @@ namespace NadekoBot.Extensions
             return list.ToArray();
         }
 
-        public static Task<IMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+        public static Task<IMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
             var i = 0;
-            return ch.SendMessageAsync($@"```xl
+            return ch.SendMessageAsync($@"{seed}```xl
 {string.Join("\n", items.GroupBy(item => (i++) / columns)
                         .Select(ig => string.Concat(ig.Select(el => howToPrint(el)))))}
 ```");
+        }
+
+        public static Task<IMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+        {
+            return ch.SendTableAsync("", items, howToPrint, columns);
         }
 
         public static async Task<string> ShortenUrl(this string url)
