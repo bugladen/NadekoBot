@@ -8,14 +8,11 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-//todo DB
-//todo Rewrite?
-
+//todo Rewrite? Fix trivia not stopping bug
 namespace NadekoBot.Modules.Games.Commands
 {
     public partial class GamesModule
     {
-
         [Group]
         public class TriviaCommands
         {

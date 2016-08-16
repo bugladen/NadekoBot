@@ -1,25 +1,21 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes.ClashOfClans;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Services;
 using NadekoBot.Attributes;
 
+//todo DB
 namespace NadekoBot.Modules.ClashOfClans
 {
     [Module(",",AppendSpace = false)]
     internal class ClashOfClansModule : DiscordModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
-
-        private readonly object writeLock = new object();
 
         public ClashOfClansModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
