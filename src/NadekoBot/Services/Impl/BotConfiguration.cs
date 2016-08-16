@@ -8,6 +8,8 @@ namespace NadekoBot.Services.Impl
 {
     public class BotConfiguration : IBotConfiguration
     {
+        internal Task _8BallResponses;
+
         public HashSet<ulong> BlacklistedChannels { get; set; } = new HashSet<ulong>();
 
         public HashSet<ulong> BlacklistedServers { get; set; } = new HashSet<ulong>();

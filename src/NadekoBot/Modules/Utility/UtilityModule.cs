@@ -128,6 +128,7 @@ namespace NadekoBot.Modules.Utility
             }
         }
 
+        //todo maybe split into 3/4 different commands with the same name
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Prune(IMessage msg, [Remainder] string target = null)
