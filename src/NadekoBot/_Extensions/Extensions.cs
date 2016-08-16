@@ -137,5 +137,85 @@ namespace NadekoBot.Extensions
             return string.Concat(str.Take(maxLength - 3)) + (hideDots ? "" : "...");
         }
 
+        /// <summary>
+        /// Removes trailing S or ES (if specified) on the given string if the num is 1
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="num"></param>
+        /// <param name="es"></param>
+        /// <returns>String with the correct singular/plural form</returns>
+        public static string SnPl(this string str, int? num, bool es = false)
+        {
+            if (str == null)
+                throw new ArgumentNullException(nameof(str));
+            if (num == null)
+                throw new ArgumentNullException(nameof(num));
+            return num == 1 ? str.Remove(str.Length - 1, es ? 2 : 1) : str;
+        }
+
+        //http://www.dotnetperls.com/levenshtein
+        public static int LevenshteinDistance(this string s, string t)
+        {
+            var n = s.Length;
+            var m = t.Length;
+            var d = new int[n + 1, m + 1];
+
+            // Step 1
+            if (n == 0)
+            {
+                return m;
+            }
+
+            if (m == 0)
+            {
+                return n;
+            }
+
+            // Step 2
+            for (var i = 0; i <= n; d[i, 0] = i++)
+            {
+            }
+
+            for (var j = 0; j <= m; d[0, j] = j++)
+            {
+            }
+
+            // Step 3
+            for (var i = 1; i <= n; i++)
+            {
+                //Step 4
+                for (var j = 1; j <= m; j++)
+                {
+                    // Step 5
+                    var cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+
+                    // Step 6
+                    d[i, j] = Math.Min(
+                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                        d[i - 1, j - 1] + cost);
+                }
+            }
+            // Step 7
+            return d[n, m];
+        }
+
+        public static int KiB(this int value) => value * 1024;
+        public static int KB(this int value) => value * 1000;
+
+        public static int MiB(this int value) => value.KiB() * 1024;
+        public static int MB(this int value) => value.KB() * 1000;
+
+        public static int GiB(this int value) => value.MiB() * 1024;
+        public static int GB(this int value) => value.MB() * 1000;
+
+        public static ulong KiB(this ulong value) => value * 1024;
+        public static ulong KB(this ulong value) => value * 1000;
+
+        public static ulong MiB(this ulong value) => value.KiB() * 1024;
+        public static ulong MB(this ulong value) => value.KB() * 1000;
+
+        public static ulong GiB(this ulong value) => value.MiB() * 1024;
+        public static ulong GB(this ulong value) => value.MB() * 1000;
+
     }
 }

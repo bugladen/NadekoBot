@@ -1,6 +1,7 @@
 ﻿using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help
@@ -28,7 +29,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
             this.Category = c;
         }
 
-        public string GetHint() => Answer.Scramble();
+        public string GetHint() => Scramble(Answer);
 
         public bool IsAnswerCorrect(string guess)
         {
@@ -80,5 +81,27 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 
         public override string ToString() =>
             "Question: **" + this.Question + "?**";
+
+        private static string Scramble(string word)
+        {
+            var letters = word.ToArray();
+            var count = 0;
+            for (var i = 0; i < letters.Length; i++)
+            {
+                if (letters[i] == ' ')
+                    continue;
+
+                count++;
+                if (count <= letters.Length / 5)
+                    continue;
+
+                if (count % 3 == 0)
+                    continue;
+
+                if (letters[i] != ' ')
+                    letters[i] = '_';
+            }
+            return "`" + string.Join(" ", letters) + "`";
+        }
     }
 }

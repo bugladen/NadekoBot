@@ -9,7 +9,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
     public class TriviaQuestionPool
     {
         public static TriviaQuestionPool Instance { get; } = new TriviaQuestionPool();
-
+        //todo DB
         public HashSet<TriviaQuestion> pool = new HashSet<TriviaQuestion>();
 
         private Random rng { get; } = new Random();
