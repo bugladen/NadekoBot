@@ -11,7 +11,7 @@
 //using System.Threading.Tasks;
 
 ////todo DB
-////todo rewrite?
+////todo Rewrite?
 //namespace NadekoBot.Modules.Games.Commands
 //{
 

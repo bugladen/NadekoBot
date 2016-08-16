@@ -1,18 +1,30 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Attributes;
 using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System.Text;
+using System.Threading.Tasks;
 
-//taken from 
-//http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
+// taken from 
+// http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
 // because i don't want to waste my time on this cancerous command
 namespace NadekoBot.Modules.Games.Commands
 {
-    internal class Leet : DiscordCommand
+    public partial class GamesModule
     {
-        public Leet(DiscordModule module) : base(module)
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Leet(IMessage imsg, int level, [Remainder] string text)
         {
+            var channel = imsg.Channel as IGuildChannel;
+
+            text = text.Trim();
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+            await imsg.Channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
         }
+
 
         /// <summary>
         /// Translate text to Leet - Extension methods for string class
@@ -20,7 +32,7 @@ namespace NadekoBot.Modules.Games.Commands
         /// <param name="text">Orginal text</param>
         /// <param name="degree">Degree of translation (1 - 3)</param>
         /// <returns>Leet translated text</returns>
-        public static string ToLeet(string text, int degree = 1) =>
+        private static string ToLeet(string text, int degree = 1) =>
             Translate(text, degree);
 
         /// <summary>
@@ -29,7 +41,7 @@ namespace NadekoBot.Modules.Games.Commands
         /// <param name="text">Orginal text</param>
         /// <param name="degree">Degree of translation (1 - 3)</param>
         /// <returns>Leet translated text</returns>
-        public static string Translate(string text, int degree = 1)
+        private static string Translate(string text, int degree = 1)
         {
             if (degree > 6)
                 degree = 6;
@@ -293,25 +305,6 @@ namespace NadekoBot.Modules.Games.Commands
                 #endregion
             }
             return sb.ToString().TrimTo(1995); // Return result.
-        }
-
-        internal override void Init(CommandGroupBuilder cgb)
-        {
-            cgb.CreateCommand(Module.Prefix + "leet")
-                .Description($"Converts a text to leetspeak with 6 (1-6) severity levels | `{Module.Prefix}leet 3 Hello`")
-                .Parameter("level", ParameterType.Required)
-                .Parameter("text", ParameterType.Unparsed)
-                .Do(async e =>
-                {
-                    var text = e.GetArg("text")?.Trim();
-                    var levelStr = e.GetArg("level")?.Trim();
-                    int level;
-                    if (!int.TryParse(levelStr, out level))
-                        return;
-                    if (string.IsNullOrWhiteSpace(text))
-                        return;
-                    await imsg.Channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
-                });
         }
     }
 }

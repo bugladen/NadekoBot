@@ -408,7 +408,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        ////todo Drawing
+        ////todo drawing
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
         //public async Task Clr(IMessage imsg, [Remainder] string color)

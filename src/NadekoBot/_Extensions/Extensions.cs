@@ -100,26 +100,28 @@ namespace NadekoBot.Extensions
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> items)
         {
             // Thanks to @Joe4Evr for finding a bug in the old version of the shuffle
-            var provider = RandomNumberGenerator.Create();
-            var list = items.ToList();
-            var n = list.Count;
-            while (n > 1)
+            using (var provider = RandomNumberGenerator.Create())
             {
-                var box = new byte[(n / Byte.MaxValue) + 1];
-                int boxSum;
-                do
+                var list = items.ToList();
+                var n = list.Count;
+                while (n > 1)
                 {
-                    provider.GetBytes(box);
-                    boxSum = box.Sum(b => b);
+                    var box = new byte[(n / Byte.MaxValue) + 1];
+                    int boxSum;
+                    do
+                    {
+                        provider.GetBytes(box);
+                        boxSum = box.Sum(b => b);
+                    }
+                    while (!(boxSum < n * ((Byte.MaxValue * box.Length) / n)));
+                    var k = (boxSum % n);
+                    n--;
+                    var value = list[k];
+                    list[k] = list[n];
+                    list[n] = value;
                 }
-                while (!(boxSum < n * ((Byte.MaxValue * box.Length) / n)));
-                var k = (boxSum % n);
-                n--;
-                var value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                return list;
             }
-            return list;
         }
 
         public static string TrimTo(this string str, int maxLength, bool hideDots = false)
