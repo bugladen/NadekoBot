@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Searches.Commands
         [RequireContext(ContextType.Guild)]
         public async Task Memelist(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Searches.Commands
         [RequireContext(ContextType.Guild)]
         public async Task Memegen(IMessage imsg, string meme, string topText, string botText)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
             var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));

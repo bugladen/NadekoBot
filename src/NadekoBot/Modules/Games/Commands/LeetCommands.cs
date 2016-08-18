@@ -14,9 +14,9 @@ namespace NadekoBot.Modules.Games.Commands
     {
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Leet(IMessage imsg, int level, [Remainder] string text)
+        public async Task Leet(IMessage imsg, int level, [Remainder] string text = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             text = text.Trim();
             if (string.IsNullOrWhiteSpace(text))

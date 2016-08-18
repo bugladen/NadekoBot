@@ -62,7 +62,7 @@ namespace NadekoBot
         private async Task Client_MessageReceived(IMessage arg)
         {
                 var t = await Commands.Execute(arg, 0);
-                if(!t.IsSuccess)
+                if(!t.IsSuccess && t.Error != CommandError.UnknownCommand)
                     Console.WriteLine(t.ErrorReason);
         }
     }

@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IMessage msg, string guild = null)
         {
-            var channel = msg.Channel as IGuildChannel;
+            var channel = msg.Channel as ITextChannel;
             guild = guild?.ToUpperInvariant();
             IGuild server;
             if (guild == null)
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task UserInfo(IMessage msg, IGuildUser usr = null)
         {
-            var channel = msg.Channel as IGuildChannel;
+            var channel = msg.Channel as ITextChannel;
             var user = usr ?? msg.Author as IGuildUser;
             if (user == null)
                 return;

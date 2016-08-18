@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
                 mov.Status = true;
                 mov.Title = match(@"<title>(IMDb \- )*(.*?) \(.*?</title>", html, 2);
                 mov.OriginalTitle = match(@"title-extra"">(.*?)<", html);
-                mov.Year = match(@"<title>.*?\(.*?(\d{4}).*?\).*?</title>", match(@"(<title>.*?</title>)", html));
+                mov.Year = match(@"<title>.*?\(.*?(\d{4}).*?).*?</title>", match(@"(<title>.*?</title>)", html));
                 mov.Rating = match(@"<b>(\d.\d)/10</b>", html);
                 mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", match(@"Genre.?:(.*?)(</div>|See more)", html)).Cast<string>().ToList();
                 mov.Plot = match(@"Plot:</h5>.*?<div class=""info-content"">(.*?)(<a|</div)", html);

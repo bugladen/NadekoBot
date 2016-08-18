@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Games.Commands
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Poll(IMessage imsg, [Remainder] string arg)
+        public async Task Poll(IMessage imsg, [Remainder] string arg = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (!(imsg.Author as IGuildUser).GuildPermissions.ManageChannels)
                 return;
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Games.Commands
         [RequireContext(ContextType.Guild)]
         public async Task Pollend(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (!(imsg.Author as IGuildUser).GuildPermissions.ManageChannels)
                 return;

@@ -21,9 +21,9 @@ namespace NadekoBot.Modules.Games
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Choose(IMessage imsg, [Remainder] string list)
+        public async Task Choose(IMessage imsg, [Remainder] string list = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             if (string.IsNullOrWhiteSpace(list))
                 return;
             var listArr = list.Split(';');
@@ -35,9 +35,9 @@ namespace NadekoBot.Modules.Games
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task _8Ball(IMessage imsg, [Remainder] string question)
+        public async Task _8Ball(IMessage imsg, [Remainder] string question = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (string.IsNullOrWhiteSpace(question))
                 return;
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task Rps(IMessage imsg, string input)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             Func<int,string> GetRPSPick = (p) =>
             {
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task Linux(IMessage imsg, string guhnoo, string loonix)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             await imsg.Channel.SendMessageAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.

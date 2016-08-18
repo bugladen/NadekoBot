@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Searches.Commands
             [RequireContext(ContextType.Guild)]
             public async Task Yomama(IMessage imsg)
             {
-                var channel = imsg.Channel as IGuildChannel;
+                var channel = imsg.Channel as ITextChannel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Searches.Commands
             [RequireContext(ContextType.Guild)]
             public async Task Randjoke(IMessage imsg)
             {
-                var channel = imsg.Channel as IGuildChannel;
+                var channel = imsg.Channel as ITextChannel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches.Commands
             [RequireContext(ContextType.Guild)]
             public async Task ChuckNorris(IMessage imsg)
             {
-                var channel = imsg.Channel as IGuildChannel;
+                var channel = imsg.Channel as ITextChannel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Searches.Commands
             [RequireContext(ContextType.Guild)]
             public async Task WowJoke(IMessage imsg)
             {
-                var channel = imsg.Channel as IGuildChannel;
+                var channel = imsg.Channel as ITextChannel;
 
                 if (!wowJokes.Any())
                 {
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Searches.Commands
             [RequireContext(ContextType.Guild)]
             public async Task MagicItem(IMessage imsg)
             {
-                var channel = imsg.Channel as IGuildChannel;
+                var channel = imsg.Channel as ITextChannel;
                 var rng = new Random();
                 var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 

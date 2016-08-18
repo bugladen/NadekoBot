@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace NadekoBot.Services.Impl
 {
+    //todo load creds
     public class BotCredentials : IBotCredentials
     {
         public string ClientId { get; }
 
         public string GoogleApiKey {
             get {
-                throw new NotImplementedException();
+                return "";
             }
         }
 
@@ -17,7 +18,7 @@ namespace NadekoBot.Services.Impl
 
         public string Token {
             get {
-                throw new NotImplementedException();
+                return "";
             }
         }
     }

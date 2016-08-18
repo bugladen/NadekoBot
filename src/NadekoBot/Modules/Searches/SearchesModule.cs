@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IMessage imsg, string city, string country)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             city = city.Replace(" ", "");
             country = city.Replace(" ", "");
             string response;
@@ -52,9 +52,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Youtube(IMessage imsg, [Remainder] string query)
+        public async Task Youtube(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
             var result = (await _yt.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
@@ -68,9 +68,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Imdb(IMessage imsg, [Remainder] string query)
+        public async Task Imdb(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
             await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -94,7 +94,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task RandomCat(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
                 await imsg.Channel.SendMessageAsync(JObject.Parse(
@@ -107,7 +107,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
                 await imsg.Channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
@@ -116,9 +116,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task I(IMessage imsg, [Remainder] string query)
+        public async Task I(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -146,9 +146,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Ir(IMessage imsg, [Remainder] string query)
+        public async Task Ir(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -177,9 +177,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Lmgtfy(IMessage imsg, [Remainder] string ffs)
+        public async Task Lmgtfy(IMessage imsg, [Remainder] string ffs = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
 
             if (string.IsNullOrWhiteSpace(ffs))
@@ -191,9 +191,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Google(IMessage imsg, [Remainder] string terms)
+        public async Task Google(IMessage imsg, [Remainder] string terms = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
 
             terms = terms?.Trim();
@@ -205,9 +205,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         ////todo drawing
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
-        //public async Task Hearthstone(IMessage imsg, [Remainder] string name)
+        //public async Task Hearthstone(IMessage imsg, [Remainder] string name = null)
         //{
-        //    var channel = imsg.Channel as IGuildChannel;
+        //    var channel = imsg.Channel as ITextChannel;
         //    var arg = e.GetArg("name");
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
@@ -250,9 +250,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task UrbanDictionary(IMessage imsg, [Remainder] string query)
+        public async Task UrbanDictionary(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -284,9 +284,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Hashtag(IMessage imsg, [Remainder] string query)
+        public async Task Hashtag(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -321,7 +321,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //[RequireContext(ContextType.Guild)]
         //public async Task Quote(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as IGuildChannel;
+        //    var channel = imsg.Channel as ITextChannel;
 
         //    var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
         //    await imsg.Channel.SendMessageAsync(quote).ConfigureAwait(false);
@@ -331,7 +331,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Catfact(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
                 var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
@@ -343,9 +343,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Revav(IMessage imsg, [Remainder] string arg)
+        public async Task Revav(IMessage imsg, [Remainder] string arg = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             var usrStr = arg?.Trim().ToUpperInvariant();
 
             if (string.IsNullOrWhiteSpace(usrStr))
@@ -360,9 +360,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Revimg(IMessage imsg, [Remainder] string imageLink)
+        public async Task Revimg(IMessage imsg, [Remainder] string imageLink = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
             imageLink = imageLink?.Trim() ?? "";
 
             if (string.IsNullOrWhiteSpace(imageLink))
@@ -372,9 +372,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Safebooru(IMessage imsg, [Remainder] string tag)
+        public async Task Safebooru(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
@@ -386,9 +386,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Wiki(IMessage imsg, [Remainder] string query)
+        public async Task Wiki(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             query = query?.Trim();
             if (string.IsNullOrWhiteSpace(query))
@@ -407,9 +407,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         ////todo drawing
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
-        //public async Task Clr(IMessage imsg, [Remainder] string color)
+        //public async Task Clr(IMessage imsg, [Remainder] string color = null)
         //{
-        //    var channel = imsg.Channel as IGuildChannel;
+        //    var channel = imsg.Channel as ITextChannel;
 
         //    color = color?.Trim().Replace("#", "");
         //    if (string.IsNullOrWhiteSpace((string)color))
@@ -432,9 +432,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Videocall(IMessage imsg, [Remainder] string arg)
+        public async Task Videocall(IMessage imsg, [Remainder] string arg = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             try
             {
@@ -455,9 +455,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Avatar(IMessage imsg, [Remainder] string mention)
+        public async Task Avatar(IMessage imsg, [Remainder] string mention = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             var usr = imsg.MentionedUsers.FirstOrDefault();
             if (usr == null)

@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Games.Commands
         [RequireContext(ContextType.Guild)]
         public async Task Poke(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
 
         }

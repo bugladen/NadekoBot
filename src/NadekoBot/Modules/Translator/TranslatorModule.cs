@@ -17,9 +17,9 @@ namespace NadekoBot.Modules.Translator
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Translate(IMessage imsg, string langs, [Remainder] string text)
+        public async Task Translate(IMessage imsg, string langs, [Remainder] string text = null)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             try
             {
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Translator
         [RequireContext(ContextType.Guild)]
         public async Task Translangs(IMessage imsg)
         {
-            var channel = imsg.Channel as IGuildChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             await imsg.Channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => str, columns: 4);
         }

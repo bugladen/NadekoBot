@@ -13,12 +13,25 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
-        public static async Task<IMessage> Reply(this IMessage msg, string content) => await msg.Channel.SendMessageAsync(content);
+        public static async Task<IMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
+            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
+
+        public static async Task<IMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, bool isTTS = false) =>
+            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(filePath, caption, isTTS).ConfigureAwait(false);
+
+        public static async Task<IMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
+            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
+
+        public static async Task<IMessage> Reply(this IMessage msg, string content) => 
+            await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
+
+        public static async Task<IEnumerable<IUser>> Members(this IRole role) =>
+            await role.Members();
 
         public static async Task<IMessage[]> ReplyLong(this IMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
         {
 
-            if (content.Length < 2000) return new[] { await msg.Channel.SendMessageAsync(content) };
+            if (content.Length < 2000) return new[] { await msg.Channel.SendMessageAsync(content).ConfigureAwait(false) };
             var list = new List<IMessage>();
 
             var temp = Regex.Split(content, breakOn).Select(x => x += breakOn).ToList();
@@ -202,6 +215,17 @@ namespace NadekoBot.Extensions
             }
             // Step 7
             return d[n, m];
+        }
+
+        public static async Task<Stream> ToStream(this string str)
+        {
+            var ms = new MemoryStream();
+            var sw = new StreamWriter(ms);
+            await sw.WriteAsync(str);
+            await sw.FlushAsync();
+            ms.Position = 0;
+            return ms;
+
         }
 
         public static int KiB(this int value) => value * 1024;

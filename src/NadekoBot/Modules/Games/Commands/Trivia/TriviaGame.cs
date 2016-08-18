@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
             try
             {
                 if (!(imsg.Channel is IGuildChannel && imsg.Channel is ITextChannel)) return;
-                if ((imsg.Channel as IGuildChannel).Guild != guild) return;
+                if ((imsg.Channel as ITextChannel).Guild != guild) return;
                 if (imsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
 
                 var guildUser = imsg.Author as IGuildUser;
