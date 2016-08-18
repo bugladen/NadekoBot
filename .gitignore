@@ -13,6 +13,7 @@ obj/
 *.userprefs
 **/src/NadekoBot/bin
 Tests/bin
+src/NadekoBot/credentials.json
 
 # NuGet Packages
 *.nupkg

@@ -57,7 +57,7 @@ namespace NadekoBot
             depMap.Add<IYoutubeService>(Youtube);
 
             //connect
-            await Client.LoginAsync(TokenType.Bot, "MTE5Nzc3MDIxMzE5NTc3NjEw.CpdrFA.0rex01uCrn9dBTJOV2tXwMLo0wE");
+            await Client.LoginAsync(TokenType.Bot, Credentials.Token);
             await Client.ConnectAsync();
 
             _log.Info("Connected");
