@@ -11,7 +11,7 @@
 ////todo rewrite
 //namespace NadekoBot.Modules.Trello
 //{
-//    internal class TrelloModule : DiscordModule
+//    internal class Trello : DiscordModule
 //    {
 //        private readonly Timer t = new Timer { Interval = 2000 };
 //        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Trello;

@@ -19,7 +19,8 @@
     "Discord.Net.Commands": "1.0.0-dev",
     "System.Resources.ResourceWriter": "4.0.0-beta-22816",
     "Google.Apis.YouTube.v3": "1.15.0.582",
-    "System.Diagnostics.Contracts": "4.0.1"
+    "System.Diagnostics.Contracts": "4.0.1",
+    "NLog": "4.4.0-betaV15"
   },
 
   "frameworks": {

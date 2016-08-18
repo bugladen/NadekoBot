@@ -17,13 +17,13 @@ using NadekoBot.Modules.Searches.Commands.Models;
 namespace NadekoBot.Modules.Searches
 {
     [Module("~", AppendSpace = false)]
-    public class SearchesModule : DiscordModule
+    public class Searches : DiscordModule
     {
         private readonly Random rng;
 
         private IYoutubeService _yt { get; }
 
-        public SearchesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
+        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
             rng = new Random();
             _yt = youtube;

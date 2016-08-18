@@ -76,7 +76,7 @@
 //                        var reqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Creds.OsuAPIKey}&{mapId}";
 //                        var obj = JArray.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false))[0];
 //                        var sb = new System.Text.StringBuilder();
-//                        var starRating = Math.Round(Double.Parse($"{obj["difficultyrating"]}"), 2);
+//                        var starRating = Math.Round(Double.Parse($"{obj["difficultyrating"]}", CultureInfo.InvariantCulture), 2);
 //                        var time = TimeSpan.FromSeconds(Double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
 //                        sb.AppendLine($"{obj["artist"]} - {obj["title"]}, mapped by {obj["creator"]}. https://osu.ppy.sh/s/{obj["beatmapset_id"]}");
 //                        sb.AppendLine($"{starRating} stars, {obj["bpm"]} BPM | AR{obj["diff_approach"]}, CS{obj["diff_size"]}, OD{obj["diff_overall"]} | Length: {time}");
@@ -121,7 +121,7 @@
 //                        {
 //                            var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Creds.OsuAPIKey}&b={item["beatmap_id"]}";
 //                            var map = JArray.Parse(await http.GetStringAsync(mapReqString).ConfigureAwait(false))[0];
-//                            var pp = Math.Round(Double.Parse($"{item["pp"]}"), 2);
+//                            var pp = Math.Round(Double.Parse($"{item["pp"]}", CultureInfo.InvariantCulture), 2);
 //                            var acc = CalculateAcc(item, m);
 //                            var mods = ResolveMods(Int32.Parse($"{item["enabled_mods"]}"));
 //                            if (mods != "+")

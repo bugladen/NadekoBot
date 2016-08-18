@@ -9,9 +9,9 @@ using NadekoBot.Services;
 namespace NadekoBot.Modules.Translator
 {
     [Module("~", AppendSpace = false)]
-    public class TranslatorModule : DiscordModule
+    public class Translator : DiscordModule
     {
-        public TranslatorModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Translator(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 

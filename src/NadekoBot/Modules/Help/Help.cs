@@ -12,7 +12,7 @@ using System.Text;
 namespace NadekoBot.Modules.Help
 {
     [Module("-", AppendSpace = false)]
-    public partial class HelpModule : DiscordModule
+    public partial class Help : DiscordModule
     {
         public string HelpString {
             get {
@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Help
                 return str + String.Format(str, NadekoBot.Credentials.ClientId);
             }
         }
-        public HelpModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Help(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Help(IMessage imsg, [Remainder] string comToFind = null)
+        public async Task H(IMessage imsg, [Remainder] string comToFind = null)
         {
             var channel = imsg.Channel as ITextChannel;
 
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Help
             }
             helpstr = helpstr.Replace((await NadekoBot.Client.GetCurrentUserAsync()).Username , "@BotName");
 #if DEBUG
-            File.WriteAllText("../../../docs/Commands List.md", helpstr.ToString());
+            File.WriteAllText("../../../../../docs/Commands List.md", helpstr.ToString());
 #else
             File.WriteAllText("commandlist.md", helpstr.ToString());
 #endif

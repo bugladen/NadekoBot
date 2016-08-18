@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility
 {
-    partial class UtilityModule : DiscordModule
+    partial class Utility : DiscordModule
     {
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]

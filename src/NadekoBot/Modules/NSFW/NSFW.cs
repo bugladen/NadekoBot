@@ -9,13 +9,14 @@ using NadekoBot.Services;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Net;
 
 namespace NadekoBot.Modules.NSFW
 {
     [Module("~", AppendSpace = false)]
-    public class NSFWModule : DiscordModule
+    public class NSFW : DiscordModule
     {
-        public NSFWModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public NSFW(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 
@@ -212,7 +213,7 @@ namespace NadekoBot.Modules.NSFW
                     http.DefaultRequestHeaders.Clear();
                     http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
                     http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-                    var data = await http.GetStringAsync("http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1");
+                    var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1");
                     var doc = XDocument.Load(data);
                     return doc.Descendants("file_url").FirstOrDefault().Value;
                 }

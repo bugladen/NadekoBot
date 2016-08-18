@@ -1,184 +1,285 @@
-﻿using Discord;
-using Newtonsoft.Json;
+﻿using Discord.Commands;
+using NadekoBot.Classes.ClashOfClans;
 using System;
-using System.Linq;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Discord;
+using NadekoBot.Services;
+using NadekoBot.Attributes;
 
-namespace NadekoBot.Classes.ClashOfClans
+//todo DB
+namespace NadekoBot.Modules.ClashOfClans
 {
-    public enum DestroyStars
+    [Module(",",AppendSpace = false)]
+    internal class ClashOfClans : DiscordModule
     {
-        One, Two, Three
-    }
-    public enum WarState
-    {
-        Started, Ended, Created
-    }
+        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
-    internal class Caller
-    {
-        public string CallUser { get; set; }
-
-        public DateTime TimeAdded { get; set; }
-
-        public bool BaseDestroyed { get; set; }
-
-        public int Stars { get; set; } = 3;
-
-        public Caller() { }
-
-        public Caller(string callUser, DateTime timeAdded, bool baseDestroyed)
+        public ClashOfClans(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
-            CallUser = callUser;
-            TimeAdded = timeAdded;
-            BaseDestroyed = baseDestroyed;
         }
 
-        public void ResetTime()
+        private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
         {
-            TimeAdded = DateTime.UtcNow;
-        }
-
-        public void Destroy()
-        {
-            BaseDestroyed = true;
-        }
-    }
-
-    internal class ClashWar
-    {
-        private static TimeSpan callExpire => new TimeSpan(2, 0, 0);
-
-        public string EnemyClan { get; set; }
-        public int Size { get; set; }
-
-        public Caller[] Bases { get; set; }
-        public WarState WarState { get; set; } = WarState.Created;
-        //public bool Started { get; set; } = false;
-        public DateTime StartedAt { get; set; }
-        //public bool Ended { get; private set; } = false;
-
-        public ulong ServerId { get; set; }
-        public ulong ChannelId { get; set; }
-
-        [JsonIgnore]
-        public ITextChannel Channel { get; internal set; }
-
-        /// <summary>
-        /// This init is purely for the deserialization
-        /// </summary>
-        public ClashWar() { }
-
-        public ClashWar(string enemyClan, int size, ulong serverId, ulong channelId)
-        {
-            this.EnemyClan = enemyClan;
-            this.Size = size;
-            this.Bases = new Caller[size];
-            this.ServerId = serverId;
-            this.ChannelId = channelId;
-            this.Channel = NadekoBot.Client.GetGuildsAsync() //nice api you got here volt, 
-                                    .GetAwaiter() //especially like how getguildsasync isn't async at all internally. 
-                                    .GetResult() //But hey, lib has to be async kek
-                                    .FirstOrDefault(s => s.Id == serverId)? // srsly
-                                    .GetChannelsAsync() //wtf is this
-                                    .GetAwaiter() // oh i know, its the implementation detail
-                                    .GetResult() // and makes library look consistent
-                                    .FirstOrDefault(c => c.Id == channelId) // its not common sense to make library work like this.
-                                        as ITextChannel; // oh and don't forget to cast it to this arbitrary bullshit 
-        }
-
-        internal void End()
-        {
-            //Ended = true;
-            WarState = WarState.Ended;
-        }
-
-        internal void Call(string u, int baseNumber)
-        {
-            if (baseNumber < 0 || baseNumber >= Bases.Length)
-                throw new ArgumentException("Invalid base number");
-            if (Bases[baseNumber] != null)
-                throw new ArgumentException("That base is already claimed.");
+            var Bases = war.Bases;
             for (var i = 0; i < Bases.Length; i++)
             {
-                if (Bases[i]?.BaseDestroyed == false && Bases[i]?.CallUser == u)
-                    throw new ArgumentException($"@{u} You already claimed base #{i + 1}. You can't claim a new one.");
-            }
-
-            Bases[baseNumber] = new Caller(u.Trim(), DateTime.UtcNow, false);
-        }
-
-        internal void Start()
-        {
-            if (WarState == WarState.Started)
-                throw new InvalidOperationException("War already started");
-            //if (Started)
-            //    throw new InvalidOperationException();
-            //Started = true;
-            WarState = WarState.Started;
-            StartedAt = DateTime.UtcNow;
-            foreach (var b in Bases.Where(b => b != null))
-            {
-                b.ResetTime();
-            }
-        }
-
-        internal int Uncall(string user)
-        {
-            user = user.Trim();
-            for (var i = 0; i < Bases.Length; i++)
-            {
-                if (Bases[i]?.CallUser != user) continue;
-                Bases[i] = null;
-                return i;
-            }
-            throw new InvalidOperationException("You are not participating in that war.");
-        }
-
-        public string ShortPrint() =>
-            $"`{EnemyClan}` ({Size} v {Size})";
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            sb.AppendLine($"🔰**WAR AGAINST `{EnemyClan}` ({Size} v {Size}) INFO:**");
-            if (WarState == WarState.Created)
-                sb.AppendLine("`not started`");
-            for (var i = 0; i < Bases.Length; i++)
-            {
-                if (Bases[i] == null)
+                if (Bases[i] == null) continue;
+                if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
-                    sb.AppendLine($"`{i + 1}.` ❌*unclaimed*");
+                    await war.Channel.SendMessageAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
+                    Bases[i] = null;
                 }
-                else
+            }
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task CreateWar(IMessage imsg, int size, [Remainder] string enemyClan = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            if (!(imsg.Author as IGuildUser).GuildPermissions.ManageChannels)
+                return;
+
+            if (string.IsNullOrWhiteSpace(enemyClan))
+                return;
+
+            if (size < 10 || size > 50 || size % 5 != 0)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 Not a Valid war size").ConfigureAwait(false);
+                return;
+            }
+            List<ClashWar> wars;
+            if (!ClashWars.TryGetValue(channel.Guild.Id, out wars))
+            {
+                wars = new List<ClashWar>();
+                if (!ClashWars.TryAdd(channel.Guild.Id, wars))
+                    return;
+            }
+
+
+            var cw = new ClashWar(enemyClan, size, channel.Guild.Id, imsg.Channel.Id);
+            //cw.Start();
+
+            wars.Add(cw);
+            await imsg.Channel.SendMessageAsync($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task StartWar(IMessage imsg, [Remainder] string number = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            int num = 0;
+            int.TryParse(number, out num);
+
+            var warsInfo = GetWarInfo(imsg, num);
+            if (warsInfo == null)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
+            }
+            var war = warsInfo.Item1[warsInfo.Item2];
+            try
+            {
+                war.Start();
+                await imsg.Channel.SendMessageAsync($"🔰**STARTED WAR AGAINST {war.ShortPrint()}**").ConfigureAwait(false);
+            }
+            catch
+            {
+                await imsg.Channel.SendMessageAsync($"🔰**WAR AGAINST {war.ShortPrint()} HAS ALREADY STARTED**").ConfigureAwait(false);
+            }
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task ListWar(IMessage imsg, [Remainder] string number = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            // if number is null, print all wars in a short way
+            if (string.IsNullOrWhiteSpace(number))
+            {
+                //check if there are any wars
+                List<ClashWar> wars = null;
+                ClashWars.TryGetValue(channel.Guild.Id, out wars);
+                if (wars == null || wars.Count == 0)
                 {
-                    if (Bases[i].BaseDestroyed)
-                    {
-                        sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {new string('⭐', Bases[i].Stars)}");
-                    }
-                    else
-                    {
-                        var left = (WarState == WarState.Started) ? callExpire - (DateTime.UtcNow - Bases[i].TimeAdded) : callExpire;
-                        sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
-                    }
+                    await imsg.Channel.SendMessageAsync("🔰 **No active wars.**").ConfigureAwait(false);
+                    return;
                 }
 
+                var sb = new StringBuilder();
+                sb.AppendLine("🔰 **LIST OF ACTIVE WARS**");
+                sb.AppendLine("**-------------------------**");
+                for (var i = 0; i < wars.Count; i++)
+                {
+                    sb.AppendLine($"**#{i + 1}.**  `Enemy:` **{wars[i].EnemyClan}**");
+                    sb.AppendLine($"\t\t`Size:` **{wars[i].Size} v {wars[i].Size}**");
+                    sb.AppendLine("**-------------------------**");
+                }
+                await imsg.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+                return;
+
             }
-            return sb.ToString();
+            var num = 0;
+            int.TryParse(number, out num);
+            //if number is not null, print the war needed
+            var warsInfo = GetWarInfo(imsg, num);
+            if (warsInfo == null)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
+            }
+            await imsg.Channel.SendMessageAsync(warsInfo.Item1[warsInfo.Item2].ToString()).ConfigureAwait(false);
         }
 
-        internal int FinishClaim(string user, int stars = 3)
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Claim(IMessage imsg, int number, int baseNumber, [Remainder] string other_name = null)
         {
-            user = user.Trim();
-            for (var i = 0; i < Bases.Length; i++)
+            var channel = imsg.Channel as ITextChannel;
+            var warsInfo = GetWarInfo(imsg, number);
+            if (warsInfo == null || warsInfo.Item1.Count == 0)
             {
-                if (Bases[i]?.BaseDestroyed != false || Bases[i]?.CallUser != user) continue;
-                Bases[i].BaseDestroyed = true;
-                Bases[i].Stars = stars;
-                return i;
+                await imsg.Channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
             }
-            throw new InvalidOperationException($"@{user} You are either not participating in that war, or you already destroyed a base.");
+            var usr =
+                string.IsNullOrWhiteSpace(other_name) ?
+                imsg.Author.Username :
+                other_name;
+            try
+            {
+                var war = warsInfo.Item1[warsInfo.Item2];
+                war.Call(usr, baseNumber - 1);
+                await imsg.Channel.SendMessageAsync($"🔰**{usr}** claimed a base #{baseNumber} for a war against {war.ShortPrint()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await imsg.Channel.SendMessageAsync($"💢🔰 {ex.Message}").ConfigureAwait(false);
+            }
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task ClaimFinish1(IMessage imsg, int number, int baseNumber, [Remainder] string other_name = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+            await FinishClaim(imsg, number, baseNumber, other_name, 1);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task ClaimFinish2(IMessage imsg, int number, int baseNumber, [Remainder] string other_name = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+            await FinishClaim(imsg, number, baseNumber, other_name, 2);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task ClaimFinish(IMessage imsg, int number, int baseNumber, [Remainder] string other_name = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+            await FinishClaim(imsg, number, baseNumber, other_name);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task EndWar(IMessage imsg, int number)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            var warsInfo = GetWarInfo(imsg,number);
+            if (warsInfo == null)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 That war does not exist.").ConfigureAwait(false);
+                return;
+            }
+            warsInfo.Item1[warsInfo.Item2].End();
+            await imsg.Channel.SendMessageAsync($"❗🔰**War against {warsInfo.Item1[warsInfo.Item2].ShortPrint()} ended.**").ConfigureAwait(false);
+
+            var size = warsInfo.Item1[warsInfo.Item2].Size;
+            warsInfo.Item1.RemoveAt(warsInfo.Item2);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Unclaim(IMessage imsg, int number, [Remainder] string otherName = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            var warsInfo = GetWarInfo(imsg, number);
+            if (warsInfo == null || warsInfo.Item1.Count == 0)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
+            }
+            var usr =
+                string.IsNullOrWhiteSpace(otherName) ?
+                imsg.Author.Username :
+                otherName;
+            try
+            {
+                var war = warsInfo.Item1[warsInfo.Item2];
+                var baseNumber = war.Uncall(usr);
+                await imsg.Channel.SendMessageAsync($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await imsg.Channel.SendMessageAsync($"💢🔰 {ex.Message}").ConfigureAwait(false);
+            }
+        }
+
+        private async Task FinishClaim(IMessage imsg, int number, int baseNumber, [Remainder] string other_name, int stars = 3)
+        {
+            var channel = imsg.Channel as ITextChannel;
+            var warInfo = GetWarInfo(imsg, number);
+            if (warInfo == null || warInfo.Item1.Count == 0)
+            {
+                await imsg.Channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
+                return;
+            }
+            var usr =
+                string.IsNullOrWhiteSpace(other_name) ?
+                imsg.Author.Username :
+                other_name;
+
+            var war = warInfo.Item1[warInfo.Item2];
+            try
+            {
+                var baseNum = war.FinishClaim(usr, stars);
+                await imsg.Channel.SendMessageAsync($"❗🔰{imsg.Author.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await imsg.Channel.SendMessageAsync($"💢🔰 {ex.Message}").ConfigureAwait(false);
+            }
+        }
+
+        private static Tuple<List<ClashWar>, int> GetWarInfo(IMessage imsg, int num)
+        {
+            var channel = imsg.Channel as ITextChannel;
+            //check if there are any wars
+            List<ClashWar> wars = null;
+            ClashWars.TryGetValue(channel.Guild.Id, out wars);
+            if (wars == null || wars.Count == 0)
+            {
+                return null;
+            }
+            // get the number of the war
+            else if (num < 1 || num > wars.Count)
+            {
+                return null;
+            }
+            num -= 1;
+            //get the actual war
+            return new Tuple<List<ClashWar>, int>(wars, num);
         }
     }
 }

@@ -16,10 +16,11 @@ using System.Text.RegularExpressions;
 namespace NadekoBot.Modules.Administration
 {
     [Module(".", AppendSpace = false)]
-    public partial class AdministrationModule : DiscordModule
+    public partial class Administration : DiscordModule
     {
-        public AdministrationModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Administration(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
+
         }
 
         ////todo owner only
@@ -188,9 +189,11 @@ namespace NadekoBot.Modules.Administration
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.BanMembers)]
-        public async Task Ban(IMessage imsg, IGuildUser user, [Remainder] string msg = null)
+        public async Task Ban(IMessage imsg, IGuildUser user)
         {
             var channel = imsg.Channel as ITextChannel;
+
+            var msg = "";
 
             if (!string.IsNullOrWhiteSpace(msg))
             {
@@ -217,15 +220,10 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = imsg.Channel as ITextChannel;
 
-            if (user == null)
-            {
-                await imsg.Channel.SendMessageAsync("User not found.").ConfigureAwait(false);
-                return;
-            }
             if (!string.IsNullOrWhiteSpace(msg))
             {
                 await user.SendMessageAsync($"**You have been SOFT-BANNED from `{channel.Guild.Name}` server.**\n" +
-                                        $"Reason: {msg}").ConfigureAwait(false);
+                    $"Reason: {msg}").ConfigureAwait(false);
                 await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
             }
             try
@@ -492,7 +490,7 @@ namespace NadekoBot.Modules.Administration
             }
         }
 
-        //todo owner only
+        ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
         //public async Task Die(IMessage imsg)

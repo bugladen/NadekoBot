@@ -7,9 +7,9 @@ using NadekoBot.Services;
 namespace NadekoBot.Modules.Games.Commands
 {
     [Module(">", AppendSpace = false)]
-    public partial class PokemonModule : DiscordModule
+    public partial class Pokemon : DiscordModule
     {
-        public PokemonModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Pokemon(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 

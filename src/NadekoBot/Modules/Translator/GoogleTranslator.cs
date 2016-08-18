@@ -94,6 +94,7 @@ namespace NadekoBot.Modules.Translator
                     { "bn", "bn"},
                     { "bg", "bg"},
                     { "ca", "ca"},
+                    { "zh-TW", "zh-TW"},
                     { "zh-CN", "zh-CN"},
                     { "hr", "hr"},
                     { "cs", "cs"},

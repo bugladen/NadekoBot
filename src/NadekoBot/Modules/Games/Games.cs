@@ -11,11 +11,11 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Modules.Games
 {
     [Module(">", AppendSpace = false)]
-    public partial class GamesModule : DiscordModule
+    public partial class Games : DiscordModule
     {
         //todo DB
         private IEnumerable<string> _8BallResponses;
-        public GamesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Games(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
         }
 

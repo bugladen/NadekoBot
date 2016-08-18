@@ -15,9 +15,9 @@ namespace NadekoBot.Modules.Utility
 {
 
     [Module(".", AppendSpace = false)]
-    public partial class UtilityModule : DiscordModule
+    public partial class Utility : DiscordModule
     {
-        public UtilityModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Utility(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
 
         }
@@ -126,6 +126,15 @@ namespace NadekoBot.Modules.Utility
             {
                 await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", (msg.Channel as ITextChannel).Guild.Roles.Except(new[] { guild.EveryoneRole })));
             }
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Stats(IMessage imsg)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            await channel.SendMessageAsync(await NadekoBot.Stats.Print());
         }
     }
 }
