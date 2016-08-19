@@ -6,7 +6,7 @@ namespace NadekoBot.Attributes
 {
     public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
-        public LocalizedDescriptionAttribute([CallerMemberName] string memberName="") : base(Localization.LoadCommandString(memberName.ToLowerInvariant()+"_description"))
+        public LocalizedDescriptionAttribute([CallerMemberName] string memberName="") : base(Localization.LoadCommandString(memberName.ToLowerInvariant()+"_desc"))
         {
 
         }
