@@ -9,6 +9,8 @@
 //using System.Linq;
 //using System.Threading.Tasks;
 
+////todo DB
+////todo Add flags for every event
 //namespace NadekoBot.Modules.Administration.Commands
 //{
 //    internal class LogCommand : DiscordCommand

@@ -1,42 +1,50 @@
-﻿//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.Modules.Permissions.Classes;
+﻿//using Discord;
+//using Discord.Commands;
+//using Discord.WebSocket;
+//using NadekoBot.Attributes;
 //using System.Linq;
+//using System.Threading.Tasks;
 
+////todo owner only
 //namespace NadekoBot.Modules.Administration.Commands
 //{
-//    class SelfCommands : DiscordCommand
+//    public partial class Administration
 //    {
-//        public SelfCommands(DiscordModule module) : base(module)
+//        [Group]
+//        class SelfCommands
 //        {
-//        }
+//            private DiscordSocketClient _client;
 
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "leave")
-//                .Description($"Makes Nadeko leave the server. Either name or id required. **Bot Owner Only!**| `{Prefix}leave 123123123331`")
-//                .Parameter("arg", ParameterType.Required)
-//                .AddCheck(SimpleCheckers.OwnerOnly())
-//                .Do(async e =>
+//            public SelfCommands(DiscordSocketClient client)
+//            {
+//                this._client = client;
+//            }
+
+//            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+//            [RequireContext(ContextType.Guild)]
+//            public async Task Leave(IMessage imsg, [Remainder] string guildStr)
+//            {
+//                var channel = imsg.Channel as ITextChannel;
+
+//                guildStr = guildStr.ToUpperInvariant();
+//                var server = _client.GetGuilds().FirstOrDefault(g => g.Id.ToString() == guildStr) ?? _client.GetGuilds().FirstOrDefault(g => g.Name.ToUpperInvariant() == guildStr);
+
+//                if (server == null)
 //                {
-//                    var arg = e.GetArg("arg").Trim();
-//                    var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
-//                                 NadekoBot.Client.FindServers(arg).FirstOrDefault();
-//                    if (server == null)
-//                    {
-//                        await imsg.Channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    if (!server.IsOwner)
-//                    {
-//                        await server.Leave().ConfigureAwait(false);
-//                    }
-//                    else
-//                    {
-//                        await server.Delete().ConfigureAwait(false);
-//                    }
-//                    await NadekoBot.SendMessageToOwner("Left server " + server.Name).ConfigureAwait(false);
-//                });
+//                    await imsg.Channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
+//                    return;
+//                }
+//                if (server.OwnerId != _client.GetCurrentUser().Id)
+//                {
+//                    await server.LeaveAsync().ConfigureAwait(false);
+//                    await channel.SendMessageAsync("Left server " + server.Name).ConfigureAwait(false);
+//                }
+//                else
+//                {
+//                    await server.DeleteAsync().ConfigureAwait(false);
+//                    await channel.SendMessageAsync("Deleted server " + server.Name).ConfigureAwait(false);
+//                }
+//            }
 //        }
 //    }
 //}

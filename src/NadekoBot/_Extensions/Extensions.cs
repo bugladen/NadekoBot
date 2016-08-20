@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,9 @@ namespace NadekoBot.Extensions
 
         public static async Task<IMessage> Reply(this IMessage msg, string content) => 
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
+
+        public static Task<bool> IsAuthor(this IMessage msg, DiscordSocketClient client) =>
+            Task.FromResult(client.GetCurrentUser().Id == msg.Author.Id);
 
         public static async Task<IEnumerable<IUser>> Members(this IRole role) =>
             await role.Members();

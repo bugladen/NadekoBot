@@ -14,7 +14,6 @@
 ////todo Rewrite?
 //namespace NadekoBot.Modules.Games.Commands
 //{
-
 //    public static class SentencesProvider
 //    {
 //        internal static string GetRandomSentence()

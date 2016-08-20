@@ -5,19 +5,8 @@
 //using System.Linq;
 //using System.Threading.Tasks;
 
-///* Voltana's legacy
-//public class AsyncLazy<T> : Lazy<Task<T>> 
-//{ 
-//    public AsyncLazy(Func<T> valueFactory) : 
-//        base(() => Task.Factory.StartNew(valueFactory)) { }
-
-//    public AsyncLazy(Func<Task<T>> taskFactory) : 
-//        base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap()) { } 
-
-//    public TaskAwaiter<T> GetAwaiter() { return Value.GetAwaiter(); } 
-//}
-//*/
-
+//// todo DB
+//// todo rewrite
 //namespace NadekoBot.Modules.Administration.Commands
 //{
 //    internal class ServerGreetCommand : DiscordCommand

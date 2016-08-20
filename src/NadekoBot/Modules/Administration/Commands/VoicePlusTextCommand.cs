@@ -9,6 +9,8 @@
 //using System.Threading.Tasks;
 //using ChPermOverride = Discord.ChannelPermissionOverrides;
 
+////todo DB
+////todo rewrite
 //namespace NadekoBot.Modules.Administration.Commands
 //{
 //    internal class VoicePlusTextCommand : DiscordCommand

@@ -7,6 +7,7 @@
 //using System.Collections.Generic;
 //using System.Linq;
 
+////todo DB
 //namespace NadekoBot.Modules.Administration.Commands
 //{
 //    class CrossServerTextChannel : DiscordCommand

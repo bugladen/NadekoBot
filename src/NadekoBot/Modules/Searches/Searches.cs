@@ -19,13 +19,10 @@ namespace NadekoBot.Modules.Searches
     [Module("~", AppendSpace = false)]
     public class Searches : DiscordModule
     {
-        private readonly Random rng;
-
         private IYoutubeService _yt { get; }
 
         public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
-            rng = new Random();
             _yt = youtube;
         }
 
@@ -156,6 +153,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             {
                 using (var http = new HttpClient())
                 {
+                    var rng = new Random();
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                     var items = obj["items"] as JArray;

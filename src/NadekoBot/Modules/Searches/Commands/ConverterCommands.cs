@@ -7,7 +7,7 @@
 //using System.Threading;
 //using System.Threading.Tasks;
 
-//todo Unit Conversion lib
+////todo Unit Conversion lib
 //namespace NadekoBot.Modules.Searches.Commands
 //{
 //    class ConverterCommand : DiscordCommand

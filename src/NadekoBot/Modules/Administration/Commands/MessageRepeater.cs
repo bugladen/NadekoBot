@@ -6,7 +6,8 @@
 //using System.Collections.Concurrent;
 //using System.Threading.Tasks;
 //using System.Timers;
-
+////todo DB
+////todo persist restarts
 //namespace NadekoBot.Modules.Administration.Commands
 //{
 //    class MessageRepeater : DiscordCommand

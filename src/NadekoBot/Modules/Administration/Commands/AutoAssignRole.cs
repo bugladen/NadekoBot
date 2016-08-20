@@ -1,72 +1,53 @@
-﻿//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.Modules.Permissions.Classes;
-//using System;
-//using System.Linq;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using NadekoBot.Attributes;
+using System.Threading.Tasks;
 
-//namespace NadekoBot.Modules.Administration.Commands
-//{
-//    class AutoAssignRole : DiscordCommand
-//    {
-//        public AutoAssignRole(DiscordModule module) : base(module)
-//        {
-//            NadekoBot.Client.UserJoined += (s, e) =>
-//            {
-//                try
-//                {
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+namespace NadekoBot.Modules.Administration.Commands
+{
+    //todo DB
+    public partial class Administration
+    {
+        [Group]
+        public class AutoAssignRole
+        {
+            public AutoAssignRole(DiscordSocketClient _client)
+            {
+                _client.UserJoined += (user) =>
+                {
+                    //var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
-//                    var role = e.Server.Roles.Where(r => r.Id == config.AutoAssignedRole).FirstOrDefault();
+                    //var role = e.Server.Roles.Where(r => r.Id == config.AutoAssignedRole).FirstOrDefault();
 
-//                    if (role == null)
-//                        return;
+                    //if (role == null)
+                    //    return;
 
-//                    e.User.AddRoles(role);
-//                }
-//                catch (Exception ex)
-//                {
-//                    Console.WriteLine($"aar exception. {ex}");
-//                }
-//            };
-//        }
+                    //e.User.AddRoles(role);
+                    return Task.CompletedTask;
+                };
+            }
 
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "autoassignrole")
-//                .Alias(Module.Prefix + "aar")
-//                .Description($"Automaticaly assigns a specified role to every user who joins the server. **Needs Manage Roles Permissions.** |`{Prefix}aar` to disable, `{Prefix}aar Role Name` to enable")
-//                .Parameter("role", ParameterType.Unparsed)
-//                .AddCheck(new SimpleCheckers.ManageRoles())
-//                .Do(async e =>
-//                {
-//                    if (!e.Server.CurrentUser.ServerPermissions.ManageRoles)
-//                    {
-//                        await imsg.Channel.SendMessageAsync("I do not have the permission to manage roles.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var r = e.GetArg("role")?.Trim();
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[RequireContext(ContextType.Guild)]
+            //[RequirePermission(GuildPermission.ManageRoles)]
+            //public async Task AutoAssignRole(IMessage imsg, IRole role)
+            //{
+            //    var channel = imsg.Channel as ITextChannel;
 
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
+            //    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
-//                    if (string.IsNullOrWhiteSpace(r)) //if role is not specified, disable
-//                    {
-//                        config.AutoAssignedRole = 0;
+            //    if (string.IsNullOrWhiteSpace(r)) //if role is not specified, disable
+            //    {
+            //        config.AutoAssignedRole = 0;
 
-//                        await imsg.Channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var role = e.Server.FindRoles(r).FirstOrDefault();
+            //        await imsg.Channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
+            //        return;
+            //    }
 
-//                    if (role == null)
-//                    {
-//                        await imsg.Channel.SendMessageAsync("💢 `Role not found.`").ConfigureAwait(false);
-//                        return;
-//                    }
-
-//                    config.AutoAssignedRole = role.Id;
-//                    await imsg.Channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
-
-//                });
-//        }
-//    }
-//}
+            //    config.AutoAssignedRole = role.Id;
+            //    await imsg.Channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
+            //}
+        }
+    }
+}
