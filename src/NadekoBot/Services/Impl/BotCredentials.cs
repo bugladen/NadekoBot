@@ -34,6 +34,7 @@ namespace NadekoBot.Services.Impl
                 Token = cm.Token;
                 OwnerIds = cm.OwnerIds;
                 LoLApiKey = cm.LoLApiKey;
+                GoogleApiKey = cm.GoogleApiKey;
             }
             else
                 _log.Fatal("credentials.json is missing. Failed to start.");
@@ -43,6 +44,7 @@ namespace NadekoBot.Services.Impl
             public string Token { get; set; }
             public ulong[] OwnerIds { get; set; }
             public string LoLApiKey { get; set; }
+            public string GoogleApiKey { get; set; }
         }
 
         public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
