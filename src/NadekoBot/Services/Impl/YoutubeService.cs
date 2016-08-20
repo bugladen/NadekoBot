@@ -45,8 +45,11 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IEnumerable<string>> FindRelatedVideosAsync(string id, int count = 1)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(id));
-            Contract.Requires<ArgumentOutOfRangeException>(count > 0);
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
+
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
 
             var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(id);
             if (match.Length > 1)
@@ -62,8 +65,11 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IEnumerable<string>> FindVideosByKeywordsAsync(string keywords, int count = 1)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(keywords));
-            Contract.Requires<ArgumentOutOfRangeException>(count > 0);
+            if (string.IsNullOrWhiteSpace(keywords))
+                throw new ArgumentNullException(nameof(keywords));
+
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
 
             var query = yt.Search.List("snippet");
             query.MaxResults = count;
