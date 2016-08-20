@@ -41,12 +41,12 @@ namespace NadekoBot.Modules.Administration.Commands
             //    {
             //        config.AutoAssignedRole = 0;
 
-            //        await imsg.Channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
+            //        await channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
             //        return;
             //    }
 
             //    config.AutoAssignedRole = role.Id;
-            //    await imsg.Channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
+            //    await channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
             //}
         }
     }

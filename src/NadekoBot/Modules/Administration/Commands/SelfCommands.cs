@@ -31,7 +31,7 @@
 
 //                if (server == null)
 //                {
-//                    await imsg.Channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
+//                    await channel.SendMessageAsync("Cannot find that server").ConfigureAwait(false);
 //                    return;
 //                }
 //                if (server.OwnerId != _client.GetCurrentUser().Id)

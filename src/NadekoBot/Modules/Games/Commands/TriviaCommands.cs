@@ -36,12 +36,12 @@ namespace NadekoBot.Modules.Games.Commands
                         return;
                     var triviaGame = new TriviaGame(channel.Guild, imsg.Channel as ITextChannel, showHints, number == 0 ? 10 : number);
                     if (RunningTrivias.TryAdd(channel.Guild.Id, triviaGame))
-                        await imsg.Channel.SendMessageAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
                     else
                         await triviaGame.StopGame().ConfigureAwait(false);
                 }
                 else
-                    await imsg.Channel.SendMessageAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
+                    await channel.SendMessageAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -52,9 +52,9 @@ namespace NadekoBot.Modules.Games.Commands
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
-                    await imsg.Channel.SendMessageAsync(trivia.GetLeaderboard()).ConfigureAwait(false);
+                    await channel.SendMessageAsync(trivia.GetLeaderboard()).ConfigureAwait(false);
                 else
-                    await imsg.Channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Games.Commands
                     await trivia.StopGame().ConfigureAwait(false);
                 }
                 else
-                    await imsg.Channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
         }
     }

@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Gambling
                             arr[i] = r.Next(1, n2 + 1);
                         }
                         var elemCnt = 0;
-                        await imsg.Channel.SendMessageAsync($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendMessageAsync($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                     return;
                 }
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Gambling
                     if (num < 1) num = 1;
                     if (num > 30)
                     {
-                        await imsg.Channel.SendMessageAsync("You can roll up to 30 dice at a time.").ConfigureAwait(false);
+                        await channel.SendMessageAsync("You can roll up to 30 dice at a time.").ConfigureAwait(false);
                         num = 30;
                     }
                     var dices = new List<Image>(num);
@@ -119,12 +119,12 @@ namespace NadekoBot.Modules.Gambling
                     }
 
                     var bitmap = dices.Merge();
-                    await imsg.Channel.SendMessageAsync(values.Count + " Dice rolled. Total: **" + values.Sum() + "** Average: **" + (values.Sum() / (1.0f * values.Count)).ToString("N2") + "**").ConfigureAwait(false);
+                    await channel.SendMessageAsync(values.Count + " Dice rolled. Total: **" + values.Sum() + "** Average: **" + (values.Sum() / (1.0f * values.Count)).ToString("N2") + "**").ConfigureAwait(false);
                     await e.Channel.SendFile("dice.png", bitmap.ToStream(ImageFormat.Png)).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await imsg.Channel.SendMessageAsync("Please enter a number of dice to roll.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("Please enter a number of dice to roll.").ConfigureAwait(false);
                 }
             };
         }
@@ -151,11 +151,11 @@ namespace NadekoBot.Modules.Gambling
                         rolled = new Random().Next(0, int.Parse(e.GetArg("range")) + 1);
                     }
 
-                    await imsg.Channel.SendMessageAsync($"{e.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"{e.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await imsg.Channel.SendMessageAsync($":anger: {ex.Message}").ConfigureAwait(false);
+                    await channel.SendMessageAsync($":anger: {ex.Message}").ConfigureAwait(false);
                 }
             };
     }

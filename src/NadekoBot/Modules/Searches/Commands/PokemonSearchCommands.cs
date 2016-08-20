@@ -38,11 +38,11 @@ namespace NadekoBot.Modules.Searches.Commands
                 {
                     if (kvp.Key.ToUpperInvariant() == pokemon.ToUpperInvariant())
                     {
-                        await imsg.Channel.SendMessageAsync($"`Stats for \"{kvp.Key}\" pokemon:`\n{kvp.Value}");
+                        await channel.SendMessageAsync($"`Stats for \"{kvp.Key}\" pokemon:`\n{kvp.Value}");
                         return;
                     }
                 }
-                await imsg.Channel.SendMessageAsync("`No pokemon found.`");
+                await channel.SendMessageAsync("`No pokemon found.`");
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -58,11 +58,11 @@ namespace NadekoBot.Modules.Searches.Commands
                 {
                     if (kvp.Key.ToUpperInvariant() == ability)
                     {
-                        await imsg.Channel.SendMessageAsync($"`Info for \"{kvp.Key}\" ability:`\n{kvp.Value}");
+                        await channel.SendMessageAsync($"`Info for \"{kvp.Key}\" ability:`\n{kvp.Value}");
                         return;
                     }
                 }
-                await imsg.Channel.SendMessageAsync("`No ability found.`");
+                await channel.SendMessageAsync("`No ability found.`");
             }
         }
     }

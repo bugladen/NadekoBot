@@ -65,7 +65,7 @@
 //                    Repeater rep;
 //                    if (!repeaters.TryGetValue(e.Server, out rep))
 //                    {
-//                        await imsg.Channel.SendMessageAsync("`No repeating message found on this server.`");
+//                        await channel.SendMessageAsync("`No repeating message found on this server.`");
 //                        return;
 //                    }
 
@@ -91,13 +91,13 @@
 //                        if (!repeaters.TryRemove(e.Server, out rep))
 //                            return;
 //                        rep.MessageTimer.Stop();
-//                        await imsg.Channel.SendMessageAsync("Repeating disabled").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("Repeating disabled").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    int minutes;
 //                    if (!int.TryParse(minutesStr, out minutes) || minutes < 1 || minutes > 1440)
 //                    {
-//                        await imsg.Channel.SendMessageAsync("Invalid value").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("Invalid value").ConfigureAwait(false);
 //                        return;
 //                    }
 
@@ -118,7 +118,7 @@
 //                    repeater.MessageTimer.Stop();
 //                    repeater.MessageTimer.Start();
 
-//                    await imsg.Channel.SendMessageAsync(String.Format("👌 Repeating `{0}` every " +
+//                    await channel.SendMessageAsync(String.Format("👌 Repeating `{0}` every " +
 //                                                              "**{1}** minutes on {2} channel.",
 //                                                              repeater.RepeatingMessage, minutes, repeater.RepeatingChannel))
 //                                                              .ConfigureAwait(false);

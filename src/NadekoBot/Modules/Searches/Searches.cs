@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches
 
             var obj = JObject.Parse(response)["weather"];
 
-            await imsg.Channel.SendMessageAsync(
+            await channel.SendMessageAsync(
 $@"🌍 **Weather for** 【{obj["target"]}】
 📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
 😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
@@ -56,11 +56,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var result = (await _yt.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
-                await imsg.Channel.SendMessageAsync("No results found for that query.");
+                await channel.SendMessageAsync("No results found for that query.");
                 return;
             }
             var shortUrl = await result.ShortenUrl().ConfigureAwait(false);
-            await imsg.Channel.SendMessageAsync(shortUrl).ConfigureAwait(false);
+            await channel.SendMessageAsync(shortUrl).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -80,11 +80,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
             catch
             {
-                await imsg.Channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
+                await channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
                 return;
             }
 
-            await imsg.Channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
+            await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -94,7 +94,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
-                await imsg.Channel.SendMessageAsync(JObject.Parse(
+                await channel.SendMessageAsync(JObject.Parse(
                                 await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false))["file"].ToString())
                                     .ConfigureAwait(false);
             }
@@ -107,7 +107,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var channel = imsg.Channel as ITextChannel;
             using (var http = new HttpClient())
             {
-                await imsg.Channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
             }
         }
 
@@ -125,18 +125,18 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 {
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
-                    await imsg.Channel.SendMessageAsync(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
+                    await channel.SendMessageAsync(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                 }
             }
             catch (HttpRequestException exception)
             {
                 if (exception.Message.Contains("403 (Forbidden)"))
                 {
-                    await imsg.Channel.SendMessageAsync("Daily limit reached!");
+                    await channel.SendMessageAsync("Daily limit reached!");
                 }
                 else
                 {
-                    await imsg.Channel.SendMessageAsync("Something went wrong.");
+                    await channel.SendMessageAsync("Something went wrong.");
                 }
             }
         }
@@ -157,18 +157,18 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                     var items = obj["items"] as JArray;
-                    await imsg.Channel.SendMessageAsync(items[0]["link"].ToString()).ConfigureAwait(false);
+                    await channel.SendMessageAsync(items[0]["link"].ToString()).ConfigureAwait(false);
                 }
             }
             catch (HttpRequestException exception)
             {
                 if (exception.Message.Contains("403 (Forbidden)"))
                 {
-                    await imsg.Channel.SendMessageAsync("Daily limit reached!");
+                    await channel.SendMessageAsync("Daily limit reached!");
                 }
                 else
                 {
-                    await imsg.Channel.SendMessageAsync("Something went wrong.");
+                    await channel.SendMessageAsync("Something went wrong.");
                 }
             }
         }
@@ -183,7 +183,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await imsg.Channel.SendMessageAsync(await $"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>".ShortenUrl())
+            await channel.SendMessageAsync(await $"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>".ShortenUrl())
                            .ConfigureAwait(false);
         }
 
@@ -197,7 +197,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
-            await imsg.Channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
+            await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
         }
         ////todo drawing
@@ -209,7 +209,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //    var arg = e.GetArg("name");
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
-        //        await imsg.Channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
+        //        await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
         //        return;
         //    }
         //    await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -234,14 +234,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //            }
         //            if (items.Count > 4)
         //            {
-        //                await imsg.Channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
+        //                await channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
         //            }
-        //            await imsg.Channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
+        //            await channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
         //                           .ConfigureAwait(false);
         //        }
         //        catch (Exception ex)
         //        {
-        //            await imsg.Channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
+        //            await channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
         //        }
         //    }
         //}
@@ -255,7 +255,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await imsg.Channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
                 return;
             }
             await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -271,11 +271,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                     sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
                     sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
-                    await imsg.Channel.SendMessageAsync(sb.ToString());
+                    await channel.SendMessageAsync(sb.ToString());
                 }
                 catch
                 {
-                    await imsg.Channel.SendMessageAsync("💢 Failed finding a definition for that term.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("💢 Failed finding a definition for that term.").ConfigureAwait(false);
                 }
             }
         }
@@ -289,7 +289,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await imsg.Channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
                 return;
             }
             await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -307,11 +307,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
 `Definition:` {items["defs"]["def"]["text"].ToString()}
 `Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>";
-                await imsg.Channel.SendMessageAsync(str);
+                await channel.SendMessageAsync(str);
             }
             catch
             {
-                await imsg.Channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
             }
         }
         //todo DB
@@ -322,7 +322,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //    var channel = imsg.Channel as ITextChannel;
 
         //    var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
-        //    await imsg.Channel.SendMessageAsync(quote).ConfigureAwait(false);
+        //    await channel.SendMessageAsync(quote).ConfigureAwait(false);
         //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -335,7 +335,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
                 if (response == null)
                     return;
-                await imsg.Channel.SendMessageAsync($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
             }
         }
 
@@ -353,7 +353,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
             if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                 return;
-            await imsg.Channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -365,7 +365,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
             if (string.IsNullOrWhiteSpace(imageLink))
                 return;
-            await imsg.Channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -377,9 +377,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             tag = tag?.Trim() ?? "";
             var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
             if (link == null)
-                await imsg.Channel.SendMessageAsync("`No results.`");
+                await channel.SendMessageAsync("`No results.`");
             else
-                await imsg.Channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -396,9 +396,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var result = await http.GetStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query));
                 var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
                 if (data.Query.Pages[0].Missing)
-                    await imsg.Channel.SendMessageAsync("`That page could not be found.`");
+                    await channel.SendMessageAsync("`That page could not be found.`");
                 else
-                    await imsg.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl);
+                    await channel.SendMessageAsync(data.Query.Pages[0].FullUrl);
             }
         }
 
@@ -425,7 +425,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //        g.Flush();
         //    }
 
-        //    await imsg.Channel.SendFileAsync("arg1.png", img.ToStream());
+        //    await channel.SendFileAsync("arg1.png", img.ToStream());
         //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -460,10 +460,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var usr = imsg.MentionedUsers.FirstOrDefault();
             if (usr == null)
             {
-                await imsg.Channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
+                await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await imsg.Channel.SendMessageAsync(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+            await channel.SendMessageAsync(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

@@ -25,11 +25,11 @@
 //            }
 //            catch
 //            {
-//                await imsg.Channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
+//                await channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
 //                return;
 //            }
 
-//            await imsg.Channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
+//            await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
 //        }
 
 //        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -46,10 +46,10 @@
 //            }
 //            catch
 //            {
-//                await imsg.Channel.SendMessageAsync("Failed to find that manga.").ConfigureAwait(false);
+//                await channel.SendMessageAsync("Failed to find that manga.").ConfigureAwait(false);
 //                return;
 //            }
-//            await imsg.Channel.SendMessageAsync(result).ConfigureAwait(false);
+//            await channel.SendMessageAsync(result).ConfigureAwait(false);
 //        }
 
 //        public static async Task<AnimeResult> GetAnimeData(string query)

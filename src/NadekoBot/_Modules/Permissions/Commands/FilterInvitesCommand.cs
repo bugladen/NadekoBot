@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
                             await PermissionsHandler.SetChannelFilterInvitesPermission(chan, state).ConfigureAwait(false);
-                            await imsg.Channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.")
+                            await channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **{chan.Name}** channel.")
                                             .ConfigureAwait(false);
                             return;
                         }
@@ -82,13 +82,13 @@ namespace NadekoBot.Modules.Permissions.Commands
                         {
                             await PermissionsHandler.SetChannelFilterInvitesPermission(curChannel, state).ConfigureAwait(false);
                         }
-                        await imsg.Channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.")
+                        await channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.")
                                        .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await imsg.Channel.SendMessageAsync($"💢 Error: {ex.Message}")
+                        await channel.SendMessageAsync($"💢 Error: {ex.Message}")
                                        .ConfigureAwait(false);
                     }
                 });
@@ -103,13 +103,13 @@ namespace NadekoBot.Modules.Permissions.Commands
                     {
                         var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                         await PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state).ConfigureAwait(false);
-                        await imsg.Channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
+                        await channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
                                        .ConfigureAwait(false);
 
                     }
                     catch (Exception ex)
                     {
-                        await imsg.Channel.SendMessageAsync($"💢 Error: {ex.Message}").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"💢 Error: {ex.Message}").ConfigureAwait(false);
                     }
                 });
         }

@@ -37,9 +37,9 @@ namespace NadekoBot.Modules.Utility
 
             int i = 0;
             if (!arr.Any())
-                await imsg.Channel.SendMessageAsync(_l["`Nobody is playing that game.`"]).ConfigureAwait(false);
+                await channel.SendMessageAsync(_l["`Nobody is playing that game.`"]).ConfigureAwait(false);
             else
-                await imsg.Channel.SendMessageAsync("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+                await channel.SendMessageAsync("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -63,16 +63,16 @@ namespace NadekoBot.Modules.Utility
             {
                 if (!usr.GetPermissions(channel).ManageMessages)
                 {
-                    await imsg.Channel.SendMessageAsync($"{usr.Mention} you are not allowed to use this command on roles with a lot of users in them to prevent abuse.");
+                    await channel.SendMessageAsync($"{usr.Mention} you are not allowed to use this command on roles with a lot of users in them to prevent abuse.");
                     return;
                 }
                 var curstr = send.Substring(0, 2000);
-                await imsg.Channel.SendMessageAsync(curstr.Substring(0,
+                await channel.SendMessageAsync(curstr.Substring(0,
                         curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
                 send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
                        send.Substring(2000);
             }
-            await imsg.Channel.SendMessageAsync(send).ConfigureAwait(false);
+            await channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

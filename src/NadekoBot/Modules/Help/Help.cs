@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Help
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendMessageAsync("`List of modules:` \n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n`Type \"-commands module_name\" to get a list of commands in that module.`")
+            await channel.SendMessageAsync("`List of modules:` \n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n`Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
         }
 
@@ -49,19 +49,19 @@ namespace NadekoBot.Modules.Help
             var cmdsArray = cmds as Command[] ?? cmds.ToArray();
             if (!cmdsArray.Any())
             {
-                await imsg.Channel.SendMessageAsync("That module does not exist.").ConfigureAwait(false);
+                await channel.SendMessageAsync("That module does not exist.").ConfigureAwait(false);
                 return;
             }
             if (module != "customreactions" && module != "conversations")
             {
                 //todo aliases
-                await imsg.Channel.SendTableAsync("`List Of Commands:`\n", cmdsArray, el => $"{el.Text,-15}").ConfigureAwait(false);
+                await channel.SendTableAsync("`List Of Commands:`\n", cmdsArray, el => $"{el.Text,-15}").ConfigureAwait(false);
             }
             else
             {
-                await imsg.Channel.SendMessageAsync("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                await channel.SendMessageAsync("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
             }
-            await imsg.Channel.SendMessageAsync($"`You can type \"-h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
+            await channel.SendMessageAsync($"`You can type \"-h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Help
 
             //todo aliases
             if (com != null)
-                await imsg.Channel.SendMessageAsync($@"**__Help for:__ `{com.Text}`**
+                await channel.SendMessageAsync($@"**__Help for:__ `{com.Text}`**
 **Desc:** {com.Description}
 **Usage:** {com.Summary}").ConfigureAwait(false);
         }
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Help
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendMessageAsync(
+            await channel.SendMessageAsync(
 @"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
 **Hosting Guides and docs can be found here**: <http://nadekobot.rtfd.io>").ConfigureAwait(false);
         }
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Help
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendMessageAsync(
+            await channel.SendMessageAsync(
 $@"You can support the project on patreon. <https://patreon.com/nadekobot> or
 You can send donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message.

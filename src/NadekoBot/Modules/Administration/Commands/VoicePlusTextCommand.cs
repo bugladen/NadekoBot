@@ -97,7 +97,7 @@
 //                {
 //                    if (!e.Server.CurrentUser.ServerPermissions.ManageChannels)
 //                    {
-//                        await imsg.Channel.SendMessageAsync("`I have insufficient permission to do that.`");
+//                        await channel.SendMessageAsync("`I have insufficient permission to do that.`");
 //                        return;
 //                    }
 
@@ -116,7 +116,7 @@
 //                        await Task.Delay(500);
 //                    }
 
-//                    await imsg.Channel.SendMessageAsync("`Done.`");
+//                    await channel.SendMessageAsync("`Done.`");
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "voice+text")
@@ -141,24 +141,24 @@
 //                                }
 //                                catch
 //                                {
-//                                    await imsg.Channel.SendMessageAsync(
+//                                    await channel.SendMessageAsync(
 //                                            ":anger: Error: Most likely i don't have permissions to do this.")
 //                                                .ConfigureAwait(false);
 //                                    return;
 //                                }
 //                            }
-//                            await imsg.Channel.SendMessageAsync("Successfuly removed voice + text feature.").ConfigureAwait(false);
+//                            await channel.SendMessageAsync("Successfuly removed voice + text feature.").ConfigureAwait(false);
 //                            return;
 //                        }
 //                        config.VoicePlusTextEnabled = true;
-//                        await imsg.Channel.SendMessageAsync("Successfuly enabled voice + text feature. " +
+//                        await channel.SendMessageAsync("Successfuly enabled voice + text feature. " +
 //                                                    "**Make sure the bot has manage roles and manage channels permissions**")
 //                                                    .ConfigureAwait(false);
 
 //                    }
 //                    catch (Exception ex)
 //                    {
-//                        await imsg.Channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
+//                        await channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
 //                    }
 //                });
 //        }

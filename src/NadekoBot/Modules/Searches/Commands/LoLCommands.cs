@@ -107,7 +107,7 @@
 //                              }
 //                              if (data == null)
 //                              {
-//                                  await imsg.Channel.SendMessageAsync("💢 Data for that role does not exist.").ConfigureAwait(false);
+//                                  await channel.SendMessageAsync("💢 Data for that role does not exist.").ConfigureAwait(false);
 //                                  return;
 //                              }
 //                          }
@@ -276,7 +276,7 @@
 //                      catch (Exception ex)
 //                      {
 //                          Console.WriteLine(ex);
-//                          await imsg.Channel.SendMessageAsync("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
+//                          await channel.SendMessageAsync("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
 //                      }
 //                  });
 
@@ -308,11 +308,11 @@
 //                              //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
 //                          }
 
-//                          await imsg.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+//                          await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
 //                      }
 //                      catch (Exception)
 //                      {
-//                          await imsg.Channel.SendMessageAsync($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
 //                      }
 //                  });
 //        }

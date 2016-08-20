@@ -44,7 +44,7 @@
 //                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
 //                    if (usr?.Status != UserStatus.Offline)
 //                        return;
-//                    await imsg.Channel.SendMessageAsync($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
+//                    await channel.SendMessageAsync($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
 //                    await usr.SendMessage(
 //                        $"User `{e.User.Name}` mentioned you on " +
 //                        $"`{e.Server.Name}` server while you were offline.\n" +
@@ -385,10 +385,10 @@
 //                    specificConfig.SendPrivateMessageOnMention =
 //                        !specificConfig.SendPrivateMessageOnMention;
 //                    if (specificConfig.SendPrivateMessageOnMention)
-//                        await imsg.Channel.SendMessageAsync(":ok: I will send private messages " +
+//                        await channel.SendMessageAsync(":ok: I will send private messages " +
 //                                                    "to mentioned offline users.").ConfigureAwait(false);
 //                    else
-//                        await imsg.Channel.SendMessageAsync(":ok: I won't send private messages " +
+//                        await channel.SendMessageAsync(":ok: I won't send private messages " +
 //                                                    "to mentioned offline users anymore.").ConfigureAwait(false);
 //                });
 
@@ -402,7 +402,7 @@
 //                      if (chId == null)
 //                      {
 //                          SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = e.Channel.Id;
-//                          await imsg.Channel.SendMessageAsync($"❗**I WILL BEGIN LOGGING SERVER ACTIVITY IN THIS CHANNEL**❗").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($"❗**I WILL BEGIN LOGGING SERVER ACTIVITY IN THIS CHANNEL**❗").ConfigureAwait(false);
 //                          return;
 //                      }
 //                      Channel ch;
@@ -410,7 +410,7 @@
 //                          return;
 
 //                      SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = null;
-//                      await imsg.Channel.SendMessageAsync($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
+//                      await channel.SendMessageAsync($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
 //                  });
 
 
@@ -423,12 +423,12 @@
 //                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                    if (config.LogserverIgnoreChannels.Remove(e.Channel.Id))
 //                    {
-//                        await imsg.Channel.SendMessageAsync($"`{Prefix}logserver will stop ignoring this channel.`");
+//                        await channel.SendMessageAsync($"`{Prefix}logserver will stop ignoring this channel.`");
 //                    }
 //                    else
 //                    {
 //                        config.LogserverIgnoreChannels.Add(e.Channel.Id);
-//                        await imsg.Channel.SendMessageAsync($"`{Prefix}logserver will ignore this channel.`");
+//                        await channel.SendMessageAsync($"`{Prefix}logserver will ignore this channel.`");
 //                    }
 //                });
 
@@ -441,11 +441,11 @@
 //                      if (chId == null)
 //                      {
 //                          SpecificConfigurations.Default.Of(e.Server.Id).LogPresenceChannel = e.Channel.Id;
-//                          await imsg.Channel.SendMessageAsync($"**User presence notifications enabled.**").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($"**User presence notifications enabled.**").ConfigureAwait(false);
 //                          return;
 //                      }
 //                      SpecificConfigurations.Default.Of(e.Server.Id).LogPresenceChannel = null;
-//                      await imsg.Channel.SendMessageAsync($"**User presence notifications disabled.**").ConfigureAwait(false);
+//                      await channel.SendMessageAsync($"**User presence notifications disabled.**").ConfigureAwait(false);
 //                  });
 
 //            cgb.CreateCommand(Module.Prefix + "voicepresence")
@@ -462,23 +462,23 @@
 //                          {
 //                              config.VoiceChannelLog.TryAdd(voiceChannel.Id, e.Channel.Id);
 //                          }
-//                          await imsg.Channel.SendMessageAsync("Started logging user presence for **ALL** voice channels!").ConfigureAwait(false);
+//                          await channel.SendMessageAsync("Started logging user presence for **ALL** voice channels!").ConfigureAwait(false);
 //                          return;
 //                      }
 
 //                      if (e.User.VoiceChannel == null)
 //                      {
-//                          await imsg.Channel.SendMessageAsync("💢 You are not in a voice channel right now. If you are, please rejoin it.").ConfigureAwait(false);
+//                          await channel.SendMessageAsync("💢 You are not in a voice channel right now. If you are, please rejoin it.").ConfigureAwait(false);
 //                          return;
 //                      }
 //                      ulong throwaway;
 //                      if (!config.VoiceChannelLog.TryRemove(e.User.VoiceChannel.Id, out throwaway))
 //                      {
 //                          config.VoiceChannelLog.TryAdd(e.User.VoiceChannel.Id, e.Channel.Id);
-//                          await imsg.Channel.SendMessageAsync($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($"`Logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
 //                      }
 //                      else
-//                          await imsg.Channel.SendMessageAsync($"`Stopped logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($"`Stopped logging user updates for` {e.User.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
 //                  });
 //        }
 //    }

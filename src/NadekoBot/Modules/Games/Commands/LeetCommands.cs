@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games.Commands
             text = text.Trim();
             if (string.IsNullOrWhiteSpace(text))
                 return;
-            await imsg.Channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
+            await channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
         }
 
 

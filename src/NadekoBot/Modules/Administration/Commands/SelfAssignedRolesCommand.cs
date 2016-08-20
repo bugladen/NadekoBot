@@ -40,7 +40,7 @@
 //                            msg.AppendLine($":ok:Role **{role.Name}** added to the list.");
 //                        }
 //                    }
-//                    await imsg.Channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
+//                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "rsar")
@@ -55,17 +55,17 @@
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
 //                    if (role == null)
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    config.ListOfSelfAssignableRoles.Remove(role.Id);
-//                    await imsg.Channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
+//                    await channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "lsar")
@@ -93,7 +93,7 @@
 //                    {
 //                        config.ListOfSelfAssignableRoles.Remove(id);
 //                    }
-//                    await imsg.Channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
+//                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
 //                });
 
 
@@ -106,7 +106,7 @@
 //                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                    config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
 //                    string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
-//                    await imsg.Channel.SendMessageAsync("Self assigned roles are now " + exl);
+//                    await channel.SendMessageAsync("Self assigned roles are now " + exl);
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "iam")
@@ -122,24 +122,24 @@
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
 //                    if (role == null)
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    if (e.User.HasRole(role))
 //                    {
-//                        await imsg.Channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
 //                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
 //                    {
-//                        await imsg.Channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    try
@@ -151,10 +151,10 @@
 //                    }
 //                    catch (Exception ex)
 //                    {
-//                        await imsg.Channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
 //                        return;
 //                    }
-//                    var msg = await imsg.Channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);
+//                    var msg = await channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);
 //                    await Task.Delay(3000).ConfigureAwait(false);
 //                    await msg.Delete().ConfigureAwait(false);
 //                    try
@@ -178,22 +178,22 @@
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
 //                    if (role == null)
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
 //                    {
-//                        await imsg.Channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    if (!e.User.HasRole(role))
 //                    {
-//                        await imsg.Channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
 //                        return;
 //                    }
 //                    await e.User.RemoveRoles(role).ConfigureAwait(false);
-//                    var msg = await imsg.Channel.SendMessageAsync($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
+//                    var msg = await channel.SendMessageAsync($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
 //                    await Task.Delay(3000).ConfigureAwait(false);
 //                    await msg.Delete().ConfigureAwait(false);
 //                    try

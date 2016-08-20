@@ -92,7 +92,7 @@
 //                    if (!Subscribers.TryGetValue(token, out set))
 //                        return;
 //                    set.Add(e.Channel);
-//                    await imsg.Channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+//                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "lcsc")
@@ -104,7 +104,7 @@
 //                    {
 //                        subscriber.Value.Remove(e.Channel);
 //                    }
-//                    await imsg.Channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+//                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
 //                });
 //        }
 //    }

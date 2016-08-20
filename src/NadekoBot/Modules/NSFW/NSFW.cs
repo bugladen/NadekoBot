@@ -32,11 +32,11 @@ namespace NadekoBot.Modules.NSFW
 
             if (links.All(l => l == null))
             {
-                await imsg.Channel.SendMessageAsync("`No results.`");
+                await channel.SendMessageAsync("`No results.`");
                 return;
             }
 
-            await imsg.Channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
+            await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -48,9 +48,9 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetDanbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await imsg.Channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(");
             else
-                await imsg.Channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -62,9 +62,9 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await imsg.Channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(");
             else
-                await imsg.Channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -76,9 +76,9 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await imsg.Channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(");
             else
-                await imsg.Channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -90,9 +90,9 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetE621ImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await imsg.Channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(");
             else
-                await imsg.Channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.NSFW
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
+            await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -116,11 +116,11 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new Random().Next(0, 9880) }").ConfigureAwait(false))[0];
                 }
-                await imsg.Channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
+                await channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await imsg.Channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
+                await channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
             }
         }
 
@@ -137,11 +137,11 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new Random().Next(0, 3873) }").ConfigureAwait(false))[0];
                 }
-                await imsg.Channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
+                await channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await imsg.Channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
+                await channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
             }
         }
 

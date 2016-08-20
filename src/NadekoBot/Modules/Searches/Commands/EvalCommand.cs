@@ -35,10 +35,10 @@
 //            string answer = Evaluate(expression);
 //            if (answer == null)
 //            {
-//                await imsg.Channel.SendMessageAsync($"Expression {expression} failed to evaluate");
+//                await channel.SendMessageAsync($"Expression {expression} failed to evaluate");
 //                return;
 //            }
-//            await imsg.Channel.SendMessageAsync($"⚙ `{answer}`");
+//            await channel.SendMessageAsync($"⚙ `{answer}`");
 //        };
 
 //        private string Evaluate(string expression)

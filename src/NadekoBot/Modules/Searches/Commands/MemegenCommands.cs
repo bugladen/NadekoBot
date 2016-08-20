@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
                                           .Select(kvp => Path.GetFileName(kvp.Value));
 
-                await imsg.Channel.SendTableAsync(data, x => $"{x,-17}", 3);
+                await channel.SendTableAsync(data, x => $"{x,-17}", 3);
             }
         }
 
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Searches.Commands
 
             var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
             var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));
-            await imsg.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
+            await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
         }
     }
 }

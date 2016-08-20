@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
-                    await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
                 }
             }
 
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                    await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
                 }
             }
 
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                    await imsg.Channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
                 }
             }
 
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 if (!wowJokes.Any())
                 {
                 }
-                await imsg.Channel.SendMessageAsync(wowJokes[new Random().Next(0, wowJokes.Count)].ToString());
+                await channel.SendMessageAsync(wowJokes[new Random().Next(0, wowJokes.Count)].ToString());
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 var rng = new Random();
                 var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 
-                await imsg.Channel.SendMessageAsync(item).ConfigureAwait(false);
+                await channel.SendMessageAsync(item).ConfigureAwait(false);
             }
         }
     }

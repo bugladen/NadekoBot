@@ -44,14 +44,14 @@
 //                                  try
 //                                  {
 //                                      await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result)).ConfigureAwait(false);
-//                                      await imsg.Channel.SendMessageAsync($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+//                                      await channel.SendMessageAsync($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
 //                                  }
 //                                  catch { }
 //                              };
 //                          }
 //                          catch
 //                          {
-//                              await imsg.Channel.SendMessageAsync("💢 Failed retrieving osu signature :\\").ConfigureAwait(false);
+//                              await channel.SendMessageAsync("💢 Failed retrieving osu signature :\\").ConfigureAwait(false);
 //                          }
 //                      }
 //                  });
@@ -63,7 +63,7 @@
 //                {
 //                    if (string.IsNullOrWhiteSpace(NadekoBot.Creds.OsuAPIKey))
 //                    {
-//                        await imsg.Channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
 //                        return;
 //                    }
 
@@ -80,11 +80,11 @@
 //                        var time = TimeSpan.FromSeconds(Double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
 //                        sb.AppendLine($"{obj["artist"]} - {obj["title"]}, mapped by {obj["creator"]}. https://osu.ppy.sh/s/{obj["beatmapset_id"]}");
 //                        sb.AppendLine($"{starRating} stars, {obj["bpm"]} BPM | AR{obj["diff_approach"]}, CS{obj["diff_size"]}, OD{obj["diff_overall"]} | Length: {time}");
-//                        await imsg.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+//                        await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
 //                    }
 //                    catch
 //                    {
-//                        await imsg.Channel.SendMessageAsync("Something went wrong.");
+//                        await channel.SendMessageAsync("Something went wrong.");
 //                    }
 //                });
 
@@ -96,13 +96,13 @@
 //                {
 //                    if (string.IsNullOrWhiteSpace(NadekoBot.Creds.OsuAPIKey))
 //                    {
-//                        await imsg.Channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
 //                        return;
 //                    }
 
 //                    if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
 //                    {
-//                        await imsg.Channel.SendMessageAsync("💢 Please provide a username.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("💢 Please provide a username.").ConfigureAwait(false);
 //                        return;
 //                    }
 
@@ -130,11 +130,11 @@
 //                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"],-40})  | /b/{item["beatmap_id"]}");
 //                        }
 //                        sb.Append("```");
-//                        await imsg.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+//                        await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
 //                    }
 //                    catch
 //                    {
-//                        await imsg.Channel.SendMessageAsync("Something went wrong.");
+//                        await channel.SendMessageAsync("Something went wrong.");
 //                    }
 //                });
 //        }

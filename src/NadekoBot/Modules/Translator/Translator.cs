@@ -34,12 +34,12 @@ namespace NadekoBot.Modules.Translator
 
                 await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 string translation = await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false);
-                await imsg.Channel.SendMessageAsync(translation).ConfigureAwait(false);
+                await channel.SendMessageAsync(translation).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                await imsg.Channel.SendMessageAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
+                await channel.SendMessageAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
             }
         }
 
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Translator
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => str, columns: 4);
+            await channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => str, columns: 4);
         }
 
     }

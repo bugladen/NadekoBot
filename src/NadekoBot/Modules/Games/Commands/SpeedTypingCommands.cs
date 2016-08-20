@@ -115,7 +115,7 @@
 //                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
 //                    if (finishedUserIds.Count % 2 == 0)
 //                    {
-//                        await imsg.Channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
 //                    }
 //                }
 //            }
@@ -143,7 +143,7 @@
 
 //                if (game.IsActive)
 //                {
-//                    await imsg.Channel.SendMessageAsync(
+//                    await channel.SendMessageAsync(
 //                            $"Contest already running in " +
 //                            $"{game.Channell.Mention} channel.")
 //                                .ConfigureAwait(false);
@@ -163,7 +163,7 @@
 //                    await game.Stop().ConfigureAwait(false);
 //                    return;
 //                }
-//                await imsg.Channel.SendMessageAsync("No contest to stop on this channel.").ConfigureAwait(false);
+//                await channel.SendMessageAsync("No contest to stop on this channel.").ConfigureAwait(false);
 //            };
 
 //        internal override void Init(CommandGroupBuilder cgb)
@@ -189,7 +189,7 @@
 //                        DateAdded = DateTime.Now
 //                    });
 
-//                    await imsg.Channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
+//                    await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
 //                });
 //        }
 //    }

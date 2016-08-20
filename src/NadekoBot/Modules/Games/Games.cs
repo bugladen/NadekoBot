@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Games
             if (listArr.Count() < 2)
                 return;
             var rng = new Random();
-            await imsg.Channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
+            await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Games
             if (string.IsNullOrWhiteSpace(question))
                 return;
                 var rng = new Random();
-            await imsg.Channel.SendMessageAsync($@":question: `Question` __**{question}**__ 
+            await channel.SendMessageAsync($@":question: `Question` __**{question}**__ 
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Games
             else
                 msg = $"{imsg.Author.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
 
-            await imsg.Channel.SendMessageAsync(msg).ConfigureAwait(false);
+            await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Games
         {
             var channel = imsg.Channel as ITextChannel;
 
-            await imsg.Channel.SendMessageAsync(
+            await channel.SendMessageAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.

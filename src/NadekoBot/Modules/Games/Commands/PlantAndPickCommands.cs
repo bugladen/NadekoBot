@@ -51,7 +51,7 @@
 //                        var rnd = Math.Abs(rng.Next(0,101));
 //                        if (rnd == 0)
 //                        {
-//                            var msgs = new[] { await e.Channel.SendFile(GetRandomCurrencyImagePath()), await imsg.Channel.SendMessageAsync($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`") };
+//                            var msgs = new[] { await e.Channel.SendFile(GetRandomCurrencyImagePath()), await channel.SendMessageAsync($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`") };
 //                            plantedFlowerChannels.AddOrUpdate(e.Channel.Id, msgs, (u, m) => { m.ForEach(async msgToDelete => { try { await msgToDelete.Delete(); } catch { } }); return msgs; });
 //                            plantpickCooldowns.AddOrUpdate(e.Channel.Id, now, (i, d) => now);
 //                        }
@@ -80,7 +80,7 @@
 //                        await msgToDelete.Delete().ConfigureAwait(false);
 
 //                    await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
-//                    var msg = await imsg.Channel.SendMessageAsync($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
+//                    var msg = await channel.SendMessageAsync($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
 //                    ThreadPool.QueueUserWorkItem(async (state) =>
 //                    {
 //                        try
@@ -101,24 +101,24 @@
 //                    {
 //                        if (plantedFlowerChannels.ContainsKey(e.Channel.Id))
 //                        {
-//                            await imsg.Channel.SendMessageAsync($"There is already a {NadekoBot.Config.CurrencyName} in this channel.").ConfigureAwait(false);
+//                            await channel.SendMessageAsync($"There is already a {NadekoBot.Config.CurrencyName} in this channel.").ConfigureAwait(false);
 //                            return;
 //                        }
 //                        var removed = await FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1, true).ConfigureAwait(false);
 //                        if (!removed)
 //                        {
-//                            await imsg.Channel.SendMessageAsync($"You don't have any {NadekoBot.Config.CurrencyName}s.").ConfigureAwait(false);
+//                            await channel.SendMessageAsync($"You don't have any {NadekoBot.Config.CurrencyName}s.").ConfigureAwait(false);
 //                            return;
 //                        }
 
 //                        var file = GetRandomCurrencyImagePath();
 //                        Message msg;
 //                        if (file == null)
-//                            msg = await imsg.Channel.SendMessageAsync(NadekoBot.Config.CurrencySign).ConfigureAwait(false);
+//                            msg = await channel.SendMessageAsync(NadekoBot.Config.CurrencySign).ConfigureAwait(false);
 //                        else
 //                            msg = await e.Channel.SendFile(file).ConfigureAwait(false);
 //                        var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-//                        var msg2 = await imsg.Channel.SendMessageAsync($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
+//                        var msg2 = await channel.SendMessageAsync($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
 //                        plantedFlowerChannels.TryAdd(e.Channel.Id, new[] { msg, msg2 });
 //                    }
 //                    finally { locker.Release();  }
@@ -141,12 +141,12 @@
 //                    int throwaway;
 //                    if (config.GenerateCurrencyChannels.TryRemove(e.Channel.Id, out throwaway))
 //                    {
-//                        await imsg.Channel.SendMessageAsync("`Currency generation disabled on this channel.`").ConfigureAwait(false);
+//                        await channel.SendMessageAsync("`Currency generation disabled on this channel.`").ConfigureAwait(false);
 //                    }
 //                    else
 //                    {
 //                        if (config.GenerateCurrencyChannels.TryAdd(e.Channel.Id, cd))
-//                            await imsg.Channel.SendMessageAsync($"`Currency generation enabled on this channel. Cooldown is {cd} minutes.`").ConfigureAwait(false);
+//                            await channel.SendMessageAsync($"`Currency generation enabled on this channel. Cooldown is {cd} minutes.`").ConfigureAwait(false);
 //                    }
 //                });
 //        }
