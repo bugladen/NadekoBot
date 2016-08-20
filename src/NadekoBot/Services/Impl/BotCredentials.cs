@@ -20,16 +20,20 @@ namespace NadekoBot.Services.Impl
 
         public ulong[] OwnerIds { get; }
 
+        public string LoLApiKey { get; }
+
         public BotCredentials()
         {
             var cm = JsonConvert.DeserializeObject<CredentialsModel>(File.ReadAllText("./credentials.json"));
             Token = cm.Token;
             OwnerIds = cm.OwnerIds;
+            LoLApiKey = cm.LoLApiKey;
         }
 
         private class CredentialsModel {
             public string Token { get; set; }
             public ulong[] OwnerIds { get; set; }
+            public string LoLApiKey { get; set; }
         }
 
         public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);

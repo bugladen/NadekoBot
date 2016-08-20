@@ -175,6 +175,6 @@ namespace NadekoBot.Modules.Gambling
 //$@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━┫
 //┃{(e.Server.Users.Where(u => u.Id == (ulong)cs.UserId).FirstOrDefault()?.Name.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Value,5} ┃")
 //                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
-        }
+        //}
     }
 }

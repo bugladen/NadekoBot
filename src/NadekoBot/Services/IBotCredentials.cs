@@ -1,4 +1,5 @@
 ﻿using Discord;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NadekoBot.Services
@@ -9,7 +10,8 @@ namespace NadekoBot.Services
         string Token { get; }
         string GoogleApiKey { get; }
         ulong[] OwnerIds { get; }
-
+        IEnumerable<string> MashapeKey { get; }
+        string LoLApiKey { get; }
 
         bool IsOwner(IUser u);
     }

@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Games.Commands
             var num = 1;
             msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
             msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
-            await channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
         }
 
         public async Task StopPoll(IGuildChannel ch)
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Games.Commands
                 var totalVotesCast = results.Sum(kvp => kvp.Value);
                 if (totalVotesCast == 0)
                 {
-                    await channel.SendMessageAsync("📄 **No votes have been cast.**").ConfigureAwait(false);
+                    await imsg.Channel.SendMessageAsync("📄 **No votes have been cast.**").ConfigureAwait(false);
                     return;
                 }
                 var closeMessage = $"--------------**POLL CLOSED**--------------\n" +
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Games.Commands
                                                                                  $" has {kvp.Value} votes." +
                                                                                  $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
 
-                await channel.SendMessageAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
