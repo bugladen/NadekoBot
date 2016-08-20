@@ -1,53 +1,47 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.DataModels;
+using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Gambling.Commands;
-using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using NadekoBot.Services;
 
+//todo DB
 namespace NadekoBot.Modules.Gambling
 {
-    internal class GamblingModule : DiscordModule
+    [Module("$", AppendSpace = false)]
+    public partial class Gambling : DiscordModule
     {
-        public GamblingModule()
+        public Gambling(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
         {
-            commands.Add(new DrawCommand(this));
-            commands.Add(new FlipCoinCommand(this));
-            commands.Add(new DiceRollCommand(this));
-            commands.Add(new AnimalRacing(this));
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Gambling;
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Raffle(IMessage imsg, [Remainder] IRole role = null)
+        {
+            var channel = imsg.Channel as ITextChannel;
 
+            role = role ?? channel.Guild.EveryoneRole;
+
+            var members = (await role.Members()).Where(u => u.Status == UserStatus.Online);
+            var membersArray = members as IUser[] ?? members.ToArray();
+            var usr = membersArray[new Random().Next(0, membersArray.Length)];
+            await imsg.Channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
+
+        }
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>
             {
-                cgb.AddCheck(PermissionChecker.Instance);
-
-                commands.ForEach(com => com.Init(cgb));
-
                 cgb.CreateCommand(Prefix + "raffle")
                     .Description($"Prints a name and ID of a random user from the online list from the (optional) role. | `{Prefix}raffle` or `{Prefix}raffle RoleName`")
                     .Parameter("role", ParameterType.Optional)
                     .Do(async e =>
                     {
-                        var arg = string.IsNullOrWhiteSpace(e.GetArg("role")) ? "@everyone" : e.GetArg("role");
-                        var role = e.Server.FindRoles(arg).FirstOrDefault();
-                        if (role == null)
-                        {
-                            await imsg.Channel.SendMessageAsync("💢 Role not found.").ConfigureAwait(false);
-                            return;
-                        }
-                        var members = role.Members.Where(u => u.Status == UserStatus.Online); // only online
-                        var membersArray = members as User[] ?? members.ToArray();
-                        var usr = membersArray[new Random().Next(0, membersArray.Length)];
-                        await imsg.Channel.SendMessageAsync($"**Raffled user:** {usr.Name} (id: {usr.Id})").ConfigureAwait(false);
+                        
                     });
 
                 cgb.CreateCommand(Prefix + "$$")
