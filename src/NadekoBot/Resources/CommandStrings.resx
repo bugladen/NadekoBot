@@ -2115,22 +2115,22 @@
   <data name="memegen_summary" xml:space="preserve">
     <value>`~memegen biw "gets iced coffee" "in the winter"`</value>
   </data>
-  <data name="we_text" xml:space="preserve">
+  <data name="weather_text" xml:space="preserve">
     <value>we</value>
   </data>
-  <data name="we_desc" xml:space="preserve">
+  <data name="weather_desc" xml:space="preserve">
     <value>Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.</value>
   </data>
-  <data name="we_summary" xml:space="preserve">
+  <data name="weather_summary" xml:space="preserve">
     <value>`~we Moscow RF`</value>
   </data>
-  <data name="yt_text" xml:space="preserve">
+  <data name="youtube_text" xml:space="preserve">
     <value>yt</value>
   </data>
-  <data name="yt_desc" xml:space="preserve">
+  <data name="youtube_desc" xml:space="preserve">
     <value>Searches youtubes and shows the first result</value>
   </data>
-  <data name="yt_summary" xml:space="preserve">
+  <data name="youtube_summary" xml:space="preserve">
     <value>`~yt query`</value>
   </data>
   <data name="ani_text" xml:space="preserve">
@@ -2349,13 +2349,13 @@
   <data name="videocall_summary" xml:space="preserve">
     <value>`~videocall "@SomeGuy"`</value>
   </data>
-  <data name="av_text" xml:space="preserve">
+  <data name="avatar_text" xml:space="preserve">
     <value>av</value>
   </data>
-  <data name="av_desc" xml:space="preserve">
+  <data name="avatar_desc" xml:space="preserve">
     <value>Shows a mentioned person's avatar.</value>
   </data>
-  <data name="av_summary" xml:space="preserve">
+  <data name="avatar_summary" xml:space="preserve">
     <value>`~av "@SomeGuy"`</value>
   </data>
   <data name="hentai_text" xml:space="preserve">

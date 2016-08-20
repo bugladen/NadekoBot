@@ -248,7 +248,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task UrbanDictionary(IMessage imsg, [Remainder] string query = null)
+        public async Task Ud(IMessage imsg, [Remainder] string query = null)
         {
             var channel = imsg.Channel as ITextChannel;
 
