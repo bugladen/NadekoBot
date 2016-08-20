@@ -22,8 +22,14 @@ namespace NadekoBot.Services.Impl
         }
         public async Task<IEnumerable<string>> FindPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(keywords));
-            Contract.Requires<ArgumentOutOfRangeException>(count > 0);
+            //Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(keywords));
+            //Contract.Requires<ArgumentOutOfRangeException>(count > 0);
+
+            if (string.IsNullOrWhiteSpace(keywords))
+                throw new ArgumentNullException(nameof(keywords));
+
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
 
             var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
             if (match.Length > 1)

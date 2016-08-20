@@ -36,7 +36,6 @@ namespace NadekoBot
                 AudioMode = Discord.Audio.AudioMode.Incoming,
                 LargeThreshold = 200,
                 LogLevel = LogSeverity.Warning,
-                MessageCacheSize = 10,
             });
 
             //initialize Services
