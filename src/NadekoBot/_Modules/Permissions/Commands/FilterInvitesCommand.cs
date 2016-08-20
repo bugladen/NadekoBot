@@ -5,7 +5,7 @@ using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Text.RegularExpressions;
 
-namespace NadekoBot.Modules.Permissions.Commands
+namespace NadekoBot.Modules.Permissions
 {
     internal class FilterInvitesCommand : DiscordCommand
     {

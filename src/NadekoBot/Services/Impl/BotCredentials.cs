@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.IO;
 using Discord;
 using System.Linq;
+using NLog;
 
 namespace NadekoBot.Services.Impl
 {
     //todo load creds
     public class BotCredentials : IBotCredentials
     {
+        private Logger _log;
+
         public string ClientId { get; }
 
         public string GoogleApiKey { get; }
@@ -24,10 +27,16 @@ namespace NadekoBot.Services.Impl
 
         public BotCredentials()
         {
-            var cm = JsonConvert.DeserializeObject<CredentialsModel>(File.ReadAllText("./credentials.json"));
-            Token = cm.Token;
-            OwnerIds = cm.OwnerIds;
-            LoLApiKey = cm.LoLApiKey;
+            _log = LogManager.GetCurrentClassLogger();
+            if (File.Exists("./credentials.json"))
+            {
+                var cm = JsonConvert.DeserializeObject<CredentialsModel>(File.ReadAllText("./credentials.json"));
+                Token = cm.Token;
+                OwnerIds = cm.OwnerIds;
+                LoLApiKey = cm.LoLApiKey;
+            }
+            else
+                _log.Fatal("credentials.json is missing. Failed to start.");
         }
 
         private class CredentialsModel {

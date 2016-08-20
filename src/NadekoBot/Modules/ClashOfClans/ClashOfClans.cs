@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Services;
 using NadekoBot.Attributes;
+using Discord.WebSocket;
 
 //todo DB
 namespace NadekoBot.Modules.ClashOfClans
@@ -17,7 +18,7 @@ namespace NadekoBot.Modules.ClashOfClans
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
-        public ClashOfClans(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public ClashOfClans(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
         }
 

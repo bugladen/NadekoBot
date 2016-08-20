@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 //todo rewrite to accept msg/sec (for example 1/5 - 1 message every 5 seconds)
-namespace NadekoBot.Modules.Administration.Commands
+namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
     {
@@ -21,16 +21,16 @@ namespace NadekoBot.Modules.Administration.Commands
             private static readonly TimeSpan ratelimitTime = new TimeSpan(0, 0, 0, 5);
             private DiscordSocketClient _client { get; }
 
-            public RatelimitCommand(DiscordSocketClient client)
+            public RatelimitCommand()
             {
 
-                this._client = client;
+                this._client = NadekoBot.Client;
 
                _client.MessageReceived += async (imsg) =>
                 {
                     var channel = imsg.Channel as ITextChannel;
 
-                    if (channel == null || await imsg.IsAuthor(client))
+                    if (channel == null || await imsg.IsAuthor(_client))
                         return;
                     ConcurrentDictionary<ulong, DateTime> userTimePair;
                     if (!RatelimitingChannels.TryGetValue(channel.Id, out userTimePair)) return;

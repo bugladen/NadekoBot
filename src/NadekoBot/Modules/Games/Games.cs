@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using NadekoBot.Extensions;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Games
 {
@@ -15,7 +16,7 @@ namespace NadekoBot.Modules.Games
     {
         //todo DB
         private IEnumerable<string> _8BallResponses;
-        public Games(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Games(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
         }
 

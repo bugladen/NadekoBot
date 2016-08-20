@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
+using Discord.WebSocket;
 
 //todo DB
 namespace NadekoBot.Modules.Gambling
@@ -14,7 +15,7 @@ namespace NadekoBot.Modules.Gambling
     [Module("$", AppendSpace = false)]
     public partial class Gambling : DiscordModule
     {
-        public Gambling(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Gambling(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
         }
 

@@ -13,7 +13,7 @@
 //using Timer = System.Timers.Timer;
 
 ////todo DB
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    internal class PlayingRotate : DiscordCommand
 //    {

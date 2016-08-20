@@ -5,13 +5,14 @@ using NadekoBot.Extensions;
 using System;
 using System.Threading.Tasks;
 using NadekoBot.Services;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Translator
 {
     [Module("~", AppendSpace = false)]
     public class Translator : DiscordModule
     {
-        public Translator(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Translator(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
         }
 

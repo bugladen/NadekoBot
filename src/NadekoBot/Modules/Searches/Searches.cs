@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Modules.Searches.Commands.IMDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,7 +11,9 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Net;
-using NadekoBot.Modules.Searches.Commands.Models;
+using Discord.WebSocket;
+using NadekoBot.Modules.Searches.Models;
+using NadekoBot.Modules.Searches.IMDB;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -21,7 +22,7 @@ namespace NadekoBot.Modules.Searches
     {
         private IYoutubeService _yt { get; }
 
-        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
+        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
             _yt = youtube;
         }

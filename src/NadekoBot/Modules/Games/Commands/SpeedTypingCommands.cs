@@ -12,7 +12,7 @@
 
 ////todo DB
 ////todo Rewrite?
-//namespace NadekoBot.Modules.Games.Commands
+//namespace NadekoBot.Modules.Games
 //{
 //    public static class SentencesProvider
 //    {

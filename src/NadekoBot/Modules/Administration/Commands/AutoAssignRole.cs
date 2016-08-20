@@ -4,16 +4,16 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace NadekoBot.Modules.Administration
 {
-    //todo DB
     public partial class Administration
     {
         [Group]
         public class AutoAssignRole
         {
-            public AutoAssignRole(DiscordSocketClient _client)
+            public AutoAssignRole()
             {
+                var _client = NadekoBot.Client;
                 _client.UserJoined += (user) =>
                 {
                     //var config = SpecificConfigurations.Default.Of(e.Server.Id);

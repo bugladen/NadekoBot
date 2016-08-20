@@ -11,7 +11,7 @@
 
 ////todo DB
 ////todo rewrite
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    internal class VoicePlusTextCommand : DiscordCommand
 //    {

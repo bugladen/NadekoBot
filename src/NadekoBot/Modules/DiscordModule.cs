@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Services;
 using NLog;
 
@@ -10,10 +11,10 @@ namespace NadekoBot.Modules
         protected ILocalization _l;
         protected CommandService _commands;
         protected IBotConfiguration _config;
-        protected IDiscordClient _client;
+        protected DiscordSocketClient _client;
         protected Logger _log;
 
-        public DiscordModule(ILocalization loc, CommandService cmds, IBotConfiguration config,IDiscordClient client)
+        public DiscordModule(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client)
         {
             _l = loc;
             _commands = cmds;

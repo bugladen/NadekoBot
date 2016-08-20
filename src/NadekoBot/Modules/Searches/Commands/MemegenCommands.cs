@@ -11,14 +11,10 @@ using NadekoBot.Attributes;
 using System.Net.Http;
 using NadekoBot.Extensions;
 
-namespace NadekoBot.Modules.Searches.Commands
+namespace NadekoBot.Modules.Searches
 {
-    public partial class SearchesModule : DiscordModule
+    public partial class Searches
     {
-        public SearchesModule(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
-        {
-        }
-
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Memelist(IMessage imsg)

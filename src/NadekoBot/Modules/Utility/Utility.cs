@@ -10,6 +10,7 @@ using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Reflection;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -17,7 +18,7 @@ namespace NadekoBot.Modules.Utility
     [Module(".", AppendSpace = false)]
     public partial class Utility : DiscordModule
     {
-        public Utility(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Utility(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
 
         }

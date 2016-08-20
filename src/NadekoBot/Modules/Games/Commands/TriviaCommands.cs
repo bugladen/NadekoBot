@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Modules.Games.Commands.Trivia;
+using NadekoBot.Modules.Games.Trivia;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
 //todo Rewrite? Fix trivia not stopping bug
-namespace NadekoBot.Modules.Games.Commands
+namespace NadekoBot.Modules.Games
 {
     public partial class GamesModule
     {

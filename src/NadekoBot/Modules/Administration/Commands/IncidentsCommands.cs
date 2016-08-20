@@ -6,7 +6,7 @@
 //using System.Linq;
 
 ////todo DB
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    internal class IncidentsCommands : DiscordCommand
 //    {

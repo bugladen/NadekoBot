@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace NadekoBot.Modules.Games
 {
     public partial class GamesModule
     {

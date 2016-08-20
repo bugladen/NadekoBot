@@ -6,7 +6,7 @@
 //using System.Threading.Tasks;
 
 //todo mathos parser replacement
-//namespace NadekoBot.Modules.Searches.Commands
+//namespace NadekoBot.Modules.Searches
 //{
 //    class CalcCommand : DiscordCommand
 //    {

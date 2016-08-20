@@ -8,7 +8,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 ////todo DB
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    internal class SelfAssignedRolesCommand : DiscordCommand
 //    {

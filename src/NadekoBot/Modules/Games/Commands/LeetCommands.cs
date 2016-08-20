@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 // taken from 
 // http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
 // because i don't want to waste my time on this cancerous command
-namespace NadekoBot.Modules.Games.Commands
+namespace NadekoBot.Modules.Games
 {
     public partial class GamesModule
     {

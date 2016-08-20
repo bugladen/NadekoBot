@@ -7,7 +7,7 @@
 //using System.Threading.Tasks;
 
 //// todo RestSharp
-//namespace NadekoBot.Modules.Searches.Commands
+//namespace NadekoBot.Modules.Searches
 //{
 //    public partial class SearchesModule
 //    {

@@ -11,7 +11,7 @@
 
 ////todo DB
 ////todo Add flags for every event
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    internal class LogCommand : DiscordCommand
 //    {
