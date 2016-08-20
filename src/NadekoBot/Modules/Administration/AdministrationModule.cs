@@ -463,7 +463,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = msg.Channel as ITextChannel;
             int limit = (count < 100) ? count : 100;
-            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
+            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit)).Where(m => m.Author == user);
             await msg.Channel.DeleteMessagesAsync(enumerable);
         }
         ////todo owner only

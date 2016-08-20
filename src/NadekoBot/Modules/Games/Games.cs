@@ -18,6 +18,7 @@ namespace NadekoBot.Modules.Games
         private IEnumerable<string> _8BallResponses;
         public Games(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
+            _8BallResponses = config.EightBallResponses;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

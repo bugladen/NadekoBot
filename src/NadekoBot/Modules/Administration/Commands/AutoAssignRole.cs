@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
 {
+    //todo DB
     public partial class Administration
     {
         [Group]
