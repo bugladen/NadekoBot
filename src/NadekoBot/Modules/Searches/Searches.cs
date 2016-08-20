@@ -17,7 +17,7 @@ using NadekoBot.Modules.Searches.Commands.Models;
 namespace NadekoBot.Modules.Searches
 {
     [Module("~", AppendSpace = false)]
-    public class Searches : DiscordModule
+    public partial class Searches : DiscordModule
     {
         private IYoutubeService _yt { get; }
 

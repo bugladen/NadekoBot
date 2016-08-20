@@ -58,6 +58,7 @@ namespace NadekoBot.Modules.Searches.Commands
                         if (i % 2 == 0 && i != 0)
                             sb.AppendLine();
                         sb.Append($"`{i + 1}.` **{dataList[i]["name"]}**  ");
+                        //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
                     }
 
                     await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);

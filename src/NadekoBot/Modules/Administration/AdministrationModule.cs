@@ -76,6 +76,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task Removerole(IMessage imsg, IGuildUser usr, [Remainder] IRole role)
         {
+            var channel = imsg.Channel as ITextChannel;
             try
             {
                 await usr.RemoveRolesAsync(role).ConfigureAwait(false);
@@ -362,10 +363,10 @@ namespace NadekoBot.Modules.Administration
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageChannels)]
-        public async Task DelVoiChanl(IMessage imsg, [Remainder] IVoiceChannel channel)
+        public async Task DelVoiChanl(IMessage imsg, [Remainder] IVoiceChannel voiceChannel)
         {
-            await channel.DeleteAsync().ConfigureAwait(false);
-            await channel.SendMessageAsync($"Removed channel **{channel.Name}**.").ConfigureAwait(false);
+            await voiceChannel.DeleteAsync().ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync($"Removed channel **{voiceChannel.Name}**.").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

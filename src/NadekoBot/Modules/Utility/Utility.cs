@@ -26,11 +26,11 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task WhoPlays(IMessage imsg, [Remainder] string game = null)
         {
-            var chnl = (IGuildChannel)imsg.Channel;
+            var channel = imsg.Channel as ITextChannel;
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
                 return;
-            var arr = (await chnl.Guild.GetUsersAsync())
+            var arr = (await (imsg.Channel as IGuildChannel).Guild.GetUsersAsync())
                     .Where(u => u.Game?.Name?.ToUpperInvariant() == game)
                     .Select(u => u.Username)
                     .ToList();

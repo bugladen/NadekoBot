@@ -15,13 +15,18 @@ namespace NadekoBot.Modules.Searches.Commands
         public class PokemonSearchCommands
         {
             //todo DB
-            private static Dictionary<string, SearchPokemon> pokemons;
-            private static Dictionary<string, SearchPokemonAbility> pokemonAbilities;
+            private static Dictionary<string, SearchPokemon> pokemons = new Dictionary<string, SearchPokemon>();
+            private static Dictionary<string, SearchPokemonAbility> pokemonAbilities = new Dictionary<string, SearchPokemonAbility>();
+
+            public const string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities.json";
+
+            public const string PokemonListFile = "data/pokemon/pokemon_list.json";
 
             public PokemonSearchCommands()
             {
-                pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText("data/pokemon/pokemon_list.json"));
-                pokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText("data/pokemon/pokemon_abilities.json"));
+                if(File.Exists(PokemonListFile))
+                pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText(PokemonListFile));
+                pokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText(PokemonAbilitiesFile));
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
