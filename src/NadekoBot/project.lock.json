@@ -339,7 +339,7 @@
       "Microsoft.NETCore.Jit/1.0.2": {
         "type": "package"
       },
-      "Microsoft.NETCore.Platforms/1.0.2-beta-24410-01": {
+      "Microsoft.NETCore.Platforms/1.0.1": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -1509,11 +1509,7 @@
           "ref/netstandard1.3/System.Net.Security.dll": {}
         },
         "runtimeTargets": {
-          "runtimes/unix/lib/netstandard1.6/System.Net.Security.dll": {
-            "assetType": "runtime",
-            "rid": "unix"
-          },
-          "runtimes/win/lib/netstandard1.3/System.Net.Security.dll": {
+          "runtimes/win/lib/netstandard1.3/_._": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -1563,20 +1559,16 @@
           "lib/netstandard1.3/System.Net.WebSockets.dll": {}
         }
       },
-      "System.Net.WebSockets.Client/4.0.1-beta-24410-01": {
+      "System.Net.WebSockets.Client/4.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.2-beta-24410-01",
+          "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.Diagnostics.Tracing": "4.1.0",
           "System.Globalization": "4.0.11",
-          "System.IO": "4.1.0",
-          "System.Net.NameResolution": "4.0.0",
           "System.Net.Primitives": "4.0.11",
-          "System.Net.Security": "4.0.0",
-          "System.Net.Sockets": "4.1.0",
           "System.Net.WebHeaderCollection": "4.0.1",
           "System.Net.WebSockets": "4.0.0",
           "System.Resources.ResourceManager": "4.0.1",
@@ -1584,14 +1576,10 @@
           "System.Runtime.Extensions": "4.1.0",
           "System.Runtime.Handles": "4.0.1",
           "System.Runtime.InteropServices": "4.1.0",
-          "System.Security.Cryptography.Algorithms": "4.2.0",
-          "System.Security.Cryptography.Primitives": "4.0.0",
           "System.Security.Cryptography.X509Certificates": "4.1.0",
           "System.Text.Encoding": "4.0.11",
-          "System.Text.Encoding.Extensions": "4.0.11",
           "System.Threading": "4.0.11",
-          "System.Threading.Tasks": "4.0.11",
-          "System.Threading.Timer": "4.0.1"
+          "System.Threading.Tasks": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Net.WebSockets.Client.dll": {}
@@ -2534,7 +2522,7 @@
           "System.Net.Http": "4.1.0",
           "System.Net.NameResolution": "4.0.0",
           "System.Net.Sockets": "4.1.0",
-          "System.Net.WebSockets.Client": "4.0.1-beta-24410-01",
+          "System.Net.WebSockets.Client": "4.0.0",
           "System.Reflection.Extensions": "4.0.1",
           "System.Runtime.InteropServices": "4.1.0",
           "System.Runtime.InteropServices.RuntimeInformation": "4.0.0",
@@ -2918,12 +2906,12 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Platforms/1.0.2-beta-24410-01": {
-      "sha512": "uc/pGYdE4sVy3OovFF8hg79MvCxptzICxn0jdA6WusGWZa7VieqFoZYc+a6bHUVhMI0s/7SfBriux0RUq+PpbA==",
+    "Microsoft.NETCore.Platforms/1.0.1": {
+      "sha512": "2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
       "type": "package",
-      "path": "Microsoft.NETCore.Platforms/1.0.2-beta-24410-01",
+      "path": "Microsoft.NETCore.Platforms/1.0.1",
       "files": [
-        "Microsoft.NETCore.Platforms.1.0.2-beta-24410-01.nupkg.sha512",
+        "Microsoft.NETCore.Platforms.1.0.1.nupkg.sha512",
         "Microsoft.NETCore.Platforms.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -5548,12 +5536,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Net.WebSockets.Client/4.0.1-beta-24410-01": {
-      "sha512": "IOqAcR7k+3LwNI6aL7qN61HcCOA9X4MM9LbrZhDeNbeB/IeWTk7zpeb7kh3d7H678s7ndIqN6a7okO8dAAfcYQ==",
+    "System.Net.WebSockets.Client/4.0.0": {
+      "sha512": "GY5h9cn0ZVsG4ORQqMytTldrqxet2RC2CSEsgWGf4XNW5jhL5SxzcUZph03xbZsgn7K3qMr+Rq+gkbJNI+FEXg==",
       "type": "package",
-      "path": "System.Net.WebSockets.Client/4.0.1-beta-24410-01",
+      "path": "System.Net.WebSockets.Client/4.0.0",
       "files": [
-        "System.Net.WebSockets.Client.4.0.1-beta-24410-01.nupkg.sha512",
+        "System.Net.WebSockets.Client.4.0.0.nupkg.sha512",
         "System.Net.WebSockets.Client.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",

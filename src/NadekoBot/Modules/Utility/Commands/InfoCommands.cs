@@ -35,7 +35,8 @@ namespace NadekoBot.Modules.Utility
 `TextChannels:` **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
 `Members:` **{users.Count}** `Online:` **{users.Count(u => u.Status == UserStatus.Online)}**
 `Roles:` **{server.Roles.Count()}**
-`Created At:` **{createdAt}**");
+`Created At:` **{createdAt}**
+");
             if (server.Emojis.Count() > 0)
                 sb.AppendLine($"`Custom Emojis:` **{string.Join(", ", server.Emojis)}**");
             if (server.Features.Count() > 0)
@@ -53,13 +54,12 @@ namespace NadekoBot.Modules.Utility
             if (ch == null)
                 return;
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
-            var sb = new StringBuilder();
-            sb.AppendLine($"`Name:` **#{ch.Name}**");
-            sb.AppendLine($"`Id:` **{ch.Id}**");
-            sb.AppendLine($"`Created At:` **{createdAt}**");
-            sb.AppendLine($"`Topic:` **{ch.Topic}**");
-            sb.AppendLine($"`Users:` **{(await ch.GetUsersAsync()).Count()}**");
-            await msg.Reply(sb.ToString()).ConfigureAwait(false);
+            var toReturn = $@"`Name:` **#{ch.Name}**
+`Id:` **{ch.Id}**
+`Created At:` **{createdAt}**
+`Topic:` **{ch.Topic}**
+`Users:` **{(await ch.GetUsersAsync()).Count()}**";
+            await msg.Reply(toReturn).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -70,17 +70,15 @@ namespace NadekoBot.Modules.Utility
             var user = usr ?? msg.Author as IGuildUser;
             if (user == null)
                 return;
-            var sb = new StringBuilder();
-            sb.AppendLine($"`Name#Discrim:` **#{user.Username}#{user.Discriminator}**");
+            var toReturn = $"`Name#Discrim:` **#{user.Username}#{user.Discriminator}**\n";
             if (!string.IsNullOrWhiteSpace(user.Nickname))
-                sb.AppendLine($"`Nickname:` **{user.Nickname}**");
-            sb.AppendLine($"`Id:` **{user.Id}**");
-            sb.AppendLine($"`Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**");
-            sb.AppendLine($"`Joined At:` **{user.JoinedAt}**");
-            sb.AppendLine($"`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**");
-            sb.AppendLine($"`AvatarUrl:` **{user.AvatarUrl}**");
-            await msg.Reply(sb.ToString()).ConfigureAwait(false);
+                toReturn += $"`Nickname:` **{user.Nickname}**";
+            toReturn += $@"`Id:` **{user.Id}**
+`Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
+`Joined At:` **{user.JoinedAt}**
+`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**
+`AvatarUrl:` **{user.AvatarUrl}**";
+            await msg.Reply(toReturn).ConfigureAwait(false);
         }
-
     }
 }

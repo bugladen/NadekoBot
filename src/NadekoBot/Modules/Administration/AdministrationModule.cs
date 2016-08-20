@@ -423,73 +423,47 @@ namespace NadekoBot.Modules.Administration
         }
 
 
-        //todo maybe split into 3/4 different commands with the same name
+        //delets her own messages, no perm required
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Prune(IMessage msg, [Remainder] string target = null)
+        public async Task Prune(IMessage imsg)
         {
-            var channel = msg.Channel as ITextChannel;
+            var channel = imsg.Channel as ITextChannel;
 
             var user = await channel.Guild.GetCurrentUserAsync();
-            if (string.IsNullOrWhiteSpace(target))
-            {
+            
+            var enumerable = (await imsg.Channel.GetMessagesAsync()).Where(x => x.Author.Id == user.Id);
+            await imsg.Channel.DeleteMessagesAsync(enumerable);
+        }
 
-                var enumerable = (await msg.Channel.GetMessagesAsync()).Where(x => x.Author.Id == user.Id);
+        // prune x
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(ChannelPermission.ManageMessages)]
+        public async Task Prune(IMessage msg, int count)
+        {
+            var channel = msg.Channel as ITextChannel;
+            while (count > 0)
+            {
+                int limit = (count < 100) ? count : 100;
+                var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
                 await msg.Channel.DeleteMessagesAsync(enumerable);
-                return;
-            }
-            target = target.Trim();
-            if (!user.GetPermissions(channel).ManageMessages)
-            {
-                await msg.Reply("Don't have permissions to manage messages in channel");
-                return;
-            }
-            int count;
-            if (int.TryParse(target, out count))
-            {
-                while (count > 0)
-                {
-                    int limit = (count < 100) ? count : 100;
-                    var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
-                    await msg.Channel.DeleteMessagesAsync(enumerable);
-                    await Task.Delay(1000); // there is a 1 per second per guild ratelimit for deletemessages
-                    if (enumerable.Count < limit) break;
-                    count -= limit;
-                }
-            }
-            else if (msg.MentionedUsers.Count > 0)
-            {
-                var toDel = new List<IMessage>();
-
-                var match = Regex.Match(target, @"\s(\d+)\s");
-                if (match.Success)
-                {
-                    int.TryParse(match.Groups[1].Value, out count);
-                    var messages = new List<IMessage>(count);
-
-                    while (count > 0)
-                    {
-                        var toAdd = await msg.Channel.GetMessagesAsync(limit: count < 100 ? count : 100);
-                        messages.AddRange(toAdd);
-                        count -= toAdd.Count;
-                    }
-
-                    foreach (var mention in msg.MentionedUsers)
-                    {
-                        toDel.AddRange(messages.Where(m => m.Author.Id == mention.Id));
-                    }
-
-                    var messagesEnum = messages.AsEnumerable();
-                    while (messagesEnum.Count() > 0)
-                    {
-                        await msg.Channel.DeleteMessagesAsync(messagesEnum.Take(100));
-                        await Task.Delay(1000); // 1 second ratelimit
-                        messagesEnum = messagesEnum.Skip(100);
-                    }
-                }
+                await Task.Delay(1000); // there is a 1 per second per guild ratelimit for deletemessages
+                if (enumerable.Count < limit) break;
+                count -= limit;
             }
         }
 
+        //prune @user [x]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Prune(IMessage msg, IGuildUser user, int count = 100)
+        {
+            var channel = msg.Channel as ITextChannel;
+            int limit = (count < 100) ? count : 100;
+            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
+            await msg.Channel.DeleteMessagesAsync(enumerable);
+        }
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]

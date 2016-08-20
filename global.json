@@ -1,5 +1,5 @@
 {
-  "projects": [ "src", "Discord.Net", "discord.net/src" ],
+  "projects": [ "discord.net/src/Discord.Net", "discord.net/src/Discord.Net.Commands", "src" ],
   "sdk": {
     "version": "1.0.0-preview2-003121"
   }
