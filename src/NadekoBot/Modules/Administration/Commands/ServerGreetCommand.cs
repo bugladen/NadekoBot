@@ -48,7 +48,7 @@
 //                    Greeted++;
 //                    try
 //                    {
-//                        await imsg.Author.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
+//                        await imsg.Author.SendMessageAsync($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
 
 //                    }
 //                    catch { }
@@ -57,7 +57,7 @@
 //                {
 //                    if (channel == null) return;
 //                    Greeted++;
-//                    var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
+//                    var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
 //                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages && controls.DeleteGreetMessages)
 //                    {
 //                        await Task.Delay(30000).ConfigureAwait(false); // 5 minutes
@@ -84,13 +84,13 @@
 //                if (controls.GreetPM)
 //                {
 //                    Greeted++;
-//                    await imsg.Author.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg).ConfigureAwait(false);
+//                    await imsg.Author.SendMessageAsync($"`Welcome Message From {e.Server.Name}`\n" + msg).ConfigureAwait(false);
 //                }
 //                else
 //                {
 //                    if (channel == null) return;
 //                    Greeted++;
-//                    var toDelete = await channel.SendMessage(msg).ConfigureAwait(false);
+//                    var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
 //                    if (e.Server.CurrentUser.GetPermissions(channel).ManageMessages && controls.DeleteGreetMessages)
 //                    {
 //                        await Task.Delay(30000).ConfigureAwait(false); // 5 minutes

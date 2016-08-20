@@ -63,7 +63,7 @@
 //                                        msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
 //                                    else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
 //                                        msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
-//                                await channel.SendMessage(msg).ConfigureAwait(false);
+//                                await channel.SendMessageAsync(msg).ConfigureAwait(false);
 //                            }
 //                        }
 //                        FirstPass = false;

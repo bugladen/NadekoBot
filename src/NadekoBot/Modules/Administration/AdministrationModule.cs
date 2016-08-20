@@ -543,7 +543,7 @@ namespace NadekoBot.Modules.Administration
         //        {
         //            return;
         //        }
-        //        await channel.SendMessage(msg);
+        //        await channel.SendMessageAsync(msg);
         //    }
         //    else if (ids[1].ToUpperInvariant().StartsWith("U:"))
         //    {
@@ -553,7 +553,7 @@ namespace NadekoBot.Modules.Administration
         //        {
         //            return;
         //        }
-        //        await user.SendMessage(msg);
+        //        await user.SendMessageAsync(msg);
         //    }
         //    else
         //    {

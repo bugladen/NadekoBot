@@ -61,7 +61,7 @@
 //                    if (ch == null)
 //                        return;
 
-//                    await ch.SendMessage(
+//                    await ch.SendMessageAsync(
 //                        replacements.Aggregate(NadekoBot.Config.RemindMessageFormat,
 //                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
 //                            ).ConfigureAwait(false); //it works trust me

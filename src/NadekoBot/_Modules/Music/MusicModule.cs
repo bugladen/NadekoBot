@@ -633,7 +633,7 @@ namespace NadekoBot.Modules.Music
                         var textCh = e.Channel;
                         if (voiceCh == null || voiceCh.Server != textCh.Server)
                         {
-                            await textCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
+                            await textCh.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
                             return;
                         }
                         var name = e.GetArg("name")?.Trim().ToLowerInvariant();
@@ -812,7 +812,7 @@ namespace NadekoBot.Modules.Music
             if (voiceCh == null || voiceCh.Server != textCh.Server)
             {
                 if (!silent)
-                    await textCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
+                    await textCh.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
                 throw new ArgumentNullException(nameof(voiceCh));
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
@@ -836,7 +836,7 @@ namespace NadekoBot.Modules.Music
                                 await lastFinishedMessage.Delete().ConfigureAwait(false);
                             if (playingMessage != null)
                                 await playingMessage.Delete().ConfigureAwait(false);
-                            lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
+                            lastFinishedMessage = await textCh.SendMessageAsync($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
                                 await QueueSong(queuer.Server.CurrentUser, textCh, voiceCh, (await SearchHelper.GetRelatedVideoIds(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
@@ -860,7 +860,7 @@ namespace NadekoBot.Modules.Music
                         {
 
                             var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                            playingMessage = await textCh.SendMessage(msgTxt).ConfigureAwait(false);
+                            playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false);
                         }
                         catch { }
                     }
@@ -877,12 +877,12 @@ namespace NadekoBot.Modules.Music
             }
             catch (PlaylistFullException)
             {
-                await textCh.SendMessage($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` ");
+                await textCh.SendMessageAsync($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` ");
                 throw;
             }
             if (!silent)
             {
-                var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
+                var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Task.Run(async () =>
                                 {

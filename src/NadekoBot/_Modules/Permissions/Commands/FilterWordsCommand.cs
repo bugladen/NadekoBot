@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                                                              $"BANNED WORD in [{args.Channel.Name}/{args.Channel.Id}] channel.\n" +
                                                              $"`Full message:` {args.Message.Text}");
                         if (serverPerms.Verbose)
-                            await args.Channel.SendMessage($"{args.User.Mention} One or more of the words you used " +
+                            await args.Channel.SendMessageAsync($"{args.User.Mention} One or more of the words you used " +
                                                            $"in that sentence are not allowed here.")
                                                            .ConfigureAwait(false);
                     }

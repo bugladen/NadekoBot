@@ -45,7 +45,7 @@
 //                    if (usr?.Status != UserStatus.Offline)
 //                        return;
 //                    await channel.SendMessageAsync($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
-//                    await usr.SendMessage(
+//                    await usr.SendMessageAsync(
 //                        $"User `{imsg.Author.Username}` mentioned you on " +
 //                        $"`{e.Server.Name}` server while you were offline.\n" +
 //                        $"`Message:` {e.Message.Text}").ConfigureAwait(false);
@@ -76,7 +76,7 @@
 //                     //send merged messages to each channel
 //                     foreach (var k in toSend)
 //                     {
-//                         try { await k.Key.SendMessage(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
+//                         try { await k.Key.SendMessageAsync(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
 //                     }
 
 //                     await Task.Delay(5000);
@@ -96,10 +96,10 @@
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
 //                if (e.Before.Name != e.After.Name)
-//                    await ch.SendMessage($@"`{prettyCurrentTime}` **Channel Name Changed** `#{e.Before.Name}` (*{e.After.Id}*)
+//                    await ch.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{e.Before.Name}` (*{e.After.Id}*)
 //        `New:` {e.After.Name}").ConfigureAwait(false);
 //                else if (e.Before.Topic != e.After.Topic)
-//                    await ch.SendMessage($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{e.After.Name}` (*{e.After.Id}*)
+//                    await ch.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{e.After.Name}` (*{e.After.Id}*)
 //        `Old:` {e.Before.Topic}
 //        `New:` {e.After.Topic}").ConfigureAwait(false);
 //            }
@@ -117,7 +117,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"❗`{prettyCurrentTime}`❗`Channel Deleted:` #{e.Channel.Name} (*{e.Channel.Id}*)").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"❗`{prettyCurrentTime}`❗`Channel Deleted:` #{e.Channel.Name} (*{e.Channel.Id}*)").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -133,7 +133,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"`{prettyCurrentTime}`🆕`Channel Created:` #{e.Channel.Mention} (*{e.Channel.Id}*)").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`🆕`Channel Created:` #{e.Channel.Mention} (*{e.Channel.Id}*)").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -148,7 +148,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"`{prettyCurrentTime}`♻`User was unbanned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`♻`User was unbanned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -163,7 +163,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"`{prettyCurrentTime}`✅`User joined:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`✅`User joined:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -178,7 +178,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"`{prettyCurrentTime}`❗`User left:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`❗`User left:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -193,7 +193,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage($"❗`{prettyCurrentTime}`❌`User banned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"❗`{prettyCurrentTime}`❌`User banned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -213,13 +213,13 @@
 //                    return;
 //                if (!string.IsNullOrWhiteSpace(e.Message.Text))
 //                {
-//                    await ch.SendMessage(
+//                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
 //👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
 //                }
 //                else
 //                {
-//                    await ch.SendMessage(
+//                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
 //👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
 //                }
@@ -242,13 +242,13 @@
 //                    return;
 //                if (!string.IsNullOrWhiteSpace(e.Message.Text))
 //                {
-//                    await ch.SendMessage(
+//                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
 //👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
 //                }
 //                else
 //                {
-//                    await ch.SendMessage(
+//                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **File Deleted** `#{e.Channel.Name}`
 //👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
 //                }
@@ -268,7 +268,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessage(
+//                await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
 //👤`{imsg.Author?.ToString() ?? ("NULL")}`
 //        `Old:` {e.Before.Text.Unmention()}
@@ -318,15 +318,15 @@
 //                    }
 //                    if ((notifyLeave && notifyJoin) && (notifyChAfter == notifyChBefore))
 //                    {
-//                        await notifyChAfter.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} moved from **{beforeVch.Mention}** to **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
+//                        await notifyChAfter.SendMessageAsync($"🎼`{prettyCurrentTime}` {e.Before.Name} moved from **{beforeVch.Mention}** to **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
 //                    }
 //                    else if (notifyJoin)
 //                    {
-//                        await notifyChAfter.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} has joined **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
+//                        await notifyChAfter.SendMessageAsync($"🎼`{prettyCurrentTime}` {e.Before.Name} has joined **{afterVch.Mention}** voice channel.").ConfigureAwait(false);
 //                    }
 //                    else if (notifyLeave)
 //                    {
-//                        await notifyChBefore.SendMessage($"🎼`{prettyCurrentTime}` {e.Before.Name} has left **{beforeVch.Mention}** voice channel.").ConfigureAwait(false);
+//                        await notifyChBefore.SendMessageAsync($"🎼`{prettyCurrentTime}` {e.Before.Name} has left **{beforeVch.Mention}** voice channel.").ConfigureAwait(false);
 //                    }
 //                }
 //            }
@@ -368,7 +368,7 @@
 //                }
 //                else
 //                    return;
-//                await ch.SendMessage(str).ConfigureAwait(false);
+//                await ch.SendMessageAsync(str).ConfigureAwait(false);
 //            }
 //            catch { }
 //        }

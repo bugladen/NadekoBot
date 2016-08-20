@@ -69,10 +69,10 @@
 //                IsActive = true;
 //                CurrentSentence = SentencesProvider.GetRandomSentence();
 //                var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
-//                await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
+//                await channel.SendMessageAsync($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
 
-//                var msg = await channel.SendMessage("Starting new typing contest in **3**...").ConfigureAwait(false);
+//                var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
 //                await Task.Delay(1000).ConfigureAwait(false);
 //                await msg.Edit("Starting new typing contest in **2**...").ConfigureAwait(false);
 //                await Task.Delay(1000).ConfigureAwait(false);

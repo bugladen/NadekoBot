@@ -47,7 +47,7 @@
 //                    catch { }
 //                    try
 //                    {
-//                        lastMessage = await ch.SendMessage(msg).ConfigureAwait(false);
+//                        lastMessage = await ch.SendMessageAsync(msg).ConfigureAwait(false);
 //                    }
 //                    catch { }
 //                }

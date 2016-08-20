@@ -23,7 +23,7 @@
 //                    var incs = DbHandler.Instance.FindAll<Incident>(i => i.ServerId == sid && i.Read == false);
 //                    DbHandler.Instance.Connection.UpdateAll(incs.Select(i => { i.Read = true; return i; }));
 
-//                    await imsg.Author.SendMessage(string.Join("\n----------------------", incs.Select(i => i.Text)));
+//                    await imsg.Author.SendMessageAsync(string.Join("\n----------------------", incs.Select(i => i.Text)));
 //                });
 
 //            cgb.CreateCommand(Module.Prefix + "listallincidents")

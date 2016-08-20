@@ -26,7 +26,7 @@
 //                            continue;
 //                        foreach (var chan in set.Except(new[] { e.Channel }))
 //                        {
-//                            await chan.SendMessage(GetText(e.Server, e.Channel, imsg.Author, e.Message)).ConfigureAwait(false);
+//                            await chan.SendMessageAsync(GetText(e.Server, e.Channel, imsg.Author, e.Message)).ConfigureAwait(false);
 //                        }
 //                    }
 //                }
@@ -75,7 +75,7 @@
 //                    if (Subscribers.TryAdd(token, set))
 //                    {
 //                        set.Add(e.Channel);
-//                        await imsg.Author.SendMessage("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+//                        await imsg.Author.SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
 //                    }
 //                });
 

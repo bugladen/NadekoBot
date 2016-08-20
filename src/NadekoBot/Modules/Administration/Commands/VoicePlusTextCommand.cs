@@ -37,7 +37,7 @@
 
 //                        try
 //                        {
-//                            await e.Server.Owner.SendMessage(
+//                            await e.Server.Owner.SendMessageAsync(
 //                                "I don't have manage server and/or Manage Channels permission," +
 //                                $" so I cannot run voice+text on **{e.Server.Name}** server.").ConfigureAwait(false);
 //                        }

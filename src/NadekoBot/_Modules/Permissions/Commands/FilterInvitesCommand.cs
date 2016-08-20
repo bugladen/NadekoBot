@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Permissions.Commands
                                                              $"INVITE LINK in [{args.Channel.Name}/{args.Channel.Id}] channel.\n" +
                                                              $"`Full message:` {args.Message.Text}");
                         if (serverPerms.Verbose)
-                            await args.Channel.SendMessage($"{args.User.Mention} Invite links are not " +
+                            await args.Channel.SendMessageAsync($"{args.User.Mention} Invite links are not " +
                                                            $"allowed on this channel.")
                                                            .ConfigureAwait(false);
                     }
