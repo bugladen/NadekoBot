@@ -131,12 +131,12 @@
 //                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
 //                        return;
 //                    }
-//                    if (e.User.HasRole(role))
+//                    if (imsg.Author.HasRole(role))
 //                    {
 //                        await channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
 //                        return;
 //                    }
-//                    var sameRoles = e.User.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
+//                    var sameRoles = imsg.Author.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
 //                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
 //                    {
 //                        await channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
@@ -144,7 +144,7 @@
 //                    }
 //                    try
 //                    {
-//                        await e.User.AddRoles(role).ConfigureAwait(false);
+//                        await imsg.Author.AddRoles(role).ConfigureAwait(false);
 //                    }
 //                    catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
 //                    {
@@ -187,12 +187,12 @@
 //                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
 //                        return;
 //                    }
-//                    if (!e.User.HasRole(role))
+//                    if (!imsg.Author.HasRole(role))
 //                    {
 //                        await channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
 //                        return;
 //                    }
-//                    await e.User.RemoveRoles(role).ConfigureAwait(false);
+//                    await imsg.Author.RemoveRoles(role).ConfigureAwait(false);
 //                    var msg = await channel.SendMessageAsync($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
 //                    await Task.Delay(3000).ConfigureAwait(false);
 //                    await msg.Delete().ConfigureAwait(false);

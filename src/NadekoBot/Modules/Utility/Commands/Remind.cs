@@ -100,7 +100,7 @@
 //                    if (meorchStr == "ME")
 //                    {
 //                        isPrivate = true;
-//                        ch = await e.User.CreatePMChannel().ConfigureAwait(false);
+//                        ch = await imsg.Author.CreatePMChannel().ConfigureAwait(false);
 //                    }
 //                    else if (meorchStr == "HERE")
 //                    {
@@ -113,7 +113,7 @@
 
 //                    if (ch == null)
 //                    {
-//                        await channel.SendMessageAsync($"{e.User.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($"{imsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
 //                        return;
 //                    }
 
@@ -168,7 +168,7 @@
 //                        IsPrivate = isPrivate,
 //                        When = time,
 //                        Message = e.GetArg("message"),
-//                        UserId = (long)e.User.Id,
+//                        UserId = (long)imsg.Author.Id,
 //                        ServerId = (long)e.Server.Id
 //                    };
 //                    DbHandler.Instance.Connection.Insert(rem);

@@ -238,13 +238,13 @@ namespace NadekoBot
 {er.Exception}
 -------------------------------------
 ");
-                        Console.WriteLine($">>COMMAND ERRORED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                        Console.WriteLine($">>COMMAND ERRORED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {imsg.Author.Username} [{imsg.Author.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
                     }
 
                 }
                 else
                 {
-                    Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+                    Console.WriteLine($">>COMMAND ENDED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {imsg.Author.Username} [{imsg.Author.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
                 }
             }
             catch { }
@@ -253,7 +253,7 @@ namespace NadekoBot
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
             commandTracker.TryAdd(e.Message.Id, DateTime.UtcNow);
-            Console.WriteLine($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+            Console.WriteLine($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {imsg.Author.Username} [{imsg.Author.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
 #if !NADEKO_RELEASE
             await Task.Run(() =>
             {
@@ -266,8 +266,8 @@ namespace NadekoBot
                         ServerName = e.Server?.Name ?? "--Direct Message--",
                         ChannelId = (long)e.Channel.Id,
                         ChannelName = e.Channel.IsPrivate ? "--Direct Message" : e.Channel.Name,
-                        UserId = (long)e.User.Id,
-                        UserName = e.User.Name,
+                        UserId = (long)imsg.Author.Id,
+                        UserName = imsg.Author.Username,
                         CommandName = e.Command.Text,
                         DateAdded = DateTime.Now
                     });

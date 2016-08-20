@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     //if (role == null)
                     //    return;
 
-                    //e.User.AddRoles(role);
+                    //imsg.Author.AddRoles(role);
                     return Task.CompletedTask;
                 };
             }

@@ -103,16 +103,16 @@
 //        {
 //            try
 //            {
-//                if (e.Channel == null || e.Channel.Id != channel.Id || e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+//                if (e.Channel == null || e.Channel.Id != channel.Id || imsg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
 
 //                var guess = e.Message.RawText;
 
 //                var distance = CurrentSentence.LevenshteinDistance(guess);
 //                var decision = Judge(distance, guess.Length);
-//                if (decision && !finishedUserIds.Contains(e.User.Id))
+//                if (decision && !finishedUserIds.Contains(imsg.Author.Id))
 //                {
-//                    finishedUserIds.Add(e.User.Id);
-//                    await channel.Send($"{e.User.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
+//                    finishedUserIds.Add(imsg.Author.Id);
+//                    await channel.Send($"{imsg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
 //                    if (finishedUserIds.Count % 2 == 0)
 //                    {
 //                        await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
@@ -139,7 +139,7 @@
 //        public Func<CommandEventArgs, Task> DoFunc() =>
 //            async e =>
 //            {
-//                var game = RunningContests.GetOrAdd(e.User.Server.Id, id => new TypingGame(e.Channel));
+//                var game = RunningContests.GetOrAdd(imsg.Author.Server.Id, id => new TypingGame(e.Channel));
 
 //                if (game.IsActive)
 //                {
@@ -158,7 +158,7 @@
 //            async e =>
 //            {
 //                TypingGame game;
-//                if (RunningContests.TryRemove(e.User.Server.Id, out game))
+//                if (RunningContests.TryRemove(imsg.Author.Server.Id, out game))
 //                {
 //                    await game.Stop().ConfigureAwait(false);
 //                    return;
@@ -181,7 +181,7 @@
 //                .Parameter("text", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
+//                    if (!NadekoBot.IsOwner(imsg.Author.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
 //                    DbHandler.Instance.Connection.Insert(new TypingArticle
 //                    {

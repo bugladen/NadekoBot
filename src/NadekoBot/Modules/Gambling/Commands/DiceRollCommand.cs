@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Gambling
                         rolled = new Random().Next(0, int.Parse(e.GetArg("range")) + 1);
                     }
 
-                    await channel.SendMessageAsync($"{e.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"{imsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

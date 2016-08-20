@@ -79,8 +79,8 @@
 //                    foreach(var msgToDelete in msgs)
 //                        await msgToDelete.Delete().ConfigureAwait(false);
 
-//                    await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
-//                    var msg = await channel.SendMessageAsync($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
+//                    await FlowersHandler.AddFlowersAsync(imsg.Author, "Picked a flower.", 1, true).ConfigureAwait(false);
+//                    var msg = await channel.SendMessageAsync($"**{imsg.Author.Username}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
 //                    ThreadPool.QueueUserWorkItem(async (state) =>
 //                    {
 //                        try
@@ -104,7 +104,7 @@
 //                            await channel.SendMessageAsync($"There is already a {NadekoBot.Config.CurrencyName} in this channel.").ConfigureAwait(false);
 //                            return;
 //                        }
-//                        var removed = await FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1, true).ConfigureAwait(false);
+//                        var removed = await FlowersHandler.RemoveFlowers(imsg.Author, "Planted a flower.", 1, true).ConfigureAwait(false);
 //                        if (!removed)
 //                        {
 //                            await channel.SendMessageAsync($"You don't have any {NadekoBot.Config.CurrencyName}s.").ConfigureAwait(false);
@@ -118,7 +118,7 @@
 //                        else
 //                            msg = await e.Channel.SendFile(file).ConfigureAwait(false);
 //                        var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-//                        var msg2 = await channel.SendMessageAsync($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
+//                        var msg2 = await channel.SendMessageAsync($"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
 //                        plantedFlowerChannels.TryAdd(e.Channel.Id, new[] { msg, msg2 });
 //                    }
 //                    finally { locker.Release();  }

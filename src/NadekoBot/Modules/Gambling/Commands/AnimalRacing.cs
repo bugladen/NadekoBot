@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Commands
 {
-    class AnimalRacing : DiscordCommand
+    [Group]
+    class AnimalRacing
     {
         public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
 
@@ -44,24 +45,24 @@ namespace NadekoBot.Modules.Gambling.Commands
                     if (!int.TryParse(e.GetArg("amount"), out amount) || amount < 0)
                         amount = 0;
 
-                    var userFlowers = GamblingModule.GetUserFlowers(e.User.Id);
+                    var userFlowers = Gambling.GetUserFlowers(imsg.Author.Id);
 
                     if (userFlowers < amount)
                     {
-                        await imsg.Channel.SendMessageAsync($"{e.User.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"{imsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                         return;
                     }
 
                     if (amount > 0)
-                        await FlowersHandler.RemoveFlowers(e.User, "BetRace", (int)amount, true).ConfigureAwait(false);
+                        await FlowersHandler.RemoveFlowers(imsg.Author, "BetRace", (int)amount, true).ConfigureAwait(false);
 
                     AnimalRace ar;
                     if (!AnimalRaces.TryGetValue(e.Server.Id, out ar))
                     {
-                        await imsg.Channel.SendMessageAsync("No race exists on this server");
+                        await channel.SendMessageAsync("No race exists on this server");
                         return;
                     }
-                    await ar.JoinRace(e.User, amount);
+                    await ar.JoinRace(imsg.Author, amount);
 
                 });
         }
@@ -77,7 +78,7 @@ namespace NadekoBot.Modules.Gambling.Commands
             private ulong serverId;
             private int messagesSinceGameStarted = 0;
 
-            public Channel raceChannel { get; set; }
+            public IGuildChannel raceChannel { get; set; }
             public bool Started { get; private set; } = false;
 
             public AnimalRace(ulong serverId, Channel ch)
@@ -134,7 +135,7 @@ namespace NadekoBot.Modules.Gambling.Commands
             {
                 var rng = new Random();
                 Participant winner = null;
-                Message msg = null;
+                IMessage msg = null;
                 int place = 1;
                 try
                 {
@@ -196,7 +197,7 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             }
 
-            private void Client_MessageReceived(object sender, MessageEventArgs e)
+            private void Client_MessageReceived(IMessage imsg)
             {
                 if (e.Message.IsAuthor || e.Channel.IsPrivate || e.Channel != raceChannel)
                     return;
@@ -211,7 +212,7 @@ namespace NadekoBot.Modules.Gambling.Commands
                 }
             }
 
-            public async Task<bool> JoinRace(User u, int amount = 0)
+            public async Task<bool> JoinRace(IGuildUser u, int amount = 0)
             {
                 var animal = "";
                 if (!animals.TryDequeue(out animal))
@@ -238,7 +239,7 @@ namespace NadekoBot.Modules.Gambling.Commands
 
         public class Participant
         {
-            public User User { get; set; }
+            public IGuildUser User { get; set; }
             public string Animal { get; set; }
             public int AmountBet { get; set; }
 
@@ -247,7 +248,7 @@ namespace NadekoBot.Modules.Gambling.Commands
 
             public int Place { get; set; } = 0;
 
-            public Participant(User u, string a, int amount)
+            public Participant(IGuildUser u, string a, int amount)
             {
                 this.User = u;
                 this.Animal = a;

@@ -18,7 +18,7 @@
 //            {
 //                try
 //                {
-//                    if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+//                    if (imsg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
 //                    foreach (var subscriber in Subscribers)
 //                    {
 //                        var set = subscriber.Value;
@@ -26,7 +26,7 @@
 //                            continue;
 //                        foreach (var chan in set.Except(new[] { e.Channel }))
 //                        {
-//                            await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message)).ConfigureAwait(false);
+//                            await chan.SendMessage(GetText(e.Server, e.Channel, imsg.Author, e.Message)).ConfigureAwait(false);
 //                        }
 //                    }
 //                }
@@ -46,9 +46,9 @@
 //                        {
 //                            var msg = chan.Messages
 //                                .FirstOrDefault(m =>
-//                                    m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
+//                                    m.RawText == GetText(e.Server, e.Channel, imsg.Author, e.Before));
 //                            if (msg != default(Message))
-//                                await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After)).ConfigureAwait(false);
+//                                await msg.Edit(GetText(e.Server, e.Channel, imsg.Author, e.After)).ConfigureAwait(false);
 //                        }
 //                    }
 
@@ -75,7 +75,7 @@
 //                    if (Subscribers.TryAdd(token, set))
 //                    {
 //                        set.Add(e.Channel);
-//                        await e.User.SendMessage("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+//                        await imsg.Author.SendMessage("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
 //                    }
 //                });
 

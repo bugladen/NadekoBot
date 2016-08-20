@@ -39,7 +39,7 @@
 
 //                var controls = AnnouncementsDictionary[e.Server.Id];
 //                var channel = NadekoBot.Client.GetChannel(controls.ByeChannel);
-//                var msg = controls.ByeText.Replace("%user%", "**" + e.User.Name + "**").Trim();
+//                var msg = controls.ByeText.Replace("%user%", "**" + imsg.Author.Username + "**").Trim();
 //                if (string.IsNullOrEmpty(msg))
 //                    return;
 
@@ -48,7 +48,7 @@
 //                    Greeted++;
 //                    try
 //                    {
-//                        await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
+//                        await imsg.Author.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
 
 //                    }
 //                    catch { }
@@ -78,13 +78,13 @@
 //                var controls = AnnouncementsDictionary[e.Server.Id];
 //                var channel = NadekoBot.Client.GetChannel(controls.GreetChannel);
 
-//                var msg = controls.GreetText.Replace("%user%", e.User.Mention).Trim();
+//                var msg = controls.GreetText.Replace("%user%", imsg.Author.Mention).Trim();
 //                if (string.IsNullOrEmpty(msg))
 //                    return;
 //                if (controls.GreetPM)
 //                {
 //                    Greeted++;
-//                    await e.User.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg).ConfigureAwait(false);
+//                    await imsg.Author.SendMessage($"`Welcome Message From {e.Server.Name}`\n" + msg).ConfigureAwait(false);
 //                }
 //                else
 //                {
@@ -211,7 +211,7 @@
 //                .Description($"Toggles automatic deletion of greet and bye messages. **Needs Manage Server Permissions.**| `{Prefix}grdel`")
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
 //                    if (ann.ToggleDelete())
@@ -224,7 +224,7 @@
 //                .Description($"Toggles anouncements on the current channel when someone joins the server. **Needs Manage Server Permissions.**| `{Prefix}greet`")
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
 //                    if (ann.ToggleGreet(e.Channel.Id))
@@ -238,7 +238,7 @@
 //                .Parameter("msg", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 //                    if (string.IsNullOrWhiteSpace(e.GetArg("msg")))
 //                    {
@@ -257,7 +257,7 @@
 //                .Description($"Toggles anouncements on the current channel when someone leaves the server. | `{Prefix}bye`")
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
 //                    if (ann.ToggleBye(e.Channel.Id))
@@ -271,7 +271,7 @@
 //                .Parameter("msg", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 //                    if (string.IsNullOrWhiteSpace(e.GetArg("msg")))
 //                    {
@@ -289,7 +289,7 @@
 //                .Description($"Toggles whether the good bye messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `{Prefix}byepm`")
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 
 
@@ -305,7 +305,7 @@
 //                .Description($"Toggles whether the greet messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**| `{Prefix}greetpm`")
 //                .Do(async e =>
 //                {
-//                    if (!e.User.ServerPermissions.ManageServer) return;
+//                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
 

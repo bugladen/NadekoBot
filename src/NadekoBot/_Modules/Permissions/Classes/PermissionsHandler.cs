@@ -142,10 +142,10 @@ namespace NadekoBot.Modules.Permissions.Classes
             //user
             if (serverPerms.UserPermissions.TryGetValue(user.Id, out perm) &&
                 perm.Modules.TryGetValue(command.Category, out val) && val == false)
-                return PermissionBanType.UserBanModule;
+                return PermissionBanTypimsg.AuthorBanModule;
             if (serverPerms.UserPermissions.TryGetValue(user.Id, out perm) &&
                 perm.Commands.TryGetValue(command.Text, out val) && val == false)
-                return PermissionBanType.UserBanCommand;
+                return PermissionBanTypimsg.AuthorBanCommand;
 
             return PermissionBanType.None;
         }
