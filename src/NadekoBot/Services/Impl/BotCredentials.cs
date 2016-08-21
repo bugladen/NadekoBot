@@ -27,6 +27,7 @@ namespace NadekoBot.Services.Impl
 
         public BotCredentials()
         {
+            File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented));
             _log = LogManager.GetCurrentClassLogger();
             if (File.Exists("./credentials.json"))
             {

@@ -46,7 +46,7 @@ namespace NadekoBot
             Localizer = new Localization();
             Youtube = new YoutubeService();
             Stats = new StatsService(Client);
-            _log = LogManager.GetCurrentClassLogger();
+            
 
             //setup DI
             var depMap = new DependencyMap();
@@ -73,6 +73,7 @@ namespace NadekoBot
 
         private void SetupLogger()
         {
+
             try
             {
                 var logConfig = new LoggingConfiguration();
@@ -85,10 +86,12 @@ namespace NadekoBot
                 logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
 
                 LogManager.Configuration = logConfig;
+
             }
             catch (Exception ex) {
                 Console.WriteLine(ex);
             }
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         private Task Client_MessageReceived(IMessage imsg)
