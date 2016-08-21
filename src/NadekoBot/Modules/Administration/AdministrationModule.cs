@@ -23,13 +23,6 @@ namespace NadekoBot.Modules.Administration
         {
 
         }
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task cmd(IMessage imsg, [Remainder] string arg)
-        {
-            var channel = imsg.Channel as ITextChannel;
-
-        }
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
