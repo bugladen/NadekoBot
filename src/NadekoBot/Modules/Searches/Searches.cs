@@ -13,6 +13,7 @@ using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Net;
 using NadekoBot.Modules.Searches.Commands.Models;
+using NCalc;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -24,6 +25,14 @@ namespace NadekoBot.Modules.Searches
         public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
             _yt = youtube;
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Calc(IMessage msg, [Remainder] string calculation)
+        {
+            var channel = msg.Channel as ITextChannel;
+
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

@@ -29,7 +29,7 @@ namespace NadekoBot
         public async Task RunAsync(string[] args)
         {
             SetupLogger();
-
+            _log.Debug("Logger created, starting client");
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {

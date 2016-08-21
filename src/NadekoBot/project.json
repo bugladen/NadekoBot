@@ -18,12 +18,13 @@
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
     "Newtonsoft.Json": "9.0.1",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "Discord.Net": "1.0.0-dev",
-    "Discord.Net.Commands": "1.0.0-dev",
+    "Discord.Net.Commands": "1.0.0-dev-*",
     "System.Resources.ResourceWriter": "4.0.0-beta-22816",
     "Google.Apis.YouTube.v3": "1.15.0.582",
     "System.Diagnostics.Contracts": "4.0.1",
-    "NLog": "4.4.0-betaV15"
+    "NLog": "4.4.0-betaV15",
+    "Discord.Net": "1.0.0-dev-*",
+    "CoreCLR-NCalc": "2.1.0"
   },
 
   "frameworks": {
