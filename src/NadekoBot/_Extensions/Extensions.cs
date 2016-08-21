@@ -26,11 +26,11 @@ namespace NadekoBot.Extensions
         public static async Task<IMessage> Reply(this IMessage msg, string content) => 
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
 
-        public static Task<bool> IsAuthor(this IMessage msg, DiscordSocketClient client) =>
-            Task.FromResult(client.GetCurrentUser().Id == msg.Author.Id);
+        public static Task<bool> IsAuthor(this IMessage msg) =>
+            Task.FromResult(NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id);
 
-        public static async Task<IEnumerable<IUser>> Members(this IRole role) =>
-            await role.Members();
+        public static IEnumerable<IUser> Members(this IRole role) =>
+            NadekoBot.Client.GetGuilds().Where(g => g.Id == role.GuildId).FirstOrDefault()?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
 
         public static async Task<IMessage[]> ReplyLong(this IMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
         {

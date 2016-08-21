@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var channel = imsg.Channel as ITextChannel;
 
-                    if (channel == null || await imsg.IsAuthor(_client))
+                    if (channel == null || await imsg.IsAuthor())
                         return;
                     ConcurrentDictionary<ulong, DateTime> userTimePair;
                     if (!RatelimitingChannels.TryGetValue(channel.Id, out userTimePair)) return;

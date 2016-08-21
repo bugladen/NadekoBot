@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private async Task Client_MessageReceived(IMessage imsg)
                 {
-                    if (await imsg.IsAuthor(NadekoBot.Client) || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
+                    if (await imsg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
                         return;
                     messagesSinceGameStarted++;
                 }
