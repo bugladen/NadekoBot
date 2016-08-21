@@ -23,7 +23,7 @@ namespace NadekoBot
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
-        private static YoutubeService Youtube { get; set; }
+        private static GoogleApiService Youtube { get; set; }
         public static StatsService Stats { get; private set; }
 
         public async Task RunAsync(string[] args)
@@ -43,7 +43,7 @@ namespace NadekoBot
             Commands = new CommandService();
             Config = new BotConfiguration();
             Localizer = new Localization();
-            Youtube = new YoutubeService();
+            Youtube = new GoogleApiService();
             Stats = new StatsService(Client);
             _log = LogManager.GetCurrentClassLogger();
 

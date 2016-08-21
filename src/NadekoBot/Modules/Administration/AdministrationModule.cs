@@ -494,10 +494,10 @@ namespace NadekoBot.Modules.Administration
         //{
         //    var channel = imsg.Channel as ITextChannel;
 
-        //    if (string.IsNullOrWhiteSpace(e.GetArg("img")))
+        //    if (string.IsNullOrWhiteSpace(img))
         //        return;
         //    // Gather user provided URL.
-        //    var avatarAddress = e.GetArg("img");
+        //    var avatarAddress = img;
         //    var imageStream = await SearchHelper.GetResponseStreamAsync(avatarAddress).ConfigureAwait(false);
         //    var image = System.Drawing.Image.FromStream(imageStream);
         //    await client.CurrentUser.Edit("", avatar: image.ToStream()).ConfigureAwait(false);
@@ -515,7 +515,7 @@ namespace NadekoBot.Modules.Administration
 
         //    game = game ?? "";
 
-        //    client.SetGame(e.GetArg("set_game"));
+        //    client.SetGame(set_game);
         //}
 
         ////todo owner only
@@ -570,8 +570,8 @@ namespace NadekoBot.Modules.Administration
         //public async Task Donadd(IMessage imsg, IUser donator, int amount)
         //{
         //    var channel = imsg.Channel as ITextChannel;
-        //    var donator = channel.Guild.FindUsers(e.GetArg("donator")).FirstOrDefault();
-        //    var amount = int.Parse(e.GetArg("amount"));
+        //    var donator = channel.Guild.FindUsers(donator).FirstOrDefault();
+        //    var amount = int.Parse(amount);
         //    if (donator == null) return;
         //    try
         //    {

@@ -109,7 +109,7 @@
 //                .AddCheck(SimpleCheckers.OwnerOnly())
 //                .Do(async e =>
 //                {
-//                    var arg = e.GetArg("text");
+//                    var arg = text;
 //                    if (string.IsNullOrWhiteSpace(arg))
 //                        return;
 //                    await playingPlaceholderLock.WaitAsync().ConfigureAwait(false);
@@ -149,7 +149,7 @@
 //                .AddCheck(SimpleCheckers.OwnerOnly())
 //                .Do(async e =>
 //                {
-//                    var arg = e.GetArg("number");
+//                    var arg = number;
 //                    int num;
 //                    string str;
 //                    await playingPlaceholderLock.WaitAsync().ConfigureAwait(false);

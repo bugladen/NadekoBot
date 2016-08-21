@@ -8,7 +8,6 @@ using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
-using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Net;
 using Discord.WebSocket;
@@ -206,7 +205,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //public async Task Hearthstone(IMessage imsg, [Remainder] string name = null)
         //{
         //    var channel = imsg.Channel as ITextChannel;
-        //    var arg = e.GetArg("name");
+        //    var arg = name;
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
         //        await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);

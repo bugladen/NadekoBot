@@ -37,13 +37,13 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("role", ParameterType.Unparsed)
                      .Do(async e =>
                      {
-                         if (string.IsNullOrWhiteSpace(e.GetArg("role")))
+                         if (string.IsNullOrWhiteSpace(role))
                          {
                              await channel.SendMessageAsync($"Current permissions role is `{PermissionsHandler.GetServerPermissionsRoleName(e.Server)}`").ConfigureAwait(false);
                              return;
                          }
 
-                         var arg = e.GetArg("role");
+                         var arg = role;
                          Discord.Role role = null;
                          try
                          {
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("from_to")?.Trim();
+                        var arg = from_to?.Trim();
                         if (string.IsNullOrWhiteSpace(arg) || !arg.Contains('~'))
                             return;
                         var args = arg.Split('~').Select(a => a.Trim()).ToArray();
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("from_to")?.Trim();
+                        var arg = from_to?.Trim();
                         if (string.IsNullOrWhiteSpace(arg) || !arg.Contains('~'))
                             return;
                         var args = arg.Split('~').Select(a => a.Trim()).ToArray();
@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("from_to", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("from_to")?.Trim();
+                        var arg = from_to?.Trim();
                         if (string.IsNullOrWhiteSpace(arg) || !arg.Contains('~'))
                             return;
                         var args = arg.Split('~').Select(a => a.Trim()).ToArray();
@@ -150,7 +150,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("arg", ParameterType.Required)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("arg");
+                        var arg = arg;
                         var val = PermissionHelper.ValidateBool(arg);
                         await PermissionsHandler.SetVerbosity(e.Server, val).ConfigureAwait(false);
                         await channel.SendMessageAsync($"Verbosity set to {val}.").ConfigureAwait(false);
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("role", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("role");
+                        var arg = role;
                         var role = e.Server.EveryoneRole;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("channel", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("channel");
+                        var arg = channel;
                         var channel = e.Channel;
                         if (!string.IsNullOrWhiteSpace(arg))
                             try
@@ -225,10 +225,10 @@ namespace NadekoBot.Modules.Permissions
                     .Do(async e =>
                     {
                         var user = imsg.Author;
-                        if (!string.IsNullOrWhiteSpace(e.GetArg("user")))
+                        if (!string.IsNullOrWhiteSpace(user))
                             try
                             {
-                                user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+                                user = PermissionHelper.ValidateUser(e.Server, user);
                             }
                             catch (Exception ex)
                             {
@@ -251,8 +251,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(module);
+                            var state = PermissionHelper.ValidateBool(bool);
 
                             await PermissionsHandler.SetServerModulePermission(e.Server, module, state).ConfigureAwait(false);
                             await channel.SendMessageAsync($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** on this server.").ConfigureAwait(false);
@@ -275,8 +275,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(command);
+                            var state = PermissionHelper.ValidateBool(bool);
 
                             await PermissionsHandler.SetServerCommandPermission(e.Server, command, state).ConfigureAwait(false);
                             await channel.SendMessageAsync($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** on this server.").ConfigureAwait(false);
@@ -300,10 +300,10 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var module = PermissionHelper.ValidateModule(module);
+                            var state = PermissionHelper.ValidateBool(bool);
 
-                            if (e.GetArg("role")?.ToLower() == "all")
+                            if (role?.ToLower() == "all")
                             {
                                 foreach (var role in e.Server.Roles)
                                 {
@@ -313,7 +313,7 @@ namespace NadekoBot.Modules.Permissions
                             }
                             else
                             {
-                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                var role = PermissionHelper.ValidateRole(e.Server, role);
 
                                 await PermissionsHandler.SetRoleModulePermission(role, module, state).ConfigureAwait(false);
                                 await channel.SendMessageAsync($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.").ConfigureAwait(false);
@@ -338,10 +338,10 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(command);
+                            var state = PermissionHelper.ValidateBool(bool);
 
-                            if (e.GetArg("role")?.ToLower() == "all")
+                            if (role?.ToLower() == "all")
                             {
                                 foreach (var role in e.Server.Roles)
                                 {
@@ -351,7 +351,7 @@ namespace NadekoBot.Modules.Permissions
                             }
                             else
                             {
-                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                var role = PermissionHelper.ValidateRole(e.Server, role);
 
                                 await PermissionsHandler.SetRoleCommandPermission(role, command, state).ConfigureAwait(false);
                                 await channel.SendMessageAsync($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{role.Name}** role.").ConfigureAwait(false);
@@ -376,9 +376,9 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var channelArg = e.GetArg("channel");
+                            var module = PermissionHelper.ValidateModule(module);
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var channelArg = channel;
                             if (channelArg?.ToLower() == "all")
                             {
                                 foreach (var channel in e.Server.TextChannels)
@@ -419,10 +419,10 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var command = PermissionHelper.ValidateCommand(command);
+                            var state = PermissionHelper.ValidateBool(bool);
 
-                            if (e.GetArg("channel")?.ToLower() == "all")
+                            if (channel?.ToLower() == "all")
                             {
                                 foreach (var channel in e.Server.TextChannels)
                                 {
@@ -432,7 +432,7 @@ namespace NadekoBot.Modules.Permissions
                             }
                             else
                             {
-                                var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                                var channel = PermissionHelper.ValidateChannel(e.Server, channel);
 
                                 await PermissionsHandler.SetChannelCommandPermission(channel, command, state).ConfigureAwait(false);
                                 await channel.SendMessageAsync($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for **{channel.Name}** channel.").ConfigureAwait(false);
@@ -457,9 +457,9 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+                            var module = PermissionHelper.ValidateModule(module);
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var user = PermissionHelper.ValidateUser(e.Server, user);
 
                             await PermissionsHandler.SetUserModulePermission(user, module, state).ConfigureAwait(false);
                             await channel.SendMessageAsync($"Module **{module}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.").ConfigureAwait(false);
@@ -483,9 +483,9 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var user = PermissionHelper.ValidateUser(e.Server, e.GetArg("user"));
+                            var command = PermissionHelper.ValidateCommand(command);
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var user = PermissionHelper.ValidateUser(e.Server, user);
 
                             await PermissionsHandler.SetUserCommandPermission(user, command, state).ConfigureAwait(false);
                             await channel.SendMessageAsync($"Command **{command}** has been **{(state ? "enabled" : "disabled")}** for user **{user.Name}**.").ConfigureAwait(false);
@@ -507,7 +507,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                            var state = PermissionHelper.ValidateBool(bool);
 
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
@@ -533,8 +533,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var module = PermissionHelper.ValidateModule(module);
 
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
@@ -560,8 +560,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var chArg = e.GetArg("channel");
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var chArg = channel;
                             var channel = string.IsNullOrWhiteSpace(chArg) ? e.Channel : PermissionHelper.ValidateChannel(e.Server, chArg);
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
@@ -589,9 +589,9 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var module = PermissionHelper.ValidateModule(module);
+                            var channel = PermissionHelper.ValidateChannel(e.Server, channel);
                             foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
                                 await PermissionsHandler.SetChannelCommandPermission(channel, command.Text, state).ConfigureAwait(false);
@@ -616,8 +616,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var role = PermissionHelper.ValidateRole(e.Server, role);
                             foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
                             {
                                 await PermissionsHandler.SetRoleModulePermission(role, module.Name, state).ConfigureAwait(false);
@@ -644,9 +644,9 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                            var module = PermissionHelper.ValidateModule(e.GetArg("module"));
-                            if (e.GetArg("role")?.ToLower() == "all")
+                            var state = PermissionHelper.ValidateBool(bool);
+                            var module = PermissionHelper.ValidateModule(module);
+                            if (role?.ToLower() == "all")
                             {
                                 foreach (var role in e.Server.Roles)
                                 {
@@ -659,7 +659,7 @@ namespace NadekoBot.Modules.Permissions
                             }
                             else
                             {
-                                var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
+                                var role = PermissionHelper.ValidateRole(e.Server, role);
 
                                 foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                                 {
@@ -755,7 +755,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         await Task.Run(async () =>
                         {
-                            var arg = e.GetArg("server")?.Trim();
+                            var arg = server?.Trim();
                             if (string.IsNullOrWhiteSpace(arg))
                                 return;
                             var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
@@ -788,8 +788,8 @@ namespace NadekoBot.Modules.Permissions
                     {
                         try
                         {
-                            var command = PermissionHelper.ValidateCommand(e.GetArg("command"));
-                            var secsStr = e.GetArg("secs").Trim();
+                            var command = PermissionHelper.ValidateCommand(command);
+                            var secsStr = secs.Trim();
                             int secs;
                             if (!int.TryParse(secsStr, out secs) || secs < 0 || secs > 3600)
                                 throw new ArgumentOutOfRangeException("secs", "Invalid second parameter. (Must be a number between 0 and 3600)");

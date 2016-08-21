@@ -53,7 +53,7 @@
 //            try
 //            {
 //                var num = 1;
-//                var isParsed = int.TryParse(e.GetArg("count"), out num);
+//                var isParsed = int.TryParse(count, out num);
 //                if (!isParsed || num < 2)
 //                {
 //                    var c = cards.DrawACard();

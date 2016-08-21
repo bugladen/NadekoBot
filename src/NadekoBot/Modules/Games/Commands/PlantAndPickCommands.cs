@@ -131,7 +131,7 @@
 //                .Parameter("cd", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    var cdStr = e.GetArg("cd");
+//                    var cdStr = cd;
 //                    int cd = 2;
 //                    if (!int.TryParse(cdStr, out cd) || cd < 0)
 //                    {

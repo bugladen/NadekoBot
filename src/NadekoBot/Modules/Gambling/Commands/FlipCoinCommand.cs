@@ -34,9 +34,9 @@
 //        public Func<CommandEventArgs, Task> BetFlipCoinFunc() => async e =>
 //        {
 
-//            var amountstr = e.GetArg("amount").Trim();
+//            var amountstr = amount.Trim();
 
-//            var guessStr = e.GetArg("guess").Trim().ToUpperInvariant();
+//            var guessStr = guess.Trim().ToUpperInvariant();
 //            if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
 //                return;
 
@@ -82,7 +82,7 @@
 //        public Func<CommandEventArgs, Task> FlipCoinFunc() => async e =>
 //        {
 
-//            if (e.GetArg("count") == "")
+//            if (count == "")
 //            {
 //                if (rng.Next(0, 2) == 1)
 //                    await e.Channel.SendFile("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
@@ -92,7 +92,7 @@
 //            else
 //            {
 //                int result;
-//                if (int.TryParse(e.GetArg("count"), out result))
+//                if (int.TryParse(count, out result))
 //                {
 //                    if (result > 10)
 //                        result = 10;

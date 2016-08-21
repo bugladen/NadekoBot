@@ -18,10 +18,10 @@ namespace NadekoBot.Modules.Music.Classes
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
-                throw new ArgumentNullException(nameof(NadekoBot.Creds.SoundCloudClientID));
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientID))
+                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientID));
 
-            var response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
+            var response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Credentials.SoundCloudClientID}").ConfigureAwait(false);
 
             var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
@@ -37,10 +37,10 @@ namespace NadekoBot.Modules.Music.Classes
         {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.SoundCloudClientID))
-                throw new ArgumentNullException(nameof(NadekoBot.Creds.SoundCloudClientID));
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientID))
+                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientID));
 
-            var response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false);
+            var response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Credentials.SoundCloudClientID}").ConfigureAwait(false);
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
             if (responseObj?.Kind != "track")
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Music.Classes
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
         [JsonIgnore]
-        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Creds.SoundCloudClientID}";
+        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Credentials.SoundCloudClientID}";
     }
     public class SoundCloudUser
     {

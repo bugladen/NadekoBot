@@ -62,8 +62,8 @@ namespace NadekoBot.Modules.Permissions
                 {
                     try
                     {
-                        var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                        var chanStr = e.GetArg("channel");
+                        var state = PermissionHelper.ValidateBool(bool);
+                        var chanStr = channel;
 
                         if (chanStr?.ToLowerInvariant().Trim() != "all")
                         {
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     try
                     {
-                        var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                        var state = PermissionHelper.ValidateBool(bool);
                         await PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state).ConfigureAwait(false);
                         await channel.SendMessageAsync($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
                                        .ConfigureAwait(false);

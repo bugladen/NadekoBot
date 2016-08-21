@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, e.GetArg("query")).ConfigureAwait(false);
+                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, query).ConfigureAwait(false);
                         if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("query", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, e.GetArg("query"), musicType: MusicType.Soundcloud).ConfigureAwait(false);
+                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);
                         if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
@@ -142,7 +142,7 @@ namespace NadekoBot.Modules.Music
                         }
 
                         int page;
-                        if (!int.TryParse(e.GetArg("page"), out page) || page <= 0)
+                        if (!int.TryParse(page, out page) || page <= 0)
                         {
                             page = 1;
                         }
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Music
                             return;
                         if (imsg.Author.VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                             return;
-                        var arg = e.GetArg("val");
+                        var arg = val;
                         int volume;
                         if (!int.TryParse(arg, out volume))
                         {
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("val", ParameterType.Required)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("val");
+                        var arg = val;
                         float volume;
                         if (!float.TryParse(arg, out volume) || volume < 0 || volume > 100)
                         {
@@ -285,7 +285,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("playlist", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("playlist");
+                        var arg = playlist;
                         if (string.IsNullOrWhiteSpace(arg))
                             return;
                         if (imsg.Author.VoiceChannel?.Server != e.Server)
@@ -328,12 +328,12 @@ namespace NadekoBot.Modules.Music
                     .Parameter("pl", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var pl = e.GetArg("pl")?.Trim();
+                        var pl = pl?.Trim();
 
                         if (string.IsNullOrWhiteSpace(pl))
                             return;
 
-                        var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Creds.SoundCloudClientID}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                        var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Credentials.SoundCloudClientID}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
                         await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                         MusicPlayer mp;
@@ -364,7 +364,7 @@ namespace NadekoBot.Modules.Music
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("directory");
+                        var arg = directory;
                         if (string.IsNullOrWhiteSpace(arg))
                             return;
                         try
@@ -398,7 +398,7 @@ namespace NadekoBot.Modules.Music
                             await channel.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                             return;
                         }
-                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, e.GetArg("radio_link"), musicType: MusicType.Radio).ConfigureAwait(false);
+                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
                         if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
@@ -413,10 +413,10 @@ namespace NadekoBot.Modules.Music
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("path");
+                        var arg = path;
                         if (string.IsNullOrWhiteSpace(arg))
                             return;
-                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, e.GetArg("path"), musicType: MusicType.Local).ConfigureAwait(false);
+                        await QueueSong(imsg.Author, e.Channel, imsg.Author.VoiceChannel, path, musicType: MusicType.Local).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "move")
@@ -437,7 +437,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("num", ParameterType.Required)
                     .Do(async e =>
                     {
-                        var arg = e.GetArg("num");
+                        var arg = num;
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                         {
@@ -475,7 +475,7 @@ namespace NadekoBot.Modules.Music
                         {
                             return;
                         }
-                        var fromto = e.GetArg("fromto").Trim();
+                        var fromto = fromto.Trim();
                         var fromtoArr = fromto.Split('>');
 
                         int n1;
@@ -512,7 +512,7 @@ namespace NadekoBot.Modules.Music
                             return;
                         }
 
-                        var sizeStr = e.GetArg("size")?.Trim();
+                        var sizeStr = size?.Trim();
                         uint size = 0;
                         if (string.IsNullOrWhiteSpace(sizeStr) || !uint.TryParse(sizeStr, out size))
                         {
@@ -576,7 +576,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("name", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var name = e.GetArg("name")?.Trim();
+                        var name = name?.Trim();
 
                         if (string.IsNullOrWhiteSpace(name) ||
                             name.Length > 20 ||
@@ -636,7 +636,7 @@ namespace NadekoBot.Modules.Music
                             await textCh.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
                             return;
                         }
-                        var name = e.GetArg("name")?.Trim().ToLowerInvariant();
+                        var name = name?.Trim().ToLowerInvariant();
 
                         if (string.IsNullOrWhiteSpace(name))
                             return;
@@ -690,7 +690,7 @@ namespace NadekoBot.Modules.Music
                     .Do(e =>
                     {
                         int num = 0;
-                        int.TryParse(e.GetArg("num"), out num);
+                        int.TryParse(num, out num);
                         if (num < 0)
                             return;
                         var result = DbHandler.Instance.GetPlaylistData(num);
@@ -706,7 +706,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("pl", ParameterType.Required)
                     .Do(async e =>
                     {
-                        var pl = e.GetArg("pl").Trim().Split('-')[1];
+                        var pl = pl.Trim().Split('-')[1];
                         if (string.IsNullOrWhiteSpace(pl))
                             return;
                         var plnum = int.Parse(pl);
@@ -722,7 +722,7 @@ namespace NadekoBot.Modules.Music
                     .Parameter("time")
                     .Do(async e =>
                     {
-                        var skipToStr = e.GetArg("time")?.Trim();
+                        var skipToStr = time?.Trim();
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
@@ -764,7 +764,7 @@ namespace NadekoBot.Modules.Music
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
                         int index;
-                        string arg = e.GetArg("index")?.Trim();
+                        string arg = index?.Trim();
                         if (!string.IsNullOrEmpty(arg) && int.TryParse(arg, out index))
                         {
 

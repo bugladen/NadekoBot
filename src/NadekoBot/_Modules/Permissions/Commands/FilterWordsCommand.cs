@@ -60,8 +60,8 @@ namespace NadekoBot.Modules.Permissions
                 {
                     try
                     {
-                        var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
-                        var chanStr = e.GetArg("channel")?.ToLowerInvariant().Trim();
+                        var state = PermissionHelper.ValidateBool(bool);
+                        var chanStr = channel?.ToLowerInvariant().Trim();
 
                         if (chanStr != "all")
                         {
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Permissions
                {
                    try
                    {
-                       var word = e.GetArg("word");
+                       var word = word;
                        if (string.IsNullOrWhiteSpace(word))
                            return;
                        await PermissionsHandler.AddFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Permissions
                {
                    try
                    {
-                       var word = e.GetArg("word");
+                       var word = word;
                        if (string.IsNullOrWhiteSpace(word))
                            return;
                        await PermissionsHandler.RemoveFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     try
                     {
-                        var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
+                        var state = PermissionHelper.ValidateBool(bool);
                         await PermissionsHandler.SetServerWordPermission(e.Server, state).ConfigureAwait(false);
                         await channel.SendMessageAsync($"Word filtering has been **{(state ? "enabled" : "disabled")}** on this server.")
                                        .ConfigureAwait(false);

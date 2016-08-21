@@ -49,7 +49,7 @@
 //                .AddCheck(SimpleCheckers.CanManageRoles)
 //                .Do(async e =>
 //                {
-//                    var roleName = e.GetArg("role")?.Trim();
+//                    var roleName = role?.Trim();
 //                    if (string.IsNullOrWhiteSpace(roleName))
 //                        return;
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
@@ -116,7 +116,7 @@
 //                .Parameter("role", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    var roleName = e.GetArg("role")?.Trim();
+//                    var roleName = role?.Trim();
 //                    if (string.IsNullOrWhiteSpace(roleName))
 //                        return;
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
@@ -172,7 +172,7 @@
 //                .Parameter("role", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    var roleName = e.GetArg("role")?.Trim();
+//                    var roleName = role?.Trim();
 //                    if (string.IsNullOrWhiteSpace(roleName))
 //                        return;
 //                    var role = e.Server.FindRoles(roleName).FirstOrDefault();

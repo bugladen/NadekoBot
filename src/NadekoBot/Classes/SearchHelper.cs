@@ -147,14 +147,14 @@ namespace NadekoBot.Classes
                 return $"https://www.youtube.com/watch?v={match.Groups["id"].Value}";
             }
 
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleAPIKey))
                 throw new InvalidCredentialException("Google API Key is missing.");
 
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +
                                     $"part=snippet&maxResults=1" +
                                     $"&q={Uri.EscapeDataString(keywords)}" +
-                                    $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
+                                    $"&key={NadekoBot.Credentials.GoogleAPIKey}").ConfigureAwait(false);
             JObject obj = JObject.Parse(response);
 
             var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
@@ -181,7 +181,7 @@ namespace NadekoBot.Classes
                                     $"https://www.googleapis.com/youtube/v3/search?" +
                                     $"part=snippet&maxResults={count}&type=video" +
                                     $"&relatedToVideoId={id}" +
-                                    $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
+                                    $"&key={NadekoBot.Credentials.GoogleAPIKey}").ConfigureAwait(false);
             JObject obj = JObject.Parse(response);
 
             var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
@@ -191,7 +191,7 @@ namespace NadekoBot.Classes
 
         public static async Task<string> GetPlaylistIdByKeyword(string query)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
             var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(query);
             if (match.Length > 1)
@@ -201,7 +201,7 @@ namespace NadekoBot.Classes
             var link = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
                         "&maxResults=1&type=playlist" +
                        $"&q={Uri.EscapeDataString(query)}" +
-                       $"&key={NadekoBot.Creds.GoogleAPIKey}";
+                       $"&key={NadekoBot.Credentials.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link).ConfigureAwait(false);
             var data = JsonConvert.DeserializeObject<YoutubePlaylistSearch>(response);
@@ -212,7 +212,7 @@ namespace NadekoBot.Classes
 
         public static async Task<IList<string>> GetVideoIDs(string playlist, int number = 50)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleAPIKey))
             {
                 throw new ArgumentNullException(nameof(playlist));
             }
@@ -231,7 +231,7 @@ namespace NadekoBot.Classes
                     $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
                     $"&maxResults={toGet}" +
                     $"&playlistId={playlist}" +
-                    $"&key={NadekoBot.Creds.GoogleAPIKey}";
+                    $"&key={NadekoBot.Credentials.GoogleAPIKey}";
                 if (!string.IsNullOrWhiteSpace(nextPageToken))
                     link += $"&pageToken={nextPageToken}";
                 var response = await GetResponseStringAsync(link).ConfigureAwait(false);
@@ -245,12 +245,12 @@ namespace NadekoBot.Classes
         
         public static async Task<string> ShortenUrl(string url)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) return url;
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleAPIKey)) return url;
             try
             {
                 var httpWebRequest =
                     (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" +
-                                                       NadekoBot.Creds.GoogleAPIKey);
+                                                       NadekoBot.Credentials.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

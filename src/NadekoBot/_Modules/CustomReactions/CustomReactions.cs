@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.CustomReactions
                         } },
                     {new Regex("%mention%"), (e,m) => NadekoBot.BotMention },
                     {new Regex("%user%"), (e,m) => imsg.Author.Mention },
-                    {new Regex("%target%"), (e,m) => e.GetArg("args")?.Trim() ?? "" },
+                    {new Regex("%target%"), (e,m) => args?.Trim() ?? "" },
 
                  };
         }

@@ -26,7 +26,7 @@
 //            TrelloConfiguration.Deserializer = serializer;
 //            TrelloConfiguration.JsonFactory = new ManateeFactory();
 //            TrelloConfiguration.RestClientProvider = new Manatee.Trello.WebApi.WebApiClientProvider();
-//            TrelloAuthorization.Default.AppKey = NadekoBot.Creds.TrelloAppKey;
+//            TrelloAuthorization.Default.AppKey = NadekoBot.Credentials.TrelloAppKey;
 //            //TrelloAuthorization.Default.UserToken = "[your user token]";
 
 //            Discord.Channel bound = null;
@@ -80,7 +80,7 @@
 //                        try
 //                        {
 //                            bound = e.Channel;
-//                            board = new Board(e.GetArg("board_id").Trim());
+//                            board = new Board(board_id.Trim());
 //                            board.Refresh();
 //                            await channel.SendMessageAsync("Successfully bound to this channel and board " + board.Name);
 //                            t.Start();
@@ -121,15 +121,15 @@
 //                    .Do(async e =>
 //                    {
 //                        if (!NadekoBot.IsOwner(imsg.Author.Id)) return;
-//                        if (bound == null || board == null || bound != e.Channel || e.GetArg("list_name") == null) return;
+//                        if (bound == null || board == null || bound != e.Channel || list_name == null) return;
 
 //                        int num;
-//                        var success = int.TryParse(e.GetArg("list_name"), out num);
+//                        var success = int.TryParse(list_name, out num);
 //                        List list = null;
 //                        if (success && num <= board.Lists.Count() && num > 0)
 //                            list = board.Lists[num - 1];
 //                        else
-//                            list = board.Lists.FirstOrDefault(l => l.Name == e.GetArg("list_name"));
+//                            list = board.Lists.FirstOrDefault(l => l.Name == list_name);
 
 
 //                        if (list != null)
