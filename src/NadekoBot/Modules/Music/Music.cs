@@ -17,14 +17,14 @@ using System.Collections.Generic;
 namespace NadekoBot.Modules.Music
 {
     [Module("!!", AppendSpace = false)]
-    public partial class MusicModule : DiscordModule
+    public partial class Music : DiscordModule
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers = new ConcurrentDictionary<ulong, MusicPlayer>();
 
         public const string MusicDataPath = "data/musicdata";
         private IGoogleApiService _google;
 
-        public MusicModule(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IGoogleApiService google) : base(loc, cmds, config, client)
+        public Music(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IGoogleApiService google) : base(loc, cmds, config, client)
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }

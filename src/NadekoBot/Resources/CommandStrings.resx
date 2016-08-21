@@ -1773,13 +1773,13 @@
   <data name="soundcloudpl_summary" xml:space="preserve">
     <value>`!!scpl soundcloudseturl`</value>
   </data>
-  <data name="localplaylst_text" xml:space="preserve">
+  <data name="localpl_text" xml:space="preserve">
     <value>localplaylst</value>
   </data>
-  <data name="localplaylst_desc" xml:space="preserve">
+  <data name="localpl_desc" xml:space="preserve">
     <value>Queues all songs from a directory. **Bot Owner Only!**</value>
   </data>
-  <data name="localplaylst_summary" xml:space="preserve">
+  <data name="localpl_summary" xml:space="preserve">
     <value>`!!lopl C:/music/classical`</value>
   </data>
   <data name="radio_text" xml:space="preserve">
@@ -1854,13 +1854,13 @@
   <data name="reptcursong_summary" xml:space="preserve">
     <value>`!!rcs`</value>
   </data>
-  <data name="rpeatplaylst_text" xml:space="preserve">
+  <data name="repeatpl_text" xml:space="preserve">
     <value>rpeatplaylst</value>
   </data>
-  <data name="rpeatplaylst_desc" xml:space="preserve">
+  <data name="repeatpl_desc" xml:space="preserve">
     <value>Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).</value>
   </data>
-  <data name="rpeatplaylst_summary" xml:space="preserve">
+  <data name="repeatpl_summary" xml:space="preserve">
     <value>`!!rpl`</value>
   </data>
   <data name="save_text" xml:space="preserve">
@@ -2061,22 +2061,22 @@
   <data name="osu_summary" xml:space="preserve">
     <value>`~osu Name` or `~osu Name taiko`</value>
   </data>
-  <data name="osubeatmap_text" xml:space="preserve">
-    <value>osu b</value>
+  <data name="osub_text" xml:space="preserve">
+    <value>osub</value>
   </data>
-  <data name="osubeatmap_desc" xml:space="preserve">
+  <data name="osub_desc" xml:space="preserve">
     <value>Shows information about an osu beatmap.</value>
   </data>
-  <data name="osubeatmap_summary" xml:space="preserve">
+  <data name="osub_summary" xml:space="preserve">
     <value>`~osu b https://osu.ppy.sh/s/127712`</value>
   </data>
-  <data name="osutop5_text" xml:space="preserve">
-    <value>osu top5</value>
+  <data name="osu5_text" xml:space="preserve">
+    <value>osu5</value>
   </data>
-  <data name="osutop5_desc" xml:space="preserve">
+  <data name="osu5_desc" xml:space="preserve">
     <value>Displays a user's top 5 plays.</value>
   </data>
-  <data name="osutop5_summary" xml:space="preserve">
+  <data name="osu5_summary" xml:space="preserve">
     <value>`~osu top5 Name`</value>
   </data>
   <data name="pokemon_text" xml:space="preserve">

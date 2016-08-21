@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
-            var filename = Path.Combine(MusicModule.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
+            var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
             SongBuffer sb = new SongBuffer(filename, SongInfo, skipTo);
             var bufferTask = sb.BufferSong(cancelToken).ConfigureAwait(false);
