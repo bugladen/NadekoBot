@@ -5,26 +5,29 @@ using System.Threading.Tasks;
 using Google.Apis.YouTube.v3;
 using Google.Apis.Services;
 using System.Text.RegularExpressions;
-using System.Diagnostics.Contracts;
+using Google.Apis.Urlshortener.v1;
+using Google.Apis.Urlshortener.v1.Data;
 
 namespace NadekoBot.Services.Impl
 {
-    public class YoutubeService : IYoutubeService
+    public class GoogleApiService : IGoogleApiService
     {
         private YouTubeService yt;
+        private UrlshortenerService sh;
 
-        public YoutubeService()
+        public GoogleApiService()
         {
-            yt = new YouTubeService(new BaseClientService.Initializer {
+            var bcs = new BaseClientService.Initializer
+            {
                 ApplicationName = "Nadeko Bot",
                 ApiKey = NadekoBot.Credentials.GoogleApiKey
-            });
+            };
+
+            yt = new YouTubeService(bcs);
+            sh = new UrlshortenerService(bcs);
         }
         public async Task<IEnumerable<string>> FindPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
-            //Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(keywords));
-            //Contract.Requires<ArgumentOutOfRangeException>(count > 0);
-
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
 
@@ -76,6 +79,15 @@ namespace NadekoBot.Services.Impl
             query.Q = keywords;
             query.Type = "video";
             return (await query.ExecuteAsync()).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
+        }
+
+        public async Task<string> ShortenUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+
+            var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync();
+            return response.Id;
         }
     }
 }

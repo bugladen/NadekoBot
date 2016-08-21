@@ -53,7 +53,7 @@ namespace NadekoBot
             depMap.Add<IBotConfiguration>(Config);
             depMap.Add<DiscordSocketClient>(Client);
             depMap.Add<CommandService>(Commands);
-            depMap.Add<IYoutubeService>(Youtube);
+            depMap.Add<IGoogleApiService>(Youtube);
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token);

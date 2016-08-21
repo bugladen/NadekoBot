@@ -81,39 +81,6 @@ namespace NadekoBot.Extensions
             return ch.SendTableAsync("", items, howToPrint, columns);
         }
 
-        public static async Task<string> ShortenUrl(this string url)
-        {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleApiKey)) return url;
-            try
-            {
-                var httpWebRequest =
-                    (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" +
-                                                       NadekoBot.Credentials.GoogleApiKey);
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "POST";
-
-                using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync().ConfigureAwait(false)))
-                {
-                    var json = "{\"longUrl\":\"" + Uri.EscapeDataString(url) + "\"}";
-                    streamWriter.Write(json);
-                }
-
-                var httpResponse = (await httpWebRequest.GetResponseAsync().ConfigureAwait(false)) as HttpWebResponse;
-                var responseStream = httpResponse.GetResponseStream();
-                using (var streamReader = new StreamReader(responseStream))
-                {
-                    var responseText = await streamReader.ReadToEndAsync().ConfigureAwait(false);
-                    return Regex.Match(responseText, @"""id"": ?""(?<id>.+)""").Groups["id"].Value;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Shortening of this url failed: " + url);
-                Console.WriteLine(ex.ToString());
-                return url;
-            }
-        }
-
         /// <summary>
         /// returns an IEnumerable with randomized element order
         /// </summary>

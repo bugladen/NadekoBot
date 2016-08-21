@@ -20,11 +20,11 @@ namespace NadekoBot.Modules.Searches
     [Module("~", AppendSpace = false)]
     public partial class Searches : DiscordModule
     {
-        private IYoutubeService _yt { get; }
+        private IGoogleApiService _google { get; }
 
-        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
+        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IGoogleApiService youtube) : base(loc, cmds, config, client)
         {
-            _yt = youtube;
+            _google = youtube;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -54,7 +54,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = imsg.Channel as ITextChannel;
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            var result = (await _yt.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            var result = (await _google.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
                 await channel.SendMessageAsync("No results found for that query.");
@@ -183,7 +183,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await channel.SendMessageAsync(await $"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>".ShortenUrl())
+            await channel.SendMessageAsync(await _google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
                            .ConfigureAwait(false);
         }
 
@@ -270,7 +270,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var sb = new System.Text.StringBuilder();
                     sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                     sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                    sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
+                    sb.Append($"`Link:` <{await _google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
                     await channel.SendMessageAsync(sb.ToString());
                 }
                 catch
@@ -306,7 +306,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var items = JObject.Parse(res);
                 var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
 `Definition:` {items["defs"]["def"]["text"].ToString()}
-`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>";
+`Link:` <{await _google.ShortenUrl(items["defs"]["def"]["uri"].ToString()).ConfigureAwait(false)}>";
                 await channel.SendMessageAsync(str);
             }
             catch
@@ -463,7 +463,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+            await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

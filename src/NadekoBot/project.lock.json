@@ -88,6 +88,19 @@
           "lib/netstandard1.3/Google.Apis.Core.dll": {}
         }
       },
+      "Google.Apis.Urlshortener.v1/1.15.0.138": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis": "1.15.0",
+          "Google.Apis.Auth": "1.15.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Google.Apis.Urlshortener.v1.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Google.Apis.Urlshortener.v1.dll": {}
+        }
+      },
       "Google.Apis.YouTube.v3/1.15.0.582": {
         "type": "package",
         "dependencies": {
@@ -2652,6 +2665,24 @@
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.dll",
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.pdb",
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.xml"
+      ]
+    },
+    "Google.Apis.Urlshortener.v1/1.15.0.138": {
+      "sha512": "67USnpqrk8tWO3LAgaK9qDQT6h8A7i7eUIOKm+OISThZoQuHiLCn6dbg46FVb597LUh57AxClSSbhnweYcYC3Q==",
+      "type": "package",
+      "path": "Google.Apis.Urlshortener.v1/1.15.0.138",
+      "files": [
+        "Google.Apis.Urlshortener.v1.1.15.0.138.nupkg.sha512",
+        "Google.Apis.Urlshortener.v1.nuspec",
+        "lib/netstandard1.3/Google.Apis.Urlshortener.v1.dll",
+        "lib/netstandard1.3/Google.Apis.Urlshortener.v1.pdb",
+        "lib/netstandard1.3/Google.Apis.Urlshortener.v1.xml",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.dll",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.pdb",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.xml",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Urlshortener.v1.xml"
       ]
     },
     "Google.Apis.YouTube.v3/1.15.0.582": {
@@ -7855,6 +7886,7 @@
     "": [
       "Discord.Net >= 1.0.0-dev",
       "Discord.Net.Commands >= 1.0.0-dev",
+      "Google.Apis.Urlshortener.v1 >= 1.15.0.138",
       "Google.Apis.YouTube.v3 >= 1.15.0.582",
       "Microsoft.Extensions.DependencyInjection >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 1.0.0",
