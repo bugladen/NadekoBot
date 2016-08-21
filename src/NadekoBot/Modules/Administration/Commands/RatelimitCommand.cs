@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
 
                _client.MessageReceived += async (imsg) =>
                 {
-                    var channel = imsg.Channel as ITextChannel;
+                    var channel = (ITextChannel)imsg.Channel;
 
                     if (channel == null || await imsg.IsAuthor())
                         return;
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Slowmode(IMessage imsg)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 ConcurrentDictionary<ulong, DateTime> throwaway;
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))

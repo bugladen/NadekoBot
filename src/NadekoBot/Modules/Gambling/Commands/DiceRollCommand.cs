@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Gambling
         //    InternalRoll(imsg, arg, false);
 
         //private async Task InternalRoll(IMessage imsg, string arg, bool ordered) {
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
         //    var r = new Random();
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task NRoll(IMessage imsg, [Remainder] string range)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
             try

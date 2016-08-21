@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Administration
             //[RequirePermission(GuildPermission.ManageRoles)]
             //public async Task AutoAssignRole(IMessage imsg, IRole role)
             //{
-            //    var channel = imsg.Channel as ITextChannel;
+            //    var channel = (ITextChannel)imsg.Channel;
 
             //    var config = SpecificConfigurations.Default.Of(e.Server.Id);
 

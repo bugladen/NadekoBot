@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -104,6 +105,9 @@ namespace NadekoBot.Modules.Music.Classes
                 sw.Stop();
                 Console.WriteLine("Prebuffering successfully completed in "+ sw.Elapsed);
 
+
+                var outStream = voiceClient.CreatePCMStream(3840);
+                
                 const int blockSize = 3840;
                 byte[] buffer = new byte[blockSize];
                 while (!cancelToken.IsCancellationRequested)
@@ -130,7 +134,6 @@ namespace NadekoBot.Modules.Music.Classes
                                 break;
                             if (attempt++ == 20)
                             {
-                                voiceClient.Wait();
                                 MusicPlayer.SongCancelSource.Cancel();
                                 break;
                             }
@@ -147,13 +150,12 @@ namespace NadekoBot.Modules.Music.Classes
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
 
                     buffer = AdjustVolume(buffer, MusicPlayer.Volume);
-                    voiceClient.Send(buffer, 0, read);
+                    await outStream.WriteAsync(buffer, 0, read);
                 }
             }
             finally
             {
                 await bufferTask;
-                await Task.Run(() => voiceClient.Clear());
                 if(inStream != null)
                     inStream.Dispose();
                 Console.WriteLine("l");
@@ -285,10 +287,10 @@ namespace NadekoBot.Modules.Music.Classes
                     });
                 }
 
-                var link = await SearchHelper.FindYoutubeUrlByKeywords(query).ConfigureAwait(false);
+                var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Factory.StartNew(async () => await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false)).Unwrap().ConfigureAwait(false);
+                var allVideos = await Task.Run(async () => await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false)).ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
                     .Where(v => v.AudioBitrate < 192)
@@ -324,7 +326,10 @@ namespace NadekoBot.Modules.Music.Classes
             string file = null;
             try
             {
-                file = await http.GetStringAsync(query).ConfigureAwait(false);
+                using (var http = new HttpClient())
+                {
+                    file = await http.GetStringAsync(query).ConfigureAwait(false);
+                }
             }
             catch
             {

@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Osu(IMessage imsg, string usr, string mode)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Osub(IMessage imsg, [Remainder] string map)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Osu5(IMessage imsg, string user, [Remainder] string mode)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
                     await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);

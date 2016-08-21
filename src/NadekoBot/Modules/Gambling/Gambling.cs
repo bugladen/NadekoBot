@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task Raffle(IMessage imsg, [Remainder] IRole role = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             role = role ?? channel.Guild.EveryoneRole;
 
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Gambling
         //[RequireContext(ContextType.Guild)]
         //public async Task Cash(IMessage imsg, [Remainder] string arg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    var usr = e.Message.MentionedUsers.FirstOrDefault() ?? imsg.Author;
         //    var pts = GetUserFlowers(usr.Id);
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Gambling
         //[RequireContext(ContextType.Guild)]
         //public async Task Give(IMessage imsg, long amount, [Remainder] IUser receiver)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
         //    if (amount <= 0)
         //        return;
         //    var userFlowers = GetUserFlowers(imsg.Author.Id);
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Gambling
         //[RequireContext(ContextType.Guild)]
         //public async Task Award(IMessage imsg, long amount, [Remainder] ulong usrId)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    if (amount <= 0)
         //        return;
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Gambling
         //[RequireContext(ContextType.Guild)]
         //public async Task Take(IMessage imsg, long amount, [Remainder] ulong usrId)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
         //    if (amount <= 0)
         //        return;
 
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Gambling
         //[RequireContext(ContextType.Guild)]
         //public async Task BetRoll(IMessage imsg, int amount)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    if (amount < 1)
         //        return;
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Gambling
 //        [RequireContext(ContextType.Guild)]
 //        public async Task Leaderboard(IMessage imsg)
 //        {
-//            var channel = imsg.Channel as ITextChannel;
+//            var channel = (ITextChannel)imsg.Channel;
 
 //            var richestTemp = DbHandler.Instance.GetTopRichest();
 //            var richest = richestTemp as CurrencyState[] ?? richestTemp.ToArray();

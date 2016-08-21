@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Music.Classes
@@ -18,10 +19,17 @@ namespace NadekoBot.Modules.Music.Classes
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientID))
-                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientID));
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientId))
+                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientId));
 
-            var response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Credentials.SoundCloudClientID}").ConfigureAwait(false);
+            string response = "";
+
+            using (var http = new HttpClient())
+            {
+                response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false);
+
+            }
+                
 
             var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
@@ -37,10 +45,14 @@ namespace NadekoBot.Modules.Music.Classes
         {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientID))
-                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientID));
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.SoundCloudClientId))
+                throw new ArgumentNullException(nameof(NadekoBot.Credentials.SoundCloudClientId));
 
-            var response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Credentials.SoundCloudClientID}").ConfigureAwait(false);
+            var response = "";
+            using (var http = new HttpClient())
+            {
+                await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false);
+            }
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
             if (responseObj?.Kind != "track")
@@ -62,7 +74,7 @@ namespace NadekoBot.Modules.Music.Classes
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
         [JsonIgnore]
-        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Credentials.SoundCloudClientID}";
+        public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Credentials.SoundCloudClientId}";
     }
     public class SoundCloudUser
     {

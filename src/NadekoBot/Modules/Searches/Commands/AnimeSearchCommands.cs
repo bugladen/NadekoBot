@@ -15,7 +15,7 @@
 //        [RequireContext(ContextType.Guild)]
 //        public async Task Anime(IMessage imsg, [Remainder] string query = null)
 //        {
-//            var channel = imsg.Channel as ITextChannel;
+//            var channel = (ITextChannel)imsg.Channel;
 
 //            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
 //            string result;
@@ -36,7 +36,7 @@
 //        [RequireContext(ContextType.Guild)]
 //        public async Task Manga(IMessage imsg, [Remainder] string query = null)
 //        {
-//            var channel = imsg.Channel as ITextChannel;
+//            var channel = (ITextChannel)imsg.Channel;
 
 //            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
 //            string result;

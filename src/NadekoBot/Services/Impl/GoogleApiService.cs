@@ -26,7 +26,7 @@ namespace NadekoBot.Services.Impl
             yt = new YouTubeService(bcs);
             sh = new UrlshortenerService(bcs);
         }
-        public async Task<IEnumerable<string>> FindPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
+        public async Task<IEnumerable<string>> GetPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
@@ -46,7 +46,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
 
-        public async Task<IEnumerable<string>> FindRelatedVideosAsync(string id, int count = 1)
+        public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
@@ -66,7 +66,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
         }
 
-        public async Task<IEnumerable<string>> FindVideosByKeywordsAsync(string keywords, int count = 1)
+        public async Task<IEnumerable<string>> GetVideosByKeywordsAsync(string keywords, int count = 1)
         {
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
@@ -88,6 +88,38 @@ namespace NadekoBot.Services.Impl
 
             var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync();
             return response.Id;
+        }
+
+        public async Task<IEnumerable<string>> GetPlaylistTracksAsync(string playlistId, int count = 50)
+        {
+            if (string.IsNullOrWhiteSpace(playlistId))
+                throw new ArgumentNullException(nameof(playlistId));
+
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            string nextPageToken = null;
+
+            List<string> toReturn = new List<string>(count);
+
+            do
+            {
+                var toGet = count > 50 ? 50 : count;
+                count -= toGet;
+
+                var query = yt.PlaylistItems.List("contentDetails");
+                query.MaxResults = count;
+                query.PlaylistId = playlistId;
+                query.PageToken = nextPageToken;
+
+                var data = await query.ExecuteAsync();
+
+                toReturn.AddRange(data.Items.Select(i => i.ContentDetails.VideoId));
+                nextPageToken = data.NextPageToken;
+            }
+            while (count > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
+
+            return toReturn;
         }
     }
 }

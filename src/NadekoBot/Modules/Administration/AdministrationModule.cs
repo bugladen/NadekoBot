@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Restart(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    await channel.SendMessageAsync("`Restarting in 2 seconds...`");
         //    await Task.Delay(2000);
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Administration
         //[RequirePermission(GuildPermission.ManageGuild)]
         //public async Task Delmsgoncmd(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    var conf = SpecificConfigurations.Default.Of(channel.Guild.Id);
         //    conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task Setrole(IMessage imsg, IGuildUser usr, [Remainder] IRole role)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             try
             {
                 await usr.AddRolesAsync(role).ConfigureAwait(false);
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task Removerole(IMessage imsg, IGuildUser usr, [Remainder] IRole role)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             try
             {
                 await usr.RemoveRolesAsync(role).ConfigureAwait(false);
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task RenameRole(IMessage imsg, IRole roleToEdit, string newname)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             try
             {
                 if (roleToEdit.Position > (await channel.Guild.GetCurrentUserAsync().ConfigureAwait(false)).Roles.Max(r => r.Position))
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task RemoveAllRoles(IMessage imsg, [Remainder] IGuildUser user)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             try
             {
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task CreateRole(IMessage imsg, [Remainder] string roleName = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
             if (string.IsNullOrWhiteSpace(roleName))
@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageRoles)]
         public async Task RoleColor(IMessage imsg, params string[] args)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (args.Count() != 2 && args.Count() != 4)
             {
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.BanMembers)]
         public async Task Ban(IMessage imsg, IGuildUser user)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             var msg = "";
 
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.BanMembers)]
         public async Task Softban(IMessage imsg, IGuildUser user, [Remainder] string msg = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!string.IsNullOrWhiteSpace(msg))
             {
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         public async Task Kick(IMessage imsg, IGuildUser user, [Remainder] string msg = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (user == null)
             {
@@ -273,7 +273,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Mute(IMessage imsg, params IGuildUser[] users)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!users.Any())
                 return;
@@ -296,7 +296,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Unmute(IMessage imsg, params IGuildUser[] users)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!users.Any())
                 return;
@@ -319,7 +319,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.DeafenMembers)]
         public async Task Deafen(IMessage imsg, params IGuildUser[] users)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!users.Any())
                 return;
@@ -342,7 +342,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.DeafenMembers)]
         public async Task UnDeafen(IMessage imsg, params IGuildUser[] users)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!users.Any())
                 return;
@@ -374,7 +374,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageChannels)]
         public async Task CreatVoiChanl(IMessage imsg, [Remainder] string channelName)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             //todo actually print info about created channel
             await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
             await channel.SendMessageAsync($"Created voice channel **{channelName}**.").ConfigureAwait(false);
@@ -394,7 +394,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageChannels)]
         public async Task CreaTxtChanl(IMessage imsg, [Remainder] string channelName)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             //todo actually print info about created channel
             var txtCh = await channel.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await channel.SendMessageAsync($"Added text channel **{channelName}**.").ConfigureAwait(false);
@@ -405,7 +405,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageChannels)]
         public async Task SetTopic(IMessage imsg, [Remainder] string topic = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             topic = topic ?? "";
             await (channel as ITextChannel).ModifyAsync(c => c.Topic = topic);
             //await (channel).ModifyAsync(c => c).ConfigureAwait(false);
@@ -417,7 +417,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.ManageChannels)]
         public async Task SetChanlName(IMessage imsg, [Remainder] string name)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
             await channel.SendMessageAsync(":ok: **New channel name set.**").ConfigureAwait(false);
@@ -429,7 +429,7 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         public async Task Prune(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             var user = await channel.Guild.GetCurrentUserAsync();
             
@@ -471,7 +471,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Die(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    await channel.SendMessageAsync("`Shutting down.`").ConfigureAwait(false);
         //    await Task.Delay(2000).ConfigureAwait(false);
@@ -483,7 +483,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Setname(IMessage imsg, [Remainder] string newName = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //}
 
@@ -492,7 +492,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task NewAvatar(IMessage imsg, [Remainder] string img = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    if (string.IsNullOrWhiteSpace(img))
         //        return;
@@ -511,7 +511,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task SetGame(IMessage imsg, [Remainder] string game = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    game = game ?? "";
 
@@ -523,7 +523,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Send(IMessage imsg, string where, [Remainder] string msg = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    if (string.IsNullOrWhiteSpace(msg))
         //        return;
@@ -569,7 +569,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Donadd(IMessage imsg, IUser donator, int amount)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
         //    var donator = channel.Guild.FindUsers(donator).FirstOrDefault();
         //    var amount = int.Parse(amount);
         //    if (donator == null) return;
@@ -592,7 +592,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Announce(IMessage imsg, [Remainder] string message)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    foreach (var ch in (await _client.GetGuildsAsync().ConfigureAwait(false)).Select(async g => await g.GetDefaultChannelAsync().ConfigureAwait(false)))
         //    {
@@ -607,7 +607,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task SaveChat(IMessage imsg, int cnt)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    ulong? lastmsgId = null;
         //    var sb = new StringBuilder();
@@ -640,7 +640,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(GuildPermission.MentionEveryone)]
         public async Task MentionRole(IMessage imsg, params IRole[] roles)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             string send = $"--{imsg.Author.Mention} has invoked a mention on the following roles--";
             foreach (var role in roles)
@@ -665,7 +665,7 @@ namespace NadekoBot.Modules.Administration
         //[RequireContext(ContextType.Guild)]
         //public async Task Donators(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    var rows = DbHandler.Instance.GetAllRows<Donator>();
         //    var donatorsOrdered = rows.OrderByDescending(d => d.Amount);

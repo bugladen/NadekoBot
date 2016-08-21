@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Lolban(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
 

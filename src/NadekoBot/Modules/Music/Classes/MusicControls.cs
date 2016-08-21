@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Music.Classes
         public event EventHandler<Song> OnCompleted = delegate { };
         public event EventHandler<Song> OnStarted = delegate { };
 
-        public Channel PlaybackVoiceChannel { get; private set; }
+        public IVoiceChannel PlaybackVoiceChannel { get; private set; }
 
         private bool Destroyed { get; set; } = false;
         public bool RepeatSong { get; private set; } = false;
@@ -54,12 +54,10 @@ namespace NadekoBot.Modules.Music.Classes
 
         private ConcurrentQueue<Action> actionQueue { get; set; } = new ConcurrentQueue<Action>();
 
-        public MusicPlayer(Channel startingVoiceChannel, float? defaultVolume)
+        public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
         {
             if (startingVoiceChannel == null)
                 throw new ArgumentNullException(nameof(startingVoiceChannel));
-            if (startingVoiceChannel.Type != ChannelType.Voice)
-                throw new ArgumentException("Channel must be of type voice");
             Volume = defaultVolume ?? 1.0f;
 
             PlaybackVoiceChannel = startingVoiceChannel;
@@ -101,9 +99,9 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         try
                         {
-                            if (audioClient?.State != ConnectionState.Connected)
+                            if (audioClient?.ConnectionState != ConnectionState.Connected)
                             {
-                                audioClient = await PlaybackVoiceChannel.JoinAudio();
+                                audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                                 continue;
                             }
 
@@ -246,7 +244,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         public void Destroy()
         {
-            actionQueue.Enqueue(() =>
+            actionQueue.Enqueue(async () =>
             {
                 RepeatPlaylist = false;
                 RepeatSong = false;
@@ -254,16 +252,16 @@ namespace NadekoBot.Modules.Music.Classes
                 playlist.Clear();
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-                audioClient.Disconnect();
+                await audioClient.DisconnectAsync();
             });
         }
 
-        internal Task MoveToVoiceChannel(Channel voiceChannel)
+        internal Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         {
-            if (audioClient?.State != ConnectionState.Connected)
+            if (audioClient?.ConnectionState != ConnectionState.Connected)
                 throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
             PlaybackVoiceChannel = voiceChannel;
-            return PlaybackVoiceChannel.JoinAudio();
+            return PlaybackVoiceChannel.ConnectAsync();
         }
 
         internal bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
