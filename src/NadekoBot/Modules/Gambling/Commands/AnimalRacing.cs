@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Gambling.Commands
+namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {

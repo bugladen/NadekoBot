@@ -6,7 +6,7 @@
 //using System.Threading.Tasks;
 
 ////todo owner only
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    public partial class Administration
 //    {

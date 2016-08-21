@@ -14,7 +14,7 @@
 
 ////todo DI into partials
 ////todo DB
-//namespace NadekoBot.Modules.Games.Commands
+//namespace NadekoBot.Modules.Games
 //{
 //    /// <summary>
 //    /// Flower picking/planting idea is given to me by its

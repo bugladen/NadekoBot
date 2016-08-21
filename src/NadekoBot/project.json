@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "description": "General purposee Discord bot written in C#.",
+  "description": "General purpose Discord bot written in C#.",
   "authors": [ "Kwoth" ],
   "copyright": "Kwoth",
   "buildOptions": {

@@ -8,7 +8,7 @@
 //using System.Timers;
 ////todo DB
 ////todo persist restarts
-//namespace NadekoBot.Modules.Administration.Commands
+//namespace NadekoBot.Modules.Administration
 //{
 //    class MessageRepeater : DiscordCommand
 //    {

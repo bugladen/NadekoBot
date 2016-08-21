@@ -575,27 +575,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Shows a mentioned person&apos;s avatar..
         /// </summary>
-        public static string av_desc {
+        public static string avatar_desc {
             get {
-                return ResourceManager.GetString("av_desc", resourceCulture);
+                return ResourceManager.GetString("avatar_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `~av &quot;@SomeGuy&quot;`.
         /// </summary>
-        public static string av_summary {
+        public static string avatar_summary {
             get {
-                return ResourceManager.GetString("av_summary", resourceCulture);
+                return ResourceManager.GetString("avatar_summary", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to av.
         /// </summary>
-        public static string av_text {
+        public static string avatar_text {
             get {
-                return ResourceManager.GetString("av_text", resourceCulture);
+                return ResourceManager.GetString("avatar_text", resourceCulture);
             }
         }
         
@@ -7406,27 +7406,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations..
         /// </summary>
-        public static string we_desc {
+        public static string weather_desc {
             get {
-                return ResourceManager.GetString("we_desc", resourceCulture);
+                return ResourceManager.GetString("weather_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `~we Moscow RF`.
         /// </summary>
-        public static string we_summary {
+        public static string weather_summary {
             get {
-                return ResourceManager.GetString("we_summary", resourceCulture);
+                return ResourceManager.GetString("weather_summary", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to we.
         /// </summary>
-        public static string we_text {
+        public static string weather_text {
             get {
-                return ResourceManager.GetString("we_text", resourceCulture);
+                return ResourceManager.GetString("weather_text", resourceCulture);
             }
         }
         
@@ -7541,27 +7541,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Searches youtubes and shows the first result.
         /// </summary>
-        public static string yt_desc {
+        public static string youtube_desc {
             get {
-                return ResourceManager.GetString("yt_desc", resourceCulture);
+                return ResourceManager.GetString("youtube_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `~yt query`.
         /// </summary>
-        public static string yt_summary {
+        public static string youtube_summary {
             get {
-                return ResourceManager.GetString("yt_summary", resourceCulture);
+                return ResourceManager.GetString("youtube_summary", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to yt.
         /// </summary>
-        public static string yt_text {
+        public static string youtube_text {
             get {
-                return ResourceManager.GetString("yt_text", resourceCulture);
+                return ResourceManager.GetString("youtube_text", resourceCulture);
             }
         }
     }

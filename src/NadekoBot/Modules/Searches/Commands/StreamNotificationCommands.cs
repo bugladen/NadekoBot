@@ -10,9 +10,9 @@
 //using System.Threading;
 
 //todo DB
-//namespace NadekoBot.Modules.Searches.Commands
+//namespace NadekoBot.Modules.Searches
 //{
-//    public partial class SearchesModule : DiscordModule
+//    public partial class Searches
 //    {
 //        [Group]
 //        public class StreamNotificationCommands
@@ -72,7 +72,7 @@
 //                }, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
 //            }
 
-//            public StreamNotifications(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+//            public StreamNotifications(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
 //            {
 //            }
 

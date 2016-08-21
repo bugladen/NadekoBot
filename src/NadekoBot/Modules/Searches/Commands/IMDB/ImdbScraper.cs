@@ -1,4 +1,4 @@
-﻿using NadekoBot.Modules.Searches.Commands.Models;
+﻿using NadekoBot.Modules.Searches.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 * Last Updated: Feb, 2016
 *******************************************************************************/
 
-namespace NadekoBot.Modules.Searches.Commands.IMDB
+namespace NadekoBot.Modules.Searches.IMDB
 {
     public static class ImdbScraper
     {
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
         public static async Task<string> GetIMDBId(string MovieName)
         {
             string imdbUrl = await GetIMDbUrlAsync(System.Uri.EscapeUriString(MovieName));
-            return match(@"http://www.imdb.com/title/(tt\d{7})", imdbUrl);
+            return Match(@"http://www.imdb.com/title/(tt\d{7})", imdbUrl);
         }
         //Get IMDb URL from search results
         private static async Task<string> GetIMDbUrlAsync(string MovieName)
@@ -65,17 +65,17 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
         private static async Task ParseIMDbPage(string imdbUrl, bool GetExtraInfo, ImdbMovie mov)
         {
             string html = await GetUrlDataAsync(imdbUrl + "combined");
-            mov.Id = match(@"<link rel=""canonical"" href=""http://www.imdb.com/title/(tt\d{7})/combined"" />", html);
+            mov.Id = Match(@"<link rel=""canonical"" href=""http://www.imdb.com/title/(tt\d{7})/combined"" />", html);
             if (!string.IsNullOrEmpty(mov.Id))
             {
                 mov.Status = true;
-                mov.Title = match(@"<title>(IMDb \- )*(.*?) \(.*?</title>", html, 2);
-                mov.OriginalTitle = match(@"title-extra"">(.*?)<", html);
-                mov.Year = match(@"<title>.*?\(.*?(\d{4}).*?).*?</title>", match(@"(<title>.*?</title>)", html));
-                mov.Rating = match(@"<b>(\d.\d)/10</b>", html);
-                mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", match(@"Genre.?:(.*?)(</div>|See more)", html)).Cast<string>().ToList();
-                mov.Plot = match(@"Plot:</h5>.*?<div class=""info-content"">(.*?)(<a|</div)", html);
-                mov.Poster = match(@"<div class=""photo"">.*?<a name=""poster"".*?><img.*?src=""(.*?)"".*?</div>", html);
+                mov.Title = Match(@"<title>(IMDb \- )*(.*?) \(.*?</title>", html, 2);
+                mov.OriginalTitle = Match(@"title-extra"">(.*?)<", html);
+                mov.Year = Match(@"<title>.*?\(.*?(\d{4}).*?).*?</title>", Match(@"(<title>.*?</title>)", html));
+                mov.Rating = Match(@"<b>(\d.\d)/10</b>", html);
+                mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", Match(@"Genre.?:(.*?)(</div>|See more)", html)).Cast<string>().ToList();
+                mov.Plot = Match(@"Plot:</h5>.*?<div class=""info-content"">(.*?)(<a|</div)", html);
+                mov.Poster = Match(@"<div class=""photo"">.*?<a name=""poster"".*?><img.*?src=""(.*?)"".*?</div>", html);
                 if (!string.IsNullOrEmpty(mov.Poster) && mov.Poster.IndexOf("media-imdb.com") > 0)
                 {
                     mov.Poster = Regex.Replace(mov.Poster, @"_V1.*?.jpg", "_V1._SY200.jpg");
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
         {
             Dictionary<string, string> release = new Dictionary<string, string>();
             string releasehtml = await GetUrlDataAsync("http://www.imdb.com/title/" + mov.Id + "/releaseinfo");
-            foreach (string r in MatchAll(@"<tr class="".*?"">(.*?)</tr>", match(@"<table id=""release_dates"" class=""subpage_data spFirst"">\n*?(.*?)</table>", releasehtml)))
+            foreach (string r in MatchAll(@"<tr class="".*?"">(.*?)</tr>", Match(@"<table id=""release_dates"" class=""subpage_data spFirst"">\n*?(.*?)</table>", releasehtml)))
             {
                 Match rd = new Regex(@"<td>(.*?)</td>\n*?.*?<td class=.*?>(.*?)</td>", RegexOptions.Multiline).Match(r);
                 release[StripHTML(rd.Groups[1].Value.Trim())] = StripHTML(rd.Groups[2].Value.Trim());
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             //mov.ReleaseDates = release;
 
             Dictionary<string, string> aka = new Dictionary<string, string>();
-            List<string> list = MatchAll(@".*?<tr class="".*?"">(.*?)</tr>", match(@"<table id=""akas"" class=.*?>\n*?(.*?)</table>", releasehtml));
+            List<string> list = MatchAll(@".*?<tr class="".*?"">(.*?)</tr>", Match(@"<table id=""akas"" class=.*?>\n*?(.*?)</table>", releasehtml));
             foreach (string r in list)
             {
                 Match rd = new Regex(@"\n*?.*?<td>(.*?)</td>\n*?.*?<td>(.*?)</td>", RegexOptions.Multiline).Match(r);
@@ -122,11 +122,11 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             List<string> list = new List<string>();
             string mediaurl = "http://www.imdb.com/title/" + mov.Id + "/mediaindex";
             string mediahtml = await GetUrlDataAsync(mediaurl);
-            int pagecount = MatchAll(@"<a href=""\?page=(.*?)"">", match(@"<span style=""padding: 0 1em;"">(.*?)</span>", mediahtml)).Count;
+            int pagecount = MatchAll(@"<a href=""\?page=(.*?)"">", Match(@"<span style=""padding: 0 1em;"">(.*?)</span>", mediahtml)).Count;
             for (int p = 1; p <= pagecount + 1; p++)
             {
                 mediahtml = await GetUrlDataAsync(mediaurl + "?page=" + p);
-                foreach (Match m in new Regex(@"src=""(.*?)""", RegexOptions.Multiline).Matches(match(@"<div class=""thumb_list"" style=""font-size: 0px;"">(.*?)</div>", mediahtml)))
+                foreach (Match m in new Regex(@"src=""(.*?)""", RegexOptions.Multiline).Matches(Match(@"<div class=""thumb_list"" style=""font-size: 0px;"">(.*?)</div>", mediahtml)))
                 {
                     String image = m.Groups[1].Value;
                     list.Add(Regex.Replace(image, @"_V1\..*?.jpg", "_V1._SY0.jpg"));
@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
         }
         /*******************************[ Helper Methods ]********************************/
         //Match single instance
-        private static string match(string regex, string html, int i = 1)
+        private static string Match(string regex, string html, int i = 1)
         {
             return new Regex(regex, RegexOptions.Multiline).Match(html).Groups[i].Value.Trim();
         }

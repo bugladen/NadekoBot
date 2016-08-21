@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NadekoBot.Services;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
+using Discord.WebSocket;
 
 //todo fix delmsgoncmd
 //todo DB
@@ -18,7 +19,7 @@ namespace NadekoBot.Modules.Administration
     [Module(".", AppendSpace = false)]
     public partial class Administration : DiscordModule
     {
-        public Administration(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Administration(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
 
         }
@@ -462,7 +463,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = msg.Channel as ITextChannel;
             int limit = (count < 100) ? count : 100;
-            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
+            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit)).Where(m => m.Author == user);
             await msg.Channel.DeleteMessagesAsync(enumerable);
         }
         ////todo owner only

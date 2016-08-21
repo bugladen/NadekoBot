@@ -1,9 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Modules.Searches.Commands.Models;
+using NadekoBot.Modules.Searches.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,21 +12,34 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Searches.Commands
+namespace NadekoBot.Modules.Searches
 {
-    public partial class SearchesModule
+    public partial class Searches
     {
         [Group]
         public class JokeCommands
         {
             //todo DB
-            private List<WoWJoke> wowJokes;
+            private List<WoWJoke> wowJokes = new List<WoWJoke>();
             private List<MagicItem> magicItems;
+            private Logger _log;
 
             public JokeCommands()
             {
-                wowJokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
-                magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
+                _log = LogManager.GetCurrentClassLogger();
+                if (File.Exists("data/wowjokes.json"))
+                {
+                    wowJokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
+                }
+                else
+                    _log.Warn("data/wowjokes.json is missing. WOW Jokes are not loaded.");
+
+                if (File.Exists("data/magicitems.json"))
+                {
+                    magicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
+                }
+                else
+                    _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]

@@ -8,6 +8,7 @@ using NadekoBot.Attributes;
 using System;
 using System.IO;
 using System.Text;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Help
 {
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Help
                 return str + String.Format(str, NadekoBot.Credentials.ClientId);
             }
         }
-        public Help(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client) : base(loc, cmds, config, client)
+        public Help(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
         }
 

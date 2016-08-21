@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Modules.Searches.Commands.Models
+﻿namespace NadekoBot.Modules.Searches.Models
 {
     public class WoWJoke
     {

@@ -52,7 +52,7 @@ namespace NadekoBot
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
             depMap.Add<IBotConfiguration>(Config);
-            depMap.Add<IDiscordClient>(Client);
+            depMap.Add<DiscordSocketClient>(Client);
             depMap.Add<CommandService>(Commands);
             depMap.Add<IYoutubeService>(Youtube);
 

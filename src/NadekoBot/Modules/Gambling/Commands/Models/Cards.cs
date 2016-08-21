@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NadekoBot.Modules.Gambling.Commands.Models
+namespace NadekoBot.Modules.Gambling.Models
 {
     public class Cards
     {

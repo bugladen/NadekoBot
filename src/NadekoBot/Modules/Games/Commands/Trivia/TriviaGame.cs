@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 // todo rewrite?
 // todo DB
-namespace NadekoBot.Modules.Games.Commands.Trivia
+namespace NadekoBot.Modules.Games.Trivia
 {
     public class TriviaGame
     {

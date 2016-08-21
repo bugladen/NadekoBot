@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help
-namespace NadekoBot.Modules.Games.Commands.Trivia
+namespace NadekoBot.Modules.Games.Trivia
 {
     public class TriviaQuestion
     {

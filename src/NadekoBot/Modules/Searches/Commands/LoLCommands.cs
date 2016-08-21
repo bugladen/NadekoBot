@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 //todo drawing
-namespace NadekoBot.Modules.Searches.Commands
+namespace NadekoBot.Modules.Searches
 {
     public partial class Searches
     {

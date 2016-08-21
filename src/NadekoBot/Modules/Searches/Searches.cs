@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Modules.Searches.Commands.IMDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,8 +11,9 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Net;
-using NadekoBot.Modules.Searches.Commands.Models;
-using NCalc;
+using Discord.WebSocket;
+using NadekoBot.Modules.Searches.Models;
+using NadekoBot.Modules.Searches.IMDB;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -22,19 +22,10 @@ namespace NadekoBot.Modules.Searches
     {
         private IYoutubeService _yt { get; }
 
-        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, IDiscordClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
+        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
         {
             _yt = youtube;
         }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        [RequireContext(ContextType.Guild)]
-        public async Task Calc(IMessage msg, [Remainder] string calculation)
-        {
-            var channel = msg.Channel as ITextChannel;
-
-        }
-
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IMessage imsg, string city, string country)
@@ -257,7 +248,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task UrbanDictionary(IMessage imsg, [Remainder] string query = null)
+        public async Task Ud(IMessage imsg, [Remainder] string query = null)
         {
             var channel = imsg.Channel as ITextChannel;
 
