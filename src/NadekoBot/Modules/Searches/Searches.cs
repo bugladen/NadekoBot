@@ -25,6 +25,7 @@ namespace NadekoBot.Modules.Searches
         {
             _google = youtube;
         }
+
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IMessage imsg, string city, string country)
