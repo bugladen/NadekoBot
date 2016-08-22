@@ -10,7 +10,7 @@ namespace NadekoBot.Services
         string Token { get; }
         string GoogleApiKey { get; }
         ulong[] OwnerIds { get; }
-        IEnumerable<string> MashapeKey { get; }
+        string MashapeKey { get; }
         string LoLApiKey { get; }
 
         bool IsOwner(IUser u);

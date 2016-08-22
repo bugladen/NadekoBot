@@ -59,8 +59,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync("No results found for that query.");
                 return;
             }
-            var shortUrl = await result.ShortenUrl().ConfigureAwait(false);
-            await channel.SendMessageAsync(shortUrl).ConfigureAwait(false);
+            await channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

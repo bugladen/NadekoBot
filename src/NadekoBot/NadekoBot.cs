@@ -36,7 +36,6 @@ namespace NadekoBot
                 AudioMode = Discord.Audio.AudioMode.Incoming,
                 LargeThreshold = 200,
                 LogLevel = LogSeverity.Warning,
-                MessageCacheSize = 10,
             });
 
             //initialize Services
@@ -105,7 +104,7 @@ namespace NadekoBot
                 }
                 else if (!t.IsSuccess && t.Error != CommandError.UnknownCommand)
                 {
-                    _log.Warn("Command errored!\n\tFull Message: {0}\n\tError:{1}", imsg.Content, t.Error);
+                    _log.Warn("Command errored!\n\tFull Message: {0}\n\tError:{1}", imsg.Content, t.ErrorReason);
                 }
             });
 

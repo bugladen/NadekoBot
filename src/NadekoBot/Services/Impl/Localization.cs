@@ -4,27 +4,12 @@ namespace NadekoBot.Services
 {
     public class Localization : ILocalization
     {
-        public string this[string key] {
-            get {
-                try
-                {
-                    return Resources.ResponseStrings.ResourceManager.GetString(key);
-                }
-                catch (Exception) {
-                    return key;
-                }
-            }
-        }
+        public string this[string key] => LoadCommandString(key);
 
         public static string LoadCommandString(string key)
         {
-            try
-            {
-                return Resources.CommandStrings.ResourceManager.GetString(key);
-            }
-            catch (Exception) {
-                return key;
-            }
+            string toReturn = Resources.CommandStrings.ResourceManager.GetString(key);
+            return string.IsNullOrWhiteSpace(toReturn) ? key : toReturn;
         }
 
         //private static string GetCommandString(string key)

@@ -23,7 +23,6 @@ namespace NadekoBot.Modules.Administration
         {
 
         }
-
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
@@ -445,6 +444,7 @@ namespace NadekoBot.Modules.Administration
         public async Task Prune(IMessage msg, int count)
         {
             var channel = msg.Channel as ITextChannel;
+            await msg.DeleteAsync();
             while (count > 0)
             {
                 int limit = (count < 100) ? count : 100;
@@ -646,7 +646,7 @@ namespace NadekoBot.Modules.Administration
             foreach (var role in roles)
             { 
                 send += $"\n`{role.Name}`\n";
-                send += string.Join(", ", (await channel.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct());
+                send += string.Join(", ", (await channel.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct().Select(u=>u.Mention));
             }
 
             while (send.Length > 2000)
