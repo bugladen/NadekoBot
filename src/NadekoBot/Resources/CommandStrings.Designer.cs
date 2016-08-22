@@ -3734,27 +3734,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Queues all songs from a directory. **Bot Owner Only!**.
         /// </summary>
-        public static string localplaylst_desc {
+        public static string localpl_desc {
             get {
-                return ResourceManager.GetString("localplaylst_desc", resourceCulture);
+                return ResourceManager.GetString("localpl_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `!!lopl C:/music/classical`.
         /// </summary>
-        public static string localplaylst_summary {
+        public static string localpl_summary {
             get {
-                return ResourceManager.GetString("localplaylst_summary", resourceCulture);
+                return ResourceManager.GetString("localpl_summary", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to localplaylst.
         /// </summary>
-        public static string localplaylst_text {
+        public static string localpl_text {
             get {
-                return ResourceManager.GetString("localplaylst_text", resourceCulture);
+                return ResourceManager.GetString("localpl_text", resourceCulture);
             }
         }
         
@@ -4353,56 +4353,56 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows information about an osu beatmap..
-        /// </summary>
-        public static string osubeatmap_desc {
-            get {
-                return ResourceManager.GetString("osubeatmap_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `~osu b https://osu.ppy.sh/s/127712`.
-        /// </summary>
-        public static string osubeatmap_summary {
-            get {
-                return ResourceManager.GetString("osubeatmap_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to osu b.
-        /// </summary>
-        public static string osubeatmap_text {
-            get {
-                return ResourceManager.GetString("osubeatmap_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Displays a user&apos;s top 5 plays..
         /// </summary>
-        public static string osutop5_desc {
+        public static string osu5_desc {
             get {
-                return ResourceManager.GetString("osutop5_desc", resourceCulture);
+                return ResourceManager.GetString("osu5_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `~osu top5 Name`.
         /// </summary>
-        public static string osutop5_summary {
+        public static string osu5_summary {
             get {
-                return ResourceManager.GetString("osutop5_summary", resourceCulture);
+                return ResourceManager.GetString("osu5_summary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to osu top5.
+        ///    Looks up a localized string similar to osu5.
         /// </summary>
-        public static string osutop5_text {
+        public static string osu5_text {
             get {
-                return ResourceManager.GetString("osutop5_text", resourceCulture);
+                return ResourceManager.GetString("osu5_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows information about an osu beatmap..
+        /// </summary>
+        public static string osub_desc {
+            get {
+                return ResourceManager.GetString("osub_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `~osu b https://osu.ppy.sh/s/127712`.
+        /// </summary>
+        public static string osub_summary {
+            get {
+                return ResourceManager.GetString("osub_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to osub.
+        /// </summary>
+        public static string osub_text {
+            get {
+                return ResourceManager.GetString("osub_text", resourceCulture);
             }
         }
         
@@ -5190,6 +5190,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue)..
+        /// </summary>
+        public static string repeatpl_desc {
+            get {
+                return ResourceManager.GetString("repeatpl_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `!!rpl`.
+        /// </summary>
+        public static string repeatpl_summary {
+            get {
+                return ResourceManager.GetString("repeatpl_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to rpeatplaylst.
+        /// </summary>
+        public static string repeatpl_text {
+            get {
+                return ResourceManager.GetString("repeatpl_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Toggles repeat of current song..
         /// </summary>
         public static string reptcursong_desc {
@@ -5591,33 +5618,6 @@ namespace NadekoBot.Resources {
         public static string rotateplaying_text {
             get {
                 return ResourceManager.GetString("rotateplaying_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue)..
-        /// </summary>
-        public static string rpeatplaylst_desc {
-            get {
-                return ResourceManager.GetString("rpeatplaylst_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `!!rpl`.
-        /// </summary>
-        public static string rpeatplaylst_summary {
-            get {
-                return ResourceManager.GetString("rpeatplaylst_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to rpeatplaylst.
-        /// </summary>
-        public static string rpeatplaylst_text {
-            get {
-                return ResourceManager.GetString("rpeatplaylst_text", resourceCulture);
             }
         }
         

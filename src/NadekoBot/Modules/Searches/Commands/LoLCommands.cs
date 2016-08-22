@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Lolban(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
 
@@ -124,9 +124,9 @@ namespace NadekoBot.Modules.Searches
 //                      try
 //                      {
 //                          //get role
-//                          var role = ResolvePos(e.GetArg("position"));
+//                          var role = ResolvePos(position);
 //                          var resolvedRole = role;
-//                          var name = e.GetArg("champ").Replace(" ", "").ToLower();
+//                          var name = champ.Replace(" ", "").ToLower();
 //                          CachedChampion champ = null;
 
 //                          if (CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ))
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Searches
 //                                  await e.Channel.SendFile("champ.png", champ.ImageStream).ConfigureAwait(false);
 //                                  return;
 //                              }
-//                          var allData = JArray.Parse(await Classes.http.GetStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}").ConfigureAwait(false));
+//                          var allData = JArray.Parse(await Classes.http.GetStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Credentials.LOLAPIKey}").ConfigureAwait(false));
 //                          JToken data = null;
 //                          if (role != null)
 //                          {
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Searches
 //                                  roles[i] = ">" + roles[i] + "<";
 //                          }
 //                          var general = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/stats/" +
-//                                                                                               $"champs/{name}?api_key={NadekoBot.Creds.LOLAPIKey}")
+//                                                                                               $"champs/{name}?api_key={NadekoBot.Credentials.LOLAPIKey}")
 //                                                                                                .ConfigureAwait(false))
 //                                              .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
 //                          if (general == null)

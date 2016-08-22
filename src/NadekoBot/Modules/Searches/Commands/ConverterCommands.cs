@@ -72,11 +72,11 @@
 //                {
 //                    await e.Channel.SendIsTyping().ConfigureAwait(false);
 
-//                    string from = e.GetArg("from-to").ToLowerInvariant().Split('>')[0];
-//                    string to = e.GetArg("from-to").ToLowerInvariant().Split('>')[1];
+//                    string from = from-to.ToLowerInvariant().Split('>')[0];
+//                    string to = from-to.ToLowerInvariant().Split('>')[1];
 
 //                    float quantity = 1.0f;
-//                    if (!float.TryParse(e.GetArg("quantity"), out quantity))
+//                    if (!float.TryParse(quantity, out quantity))
 //                    {
 //                        quantity = 1.0f;
 //                    }

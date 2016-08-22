@@ -240,14 +240,14 @@
 //                {
 //                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
-//                    if (string.IsNullOrWhiteSpace(e.GetArg("msg")))
+//                    if (string.IsNullOrWhiteSpace(msg))
 //                    {
 //                        await channel.SendMessageAsync("`Current greet message:` " + ann.GreetText);
 //                        return;
 //                    }
 
 
-//                    ann.GreetText = e.GetArg("msg");
+//                    ann.GreetText = msg;
 //                    await channel.SendMessageAsync("New greet message set.").ConfigureAwait(false);
 //                    if (!ann.Greet)
 //                        await channel.SendMessageAsync("Enable greet messsages by typing `.greet`").ConfigureAwait(false);
@@ -273,13 +273,13 @@
 //                {
 //                    if (!imsg.Author.ServerPermissions.ManageServer) return;
 //                    var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
-//                    if (string.IsNullOrWhiteSpace(e.GetArg("msg")))
+//                    if (string.IsNullOrWhiteSpace(msg))
 //                    {
 //                        await channel.SendMessageAsync("`Current bye message:` " + ann.ByeText);
 //                        return;
 //                    }
 
-//                    ann.ByeText = e.GetArg("msg");
+//                    ann.ByeText = msg;
 //                    await channel.SendMessageAsync("New bye message set.").ConfigureAwait(false);
 //                    if (!ann.Bye)
 //                        await channel.SendMessageAsync("Enable bye messsages by typing `.bye`.").ConfigureAwait(false);

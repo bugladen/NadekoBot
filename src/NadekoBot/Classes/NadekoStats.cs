@@ -115,13 +115,13 @@ namespace NadekoBot
         HttpClient carbonClient = new HttpClient();
         private async Task SendUpdateToCarbon()
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.CarbonKey))
                 return;
             try
             {
                 using (var content = new FormUrlEncodedContent(new Dictionary<string, string> {
                                 { "servercount", NadekoBot.Client.Servers.Count().ToString() },
-                                { "key", NadekoBot.Creds.CarbonKey }
+                                { "key", NadekoBot.Credentials.CarbonKey }
                     }))
                 {
                     content.Headers.Clear();
@@ -155,7 +155,7 @@ namespace NadekoBot
                 sb.AppendLine($"`Bot Version: {BotVersion}`");
                 sb.AppendLine($"`Bot id: {NadekoBot.Client.CurrentUser.Id}`");
                 sb.Append("`Owners' Ids:` ");
-                sb.AppendLine("`" + String.Join(", ", NadekoBot.Creds.OwnerIds) + "`");
+                sb.AppendLine("`" + String.Join(", ", NadekoBot.Credentials.OwnerIds) + "`");
                 sb.AppendLine($"`Uptime: {GetUptimeString()}`");
                 sb.Append($"`Servers: {ServerCount}");
                 sb.Append($" | TextChannels: {TextChannelsCount}");

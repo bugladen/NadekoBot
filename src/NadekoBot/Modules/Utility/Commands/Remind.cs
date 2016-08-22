@@ -94,7 +94,7 @@
 //                .Parameter("message", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    var meorchStr = e.GetArg("meorchannel").ToUpperInvariant();
+//                    var meorchStr = meorchannel.ToUpperInvariant();
 //                    Channel ch;
 //                    bool isPrivate = false;
 //                    if (meorchStr == "ME")
@@ -117,7 +117,7 @@
 //                        return;
 //                    }
 
-//                    var timeStr = e.GetArg("time");
+//                    var timeStr = time;
 
 //                    var m = regex.Match(timeStr);
 
@@ -167,7 +167,7 @@
 //                        ChannelId = (long)ch.Id,
 //                        IsPrivate = isPrivate,
 //                        When = time,
-//                        Message = e.GetArg("message"),
+//                        Message = message,
 //                        UserId = (long)imsg.Author.Id,
 //                        ServerId = (long)e.Server.Id
 //                    };
@@ -175,7 +175,7 @@
 
 //                    reminders.Add(StartNewReminder(rem));
 
-//                    await channel.SendMessageAsync($"⏰ I will remind \"{ch.Name}\" to \"{e.GetArg("message").ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
+//                    await channel.SendMessageAsync($"⏰ I will remind \"{ch.Name}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
 //                });
 //            cgb.CreateCommand(Module.Prefix + "remindmsg")
 //                .Description("Sets message for when the remind is triggered. " +
@@ -185,7 +185,7 @@
 //                .AddCheck(SimpleCheckers.OwnerOnly())
 //                .Do(async e =>
 //                {
-//                    var arg = e.GetArg("msg")?.Trim();
+//                    var arg = msg?.Trim();
 //                    if (string.IsNullOrWhiteSpace(arg))
 //                        return;
 

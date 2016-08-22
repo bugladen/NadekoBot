@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Translator
         [RequireContext(ContextType.Guild)]
         public async Task Translate(IMessage imsg, string langs, [Remainder] string text = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             try
             {
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Translator
         [RequireContext(ContextType.Guild)]
         public async Task Translangs(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             await channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => str, columns: 4);
         }

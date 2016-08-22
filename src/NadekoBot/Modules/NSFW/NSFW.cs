@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Net;
 using Discord.WebSocket;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -25,7 +26,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Hentai(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
 
@@ -44,7 +45,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Danbooru(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetDanbooruImageLink(tag).ConfigureAwait(false);
@@ -58,7 +59,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Gelbooru(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
@@ -72,7 +73,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Rule34(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
@@ -86,7 +87,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task E621(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetE621ImageLink(tag).ConfigureAwait(false);
@@ -100,7 +101,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Cp(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
@@ -109,7 +110,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Boobs(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             try
             {
                 JToken obj;
@@ -129,7 +130,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Butts(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             try
             {
@@ -173,9 +174,7 @@ namespace NadekoBot.Modules.NSFW
         {
             using (var http = new HttpClient())
             {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-                http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                http.AddFakeHeaders();
 
                 var webpage = await http.GetStringAsync("http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags="+ tag.Replace(" ", "_")).ConfigureAwait(false);
                 var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
@@ -211,9 +210,7 @@ namespace NadekoBot.Modules.NSFW
             {
                 using (var http = new HttpClient())
                 {
-                    http.DefaultRequestHeaders.Clear();
-                    http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-                    http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                    http.AddFakeHeaders();
                     var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1");
                     var doc = XDocument.Load(data);
                     return doc.Descendants("file_url").FirstOrDefault().Value;

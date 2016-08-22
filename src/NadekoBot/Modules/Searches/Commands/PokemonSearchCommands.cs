@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Pokemon(IMessage imsg, [Remainder] string pokemon = null)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 pokemon = pokemon?.Trim().ToUpperInvariant();
                 if (string.IsNullOrWhiteSpace(pokemon))
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task PokemonAbility(IMessage imsg, [Remainder] string ability = null)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 ability = ability?.Trim().ToUpperInvariant().Replace(" ", "");
                 if (string.IsNullOrWhiteSpace(ability))

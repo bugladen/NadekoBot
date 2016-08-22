@@ -86,7 +86,7 @@
 //                .Do(async e =>
 //                {
 //                    int token;
-//                    if (!int.TryParse(e.GetArg("token"), out token))
+//                    if (!int.TryParse(token, out token))
 //                        return;
 //                    HashSet<Channel> set;
 //                    if (!Subscribers.TryGetValue(token, out set))

@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Race(IMessage imsg)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 var ar = new AnimalRace(channel.Guild.Id, channel);
 
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(IMessage imsg, int amount = 0)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 if (amount < 0)
                     amount = 0;

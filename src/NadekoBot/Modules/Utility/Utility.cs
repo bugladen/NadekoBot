@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task WhoPlays(IMessage imsg, [Remainder] string game = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
                 return;
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility
         {
             if (string.IsNullOrWhiteSpace(roles))
                 return;
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             var arg = roles.Split(',').Select(r => r.Trim().ToUpperInvariant());
             string send = _l["`Here is a list of users in a specfic role:`"];
             foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str) && str != "@EVERYONE" && str != "EVERYONE"))
@@ -121,11 +121,11 @@ namespace NadekoBot.Modules.Utility
             var guild = (msg.Channel as ITextChannel).Guild;
             if (target != null)
             {
-                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole })));
+                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)));
             }
             else
             {
-                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", (msg.Channel as ITextChannel).Guild.Roles.Except(new[] { guild.EveryoneRole })));
+                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", (msg.Channel as ITextChannel).Guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)));
             }
         }
 
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task Stats(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             await channel.SendMessageAsync(await NadekoBot.Stats.Print());
         }

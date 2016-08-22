@@ -23,7 +23,7 @@ namespace NadekoBot
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
-        private static YoutubeService Youtube { get; set; }
+        public static GoogleApiService Google { get; set; }
         public static StatsService Stats { get; private set; }
 
         public async Task RunAsync(string[] args)
@@ -43,7 +43,7 @@ namespace NadekoBot
             Commands = new CommandService();
             Config = new BotConfiguration();
             Localizer = new Localization();
-            Youtube = new YoutubeService();
+            Google = new GoogleApiService();
             Stats = new StatsService(Client);
             
 
@@ -53,7 +53,7 @@ namespace NadekoBot
             depMap.Add<IBotConfiguration>(Config);
             depMap.Add<DiscordSocketClient>(Client);
             depMap.Add<CommandService>(Commands);
-            depMap.Add<IYoutubeService>(Youtube);
+            depMap.Add<IGoogleApiService>(Google);
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token);

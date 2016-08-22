@@ -456,7 +456,7 @@
 //                  {
 
 //                      var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                      if (e.GetArg("all")?.ToLower() == "all")
+//                      if (all?.ToLower() == "all")
 //                      {
 //                          foreach (var voiceChannel in e.Server.VoiceChannels)
 //                          {

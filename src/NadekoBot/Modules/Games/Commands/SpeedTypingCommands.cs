@@ -181,11 +181,11 @@
 //                .Parameter("text", ParameterType.Unparsed)
 //                .Do(async e =>
 //                {
-//                    if (!NadekoBot.IsOwner(imsg.Author.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
+//                    if (!NadekoBot.IsOwner(imsg.Author.Id) || string.IsNullOrWhiteSpace(text)) return;
 
 //                    DbHandler.Instance.Connection.Insert(new TypingArticle
 //                    {
-//                        Text = e.GetArg("text"),
+//                        Text = text,
 //                        DateAdded = DateTime.Now
 //                    });
 

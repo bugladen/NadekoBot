@@ -80,8 +80,8 @@
 //                .AddCheck(SimpleCheckers.ManageMessages())
 //                .Do(async e =>
 //                {
-//                    var minutesStr = e.GetArg("minutes");
-//                    var msg = e.GetArg("msg");
+//                    var minutesStr = minutes;
+//                    var msg = msg;
 
 //                    // if both null, disable
 //                    if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr))

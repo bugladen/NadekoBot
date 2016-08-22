@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Trivia(IMessage imsg, string[] args)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 TriviaGame trivia;
                 if (!RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Tl(IMessage imsg)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Tq(IMessage imsg)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryRemove(channel.Guild.Id, out trivia))

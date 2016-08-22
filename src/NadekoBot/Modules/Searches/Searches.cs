@@ -8,7 +8,6 @@ using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
-using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Net;
 using Discord.WebSocket;
@@ -20,17 +19,17 @@ namespace NadekoBot.Modules.Searches
     [Module("~", AppendSpace = false)]
     public partial class Searches : DiscordModule
     {
-        private IYoutubeService _yt { get; }
+        private IGoogleApiService _google { get; }
 
-        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IYoutubeService youtube) : base(loc, cmds, config, client)
+        public Searches(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IGoogleApiService youtube) : base(loc, cmds, config, client)
         {
-            _yt = youtube;
+            _google = youtube;
         }
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IMessage imsg, string city, string country)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             city = city.Replace(" ", "");
             country = city.Replace(" ", "");
             string response;
@@ -51,9 +50,9 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Youtube(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-            var result = (await _yt.FindVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            var result = (await _google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
                 await channel.SendMessageAsync("No results found for that query.");
@@ -66,7 +65,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Imdb(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
             await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -90,7 +89,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task RandomCat(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             using (var http = new HttpClient())
             {
                 await channel.SendMessageAsync(JObject.Parse(
@@ -103,7 +102,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             using (var http = new HttpClient())
             {
                 await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
@@ -114,7 +113,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task I(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -144,7 +143,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Ir(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -176,13 +175,13 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Lmgtfy(IMessage imsg, [Remainder] string ffs = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await channel.SendMessageAsync(await $"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>".ShortenUrl())
+            await channel.SendMessageAsync(await _google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
                            .ConfigureAwait(false);
         }
 
@@ -190,7 +189,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Google(IMessage imsg, [Remainder] string terms = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
 
             terms = terms?.Trim();
@@ -204,8 +203,8 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //[RequireContext(ContextType.Guild)]
         //public async Task Hearthstone(IMessage imsg, [Remainder] string name = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
-        //    var arg = e.GetArg("name");
+        //    var channel = (ITextChannel)imsg.Channel;
+        //    var arg = name;
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
         //        await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
@@ -249,7 +248,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Ud(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -269,7 +268,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var sb = new System.Text.StringBuilder();
                     sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                     sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                    sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
+                    sb.Append($"`Link:` <{await _google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
                     await channel.SendMessageAsync(sb.ToString());
                 }
                 catch
@@ -283,7 +282,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Hashtag(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -305,7 +304,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var items = JObject.Parse(res);
                 var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
 `Definition:` {items["defs"]["def"]["text"].ToString()}
-`Link:` <{await items["defs"]["def"]["uri"].ToString().ShortenUrl().ConfigureAwait(false)}>";
+`Link:` <{await _google.ShortenUrl(items["defs"]["def"]["uri"].ToString()).ConfigureAwait(false)}>";
                 await channel.SendMessageAsync(str);
             }
             catch
@@ -318,7 +317,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //[RequireContext(ContextType.Guild)]
         //public async Task Quote(IMessage imsg)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
         //    await channel.SendMessageAsync(quote).ConfigureAwait(false);
@@ -328,7 +327,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Catfact(IMessage imsg)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             using (var http = new HttpClient())
             {
                 var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
@@ -342,7 +341,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Revav(IMessage imsg, [Remainder] string arg = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             var usrStr = arg?.Trim().ToUpperInvariant();
 
             if (string.IsNullOrWhiteSpace(usrStr))
@@ -359,7 +358,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Revimg(IMessage imsg, [Remainder] string imageLink = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
             imageLink = imageLink?.Trim() ?? "";
 
             if (string.IsNullOrWhiteSpace(imageLink))
@@ -371,7 +370,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Safebooru(IMessage imsg, [Remainder] string tag = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
@@ -385,7 +384,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Wiki(IMessage imsg, [Remainder] string query = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             query = query?.Trim();
             if (string.IsNullOrWhiteSpace(query))
@@ -406,7 +405,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //[RequireContext(ContextType.Guild)]
         //public async Task Clr(IMessage imsg, [Remainder] string color = null)
         //{
-        //    var channel = imsg.Channel as ITextChannel;
+        //    var channel = (ITextChannel)imsg.Channel;
 
         //    color = color?.Trim().Replace("#", "");
         //    if (string.IsNullOrWhiteSpace((string)color))
@@ -431,7 +430,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Videocall(IMessage imsg, [Remainder] string arg = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             try
             {
@@ -454,7 +453,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         [RequireContext(ContextType.Guild)]
         public async Task Avatar(IMessage imsg, [Remainder] string mention = null)
         {
-            var channel = imsg.Channel as ITextChannel;
+            var channel = (ITextChannel)imsg.Channel;
 
             var usr = imsg.MentionedUsers.FirstOrDefault();
             if (usr == null)
@@ -462,7 +461,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
+            await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

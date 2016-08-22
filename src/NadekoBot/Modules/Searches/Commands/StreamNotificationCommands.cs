@@ -154,7 +154,7 @@
 //                    .AddCheck(SimpleCheckers.ManageServer())
 //                    .Do(async e =>
 //                    {
-//                        var stream = e.GetArg("username")?.Trim();
+//                        var stream = username?.Trim();
 //                        if (string.IsNullOrWhiteSpace(stream))
 //                            return;
 //                        try
@@ -183,7 +183,7 @@
 //                    .Parameter("username", ParameterType.Unparsed)
 //                    .Do(async e =>
 //                    {
-//                        var stream = e.GetArg("username")?.Trim();
+//                        var stream = username?.Trim();
 //                        if (string.IsNullOrWhiteSpace(stream))
 //                            return;
 //                        try
@@ -212,7 +212,7 @@
 //                    .Parameter("username", ParameterType.Unparsed)
 //                    .Do(async e =>
 //                    {
-//                        var stream = e.GetArg("username")?.Trim();
+//                        var stream = username?.Trim();
 //                        if (string.IsNullOrWhiteSpace(stream))
 //                            return;
 //                        try
@@ -241,7 +241,7 @@
 //                    .Parameter("username", ParameterType.Unparsed)
 //                    .Do(async e =>
 //                    {
-//                        var username = e.GetArg("username")?.ToLower().Trim();
+//                        var username = username?.ToLower().Trim();
 //                        if (string.IsNullOrWhiteSpace(username))
 //                            return;
 
@@ -298,7 +298,7 @@
 //            private Func<CommandEventArgs, Task> TrackStream(StreamNotificationConfig.StreamType type) =>
 //                async e =>
 //                {
-//                    var username = e.GetArg("username")?.ToLowerInvariant();
+//                    var username = username?.ToLowerInvariant();
 //                    if (string.IsNullOrWhiteSpace(username))
 //                        return;
 

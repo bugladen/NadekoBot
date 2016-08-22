@@ -26,7 +26,7 @@ $@"`Title:` {WebUtility.HtmlDecode(Title)} {(string.IsNullOrEmpty(OriginalTitle)
 `Genre:` {GenresAsString}
 `Link:` <{ImdbURL}>
 `Plot:` {System.Net.WebUtility.HtmlDecode(Plot.TrimTo(500))}
-`img:` " + Poster.ShortenUrl().Result;
+`img:` " + Poster;
         public string GenresAsString =>
                 string.Join(", ", Genres);
     }

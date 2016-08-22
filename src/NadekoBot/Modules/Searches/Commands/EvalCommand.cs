@@ -27,7 +27,7 @@
 //        private CustomParser parser = new CustomParser();
 //        private Func<CommandEventArgs, Task> EvalFunc() => async e =>
 //        {
-//            string expression = e.GetArg("expression")?.Trim();
+//            string expression = expression?.Trim();
 //            if (string.IsNullOrWhiteSpace(expression))
 //            {
 //                return;
