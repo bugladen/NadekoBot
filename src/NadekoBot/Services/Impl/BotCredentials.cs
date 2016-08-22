@@ -24,10 +24,11 @@ namespace NadekoBot.Services.Impl
         public ulong[] OwnerIds { get; }
 
         public string LoLApiKey { get; }
+        public string OsuApiKey { get; }
+        public string SoundCloudClientId { get; }
 
         public BotCredentials()
         {
-            File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented));
             _log = LogManager.GetCurrentClassLogger();
             if (File.Exists("./credentials.json"))
             {
@@ -37,17 +38,22 @@ namespace NadekoBot.Services.Impl
                 LoLApiKey = cm.LoLApiKey;
                 GoogleApiKey = cm.GoogleApiKey;
                 MashapeKey = cm.MashapeKey;
+                OsuApiKey = cm.OsuApiKey;
+                SoundCloudClientId = cm.SoundCloudClientId;
             }
             else
                 _log.Fatal("credentials.json is missing. Failed to start.");
         }
 
-        private class CredentialsModel {
+        private class CredentialsModel
+        {
             public string Token { get; set; }
             public ulong[] OwnerIds { get; set; }
             public string LoLApiKey { get; set; }
             public string GoogleApiKey { get; set; }
             public string MashapeKey { get; set; }
+            public string OsuApiKey { get; set; }
+            public string SoundCloudClientId { get; set; }
         }
 
         public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
