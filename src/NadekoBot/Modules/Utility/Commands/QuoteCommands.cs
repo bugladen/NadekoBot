@@ -23,6 +23,8 @@ namespace NadekoBot.Modules.Utility
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
 
+            keyword = keyword.ToUpperInvariant();
+
             Quote quote;
             using (var uow = DbHandler.Instance.GetUnitOfWork())
             {
@@ -32,7 +34,7 @@ namespace NadekoBot.Modules.Utility
             if (quote == null)
                 return;
 
-            await channel.SendMessageAsync(":megaphone: " + quote.Text);
+            await channel.SendMessageAsync("📣 " + quote.Text);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
