@@ -38,5 +38,8 @@ namespace NadekoBot.Services
 
         public UnitOfWork GetUnitOfWork() =>
             new UnitOfWork(GetDbContext());
+
+        public static UnitOfWork UnitOfWork() =>
+            DbHandler.Instance.GetUnitOfWork();
     }
 }

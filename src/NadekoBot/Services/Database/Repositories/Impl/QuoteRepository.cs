@@ -15,10 +15,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Quote> GetQuotesByText(string text) => 
-            _set.Where(q => q.Text == text);
+        public IEnumerable<Quote> GetAllQuotesByKeyword(string keyword) => 
+            _set.Where(q => q.Keyword == keyword);
 
-        public Task<Quote> GetRandomQuoteByTextAsync(string text)
+        public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string text)
         {
             var rng = new Random();
             return _set.Where(q => q.Text == text).OrderBy(q => rng.Next()).FirstOrDefaultAsync();

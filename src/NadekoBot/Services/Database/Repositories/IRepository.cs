@@ -18,7 +18,7 @@ namespace NadekoBot.Services.Database.Repositories
 
         void Remove(int id);
         void Remove(T obj);
-        void RemoveRange(params T[] ids);
+        void RemoveRange(params int[] ids);
 
         void Update(T obj);
         void UpdateRange(params T[] objs);

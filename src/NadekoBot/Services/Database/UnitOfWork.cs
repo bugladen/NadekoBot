@@ -21,7 +21,10 @@ namespace NadekoBot.Services.Database
             
         }
 
-        public Task<int> Complete() => 
+        public int Complete() =>
+            _context.SaveChanges();
+
+        public Task<int> CompleteAsync() => 
             _context.SaveChangesAsync();
 
         private bool disposed = false;

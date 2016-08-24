@@ -10,6 +10,7 @@ namespace NadekoBot.Services.Database
     public interface IUnitOfWork : IDisposable
     {
         IQuoteRepository Quotes { get; }
-        Task<int> Complete();
+        int Complete();
+        Task<int> CompleteAsync();
     }
 }

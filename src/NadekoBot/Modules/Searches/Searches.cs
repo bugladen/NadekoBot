@@ -313,16 +313,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
             }
         }
-        //todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Quote(IMessage imsg)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-
-        //    var quote = NadekoBot.Config.Quotes[rng.Next(0, NadekoBot.Config.Quotes.Count)].ToString();
-        //    await channel.SendMessageAsync(quote).ConfigureAwait(false);
-        //}
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]

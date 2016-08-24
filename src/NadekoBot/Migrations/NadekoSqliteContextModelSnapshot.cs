@@ -20,13 +20,23 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Keyword");
+                    b.Property<ulong>("AuthorId");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("AuthorName")
+                        .IsRequired();
 
-                    b.Property<string>("UserName");
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<string>("Keyword")
+                        .IsRequired();
+
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GuildId", "Keyword")
+                        .IsUnique();
 
                     b.ToTable("Quotes");
                 });
