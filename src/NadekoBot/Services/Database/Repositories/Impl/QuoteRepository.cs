@@ -1,0 +1,27 @@
+﻿using NadekoBot.Services.Database.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Services.Database;
+
+namespace NadekoBot.Services.Database.Repositories.Impl
+{
+    public class QuoteRepository : Repository<Quote>, IQuoteRepository
+    {
+        public QuoteRepository(DbContext context) : base(context)
+        {
+        }
+
+        public IEnumerable<Quote> GetQuotesByText(string text) => 
+            _set.Where(q => q.Text == text);
+
+        public Task<Quote> GetRandomQuoteByTextAsync(string text)
+        {
+            var rng = new Random();
+            return _set.Where(q => q.Text == text).OrderBy(q => rng.Next()).FirstOrDefaultAsync();
+        }
+    }
+}

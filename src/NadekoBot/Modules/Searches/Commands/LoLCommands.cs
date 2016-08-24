@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Searches
                                                     .ConfigureAwait(false))["data"] as JArray;
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
                     var sb = new StringBuilder();
-                    sb.AppendLine($"**Showing {showCount} top banned champions.**");
+                    sb.AppendLine($"**Showing {dataList.Count} top banned champions.**");
                     sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
                     for (var i = 0; i < dataList.Count; i++)
                     {

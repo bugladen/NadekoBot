@@ -133,9 +133,9 @@ namespace NadekoBot.Modules.Searches
                             var acc = CalculateAcc(item, m);
                             var mods = ResolveMods(Int32.Parse($"{item["enabled_mods"]}"));
                             if (mods != "+")
-                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"],-40}) | **{mods,-10}** | /b/{item["beatmap_id"]}");
+                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40} | **{mods,-10}** | /b/{item["beatmap_id"]}");
                             else
-                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"],-40})  | /b/{item["beatmap_id"]}");
+                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40}  | /b/{item["beatmap_id"]}");
                         }
                         sb.Append("```");
                         await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);

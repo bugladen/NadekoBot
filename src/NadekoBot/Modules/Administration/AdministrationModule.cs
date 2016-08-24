@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration
         //    else
         //        await channel.SendMessageAsync("❗`Stopped automatic deletion of successfull command invokations.`");
         //}
-
+        
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageRoles)]

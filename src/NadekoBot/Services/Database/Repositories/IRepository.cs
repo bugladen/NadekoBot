@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Services.Database.Models;
+
+namespace NadekoBot.Services.Database.Repositories
+{
+    public interface IRepository<T> where T : DbEntity
+    {
+        T Get(int id);
+        IEnumerable<T> GetAll();
+
+        void Add(T obj);
+        void AddRange(params T[] objs);
+
+        void Remove(int id);
+        void Remove(T obj);
+        void RemoveRange(params T[] ids);
+
+        void Update(T obj);
+        void UpdateRange(params T[] objs);
+    }
+}

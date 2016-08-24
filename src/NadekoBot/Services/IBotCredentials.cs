@@ -13,6 +13,19 @@ namespace NadekoBot.Services
         string MashapeKey { get; }
         string LoLApiKey { get; }
 
+        DB Db { get; }
+
         bool IsOwner(IUser u);
+    }
+
+    public class DB
+    {
+        public DB(string type, string connString)
+        {
+            this.Type = type;
+            this.ConnectionString = connString;
+        }
+        public string Type { get; }
+        public string ConnectionString { get; }
     }
 }

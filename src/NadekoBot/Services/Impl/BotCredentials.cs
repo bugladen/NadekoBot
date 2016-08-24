@@ -27,6 +27,8 @@ namespace NadekoBot.Services.Impl
         public string OsuApiKey { get; }
         public string SoundCloudClientId { get; }
 
+        public DB Db { get; }
+
         public BotCredentials()
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -40,6 +42,7 @@ namespace NadekoBot.Services.Impl
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
                 SoundCloudClientId = cm.SoundCloudClientId;
+                Db = new DB(string.IsNullOrWhiteSpace(cm.Db.Type) ? cm.Db.Type : "sqlite", cm.Db.ConnectionString);
             }
             else
                 _log.Fatal("credentials.json is missing. Failed to start.");
@@ -54,6 +57,13 @@ namespace NadekoBot.Services.Impl
             public string MashapeKey { get; set; }
             public string OsuApiKey { get; set; }
             public string SoundCloudClientId { get; set; }
+            public DB Db { get; set; }
+        }
+
+        private class DbModel
+        {
+            public string Type { get; set; }
+            public string ConnectionString { get; set; }
         }
 
         public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);

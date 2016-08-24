@@ -3813,7 +3813,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time..
+        ///    Looks up a localized string similar to Shows top banned champions ordered by ban rate..
         /// </summary>
         public static string lolban_desc {
             get {
@@ -7433,27 +7433,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Shows a list of users who are playing the specified game..
         /// </summary>
-        public static string whoplays_desc {
+        public static string whosplaying_desc {
             get {
-                return ResourceManager.GetString("whoplays_desc", resourceCulture);
+                return ResourceManager.GetString("whosplaying_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `.whoplays Overwatch`.
         /// </summary>
-        public static string whoplays_summary {
+        public static string whosplaying_summary {
             get {
-                return ResourceManager.GetString("whoplays_summary", resourceCulture);
+                return ResourceManager.GetString("whosplaying_summary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to whoplays.
+        ///    Looks up a localized string similar to whosplaying.
         /// </summary>
-        public static string whoplays_text {
+        public static string whosplaying_text {
             get {
-                return ResourceManager.GetString("whoplays_text", resourceCulture);
+                return ResourceManager.GetString("whosplaying_text", resourceCulture);
             }
         }
         

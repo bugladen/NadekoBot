@@ -864,13 +864,13 @@
   <data name="userinfo_summary" xml:space="preserve">
     <value>`.uinfo @SomeUser`</value>
   </data>
-  <data name="whoplays_text" xml:space="preserve">
-    <value>whoplays</value>
+  <data name="whosplaying_text" xml:space="preserve">
+    <value>whosplaying</value>
   </data>
-  <data name="whoplays_desc" xml:space="preserve">
+  <data name="whosplaying_desc" xml:space="preserve">
     <value>Shows a list of users who are playing the specified game.</value>
   </data>
-  <data name="whoplays_summary" xml:space="preserve">
+  <data name="whosplaying_summary" xml:space="preserve">
     <value>`.whoplays Overwatch`</value>
   </data>
   <data name="inrole_text" xml:space="preserve">
@@ -1939,7 +1939,7 @@
     <value>lolban</value>
   </data>
   <data name="lolban_desc" xml:space="preserve">
-    <value>Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.</value>
+    <value>Shows top banned champions ordered by ban rate.</value>
   </data>
   <data name="lolban_summary" xml:space="preserve">
     <value>`~lolban`</value>

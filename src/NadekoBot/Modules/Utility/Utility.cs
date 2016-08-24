@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Utility
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task WhoPlays(IMessage imsg, [Remainder] string game = null)
+        public async Task WhosPlaying(IMessage imsg, [Remainder] string game = null)
         {
             var channel = (ITextChannel)imsg.Channel;
             game = game.Trim().ToUpperInvariant();
