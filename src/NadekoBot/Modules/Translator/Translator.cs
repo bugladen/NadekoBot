@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Translator
         {
             var channel = (ITextChannel)imsg.Channel;
 
-            await channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => str, columns: 4);
+            await channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => $"{str,-15}", columns: 3);
         }
 
     }
