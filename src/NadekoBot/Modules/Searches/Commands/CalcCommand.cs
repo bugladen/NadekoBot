@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Searches
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task CalcOperations(IMessage msg)
+        public async Task CalcOps(IMessage msg)
         {
             StringBuilder builder = new StringBuilder();
             var selection = typeof(Math).GetTypeInfo().GetMethods().Except(typeof(object).GetTypeInfo().GetMethods()).Select(x =>

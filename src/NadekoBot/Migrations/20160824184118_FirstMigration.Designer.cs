@@ -8,13 +8,49 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160824125525_QuoteMigration")]
-    partial class QuoteMigration
+    [Migration("20160824184118_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Config", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("DeleteMessageOnCommand");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildId")
+                        .IsUnique();
+
+                    b.ToTable("Configs");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amount");
+
+                    b.Property<string>("Name");
+
+                    b.Property<ulong>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Donators");
+                });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Quote", b =>
                 {
@@ -35,9 +71,6 @@ namespace NadekoBot.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GuildId", "Keyword")
-                        .IsUnique();
 
                     b.ToTable("Quotes");
                 });

@@ -1288,7 +1288,7 @@
     <value>`;acmdcds`</value>
   </data>
   <data name="addquote_text" xml:space="preserve">
-    <value>..</value>
+    <value>.</value>
   </data>
   <data name="addquote_desc" xml:space="preserve">
     <value>Adds a new quote with the specified name (single word) and message (no limit).</value>
@@ -1297,7 +1297,7 @@
     <value>`.. abc My message`</value>
   </data>
   <data name="showquote_text" xml:space="preserve">
-    <value>...</value>
+    <value>..</value>
   </data>
   <data name="showquote_desc" xml:space="preserve">
     <value>Shows a random quote with a specified name.</value>
@@ -1305,14 +1305,14 @@
   <data name="showquote_summary" xml:space="preserve">
     <value>`... abc`</value>
   </data>
-  <data name="deletequtoe_text" xml:space="preserve">
-    <value>..qdel</value>
+  <data name="deletequote_text" xml:space="preserve">
+    <value>deletequote</value>
   </data>
   <data name="deletequote_desc" xml:space="preserve">
     <value>Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.</value>
   </data>
   <data name="deletequote_summary" xml:space="preserve">
-    <value>`..qdel abc`</value>
+    <value>`.delq abc`</value>
   </data>
   <data name="rip_text" xml:space="preserve">
     <value>rip</value>
@@ -2241,15 +2241,6 @@
   <data name="hashtag_summary" xml:space="preserve">
     <value>`~# ff`</value>
   </data>
-  <data name="quote_text" xml:space="preserve">
-    <value>quote</value>
-  </data>
-  <data name="quote_desc" xml:space="preserve">
-    <value>Shows a random quote.</value>
-  </data>
-  <data name="quote_summary" xml:space="preserve">
-    <value>`~quote`</value>
-  </data>
   <data name="catfact_text" xml:space="preserve">
     <value>catfact</value>
   </data>
@@ -2618,5 +2609,23 @@
   </data>
   <data name="guide_text" xml:space="preserve">
     <value>readme</value>
+  </data>
+  <data name="calcops_desc" xml:space="preserve">
+    <value>Shows all available operations in .calc command</value>
+  </data>
+  <data name="calcops_summary" xml:space="preserve">
+    <value>`.calcops`</value>
+  </data>
+  <data name="calcops_text" xml:space="preserve">
+    <value>calcops</value>
+  </data>
+  <data name="delallquotes_desc" xml:space="preserve">
+    <value>Deletes all quotes on a specified keyword.</value>
+  </data>
+  <data name="delallquotes_summary" xml:space="preserve">
+    <value>`.delallq`</value>
+  </data>
+  <data name="delallquotes_text" xml:space="preserve">
+    <value>delallq</value>
   </data>
 </root>

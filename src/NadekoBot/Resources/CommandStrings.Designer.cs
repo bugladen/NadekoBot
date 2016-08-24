@@ -213,7 +213,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to ...
+        ///    Looks up a localized string similar to ..
         /// </summary>
         public static string addquote_text {
             get {
@@ -893,6 +893,33 @@ namespace NadekoBot.Resources {
         public static string byepm_text {
             get {
                 return ResourceManager.GetString("byepm_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows all available operations in .calc command.
+        /// </summary>
+        public static string calcops_desc {
+            get {
+                return ResourceManager.GetString("calcops_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.calcops`.
+        /// </summary>
+        public static string calcops_summary {
+            get {
+                return ResourceManager.GetString("calcops_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to calcops.
+        /// </summary>
+        public static string calcops_text {
+            get {
+                return ResourceManager.GetString("calcops_text", resourceCulture);
             }
         }
         
@@ -1950,6 +1977,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Deletes all quotes on a specified keyword..
+        /// </summary>
+        public static string delallquotes_desc {
+            get {
+                return ResourceManager.GetString("delallquotes_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.delallq`.
+        /// </summary>
+        public static string delallquotes_summary {
+            get {
+                return ResourceManager.GetString("delallquotes_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to delallq.
+        /// </summary>
+        public static string delallquotes_text {
+            get {
+                return ResourceManager.GetString("delallquotes_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Deletes a custom reaction with given name (and index). **Bot Owner Only.**.
         /// </summary>
         public static string delcustreact_desc {
@@ -2013,7 +2067,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `..qdel abc`.
+        ///    Looks up a localized string similar to `.delq abc`.
         /// </summary>
         public static string deletequote_summary {
             get {
@@ -2022,11 +2076,11 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to ..qdel.
+        ///    Looks up a localized string similar to deletequote.
         /// </summary>
-        public static string deletequtoe_text {
+        public static string deletequote_text {
             get {
-                return ResourceManager.GetString("deletequtoe_text", resourceCulture);
+                return ResourceManager.GetString("deletequote_text", resourceCulture);
             }
         }
         
@@ -4731,33 +4785,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random quote..
-        /// </summary>
-        public static string quote_desc {
-            get {
-                return ResourceManager.GetString("quote_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `~quote`.
-        /// </summary>
-        public static string quote_summary {
-            get {
-                return ResourceManager.GetString("quote_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to quote.
-        /// </summary>
-        public static string quote_text {
-            get {
-                return ResourceManager.GetString("quote_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Starts a new animal race..
         /// </summary>
         public static string race_desc {
@@ -6153,7 +6180,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to ....
+        ///    Looks up a localized string similar to ...
         /// </summary>
         public static string showquote_text {
             get {

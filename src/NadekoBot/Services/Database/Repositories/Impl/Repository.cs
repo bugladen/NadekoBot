@@ -26,13 +26,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             _set.AddRange(objs);
 
         public T Get(int id) =>
-            _set.Find(id);
+            _set.FirstOrDefault(e => e.Id == id);
 
         public IEnumerable<T> GetAll() =>
             _set.ToList();
 
         public void Remove(int id) =>
-            _set.Remove(_set.Find(id));
+            _set.Remove(this.Get(id));
 
         public void Remove(T obj) =>
             _set.Remove(obj);

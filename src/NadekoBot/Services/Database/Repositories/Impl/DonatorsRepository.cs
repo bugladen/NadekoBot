@@ -16,19 +16,21 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public Donator AddOrUpdateDonator(ulong userId, string name, int amount)
         {
-            var donator = _set.Find(userId);
+            var donator = _set.Where(d => d.UserId == userId).FirstOrDefault();
 
             if (donator == null)
             {
                 _set.Add(donator = new Donator
                 {
                     Amount = amount,
-                    UserId = userId
+                    UserId = userId,
+                    Name = name
                 });
             }
             else
             {
                 donator.Amount += amount;
+                donator.Name = name;
                 _set.Update(donator);
             }
 
