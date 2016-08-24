@@ -9,14 +9,14 @@
 //// todo rewrite
 //namespace NadekoBot.Modules.Administration
 //{
-//    internal class ServerGreetCommand : DiscordCommand
+//    public partial class ServerGreetCommands
 //    {
 
 //        public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
 //        public static long Greeted = 0;
 
-//        public ServerGreetCommand(DiscordModule module) : base(module)
+//        public ServerGreetCommands(DiscordModule module)
 //        {
 //            AnnouncementsDictionary = new ConcurrentDictionary<ulong, AnnounceControls>();
 
@@ -68,7 +68,7 @@
 //            catch { }
 //        }
 
-//        private async void UserJoined(object sender, Discord.UserEventArgs e)
+//        private async Task UserJoined(object sender, Discord.UserEventArgs e)
 //        {
 //            try
 //            {

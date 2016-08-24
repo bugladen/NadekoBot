@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration
                 var _client = NadekoBot.Client;
                 _client.UserJoined += async (user) =>
                 {
-                    Config conf;
+                    GuildConfig conf;
                     using (var uow = DbHandler.UnitOfWork())
                     {
                         conf = uow.GuildConfigs.For(user.Guild.Id);
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)imsg.Channel;
 
-                Config conf;
+                GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     conf = uow.GuildConfigs.For(channel.Guild.Id);

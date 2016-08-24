@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Database
     {
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Donator> Donators { get; set; }
-        public DbSet<Config> GuildConfigs { get; set; }
+        public DbSet<GuildConfig> GuildConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace NadekoBot.Services.Database
 
             #region Config
 
-            var configEntity = modelBuilder.Entity<Config>();
+            var configEntity = modelBuilder.Entity<GuildConfig>();
             configEntity
                 .HasIndex(c => c.GuildId)
                 .IsUnique();

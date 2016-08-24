@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
 {
-    public class ConfigRepository : Repository<Config>, IConfigRepository
+    public class ConfigRepository : Repository<GuildConfig>, IConfigRepository
     {
         public ConfigRepository(DbContext context) : base(context)
         {
@@ -18,16 +18,17 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// </summary>
         /// <param name="guildId"></param>
         /// <returns></returns>
-        public Config For(ulong guildId)
+        public GuildConfig For(ulong guildId)
         {
-            var config = _set.Where(c => c.GuildId == guildId).FirstOrDefault();
+            var config = _set.FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
             {
-                _set.Add((config = new Config
+                _set.Add((config = new GuildConfig
                 {
                     GuildId = guildId
                 }));
+                _context.SaveChanges();
             }
             return config;
         }

@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration
         public async Task Delmsgoncmd(IMessage imsg)
         {
             var channel = (ITextChannel)imsg.Channel;
-            Config conf;
+            GuildConfig conf;
             using (var uow = DbHandler.UnitOfWork())
             {
                 conf = uow.GuildConfigs.For(channel.Guild.Id);

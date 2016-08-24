@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Database.Repositories
 {
-    public interface IConfigRepository : IRepository<Config>
+    public interface IConfigRepository : IRepository<GuildConfig>
     {
-        Config For(ulong guildId);
+        GuildConfig For(ulong guildId);
     }
 }
