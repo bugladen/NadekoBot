@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Utility
     {
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Quote(IMessage imsg, string keyword)
+        public async Task ShowQuote(IMessage imsg, string keyword)
         {
             var channel = imsg.Channel as ITextChannel;
 
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Utility
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task DelQuote(IMessage imsg, string keyword)
+        public async Task DeleteQuote(IMessage imsg, string keyword)
         {
             var channel = imsg.Channel as ITextChannel;
 
