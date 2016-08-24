@@ -18,30 +18,16 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public static async Task Calculate(IMessage msg, [Remainder] string expression)
         {
-
             try
             {
-
-
                 var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase);
                 expr.EvaluateParameter += Expr_EvaluateParameter;
-                expr.EvaluateFunction += Expr_EvaluateFunction;
                 var result = expr.Evaluate();
                 await msg.Reply(string.Format("Your expression evaluated to: {0}", expr.Error ?? result));
             }
             catch (Exception e)
             {
                 await msg.Reply($"Your expression failed to evaluate: {e.Message} ");
-            }
-
-
-        }
-
-        private static void Expr_EvaluateFunction(string name, NCalc.FunctionArgs args)
-        {
-            switch (name.ToLowerInvariant())
-            {
-
             }
         }
 
@@ -51,15 +37,13 @@ namespace NadekoBot.Modules.Searches
                 case "pi": args.Result= Math.PI;
                     break;
                 case "e": args.Result = Math.E;
-                    break;
-                 
+                    break;    
             }
-
         }
 
-        [Command("calcOperations")]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task calcOperations(IMessage msg)
+        public async Task CalcOperations(IMessage msg)
         {
             StringBuilder builder = new StringBuilder();
             var selection = typeof(Math).GetTypeInfo().GetMethods().Except(typeof(object).GetTypeInfo().GetMethods()).Select(x =>
@@ -69,7 +53,6 @@ namespace NadekoBot.Modules.Searches
                 {
                     name += " (" + string.Join(", ", x.GetParameters().Select(y => y.IsOptional ? $"[{y.ParameterType.Name + " " + y.Name }]" : y.ParameterType.Name + " " + y.Name)) + ")";
                 }
-
                 return name;
             });
             foreach (var method in selection) builder.AppendLine(method);

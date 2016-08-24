@@ -34,8 +34,7 @@ namespace NadekoBot.Services.Database.Repositories
                 // Return the local object if it exists.
                 return entry.Entity;
             }
-
-            // TODO: Build the real LINQ Expression
+            
             // set.Where(x => x.Id == keyValues[0]);
             var parameter = Expression.Parameter(typeof(TEntity), "x");
             var query = set.Where((Expression<Func<TEntity, bool>>)

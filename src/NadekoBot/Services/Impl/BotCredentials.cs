@@ -8,7 +8,6 @@ using NLog;
 
 namespace NadekoBot.Services.Impl
 {
-    //todo load creds
     public class BotCredentials : IBotCredentials
     {
         private Logger _log;
