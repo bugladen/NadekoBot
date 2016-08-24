@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160824184118_FirstMigration")]
+    [Migration("20160824223801_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,8 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<ulong>("AutoAssignRoleId");
+
                     b.Property<bool>("DeleteMessageOnCommand");
 
                     b.Property<ulong>("GuildId");
@@ -30,7 +32,7 @@ namespace NadekoBot.Migrations
                     b.HasIndex("GuildId")
                         .IsUnique();
 
-                    b.ToTable("Configs");
+                    b.ToTable("GuildConfigs");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>

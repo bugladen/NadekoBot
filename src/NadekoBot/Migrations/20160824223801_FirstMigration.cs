@@ -9,17 +9,18 @@ namespace NadekoBot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Configs",
+                name: "GuildConfigs",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
+                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Configs", x => x.Id);
+                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,8 +56,8 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Configs_GuildId",
-                table: "Configs",
+                name: "IX_GuildConfigs_GuildId",
+                table: "GuildConfigs",
                 column: "GuildId",
                 unique: true);
 
@@ -70,7 +71,7 @@ namespace NadekoBot.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Configs");
+                name: "GuildConfigs");
 
             migrationBuilder.DropTable(
                 name: "Donators");

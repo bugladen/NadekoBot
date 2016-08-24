@@ -15,7 +15,6 @@ using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 
 //todo fix delmsgoncmd
-//todo DB
 namespace NadekoBot.Modules.Administration
 {
     [Module(".", AppendSpace = false)]
@@ -47,9 +46,9 @@ namespace NadekoBot.Modules.Administration
             Config conf;
             using (var uow = DbHandler.UnitOfWork())
             {
-                conf = uow.Configs.For(channel.Guild.Id);
+                conf = uow.GuildConfigs.For(channel.Guild.Id);
                 conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-                uow.Configs.Update(conf);
+                uow.GuildConfigs.Update(conf);
                 await uow.CompleteAsync();
             }
             if (conf.DeleteMessageOnCommand)
@@ -381,8 +380,8 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)imsg.Channel;
             //todo actually print info about created channel
-            await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"Created voice channel **{channelName}**.").ConfigureAwait(false);
+            var ch = await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
+            await channel.SendMessageAsync($"Created voice channel **{ch.Name}**, id `{ch.Id}`.").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -391,7 +390,7 @@ namespace NadekoBot.Modules.Administration
         public async Task DelTxtChanl(IMessage imsg, [Remainder] ITextChannel channel)
         {
             await channel.DeleteAsync().ConfigureAwait(false);
-            await channel.SendMessageAsync($"Removed text channel **{channel.Name}**.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"Removed text channel **{channel.Name}**, id `{channel.Id}`.").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -402,7 +401,7 @@ namespace NadekoBot.Modules.Administration
             var channel = (ITextChannel)imsg.Channel;
             //todo actually print info about created channel
             var txtCh = await channel.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"Added text channel **{channelName}**.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"Added text channel **{txtCh.Name}**, id `{txtCh.Id}`.").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -413,7 +412,6 @@ namespace NadekoBot.Modules.Administration
             var channel = (ITextChannel)imsg.Channel;
             topic = topic ?? "";
             await (channel as ITextChannel).ModifyAsync(c => c.Topic = topic);
-            //await (channel).ModifyAsync(c => c).ConfigureAwait(false);
             await channel.SendMessageAsync(":ok: **New channel topic set.**").ConfigureAwait(false);
 
         }

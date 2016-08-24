@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Database
     {
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Donator> Donators { get; set; }
-        public DbSet<Config> Configs { get; set; }
+        public DbSet<Config> GuildConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,9 +41,6 @@ namespace NadekoBot.Services.Database
 
             #endregion
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.sqlite");
-        }
+        protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
     }
 }
