@@ -15,6 +15,11 @@ namespace NadekoBot.Services.Database
         private IQuoteRepository _quotes;
         public IQuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(_context));
 
+        private IConfigRepository _configs;
+        public IConfigRepository Configs => _configs ?? (_configs = new ConfigRepository(_context));
+
+        private IDonatorsRepository _donators;
+        public IDonatorsRepository Donators => _donators ?? (_donators = new DonatorsRepository(_context));
 
         public UnitOfWork(NadekoContext context)
         {

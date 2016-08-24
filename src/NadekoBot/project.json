@@ -7,7 +7,7 @@
     "emitEntryPoint": true,
     "allowUnsafe": true,
     "compile": {
-      "exclude": [ "_Models", "Classes", "_Modules" ]
+      "exclude": [ "_Models", "_Classes", "_Modules" ]
     },
     "define": []
   },
@@ -24,6 +24,7 @@
     "System.Resources.ResourceWriter": "4.0.0-beta-22816",
     "Google.Apis.YouTube.v3": "1.15.0.582",
     "Google.Apis.Urlshortener.v1": "1.15.0.138",
+    "Google.Apis.Customsearch.v1": "1.16.0.466",
     "System.Diagnostics.Contracts": "4.0.1",
     "NLog": "4.4.0-betaV15",
     "VideoLibrary": "1.3.4",

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Utility.Commands
+namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Utility.Commands
             {
                 var quotes = uow.Quotes.GetAllQuotesByKeyword(keyword);
 
-                uow.Quotes.RemoveRange(quotes.Select(q => q.Id).ToArray());//wtf?!
+                uow.Quotes.RemoveRange(quotes.ToArray());//wtf?!
 
                 await uow.CompleteAsync();
             }

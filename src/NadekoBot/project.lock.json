@@ -23,10 +23,10 @@
           "lib/netstandard1.3/NCalc.dll": {}
         }
       },
-      "Google.Apis/1.15.0": {
+      "Google.Apis/1.16.0": {
         "type": "package",
         "dependencies": {
-          "Google.Apis.Core": "1.15.0",
+          "Google.Apis.Core": "1.16.0",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.IO": "4.1.0",
@@ -81,7 +81,7 @@
           "lib/netstandard1.3/Google.Apis.Auth.dll": {}
         }
       },
-      "Google.Apis.Core/1.15.0": {
+      "Google.Apis.Core/1.16.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
@@ -106,6 +106,18 @@
         },
         "runtime": {
           "lib/netstandard1.3/Google.Apis.Core.dll": {}
+        }
+      },
+      "Google.Apis.Customsearch.v1/1.16.0.466": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis": "1.16.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Google.Apis.Customsearch.v1.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Google.Apis.Customsearch.v1.dll": {}
         }
       },
       "Google.Apis.Urlshortener.v1/1.15.0.138": {
@@ -3203,12 +3215,12 @@
         "lib/netstandard1.3/NCalc.dll"
       ]
     },
-    "Google.Apis/1.15.0": {
-      "sha512": "B//vbZgUsR0jdJztCJ0ORmVcAzhoiisIsxwc1libVjoZzu+kxUKNJKUl5Wlkj7V28kauS56y3hJUj3FMsgaJZQ==",
+    "Google.Apis/1.16.0": {
+      "sha512": "/p657K7J7p9aRl6QxUjQfNK0AobxnLHwDWdSqAr/17lZeQR+XMuEbIy7No80+zDeS39kKrRVWFlu1vHiws7gRQ==",
       "type": "package",
-      "path": "Google.Apis/1.15.0",
+      "path": "Google.Apis/1.16.0",
       "files": [
-        "Google.Apis.1.15.0.nupkg.sha512",
+        "Google.Apis.1.16.0.nupkg.sha512",
         "Google.Apis.nuspec",
         "License.txt",
         "lib/net45/Google.Apis.PlatformServices.dll",
@@ -3286,12 +3298,12 @@
         "lib/wpa81/Google.Apis.Auth.xml"
       ]
     },
-    "Google.Apis.Core/1.15.0": {
-      "sha512": "izmsmat5RRL0bmJ2tr3SvlqEiGf40wDeOTHv0PJOVUvHoZBdAaVbbZFxtevOWOyo878mwpYGXfzMs5Zfoyfrfw==",
+    "Google.Apis.Core/1.16.0": {
+      "sha512": "uATqVAsPHlpOf+3VV51xFEIghAMSLJyh1hqoVpnPOlkXBx7fkOcs0qP3tKXtmsaeuyC/7BYM1Tt42lyIyhY2lQ==",
       "type": "package",
-      "path": "Google.Apis.Core/1.15.0",
+      "path": "Google.Apis.Core/1.16.0",
       "files": [
-        "Google.Apis.Core.1.15.0.nupkg.sha512",
+        "Google.Apis.Core.1.16.0.nupkg.sha512",
         "Google.Apis.Core.nuspec",
         "License.txt",
         "lib/net45/Google.Apis.Core.dll",
@@ -3303,6 +3315,24 @@
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.dll",
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.pdb",
         "lib/portable-net45+sl50+netcore45+wpa81+wp8/Google.Apis.Core.xml"
+      ]
+    },
+    "Google.Apis.Customsearch.v1/1.16.0.466": {
+      "sha512": "uZ5VP/xKgTZCMJXgEfwHYEIR/7FsbtvL+bncm08a07RhWLFZTdRpCAkNL4b5wADHkblpkBe1VWKv43W77I4tJw==",
+      "type": "package",
+      "path": "Google.Apis.Customsearch.v1/1.16.0.466",
+      "files": [
+        "Google.Apis.Customsearch.v1.1.16.0.466.nupkg.sha512",
+        "Google.Apis.Customsearch.v1.nuspec",
+        "lib/netstandard1.3/Google.Apis.Customsearch.v1.dll",
+        "lib/netstandard1.3/Google.Apis.Customsearch.v1.pdb",
+        "lib/netstandard1.3/Google.Apis.Customsearch.v1.xml",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.dll",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.pdb",
+        "lib/portable-net40+sl50+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.xml",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.Customsearch.v1.xml"
       ]
     },
     "Google.Apis.Urlshortener.v1/1.15.0.138": {
@@ -9004,6 +9034,7 @@
     "": [
       "CoreCLR-NCalc >= 2.1.0",
       "Discord.Net.Commands >= 1.0.0-dev",
+      "Google.Apis.Customsearch.v1 >= 1.16.0.466",
       "Google.Apis.Urlshortener.v1 >= 1.15.0.138",
       "Google.Apis.YouTube.v3 >= 1.15.0.582",
       "Microsoft.EntityFrameworkCore >= 1.0.0",

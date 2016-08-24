@@ -11,6 +11,8 @@ using NadekoBot.Services;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
 using Discord.WebSocket;
+using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
 
 //todo fix delmsgoncmd
 //todo DB
@@ -35,24 +37,27 @@ namespace NadekoBot.Modules.Administration
         //    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         //    Environment.Exit(0);
         //}
-
-        ////todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //[RequirePermission(GuildPermission.ManageGuild)]
-        //public async Task Delmsgoncmd(IMessage imsg)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-
-        //    var conf = SpecificConfigurations.Default.Of(channel.Guild.Id);
-        //    conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
-        //    await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
-        //    if (conf.AutoDeleteMessagesOnCommand)
-        //        await channel.SendMessageAsync("❗`Now automatically deleting successfull command invokations.`");
-        //    else
-        //        await channel.SendMessageAsync("❗`Stopped automatic deletion of successfull command invokations.`");
-        //}
         
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.Administrator)]
+        public async Task Delmsgoncmd(IMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            Config conf;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                conf = uow.Configs.For(channel.Guild.Id);
+                conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
+                uow.Configs.Update(conf);
+                await uow.CompleteAsync();
+            }
+            if (conf.DeleteMessageOnCommand)
+                await channel.SendMessageAsync("❗`Now automatically deleting successfull command invokations.`");
+            else
+                await channel.SendMessageAsync("❗`Stopped automatic deletion of successfull command invokations.`");
+        }
+
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageRoles)]
@@ -564,30 +569,6 @@ namespace NadekoBot.Modules.Administration
         //}
 
         ////todo owner only
-        ////todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Donadd(IMessage imsg, IUser donator, int amount)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-        //    var donator = channel.Guild.FindUsers(donator).FirstOrDefault();
-        //    var amount = int.Parse(amount);
-        //    if (donator == null) return;
-        //    try
-        //    {
-        //        DbHandler.Instance.Connection.Insert(new Donator
-        //        {
-        //            Amount = amount,
-        //            UserName = donator.Name,
-        //            UserId = (long)donator.Id
-        //        });
-        //        channel.SendMessageAsync("Successfuly added a new donator. 👑").ConfigureAwait(false);
-        //    }
-        //    catch { }
-
-        //}
-
-        ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
         //public async Task Announce(IMessage imsg, [Remainder] string message)
@@ -660,18 +641,36 @@ namespace NadekoBot.Modules.Administration
             await channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
-        //todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Donators(IMessage imsg)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Donators(IMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            IEnumerable<Donator> donatorsOrdered;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                donatorsOrdered = uow.Donators.GetDonatorsOrdered();
+            }
 
-        //    var rows = DbHandler.Instance.GetAllRows<Donator>();
-        //    var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
-        //    string str = $"**Thanks to the people listed below for making this project happen!**\n";
+            string str = $"**Thanks to the people listed below for making this project happen!**\n";
+            await channel.SendMessageAsync(str + string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
+        }
 
-        //    await channel.SendMessageAsync(str + string.Join("⭐", donatorsOrdered.Select(d => d.UserName))).ConfigureAwait(false);
-        //}
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Donadd(IMessage imsg, IUser donator, int amount)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            Donator don;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                don = uow.Donators.AddOrUpdateDonator(donator.Id, donator.Username, amount);
+                await uow.CompleteAsync();
+            }
+
+            await channel.SendMessageAsync($"Successfuly added a new donator. Total donated amount from this user: {don.Amount} 👑").ConfigureAwait(false);
+        }
     }
 }

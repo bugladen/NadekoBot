@@ -41,7 +41,10 @@ namespace NadekoBot.Services.Impl
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
                 SoundCloudClientId = cm.SoundCloudClientId;
-                Db = new DB(string.IsNullOrWhiteSpace(cm.Db.Type) ? cm.Db.Type : "sqlite", cm.Db.ConnectionString);
+                if (cm.Db == null)
+                    Db = new DB("sqlite", "");
+                else
+                    Db = new DB(cm.Db.Type, cm.Db.ConnectionString);
             }
             else
                 _log.Fatal("credentials.json is missing. Failed to start.");

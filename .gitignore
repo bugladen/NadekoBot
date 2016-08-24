@@ -32,3 +32,4 @@ NadekoBot.sln.iml
 .idea/vcs.xml
 .idea/modules.xml
 NadekoBot/bin/Debug/data/config_xnaas.json
+src/NadekoBot/project.lock.json

@@ -15,24 +15,28 @@ namespace NadekoBot.Services.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region QUOTES
-            //// guildid and keyword are unique pair
-            var quoteEntity = modelBuilder.Entity<Quote>();
-            //quoteEntity
-            //    .HasAlternateKey(q => q.GuildId)
-            //    .HasName("AK_GuildId_Keyword");
-
-            //quoteEntity
-            //    .HasAlternateKey(q => q.Keyword)
-            //    .HasName("AK_GuildId_Keyword");
-
-            quoteEntity
-                .HasIndex(q => new { q.GuildId, q.Keyword })
-                .IsUnique();
             
+            var quoteEntity = modelBuilder.Entity<Quote>();
 
             #endregion
 
-            #region 
+
+            #region Donators
+
+            var donatorEntity = modelBuilder.Entity<Donator>();
+            donatorEntity
+                .HasIndex(d => d.UserId)
+                .IsUnique();
+
+            #endregion
+
+            #region Config
+
+            var configEntity = modelBuilder.Entity<Config>();
+            configEntity
+                .HasIndex(c => c.GuildId)
+                .IsUnique();
+
             #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
