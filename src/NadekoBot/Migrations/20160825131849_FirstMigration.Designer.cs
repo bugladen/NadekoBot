@@ -8,32 +8,13 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160824232035_FirstMigration")]
+    [Migration("20160825131849_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
-
-            modelBuilder.Entity("NadekoBot.Services.Database.Models.Config", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<ulong>("AutoAssignRoleId");
-
-                    b.Property<bool>("DeleteMessageOnCommand");
-
-                    b.Property<ulong>("GuildId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuildId")
-                        .IsUnique();
-
-                    b.ToTable("GuildConfigs");
-                });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>
                 {
@@ -52,6 +33,47 @@ namespace NadekoBot.Migrations
                         .IsUnique();
 
                     b.ToTable("Donators");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.GuildConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("AutoAssignRoleId");
+
+                    b.Property<bool>("AutoDeleteByeMessages");
+
+                    b.Property<bool>("AutoDeleteGreetMessages");
+
+                    b.Property<int>("AutoDeleteGreetMessagesTimer");
+
+                    b.Property<ulong>("ByeMessageChannelId");
+
+                    b.Property<string>("ChannelByeMessageText");
+
+                    b.Property<string>("ChannelGreetMessageText");
+
+                    b.Property<bool>("DeleteMessageOnCommand");
+
+                    b.Property<string>("DmGreetMessageText");
+
+                    b.Property<ulong>("GreetMessageChannelId");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<bool>("SendChannelByeMessage");
+
+                    b.Property<bool>("SendChannelGreetMessage");
+
+                    b.Property<bool>("SendDmGreetMessage");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildId")
+                        .IsUnique();
+
+                    b.ToTable("GuildConfigs");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Quote", b =>

@@ -9,21 +9,6 @@ namespace NadekoBot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GuildConfigs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
-                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
-                    GuildId = table.Column<ulong>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Donators",
                 columns: table => new
                 {
@@ -36,6 +21,32 @@ namespace NadekoBot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Donators", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GuildConfigs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
+                    AutoDeleteByeMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
+                    ByeMessageChannelId = table.Column<ulong>(nullable: false),
+                    ChannelByeMessageText = table.Column<string>(nullable: true),
+                    ChannelGreetMessageText = table.Column<string>(nullable: true),
+                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
+                    DmGreetMessageText = table.Column<string>(nullable: true),
+                    GreetMessageChannelId = table.Column<ulong>(nullable: false),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    SendChannelByeMessage = table.Column<bool>(nullable: false),
+                    SendChannelGreetMessage = table.Column<bool>(nullable: false),
+                    SendDmGreetMessage = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,25 +67,25 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuildConfigs_GuildId",
-                table: "GuildConfigs",
-                column: "GuildId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Donators_UserId",
                 table: "Donators",
                 column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuildConfigs_GuildId",
+                table: "GuildConfigs",
+                column: "GuildId",
                 unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GuildConfigs");
+                name: "Donators");
 
             migrationBuilder.DropTable(
-                name: "Donators");
+                name: "GuildConfigs");
 
             migrationBuilder.DropTable(
                 name: "Quotes");
