@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Administration
                     if (conf.AutoAssignRoleId == 0)
                         return;
 
-                    var role = user.Guild.Roles.Where(r => r.Id == conf.AutoAssignRoleId).FirstOrDefault();
+                    var role = user.Guild.Roles.FirstOrDefault(r => r.Id == conf.AutoAssignRoleId);
 
                     if (role != null)
                         await user.AddRolesAsync(role);
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
                         conf.AutoAssignRoleId = role.Id;
 
                     uow.GuildConfigs.Update(conf);
-                    await uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 if (role == null)
