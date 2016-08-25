@@ -16,6 +16,7 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
+        [Group]
         public class RemindCommands
         {
 
