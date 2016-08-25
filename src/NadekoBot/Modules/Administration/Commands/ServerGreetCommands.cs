@@ -12,6 +12,7 @@ namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
     {
+        [Group]
         public class ServerGreetCommands
         {
             public static long Greeted = 0;
@@ -116,28 +117,6 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task ByeDel(IMessage imsg)
-            {
-                var channel = (ITextChannel)imsg.Channel;
-
-                GuildConfig conf;
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id);
-                    conf.AutoDeleteByeMessages = !conf.AutoDeleteByeMessages;
-                    uow.GuildConfigs.Update(conf);
-                    await uow.CompleteAsync();
-                }
-
-                if (conf.AutoDeleteByeMessages)
-                    await channel.SendMessageAsync("`Automatic deletion of bye messages has been enabled.`").ConfigureAwait(false);
-                else
-                    await channel.SendMessageAsync("`Automatic deletion of bye messages has been disabled.`").ConfigureAwait(false);
-            }
-
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-            [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageGuild)]
             public async Task Greet(IMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -157,31 +136,10 @@ namespace NadekoBot.Modules.Administration
                 else
                     await channel.SendMessageAsync("Greet announcements disabled.").ConfigureAwait(false);
             }
-
+            
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task DmGreet(IMessage imsg)
-            {
-                var channel = (ITextChannel)imsg.Channel;
-
-                GuildConfig conf;
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id);
-                    conf.SendDmGreetMessage = !conf.SendDmGreetMessage;
-                    uow.GuildConfigs.Update(conf);
-                    await uow.CompleteAsync();
-                }
-
-                if (conf.SendDmGreetMessage)
-                    await channel.SendMessageAsync("Greet announcements enabled on this channel.").ConfigureAwait(false);
-                else
-                    await channel.SendMessageAsync("Greet announcements disabled.").ConfigureAwait(false);
-            }
-
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-            [RequireContext(ContextType.Guild)]
             public async Task GreetMsg(IMessage imsg, [Remainder] string text)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -210,7 +168,30 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task DmGreetMsg(IMessage imsg, [Remainder] string text)
+            [RequirePermission(GuildPermission.ManageGuild)]
+            public async Task GreetDm(IMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                GuildConfig conf;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    conf.SendDmGreetMessage = !conf.SendDmGreetMessage;
+                    uow.GuildConfigs.Update(conf);
+                    await uow.CompleteAsync();
+                }
+
+                if (conf.SendDmGreetMessage)
+                    await channel.SendMessageAsync("Greet announcements enabled on this channel.").ConfigureAwait(false);
+                else
+                    await channel.SendMessageAsync("Greet announcements disabled.").ConfigureAwait(false);
+            }
+            
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageGuild)]
+            public async Task GreetDmMsg(IMessage imsg, [Remainder] string text)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -261,6 +242,7 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageGuild)]
             public async Task ByeMsg(IMessage imsg, [Remainder] string text)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -286,6 +268,29 @@ namespace NadekoBot.Modules.Administration
                 if (!conf.SendChannelByeMessage)
                     await channel.SendMessageAsync("Enable bye messsages by typing `.bye`").ConfigureAwait(false);
             }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageGuild)]
+            public async Task ByeDel(IMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                GuildConfig conf;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    conf.AutoDeleteByeMessages = !conf.AutoDeleteByeMessages;
+                    uow.GuildConfigs.Update(conf);
+                    await uow.CompleteAsync();
+                }
+
+                if (conf.AutoDeleteByeMessages)
+                    await channel.SendMessageAsync("`Automatic deletion of bye messages has been enabled.`").ConfigureAwait(false);
+                else
+                    await channel.SendMessageAsync("`Automatic deletion of bye messages has been disabled.`").ConfigureAwait(false);
+            }
+
         }
     }
 }

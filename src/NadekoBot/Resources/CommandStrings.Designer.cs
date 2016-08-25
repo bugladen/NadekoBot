@@ -843,6 +843,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Toggles automatic deletion of bye messages. **Needs Manage Server Permissions.**.
+        /// </summary>
+        public static string byedel_desc {
+            get {
+                return ResourceManager.GetString("byedel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.byedel`.
+        /// </summary>
+        public static string byedel_summary {
+            get {
+                return ResourceManager.GetString("byedel_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to byedel.
+        /// </summary>
+        public static string byedel_text {
+            get {
+                return ResourceManager.GetString("byedel_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. **Needs Manage Server Permissions.**.
         /// </summary>
         public static string byemsg_desc {
@@ -866,33 +893,6 @@ namespace NadekoBot.Resources {
         public static string byemsg_text {
             get {
                 return ResourceManager.GetString("byemsg_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Toggles whether the good bye messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**.
-        /// </summary>
-        public static string byepm_desc {
-            get {
-                return ResourceManager.GetString("byepm_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.byepm`.
-        /// </summary>
-        public static string byepm_summary {
-            get {
-                return ResourceManager.GetString("byepm_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to byepm.
-        /// </summary>
-        public static string byepm_text {
-            get {
-                return ResourceManager.GetString("byepm_text", resourceCulture);
             }
         }
         
@@ -2706,33 +2706,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deletion of greet and bye messages. **Needs Manage Server Permissions.**.
-        /// </summary>
-        public static string grdel_desc {
-            get {
-                return ResourceManager.GetString("grdel_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.grdel`.
-        /// </summary>
-        public static string grdel_summary {
-            get {
-                return ResourceManager.GetString("grdel_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to grdel.
-        /// </summary>
-        public static string grdel_text {
-            get {
-                return ResourceManager.GetString("grdel_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Toggles anouncements on the current channel when someone joins the server. **Needs Manage Server Permissions.**.
         /// </summary>
         public static string greet_desc {
@@ -2760,7 +2733,88 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**.
+        ///    Looks up a localized string similar to Toggles automatic deletion of greet messages. **Needs Manage Server Permissions.**.
+        /// </summary>
+        public static string greetdel_desc {
+            get {
+                return ResourceManager.GetString("greetdel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.greetdel`.
+        /// </summary>
+        public static string greetdel_summary {
+            get {
+                return ResourceManager.GetString("greetdel_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to greetdel.
+        /// </summary>
+        public static string greetdel_text {
+            get {
+                return ResourceManager.GetString("greetdel_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). **Needs Manage Server Permissions.**.
+        /// </summary>
+        public static string greetdm_desc {
+            get {
+                return ResourceManager.GetString("greetdm_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.greetdm`.
+        /// </summary>
+        public static string greetdm_summary {
+            get {
+                return ResourceManager.GetString("greetdm_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to greetdm.
+        /// </summary>
+        public static string greetdm_text {
+            get {
+                return ResourceManager.GetString("greetdm_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. **Needs Manage Server Permissions.**.
+        /// </summary>
+        public static string greetdmmsg_desc {
+            get {
+                return ResourceManager.GetString("greetdmmsg_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.greetdmmsg Welcome to the server, %user%`..
+        /// </summary>
+        public static string greetdmmsg_summary {
+            get {
+                return ResourceManager.GetString("greetdmmsg_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to greetdmmsg.
+        /// </summary>
+        public static string greetdmmsg_text {
+            get {
+                return ResourceManager.GetString("greetdmmsg_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**.
         /// </summary>
         public static string greetmsg_desc {
             get {
@@ -2783,33 +2837,6 @@ namespace NadekoBot.Resources {
         public static string greetmsg_text {
             get {
                 return ResourceManager.GetString("greetmsg_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Toggles whether the greet messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**.
-        /// </summary>
-        public static string greetpm_desc {
-            get {
-                return ResourceManager.GetString("greetpm_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.greetpm`.
-        /// </summary>
-        public static string greetpm_summary {
-            get {
-                return ResourceManager.GetString("greetpm_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to greetpm.
-        /// </summary>
-        public static string greetpm_text {
-            get {
-                return ResourceManager.GetString("greetpm_text", resourceCulture);
             }
         }
         

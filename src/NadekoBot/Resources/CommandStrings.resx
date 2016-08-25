@@ -162,14 +162,14 @@
   <data name="commands_summary" xml:space="preserve">
     <value>`-commands` or `.commands`</value>
   </data>
-  <data name="grdel_text" xml:space="preserve">
-    <value>grdel</value>
+  <data name="greetdel_text" xml:space="preserve">
+    <value>greetdel</value>
   </data>
-  <data name="grdel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of greet and bye messages. **Needs Manage Server Permissions.**</value>
+  <data name="greetdel_desc" xml:space="preserve">
+    <value>Toggles automatic deletion of greet messages. **Needs Manage Server Permissions.**</value>
   </data>
-  <data name="grdel_summary" xml:space="preserve">
-    <value>`.grdel`</value>
+  <data name="greetdel_summary" xml:space="preserve">
+    <value>`.greetdel`</value>
   </data>
   <data name="greet_text" xml:space="preserve">
     <value>greet</value>
@@ -184,7 +184,7 @@
     <value>greetmsg</value>
   </data>
   <data name="greetmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**</value>
+    <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Needs Manage Server Permissions.**</value>
   </data>
   <data name="greetmsg_summary" xml:space="preserve">
     <value>`.greetmsg Welcome, %user%.`</value>
@@ -207,23 +207,23 @@
   <data name="byemsg_summary" xml:space="preserve">
     <value>`.byemsg %user% has left.`</value>
   </data>
-  <data name="byepm_text" xml:space="preserve">
-    <value>byepm</value>
+  <data name="byedel_text" xml:space="preserve">
+    <value>byedel</value>
   </data>
-  <data name="byepm_desc" xml:space="preserve">
-    <value>Toggles whether the good bye messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**</value>
+  <data name="byedel_desc" xml:space="preserve">
+    <value>Toggles automatic deletion of bye messages. **Needs Manage Server Permissions.**</value>
   </data>
-  <data name="byepm_summary" xml:space="preserve">
-    <value>`.byepm`</value>
+  <data name="byedel_summary" xml:space="preserve">
+    <value>`.byedel`</value>
   </data>
-  <data name="greetpm_text" xml:space="preserve">
-    <value>greetpm</value>
+  <data name="greetdm_text" xml:space="preserve">
+    <value>greetdm</value>
   </data>
-  <data name="greetpm_desc" xml:space="preserve">
-    <value>Toggles whether the greet messages will be sent in a PM or in the text channel. **Needs Manage Server Permissions.**</value>
+  <data name="greetdm_desc" xml:space="preserve">
+    <value>Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). **Needs Manage Server Permissions.**</value>
   </data>
-  <data name="greetpm_summary" xml:space="preserve">
-    <value>`.greetpm`</value>
+  <data name="greetdm_summary" xml:space="preserve">
+    <value>`.greetdm`</value>
   </data>
   <data name="spmom_text" xml:space="preserve">
     <value>spmom</value>
@@ -2627,5 +2627,14 @@
   </data>
   <data name="delallquotes_text" xml:space="preserve">
     <value>delallq</value>
+  </data>
+  <data name="greetdmmsg_text" xml:space="preserve">
+    <value>greetdmmsg</value>
+  </data>
+  <data name="greetdmmsg_summary" xml:space="preserve">
+    <value>`.greetdmmsg Welcome to the server, %user%`.</value>
+  </data>
+  <data name="greetdmmsg_desc" xml:space="preserve">
+    <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. **Needs Manage Server Permissions.**</value>
   </data>
 </root>
