@@ -108,9 +108,9 @@ namespace NadekoBot
                               "Server: {1}\n\t" +
                               "Channel: {2}\n\t" +
                               "Message: {3}",
-                              imsg.Author + " [" + imsg.Author.Id + "]\n\t", // {0}
-                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]") + "\n\t", // {1}
-                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]") + "\n\t", //{2}
+                              imsg.Author + " [" + imsg.Author.Id + "]", // {0}
+                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), //{2}
                               imsg.Content, // {3}
                               sw.Elapsed.TotalSeconds // {4}
                               );
@@ -123,9 +123,9 @@ namespace NadekoBot
                               "Channel: {2}\n\t" +
                               "Message: {3}\n\t" + 
                               "Error: {4}",
-                              imsg.Author + " [" + imsg.Author.Id + "]\n\t", // {0}
-                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]") + "\n\t", // {1}
-                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]") + "\n\t", //{2}
+                              imsg.Author + " [" + imsg.Author.Id + "]", // {0}
+                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), //{2}
                               imsg.Content,// {3}
                               t.ErrorReason, // {4}
                               sw.Elapsed.TotalSeconds //{5}
