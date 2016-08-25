@@ -7,6 +7,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -94,14 +95,41 @@ namespace NadekoBot
         {
             var throwaway = Task.Run(async () =>
             {
+                var sw = new Stopwatch();
+                sw.Start();
                 var t = await Commands.Execute(imsg, imsg.Content);
+                sw.Stop();
+                var channel = (imsg.Channel as ITextChannel);
                 if (t.IsSuccess)
                 {
-                    _log.Info("Command Executed\n\tFull Message: {0}",imsg.Content);
+
+                    _log.Info("Command Executed after {4}s\n\t" +
+                              "User: {0}\n\t" +
+                              "Server: {1}\n\t" +
+                              "Channel: {2}\n\t" +
+                              "Message: {3}",
+                              imsg.Author + " [" + imsg.Author.Id + "]\n\t", // {0}
+                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]") + "\n\t", // {1}
+                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]") + "\n\t", //{2}
+                              imsg.Content, // {3}
+                              sw.Elapsed.TotalSeconds // {4}
+                              );
                 }
                 else if (!t.IsSuccess && t.Error != CommandError.UnknownCommand)
                 {
-                    _log.Warn("Command errored!\n\tFull Message: {0}\n\tError:{1}", imsg.Content, t.ErrorReason);
+                    _log.Warn("Command Errored after {5}s\n\t" +
+                              "User: {0}\n\t" +
+                              "Server: {1}\n\t" +
+                              "Channel: {2}\n\t" +
+                              "Message: {3}\n\t" + 
+                              "Error: {4}",
+                              imsg.Author + " [" + imsg.Author.Id + "]\n\t", // {0}
+                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]") + "\n\t", // {1}
+                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]") + "\n\t", //{2}
+                              imsg.Content,// {3}
+                              t.ErrorReason, // {4}
+                              sw.Elapsed.TotalSeconds //{5}
+                              );
                 }
             });
 
