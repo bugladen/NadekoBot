@@ -142,6 +142,28 @@ namespace NadekoBot.Migrations
                     b.ToTable("Quotes");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Reminder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<bool>("IsPrivate");
+
+                    b.Property<string>("Message");
+
+                    b.Property<ulong>("ServerId");
+
+                    b.Property<ulong>("UserId");
+
+                    b.Property<DateTime>("When");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reminders");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.ClashWar", "ClashWar")

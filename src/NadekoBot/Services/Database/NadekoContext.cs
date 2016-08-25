@@ -15,6 +15,7 @@ namespace NadekoBot.Services.Database
         public DbSet<GuildConfig> GuildConfigs { get; set; }
         public DbSet<ClashWar> ClashOfClans { get; set; }
         public DbSet<ClashCaller> ClashCallers { get; set; }
+        public DbSet<Reminder> Reminders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

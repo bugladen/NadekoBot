@@ -85,6 +85,24 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reminders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    IsPrivate = table.Column<bool>(nullable: false),
+                    Message = table.Column<string>(nullable: true),
+                    ServerId = table.Column<ulong>(nullable: false),
+                    UserId = table.Column<ulong>(nullable: false),
+                    When = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reminders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClashCallers",
                 columns: table => new
                 {
@@ -138,6 +156,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Quotes");
+
+            migrationBuilder.DropTable(
+                name: "Reminders");
 
             migrationBuilder.DropTable(
                 name: "ClashOfClans");

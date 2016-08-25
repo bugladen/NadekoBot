@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160825172257_first")]
+    [Migration("20160825184527_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,28 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Quotes");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Reminder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<bool>("IsPrivate");
+
+                    b.Property<string>("Message");
+
+                    b.Property<ulong>("ServerId");
+
+                    b.Property<ulong>("UserId");
+
+                    b.Property<DateTime>("When");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reminders");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>

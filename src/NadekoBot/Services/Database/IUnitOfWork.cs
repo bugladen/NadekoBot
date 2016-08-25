@@ -13,6 +13,7 @@ namespace NadekoBot.Services.Database
         IConfigRepository GuildConfigs { get; }
         IDonatorsRepository Donators { get; }
         IClashOfClansRepository ClashOfClans { get; }
+        IReminderRepository Reminders { get; }
 
         int Complete();
         Task<int> CompleteAsync();
