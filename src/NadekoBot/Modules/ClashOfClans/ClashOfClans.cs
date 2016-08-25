@@ -14,7 +14,7 @@ using Discord.WebSocket;
 namespace NadekoBot.Modules.ClashOfClans
 {
     [Module(",",AppendSpace = false)]
-    internal class ClashOfClans : DiscordModule
+    public class ClashOfClans : DiscordModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 

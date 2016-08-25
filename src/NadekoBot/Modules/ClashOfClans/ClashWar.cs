@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NadekoBot.Classes.ClashOfClans
 {
-    internal class ClashWar
+    public class ClashWar
     {
         public enum DestroyStars
         {
@@ -17,7 +17,7 @@ namespace NadekoBot.Classes.ClashOfClans
             Started, Ended, Created
         }
 
-        internal class Caller
+        public class Caller
         {
             public string CallUser { get; set; }
 
@@ -86,13 +86,13 @@ namespace NadekoBot.Classes.ClashOfClans
                                         as ITextChannel; // oh and don't forget to cast it to this arbitrary bullshit 
         }
 
-        internal void End()
+        public void End()
         {
             //Ended = true;
             WarState = StateOfWar.Ended;
         }
 
-        internal void Call(string u, int baseNumber)
+        public void Call(string u, int baseNumber)
         {
             if (baseNumber < 0 || baseNumber >= Bases.Length)
                 throw new ArgumentException("Invalid base number");
@@ -107,7 +107,7 @@ namespace NadekoBot.Classes.ClashOfClans
             Bases[baseNumber] = new Caller(u.Trim(), DateTime.UtcNow, false);
         }
 
-        internal void Start()
+        public void Start()
         {
             if (WarState == StateOfWar.Started)
                 throw new InvalidOperationException("War already started");
@@ -122,7 +122,7 @@ namespace NadekoBot.Classes.ClashOfClans
             }
         }
 
-        internal int Uncall(string user)
+        public int Uncall(string user)
         {
             user = user.Trim();
             for (var i = 0; i < Bases.Length; i++)
@@ -167,7 +167,7 @@ namespace NadekoBot.Classes.ClashOfClans
             return sb.ToString();
         }
 
-        internal int FinishClaim(string user, int stars = 3)
+        public int FinishClaim(string user, int stars = 3)
         {
             user = user.Trim();
             for (var i = 0; i < Bases.Length; i++)
