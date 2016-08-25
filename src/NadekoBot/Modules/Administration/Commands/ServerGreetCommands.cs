@@ -4,6 +4,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Classes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NLog;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,24 +17,28 @@ namespace NadekoBot.Modules.Administration
         public class ServerGreetCommands
         {
             public static long Greeted = 0;
+            private Logger _log;
 
             public ServerGreetCommands()
             {
                 NadekoBot.Client.UserJoined += UserJoined;
                 NadekoBot.Client.UserLeft += UserLeft;
+                _log = LogManager.GetCurrentClassLogger();
             }
 
             private async Task UserLeft(IGuildUser user)
             {
+                _log.Info("Left: User Left");
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     conf = uow.GuildConfigs.For(user.Guild.Id);
                 }
+                _log.Info("Left: Got unit of work");
 
                 if (!conf.SendChannelByeMessage) return;
                 var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
-
+                _log.Info("Left: Found channel");
                 if (channel == null) //maybe warn the server owner that the channel is missing
                     return;
 
@@ -41,37 +46,45 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(msg))
                     return;
 
+                _log.Info("Left: Sending");
                 var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
                 if (conf.AutoDeleteByeMessages)
                 {
+                    _log.Info("Left: Sent, waiting for delete");
                     await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                    _log.Info("Left: Deleted");
                     await toDelete.DeleteAsync().ConfigureAwait(false);
                 }
             }
 
             private async Task UserJoined(IGuildUser user)
             {
+                _log.Info("Joined: User joined");
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     conf = uow.GuildConfigs.For(user.Guild.Id);
                 }
 
+                _log.Info("Joined: Got unit of work");
                 if (conf.SendChannelGreetMessage)
                 {
                     var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
-
+                    _log.Info("Joined: Found required channel");
                     if (channel != null) //maybe warn the server owner that the channel is missing
                     {
-
                         var msg = conf.ChannelGreetMessageText.Replace("%user%", "**" + user.Username + "**");
                         if (!string.IsNullOrWhiteSpace(msg))
                         {
+                            _log.Info("Joined: Sending message");
                             var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                            _log.Info("Joined: Message sent");
                             if (conf.AutoDeleteGreetMessages)
                             {
+                                _log.Info("Joined: Waiting to delete");
                                 await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
                                 await toDelete.DeleteAsync().ConfigureAwait(false);
+                                _log.Info("Joined: Deleted");
                             }
                         }
                     }
