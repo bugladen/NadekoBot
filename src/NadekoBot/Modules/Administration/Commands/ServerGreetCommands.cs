@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration
         {
             public static long Greeted = 0;
 
-            public ServerGreetCommands(DiscordModule module)
+            public ServerGreetCommands()
             {
                 NadekoBot.Client.UserJoined += UserJoined;
                 NadekoBot.Client.UserLeft += UserLeft;
