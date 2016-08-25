@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Classes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;

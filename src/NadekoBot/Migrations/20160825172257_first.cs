@@ -4,10 +4,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NadekoBot.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ClashOfClans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    EnemyClan = table.Column<string>(nullable: true),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    Size = table.Column<int>(nullable: false),
+                    StartedAt = table.Column<DateTime>(nullable: false),
+                    WarState = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClashOfClans", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Donators",
                 columns: table => new
@@ -66,6 +84,34 @@ namespace NadekoBot.Migrations
                     table.PrimaryKey("PK_Quotes", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClashCallers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BaseDestroyed = table.Column<bool>(nullable: false),
+                    CallUser = table.Column<string>(nullable: true),
+                    ClashWarId = table.Column<int>(nullable: false),
+                    Stars = table.Column<int>(nullable: false),
+                    TimeAdded = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClashCallers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClashCallers_ClashOfClans_ClashWarId",
+                        column: x => x.ClashWarId,
+                        principalTable: "ClashOfClans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClashCallers_ClashWarId",
+                table: "ClashCallers",
+                column: "ClashWarId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Donators_UserId",
                 table: "Donators",
@@ -82,6 +128,9 @@ namespace NadekoBot.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ClashCallers");
+
+            migrationBuilder.DropTable(
                 name: "Donators");
 
             migrationBuilder.DropTable(
@@ -89,6 +138,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Quotes");
+
+            migrationBuilder.DropTable(
+                name: "ClashOfClans");
         }
     }
 }

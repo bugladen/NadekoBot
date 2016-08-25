@@ -13,6 +13,8 @@ namespace NadekoBot.Services.Database
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Donator> Donators { get; set; }
         public DbSet<GuildConfig> GuildConfigs { get; set; }
+        public DbSet<ClashWar> ClashOfClans { get; set; }
+        public DbSet<ClashCaller> ClashCallers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +40,15 @@ namespace NadekoBot.Services.Database
             configEntity
                 .HasIndex(c => c.GuildId)
                 .IsUnique();
+
+            #endregion
+
+            #region ClashOfClans
+
+            var callersEntity = modelBuilder.Entity<ClashCaller>();
+            callersEntity
+                .HasOne(c => c.ClashWar)
+                .WithMany(c => c.Bases);
 
             #endregion
         }

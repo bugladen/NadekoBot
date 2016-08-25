@@ -12,6 +12,8 @@ namespace NadekoBot.Services.Database
         IQuoteRepository Quotes { get; }
         IConfigRepository GuildConfigs { get; }
         IDonatorsRepository Donators { get; }
+        IClashOfClansRepository ClashOfClans { get; }
+
         int Complete();
         Task<int> CompleteAsync();
     }

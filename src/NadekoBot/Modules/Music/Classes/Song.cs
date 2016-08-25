@@ -1,5 +1,4 @@
 ﻿using Discord.Audio;
-using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Diagnostics;

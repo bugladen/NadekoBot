@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes.ClashOfClans;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,23 +8,43 @@ using Discord;
 using NadekoBot.Services;
 using NadekoBot.Attributes;
 using Discord.WebSocket;
+using NadekoBot.Services.Database.Models;
+using System.Linq;
+using NadekoBot.Services.Database;
 
 //todo DB
 namespace NadekoBot.Modules.ClashOfClans
 {
-    [Module(",",AppendSpace = false)]
+    [Module(",", AppendSpace = false)]
     public class ClashOfClans : DiscordModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
         public ClashOfClans(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
         {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
+                    uow.ClashOfClans
+                        .GetAll()
+                        .Select(cw => {
+                            cw.Channel = NadekoBot.Client.GetGuilds()
+                                                        .FirstOrDefault(s => s.Id == cw.GuildId)?
+                                                        .GetChannels()
+                                                        .FirstOrDefault(c => c.Id == cw.ChannelId)
+                                                            as ITextChannel;
+                            cw.Bases.Capacity = cw.Size;
+                            return cw;
+                        })
+                        .GroupBy(cw => cw.GuildId)
+                        .ToDictionary(g => g.Key, g => g.ToList()));
+            }
         }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
         {
             var Bases = war.Bases;
-            for (var i = 0; i < Bases.Length; i++)
+            for (var i = 0; i < Bases.Capacity; i++)
             {
                 if (Bases[i] == null) continue;
                 if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
@@ -62,7 +81,7 @@ namespace NadekoBot.Modules.ClashOfClans
             }
 
 
-            var cw = new ClashWar(enemyClan, size, channel.Guild.Id, imsg.Channel.Id);
+            var cw = await CreateWar(enemyClan, size, channel.Guild.Id, imsg.Channel.Id);
             //cw.Start();
 
             wars.Add(cw);
@@ -94,6 +113,7 @@ namespace NadekoBot.Modules.ClashOfClans
             {
                 await channel.SendMessageAsync($"🔰**WAR AGAINST {war.ShortPrint()} HAS ALREADY STARTED**").ConfigureAwait(false);
             }
+            SaveWar(war);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -136,7 +156,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 await channel.SendMessageAsync("💢🔰 **That war does not exist.**").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(warsInfo.Item1[warsInfo.Item2].ToString()).ConfigureAwait(false);
+            await channel.SendMessageAsync(warsInfo.Item1[warsInfo.Item2].ToPrettyString()).ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -158,6 +178,7 @@ namespace NadekoBot.Modules.ClashOfClans
             {
                 var war = warsInfo.Item1[warsInfo.Item2];
                 war.Call(usr, baseNumber - 1);
+                SaveWar(war);
                 await channel.SendMessageAsync($"🔰**{usr}** claimed a base #{baseNumber} for a war against {war.ShortPrint()}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -202,7 +223,9 @@ namespace NadekoBot.Modules.ClashOfClans
                 await channel.SendMessageAsync("💢🔰 That war does not exist.").ConfigureAwait(false);
                 return;
             }
-            warsInfo.Item1[warsInfo.Item2].End();
+            var war = warsInfo.Item1[warsInfo.Item2];
+            war.End();
+            SaveWar(war);
             await channel.SendMessageAsync($"❗🔰**War against {warsInfo.Item1[warsInfo.Item2].ShortPrint()} ended.**").ConfigureAwait(false);
 
             var size = warsInfo.Item1[warsInfo.Item2].Size;
@@ -229,6 +252,7 @@ namespace NadekoBot.Modules.ClashOfClans
             {
                 var war = warsInfo.Item1[warsInfo.Item2];
                 var baseNumber = war.Uncall(usr);
+                SaveWar(war);
                 await channel.SendMessageAsync($"🔰 @{usr} has **UNCLAIMED** a base #{baseNumber + 1} from a war against {war.ShortPrint()}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -255,6 +279,7 @@ namespace NadekoBot.Modules.ClashOfClans
             try
             {
                 var baseNum = war.FinishClaim(usr, stars);
+                SaveWar(war);
                 await channel.SendMessageAsync($"❗🔰{imsg.Author.Mention} **DESTROYED** a base #{baseNum + 1} in a war against {war.ShortPrint()}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -281,6 +306,49 @@ namespace NadekoBot.Modules.ClashOfClans
             num -= 1;
             //get the actual war
             return new Tuple<List<ClashWar>, int>(wars, num);
+        }
+
+        public static async Task<ClashWar> CreateWar(string enemyClan, int size, ulong serverId, ulong channelId)
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var cw = new ClashWar
+                {
+                    EnemyClan = enemyClan,
+                    Size = size,
+                    Bases = new List<ClashCaller>(size),
+                    GuildId = serverId,
+                    ChannelId = channelId,
+                    Channel = NadekoBot.Client.GetGuilds()
+                                    .FirstOrDefault(s => s.Id == serverId)?
+                                    .GetChannels()
+                                    .FirstOrDefault(c => c.Id == channelId)
+                                        as ITextChannel
+                };
+                uow.ClashOfClans.Add(cw);
+                await uow.CompleteAsync();
+                return cw;
+            }
+        }
+
+        public static void SaveWar(ClashWar cw)
+        {
+            if (cw.WarState == ClashWar.StateOfWar.Ended)
+            {
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.ClashOfClans.Remove(cw);
+                    uow.CompleteAsync();
+                }
+                return;
+            }
+
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.ClashOfClans.Update(cw);
+                uow.CompleteAsync();
+            }
         }
     }
 }

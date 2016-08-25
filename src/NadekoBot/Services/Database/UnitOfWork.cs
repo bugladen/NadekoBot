@@ -21,6 +21,9 @@ namespace NadekoBot.Services.Database
         private IDonatorsRepository _donators;
         public IDonatorsRepository Donators => _donators ?? (_donators = new DonatorsRepository(_context));
 
+        private IClashOfClansRepository _clashOfClans;
+        public IClashOfClansRepository ClashOfClans => _clashOfClans ?? (_clashOfClans = new ClashOfClansRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

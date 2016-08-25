@@ -8,13 +8,57 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160825131849_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20160825172257_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("BaseDestroyed");
+
+                    b.Property<string>("CallUser");
+
+                    b.Property<int>("ClashWarId");
+
+                    b.Property<int>("Stars");
+
+                    b.Property<DateTime>("TimeAdded");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClashWarId");
+
+                    b.ToTable("ClashCallers");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashWar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<string>("EnemyClan");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<int>("Size");
+
+                    b.Property<DateTime>("StartedAt");
+
+                    b.Property<int>("WarState");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClashOfClans");
+                });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>
                 {
@@ -97,6 +141,14 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Quotes");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.ClashWar", "ClashWar")
+                        .WithMany("Bases")
+                        .HasForeignKey("ClashWarId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

@@ -2,7 +2,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
-using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
