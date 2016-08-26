@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Music.Classes
             return $"【{(int)time.TotalMinutes}m {time.Seconds}s】";
         }
 
-        const int milliseconds = 10;
+        const int milliseconds = 20;
         const int samplesPerFrame = (48000 / 1000) * milliseconds;
         const int frameBytes = 3840; //16-bit, 2 channels
 
@@ -84,10 +84,8 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            SongBuffer sb = new SongBuffer(filename, SongInfo, skipTo);
-            var bufferTask = sb.BufferSong(cancelToken).ConfigureAwait(false);
-
-            var inStream = new FileStream(sb.GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write); ;
+            SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo);
+            var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);
 
             bytesSent = 0;
 
@@ -95,7 +93,7 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 var attempt = 0;             
 
-                var prebufferingTask = CheckPrebufferingAsync(inStream, sb, cancelToken);
+                var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken);
                 var sw = new Stopwatch();
                 sw.Start();
                 var t = await Task.WhenAny(prebufferingTask, Task.Delay(5000, cancelToken));
@@ -112,8 +110,9 @@ namespace NadekoBot.Modules.Music.Classes
                 sw.Stop();
                 _log.Debug("Prebuffering successfully completed in "+ sw.Elapsed);
 
-
                 var outStream = voiceClient.CreatePCMStream(960);
+
+                int nextTime = Environment.TickCount + milliseconds;
 
                 byte[] buffer = new byte[frameBytes];
                 while (!cancelToken.IsCancellationRequested)
@@ -128,16 +127,9 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                     if (read < frameBytes)
                     {
-                        if (sb.IsNextFileReady())
-                        {
-                            inStream.Dispose();
-                            inStream = new FileStream(sb.GetNextFile(), FileMode.Open, FileAccess.Read, FileShare.Write);
-                            read += inStream.Read(buffer, read, buffer.Length - read);
-                            attempt = 0;
-                        }
                         if (read == 0)
                         {
-                            if (sb.BufferingCompleted)
+                            if (inStream.BufferingCompleted)
                                 break;
                             if (attempt++ == 20)
                             {
@@ -156,10 +148,14 @@ namespace NadekoBot.Modules.Music.Classes
                     while (this.MusicPlayer.Paused)
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
 
-                    //buffer = AdjustVolume(buffer, MusicPlayer.Volume);
+
+                    buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                     if (read != frameBytes) continue;
+                    nextTime = unchecked(nextTime + milliseconds);
+                    int delayMillis = unchecked(nextTime - Environment.TickCount);
+                    if (delayMillis > 0)
+                        await Task.Delay(delayMillis, cancelToken).ConfigureAwait(false);
                     await outStream.WriteAsync(buffer, 0, read);
-                    await Task.Delay(10);
                 }
             }
             finally
@@ -167,13 +163,12 @@ namespace NadekoBot.Modules.Music.Classes
                 await bufferTask;
                 if(inStream != null)
                     inStream.Dispose();
-                sb.CleanFiles();
             }
         }
 
-        private async Task CheckPrebufferingAsync(Stream inStream, SongBuffer sb, CancellationToken cancelToken)
+        private async Task CheckPrebufferingAsync(SongBuffer inStream, CancellationToken cancelToken)
         {
-            while (!sb.BufferingCompleted && inStream.Length < 10.MiB())
+            while (!inStream.BufferingCompleted && inStream.Length < 10.MiB())
             {
                 await Task.Delay(100, cancelToken);
             }
