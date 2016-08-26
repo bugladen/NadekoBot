@@ -644,7 +644,7 @@ namespace NadekoBot.Modules.Music
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
                 //todo DB
-                float vol = 100;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
+                float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
                 var mp = new MusicPlayer(voiceCh, vol);
 
 
