@@ -48,10 +48,8 @@ namespace NadekoBot.Modules.Utility
             {
                 var now = DateTime.Now;
                 var twoMins = new TimeSpan(0, 2, 0);
-                TimeSpan time = (r.When - now) < twoMins
-                                ? twoMins       //if the time is less than 2 minutes,
-                                : r.When - now; //it will send the message 2 minutes after start
-                                                //To account for high bot startup times
+                TimeSpan time = r.When - now; 
+
                 if (time.TotalMilliseconds > int.MaxValue)
                     return;
 
@@ -180,9 +178,11 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     uow.Reminders.Add(rem);
+                    await uow.CompleteAsync();
                 }
 
                 await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : imsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
+                await StartReminder(rem);
             }
 
             ////todo owner only
