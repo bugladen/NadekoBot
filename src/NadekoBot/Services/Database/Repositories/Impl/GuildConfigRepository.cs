@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
 {
-    public class ConfigRepository : Repository<GuildConfig>, IConfigRepository
+    public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigRepository
     {
-        public ConfigRepository(DbContext context) : base(context)
+        public GuildConfigRepository(DbContext context) : base(context)
         {
         }
         /// <summary>

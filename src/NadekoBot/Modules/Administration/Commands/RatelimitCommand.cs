@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Administration
 
                _client.MessageReceived += async (imsg) =>
                 {
-                    var channel = (ITextChannel)imsg.Channel;
+                    var channel = imsg.Channel as ITextChannel;
 
                     if (channel == null || await imsg.IsAuthor())
                         return;

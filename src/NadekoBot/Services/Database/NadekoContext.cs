@@ -16,6 +16,7 @@ namespace NadekoBot.Services.Database
         public DbSet<ClashWar> ClashOfClans { get; set; }
         public DbSet<ClashCaller> ClashCallers { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
+        public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +51,16 @@ namespace NadekoBot.Services.Database
             callersEntity
                 .HasOne(c => c.ClashWar)
                 .WithMany(c => c.Bases);
+
+            #endregion
+
+            #region Self Assignable Roles
+
+            var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
+
+            selfassignableRolesEntity
+                .HasIndex(s => new { s.GuildId, s.RoleId })
+                .IsUnique();
 
             #endregion
         }

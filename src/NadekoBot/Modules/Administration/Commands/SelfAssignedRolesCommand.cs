@@ -1,207 +1,232 @@
-﻿//using Discord.Commands;
-//using Discord.Net;
-//using NadekoBot.Classes;
-//using NadekoBot.Modules.Permissions.Classes;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-////todo DB
-//namespace NadekoBot.Modules.Administration
-//{
-//    internal class SelfAssignedRolesCommand : DiscordCommand
-//    {
-//        public SelfAssignedRolesCommand(DiscordModule module) : base(module) { }
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "asar")
-//                .Description("Adds a role, or list of roles separated by whitespace" +
-//                             $"(use quotations for multiword roles) to the list of self-assignable roles. **Needs Manage Roles Permissions.**| `{Prefix}asar Gamer`")
-//                .Parameter("roles", ParameterType.Multiple)
-//                .AddCheck(SimpleCheckers.CanManageRoles)
-//                .Do(async e =>
-//                {
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    var msg = new StringBuilder();
-//                    foreach (var arg in e.Args)
-//                    {
-//                        var role = e.Server.FindRoles(arg.Trim()).FirstOrDefault();
-//                        if (role == null)
-//                            msg.AppendLine($":anger:Role **{arg}** not found.");
-//                        else
-//                        {
-//                            if (config.ListOfSelfAssignableRoles.Contains(role.Id))
-//                            {
-//                                msg.AppendLine($":anger:Role **{role.Name}** is already in the list.");
-//                                continue;
-//                            }
-//                            config.ListOfSelfAssignableRoles.Add(role.Id);
-//                            msg.AppendLine($":ok:Role **{role.Name}** added to the list.");
-//                        }
-//                    }
-//                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
-//                });
+﻿using Discord;
+using Discord.Commands;
+using Discord.Net;
+using NadekoBot.Attributes;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//todo DB
+namespace NadekoBot.Modules.Administration
+{
+    public partial class Administration
+    {
+        [Group]
+        public class SelfAssignedRolesCommands
+        {
 
-//            cgb.CreateCommand(Module.Prefix + "rsar")
-//                .Description($"Removes a specified role from the list of self-assignable roles. | `{Prefix}rsar`")
-//                .Parameter("role", ParameterType.Unparsed)
-//                .AddCheck(SimpleCheckers.CanManageRoles)
-//                .Do(async e =>
-//                {
-//                    var roleName = role?.Trim();
-//                    if (string.IsNullOrWhiteSpace(roleName))
-//                        return;
-//                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
-//                    if (role == null)
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    config.ListOfSelfAssignableRoles.Remove(role.Id);
-//                    await channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
-//                });
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageRoles)]
+            public async Task Asar(IMessage imsg, [Remainder] IRole role)
+            {
+                var channel = (ITextChannel)imsg.Channel;
 
-//            cgb.CreateCommand(Module.Prefix + "lsar")
-//                .Description($"Lists all self-assignable roles. | `{Prefix}lsar`")
-//                .Parameter("roles", ParameterType.Multiple)
-//                .Do(async e =>
-//                {
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    var msg = new StringBuilder($"There are `{config.ListOfSelfAssignableRoles.Count}` self assignable roles:\n");
-//                    var toRemove = new HashSet<ulong>();
-//                    foreach (var roleId in config.ListOfSelfAssignableRoles.OrderBy(r => r.ToString()))
-//                    {
-//                        var role = e.Server.GetRole(roleId);
-//                        if (role == null)
-//                        {
-//                            msg.Append($"`{roleId} not found. Cleaned up.`, ");
-//                            toRemove.Add(roleId);
-//                        }
-//                        else
-//                        {
-//                            msg.Append($"**{role.Name}**, ");
-//                        }
-//                    }
-//                    foreach (var id in toRemove)
-//                    {
-//                        config.ListOfSelfAssignableRoles.Remove(id);
-//                    }
-//                    await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
-//                });
+                IEnumerable<SelfAssignedRole> roles;
 
+                string msg;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    roles = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
+                    if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.GuildId))
+                    {
+                        msg = $":anger:Role **{role.Name}** is already in the list.";
+                    }
+                    else
+                    {
+                        uow.SelfAssignedRoles.Add(new SelfAssignedRole {
+                            RoleId = role.Id,
+                            GuildId = role.GuildId
+                        });
+                        await uow.CompleteAsync();
+                        msg = $":ok:Role **{role.Name}** added to the list.";
+                    }
+                }
+                await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
+            }
 
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageRoles)]
+            public async Task Rsar(IMessage imsg, [Remainder] IRole role)
+            {
+                var channel = (ITextChannel)imsg.Channel;
 
-//            cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix + "tesar")
-//                .Description($"toggle whether the self-assigned roles should be exclusive | `{Prefix}tesar`")
-//                .AddCheck(SimpleCheckers.CanManageRoles)
-//                .Do(async e =>
-//                {
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
-//                    string exl = config.ExclusiveSelfAssignedRoles ? "exclusive" : "not exclusive";
-//                    await channel.SendMessageAsync("Self assigned roles are now " + exl);
-//                });
+                bool success;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    success = uow.SelfAssignedRoles.DeleteByGuildAndRoleId(role.GuildId, role.Id);
+                    await uow.CompleteAsync();
+                }
+                if (success)
+                {
+                    await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                    return;
+                }
+                await channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
+            }
 
-//            cgb.CreateCommand(Module.Prefix + "iam")
-//                .Description("Adds a role to you that you choose. " +
-//                             "Role must be on a list of self-assignable roles." +
-//                             $" | `{Prefix}iam Gamer`")
-//                .Parameter("role", ParameterType.Unparsed)
-//                .Do(async e =>
-//                {
-//                    var roleName = role?.Trim();
-//                    if (string.IsNullOrWhiteSpace(roleName))
-//                        return;
-//                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
-//                    if (role == null)
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    if (imsg.Author.HasRole(role))
-//                    {
-//                        await channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var sameRoles = imsg.Author.Roles.Where(r => config.ListOfSelfAssignableRoles.Contains(r.Id));
-//                    if (config.ExclusiveSelfAssignedRoles && sameRoles.Any())
-//                    {
-//                        await channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} role.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    try
-//                    {
-//                        await imsg.Author.AddRoles(role).ConfigureAwait(false);
-//                    }
-//                    catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-//                    {
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var msg = await channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);
-//                    await Task.Delay(3000).ConfigureAwait(false);
-//                    await msg.Delete().ConfigureAwait(false);
-//                    try
-//                    {
-//                        await e.Message.Delete().ConfigureAwait(false);
-//                    }
-//                    catch { }
-//                });
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Lsar(IMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
 
-//            cgb.CreateCommand(Module.Prefix + "iamnot")
-//                .Alias(Module.Prefix + "iamn")
-//                .Description("Removes a role to you that you choose. " +
-//                             "Role must be on a list of self-assignable roles." +
-//                             $" | `{Prefix}iamn Gamer`")
-//                .Parameter("role", ParameterType.Unparsed)
-//                .Do(async e =>
-//                {
-//                    var roleName = role?.Trim();
-//                    if (string.IsNullOrWhiteSpace(roleName))
-//                        return;
-//                    var role = e.Server.FindRoles(roleName).FirstOrDefault();
-//                    if (role == null)
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role does not exist.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    var config = SpecificConfigurations.Default.Of(e.Server.Id);
-//                    if (!config.ListOfSelfAssignableRoles.Contains(role.Id))
-//                    {
-//                        await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    if (!imsg.Author.HasRole(role))
-//                    {
-//                        await channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
-//                        return;
-//                    }
-//                    await imsg.Author.RemoveRoles(role).ConfigureAwait(false);
-//                    var msg = await channel.SendMessageAsync($":ok:Successfuly removed {role.Name} role from you.").ConfigureAwait(false);
-//                    await Task.Delay(3000).ConfigureAwait(false);
-//                    await msg.Delete().ConfigureAwait(false);
-//                    try
-//                    {
-//                        await e.Message.Delete().ConfigureAwait(false);
-//                    }
-//                    catch { }
-//                });
-//        }
-//    }
-//}
+                var toRemove = new HashSet<SelfAssignedRole>();
+                var removeMsg = new StringBuilder();
+                var msg = new StringBuilder();
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var roleModels = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
+                    msg.AppendLine($"There are `{roleModels.Count()}` self assignable roles:");
+                    
+                    foreach (var roleModel in roleModels)
+                    {
+                        var role = channel.Guild.Roles.FirstOrDefault(r => r.Id == roleModel.RoleId);
+                        if (role == null)
+                        {
+                            uow.SelfAssignedRoles.Remove(roleModel);
+                        }
+                        else
+                        {
+                            msg.Append($"**{role.Name}**, ");
+                        }
+                    }
+                    foreach (var role in toRemove)
+                    {
+                        removeMsg.AppendLine($"`{role.RoleId} not found. Cleaned up.`");
+                    }
+                    await uow.CompleteAsync();
+                }
+                await channel.SendMessageAsync(msg.ToString() + "\n\n" + removeMsg.ToString()).ConfigureAwait(false);
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageRoles)]
+            public async Task Tesar(IMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                bool areExclusive;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var config = uow.GuildConfigs.For(channel.Guild.Id);
+
+                    areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+                    await uow.CompleteAsync();
+                }
+                string exl = areExclusive ? "exclusive." : "not exclusive.";
+                await channel.SendMessageAsync("Self assigned roles are now " + exl);
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Iam(IMessage imsg, [Remainder] IRole role)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                var guildUser = (IGuildUser)imsg.Author;
+
+                GuildConfig conf;
+                IEnumerable<SelfAssignedRole> roles;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    roles = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
+                }
+                SelfAssignedRole roleModel;
+                if ((roleModel = roles.FirstOrDefault(r=>r.RoleId == role.Id)) == null)
+                {
+                    await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                    return;
+                }
+                if (guildUser.Roles.Contains(role))
+                {
+                    await channel.SendMessageAsync($":anger:You already have {role.Name} role.").ConfigureAwait(false);
+                    return;
+                }
+
+                if (conf.ExclusiveSelfAssignedRoles)
+                {
+                    var sameRoles = guildUser.Roles.Where(r => roles.Any(rm => rm.RoleId == r.Id));
+                    if (sameRoles.Any())
+                    {
+                        await channel.SendMessageAsync($":anger:You already have {sameRoles.FirstOrDefault().Name} exclusive self-assigned role.").ConfigureAwait(false);
+                        return;
+                    }
+                }
+                try
+                {
+                    await guildUser.AddRolesAsync(role).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                    return;
+                }
+                var msg = await channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);
+
+                if (conf.AutoDeleteSelfAssignedRoleMessages)
+                {
+                    var t = Task.Run(async () =>
+                    {
+                        await Task.Delay(3000).ConfigureAwait(false);
+                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
+                        try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    });
+                }
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Iamnot(IMessage imsg, IRole role)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                var guildUser = (IGuildUser)imsg.Author;
+
+                GuildConfig conf;
+                IEnumerable<SelfAssignedRole> roles;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    roles = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
+                }
+                SelfAssignedRole roleModel;
+                if ((roleModel = roles.FirstOrDefault(r => r.RoleId == role.Id)) == null)
+                {
+                    await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
+                    return;
+                }
+                if (!guildUser.Roles.Contains(role))
+                {
+                    await channel.SendMessageAsync($":anger:You don't have {role.Name} role.").ConfigureAwait(false);
+                    return;
+                }
+                try
+                {
+                    await guildUser.RemoveRolesAsync(role).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't remove roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                    return;
+                }
+                var msg = await channel.SendMessageAsync($":ok: You no longer have {role.Name} role.").ConfigureAwait(false);
+
+                if (conf.AutoDeleteSelfAssignedRoleMessages)
+                {
+                    var t = Task.Run(async () =>
+                    {
+                        await Task.Delay(3000).ConfigureAwait(false);
+                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
+                        try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    });
+                }
+            }
+        }
+    }
+}

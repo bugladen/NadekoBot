@@ -51,11 +51,13 @@ namespace NadekoBot.Migrations
                     AutoDeleteByeMessages = table.Column<bool>(nullable: false),
                     AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
                     AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
+                    AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
                     ByeMessageChannelId = table.Column<ulong>(nullable: false),
                     ChannelByeMessageText = table.Column<string>(nullable: true),
                     ChannelGreetMessageText = table.Column<string>(nullable: true),
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     DmGreetMessageText = table.Column<string>(nullable: true),
+                    ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
                     SendChannelByeMessage = table.Column<bool>(nullable: false),
@@ -103,6 +105,20 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SelfAssignableRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    RoleId = table.Column<ulong>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SelfAssignableRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClashCallers",
                 columns: table => new
                 {
@@ -141,6 +157,12 @@ namespace NadekoBot.Migrations
                 table: "GuildConfigs",
                 column: "GuildId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SelfAssignableRoles_GuildId_RoleId",
+                table: "SelfAssignableRoles",
+                columns: new[] { "GuildId", "RoleId" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -159,6 +181,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reminders");
+
+            migrationBuilder.DropTable(
+                name: "SelfAssignableRoles");
 
             migrationBuilder.DropTable(
                 name: "ClashOfClans");

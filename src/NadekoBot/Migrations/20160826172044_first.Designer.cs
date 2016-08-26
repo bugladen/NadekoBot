@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160825184527_first")]
+    [Migration("20160826172044_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<int>("AutoDeleteGreetMessagesTimer");
 
+                    b.Property<bool>("AutoDeleteSelfAssignedRoleMessages");
+
                     b.Property<ulong>("ByeMessageChannelId");
 
                     b.Property<string>("ChannelByeMessageText");
@@ -101,6 +103,8 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("DeleteMessageOnCommand");
 
                     b.Property<string>("DmGreetMessageText");
+
+                    b.Property<bool>("ExclusiveSelfAssignedRoles");
 
                     b.Property<ulong>("GreetMessageChannelId");
 
@@ -163,6 +167,23 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reminders");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.SelfAssignedRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<ulong>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildId", "RoleId")
+                        .IsUnique();
+
+                    b.ToTable("SelfAssignableRoles");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>

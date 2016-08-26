@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Database.Repositories
 {
-    public interface IConfigRepository : IRepository<GuildConfig>
+    public interface IGuildConfigRepository : IRepository<GuildConfig>
     {
         GuildConfig For(ulong guildId);
     }
