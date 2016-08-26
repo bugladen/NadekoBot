@@ -15,15 +15,19 @@ namespace NadekoBot.Modules.Music.Classes
     /// Create a buffer for a song file. It will create multiples files to ensure, that radio don't fill up disk space.
     /// It also help for large music by deleting files that are already seen.
     /// </summary>
-    class SongBuffer
+    class SongBuffer : Stream
     {
 
-        public SongBuffer(string basename, SongInfo songInfo, int skipTo)
+        public SongBuffer(MusicPlayer musicPlayer, string basename, SongInfo songInfo, int skipTo)
         {
+            MusicPlayer = musicPlayer;
             Basename = basename;
             SongInfo = songInfo;
             SkipTo = skipTo;
+            CurrentFileStream = new FileStream(this.GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
         }
+
+        MusicPlayer MusicPlayer;
 
         private string Basename;
 
@@ -31,7 +35,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private int SkipTo;
 
-        private static int MAX_FILE_SIZE = 20.MiB();
+        private static int MAX_FILE_SIZE = 2.MiB();
 
         private long FileNumber = -1;
 
@@ -40,6 +44,8 @@ namespace NadekoBot.Modules.Music.Classes
         public bool BufferingCompleted { get; private set;} = false;
 
         private ulong CurrentBufferSize = 0;
+
+        private FileStream CurrentFileStream;
 
         public Task BufferSong(CancellationToken cancelToken) =>
            Task.Factory.StartNew(async () =>
@@ -122,7 +128,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
         /// Return the next file to read, and delete the old one
         /// </summary>
         /// <returns>Name of the file to read</returns>
-        public string GetNextFile()
+        private string GetNextFile()
         {
             string filename = Basename + "-" + NextFileToRead;
             
@@ -139,12 +145,12 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             return filename;
         }
 
-        public bool IsNextFileReady()
+        private bool IsNextFileReady()
         {
             return NextFileToRead <= FileNumber;
         }
 
-        public void CleanFiles()
+        private void CleanFiles()
         {
             for (long i = NextFileToRead - 1 ; i <= FileNumber; i++)
             {
@@ -154,6 +160,69 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 }
                 catch { }
             }
+        }
+
+        //Stream part
+
+        public override bool CanRead => true;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => false;
+
+        public override long Length => (long) CurrentBufferSize;
+
+        public override long Position
+        {
+            get
+            {
+                return 0;
+            }
+
+            set
+            {
+                
+            }
+        }
+
+        public override void Flush() { }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            int read = CurrentFileStream.Read(buffer, offset, count);
+            if(read < count)
+            {
+                if (!BufferingCompleted || IsNextFileReady())
+                {
+                    CurrentFileStream.Dispose();
+                    CurrentFileStream = new FileStream(GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
+                    read += CurrentFileStream.Read(buffer, read + offset, count - read);
+                }
+            }
+            return read;
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public new void Dispose()
+        {
+            CurrentFileStream.Dispose();
+            MusicPlayer.SongCancelSource.Cancel();
+            CleanFiles();
+            base.Dispose();
         }
     }
 }
