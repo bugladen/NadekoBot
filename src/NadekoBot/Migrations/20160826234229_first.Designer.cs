@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160826172044_first")]
+    [Migration("20160826234229_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,6 +110,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<ulong>("GuildId");
 
+                    b.Property<bool>("RotatingStatuses");
+
                     b.Property<bool>("SendChannelByeMessage");
 
                     b.Property<bool>("SendChannelGreetMessage");
@@ -122,6 +124,22 @@ namespace NadekoBot.Migrations
                         .IsUnique();
 
                     b.ToTable("GuildConfigs");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GuildConfigId");
+
+                    b.Property<string>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId");
+
+                    b.ToTable("PlayingStatus");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Quote", b =>
@@ -192,6 +210,13 @@ namespace NadekoBot.Migrations
                         .WithMany("Bases")
                         .HasForeignKey("ClashWarId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                        .WithMany("RotatingStatusMessages")
+                        .HasForeignKey("GuildConfigId");
                 });
         }
     }

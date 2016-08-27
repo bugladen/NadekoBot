@@ -60,6 +60,7 @@ namespace NadekoBot.Migrations
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
+                    RotatingStatuses = table.Column<bool>(nullable: false),
                     SendChannelByeMessage = table.Column<bool>(nullable: false),
                     SendChannelGreetMessage = table.Column<bool>(nullable: false),
                     SendDmGreetMessage = table.Column<bool>(nullable: false)
@@ -141,6 +142,26 @@ namespace NadekoBot.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PlayingStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayingStatus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlayingStatus_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ClashCallers_ClashWarId",
                 table: "ClashCallers",
@@ -159,6 +180,11 @@ namespace NadekoBot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlayingStatus_GuildConfigId",
+                table: "PlayingStatus",
+                column: "GuildConfigId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SelfAssignableRoles_GuildId_RoleId",
                 table: "SelfAssignableRoles",
                 columns: new[] { "GuildId", "RoleId" },
@@ -174,7 +200,7 @@ namespace NadekoBot.Migrations
                 name: "Donators");
 
             migrationBuilder.DropTable(
-                name: "GuildConfigs");
+                name: "PlayingStatus");
 
             migrationBuilder.DropTable(
                 name: "Quotes");
@@ -187,6 +213,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClashOfClans");
+
+            migrationBuilder.DropTable(
+                name: "GuildConfigs");
         }
     }
 }
