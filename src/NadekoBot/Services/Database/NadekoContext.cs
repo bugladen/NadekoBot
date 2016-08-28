@@ -18,6 +18,7 @@ namespace NadekoBot.Services.Database
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
         public DbSet<BotConfig> BotConfig { get; set; }
+        public DbSet<Repeater> Repeaters { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +61,16 @@ namespace NadekoBot.Services.Database
 
             selfassignableRolesEntity
                 .HasIndex(s => new { s.GuildId, s.RoleId })
+                .IsUnique();
+
+            #endregion
+
+            #region Repeater
+
+            var repeaterEntity = modelBuilder.Entity<Repeater>();
+
+            repeaterEntity
+                .HasIndex(r => r.ChannelId)
                 .IsUnique();
 
             #endregion

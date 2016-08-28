@@ -280,6 +280,27 @@ namespace NadekoBot.Migrations
                     b.ToTable("Reminders");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Repeater", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<TimeSpan>("Interval");
+
+                    b.Property<string>("Message");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId")
+                        .IsUnique();
+
+                    b.ToTable("Repeaters");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.SelfAssignedRole", b =>
                 {
                     b.Property<int>("Id")

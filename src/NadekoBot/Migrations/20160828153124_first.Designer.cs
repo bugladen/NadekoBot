@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160828000228_first")]
+    [Migration("20160828153124_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -279,6 +279,27 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reminders");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Repeater", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<TimeSpan>("Interval");
+
+                    b.Property<string>("Message");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId")
+                        .IsUnique();
+
+                    b.ToTable("Repeaters");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.SelfAssignedRole", b =>

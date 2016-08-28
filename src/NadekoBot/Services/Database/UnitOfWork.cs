@@ -33,6 +33,9 @@ namespace NadekoBot.Services.Database
         private IBotConfigRepository _botConfig;
         public IBotConfigRepository BotConfig => _botConfig ?? (_botConfig = new BotConfigRepository(_context));
 
+        private IRepeaterRepository _repeaters;
+        public IRepeaterRepository Repeaters => _repeaters ?? (_repeaters = new RepeaterRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

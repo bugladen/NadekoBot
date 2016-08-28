@@ -126,6 +126,22 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Repeaters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    Interval = table.Column<TimeSpan>(nullable: false),
+                    Message = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Repeaters", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SelfAssignableRoles",
                 columns: table => new
                 {
@@ -307,6 +323,12 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Repeaters_ChannelId",
+                table: "Repeaters",
+                column: "ChannelId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SelfAssignableRoles_GuildId_RoleId",
                 table: "SelfAssignableRoles",
                 columns: new[] { "GuildId", "RoleId" },
@@ -344,6 +366,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reminders");
+
+            migrationBuilder.DropTable(
+                name: "Repeaters");
 
             migrationBuilder.DropTable(
                 name: "SelfAssignableRoles");
