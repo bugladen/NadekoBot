@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Utility
             Quote quote;
             using (var uow = DbHandler.Instance.GetUnitOfWork())
             {
-                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword);
+                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword).ConfigureAwait(false);
             }
 
             if (quote == null)
@@ -58,8 +58,8 @@ namespace NadekoBot.Modules.Utility
                     Keyword = keyword,
                     Text = text,
                 });
-                await uow.CompleteAsync();
-                await channel.SendMessageAsync("`Quote added.`");
+                await uow.CompleteAsync().ConfigureAwait(false);
+                await channel.SendMessageAsync("`Quote added.`").ConfigureAwait(false);
             }
         }
 
