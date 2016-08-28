@@ -13,6 +13,11 @@ namespace NadekoBot.Services.Database
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Donator> Donators { get; set; }
         public DbSet<GuildConfig> GuildConfigs { get; set; }
+        public DbSet<ClashWar> ClashOfClans { get; set; }
+        public DbSet<ClashCaller> ClashCallers { get; set; }
+        public DbSet<Reminder> Reminders { get; set; }
+        public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
+        public DbSet<BotConfig> BotConfig { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,8 +26,7 @@ namespace NadekoBot.Services.Database
             var quoteEntity = modelBuilder.Entity<Quote>();
 
             #endregion
-
-
+            
             #region Donators
 
             var donatorEntity = modelBuilder.Entity<Donator>();
@@ -37,6 +41,25 @@ namespace NadekoBot.Services.Database
             var configEntity = modelBuilder.Entity<GuildConfig>();
             configEntity
                 .HasIndex(c => c.GuildId)
+                .IsUnique();
+
+            #endregion
+
+            #region ClashOfClans
+
+            var callersEntity = modelBuilder.Entity<ClashCaller>();
+            callersEntity
+                .HasOne(c => c.ClashWar)
+                .WithMany(c => c.Bases);
+
+            #endregion
+
+            #region Self Assignable Roles
+
+            var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
+
+            selfassignableRolesEntity
+                .HasIndex(s => new { s.GuildId, s.RoleId })
                 .IsUnique();
 
             #endregion

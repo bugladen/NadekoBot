@@ -1,197 +1,209 @@
-﻿//using Discord;
-//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.DataModels;
-//using NadekoBot.Modules.Permissions.Classes;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text.RegularExpressions;
-//using System.Timers;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using NadekoBot.Attributes;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
-//namespace NadekoBot.Modules.Utility
-//{
-//    class Remind : DiscordCommand
-//    {
+namespace NadekoBot.Modules.Utility
+{
+    public partial class Utility
+    {
+        [Group]
+        public class RemindCommands
+        {
 
-//        Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
-//                                RegexOptions.Compiled | RegexOptions.Multiline);
+            Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
+                                    RegexOptions.Compiled | RegexOptions.Multiline);
 
-//        List<Timer> reminders = new List<Timer>();
+            private string RemindMessageFormat { get; }
 
-//        IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
-//        {
-//            { "%message%" , (r) => r.Message },
-//            { "%user%", (r) => $"<@!{r.UserId}>" },
-//            { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
-//        };
+            IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
+            {
+                { "%message%" , (r) => r.Message },
+                { "%user%", (r) => $"<@!{r.UserId}>" },
+                { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
+            };
 
-//        public Remind(DiscordModule module) : base(module)
-//        {
-//            var remList = DbHandler.Instance.GetAllRows<Reminder>();
+            public RemindCommands()
+            {
+                List<Reminder> reminders;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    reminders = uow.Reminders.GetAll().ToList();
 
-//            reminders = remList.Select(StartNewReminder).ToList();
-//        }
+                    RemindMessageFormat = uow.BotConfig.GetOrCreate().RemindMessageFormat;
+                }
 
-//        private Timer StartNewReminder(Reminder r)
-//        {
-//            var now = DateTime.Now;
-//            var twoMins = new TimeSpan(0, 2, 0);
-//            TimeSpan time = (r.When - now) < twoMins
-//                            ? twoMins       //if the time is less than 2 minutes,
-//                            : r.When - now; //it will send the message 2 minutes after start
-//                                            //To account for high bot startup times
-//            if (time.TotalMilliseconds > int.MaxValue)
-//                return null;
-//            var t = new Timer(time.TotalMilliseconds);
-//            t.Elapsed += async (s, e) =>
-//            {
-//                try
-//                {
-//                    Channel ch;
-//                    if (r.IsPrivate)
-//                    {
-//                        ch = NadekoBot.Client.PrivateChannels.FirstOrDefault(c => (long)c.Id == r.ChannelId);
-//                        if (ch == null)
-//                            ch = await NadekoBot.Client.CreatePrivateChannel((ulong)r.ChannelId).ConfigureAwait(false);
-//                    }
-//                    else
-//                        ch = NadekoBot.Client.GetServer((ulong)r.ServerId)?.GetChannel((ulong)r.ChannelId);
+                foreach (var r in reminders)
+                {
+                    var t = StartReminder(r);
+                }
+            }
 
-//                    if (ch == null)
-//                        return;
+            private async Task StartReminder(Reminder r)
+            {
+                var now = DateTime.Now;
+                var twoMins = new TimeSpan(0, 2, 0);
+                TimeSpan time = r.When - now; 
 
-//                    await ch.SendMessageAsync(
-//                        replacements.Aggregate(NadekoBot.Config.RemindMessageFormat,
-//                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
-//                            ).ConfigureAwait(false); //it works trust me
+                if (time.TotalMilliseconds > int.MaxValue)
+                    return;
 
-//                }
-//                catch (Exception ex)
-//                {
-//                    Console.WriteLine($"Timer error! {ex}");
-//                }
-//                finally
-//                {
-//                    DbHandler.Instance.Delete<Reminder>(r.Id.Value);
-//                    t.Stop();
-//                    t.Dispose();
-//                }
-//            };
-//            t.Start();
-//            return t;
-//        }
+                await Task.Delay(time);
+                try
+                {
+                    IMessageChannel ch;
+                    if (r.IsPrivate)
+                    {
+                        ch = await NadekoBot.Client.GetDMChannelAsync(r.ChannelId).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        ch = NadekoBot.Client.GetGuilds()
+                                .Where(g => g.Id == r.ServerId)
+                                .FirstOrDefault()
+                                .GetTextChannels()
+                                .Where(c => c.Id == r.ChannelId)
+                                .FirstOrDefault();
+                    }
+                    if (ch == null)
+                        return;
 
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "remind")
-//                .Description("Sends a message to you or a channel after certain amount of time. " +
-//                             "First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. " +
-//                             "Third argument is a (multiword)message. " +
-//                             $" | `{Prefix}remind me 1d5h Do something` or `{Prefix}remind #general Start now!`")
-//                .Parameter("meorchannel", ParameterType.Required)
-//                .Parameter("time", ParameterType.Required)
-//                .Parameter("message", ParameterType.Unparsed)
-//                .Do(async e =>
-//                {
-//                    var meorchStr = meorchannel.ToUpperInvariant();
-//                    Channel ch;
-//                    bool isPrivate = false;
-//                    if (meorchStr == "ME")
-//                    {
-//                        isPrivate = true;
-//                        ch = await imsg.Author.CreatePMChannel().ConfigureAwait(false);
-//                    }
-//                    else if (meorchStr == "HERE")
-//                    {
-//                        ch = e.Channel;
-//                    }
-//                    else
-//                    {
-//                        ch = e.Server.FindChannels(meorchStr).FirstOrDefault();
-//                    }
+                    await ch.SendMessageAsync(
+                        replacements.Aggregate(RemindMessageFormat,
+                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
+                            ).ConfigureAwait(false); //it works trust me
 
-//                    if (ch == null)
-//                    {
-//                        await channel.SendMessageAsync($"{imsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
-//                        return;
-//                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Timer error! {ex}");
+                }
+                finally
+                {
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        uow.Reminders.Remove(r);
+                        await uow.CompleteAsync();
+                    }
+                }
+            }
 
-//                    var timeStr = time;
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
-//                    var m = regex.Match(timeStr);
+                var meorchStr = meorchannel.ToUpperInvariant();
+                IMessageChannel ch;
+                bool isPrivate = false;
+                if (meorchStr == "ME")
+                {
+                    isPrivate = true;
+                    ch = await ((IGuildUser)umsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
+                }
+                else if (meorchStr == "HERE")
+                {
+                    ch = channel;
+                }
+                else
+                {
+                    ch = channel.Guild.GetTextChannels().FirstOrDefault(c => c.Name == meorchStr || c.Id.ToString() == meorchStr);
+                }
 
-//                    if (m.Length == 0)
-//                    {
-//                        await channel.SendMessageAsync("Not a valid time format blablabla").ConfigureAwait(false);
-//                        return;
-//                    }
+                if (ch == null)
+                {
+                    await channel.SendMessageAsync($"{umsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+                    return;
+                }
 
-//                    string output = "";
-//                    var namesAndValues = new Dictionary<string, int>();
+                var m = regex.Match(timeStr);
 
-//                    foreach (var groupName in regex.GetGroupNames())
-//                    {
-//                        if (groupName == "0") continue;
-//                        int value = 0;
-//                        int.TryParse(m.Groups[groupName].Value, out value);
+                if (m.Length == 0)
+                {
+                    await channel.SendMessageAsync("Not a valid time format blablabla").ConfigureAwait(false);
+                    return;
+                }
 
-//                        if (string.IsNullOrEmpty(m.Groups[groupName].Value))
-//                        {
-//                            namesAndValues[groupName] = 0;
-//                            continue;
-//                        }
-//                        else if (value < 1 ||
-//                            (groupName == "months" && value > 1) ||
-//                            (groupName == "weeks" && value > 4) ||
-//                            (groupName == "days" && value >= 7) ||
-//                            (groupName == "hours" && value > 23) ||
-//                            (groupName == "minutes" && value > 59))
-//                        {
-//                            await channel.SendMessageAsync($"Invalid {groupName} value.").ConfigureAwait(false);
-//                            return;
-//                        }
-//                        else
-//                            namesAndValues[groupName] = value;
-//                        output += m.Groups[groupName].Value + " " + groupName + " ";
-//                    }
-//                    var time = DateTime.Now + new TimeSpan(30 * namesAndValues["months"] +
-//                                                            7 * namesAndValues["weeks"] +
-//                                                            namesAndValues["days"],
-//                                                            namesAndValues["hours"],
-//                                                            namesAndValues["minutes"],
-//                                                            0);
+                string output = "";
+                var namesAndValues = new Dictionary<string, int>();
 
-//                    var rem = new Reminder
-//                    {
-//                        ChannelId = (long)ch.Id,
-//                        IsPrivate = isPrivate,
-//                        When = time,
-//                        Message = message,
-//                        UserId = (long)imsg.Author.Id,
-//                        ServerId = (long)e.Server.Id
-//                    };
-//                    DbHandler.Instance.Connection.Insert(rem);
+                foreach (var groupName in regex.GetGroupNames())
+                {
+                    if (groupName == "0") continue;
+                    int value = 0;
+                    int.TryParse(m.Groups[groupName].Value, out value);
 
-//                    reminders.Add(StartNewReminder(rem));
+                    if (string.IsNullOrEmpty(m.Groups[groupName].Value))
+                    {
+                        namesAndValues[groupName] = 0;
+                        continue;
+                    }
+                    else if (value < 1 ||
+                        (groupName == "months" && value > 1) ||
+                        (groupName == "weeks" && value > 4) ||
+                        (groupName == "days" && value >= 7) ||
+                        (groupName == "hours" && value > 23) ||
+                        (groupName == "minutes" && value > 59))
+                    {
+                        await channel.SendMessageAsync($"Invalid {groupName} value.").ConfigureAwait(false);
+                        return;
+                    }
+                    else
+                        namesAndValues[groupName] = value;
+                    output += m.Groups[groupName].Value + " " + groupName + " ";
+                }
+                var time = DateTime.Now + new TimeSpan(30 * namesAndValues["months"] +
+                                                        7 * namesAndValues["weeks"] +
+                                                        namesAndValues["days"],
+                                                        namesAndValues["hours"],
+                                                        namesAndValues["minutes"],
+                                                        0);
 
-//                    await channel.SendMessageAsync($"⏰ I will remind \"{ch.Name}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
-//                });
-//            cgb.CreateCommand(Module.Prefix + "remindmsg")
-//                .Description("Sets message for when the remind is triggered. " +
-//                    " Available placeholders are %user% - user who ran the command, %message% -" +
-//                    $" Message specified in the remind, %target% - target channel of the remind. **Bot Owner Only!** | `{Prefix}remindmsg do something else`")
-//                .Parameter("msg", ParameterType.Unparsed)
-//                .AddCheck(SimpleCheckers.OwnerOnly())
-//                .Do(async e =>
-//                {
-//                    var arg = msg?.Trim();
-//                    if (string.IsNullOrWhiteSpace(arg))
-//                        return;
+                var rem = new Reminder
+                {
+                    ChannelId = ch.Id,
+                    IsPrivate = isPrivate,
+                    When = time,
+                    Message = message,
+                    UserId = umsg.Author.Id,
+                    ServerId = channel.Guild.Id
+                };
 
-//                    NadekoBot.Config.RemindMessageFormat = arg;
-//                    await channel.SendMessageAsync("`New remind message set.`");
-//                });
-//        }
-//    }
-//}
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.Reminders.Add(rem);
+                    await uow.CompleteAsync();
+                }
+
+                await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
+                await StartReminder(rem);
+            }
+
+            ////todo owner only
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
+            //{
+            //    var channel = (ITextChannel)umsg.Channel;
+
+
+            //    arg = arg?.Trim();
+            //    if (string.IsNullOrWhiteSpace(arg))
+            //        return;
+
+            //    NadekoBot.Config.RemindMessageFormat = arg;
+            //    await channel.SendMessageAsync("`New remind message set.`");
+            //}
+        }
+    }
+}

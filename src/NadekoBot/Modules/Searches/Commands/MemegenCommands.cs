@@ -17,9 +17,9 @@ namespace NadekoBot.Modules.Searches
     {
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Memelist(IMessage imsg)
+        public async Task Memelist(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
             using (var http = new HttpClient())
             {
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
@@ -31,9 +31,9 @@ namespace NadekoBot.Modules.Searches
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Memegen(IMessage imsg, string meme, string topText, string botText)
+        public async Task Memegen(IUserMessage umsg, string meme, string topText, string botText)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
             var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));

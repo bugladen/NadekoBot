@@ -12,15 +12,15 @@ namespace NadekoBot.Modules.Translator
     [Module("~", AppendSpace = false)]
     public class Translator : DiscordModule
     {
-        public Translator(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Translator(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Translate(IMessage imsg, string langs, [Remainder] string text = null)
+        public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             try
             {
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Translator
                 if (string.IsNullOrWhiteSpace(text))
                     return;
 
-                await imsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 string translation = await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false);
                 await channel.SendMessageAsync(translation).ConfigureAwait(false);
             }
@@ -46,9 +46,9 @@ namespace NadekoBot.Modules.Translator
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Translangs(IMessage imsg)
+        public async Task Translangs(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendTableAsync(GoogleTranslator.Instance.Languages, str => $"{str,-15}", columns: 3);
         }

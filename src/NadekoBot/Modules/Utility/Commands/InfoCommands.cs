@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Utility
     {
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task ServerInfo(IMessage msg, string guild = null)
+        public async Task ServerInfo(IUserMessage msg, string guild = null)
         {
             var channel = msg.Channel as ITextChannel;
             guild = guild?.ToUpperInvariant();
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Utility
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task ChannelInfo(IMessage msg, ITextChannel channel = null)
+        public async Task ChannelInfo(IUserMessage msg, ITextChannel channel = null)
         {
             var ch = channel ?? msg.Channel as ITextChannel;
             if (ch == null)
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Utility
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task UserInfo(IMessage msg, IGuildUser usr = null)
+        public async Task UserInfo(IUserMessage msg, IGuildUser usr = null)
         {
             var channel = msg.Channel as ITextChannel;
             var user = usr ?? msg.Author as IGuildUser;

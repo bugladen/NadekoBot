@@ -10,16 +10,16 @@ namespace NadekoBot.Modules.Games
     [Module(">", AppendSpace = false)]
     public partial class Pokemon : DiscordModule
     {
-        public Pokemon(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Pokemon(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 
         //todo Dragon should PR this in
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Poke(IMessage imsg)
+        public async Task Poke(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
 
         }

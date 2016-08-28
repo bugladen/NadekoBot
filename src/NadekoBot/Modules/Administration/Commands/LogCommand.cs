@@ -36,17 +36,17 @@
 
 //            NadekoBot.Client.MessageReceived += async (s, e) =>
 //            {
-//                if (e.Channel.IsPrivate || imsg.Author.Id == NadekoBot.Client.CurrentUser.Id)
+//                if (e.Channel.IsPrivate || umsg.Author.Id == NadekoBot.Client.CurrentUser.Id)
 //                    return;
 //                if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
 //                try
 //                {
-//                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != imsg.Author);
+//                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != umsg.Author);
 //                    if (usr?.Status != UserStatus.Offline)
 //                        return;
 //                    await channel.SendMessageAsync($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
 //                    await usr.SendMessageAsync(
-//                        $"User `{imsg.Author.Username}` mentioned you on " +
+//                        $"User `{umsg.Author.Username}` mentioned you on " +
 //                        $"`{e.Server.Name}` server while you were offline.\n" +
 //                        $"`Message:` {e.Message.Text}").ConfigureAwait(false);
 //                }
@@ -148,7 +148,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessageAsync($"`{prettyCurrentTime}`♻`User was unbanned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`♻`User was unbanned:` **{umsg.Author.Username}** ({umsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -163,7 +163,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessageAsync($"`{prettyCurrentTime}`✅`User joined:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`✅`User joined:` **{umsg.Author.Username}** ({umsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -178,7 +178,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessageAsync($"`{prettyCurrentTime}`❗`User left:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"`{prettyCurrentTime}`❗`User left:` **{umsg.Author.Username}** ({umsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -193,7 +193,7 @@
 //                Channel ch;
 //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
 //                    return;
-//                await ch.SendMessageAsync($"❗`{prettyCurrentTime}`❌`User banned:` **{imsg.Author.Username}** ({imsg.Author.Id})").ConfigureAwait(false);
+//                await ch.SendMessageAsync($"❗`{prettyCurrentTime}`❌`User banned:` **{umsg.Author.Username}** ({umsg.Author.Id})").ConfigureAwait(false);
 //            }
 //            catch { }
 //        }
@@ -202,7 +202,7 @@
 //        {
 //            try
 //            {
-//                if (e.Server == null || e.Channel.IsPrivate || imsg.Author.Id == NadekoBot.Client.CurrentUser.Id)
+//                if (e.Server == null || e.Channel.IsPrivate || umsg.Author.Id == NadekoBot.Client.CurrentUser.Id)
 //                    return;
 //                var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                var chId = config.LogServerChannel;
@@ -215,13 +215,13 @@
 //                {
 //                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
-//👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
+//👤`{umsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
 //                }
 //                else
 //                {
 //                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
-//👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
+//👤`{umsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
 //                }
 
 //            }
@@ -231,7 +231,7 @@
 //        {
 //            try
 //            {
-//                if (e.Server == null || e.Channel.IsPrivate || imsg.Author?.Id == NadekoBot.Client.CurrentUser.Id)
+//                if (e.Server == null || e.Channel.IsPrivate || umsg.Author?.Id == NadekoBot.Client.CurrentUser.Id)
 //                    return;
 //                var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                var chId = config.LogServerChannel;
@@ -244,13 +244,13 @@
 //                {
 //                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{e.Channel.Name}`
-//👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
+//👤`{umsg.Author?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
 //                }
 //                else
 //                {
 //                    await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **File Deleted** `#{e.Channel.Name}`
-//👤`{imsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
+//👤`{umsg.Author?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
 //                }
 //            }
 //            catch { }
@@ -259,7 +259,7 @@
 //        {
 //            try
 //            {
-//                if (e.Server == null || e.Channel.IsPrivate || imsg.Author?.Id == NadekoBot.Client.CurrentUser.Id)
+//                if (e.Server == null || e.Channel.IsPrivate || umsg.Author?.Id == NadekoBot.Client.CurrentUser.Id)
 //                    return;
 //                var config = SpecificConfigurations.Default.Of(e.Server.Id);
 //                var chId = config.LogServerChannel;
@@ -270,7 +270,7 @@
 //                    return;
 //                await ch.SendMessageAsync(
 //        $@"🕔`{prettyCurrentTime}` **Message** 📝 `#{e.Channel.Name}`
-//👤`{imsg.Author?.ToString() ?? ("NULL")}`
+//👤`{umsg.Author?.ToString() ?? ("NULL")}`
 //        `Old:` {e.Before.Text.Unmention()}
 //        `New:` {e.After.Text.Unmention()}").ConfigureAwait(false);
 //            }
@@ -466,19 +466,19 @@
 //                          return;
 //                      }
 
-//                      if (imsg.Author.VoiceChannel == null)
+//                      if (umsg.Author.VoiceChannel == null)
 //                      {
 //                          await channel.SendMessageAsync("💢 You are not in a voice channel right now. If you are, please rejoin it.").ConfigureAwait(false);
 //                          return;
 //                      }
 //                      ulong throwaway;
-//                      if (!config.VoiceChannelLog.TryRemove(imsg.Author.VoiceChannel.Id, out throwaway))
+//                      if (!config.VoiceChannelLog.TryRemove(umsg.Author.VoiceChannel.Id, out throwaway))
 //                      {
-//                          config.VoiceChannelLog.TryAdd(imsg.Author.VoiceChannel.Id, e.Channel.Id);
-//                          await channel.SendMessageAsync($"`Logging user updates for` {imsg.Author.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
+//                          config.VoiceChannelLog.TryAdd(umsg.Author.VoiceChannel.Id, e.Channel.Id);
+//                          await channel.SendMessageAsync($"`Logging user updates for` {umsg.Author.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
 //                      }
 //                      else
-//                          await channel.SendMessageAsync($"`Stopped logging user updates for` {imsg.Author.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
+//                          await channel.SendMessageAsync($"`Stopped logging user updates for` {umsg.Author.VoiceChannel.Mention} `voice channel.`").ConfigureAwait(false);
 //                  });
 //        }
 //    }

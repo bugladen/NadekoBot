@@ -21,15 +21,15 @@ namespace NadekoBot.Modules.Help
                 return str + String.Format(str, NadekoBot.Credentials.ClientId);
             }
         }
-        public Help(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Help(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Modules(IMessage imsg)
+        public async Task Modules(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync("`List of modules:` \n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n`Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
@@ -37,9 +37,9 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Commands(IMessage imsg, [Remainder] string module = null)
+        public async Task Commands(IUserMessage umsg, [Remainder] string module = null)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
@@ -67,14 +67,14 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task H(IMessage imsg, [Remainder] string comToFind = null)
+        public async Task H(IUserMessage umsg, [Remainder] string comToFind = null)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             comToFind = comToFind?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(comToFind))
             {
-                await (await (imsg.Author as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(HelpString).ConfigureAwait(false);
+                await (await (umsg.Author as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(HelpString).ConfigureAwait(false);
                 return;
             }
             var com = _commands.Commands.FirstOrDefault(c => c.Text.ToLowerInvariant() == comToFind);
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Hgit(IMessage imsg)
+        public async Task Hgit(IUserMessage umsg)
         {
             var helpstr = new StringBuilder();
 
@@ -115,9 +115,9 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Guide(IMessage imsg)
+        public async Task Guide(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync(
 @"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
@@ -126,9 +126,9 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task Donate(IMessage imsg)
+        public async Task Donate(IUserMessage umsg)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync(
 $@"You can support the project on patreon. <https://patreon.com/nadekobot> or

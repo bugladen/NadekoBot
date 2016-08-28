@@ -44,9 +44,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Yomama(IMessage imsg)
+            public async Task Yomama(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
@@ -56,9 +56,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Randjoke(IMessage imsg)
+            public async Task Randjoke(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
@@ -68,9 +68,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task ChuckNorris(IMessage imsg)
+            public async Task ChuckNorris(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
@@ -80,9 +80,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task WowJoke(IMessage imsg)
+            public async Task WowJoke(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 if (!wowJokes.Any())
                 {
@@ -92,9 +92,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task MagicItem(IMessage imsg)
+            public async Task MagicItem(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 var rng = new Random();
                 var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 

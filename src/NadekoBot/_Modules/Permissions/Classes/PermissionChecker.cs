@@ -119,10 +119,10 @@ namespace NadekoBot.Modules.Permissions.Classes
                         case PermissionsHandler.PermissionBanType.RoleBanModule:
                             msg = $"You do not have a **role** which permits you the usage of **{command.Category}** module.";
                             break;
-                        case PermissionsHandler.PermissionBanTypimsg.AuthorBanCommand:
+                        case PermissionsHandler.PermissionBanTypumsg.AuthorBanCommand:
                             msg = $"{user.Mention}, You have been banned from using **{command.Text}** command.";
                             break;
-                        case PermissionsHandler.PermissionBanTypimsg.AuthorBanModule:
+                        case PermissionsHandler.PermissionBanTypumsg.AuthorBanModule:
                             msg = $"{user.Mention}, You have been banned from using **{command.Category}** module.";
                             break;
                         default:

@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.CustomReactions
                         }else return rng.Next().ToString();
                         } },
                     {new Regex("%mention%"), (e,m) => NadekoBot.BotMention },
-                    {new Regex("%user%"), (e,m) => imsg.Author.Mention },
+                    {new Regex("%user%"), (e,m) => umsg.Author.Mention },
                     {new Regex("%target%"), (e,m) => args?.Trim() ?? "" },
 
                  };

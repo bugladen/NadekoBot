@@ -24,29 +24,29 @@ namespace NadekoBot.Extensions
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-        public static async Task<IMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
 
-        public static async Task<IMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(filePath, caption, isTTS).ConfigureAwait(false);
 
-        public static async Task<IMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
-        public static async Task<IMessage> Reply(this IMessage msg, string content) => 
+        public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) => 
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
 
-        public static Task<bool> IsAuthor(this IMessage msg) =>
+        public static Task<bool> IsAuthor(this IUserMessage msg) =>
             Task.FromResult(NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id);
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             NadekoBot.Client.GetGuilds().Where(g => g.Id == role.GuildId).FirstOrDefault()?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
 
-        public static async Task<IMessage[]> ReplyLong(this IMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
+        public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
         {
 
             if (content.Length < 2000) return new[] { await msg.Channel.SendMessageAsync(content).ConfigureAwait(false) };
-            var list = new List<IMessage>();
+            var list = new List<IUserMessage>();
 
             var temp = Regex.Split(content, breakOn).Select(x => x += breakOn).ToList();
             string toolong;
@@ -77,7 +77,7 @@ namespace NadekoBot.Extensions
             return list.ToArray();
         }
 
-        public static Task<IMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
             var i = 0;
             return ch.SendMessageAsync($@"{seed}```xl
@@ -86,7 +86,7 @@ namespace NadekoBot.Extensions
 ```");
         }
 
-        public static Task<IMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
             return ch.SendTableAsync("", items, howToPrint, columns);
         }

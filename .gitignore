@@ -15,6 +15,7 @@ obj/
 Tests/bin
 src/NadekoBot/credentials.json
 src/NadekoBot/project.lock.json
+src/NadekoBot/data/*
 
 # NuGet Packages
 *.nupkg

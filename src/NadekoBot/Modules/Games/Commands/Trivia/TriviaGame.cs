@@ -104,19 +104,23 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private async Task PotentialGuess(IMessage imsg)
         {
+            var umsg = imsg as IUserMessage;
+            if (umsg == null)
+                return;
+
             try
             {
-                if (!(imsg.Channel is IGuildChannel && imsg.Channel is ITextChannel)) return;
-                if ((imsg.Channel as ITextChannel).Guild != guild) return;
-                if (imsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
+                if (!(umsg.Channel is IGuildChannel && umsg.Channel is ITextChannel)) return;
+                if ((umsg.Channel as ITextChannel).Guild != guild) return;
+                if (umsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
 
-                var guildUser = imsg.Author as IGuildUser;
+                var guildUser = umsg.Author as IGuildUser;
 
                 var guess = false;
                 await _guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    if (GameActive && CurrentQuestion.IsAnswerCorrect(imsg.Content) && !triviaCancelSource.IsCancellationRequested)
+                    if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
                     {
                         Users.AddOrUpdate(guildUser, 0, (gu, old) => old++);
                         guess = true;

@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
 using NLog;
@@ -28,9 +27,9 @@ namespace NadekoBot.Modules.Searches
             }
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Osu(IMessage imsg, string usr, string mode)
+            public async Task Osu(IUserMessage umsg, string usr, string mode)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
@@ -61,9 +60,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Osub(IMessage imsg, [Remainder] string map)
+            public async Task Osub(IUserMessage umsg, [Remainder] string map)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
@@ -98,9 +97,9 @@ namespace NadekoBot.Modules.Searches
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Osu5(IMessage imsg, string user, [Remainder] string mode)
+            public async Task Osu5(IUserMessage umsg, string user, [Remainder] string mode)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
                     await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);

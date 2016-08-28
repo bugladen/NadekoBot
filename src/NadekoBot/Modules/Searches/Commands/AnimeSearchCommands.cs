@@ -13,11 +13,11 @@
 //    {
 //        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
 //        [RequireContext(ContextType.Guild)]
-//        public async Task Anime(IMessage imsg, [Remainder] string query = null)
+//        public async Task Anime(IUserMessage umsg, [Remainder] string query = null)
 //        {
-//            var channel = (ITextChannel)imsg.Channel;
+//            var channel = (ITextChannel)umsg.Channel;
 
-//            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
+//            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
 //            string result;
 //            try
 //            {
@@ -34,11 +34,11 @@
 
 //        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
 //        [RequireContext(ContextType.Guild)]
-//        public async Task Manga(IMessage imsg, [Remainder] string query = null)
+//        public async Task Manga(IUserMessage umsg, [Remainder] string query = null)
 //        {
-//            var channel = (ITextChannel)imsg.Channel;
+//            var channel = (ITextChannel)umsg.Channel;
 
-//            if (!(await ValidateQuery(imsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
+//            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
 //            string result;
 //            try
 //            {

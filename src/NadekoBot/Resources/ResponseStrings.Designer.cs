@@ -58,14 +58,5 @@ namespace NadekoBot.Resources {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to TESTING.
-        /// </summary>
-        public static string test {
-            get {
-                return ResourceManager.GetString("test", resourceCulture);
-            }
-        }
     }
 }

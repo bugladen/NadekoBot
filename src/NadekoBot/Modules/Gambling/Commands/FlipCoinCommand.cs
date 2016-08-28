@@ -44,15 +44,15 @@
 //            if (!int.TryParse(amountstr, out amount) || amount < 1)
 //                return;
 
-//            var userFlowers = Gambling.GetUserFlowers(imsg.Author.Id);
+//            var userFlowers = Gambling.GetUserFlowers(umsg.Author.Id);
 
 //            if (userFlowers < amount)
 //            {
-//                await channel.SendMessageAsync($"{imsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+//                await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
 //                return;
 //            }
 
-//            await FlowersHandler.RemoveFlowers(imsg.Author, "Betflip Gamble", (int)amount, true).ConfigureAwait(false);
+//            await FlowersHandler.RemoveFlowers(umsg.Author, "Betflip Gamble", (int)amount, true).ConfigureAwait(false);
 //            //heads = true
 //            //tails = false
 
@@ -69,12 +69,12 @@
 //            string str;
 //            if (guess == result)
 //            {
-//                str = $"{imsg.Author.Mention}`You guessed it!` You won {amount * 2}{NadekoBot.Config.CurrencySign}";
-//                await FlowersHandler.AddFlowersAsync(imsg.Author, "Betflip Gamble", amount * 2, true).ConfigureAwait(false);
+//                str = $"{umsg.Author.Mention}`You guessed it!` You won {amount * 2}{NadekoBot.Config.CurrencySign}";
+//                await FlowersHandler.AddFlowersAsync(umsg.Author, "Betflip Gamble", amount * 2, true).ConfigureAwait(false);
 
 //            }
 //            else
-//                str = $"{imsg.Author.Mention}`More luck next time.`";
+//                str = $"{umsg.Author.Mention}`More luck next time.`";
 
 //            await channel.SendMessageAsync(str).ConfigureAwait(false);
 //        };
