@@ -72,9 +72,9 @@ namespace NadekoBot.Modules.Administration
                         conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
                         await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                         if (conf.AutoDeleteMessagesOnCommand)
-                            await e.Channel.SendMessage("❗`Now automatically deleting successfull command invokations.`");
+                            await e.Channel.SendMessage("❗`Now automatically deleting successful command invokations.`");
                         else
-                            await e.Channel.SendMessage("❗`Stopped automatic deletion of successfull command invokations.`");
+                            await e.Channel.SendMessage("❗`Stopped automatic deletion of successful command invokations.`");
 
                     });
 
