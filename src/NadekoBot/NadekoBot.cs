@@ -20,7 +20,6 @@ namespace NadekoBot
 
         public static CommandService Commands { get; private set; }
         public static DiscordSocketClient Client { get; private set; }
-        public static BotConfiguration Config { get; private set; }
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
@@ -42,7 +41,6 @@ namespace NadekoBot
             //initialize Services
             Credentials = new BotCredentials();
             Commands = new CommandService();
-            Config = new BotConfiguration();
             Localizer = new Localization();
             Google = new GoogleApiService();
             Stats = new StatsService(Client);
@@ -51,7 +49,6 @@ namespace NadekoBot
             //setup DI
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
-            depMap.Add<IBotConfiguration>(Config);
             depMap.Add<DiscordSocketClient>(Client);
             depMap.Add<CommandService>(Commands);
             depMap.Add<IGoogleApiService>(Google);

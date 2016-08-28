@@ -31,12 +31,5 @@ namespace NadekoBot.Services.Database.Models
         //self assignable roles
         public bool ExclusiveSelfAssignedRoles { get; set; }
         public bool AutoDeleteSelfAssignedRoleMessages { get; set; }
-        public bool RotatingStatuses { get; set; }
-        public List<PlayingStatus> RotatingStatusMessages { get; set; }
-    }
-
-    public class PlayingStatus : DbEntity
-    {
-        public string Status { get; set; }
     }
 }

@@ -9,6 +9,27 @@ namespace NadekoBot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "BotConfig",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BufferSize = table.Column<ulong>(nullable: false),
+                    CurrencyName = table.Column<string>(nullable: true),
+                    CurrencyPluralName = table.Column<string>(nullable: true),
+                    CurrencySign = table.Column<string>(nullable: true),
+                    DontJoinServers = table.Column<bool>(nullable: false),
+                    ForwardMessages = table.Column<bool>(nullable: false),
+                    ForwardToAllOwners = table.Column<bool>(nullable: false),
+                    RemindMessageFormat = table.Column<string>(nullable: true),
+                    RotatingStatuses = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BotConfig", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClashOfClans",
                 columns: table => new
                 {
@@ -60,7 +81,6 @@ namespace NadekoBot.Migrations
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
-                    RotatingStatuses = table.Column<bool>(nullable: false),
                     SendChannelByeMessage = table.Column<bool>(nullable: false),
                     SendChannelGreetMessage = table.Column<bool>(nullable: false),
                     SendDmGreetMessage = table.Column<bool>(nullable: false)
@@ -120,6 +140,108 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlacklistItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BotConfigId = table.Column<int>(nullable: true),
+                    ItemId = table.Column<ulong>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlacklistItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlacklistItem_BotConfig_BotConfigId",
+                        column: x => x.BotConfigId,
+                        principalTable: "BotConfig",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EightBallResponse",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BotConfigId = table.Column<int>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EightBallResponse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EightBallResponse_BotConfig_BotConfigId",
+                        column: x => x.BotConfigId,
+                        principalTable: "BotConfig",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModulePrefix",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BotConfigId = table.Column<int>(nullable: true),
+                    ModuleName = table.Column<string>(nullable: true),
+                    Prefix = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModulePrefix", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ModulePrefix_BotConfig_BotConfigId",
+                        column: x => x.BotConfigId,
+                        principalTable: "BotConfig",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlayingStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BotConfigId = table.Column<int>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayingStatus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlayingStatus_BotConfig_BotConfigId",
+                        column: x => x.BotConfigId,
+                        principalTable: "BotConfig",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RaceAnimal",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    BotConfigId = table.Column<int>(nullable: true),
+                    Icon = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RaceAnimal", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RaceAnimal_BotConfig_BotConfigId",
+                        column: x => x.BotConfigId,
+                        principalTable: "BotConfig",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClashCallers",
                 columns: table => new
                 {
@@ -142,25 +264,10 @@ namespace NadekoBot.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "PlayingStatus",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    GuildConfigId = table.Column<int>(nullable: true),
-                    Status = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlayingStatus", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlayingStatus_GuildConfigs_GuildConfigId",
-                        column: x => x.GuildConfigId,
-                        principalTable: "GuildConfigs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_BlacklistItem_BotConfigId",
+                table: "BlacklistItem",
+                column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClashCallers_ClashWarId",
@@ -174,15 +281,30 @@ namespace NadekoBot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EightBallResponse_BotConfigId",
+                table: "EightBallResponse",
+                column: "BotConfigId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GuildConfigs_GuildId",
                 table: "GuildConfigs",
                 column: "GuildId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayingStatus_GuildConfigId",
+                name: "IX_ModulePrefix_BotConfigId",
+                table: "ModulePrefix",
+                column: "BotConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayingStatus_BotConfigId",
                 table: "PlayingStatus",
-                column: "GuildConfigId");
+                column: "BotConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RaceAnimal_BotConfigId",
+                table: "RaceAnimal",
+                column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SelfAssignableRoles_GuildId_RoleId",
@@ -194,16 +316,31 @@ namespace NadekoBot.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BlacklistItem");
+
+            migrationBuilder.DropTable(
                 name: "ClashCallers");
 
             migrationBuilder.DropTable(
                 name: "Donators");
 
             migrationBuilder.DropTable(
+                name: "EightBallResponse");
+
+            migrationBuilder.DropTable(
+                name: "GuildConfigs");
+
+            migrationBuilder.DropTable(
+                name: "ModulePrefix");
+
+            migrationBuilder.DropTable(
                 name: "PlayingStatus");
 
             migrationBuilder.DropTable(
                 name: "Quotes");
+
+            migrationBuilder.DropTable(
+                name: "RaceAnimal");
 
             migrationBuilder.DropTable(
                 name: "Reminders");
@@ -215,7 +352,7 @@ namespace NadekoBot.Migrations
                 name: "ClashOfClans");
 
             migrationBuilder.DropTable(
-                name: "GuildConfigs");
+                name: "BotConfig");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
     [Module(".", AppendSpace = false)]
     public partial class Administration : DiscordModule
     {
-        public Administration(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Administration(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
 
         }

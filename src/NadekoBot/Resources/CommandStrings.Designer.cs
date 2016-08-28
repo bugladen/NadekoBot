@@ -6648,6 +6648,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to toggle whether the self-assigned roles should be exclusive.
+        /// </summary>
+        public static string tesar_desc {
+            get {
+                return ResourceManager.GetString("tesar_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.tesar`.
+        /// </summary>
+        public static string tesar_summary {
+            get {
+                return ResourceManager.GetString("tesar_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to tesar.
+        /// </summary>
+        public static string tesar_text {
+            get {
+                return ResourceManager.GetString("tesar_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Shows a current trivia leaderboard..
         /// </summary>
         public static string tl_desc {
@@ -6671,33 +6698,6 @@ namespace NadekoBot.Resources {
         public static string tl_text {
             get {
                 return ResourceManager.GetString("tl_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to toggle whether the self-assigned roles should be exclusive.
-        /// </summary>
-        public static string togglexclsar_desc {
-            get {
-                return ResourceManager.GetString("togglexclsar_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.tesar`.
-        /// </summary>
-        public static string togglexclsar_summary {
-            get {
-                return ResourceManager.GetString("togglexclsar_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to togglexclsar.
-        /// </summary>
-        public static string togglexclsar_text {
-            get {
-                return ResourceManager.GetString("togglexclsar_text", resourceCulture);
             }
         }
         

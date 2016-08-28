@@ -17,6 +17,7 @@ namespace NadekoBot.Services.Database
         public DbSet<ClashCaller> ClashCallers { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
+        public DbSet<BotConfig> BotConfig { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,8 +26,7 @@ namespace NadekoBot.Services.Database
             var quoteEntity = modelBuilder.Entity<Quote>();
 
             #endregion
-
-
+            
             #region Donators
 
             var donatorEntity = modelBuilder.Entity<Donator>();

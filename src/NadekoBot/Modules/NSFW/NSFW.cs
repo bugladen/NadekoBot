@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.NSFW
     [Module("~", AppendSpace = false)]
     public class NSFW : DiscordModule
     {
-        public NSFW(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public NSFW(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 

@@ -26,6 +26,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         }
 
         public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) => 
-            _set.Where(s => s.GuildId == guildId);
+            _set.Where(s => s.GuildId == guildId).ToList();
     }
 }

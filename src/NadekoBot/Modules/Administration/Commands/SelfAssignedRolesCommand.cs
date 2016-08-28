@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Administration
                     success = uow.SelfAssignedRoles.DeleteByGuildAndRoleId(role.GuildId, role.Id);
                     await uow.CompleteAsync();
                 }
-                if (success)
+                if (!success)
                 {
                     await channel.SendMessageAsync(":anger:That role is not self-assignable.").ConfigureAwait(false);
                     return;
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Iamnot(IMessage imsg, IRole role)
+            public async Task Iamnot(IMessage imsg, [Remainder] IRole role)
             {
                 var channel = (ITextChannel)imsg.Channel;
                 var guildUser = (IGuildUser)imsg.Author;

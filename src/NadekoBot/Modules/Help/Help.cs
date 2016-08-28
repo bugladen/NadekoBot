@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Help
                 return str + String.Format(str, NadekoBot.Credentials.ClientId);
             }
         }
-        public Help(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Help(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 

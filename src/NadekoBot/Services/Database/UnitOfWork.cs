@@ -30,6 +30,9 @@ namespace NadekoBot.Services.Database
         private ISelfAssignedRolesRepository _selfAssignedRoles;
         public ISelfAssignedRolesRepository SelfAssignedRoles => _selfAssignedRoles ?? (_selfAssignedRoles = new SelfAssignedRolesRepository(_context));
 
+        private IBotConfigRepository _botConfig;
+        public IBotConfigRepository BotConfig => _botConfig ?? (_botConfig = new BotConfigRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

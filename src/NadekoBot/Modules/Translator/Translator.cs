@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Translator
     [Module("~", AppendSpace = false)]
     public class Translator : DiscordModule
     {
-        public Translator(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public Translator(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 

@@ -2,6 +2,8 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -63,7 +65,7 @@ namespace NadekoBot.Modules.Gambling
             public class AnimalRace
             {
 
-                private ConcurrentQueue<string> animals = new ConcurrentQueue<string>(NadekoBot.Config.RaceAnimals.Shuffle());
+                private ConcurrentQueue<string> animals { get; }
 
                 public bool Fail { get; internal set; }
 
@@ -83,6 +85,13 @@ namespace NadekoBot.Modules.Gambling
                         Fail = true;
                         return;
                     }
+
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        animals = new ConcurrentQueue<string>(uow.BotConfig.GetOrCreate().RaceAnimals.Select(ra=>ra.Icon).Shuffle());
+                    }
+
+
                     var cancelSource = new CancellationTokenSource();
                     var token = cancelSource.Token;
                     var fullgame = CheckForFullGameAsync(token);
@@ -184,7 +193,7 @@ namespace NadekoBot.Modules.Gambling
                         var wonAmount = winner.AmountBet * (participants.Count - 1);
                         //todo DB
                         //await FlowersHandler.AddFlowersAsync(winner.User, "Won a Race", wonAmount).ConfigureAwait(false);
-                        await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{NadekoBot.Config.Currency.Sign}!**").ConfigureAwait(false);
+                        await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
                     }
                     else
                     {
@@ -228,7 +237,7 @@ namespace NadekoBot.Modules.Gambling
                         return false;
                     }
                     participants.Add(p);
-                    await raceChannel.SendMessageAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {(amount == 1? NadekoBot.Config.Currency.Name: NadekoBot.Config.Currency.PluralName)}!**" : "**"));
+                    await raceChannel.SendMessageAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {(amount == 1? CurrencyName : CurrencyPluralName)}!**" : "**"));
                     return true;
                 }
             }

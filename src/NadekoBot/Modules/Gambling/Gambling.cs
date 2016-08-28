@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using Discord.WebSocket;
+using NadekoBot.Services.Database;
 
 //todo DB
 namespace NadekoBot.Modules.Gambling
@@ -15,8 +16,21 @@ namespace NadekoBot.Modules.Gambling
     [Module("$", AppendSpace = false)]
     public partial class Gambling : DiscordModule
     {
-        public Gambling(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public static string CurrencyName { get; set; }
+        public static string CurrencyPluralName { get; set; }
+        public static string CurrencySign { get; set; }
+        
+        public Gambling(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var conf = uow.BotConfig.GetOrCreate();
+
+                CurrencyName = conf.CurrencyName;
+                CurrencySign = conf.CurrencySign;
+                CurrencyPluralName = conf.CurrencyPluralName;
+            }
+            
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]

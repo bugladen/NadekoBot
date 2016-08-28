@@ -15,6 +15,7 @@ namespace NadekoBot.Services.Database
         IClashOfClansRepository ClashOfClans { get; }
         IReminderRepository Reminders { get; }
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
+        IBotConfigRepository BotConfig { get; }
 
         int Complete();
         Task<int> CompleteAsync();

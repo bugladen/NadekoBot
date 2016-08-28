@@ -15,6 +15,50 @@ namespace NadekoBot.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.BlacklistItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<ulong>("ItemId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("BlacklistItem");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.BotConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("BufferSize");
+
+                    b.Property<string>("CurrencyName");
+
+                    b.Property<string>("CurrencyPluralName");
+
+                    b.Property<string>("CurrencySign");
+
+                    b.Property<bool>("DontJoinServers");
+
+                    b.Property<bool>("ForwardMessages");
+
+                    b.Property<bool>("ForwardToAllOwners");
+
+                    b.Property<string>("RemindMessageFormat");
+
+                    b.Property<bool>("RotatingStatuses");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BotConfig");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
                 {
                     b.Property<int>("Id")
@@ -78,6 +122,22 @@ namespace NadekoBot.Migrations
                     b.ToTable("Donators");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.EightBallResponse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("EightBallResponse");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.GuildConfig", b =>
                 {
                     b.Property<int>("Id")
@@ -109,8 +169,6 @@ namespace NadekoBot.Migrations
 
                     b.Property<ulong>("GuildId");
 
-                    b.Property<bool>("RotatingStatuses");
-
                     b.Property<bool>("SendChannelByeMessage");
 
                     b.Property<bool>("SendChannelGreetMessage");
@@ -125,18 +183,36 @@ namespace NadekoBot.Migrations
                     b.ToTable("GuildConfigs");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<string>("ModuleName");
+
+                    b.Property<string>("Prefix");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("ModulePrefix");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GuildConfigId");
+                    b.Property<int?>("BotConfigId");
 
                     b.Property<string>("Status");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GuildConfigId");
+                    b.HasIndex("BotConfigId");
 
                     b.ToTable("PlayingStatus");
                 });
@@ -162,6 +238,24 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Quotes");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.RaceAnimal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<string>("Icon");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("RaceAnimal");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Reminder", b =>
@@ -203,6 +297,13 @@ namespace NadekoBot.Migrations
                     b.ToTable("SelfAssignableRoles");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.BlacklistItem", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
+                        .WithMany("Blacklist")
+                        .HasForeignKey("BotConfigId");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.ClashWar", "ClashWar")
@@ -211,11 +312,32 @@ namespace NadekoBot.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.EightBallResponse", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
+                        .WithMany("EightBallResponses")
+                        .HasForeignKey("BotConfigId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
+                        .WithMany("ModulePrefixes")
+                        .HasForeignKey("BotConfigId");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
                 {
-                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("RotatingStatusMessages")
-                        .HasForeignKey("GuildConfigId");
+                        .HasForeignKey("BotConfigId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.RaceAnimal", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
+                        .WithMany("RaceAnimals")
+                        .HasForeignKey("BotConfigId");
                 });
         }
     }

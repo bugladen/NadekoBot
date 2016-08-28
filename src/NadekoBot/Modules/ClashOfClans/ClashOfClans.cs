@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.ClashOfClans
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
-        public ClashOfClans(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client) : base(loc, cmds, config, client)
+        public ClashOfClans(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
             using (var uow = DbHandler.UnitOfWork())
             {

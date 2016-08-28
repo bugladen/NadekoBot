@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Music
         public const string MusicDataPath = "data/musicdata";
         private IGoogleApiService _google;
 
-        public Music(ILocalization loc, CommandService cmds, IBotConfiguration config, DiscordSocketClient client, IGoogleApiService google) : base(loc, cmds, config, client)
+        public Music(ILocalization loc, CommandService cmds, DiscordSocketClient client, IGoogleApiService google) : base(loc, cmds, client)
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }

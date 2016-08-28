@@ -23,6 +23,8 @@ namespace NadekoBot.Modules.Utility
             Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
                                     RegexOptions.Compiled | RegexOptions.Multiline);
 
+            private string RemindMessageFormat { get; }
+
             IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
             {
                 { "%message%" , (r) => r.Message },
@@ -36,6 +38,8 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     reminders = uow.Reminders.GetAll().ToList();
+
+                    RemindMessageFormat = uow.BotConfig.GetOrCreate().RemindMessageFormat;
                 }
 
                 foreach (var r in reminders)
@@ -74,7 +78,7 @@ namespace NadekoBot.Modules.Utility
                         return;
 
                     await ch.SendMessageAsync(
-                        replacements.Aggregate(NadekoBot.Config.RemindMessageFormat,
+                        replacements.Aggregate(RemindMessageFormat,
                         (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
                             ).ConfigureAwait(false); //it works trust me
 
