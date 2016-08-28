@@ -99,9 +99,9 @@ namespace NadekoBot.Modules.Utility
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Remind(IMessage imsg, string meorchannel, string timeStr, [Remainder] string message)
+            public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 var meorchStr = meorchannel.ToUpperInvariant();
                 IMessageChannel ch;
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Utility
                 if (meorchStr == "ME")
                 {
                     isPrivate = true;
-                    ch = await ((IGuildUser)imsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
+                    ch = await ((IGuildUser)umsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
                 }
                 else if (meorchStr == "HERE")
                 {
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (ch == null)
                 {
-                    await channel.SendMessageAsync($"{imsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"{umsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
                     return;
                 }
 
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Utility
                     IsPrivate = isPrivate,
                     When = time,
                     Message = message,
-                    UserId = imsg.Author.Id,
+                    UserId = umsg.Author.Id,
                     ServerId = channel.Guild.Id
                 };
 
@@ -185,16 +185,16 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : imsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
+                await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
                 await StartReminder(rem);
             }
 
             ////todo owner only
             //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
             //[RequireContext(ContextType.Guild)]
-            //public async Task RemindTemplate(IMessage imsg, [Remainder] string arg)
+            //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
             //{
-            //    var channel = (ITextChannel)imsg.Channel;
+            //    var channel = (ITextChannel)umsg.Channel;
 
 
             //    arg = arg?.Trim();

@@ -25,36 +25,37 @@ namespace NadekoBot.Modules.Administration
 
                 this._client = NadekoBot.Client;
 
-               _client.MessageReceived += async (imsg) =>
+               _client.MessageReceived += async (umsg) =>
                 {
-                    var channel = imsg.Channel as ITextChannel;
+                    var usrMsg = umsg as IUserMessage;
+                    var channel = usrMsg.Channel as ITextChannel;
 
-                    if (channel == null || await imsg.IsAuthor())
+                    if (channel == null || await usrMsg.IsAuthor())
                         return;
                     ConcurrentDictionary<ulong, DateTime> userTimePair;
                     if (!RatelimitingChannels.TryGetValue(channel.Id, out userTimePair)) return;
                     DateTime lastMessageTime;
-                    if (userTimePair.TryGetValue(imsg.Author.Id, out lastMessageTime))
+                    if (userTimePair.TryGetValue(usrMsg.Author.Id, out lastMessageTime))
                     {
                         if (DateTime.Now - lastMessageTime < ratelimitTime)
                         {
                             try
                             {
-                                await imsg.DeleteAsync().ConfigureAwait(false);
+                                await usrMsg.DeleteAsync().ConfigureAwait(false);
                             }
                             catch { }
                             return;
                         }
                     }
-                    userTimePair.AddOrUpdate(imsg.Author.Id, id => DateTime.Now, (id, dt) => DateTime.Now);
+                    userTimePair.AddOrUpdate(usrMsg.Author.Id, id => DateTime.Now, (id, dt) => DateTime.Now);
                 };
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Slowmode(IMessage imsg)
+            public async Task Slowmode(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 ConcurrentDictionary<ulong, DateTime> throwaway;
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))

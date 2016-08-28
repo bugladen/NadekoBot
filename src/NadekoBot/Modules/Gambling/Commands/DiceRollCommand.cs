@@ -16,16 +16,16 @@ namespace NadekoBot.Modules.Gambling
         ////todo drawing
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
-        //public Task Roll(IMessage imsg, [Remainder] string arg = null) =>
-        //    InternalRoll(imsg, arg, true);
+        //public Task Roll(IUserMessage umsg, [Remainder] string arg = null) =>
+        //    InternalRoll(umsg, arg, true);
 
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
-        //public Task Rolluo(IMessage imsg, [Remainder] string arg = null) =>
-        //    InternalRoll(imsg, arg, false);
+        //public Task Rolluo(IUserMessage umsg, [Remainder] string arg = null) =>
+        //    InternalRoll(umsg, arg, false);
 
-        //private async Task InternalRoll(IMessage imsg, string arg, bool ordered) {
-        //    var channel = (ITextChannel)imsg.Channel;
+        //private async Task InternalRoll(IUserMessage umsg, string arg, bool ordered) {
+        //    var channel = (ITextChannel)umsg.Channel;
         //    var r = new Random();
         //    if (string.IsNullOrWhiteSpace(arg))
         //    {
@@ -107,9 +107,9 @@ namespace NadekoBot.Modules.Gambling
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
-        public async Task NRoll(IMessage imsg, [Remainder] string range)
+        public async Task NRoll(IUserMessage umsg, [Remainder] string range)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = (ITextChannel)umsg.Channel;
 
 
             try
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Gambling
                     rolled = new Random().Next(0, int.Parse(range) + 1);
                 }
 
-                await channel.SendMessageAsync($"{imsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
             }
             catch (Exception ex)
             {

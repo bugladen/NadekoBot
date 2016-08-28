@@ -109,9 +109,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetDel(IMessage imsg)
+            public async Task GreetDel(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -131,9 +131,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task Greet(IMessage imsg)
+            public async Task Greet(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -154,9 +154,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetMsg(IMessage imsg, [Remainder] string text)
+            public async Task GreetMsg(IUserMessage umsg, [Remainder] string text)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -183,9 +183,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetDm(IMessage imsg)
+            public async Task GreetDm(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -205,9 +205,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetDmMsg(IMessage imsg, [Remainder] string text)
+            public async Task GreetDmMsg(IUserMessage umsg, [Remainder] string text)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -234,9 +234,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task Bye(IMessage imsg)
+            public async Task Bye(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -257,9 +257,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task ByeMsg(IMessage imsg, [Remainder] string text)
+            public async Task ByeMsg(IUserMessage umsg, [Remainder] string text)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
@@ -286,9 +286,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task ByeDel(IMessage imsg)
+            public async Task ByeDel(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())

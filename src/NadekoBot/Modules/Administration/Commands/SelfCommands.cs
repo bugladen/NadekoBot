@@ -22,9 +22,9 @@
 
 //            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
 //            [RequireContext(ContextType.Guild)]
-//            public async Task Leave(IMessage imsg, [Remainder] string guildStr)
+//            public async Task Leave(IUserMessage umsg, [Remainder] string guildStr)
 //            {
-//                var channel = (ITextChannel)imsg.Channel;
+//                var channel = (ITextChannel)umsg.Channel;
 
 //                guildStr = guildStr.ToUpperInvariant();
 //                var server = _client.GetGuilds().FirstOrDefault(g => g.Id.ToString() == guildStr) ?? _client.GetGuilds().FirstOrDefault(g => g.Name.ToUpperInvariant() == guildStr);

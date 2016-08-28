@@ -258,7 +258,7 @@
 
 //                        config.ObservingStreams.Remove(toRemove);
 //                        await ConfigHandler.SaveConfig().ConfigureAwait(false);
-//                        await channel.SendMessageAsync($":ok: Removed `{toRemovimsg.Authorname}`'s stream from notifications.").ConfigureAwait(false);
+//                        await channel.SendMessageAsync($":ok: Removed `{toRemovumsg.Authorname}`'s stream from notifications.").ConfigureAwait(false);
 //                    });
 
 //                cgb.CreateCommand(Module.Prefix + "liststreams")

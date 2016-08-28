@@ -88,9 +88,9 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task RotatePlaying(IMessage imsg)
+            public async Task RotatePlaying(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 bool status;
                 using (var uow = DbHandler.UnitOfWork())
@@ -108,9 +108,9 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task AddPlaying(IMessage imsg, [Remainder] string status)
+            public async Task AddPlaying(IUserMessage umsg, [Remainder] string status)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -124,9 +124,9 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task ListPlaying(IMessage imsg)
+            public async Task ListPlaying(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 List<PlayingStatus> statuses;
                 using (var uow = DbHandler.UnitOfWork())
@@ -139,16 +139,16 @@ namespace NadekoBot.Modules.Administration
                 else
                 {
                     var i = 1;
-                    await channel.SendMessageAsync($"{imsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", statuses.Select(rs => $"`{i++}.` {rs.Status}")));
+                    await channel.SendMessageAsync($"{umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", statuses.Select(rs => $"`{i++}.` {rs.Status}")));
                 }
 
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task RemovePlaying(IMessage imsg, int index)
+            public async Task RemovePlaying(IUserMessage umsg, int index)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
                 index -= 1;
 
                 string msg = "";

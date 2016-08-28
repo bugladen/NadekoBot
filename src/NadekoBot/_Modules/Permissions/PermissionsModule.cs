@@ -224,7 +224,7 @@ namespace NadekoBot.Modules.Permissions
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var user = imsg.Author;
+                        var user = umsg.Author;
                         if (!string.IsNullOrWhiteSpace(user))
                             try
                             {

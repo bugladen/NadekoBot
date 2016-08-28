@@ -22,9 +22,9 @@ namespace NadekoBot.Modules.Gambling
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Race(IMessage imsg)
+            public async Task Race(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 var ar = new AnimalRace(channel.Guild.Id, channel);
 
@@ -34,24 +34,24 @@ namespace NadekoBot.Modules.Gambling
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task JoinRace(IMessage imsg, int amount = 0)
+            public async Task JoinRace(IUserMessage umsg, int amount = 0)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 if (amount < 0)
                     amount = 0;
 
                 //todo DB
-                //var userFlowers = Gambling.GetUserFlowers(imsg.Author.Id);
+                //var userFlowers = Gambling.GetUserFlowers(umsg.Author.Id);
 
                 //if (userFlowers < amount)
                 //{
-                //    await channel.SendMessageAsync($"{imsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
+                //    await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
                 //    return;
                 //}
 
                 //if (amount > 0)
-                //    await FlowersHandler.RemoveFlowers(imsg.Author, "BetRace", (int)amount, true).ConfigureAwait(false);
+                //    await FlowersHandler.RemoveFlowers(umsg.Author, "BetRace", (int)amount, true).ConfigureAwait(false);
 
                 AnimalRace ar;
                 if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
                     await channel.SendMessageAsync("No race exists on this server");
                     return;
                 }
-                await ar.JoinRace(imsg.Author as IGuildUser, amount);
+                await ar.JoinRace(umsg.Author as IGuildUser, amount);
             }
 
             public class AnimalRace
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     var rng = new Random();
                     Participant winner = null;
-                    IMessage msg = null;
+                    IUserMessage msg = null;
                     int place = 1;
                     try
                     {
@@ -204,7 +204,10 @@ namespace NadekoBot.Modules.Gambling
 
                 private async Task Client_MessageReceived(IMessage imsg)
                 {
-                    if (await imsg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return;
+                    if (await msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
                         return;
                     messagesSinceGameStarted++;
                 }

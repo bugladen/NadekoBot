@@ -22,9 +22,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task Asar(IMessage imsg, [Remainder] IRole role)
+            public async Task Asar(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 IEnumerable<SelfAssignedRole> roles;
 
@@ -52,9 +52,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task Rsar(IMessage imsg, [Remainder] IRole role)
+            public async Task Rsar(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 bool success;
                 using (var uow = DbHandler.UnitOfWork())
@@ -72,9 +72,9 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Lsar(IMessage imsg)
+            public async Task Lsar(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 var toRemove = new HashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
@@ -108,9 +108,9 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task Tesar(IMessage imsg)
+            public async Task Tesar(IUserMessage umsg)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 bool areExclusive;
                 using (var uow = DbHandler.UnitOfWork())
@@ -126,10 +126,11 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Iam(IMessage imsg, [Remainder] IRole role)
+            public async Task Iam(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)imsg.Channel;
-                var guildUser = (IGuildUser)imsg.Author;
+                var channel = (ITextChannel)umsg.Channel;
+                var guildUser = (IGuildUser)umsg.Author;
+                var usrMsg = (IUserMessage)umsg;
 
                 GuildConfig conf;
                 IEnumerable<SelfAssignedRole> roles;
@@ -176,17 +177,17 @@ namespace NadekoBot.Modules.Administration
                     {
                         await Task.Delay(3000).ConfigureAwait(false);
                         try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
-                        try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                        try { await usrMsg.DeleteAsync().ConfigureAwait(false); } catch { }
                     });
                 }
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Iamnot(IMessage imsg, [Remainder] IRole role)
+            public async Task Iamnot(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)imsg.Channel;
-                var guildUser = (IGuildUser)imsg.Author;
+                var channel = (ITextChannel)umsg.Channel;
+                var guildUser = (IGuildUser)umsg.Author;
 
                 GuildConfig conf;
                 IEnumerable<SelfAssignedRole> roles;
@@ -223,7 +224,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         await Task.Delay(3000).ConfigureAwait(false);
                         try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
-                        try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                        try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
                     });
                 }
             }
