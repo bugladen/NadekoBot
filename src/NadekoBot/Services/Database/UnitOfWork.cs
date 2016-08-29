@@ -36,6 +36,9 @@ namespace NadekoBot.Services.Database
         private IRepeaterRepository _repeaters;
         public IRepeaterRepository Repeaters => _repeaters ?? (_repeaters = new RepeaterRepository(_context));
 
+        private ICurrencyRepository _currency;
+        public ICurrencyRepository Currency => _currency ?? (_currency = new CurrencyRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

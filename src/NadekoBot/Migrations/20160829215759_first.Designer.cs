@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160828153124_first")]
+    [Migration("20160829215759_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

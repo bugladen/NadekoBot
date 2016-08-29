@@ -30,10 +30,10 @@ namespace NadekoBot.Modules.Administration
                 public Repeater Repeater { get; }
                 public ITextChannel Channel { get; }
 
-                public RepeatRunner(Repeater repeater)
+                public RepeatRunner(Repeater repeater, ITextChannel channel = null)
                 {
                     this.Repeater = repeater;
-                    this.Channel = NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
+                    this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
                     if (Channel == null)
                         return;
                     Task.Run(Run);
@@ -89,36 +89,42 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
                 rep.Reset();
-                await channel.SendMessageAsync("🔄 " + rep.Repeater.Message);
+                await channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
-            public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message = null)
+            public async Task Repeat(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                RepeatRunner rep;
+                if (repeaters.TryRemove(channel.Id, out rep))
+                {
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        uow.Repeaters.Remove(rep.Repeater);
+                        await uow.CompleteAsync();
+                    }
+                    rep.Stop();
+                    await channel.SendMessageAsync("`Stopped repeating a message.`").ConfigureAwait(false);
+                }
+                else
+                    await channel.SendMessageAsync("`No message is repeating.`").ConfigureAwait(false);
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
                 if (minutes < 1 || minutes > 1500)
                     return;
 
-                RepeatRunner rep;
-
-                if (string.IsNullOrWhiteSpace(message)) //turn off
-                {
-                    if (repeaters.TryRemove(channel.Id, out rep))
-                    {
-                        using (var uow = DbHandler.UnitOfWork())
-                        {
-                            uow.Repeaters.Remove(rep.Repeater);
-                            await uow.CompleteAsync();
-                        }
-                        rep.Stop();
-                        await channel.SendMessageAsync("`Stopped repeating a message.`").ConfigureAwait(false);
-                    }
-                    else
-                        await channel.SendMessageAsync("`No message is repeating.`").ConfigureAwait(false);
+                if (string.IsNullOrWhiteSpace(message))
                     return;
-                }
+
+                RepeatRunner rep;
 
                 rep = repeaters.AddOrUpdate(channel.Id, (cid) =>
                 {
@@ -133,7 +139,7 @@ namespace NadekoBot.Modules.Administration
                         };
                         uow.Repeaters.Add(localRep);
                         uow.Complete();
-                        return new RepeatRunner(localRep);
+                        return new RepeatRunner(localRep, channel);
                     }
                 }, (cid, old) =>
                 {
@@ -147,8 +153,9 @@ namespace NadekoBot.Modules.Administration
                     old.Reset();
                     return old;
                 });
-            }
 
+                await channel.SendMessageAsync($"Repeating \"{rep.Repeater.Message}\" every {rep.Repeater.Interval} minutes").ConfigureAwait(false);
+            }
         }
     }
 }

@@ -41,17 +41,10 @@ namespace NadekoBot.Modules.Gambling
                 if (amount < 0)
                     amount = 0;
 
-                //todo DB
-                //var userFlowers = Gambling.GetUserFlowers(umsg.Author.Id);
+                if (amount > 0)
+                    if(!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, "BetRace", amount, true).ConfigureAwait(false))
+                        await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false);
 
-                //if (userFlowers < amount)
-                //{
-                //    await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
-                //    return;
-                //}
-
-                //if (amount > 0)
-                //    await FlowersHandler.RemoveFlowers(umsg.Author, "BetRace", (int)amount, true).ConfigureAwait(false);
 
                 AnimalRace ar;
                 if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
@@ -116,9 +109,9 @@ namespace NadekoBot.Modules.Gambling
                             {
                                 await raceChannel.SendMessageAsync("🏁`Race failed to start since there was not enough participants.`");
                                 var p = participants.FirstOrDefault();
-                                //todo DB
-                                //if (p != null)
-                                //    await FlowersHandler.AddFlowersAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                                
+                                if (p != null)
+                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
                                 End();
                                 return;
                             }
@@ -191,8 +184,8 @@ namespace NadekoBot.Modules.Gambling
                     if (winner.AmountBet > 0)
                     {
                         var wonAmount = winner.AmountBet * (participants.Count - 1);
-                        //todo DB
-                        //await FlowersHandler.AddFlowersAsync(winner.User, "Won a Race", wonAmount).ConfigureAwait(false);
+                        
+                        await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, false).ConfigureAwait(false);
                         await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
                     }
                     else
