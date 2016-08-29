@@ -40,7 +40,7 @@ namespace NadekoBot.Extensions
             Task.FromResult(NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id);
 
         public static IEnumerable<IUser> Members(this IRole role) =>
-            NadekoBot.Client.GetGuilds().Where(g => g.Id == role.GuildId).FirstOrDefault()?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
+            NadekoBot.Client.GetGuild(role.GuildId)?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
 
         public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
         {

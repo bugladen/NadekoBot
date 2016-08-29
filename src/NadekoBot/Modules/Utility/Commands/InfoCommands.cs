@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
@@ -21,7 +22,7 @@ namespace NadekoBot.Modules.Utility
             if (guild == null)
                 server = channel.Guild;
             else
-                server = (await _client.GetGuildsAsync()).Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
+                server = _client.GetGuilds().Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
             if (server == null)
                 return;
 

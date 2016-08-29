@@ -67,12 +67,7 @@ namespace NadekoBot.Modules.Utility
                     }
                     else
                     {
-                        ch = NadekoBot.Client.GetGuilds()
-                                .Where(g => g.Id == r.ServerId)
-                                .FirstOrDefault()
-                                .GetTextChannels()
-                                .Where(c => c.Id == r.ChannelId)
-                                .FirstOrDefault();
+                        ch = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
                     }
                     if (ch == null)
                         return;
