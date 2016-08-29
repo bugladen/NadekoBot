@@ -48,7 +48,7 @@ Note if the command is not being initiated, hit **Enter**
 **2.6)**
 *ONLY CentOS 7, Fedora 19 (and later)*
 
-`yum install yum-util`
+`yum install yum-utils`
 
 `rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"`
 
