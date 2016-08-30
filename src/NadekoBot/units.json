@@ -945,5 +945,37 @@
     ],
     "UnitType": "currency",
     "Modifier": 16.0537
+  },
+  {
+    "Triggers": [
+      "K",
+      "kelvin"
+    ],
+    "UnitType": "temperature",
+    "Modifier": 0.00
+  },
+  {
+    "Triggers": [
+      "F",
+      "fahrenheit"
+    ],
+    "UnitType": "temperature",
+    "Modifier": 0.00
+  },
+  {
+    "Triggers": [
+      "C",
+      "Celcius",
+      "Centigrade"
+    ],
+    "UnitType": "temperature",
+    "Modifier": 0.00
+  },
+  {
+    "Triggers": [
+      "EUR"
+    ],
+    "UnitType": "currency",
+    "Modifier": 1.0
   }
 ]
