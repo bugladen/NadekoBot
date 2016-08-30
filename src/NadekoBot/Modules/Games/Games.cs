@@ -15,7 +15,6 @@ namespace NadekoBot.Modules.Games
     [Module(">", AppendSpace = false)]
     public partial class Games : DiscordModule
     {
-        //todo DB
         private IEnumerable<string> _8BallResponses {
             get {
                 using (var uow = DbHandler.UnitOfWork())

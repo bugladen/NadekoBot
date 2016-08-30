@@ -31,5 +31,6 @@ namespace NadekoBot.Services.Database.Models
         //self assignable roles
         public bool ExclusiveSelfAssignedRoles { get; set; }
         public bool AutoDeleteSelfAssignedRoleMessages { get; set; }
+        public float DefaultMusicVolume { get; set; }
     }
 }

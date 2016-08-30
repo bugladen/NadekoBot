@@ -338,7 +338,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             if (string.IsNullOrWhiteSpace(usrStr))
                 return;
 
-            var usr = (await channel.Guild.GetUsersAsync()).Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
+            var usr = channel.Guild.GetUsers().Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
 
             if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                 return;

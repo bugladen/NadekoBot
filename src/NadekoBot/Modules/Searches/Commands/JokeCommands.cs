@@ -19,7 +19,6 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class JokeCommands
         {
-            //todo DB
             private List<WoWJoke> wowJokes = new List<WoWJoke>();
             private List<MagicItem> magicItems;
             private Logger _log;

@@ -34,7 +34,7 @@ namespace NadekoBot.Services.Impl
         public Task<string> Print() => Task.FromResult($@"`Author: Kwoth` `Library: Discord.Net`
 `Bot Version: {BotVersion}`
 `Bot id: {(client.GetCurrentUser()).Id}`
-`Owners' Ids:`
+`Owners' Ids: {string.Join(", ", NadekoBot.Credentials.OwnerIds)}`
 `Uptime: {GetUptimeString()}`
 `Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}`
 `Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`");

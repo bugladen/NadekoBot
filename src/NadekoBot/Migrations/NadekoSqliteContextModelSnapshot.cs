@@ -103,6 +103,23 @@ namespace NadekoBot.Migrations
                     b.ToTable("ClashOfClans");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("Amount");
+
+                    b.Property<ulong>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Currency");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>
                 {
                     b.Property<int>("Id")
@@ -158,6 +175,8 @@ namespace NadekoBot.Migrations
                     b.Property<string>("ChannelByeMessageText");
 
                     b.Property<string>("ChannelGreetMessageText");
+
+                    b.Property<float>("DefaultMusicVolume");
 
                     b.Property<bool>("DeleteMessageOnCommand");
 
@@ -278,6 +297,27 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reminders");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Repeater", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<TimeSpan>("Interval");
+
+                    b.Property<string>("Message");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId")
+                        .IsUnique();
+
+                    b.ToTable("Repeaters");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.SelfAssignedRole", b =>

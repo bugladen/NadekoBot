@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//todo DB
+
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration

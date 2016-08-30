@@ -48,6 +48,20 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Amount = table.Column<long>(nullable: false),
+                    UserId = table.Column<ulong>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Donators",
                 columns: table => new
                 {
@@ -76,6 +90,7 @@ namespace NadekoBot.Migrations
                     ByeMessageChannelId = table.Column<ulong>(nullable: false),
                     ChannelByeMessageText = table.Column<string>(nullable: true),
                     ChannelGreetMessageText = table.Column<string>(nullable: true),
+                    DefaultMusicVolume = table.Column<float>(nullable: false),
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     DmGreetMessageText = table.Column<string>(nullable: true),
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
@@ -123,6 +138,22 @@ namespace NadekoBot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reminders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Repeaters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    Interval = table.Column<TimeSpan>(nullable: false),
+                    Message = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Repeaters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,6 +306,12 @@ namespace NadekoBot.Migrations
                 column: "ClashWarId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currency_UserId",
+                table: "Currency",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Donators_UserId",
                 table: "Donators",
                 column: "UserId",
@@ -307,6 +344,12 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Repeaters_ChannelId",
+                table: "Repeaters",
+                column: "ChannelId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SelfAssignableRoles_GuildId_RoleId",
                 table: "SelfAssignableRoles",
                 columns: new[] { "GuildId", "RoleId" },
@@ -320,6 +363,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClashCallers");
+
+            migrationBuilder.DropTable(
+                name: "Currency");
 
             migrationBuilder.DropTable(
                 name: "Donators");
@@ -344,6 +390,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reminders");
+
+            migrationBuilder.DropTable(
+                name: "Repeaters");
 
             migrationBuilder.DropTable(
                 name: "SelfAssignableRoles");
