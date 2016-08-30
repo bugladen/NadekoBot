@@ -12,12 +12,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo DB
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
     {
-
         [Group]
         public class RepeatCommands
         {

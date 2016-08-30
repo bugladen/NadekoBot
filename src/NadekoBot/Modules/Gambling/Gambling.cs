@@ -12,7 +12,6 @@ using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 
-//todo DB
 namespace NadekoBot.Modules.Gambling
 {
     [Module("$", AppendSpace = false)]
@@ -92,7 +91,6 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully sent {amount} {Gambling.CurrencyPluralName}s to {receiver.Mention}!").ConfigureAwait(false);
         }
 
-        ////todo DB
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
@@ -114,7 +112,6 @@ namespace NadekoBot.Modules.Gambling
         //}
 
         ////todo owner only
-        ////todo DB
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
         //public Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user) =>
@@ -184,7 +181,6 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync(str).ConfigureAwait(false);
         }
 
-        //todo DB
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Leaderboard(IUserMessage umsg)

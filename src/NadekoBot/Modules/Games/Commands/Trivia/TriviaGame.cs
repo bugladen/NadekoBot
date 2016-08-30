@@ -7,8 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-// todo rewrite?
-// todo DB
+// todo rewrite
 namespace NadekoBot.Modules.Games.Trivia
 {
     public class TriviaGame

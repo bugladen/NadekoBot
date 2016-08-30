@@ -12,8 +12,7 @@
 //using System.Threading;
 //using System.Threading.Tasks;
 
-////todo DI into partials
-////todo DB
+////todo rewrite
 //namespace NadekoBot.Modules.Games
 //{
 //    /// <summary>

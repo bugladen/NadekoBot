@@ -15,7 +15,6 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class PokemonSearchCommands
         {
-            //todo DB
             private static Dictionary<string, SearchPokemon> pokemons = new Dictionary<string, SearchPokemon>();
             private static Dictionary<string, SearchPokemonAbility> pokemonAbilities = new Dictionary<string, SearchPokemonAbility>();
 

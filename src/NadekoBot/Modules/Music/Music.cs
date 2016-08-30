@@ -13,6 +13,7 @@ using NadekoBot.Extensions;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Music
 {
@@ -643,8 +644,11 @@ namespace NadekoBot.Modules.Music
 
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
-                //todo DB
                 float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    vol = uow.GuildConfigs.For(textCh.Guild.Id).DefaultMusicVolume;
+                }
                 var mp = new MusicPlayer(voiceCh, vol);
 
 

@@ -12,7 +12,6 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Services.Database;
 
-//todo DB
 namespace NadekoBot.Modules.ClashOfClans
 {
     [Module(",", AppendSpace = false)]

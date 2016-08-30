@@ -12,7 +12,6 @@ namespace NadekoBot.Modules.Games
 {
     public partial class GamesModule
     {
-        //todo DB in the future
         public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
