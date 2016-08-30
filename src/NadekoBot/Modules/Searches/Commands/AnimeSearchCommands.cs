@@ -1,99 +1,134 @@
-﻿//using Discord;
-//using Discord.Commands;
-//using NadekoBot.Attributes;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Attributes;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Searches.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-//// todo RestSharp
-//namespace NadekoBot.Modules.Searches
-//{
-//    public partial class SearchesModule
-//    {
-//        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-//        [RequireContext(ContextType.Guild)]
-//        public async Task Anime(IUserMessage umsg, [Remainder] string query = null)
-//        {
-//            var channel = (ITextChannel)umsg.Channel;
+// todo RestSharp
+namespace NadekoBot.Modules.Searches
+{
+    public partial class Searches
+    {
+        [Group]
+        public class AnimeSearchCommands
+        {
+            private Logger _log;
 
-//            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-//            string result;
-//            try
-//            {
-//                result = (await GetAnimeData(query).ConfigureAwait(false)).ToString();
-//            }
-//            catch
-//            {
-//                await channel.SendMessageAsync("Failed to find that anime.").ConfigureAwait(false);
-//                return;
-//            }
+            private string anilistToken { get; set; }
+            private DateTime lastRefresh { get; set; }
 
-//            await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
-//        }
+            public AnimeSearchCommands()
+            {
+                _log = LogManager.GetCurrentClassLogger();
+            }
 
-//        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-//        [RequireContext(ContextType.Guild)]
-//        public async Task Manga(IUserMessage umsg, [Remainder] string query = null)
-//        {
-//            var channel = (ITextChannel)umsg.Channel;
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Anime(IUserMessage umsg, [Remainder] string query)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
-//            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
-//            string result;
-//            try
-//            {
-//                result = (await GetMangaData(query).ConfigureAwait(false)).ToString();
-//            }
-//            catch
-//            {
-//                await channel.SendMessageAsync("Failed to find that manga.").ConfigureAwait(false);
-//                return;
-//            }
-//            await channel.SendMessageAsync(result).ConfigureAwait(false);
-//        }
+                if (string.IsNullOrWhiteSpace(query))
+                    return;
 
-//        public static async Task<AnimeResult> GetAnimeData(string query)
-//        {
-//            if (string.IsNullOrWhiteSpace(query))
-//                throw new ArgumentNullException(nameof(query));
+                var result = await GetAnimeData(query).ConfigureAwait(false);
 
-//            await RefreshAnilistToken().ConfigureAwait(false);
+                await channel.SendMessageAsync(result.ToString() ?? "`No anime found.`").ConfigureAwait(false);
+            }
 
-//            var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
-//            var smallContent = "";
-//            var cl = new RestSharp.RestClient("http://anilist.co/api");
-//            var rq = new RestSharp.RestRequest("/anime/search/" + Uri.EscapeUriString(query));
-//            rq.AddParameter("access_token", token);
-//            smallContent = cl.Execute(rq).Content;
-//            var smallObj = JArray.Parse(smallContent)[0];
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Manga(IUserMessage umsg, [Remainder] string query)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
-//            rq = new RestSharp.RestRequest("/anime/" + smallObj["id"]);
-//            rq.AddParameter("access_token", token);
-//            var content = cl.Execute(rq).Content;
+                if (string.IsNullOrWhiteSpace(query))
+                    return;
 
-//            return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(content)).ConfigureAwait(false);
-//        }
+                var result = await GetMangaData(query).ConfigureAwait(false);
 
-//        public static async Task<MangaResult> GetMangaData(string query)
-//        {
-//            if (string.IsNullOrWhiteSpace(query))
-//                throw new ArgumentNullException(nameof(query));
+                await channel.SendMessageAsync(result.ToString() ?? "`No manga found.`").ConfigureAwait(false);
+            }
 
-//            await RefreshAnilistToken().ConfigureAwait(false);
+            private async Task<AnimeResult> GetAnimeData(string query)
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                    throw new ArgumentNullException(nameof(query));
+                try
+                {
+                    await RefreshAnilistToken().ConfigureAwait(false);
 
-//            var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
-//            var smallContent = "";
-//            var cl = new RestSharp.RestClient("http://anilist.co/api");
-//            var rq = new RestSharp.RestRequest("/manga/search/" + Uri.EscapeUriString(query));
-//            rq.AddParameter("access_token", token);
-//            smallContent = cl.Execute(rq).Content;
-//            var smallObj = JArray.Parse(smallContent)[0];
+                    var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
+                    using (var http = new HttpClient())
+                    {
+                        var res = await http.GetStringAsync("http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query) + $"?access_token={anilistToken}").ConfigureAwait(false);
+                        var smallObj = JArray.Parse(res)[0];
+                        var aniData = await http.GetStringAsync("http://anilist.co/api/anime/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
 
-//            rq = new RestSharp.RestRequest("/manga/" + smallObj["id"]);
-//            rq.AddParameter("access_token", token);
-//            var content = cl.Execute(rq).Content;
+                        return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(aniData)).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex) {
+                    _log.Warn(ex, "Failed anime search for {0}", query);
+                    return null;
+                }
+            }
 
-//            return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(content)).ConfigureAwait(false);
-//        }
-//    }
-//}
+            private async Task RefreshAnilistToken()
+            {
+                if (DateTime.Now - lastRefresh > TimeSpan.FromMinutes(29))
+                    lastRefresh = DateTime.Now;
+                else
+                {
+                    return;
+                }
+                var headers = new Dictionary<string, string> {
+                    {"grant_type", "client_credentials"},
+                    {"client_id", "kwoth-w0ki9"},
+                    {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
+                };
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var formContent = new FormUrlEncodedContent(headers);
+                    var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
+                    var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
+                }
+                
+            }
+
+            private async Task<MangaResult> GetMangaData(string query)
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                    throw new ArgumentNullException(nameof(query));
+                try
+                {
+                    await RefreshAnilistToken().ConfigureAwait(false);
+                    using (var http = new HttpClient())
+                    {
+                        var res = await http.GetStringAsync("http://anilist.co/api/manga/search/" + Uri.EscapeUriString(query) + $"?access_token={anilistToken}").ConfigureAwait(false);
+                        var smallObj = JArray.Parse(res)[0];
+                        //todo check if successfull
+                        var aniData = await http.GetStringAsync("http://anilist.co/api/manga/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
+
+                        return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(aniData)).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex, "Failed anime search for {0}", query);
+                    return null;
+                }
+            }
+        }
+    }
+}
