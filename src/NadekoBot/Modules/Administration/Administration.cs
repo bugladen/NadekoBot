@@ -14,7 +14,6 @@ using Discord.WebSocket;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 
-//todo fix delmsgoncmd
 namespace NadekoBot.Modules.Administration
 {
     [Module(".", AppendSpace = false)]
@@ -22,8 +21,32 @@ namespace NadekoBot.Modules.Administration
     {
         public Administration(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
-
+            NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
+
+        private void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
+        {
+            try
+            {
+                var channel = e.Message.Channel as ITextChannel;
+                if (channel == null)
+                    return;
+
+                bool shouldDelete;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id).DeleteMessageOnCommand;
+                }
+
+                if (shouldDelete)
+                    e.Message.DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex, "Delmsgoncmd errored...");
+            }
+        }
+
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
         //[RequireContext(ContextType.Guild)]
@@ -36,7 +59,7 @@ namespace NadekoBot.Modules.Administration
         //    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         //    Environment.Exit(0);
         //}
-        
+
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.Administrator)]
@@ -379,7 +402,6 @@ namespace NadekoBot.Modules.Administration
         public async Task CreatVoiChanl(IUserMessage umsg, [Remainder] string channelName)
         {
             var channel = (ITextChannel)umsg.Channel;
-            //todo actually print info about created channel
             var ch = await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
             await channel.SendMessageAsync($"Created voice channel **{ch.Name}**, id `{ch.Id}`.").ConfigureAwait(false);
         }
@@ -399,7 +421,6 @@ namespace NadekoBot.Modules.Administration
         public async Task CreaTxtChanl(IUserMessage umsg, [Remainder] string channelName)
         {
             var channel = (ITextChannel)umsg.Channel;
-            //todo actually print info about created channel
             var txtCh = await channel.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await channel.SendMessageAsync($"Added text channel **{txtCh.Name}**, id `{txtCh.Id}`.").ConfigureAwait(false);
         }

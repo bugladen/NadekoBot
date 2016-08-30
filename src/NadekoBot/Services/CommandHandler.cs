@@ -17,6 +17,8 @@ namespace NadekoBot.Services
         private CommandService _commandService;
         private Logger _log;
 
+        public event EventHandler<CommandExecutedEventArgs> CommandExecuted = async delegate { };
+
         public CommandHandler(DiscordSocketClient client, CommandService commandService)
         {
             _client = client;
@@ -42,6 +44,7 @@ namespace NadekoBot.Services
                 var channel = (usrMsg.Channel as ITextChannel);
                 if (result.IsSuccess)
                 {
+                    CommandExecuted(this, new CommandExecutedEventArgs(usrMsg, command));
                     _log.Info("Command Executed after {4}s\n\t" +
                               "User: {0}\n\t" +
                               "Server: {1}\n\t" +
@@ -73,6 +76,18 @@ namespace NadekoBot.Services
             });
 
             return Task.CompletedTask;
+        }
+    }
+
+    public class CommandExecutedEventArgs
+    {
+        public Command Command { get; }
+        public IUserMessage Message { get; }
+
+        public CommandExecutedEventArgs(IUserMessage msg, Command cmd)
+        {
+            Message = msg;
+            Command = cmd;
         }
     }
 }
