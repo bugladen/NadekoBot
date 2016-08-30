@@ -48,6 +48,20 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Amount = table.Column<long>(nullable: false),
+                    UserId = table.Column<ulong>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Donators",
                 columns: table => new
                 {
@@ -76,6 +90,7 @@ namespace NadekoBot.Migrations
                     ByeMessageChannelId = table.Column<ulong>(nullable: false),
                     ChannelByeMessageText = table.Column<string>(nullable: true),
                     ChannelGreetMessageText = table.Column<string>(nullable: true),
+                    DefaultMusicVolume = table.Column<float>(nullable: false),
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     DmGreetMessageText = table.Column<string>(nullable: true),
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
@@ -291,6 +306,12 @@ namespace NadekoBot.Migrations
                 column: "ClashWarId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currency_UserId",
+                table: "Currency",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Donators_UserId",
                 table: "Donators",
                 column: "UserId",
@@ -342,6 +363,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClashCallers");
+
+            migrationBuilder.DropTable(
+                name: "Currency");
 
             migrationBuilder.DropTable(
                 name: "Donators");

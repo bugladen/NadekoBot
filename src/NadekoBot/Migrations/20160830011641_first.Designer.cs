@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160829215759_first")]
+    [Migration("20160830011641_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,23 @@ namespace NadekoBot.Migrations
                     b.ToTable("ClashOfClans");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("Amount");
+
+                    b.Property<ulong>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Currency");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Donator", b =>
                 {
                     b.Property<int>("Id")
@@ -159,6 +176,8 @@ namespace NadekoBot.Migrations
                     b.Property<string>("ChannelByeMessageText");
 
                     b.Property<string>("ChannelGreetMessageText");
+
+                    b.Property<float>("DefaultMusicVolume");
 
                     b.Property<bool>("DeleteMessageOnCommand");
 

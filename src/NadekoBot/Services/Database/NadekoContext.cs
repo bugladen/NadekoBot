@@ -19,6 +19,7 @@ namespace NadekoBot.Services.Database
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
         public DbSet<BotConfig> BotConfig { get; set; }
         public DbSet<Repeater> Repeaters { get; set; }
+        public DbSet<Currency> Currency { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,6 +74,14 @@ namespace NadekoBot.Services.Database
                 .HasIndex(r => r.ChannelId)
                 .IsUnique();
 
+            #endregion
+
+            #region Currency
+            var currencyEntity = modelBuilder.Entity<Currency>();
+
+            currencyEntity
+                .HasIndex(c => c.UserId)
+                .IsUnique();
             #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
