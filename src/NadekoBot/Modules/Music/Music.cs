@@ -182,23 +182,25 @@ namespace NadekoBot.Modules.Music
             var volume = musicPlayer.SetVolume(val);
             await channel.SendMessageAsync($"🎵 `Volume set to {volume}%`").ConfigureAwait(false);
         }
-        ////todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Defvol(IUserMessage umsg, [Remainder] int val)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    var arg = val;
-        //    float volume;
-        //    if (!float.TryParse(arg, out volume) || volume < 0 || volume > 100)
-        //    {
-        //        await channel.SendMessageAsync("Volume number invalid.").ConfigureAwait(false);
-        //        return;
-        //    }
-        //    var conf = SpecificConfigurations.Default.Of(channel.Guild.Id);
-        //    conf.DefaultMusicVolume = volume / 100;
-        //    await channel.SendMessageAsync($"🎵 `Default volume set to {volume}%`").ConfigureAwait(false);
-        //}
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [RequireContext(ContextType.Guild)]
+        public async Task Defvol(IUserMessage umsg, [Remainder] int val)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            if (val < 0 || val > 100)
+            {
+                await channel.SendMessageAsync("Volume number invalid. Must be between 0 and 100").ConfigureAwait(false);
+                return;
+            }
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.GuildConfigs.For(channel.Guild.Id).DefaultMusicVolume = val / 100.0f;
+                uow.Complete();
+            }
+            await channel.SendMessageAsync($"🎵 `Default volume set to {val}%`").ConfigureAwait(false);
+        }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
