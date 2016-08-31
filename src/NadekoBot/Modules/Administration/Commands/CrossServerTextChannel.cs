@@ -56,20 +56,20 @@ namespace NadekoBot.Modules.Administration
 
             public static readonly ConcurrentDictionary<int, HashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, HashSet<ITextChannel>>();
 
-            //todo owner only
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
-            [RequireContext(ContextType.Guild)]
-            public async Task Scsc(IUserMessage msg)
-            {
-                var channel = (ITextChannel)msg.Channel;
-                var token = new Random().Next();
-                var set = new HashSet<ITextChannel>();
-                if (Subscribers.TryAdd(token, set))
-                {
-                    set.Add(channel);
-                    await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
-                }
-            }
+            ////todo owner only
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Scsc(IUserMessage msg)
+            //{
+            //    var channel = (ITextChannel)msg.Channel;
+            //    var token = new Random().Next();
+            //    var set = new HashSet<ITextChannel>();
+            //    if (Subscribers.TryAdd(token, set))
+            //    {
+            //        set.Add(channel);
+            //        await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+            //    }
+            //}
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task cmd(IUserMessage imsg)
+            public async Task Lcsc(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
