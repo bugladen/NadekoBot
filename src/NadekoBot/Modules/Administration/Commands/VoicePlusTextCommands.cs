@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,9 +18,10 @@ namespace NadekoBot.Modules.Administration
         public class VoicePlusTextCommands
         {
             Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+            //guildid/voiceplustextenabled
+            private ConcurrentDictionary<ulong, bool> voicePlusTextCache;
             public VoicePlusTextCommands()
             {
-                // changing servers may cause bugs
                 NadekoBot.Client.UserUpdated += UserUpdatedEventHandler;
             }
 
@@ -33,12 +35,11 @@ namespace NadekoBot.Modules.Administration
                     {
                         if (before.VoiceChannel == after.VoiceChannel) return;
 
-                        //todo This is WAY TOO MUCH
-                        using (var uow = DbHandler.UnitOfWork())
-                        {
-                            if (!uow.GuildConfigs.For(before.Guild.Id).VoicePlusTextEnabled)
-                                return;
-                        }
+                        bool isEnabled;
+                        voicePlusTextCache.TryGetValue(guild.Id, out isEnabled);
+                        if (!isEnabled)
+                            return;
+
                         if (!botUserPerms.ManageChannels || !botUserPerms.ManageRoles)
                         {
                             try
@@ -51,6 +52,7 @@ namespace NadekoBot.Modules.Administration
                             using (var uow = DbHandler.UnitOfWork())
                             {
                                 uow.GuildConfigs.For(before.Guild.Id).VoicePlusTextEnabled = false;
+                                voicePlusTextCache.TryUpdate(guild.Id, false, true);
                             }
                             return;
                         }
@@ -117,6 +119,7 @@ namespace NadekoBot.Modules.Administration
                         var conf = uow.GuildConfigs.For(guild.Id);
                         isEnabled = conf.VoicePlusTextEnabled = !conf.VoicePlusTextEnabled;
                     }
+                    voicePlusTextCache.AddOrUpdate(guild.Id, isEnabled, (id, val) => isEnabled);
                     if (isEnabled)
                     {
                         foreach (var textChannel in guild.GetTextChannels().Where(c => c.Name.EndsWith("-voice")))
