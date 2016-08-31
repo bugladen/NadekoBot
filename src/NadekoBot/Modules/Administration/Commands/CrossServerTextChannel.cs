@@ -1,111 +1,103 @@
-﻿//using Discord;
-//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.Modules.Permissions.Classes;
-//using System;
-//using System.Collections.Concurrent;
-//using System.Collections.Generic;
-//using System.Linq;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using NadekoBot.Attributes;
+using NadekoBot.Extensions;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-////todo DB
-//namespace NadekoBot.Modules.Administration
-//{
-//    class CrossServerTextChannel : DiscordCommand
-//    {
-//        public CrossServerTextChannel(DiscordModule module) : base(module)
-//        {
-//            NadekoBot.Client.MessageReceived += async (s, e) =>
-//            {
-//                try
-//                {
-//                    if (umsg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
-//                    foreach (var subscriber in Subscribers)
-//                    {
-//                        var set = subscriber.Value;
-//                        if (!set.Contains(e.Channel))
-//                            continue;
-//                        foreach (var chan in set.Except(new[] { e.Channel }))
-//                        {
-//                            await chan.SendMessageAsync(GetText(e.Server, e.Channel, umsg.Author, e.Message)).ConfigureAwait(false);
-//                        }
-//                    }
-//                }
-//                catch { }
-//            };
-//            NadekoBot.Client.MessageUpdated += async (s, e) =>
-//            {
-//                try
-//                {
-//                    if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Client.CurrentUser.Id) return;
-//                    foreach (var subscriber in Subscribers)
-//                    {
-//                        var set = subscriber.Value;
-//                        if (!set.Contains(e.Channel))
-//                            continue;
-//                        foreach (var chan in set.Except(new[] { e.Channel }))
-//                        {
-//                            var msg = chan.Messages
-//                                .FirstOrDefault(m =>
-//                                    m.RawText == GetText(e.Server, e.Channel, umsg.Author, e.Before));
-//                            if (msg != default(Message))
-//                                await msg.Edit(GetText(e.Server, e.Channel, umsg.Author, e.After)).ConfigureAwait(false);
-//                        }
-//                    }
+namespace NadekoBot.Modules.Administration
+{
+    public partial class Administration
+    {
+        [Group]
+        public class CrossServerTextChannel
+        {
+            public CrossServerTextChannel()
+            {
+                NadekoBot.Client.MessageReceived += (imsg) =>
+                {
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return Task.CompletedTask;
 
-//                }
-//                catch { }
-//            };
-//        }
+                    var channel = imsg.Channel as ITextChannel;
+                    if (channel == null)
+                        return Task.CompletedTask;
 
-//        private string GetText(Server server, Channel channel, User user, Message message) =>
-//            $"**{server.Name} | {channel.Name}** `{user.Name}`: " + message.RawText;
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                            foreach (var subscriber in Subscribers)
+                            {
+                                var set = subscriber.Value;
+                                if (!set.Contains(msg.Channel))
+                                    continue;
+                                foreach (var chan in set.Except(new[] { channel }))
+                                {
+                                    await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)msg.Author, msg)).ConfigureAwait(false);
+                                }
+                            }
+                        }
+                        catch { }
+                    });
 
-//        public static readonly ConcurrentDictionary<int, HashSet<Channel>> Subscribers = new ConcurrentDictionary<int, HashSet<Channel>>();
+                    return Task.CompletedTask;
+                };
+            }
 
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "scsc")
-//                .Description("Starts an instance of cross server channel. You will get a token as a DM " +
-//                             $"that other people will use to tune in to the same instance. **Bot Owner Only.** | `{Prefix}scsc`")
-//                .AddCheck(SimpleCheckers.OwnerOnly())
-//                .Do(async e =>
-//                {
-//                    var token = new Random().Next();
-//                    var set = new HashSet<Channel>();
-//                    if (Subscribers.TryAdd(token, set))
-//                    {
-//                        set.Add(e.Channel);
-//                        await umsg.Author.SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
-//                    }
-//                });
+            private string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
+                $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content;
 
-//            cgb.CreateCommand(Module.Prefix + "jcsc")
-//                .Description($"Joins current channel to an instance of cross server channel using the token. **Needs Manage Server Permissions.**| `{Prefix}jcsc`")
-//                .Parameter("token")
-//                .AddCheck(SimpleCheckers.ManageServer())
-//                .Do(async e =>
-//                {
-//                    int token;
-//                    if (!int.TryParse(token, out token))
-//                        return;
-//                    HashSet<Channel> set;
-//                    if (!Subscribers.TryGetValue(token, out set))
-//                        return;
-//                    set.Add(e.Channel);
-//                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
-//                });
+            public static readonly ConcurrentDictionary<int, HashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, HashSet<ITextChannel>>();
 
-//            cgb.CreateCommand(Module.Prefix + "lcsc")
-//                .Description($"Leaves Cross server channel instance from this channel. **Needs Manage Server Permissions.**| `{Prefix}lcsc`")
-//                .AddCheck(SimpleCheckers.ManageServer())
-//                .Do(async e =>
-//                {
-//                    foreach (var subscriber in Subscribers)
-//                    {
-//                        subscriber.Value.Remove(e.Channel);
-//                    }
-//                    await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
-//                });
-//        }
-//    }
-//}
+            //todo owner only
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            public async Task Scsc(IUserMessage msg)
+            {
+                var channel = (ITextChannel)msg.Channel;
+                var token = new Random().Next();
+                var set = new HashSet<ITextChannel>();
+                if (Subscribers.TryAdd(token, set))
+                {
+                    set.Add(channel);
+                    await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+                }
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageGuild)]
+            public async Task Jcsc(IUserMessage imsg, int token)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                HashSet<ITextChannel> set;
+                if (!Subscribers.TryGetValue(token, out set))
+                    return;
+                set.Add(channel);
+                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+            }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageGuild)]
+            public async Task cmd(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                foreach (var subscriber in Subscribers)
+                {
+                    subscriber.Value.Remove(channel);
+                }
+                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+            }
+        }
+    }
+}
