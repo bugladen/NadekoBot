@@ -20,7 +20,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// <returns></returns>
         public GuildConfig For(ulong guildId)
         {
-            var config = _set.FirstOrDefault(c => c.GuildId == guildId);
+            var config = _set.Include(gc=>gc.FollowedStreams)
+                             .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
             {
@@ -32,5 +33,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             }
             return config;
         }
+
+        public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
+            _set.Include(gc => gc.FollowedStreams)
+                .SelectMany(gc => gc.FollowedStreams)
+                .ToList();
     }
 }
