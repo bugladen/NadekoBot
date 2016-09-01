@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160830011641_first")]
+    [Migration("20160901001820_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,6 +156,30 @@ namespace NadekoBot.Migrations
                     b.ToTable("EightBallResponse");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.FollowedStream", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.Property<int?>("GuildConfigId");
+
+                    b.Property<ulong>("GuildId");
+
+                    b.Property<bool>("LastStatus");
+
+                    b.Property<int>("Type");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId");
+
+                    b.ToTable("FollowedStream");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.GuildConfig", b =>
                 {
                     b.Property<int>("Id")
@@ -194,6 +218,8 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("SendChannelGreetMessage");
 
                     b.Property<bool>("SendDmGreetMessage");
+
+                    b.Property<bool>("VoicePlusTextEnabled");
 
                     b.HasKey("Id");
 
@@ -358,6 +384,13 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("EightBallResponses")
                         .HasForeignKey("BotConfigId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.FollowedStream", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                        .WithMany("FollowedStreams")
+                        .HasForeignKey("GuildConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
