@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.Permissions
 {
-    internal class FilterInvitesCommand : DiscordCommand
+    public class FilterInvitesCommand : DiscordCommand
     {
         private readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))");
 
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Permissions
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterInvites;
         }
 
-        internal override void Init(CommandGroupBuilder cgb)
+        public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "chnlfilterinv")
                 .Alias(Module.Prefix + "cfi")

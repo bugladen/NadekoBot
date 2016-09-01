@@ -234,7 +234,7 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
-        internal void ClearQueue()
+        public void ClearQueue()
         {
             actionQueue.Enqueue(() =>
             {
@@ -256,7 +256,7 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
-        internal Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
+        public Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         {
             if (audioClient?.ConnectionState != ConnectionState.Connected)
                 throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
@@ -264,13 +264,13 @@ namespace NadekoBot.Modules.Music.Classes
             return PlaybackVoiceChannel.ConnectAsync();
         }
 
-        internal bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
+        public bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
 
-        internal bool ToggleRepeatPlaylist() => this.RepeatPlaylist = !this.RepeatPlaylist;
+        public bool ToggleRepeatPlaylist() => this.RepeatPlaylist = !this.RepeatPlaylist;
 
-        internal bool ToggleAutoplay() => this.Autoplay = !this.Autoplay;
+        public bool ToggleAutoplay() => this.Autoplay = !this.Autoplay;
 
-        internal void ThrowIfQueueFull()
+        public void ThrowIfQueueFull()
         {
             if (MaxQueueSize == 0)
                 return;

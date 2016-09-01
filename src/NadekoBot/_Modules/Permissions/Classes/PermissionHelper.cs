@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Permissions.Classes
 {
-    internal static class PermissionHelper
+    public static class PermissionHelper
     {
         public static bool ValidateBool(string passedArg)
         {
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             }
         }
 
-        internal static string ValidateModule(string mod)
+        public static string ValidateModule(string mod)
         {
             if (string.IsNullOrWhiteSpace(mod))
                 throw new ArgumentNullException(nameof(mod));
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             throw new ArgumentException("That module does not exist.");
         }
 
-        internal static string ValidateCommand(string commandText)
+        public static string ValidateCommand(string commandText)
         {
             if (string.IsNullOrWhiteSpace(commandText))
                 throw new ArgumentNullException(nameof(commandText));
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             throw new NullReferenceException("That command does not exist.");
         }
 
-        internal static Role ValidateRole(Server server, string roleName)
+        public static Role ValidateRole(Server server, string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentNullException(nameof(roleName));
@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             return role;
         }
 
-        internal static Channel ValidateChannel(Server server, string channelName)
+        public static Channel ValidateChannel(Server server, string channelName)
         {
             if (string.IsNullOrWhiteSpace(channelName))
                 throw new ArgumentNullException(nameof(channelName));
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             return channel;
         }
 
-        internal static User ValidateUser(Server server, string userName)
+        public static User ValidateUser(Server server, string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 throw new ArgumentNullException(nameof(userName));

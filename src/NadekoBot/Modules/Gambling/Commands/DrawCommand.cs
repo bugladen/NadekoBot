@@ -11,11 +11,11 @@
 ////todo drawing
 //namespace NadekoBot.Modules.Gambling
 //{
-//    internal class DrawCommand : DiscordCommand
+//    public class DrawCommand : DiscordCommand
 //    {
 //        public DrawCommand(DiscordModule module) : base(module) { }
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 //            cgb.CreateCommand(Module.Prefix + "draw")
 //                .Description($"Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. | `{Prefix}draw [x]`")

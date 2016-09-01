@@ -16,18 +16,18 @@ namespace NadekoBot.Modules.Music.Classes
 {
     public class SongInfo
     {
-        public string Provider { get; internal set; }
-        public MusicType ProviderType { get; internal set; }
+        public string Provider { get; set; }
+        public MusicType ProviderType { get; set; }
         /// <summary>
         /// Will be set only if the providertype is normal
         /// </summary>
-        public string Query { get; internal set; }
-        public string Title { get; internal set; }
-        public string Uri { get; internal set; }
+        public string Query { get; set; }
+        public string Title { get; set; }
+        public string Uri { get; set; }
     }
     public class Song
     {
-        public StreamState State { get; internal set; }
+        public StreamState State { get; set; }
         public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
         public SongInfo SongInfo { get; }
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Music.Classes
             return this;
         }
 
-        internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
+        public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 

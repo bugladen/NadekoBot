@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Classes
 {
-    internal class SpecificConfigurations
+    public class SpecificConfigurations
     {
         public static SpecificConfigurations Default { get; } = new SpecificConfigurations();
         public static bool Instantiated { get; private set; }
@@ -73,7 +73,7 @@ namespace NadekoBot.Classes
         }
     }
 
-    internal class ServerSpecificConfig : INotifyPropertyChanged
+    public class ServerSpecificConfig : INotifyPropertyChanged
     {
         [JsonProperty("VoicePlusTextEnabled")]
         private bool voicePlusTextEnabled;

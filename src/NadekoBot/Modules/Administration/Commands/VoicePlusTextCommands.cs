@@ -23,6 +23,7 @@ namespace NadekoBot.Modules.Administration
             public VoicePlusTextCommands()
             {
                 NadekoBot.Client.UserUpdated += UserUpdatedEventHandler;
+                voicePlusTextCache = new ConcurrentDictionary<ulong, bool>();
             }
 
             private Task UserUpdatedEventHandler(IGuildUser before, IGuildUser after)

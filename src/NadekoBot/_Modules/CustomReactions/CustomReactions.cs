@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.CustomReactions
 {
-    internal class CustomReactionsModule : DiscordModule
+    public class CustomReactionsModule : DiscordModule
     {
         public override string Prefix { get; } = "";
 

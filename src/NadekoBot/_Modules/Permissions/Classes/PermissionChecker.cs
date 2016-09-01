@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NadekoBot.Modules.Permissions.Classes
 {
 
-    internal class PermissionChecker : IPermissionChecker
+    public class PermissionChecker : IPermissionChecker
     {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
 {
-    internal class PermissionModule : DiscordModule
+    public class PermissionModule : DiscordModule
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Permissions;
 

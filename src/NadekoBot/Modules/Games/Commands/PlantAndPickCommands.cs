@@ -63,7 +63,7 @@
 
 //        private SemaphoreSlim locker = new SemaphoreSlim(1,1);
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 //            cgb.CreateCommand(Module.Prefix + "pick")
 //                .Description($"Picks a flower planted in this channel. | `{Prefix}pick`")

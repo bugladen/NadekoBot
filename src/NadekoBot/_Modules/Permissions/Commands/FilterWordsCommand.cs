@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Permissions
 {
-    internal class FilterWords : DiscordCommand
+    public class FilterWords : DiscordCommand
     {
         public FilterWords(DiscordModule module) : base(module)
         {
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Permissions
             return serverPerms.ChannelPermissions.TryGetValue(channel.Id, out perms) && perms.FilterWords;
         }
 
-        internal override void Init(CommandGroupBuilder cgb)
+        public override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "chnlfilterwords")
                 .Alias(Module.Prefix + "cfw")

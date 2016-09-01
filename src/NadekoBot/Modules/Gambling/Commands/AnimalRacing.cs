@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private ConcurrentQueue<string> animals { get; }
 
-                public bool Fail { get; internal set; }
+                public bool Fail { get; set; }
 
                 public List<Participant> participants = new List<Participant>();
                 private ulong serverId;

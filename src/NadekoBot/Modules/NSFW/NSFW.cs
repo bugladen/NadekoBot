@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.NSFW
         }
 
 
-        internal static async Task<string> GetE621ImageLink(string tags)
+        public static async Task<string> GetE621ImageLink(string tags)
         {
             try
             {
