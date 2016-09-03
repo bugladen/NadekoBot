@@ -33,10 +33,9 @@ namespace NadekoBot.Modules.Administration
                 public int MaxMessages { get; set; }
                 public int PerSeconds { get; set; }
 
-                public CancellationTokenSource cancelSource { get; set; }
-                public CancellationToken cancelToken { get; set; }
+                public CancellationTokenSource cancelSource { get; set; } = new CancellationTokenSource();
 
-                public ConcurrentDictionary<ulong, RatelimitedUser> Users { get; set; }
+                public ConcurrentDictionary<ulong, RatelimitedUser> Users { get; set; } = new ConcurrentDictionary<ulong, RatelimitedUser>();
 
                 public bool CheckUserRatelimit(ulong id)
                 {
@@ -51,7 +50,7 @@ namespace NadekoBot.Modules.Administration
                         var t = Task.Run(async () => {
                             try
                             {
-                                await Task.Delay(PerSeconds * 1000, cancelToken);
+                                await Task.Delay(PerSeconds * 1000, cancelSource.Token);
                             }
                             catch (OperationCanceledException) { }
                             usr.MessageCount--;
@@ -95,6 +94,7 @@ namespace NadekoBot.Modules.Administration
                 Ratelimiter throwaway;
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))
                 {
+                    throwaway.cancelSource.Cancel();
                     await channel.SendMessageAsync("`Slow mode disabled.`").ConfigureAwait(false);
                     return;
                 }
@@ -106,7 +106,9 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (RatelimitingChannels.TryAdd(channel.Id,throwaway = new Ratelimiter() {
-                    ChannelId = channel.Id
+                    ChannelId = channel.Id,
+                    MaxMessages = msg,
+                    PerSeconds = perSec,
                 }))
                 {
                     await channel.SendMessageAsync("`Slow mode initiated.` " +
