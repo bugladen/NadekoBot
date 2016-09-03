@@ -76,11 +76,19 @@ namespace NadekoBot.Modules.Help
                 await (await (umsg.Author as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(HelpString).ConfigureAwait(false);
                 return;
             }
-            var com = _commands.Commands.FirstOrDefault(c => c.Text.ToLowerInvariant() == comToFind);
+            var com = _commands.Commands.FirstOrDefault(c => c.Text.ToLowerInvariant() == comToFind || c.Aliases.Select(a=>a.ToLowerInvariant()).Contains(comToFind));
 
+            if (com == null)
+            {
+                await channel.SendMessageAsync("`No command found.`");
+                return;
+            }
+            var str = $"**__Help for:__ `{com.Text}`**";
+            var alias = com.Aliases.Skip(1).FirstOrDefault();
+            if (alias != null)
+                str += $" / `{ alias }`";
             if (com != null)
-                await channel.SendMessageAsync($@"**__Help for:__ `{com.Text}`**
-**Desc:** {com.Description}
+                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {com.Description}
 **Usage:** {com.Summary}").ConfigureAwait(false);
         }
 
