@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
             {
@@ -185,7 +185,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
             //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
             //{

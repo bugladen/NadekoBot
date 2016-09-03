@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)

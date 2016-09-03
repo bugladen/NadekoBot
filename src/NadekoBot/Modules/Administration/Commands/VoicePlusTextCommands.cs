@@ -97,11 +97,11 @@ namespace NadekoBot.Modules.Administration
             private string GetChannelName(string voiceName) =>
                 channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             [RequirePermission(GuildPermission.ManageChannels)]
-            public async Task VPlusT(IUserMessage msg, [Remainder] string arg)
+            public async Task VoicePlusText(IUserMessage msg, [Remainder] string arg)
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageChannels)]
             [RequirePermission(GuildPermission.ManageRoles)]

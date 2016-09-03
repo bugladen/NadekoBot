@@ -14,12 +14,12 @@ namespace NadekoBot.Modules.Gambling
     {
         private Regex dndRegex { get; } = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Roll(IUserMessage umsg, [Remainder] string arg = null) =>
             publicRoll(umsg, arg, true);
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Rolluo(IUserMessage umsg, [Remainder] string arg = null) =>
             publicRoll(umsg, arg, false);
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Gambling
             //}
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task NRoll(IUserMessage umsg, [Remainder] string range)
         {

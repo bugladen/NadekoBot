@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="h_text" xml:space="preserve">
-    <value>h</value>
+    <value>h help</value>
   </data>
   <data name="h_desc" xml:space="preserve">
     <value>Either shows a help for a single command, or PMs you help link if no arguments are specified.</value>
@@ -271,7 +271,7 @@
     <value>`.voicerpresence`</value>
   </data>
   <data name="repeatinvoke_text" xml:space="preserve">
-    <value>repeatinvoke</value>
+    <value>repeatinvoke repinv</value>
   </data>
   <data name="repeatinvoke_desc" xml:space="preserve">
     <value>Immediately shows the repeat message and restarts the timer. **Needs Manage Messages Permissions.**</value>
@@ -289,7 +289,7 @@
     <value>`.repeat 5 Hello there`</value>
   </data>
   <data name="rotateplaying_text" xml:space="preserve">
-    <value>rotateplaying</value>
+    <value>rotateplaying ropl</value>
   </data>
   <data name="rotateplaying_desc" xml:space="preserve">
     <value>Toggles rotation of playing status of the dynamic strings you specified earlier. **Bot Owner Only!**</value>
@@ -298,7 +298,7 @@
     <value>`.ropl`</value>
   </data>
   <data name="addplaying_text" xml:space="preserve">
-    <value>addplaying</value>
+    <value>addplaying adpl</value>
   </data>
   <data name="addplaying_desc" xml:space="preserve">
     <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia% **Bot Owner Only!**</value>
@@ -307,7 +307,7 @@
     <value>`.adpl`</value>
   </data>
   <data name="listplaying_text" xml:space="preserve">
-    <value>listplaying</value>
+    <value>listplaying lipl</value>
   </data>
   <data name="listplaying_desc" xml:space="preserve">
     <value>Lists all playing statuses with their corresponding number. **Bot Owner Only!**</value>
@@ -316,7 +316,7 @@
     <value>`.lipl`</value>
   </data>
   <data name="removeplaying_text" xml:space="preserve">
-    <value>removeplaying</value>
+    <value>removeplaying rmlp repl</value>
   </data>
   <data name="removeplaying_desc" xml:space="preserve">
     <value>Removes a playing string on a given number. **Bot Owner Only!**</value>
@@ -334,7 +334,7 @@
     <value>`.slowmode`</value>
   </data>
   <data name="cleanvplust_text" xml:space="preserve">
-    <value>cleanvplust</value>
+    <value>cleanvplust cv+t</value>
   </data>
   <data name="cleanvplust_desc" xml:space="preserve">
     <value>Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.**</value>
@@ -343,7 +343,7 @@
     <value>`.cleanv+t`</value>
   </data>
   <data name="voiceplustext_text" xml:space="preserve">
-    <value>voiceplustext</value>
+    <value>voice+text v+t</value>
   </data>
   <data name="voiceplustext_desc" xml:space="preserve">
     <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless. **Needs Manage Roles and Manage Channels Permissions.**</value>
@@ -406,7 +406,7 @@
     <value>`.lsar`</value>
   </data>
   <data name="tesar_text" xml:space="preserve">
-    <value>tesar</value>
+    <value>togglexclsar tesar</value>
   </data>
   <data name="tesar_desc" xml:space="preserve">
     <value>toggle whether the self-assigned roles should be exclusive</value>
@@ -424,7 +424,7 @@
     <value>`.iam Gamer`</value>
   </data>
   <data name="iamnot_text" xml:space="preserve">
-    <value>iamnot</value>
+    <value>iamnot iamn</value>
   </data>
   <data name="iamnot_desc" xml:space="preserve">
     <value>Removes a role to you that you choose. Role must be on a list of self-assignable roles.</value>
@@ -433,7 +433,7 @@
     <value>`.iamn Gamer`</value>
   </data>
   <data name="addcustreact_text" xml:space="preserve">
-    <value>addcustreact</value>
+    <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
     <value>Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt; **Bot Owner Only!**</value>
@@ -442,7 +442,7 @@
     <value>`.acr "hello" Hi there %user%`</value>
   </data>
   <data name="listcustreact_text" xml:space="preserve">
-    <value>listcustreact</value>
+    <value>listcustreact lcr</value>
   </data>
   <data name="listcustreact_desc" xml:space="preserve">
     <value>Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you.</value>
@@ -451,7 +451,7 @@
     <value>`.lcr 1`</value>
   </data>
   <data name="showcustreact_text" xml:space="preserve">
-    <value>showcustreact</value>
+    <value>showcustreact scr</value>
   </data>
   <data name="showcustreact_desc" xml:space="preserve">
     <value>Shows all possible responses from a single custom reaction.</value>
@@ -460,7 +460,7 @@
     <value>`.scr %mention% bb`</value>
   </data>
   <data name="editcustreact_text" xml:space="preserve">
-    <value>editcustreact</value>
+    <value>editcustreact ecr</value>
   </data>
   <data name="editcustreact_desc" xml:space="preserve">
     <value>Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message **Bot Owner Only**</value>
@@ -469,7 +469,7 @@
     <value>`.ecr "%mention% disguise" 2 Test 123`</value>
   </data>
   <data name="delcustreact_text" xml:space="preserve">
-    <value>delcustreact</value>
+    <value>delcustreact dcr</value>
   </data>
   <data name="delcustreact_desc" xml:space="preserve">
     <value>Deletes a custom reaction with given name (and index). **Bot Owner Only.**</value>
@@ -478,7 +478,7 @@
     <value>`.dcr index`</value>
   </data>
   <data name="autoassignrole_text" xml:space="preserve">
-    <value>autoassignrole</value>
+    <value>autoassignrole aar</value>
   </data>
   <data name="autoassignrole_desc" xml:space="preserve">
     <value>Automaticaly assigns a specified role to every user who joins the server. **Needs Manage Roles Permissions.**</value>
@@ -496,7 +496,7 @@
     <value>`.leave 123123123331`</value>
   </data>
   <data name="listincidents_text" xml:space="preserve">
-    <value>listincidents</value>
+    <value>listincidents lin</value>
   </data>
   <data name="listincidents_desc" xml:space="preserve">
     <value>List all UNREAD incidents and flags them as read. **Needs Manage Server Permissions.**</value>
@@ -505,7 +505,7 @@
     <value>`.lin`</value>
   </data>
   <data name="listallincidents_text" xml:space="preserve">
-    <value>listallincidents</value>
+    <value>listallincidents lain</value>
   </data>
   <data name="listallincidents_desc" xml:space="preserve">
     <value>Sends you a file containing all incidents and flags them as read. **Needs Manage Server Permissions.**</value>
@@ -532,7 +532,7 @@
     <value>`.restart`</value>
   </data>
   <data name="setrole_text" xml:space="preserve">
-    <value>setrole</value>
+    <value>setrole sr</value>
   </data>
   <data name="setrole_desc" xml:space="preserve">
     <value>Sets a role for a given user. **Needs Manage Roles Permissions.**</value>
@@ -541,7 +541,7 @@
     <value>`.sr @User Guest`</value>
   </data>
   <data name="removerole_text" xml:space="preserve">
-    <value>removerole</value>
+    <value>removerole rr</value>
   </data>
   <data name="removerole_desc" xml:space="preserve">
     <value>Removes a role from a given user. **Needs Manage Roles Permissions.**</value>
@@ -550,7 +550,7 @@
     <value>`.rr @User Admin`</value>
   </data>
   <data name="renamerole_text" xml:space="preserve">
-    <value>renamerole</value>
+    <value>renamerole renr</value>
   </data>
   <data name="renamerole_desc" xml:space="preserve">
     <value>Renames a role. Roles you are renaming must be lower than bot's highest role. **Manage Roles Permissions.**</value>
@@ -559,7 +559,7 @@
     <value>`.renr "First role" SecondRole`</value>
   </data>
   <data name="removeallroles_text" xml:space="preserve">
-    <value>removeallroles</value>
+    <value>removeallroles rar</value>
   </data>
   <data name="removeallroles_desc" xml:space="preserve">
     <value>Removes all roles from a mentioned user. **Needs Manage Roles Permissions.**</value>
@@ -568,7 +568,7 @@
     <value>`.rar @User`</value>
   </data>
   <data name="createrole_text" xml:space="preserve">
-    <value>createrole</value>
+    <value>createrole cr</value>
   </data>
   <data name="createrole_desc" xml:space="preserve">
     <value>Creates a role with a given name. **Needs Manage Roles Permissions.**</value>
@@ -577,7 +577,7 @@
     <value>`.cr Awesome Role`</value>
   </data>
   <data name="rolecolor_text" xml:space="preserve">
-    <value>rolecolor</value>
+    <value>rolecolor rc</value>
   </data>
   <data name="rolecolor_desc" xml:space="preserve">
     <value>Set a role's color to the hex or 0-255 rgb color value provided. **Needs Manage Roles Permissions.**</value>
@@ -586,7 +586,7 @@
     <value>`.rc Admin 255 200 100` or `.rc Admin ffba55`</value>
   </data>
   <data name="ban_text" xml:space="preserve">
-    <value>ban</value>
+    <value>ban b</value>
   </data>
   <data name="ban_desc" xml:space="preserve">
     <value>Bans a user by id or name with an optional message. **Needs Ban Permissions.**</value>
@@ -595,7 +595,7 @@
     <value>`.b "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="softban_text" xml:space="preserve">
-    <value>softban</value>
+    <value>softban sb</value>
   </data>
   <data name="softban_desc" xml:space="preserve">
     <value>Bans and then unbans a user by id or name with an optional message. **Needs Ban Permissions.**</value>
@@ -604,7 +604,7 @@
     <value>`.sb "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="kick_text" xml:space="preserve">
-    <value>kick</value>
+    <value>kick k</value>
   </data>
   <data name="kick_desc" xml:space="preserve">
     <value>Kicks a mentioned user. **Needs Kick Permissions.**</value>
@@ -613,7 +613,7 @@
     <value>`.k "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="mute_text" xml:space="preserve">
-    <value>mute</value>
+    <value>mute min</value>
   </data>
   <data name="mute_desc" xml:space="preserve">
     <value>Sets the music volume to 0%</value>
@@ -631,7 +631,7 @@
     <value>`.unmute "@Someguy"` or `.unmute "@Someguy" "@Someguy"`</value>
   </data>
   <data name="deafen_text" xml:space="preserve">
-    <value>deafen</value>
+    <value>deafen deaf</value>
   </data>
   <data name="deafen_desc" xml:space="preserve">
     <value>Deafens mentioned user or users. **Needs Deafen Permissions.**</value>
@@ -640,7 +640,7 @@
     <value>`.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`</value>
   </data>
   <data name="undeafen_text" xml:space="preserve">
-    <value>undeafen</value>
+    <value>undeafen undef</value>
   </data>
   <data name="undeafen_desc" xml:space="preserve">
     <value>Undeafens mentioned user or users. **Needs Deafen Permissions.**</value>
@@ -649,7 +649,7 @@
     <value>`.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`</value>
   </data>
   <data name="delvoichanl_text" xml:space="preserve">
-    <value>delvoichanl</value>
+    <value>delvoichanl dvch</value>
   </data>
   <data name="delvoichanl_desc" xml:space="preserve">
     <value>Deletes a voice channel with a given name. **Needs Manage Channel Permissions.**</value>
@@ -658,7 +658,7 @@
     <value>`.dvch VoiceChannelName`</value>
   </data>
   <data name="creatvoichanl_text" xml:space="preserve">
-    <value>creatvoichanl</value>
+    <value>creatvoichanl cvch</value>
   </data>
   <data name="creatvoichanl_desc" xml:space="preserve">
     <value>Creates a new voice channel with a given name. **Needs Manage Channel Permissions.**</value>
@@ -667,7 +667,7 @@
     <value>`.cvch VoiceChannelName`</value>
   </data>
   <data name="deltxtchanl_text" xml:space="preserve">
-    <value>deltxtchanl</value>
+    <value>deltxtchanl dtch</value>
   </data>
   <data name="deltxtchanl_desc" xml:space="preserve">
     <value>Deletes a text channel with a given name. **Needs Manage Channel Permissions.**</value>
@@ -676,7 +676,7 @@
     <value>`.dtch TextChannelName`</value>
   </data>
   <data name="creatxtchanl_text" xml:space="preserve">
-    <value>creatxtchanl</value>
+    <value>creatxtchanl ctch</value>
   </data>
   <data name="creatxtchanl_desc" xml:space="preserve">
     <value>Creates a new text channel with a given name. **Needs Manage Channel Permissions.**</value>
@@ -685,7 +685,7 @@
     <value>`.ctch TextChannelName`</value>
   </data>
   <data name="settopic_text" xml:space="preserve">
-    <value>settopic</value>
+    <value>settopic st</value>
   </data>
   <data name="settopic_desc" xml:space="preserve">
     <value>Sets a topic on the current channel. **Needs Manage Channel Permissions.**</value>
@@ -694,7 +694,7 @@
     <value>`.st My new topic`</value>
   </data>
   <data name="setchanlname_text" xml:space="preserve">
-    <value>setchanlname</value>
+    <value>setchanlname schn</value>
   </data>
   <data name="setchanlname_desc" xml:space="preserve">
     <value>Changed the name of the current channel. **Needs Manage Channel Permissions.**</value>
@@ -712,7 +712,7 @@
     <value>`.heap`</value>
   </data>
   <data name="prune_text" xml:space="preserve">
-    <value>prune</value>
+    <value>prune clr</value>
   </data>
   <data name="prune_desc" xml:space="preserve">
     <value>`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. **Needs Manage Messages Permissions**</value>
@@ -730,7 +730,7 @@
     <value>`@NadekoBot die`</value>
   </data>
   <data name="setname_text" xml:space="preserve">
-    <value>setname</value>
+    <value>setname newnm</value>
   </data>
   <data name="setname_desc" xml:space="preserve">
     <value>Give the bot a new name. **Bot Owner Only!**</value>
@@ -739,7 +739,7 @@
     <value>`.newnm BotName`</value>
   </data>
   <data name="newavatar_text" xml:space="preserve">
-    <value>newavatar</value>
+    <value>newavatar setavatar</value>
   </data>
   <data name="newavatar_desc" xml:space="preserve">
     <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!**</value>
@@ -766,7 +766,7 @@
     <value>`.send sid</value>
   </data>
   <data name="mentionrole_text" xml:space="preserve">
-    <value>mentionrole</value>
+    <value>mentionrole menro</value>
   </data>
   <data name="mentionrole_desc" xml:space="preserve">
     <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.</value>
@@ -838,7 +838,7 @@
     <value>`.remindmsg do something else`</value>
   </data>
   <data name="serverinfo_text" xml:space="preserve">
-    <value>serverinfo</value>
+    <value>serverinfo sinfo</value>
   </data>
   <data name="serverinfo_desc" xml:space="preserve">
     <value>Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.</value>
@@ -847,7 +847,7 @@
     <value>`.sinfo Some Server`</value>
   </data>
   <data name="channelinfo_text" xml:space="preserve">
-    <value>channelinfo</value>
+    <value>channelinfo cinfo</value>
   </data>
   <data name="channelinfo_desc" xml:space="preserve">
     <value>Shows info about the channel. If no channel is supplied, it defaults to current one.</value>
@@ -856,7 +856,7 @@
     <value>`.cinfo #some-channel`</value>
   </data>
   <data name="userinfo_text" xml:space="preserve">
-    <value>userinfo</value>
+    <value>userinfo uinfo</value>
   </data>
   <data name="userinfo_desc" xml:space="preserve">
     <value>Shows info about the user. If no user is supplied, it defaults a user running the command.</value>
@@ -910,7 +910,7 @@
     <value>`.dysyd`</value>
   </data>
   <data name="userid_text" xml:space="preserve">
-    <value>userid</value>
+    <value>userid uid</value>
   </data>
   <data name="userid_desc" xml:space="preserve">
     <value>Shows user ID.</value>
@@ -928,7 +928,7 @@
     <value>`.cid`</value>
   </data>
   <data name="serverid_text" xml:space="preserve">
-    <value>serverid</value>
+    <value>serverid sid</value>
   </data>
   <data name="serverid_desc" xml:space="preserve">
     <value>Shows current server ID.</value>
@@ -946,7 +946,7 @@
     <value>`.roles`</value>
   </data>
   <data name="channeltopic_text" xml:space="preserve">
-    <value>channeltopic</value>
+    <value>channeltopic ct</value>
   </data>
   <data name="channeltopic_desc" xml:space="preserve">
     <value>Sends current channel's topic as a message.</value>
@@ -955,7 +955,7 @@
     <value>`.ct`</value>
   </data>
   <data name="chnlfilterinv_text" xml:space="preserve">
-    <value>chnlfilterinv</value>
+    <value>chnlfilterinv cfi</value>
   </data>
   <data name="chnlfilterinv_desc" xml:space="preserve">
     <value>Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once.</value>
@@ -964,7 +964,7 @@
     <value>`;cfi enable #general-chat`</value>
   </data>
   <data name="srvrfilterinv_text" xml:space="preserve">
-    <value>srvrfilterinv</value>
+    <value>srvrfilterinv sfi</value>
   </data>
   <data name="srvrfilterinv_desc" xml:space="preserve">
     <value>Enables or disables automatic deleting of invites on the server.</value>
@@ -973,7 +973,7 @@
     <value>`;sfi disable`</value>
   </data>
   <data name="chnlfilterwords_text" xml:space="preserve">
-    <value>chnlfilterwords</value>
+    <value>chnlfilterwords cfw</value>
   </data>
   <data name="chnlfilterwords_desc" xml:space="preserve">
     <value>Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once.</value>
@@ -982,7 +982,7 @@
     <value>`;cfw enable #general-chat`</value>
   </data>
   <data name="addfilterword_text" xml:space="preserve">
-    <value>addfilterword</value>
+    <value>addfilterword afw</value>
   </data>
   <data name="addfilterword_desc" xml:space="preserve">
     <value>Adds a new word to the list of filtered words</value>
@@ -991,7 +991,7 @@
     <value>`;afw poop`</value>
   </data>
   <data name="rmvfilterword_text" xml:space="preserve">
-    <value>rmvfilterword</value>
+    <value>rmvfilterword rw</value>
   </data>
   <data name="rmvfilterword_desc" xml:space="preserve">
     <value>Removes the word from the list of filtered words</value>
@@ -1000,7 +1000,7 @@
     <value>`;rw poop`</value>
   </data>
   <data name="lstfilterwords_text" xml:space="preserve">
-    <value>lstfilterwords</value>
+    <value>lstfilterwords lfw</value>
   </data>
   <data name="lstfilterwords_desc" xml:space="preserve">
     <value>Shows a list of filtered words</value>
@@ -1009,7 +1009,7 @@
     <value>`;lfw`</value>
   </data>
   <data name="srvrfilterwords_text" xml:space="preserve">
-    <value>srvrfilterwords</value>
+    <value>srvrfilterwords sfw</value>
   </data>
   <data name="srvrfilterwords_desc" xml:space="preserve">
     <value>Enables or disables automatic deleting of messages containing forbidden words on the server.</value>
@@ -1018,7 +1018,7 @@
     <value>`;sfw disable`</value>
   </data>
   <data name="permrole_text" xml:space="preserve">
-    <value>permrole</value>
+    <value>permrole pr</value>
   </data>
   <data name="permrole_desc" xml:space="preserve">
     <value>Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.</value>
@@ -1027,7 +1027,7 @@
     <value>`;pr role`</value>
   </data>
   <data name="rolepermscopy_text" xml:space="preserve">
-    <value>rolepermscopy</value>
+    <value>rolepermscopy rpc</value>
   </data>
   <data name="rolepermscopy_desc" xml:space="preserve">
     <value>Copies BOT PERMISSIONS (not discord permissions) from one role to another.</value>
@@ -1036,7 +1036,7 @@
     <value>`;rpc Some Role ~ Some other role`</value>
   </data>
   <data name="chnlpermscopy_text" xml:space="preserve">
-    <value>chnlpermscopy</value>
+    <value>chnlpermscopy cpc</value>
   </data>
   <data name="chnlpermscopy_desc" xml:space="preserve">
     <value>Copies BOT PERMISSIONS (not discord permissions) from one channel to another.</value>
@@ -1045,7 +1045,7 @@
     <value>`;cpc Some Channel ~ Some other channel`</value>
   </data>
   <data name="usrpermscopy_text" xml:space="preserve">
-    <value>usrpermscopy</value>
+    <value>usrpermscopy upc</value>
   </data>
   <data name="usrpermscopy_desc" xml:space="preserve">
     <value>Copies BOT PERMISSIONS (not discord permissions) from one role to another.</value>
@@ -1054,7 +1054,7 @@
     <value>`;upc @SomeUser ~ @SomeOtherUser`</value>
   </data>
   <data name="verbose_text" xml:space="preserve">
-    <value>verbose</value>
+    <value>verbose v</value>
   </data>
   <data name="verbose_desc" xml:space="preserve">
     <value>Sets whether to show when a command/module is blocked.</value>
@@ -1063,7 +1063,7 @@
     <value>`;verbose true`</value>
   </data>
   <data name="srvrperms_text" xml:space="preserve">
-    <value>srvrperms</value>
+    <value>srvrperms sp</value>
   </data>
   <data name="srvrperms_desc" xml:space="preserve">
     <value>Shows banned permissions for this server.</value>
@@ -1072,7 +1072,7 @@
     <value>`;sp`</value>
   </data>
   <data name="roleperms_text" xml:space="preserve">
-    <value>roleperms</value>
+    <value>roleperms rp</value>
   </data>
   <data name="roleperms_desc" xml:space="preserve">
     <value>Shows banned permissions for a certain role. No argument means for everyone.</value>
@@ -1081,7 +1081,7 @@
     <value>`;rp AwesomeRole`</value>
   </data>
   <data name="chnlperms_text" xml:space="preserve">
-    <value>chnlperms</value>
+    <value>chnlperms cp</value>
   </data>
   <data name="chnlperms_desc" xml:space="preserve">
     <value>Shows banned permissions for a certain channel. No argument means for this channel.</value>
@@ -1090,7 +1090,7 @@
     <value>`;cp #dev`</value>
   </data>
   <data name="userperms_text" xml:space="preserve">
-    <value>userperms</value>
+    <value>userperms up</value>
   </data>
   <data name="userperms_desc" xml:space="preserve">
     <value>Shows banned permissions for a certain user. No argument means for yourself.</value>
@@ -1099,7 +1099,7 @@
     <value>`;up Kwoth`</value>
   </data>
   <data name="srvrmdl_text" xml:space="preserve">
-    <value>srvrmdl</value>
+    <value>srvrmdl sm</value>
   </data>
   <data name="srvrmdl_desc" xml:space="preserve">
     <value>Sets a module's permission at the server level.</value>
@@ -1108,7 +1108,7 @@
     <value>`;sm "module name" enable`</value>
   </data>
   <data name="srvrcmd_text" xml:space="preserve">
-    <value>srvrcmd</value>
+    <value>srvrcmd sc</value>
   </data>
   <data name="srvrcmd_desc" xml:space="preserve">
     <value>Sets a command's permission at the server level.</value>
@@ -1117,7 +1117,7 @@
     <value>`;sc "command name" disable`</value>
   </data>
   <data name="rolemdl_text" xml:space="preserve">
-    <value>rolemdl</value>
+    <value>rolemdl rm</value>
   </data>
   <data name="rolemdl_desc" xml:space="preserve">
     <value>Sets a module's permission at the role level.</value>
@@ -1126,7 +1126,7 @@
     <value>`;rm "module name" enable MyRole`</value>
   </data>
   <data name="rolecmd_text" xml:space="preserve">
-    <value>rolecmd</value>
+    <value>rolecmd rc</value>
   </data>
   <data name="rolecmd_desc" xml:space="preserve">
     <value>Sets a command's permission at the role level.</value>
@@ -1135,7 +1135,7 @@
     <value>`;rc "command name" disable MyRole`</value>
   </data>
   <data name="chnlmdl_text" xml:space="preserve">
-    <value>chnlmdl</value>
+    <value>chnlmdl cm</value>
   </data>
   <data name="chnlmdl_desc" xml:space="preserve">
     <value>Sets a module's permission at the channel level.</value>
@@ -1144,7 +1144,7 @@
     <value>`;cm "module name" enable SomeChannel`</value>
   </data>
   <data name="chnlcmd_text" xml:space="preserve">
-    <value>chnlcmd</value>
+    <value>chnlcmd cc</value>
   </data>
   <data name="chnlcmd_desc" xml:space="preserve">
     <value>Sets a command's permission at the channel level.</value>
@@ -1153,7 +1153,7 @@
     <value>`;cc "command name" enable SomeChannel`</value>
   </data>
   <data name="usrmdl_text" xml:space="preserve">
-    <value>usrmdl</value>
+    <value>usrmdl um</value>
   </data>
   <data name="usrmdl_desc" xml:space="preserve">
     <value>Sets a module's permission at the user level.</value>
@@ -1162,7 +1162,7 @@
     <value>`;um "module name" enable SomeUsername`</value>
   </data>
   <data name="usrcmd_text" xml:space="preserve">
-    <value>usrcmd</value>
+    <value>usrcmd uc</value>
   </data>
   <data name="usrcmd_desc" xml:space="preserve">
     <value>Sets a command's permission at the user level.</value>
@@ -1171,7 +1171,7 @@
     <value>`;uc "command name" enable SomeUsername`</value>
   </data>
   <data name="allsrvrmdls_text" xml:space="preserve">
-    <value>allsrvrmdls</value>
+    <value>allsrvrmdls asm</value>
   </data>
   <data name="allsrvrmdls_desc" xml:space="preserve">
     <value>Sets permissions for all modules at the server level.</value>
@@ -1180,7 +1180,7 @@
     <value>`;asm [enable/disable]`</value>
   </data>
   <data name="allsrvrcmds_text" xml:space="preserve">
-    <value>allsrvrcmds</value>
+    <value>allsrvrcmds asc</value>
   </data>
   <data name="allsrvrcmds_desc" xml:space="preserve">
     <value>Sets permissions for all commands from a certain module at the server level.</value>
@@ -1189,7 +1189,7 @@
     <value>`;asc "module name" [enable/disable]`</value>
   </data>
   <data name="allchnlmdls_text" xml:space="preserve">
-    <value>allchnlmdls</value>
+    <value>allchnlmdls acm</value>
   </data>
   <data name="allchnlmdls_desc" xml:space="preserve">
     <value>Sets permissions for all modules at the channel level.</value>
@@ -1198,7 +1198,7 @@
     <value>`;acm [enable/disable] SomeChannel`</value>
   </data>
   <data name="allchnlcmds_text" xml:space="preserve">
-    <value>allchnlcmds</value>
+    <value>allchnlcmds acc</value>
   </data>
   <data name="allchnlcmds_desc" xml:space="preserve">
     <value>Sets permissions for all commands from a certain module at the channel level.</value>
@@ -1207,7 +1207,7 @@
     <value>`;acc "module name" [enable/disable] SomeChannel`</value>
   </data>
   <data name="allrolemdls_text" xml:space="preserve">
-    <value>allrolemdls</value>
+    <value>allrolemdls arm</value>
   </data>
   <data name="allrolemdls_desc" xml:space="preserve">
     <value>Sets permissions for all modules at the role level.</value>
@@ -1216,7 +1216,7 @@
     <value>`;arm [enable/disable] MyRole`</value>
   </data>
   <data name="allrolecmds_text" xml:space="preserve">
-    <value>allrolecmds</value>
+    <value>allrolecmds acmdcds</value>
   </data>
   <data name="allrolecmds_desc" xml:space="preserve">
     <value>Sets permissions for all commands from a certain module at the role level.</value>
@@ -1270,7 +1270,7 @@
     <value>`;sbl [servername/serverid]`</value>
   </data>
   <data name="cmdcooldown_text" xml:space="preserve">
-    <value>cmdcooldown</value>
+    <value>cmdcooldown cmdcd</value>
   </data>
   <data name="cmdcooldown_desc" xml:space="preserve">
     <value>Sets a cooldown per user for a command. Set 0 to clear. **Needs Manager Messages Permissions**</value>
@@ -1306,7 +1306,7 @@
     <value>`... abc`</value>
   </data>
   <data name="deletequote_text" xml:space="preserve">
-    <value>deletequote</value>
+    <value>deletequote delq</value>
   </data>
   <data name="deletequote_desc" xml:space="preserve">
     <value>Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.</value>
@@ -1359,15 +1359,6 @@
   <data name="dump_summary" xml:space="preserve">
     <value>`@NadekoBot dump`</value>
   </data>
-  <data name="ab_text" xml:space="preserve">
-    <value>ab</value>
-  </data>
-  <data name="ab_desc" xml:space="preserve">
-    <value>Try to get 'abalabahaha'</value>
-  </data>
-  <data name="ab_summary" xml:space="preserve">
-    <value>`@NadekoBot ab`</value>
-  </data>
   <data name="draw_text" xml:space="preserve">
     <value>draw</value>
   </data>
@@ -1378,7 +1369,7 @@
     <value>`$draw [x]`</value>
   </data>
   <data name="shuffle_text" xml:space="preserve">
-    <value>shuffle</value>
+    <value>shuffle sh</value>
   </data>
   <data name="shuffle_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>
@@ -1396,7 +1387,7 @@
     <value>`$flip` or `$flip 3`</value>
   </data>
   <data name="betflip_text" xml:space="preserve">
-    <value>betflip</value>
+    <value>betflip bf</value>
   </data>
   <data name="betflip_desc" xml:space="preserve">
     <value>Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet.</value>
@@ -1441,7 +1432,7 @@
     <value>`$race`</value>
   </data>
   <data name="joinrace_text" xml:space="preserve">
-    <value>joinrace</value>
+    <value>joinrace jr</value>
   </data>
   <data name="joinrace_desc" xml:space="preserve">
     <value>Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win.</value>
@@ -1486,7 +1477,7 @@
     <value>`$take 1 "@someguy"`</value>
   </data>
   <data name="betroll_text" xml:space="preserve">
-    <value>betroll</value>
+    <value>betroll br</value>
   </data>
   <data name="betroll_desc" xml:space="preserve">
     <value>Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10.</value>
@@ -1495,7 +1486,7 @@
     <value>`$br 5`</value>
   </data>
   <data name="leaderboard_text" xml:space="preserve">
-    <value>leaderboard</value>
+    <value>leaderboard lb</value>
   </data>
   <data name="leaderboard_desc" xml:space="preserve">
     <value>Displays bot currency leaderboard</value>
@@ -1504,7 +1495,7 @@
     <value>`$lb`</value>
   </data>
   <data name="t_text" xml:space="preserve">
-    <value>t</value>
+    <value>trivia t</value>
   </data>
   <data name="t_desc" xml:space="preserve">
     <value>Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
@@ -1594,7 +1585,7 @@
     <value>`&gt;plant`</value>
   </data>
   <data name="gencurrency_text" xml:space="preserve">
-    <value>gencurrency</value>
+    <value>gencurrency gc</value>
   </data>
   <data name="gencurrency_desc" xml:space="preserve">
     <value>Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission.</value>
@@ -1648,7 +1639,7 @@
     <value>`&gt;linux Spyware Windows`</value>
   </data>
   <data name="next_text" xml:space="preserve">
-    <value>next</value>
+    <value>next n</value>
   </data>
   <data name="next_desc" xml:space="preserve">
     <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot.</value>
@@ -1657,7 +1648,7 @@
     <value>`!!n`</value>
   </data>
   <data name="stop_text" xml:space="preserve">
-    <value>stop</value>
+    <value>stop s</value>
   </data>
   <data name="stop_desc" xml:space="preserve">
     <value>Stops the music and clears the playlist. Stays in the channel.</value>
@@ -1666,7 +1657,7 @@
     <value>`!!s`</value>
   </data>
   <data name="destroy_text" xml:space="preserve">
-    <value>destroy</value>
+    <value>destroy d</value>
   </data>
   <data name="destroy_desc" xml:space="preserve">
     <value>Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)</value>
@@ -1675,7 +1666,7 @@
     <value>`!!d`</value>
   </data>
   <data name="pause_text" xml:space="preserve">
-    <value>pause</value>
+    <value>pause p</value>
   </data>
   <data name="pause_desc" xml:space="preserve">
     <value>Pauses or Unpauses the song.</value>
@@ -1684,7 +1675,7 @@
     <value>`!!p`</value>
   </data>
   <data name="queue_text" xml:space="preserve">
-    <value>queue</value>
+    <value>queue q yq</value>
   </data>
   <data name="queue_desc" xml:space="preserve">
     <value>Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.</value>
@@ -1693,7 +1684,7 @@
     <value>`!!q Dream Of Venice`</value>
   </data>
   <data name="soundcloudqueue_text" xml:space="preserve">
-    <value>soundcloudqueue</value>
+    <value>soundcloudqueue sq</value>
   </data>
   <data name="soundcloudqueue_desc" xml:space="preserve">
     <value>Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.</value>
@@ -1702,7 +1693,7 @@
     <value>`!!sq Dream Of Venice`</value>
   </data>
   <data name="listqueue_text" xml:space="preserve">
-    <value>listqueue</value>
+    <value>listqueue lq</value>
   </data>
   <data name="listqueue_desc" xml:space="preserve">
     <value>Lists 15 currently queued songs per page. Default page is 1.</value>
@@ -1711,7 +1702,7 @@
     <value>`!!lq` or `!!lq 2`</value>
   </data>
   <data name="nowplaying_text" xml:space="preserve">
-    <value>nowplaying</value>
+    <value>nowplaying np</value>
   </data>
   <data name="nowplaying_desc" xml:space="preserve">
     <value>Shows the song currently playing.</value>
@@ -1720,7 +1711,7 @@
     <value>`!!np`</value>
   </data>
   <data name="volume_text" xml:space="preserve">
-    <value>volume</value>
+    <value>volume vol</value>
   </data>
   <data name="volume_desc" xml:space="preserve">
     <value>Sets the music volume 0-100%</value>
@@ -1729,7 +1720,7 @@
     <value>`!!vol 50`</value>
   </data>
   <data name="defvol_text" xml:space="preserve">
-    <value>defvol</value>
+    <value>defvol dv</value>
   </data>
   <data name="defvol_desc" xml:space="preserve">
     <value>Sets the default music volume when music playback is started (0-100). Persists through restarts.</value>
@@ -1756,7 +1747,7 @@
     <value>`!!half`</value>
   </data>
   <data name="playlist_text" xml:space="preserve">
-    <value>playlist</value>
+    <value>playlist pl</value>
   </data>
   <data name="playlist_desc" xml:space="preserve">
     <value>Queues up to 500 songs from a youtube playlist specified by a link, or keywords.</value>
@@ -1765,7 +1756,7 @@
     <value>`!!pl playlist link or name`</value>
   </data>
   <data name="soundcloudpl_text" xml:space="preserve">
-    <value>soundcloudpl</value>
+    <value>soundcloudpl scpl</value>
   </data>
   <data name="soundcloudpl_desc" xml:space="preserve">
     <value>Queue a soundcloud playlist using a link.</value>
@@ -1774,7 +1765,7 @@
     <value>`!!scpl soundcloudseturl`</value>
   </data>
   <data name="localpl_text" xml:space="preserve">
-    <value>localplaylst</value>
+    <value>localplaylst lopl</value>
   </data>
   <data name="localpl_desc" xml:space="preserve">
     <value>Queues all songs from a directory. **Bot Owner Only!**</value>
@@ -1783,7 +1774,7 @@
     <value>`!!lopl C:/music/classical`</value>
   </data>
   <data name="radio_text" xml:space="preserve">
-    <value>radio</value>
+    <value>radio ra</value>
   </data>
   <data name="radio_desc" xml:space="preserve">
     <value>Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: &lt;https://streamable.com/al54&gt;)</value>
@@ -1792,7 +1783,7 @@
     <value>`!!ra radio link here`</value>
   </data>
   <data name="local_text" xml:space="preserve">
-    <value>local</value>
+    <value>local lo</value>
   </data>
   <data name="local_desc" xml:space="preserve">
     <value>Queues a local file by specifying a full path. **Bot Owner Only!**</value>
@@ -1801,7 +1792,7 @@
     <value>`!!lo C:/music/mysong.mp3`</value>
   </data>
   <data name="move_text" xml:space="preserve">
-    <value>move</value>
+    <value>move mv</value>
   </data>
   <data name="move_desc" xml:space="preserve">
     <value>Moves the bot to your voice channel. (works only if music is already playing)</value>
@@ -1810,7 +1801,7 @@
     <value>`!!mv`</value>
   </data>
   <data name="remove_text" xml:space="preserve">
-    <value>remove</value>
+    <value>remove rm</value>
   </data>
   <data name="remove_desc" xml:space="preserve">
     <value>Remove a song by its # in the queue, or 'all' to remove whole queue.</value>
@@ -1819,7 +1810,7 @@
     <value>`!!rm 5`</value>
   </data>
   <data name="movesong_text" xml:space="preserve">
-    <value>movesong</value>
+    <value>movesong ms</value>
   </data>
   <data name="movesong_desc" xml:space="preserve">
     <value>Moves a song from one position to another.</value>
@@ -1828,7 +1819,7 @@
     <value>`!! ms 5&gt;3`</value>
   </data>
   <data name="setmaxqueue_text" xml:space="preserve">
-    <value>setmaxqueue</value>
+    <value>setmaxqueue smq</value>
   </data>
   <data name="setmaxqueue_desc" xml:space="preserve">
     <value>Sets a maximum queue size. Supply 0 or no argument to have no limit.</value>
@@ -1846,7 +1837,7 @@
     <value>`!!cleanup`</value>
   </data>
   <data name="reptcursong_text" xml:space="preserve">
-    <value>reptcursong</value>
+    <value>reptcursong rcs</value>
   </data>
   <data name="reptcursong_desc" xml:space="preserve">
     <value>Toggles repeat of current song.</value>
@@ -1855,7 +1846,7 @@
     <value>`!!rcs`</value>
   </data>
   <data name="repeatpl_text" xml:space="preserve">
-    <value>rpeatplaylst</value>
+    <value>rpeatplaylst rpl</value>
   </data>
   <data name="repeatpl_desc" xml:space="preserve">
     <value>Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).</value>
@@ -1882,7 +1873,7 @@
     <value>`!!load classical-1`</value>
   </data>
   <data name="playlists_text" xml:space="preserve">
-    <value>playlists</value>
+    <value>playlists pls</value>
   </data>
   <data name="playlists_desc" xml:space="preserve">
     <value>Lists all playlists. Paginated. 20 per page. Default page is 0.</value>
@@ -1891,7 +1882,7 @@
     <value>`!!pls 1`</value>
   </data>
   <data name="deleteplaylist_text" xml:space="preserve">
-    <value>deleteplaylist</value>
+    <value>deleteplaylist delpls</value>
   </data>
   <data name="deleteplaylist_desc" xml:space="preserve">
     <value>Deletes a saved playlist. Only if you made it or if you are the bot owner.</value>
@@ -1909,7 +1900,7 @@
     <value>`!!goto 30`</value>
   </data>
   <data name="getlink_text" xml:space="preserve">
-    <value>getlink</value>
+    <value>getlink gl</value>
   </data>
   <data name="getlink_desc" xml:space="preserve">
     <value>Shows a link to the song in the queue by index, or the currently playing song by default.</value>
@@ -1918,7 +1909,7 @@
     <value>`!!gl`</value>
   </data>
   <data name="autoplay_text" xml:space="preserve">
-    <value>autoplay</value>
+    <value>autoplay ap</value>
   </data>
   <data name="autoplay_desc" xml:space="preserve">
     <value>Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)</value>
@@ -1945,7 +1936,7 @@
     <value>`~lolban`</value>
   </data>
   <data name="hitbox_text" xml:space="preserve">
-    <value>hitbox</value>
+    <value>hitbox hb</value>
   </data>
   <data name="hitbox_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
@@ -1954,7 +1945,7 @@
     <value>`~hitbox SomeStreamer`</value>
   </data>
   <data name="twitch_text" xml:space="preserve">
-    <value>twitch</value>
+    <value>twitch tw</value>
   </data>
   <data name="twitch_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
@@ -1963,7 +1954,7 @@
     <value>`~twitch SomeStreamer`</value>
   </data>
   <data name="beam_text" xml:space="preserve">
-    <value>beam</value>
+    <value>beam bm</value>
   </data>
   <data name="beam_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
@@ -1972,7 +1963,7 @@
     <value>`~beam SomeStreamer`</value>
   </data>
   <data name="checkhitbox_text" xml:space="preserve">
-    <value>checkhitbox</value>
+    <value>checkhitbox chhb</value>
   </data>
   <data name="checkhitbox_desc" xml:space="preserve">
     <value>Checks if a certain user is streaming on the hitbox platform.</value>
@@ -1981,7 +1972,7 @@
     <value>`~chhb SomeStreamer`</value>
   </data>
   <data name="checktwitch_text" xml:space="preserve">
-    <value>checktwitch</value>
+    <value>checktwitch chtw</value>
   </data>
   <data name="checktwitch_desc" xml:space="preserve">
     <value>Checks if a certain user is streaming on the twitch platform.</value>
@@ -1990,7 +1981,7 @@
     <value>`~chtw SomeStreamer`</value>
   </data>
   <data name="checkbeam_text" xml:space="preserve">
-    <value>checkbeam</value>
+    <value>checkbeam chbm</value>
   </data>
   <data name="checkbeam_desc" xml:space="preserve">
     <value>Checks if a certain user is streaming on the beam platform.</value>
@@ -1999,7 +1990,7 @@
     <value>`~chbm SomeStreamer`</value>
   </data>
   <data name="removestream_text" xml:space="preserve">
-    <value>removestream</value>
+    <value>removestream rms</value>
   </data>
   <data name="removestream_desc" xml:space="preserve">
     <value>Removes notifications of a certain streamer on this channel.</value>
@@ -2008,7 +1999,7 @@
     <value>`~rms SomeGuy`</value>
   </data>
   <data name="liststreams_text" xml:space="preserve">
-    <value>liststreams</value>
+    <value>liststreams ls</value>
   </data>
   <data name="liststreams_desc" xml:space="preserve">
     <value>Lists all streams you are following on this server.</value>
@@ -2044,7 +2035,7 @@
     <value>`~wowjoke`</value>
   </data>
   <data name="calculate_text" xml:space="preserve">
-    <value>calculate</value>
+    <value>calculate calc</value>
   </data>
   <data name="calculate_desc" xml:space="preserve">
     <value>Evaluate a mathematical expression.</value>
@@ -2080,7 +2071,7 @@
     <value>`~osu top5 Name`</value>
   </data>
   <data name="pokemon_text" xml:space="preserve">
-    <value>pokemon</value>
+    <value>pokemon poke</value>
   </data>
   <data name="pokemon_desc" xml:space="preserve">
     <value>Searches for a pokemon.</value>
@@ -2089,7 +2080,7 @@
     <value>`~poke Sylveon`</value>
   </data>
   <data name="pokemonability_text" xml:space="preserve">
-    <value>pokemonability</value>
+    <value>pokemonability pokeab</value>
   </data>
   <data name="pokemonability_desc" xml:space="preserve">
     <value>Searches for a pokemon ability.</value>
@@ -2116,7 +2107,7 @@
     <value>`~memegen biw "gets iced coffee" "in the winter"`</value>
   </data>
   <data name="weather_text" xml:space="preserve">
-    <value>we</value>
+    <value>weather we</value>
   </data>
   <data name="weather_desc" xml:space="preserve">
     <value>Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.</value>
@@ -2125,7 +2116,7 @@
     <value>`~we Moscow RF`</value>
   </data>
   <data name="youtube_text" xml:space="preserve">
-    <value>yt</value>
+    <value>youtube yt</value>
   </data>
   <data name="youtube_desc" xml:space="preserve">
     <value>Searches youtubes and shows the first result</value>
@@ -2134,7 +2125,7 @@
     <value>`~yt query`</value>
   </data>
   <data name="ani_text" xml:space="preserve">
-    <value>ani</value>
+    <value>ani anime aq</value>
   </data>
   <data name="ani_desc" xml:space="preserve">
     <value>Queries anilist for an anime and shows the first result.</value>
@@ -2151,17 +2142,17 @@
   <data name="imdb_summary" xml:space="preserve">
     <value>`~imdb Batman vs Superman`</value>
   </data>
-  <data name="mang_text" xml:space="preserve">
-    <value>mang</value>
+  <data name="manga_text" xml:space="preserve">
+    <value>manga mang mq</value>
   </data>
-  <data name="mang_desc" xml:space="preserve">
+  <data name="manga_desc" xml:space="preserve">
     <value>Queries anilist for a manga and shows the first result.</value>
   </data>
-  <data name="mang_summary" xml:space="preserve">
+  <data name="manga_summary" xml:space="preserve">
     <value>`~mq Shingeki no kyojin`</value>
   </data>
   <data name="randomcat_text" xml:space="preserve">
-    <value>randomcat</value>
+    <value>randomcat meow</value>
   </data>
   <data name="randomcat_desc" xml:space="preserve">
     <value>Shows a random cat image.</value>
@@ -2170,7 +2161,7 @@
     <value>`~meow`</value>
   </data>
   <data name="randomdog_text" xml:space="preserve">
-    <value>randomdog</value>
+    <value>randomdog woof</value>
   </data>
   <data name="randomdog_desc" xml:space="preserve">
     <value>Shows a random dog image.</value>
@@ -2179,7 +2170,7 @@
     <value>`~woof`</value>
   </data>
   <data name="i_text" xml:space="preserve">
-    <value>i</value>
+    <value>img i</value>
   </data>
   <data name="i_desc" xml:space="preserve">
     <value>Pulls the first image found using a search parameter. Use ~ir for different results.</value>
@@ -2206,7 +2197,7 @@
     <value>`~lmgtfy query`</value>
   </data>
   <data name="google_text" xml:space="preserve">
-    <value>google</value>
+    <value>google g</value>
   </data>
   <data name="google_desc" xml:space="preserve">
     <value>Get a google search link for some terms.</value>
@@ -2223,13 +2214,13 @@
   <data name="hs_summary" xml:space="preserve">
     <value>`~hs Ysera`</value>
   </data>
-  <data name="ud_text" xml:space="preserve">
-    <value>ud</value>
+  <data name="urbandict_text" xml:space="preserve">
+    <value>urbandict ud</value>
   </data>
-  <data name="ud_desc" xml:space="preserve">
+  <data name="urbandict_desc" xml:space="preserve">
     <value>Searches Urban Dictionary for a word.</value>
   </data>
-  <data name="ud_summary" xml:space="preserve">
+  <data name="urbandict_summary" xml:space="preserve">
     <value>`~ud Pineapple`</value>
   </data>
   <data name="hashtag_text" xml:space="preserve">
@@ -2251,7 +2242,7 @@
     <value>`~catfact`</value>
   </data>
   <data name="yomama_text" xml:space="preserve">
-    <value>yomama</value>
+    <value>yomama ym</value>
   </data>
   <data name="yomama_desc" xml:space="preserve">
     <value>Shows a random joke from &lt;http://api.yomomma.info/&gt;</value>
@@ -2260,7 +2251,7 @@
     <value>`~ym`</value>
   </data>
   <data name="randjoke_text" xml:space="preserve">
-    <value>randjoke</value>
+    <value>randjoke rj</value>
   </data>
   <data name="randjoke_desc" xml:space="preserve">
     <value>Shows a random joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
@@ -2269,7 +2260,7 @@
     <value>`~rj`</value>
   </data>
   <data name="chucknorris_text" xml:space="preserve">
-    <value>chucknorris</value>
+    <value>chucknorris cn</value>
   </data>
   <data name="chucknorris_desc" xml:space="preserve">
     <value>Shows a random chucknorris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
@@ -2278,7 +2269,7 @@
     <value>`~cn`</value>
   </data>
   <data name="magicitem_text" xml:space="preserve">
-    <value>magicitem</value>
+    <value>magicitem mi</value>
   </data>
   <data name="magicitem_desc" xml:space="preserve">
     <value>Shows a random magicitem from &lt;https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items&gt;</value>
@@ -2302,7 +2293,7 @@
     <value>Returns a google reverse image search for an image from a link.</value>
   </data>
   <data name="revimg_summary" xml:space="preserve">
-    <value>`~revav Image link`</value>
+    <value>`~revimg Image link`</value>
   </data>
   <data name="safebooru_text" xml:space="preserve">
     <value>safebooru</value>
@@ -2314,7 +2305,7 @@
     <value>`~safebooru yuri+kissing`</value>
   </data>
   <data name="wiki_text" xml:space="preserve">
-    <value>wiki</value>
+    <value>wikipedia wiki</value>
   </data>
   <data name="wiki_desc" xml:space="preserve">
     <value>Gives you back a wikipedia link</value>
@@ -2323,7 +2314,7 @@
     <value>`~wiki query`</value>
   </data>
   <data name="clr_text" xml:space="preserve">
-    <value>clr</value>
+    <value>clr prune</value>
   </data>
   <data name="clr_desc" xml:space="preserve">
     <value>Shows you what color corresponds to that hex.</value>
@@ -2341,7 +2332,7 @@
     <value>`~videocall "@SomeGuy"`</value>
   </data>
   <data name="avatar_text" xml:space="preserve">
-    <value>av</value>
+    <value>av avatar</value>
   </data>
   <data name="avatar_desc" xml:space="preserve">
     <value>Shows a mentioned person's avatar.</value>
@@ -2413,7 +2404,7 @@
     <value>`~boobs`</value>
   </data>
   <data name="butts_text" xml:space="preserve">
-    <value>butts</value>
+    <value>butts ass butt</value>
   </data>
   <data name="butts_desc" xml:space="preserve">
     <value>Real adult content.</value>
@@ -2422,7 +2413,7 @@
     <value>`~butts` or `~ass`</value>
   </data>
   <data name="createwar_text" xml:space="preserve">
-    <value>createwar</value>
+    <value>createwar cw</value>
   </data>
   <data name="createwar_desc" xml:space="preserve">
     <value>Creates a new war by specifying a size (&gt;10 and multiple of 5) and enemy clan name.</value>
@@ -2431,7 +2422,7 @@
     <value>`,cw 15 The Enemy Clan`</value>
   </data>
   <data name="startwar_text" xml:space="preserve">
-    <value>startwar</value>
+    <value>startwar sw</value>
   </data>
   <data name="startwar_desc" xml:space="preserve">
     <value>Starts a war with a given number.</value>
@@ -2440,7 +2431,7 @@
     <value>`,sw 15`</value>
   </data>
   <data name="listwar_text" xml:space="preserve">
-    <value>listwar</value>
+    <value>listwar lw</value>
   </data>
   <data name="listwar_desc" xml:space="preserve">
     <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
@@ -2449,7 +2440,7 @@
     <value>`,lw [war_number] or ,lw`</value>
   </data>
   <data name="claim_text" xml:space="preserve">
-    <value>claim</value>
+    <value>claim call c</value>
   </data>
   <data name="claim_desc" xml:space="preserve">
     <value>Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.</value>
@@ -2458,7 +2449,7 @@
     <value>`,call [war_number] [base_number] [optional_other_name]`</value>
   </data>
   <data name="claimfinish_text" xml:space="preserve">
-    <value>claimfinish</value>
+    <value>claimfinish cf cf3 claimfinish3</value>
   </data>
   <data name="claimfinish_desc" xml:space="preserve">
     <value>Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
@@ -2467,7 +2458,7 @@
     <value>`,cf [war_number] [optional_other_name]`</value>
   </data>
   <data name="claimfinish2_text" xml:space="preserve">
-    <value>claimfinish2</value>
+    <value>claimfinish2 cf2</value>
   </data>
   <data name="claimfinish2_desc" xml:space="preserve">
     <value>Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
@@ -2476,7 +2467,7 @@
     <value>`,cf [war_number] [optional_other_name]`</value>
   </data>
   <data name="claimfinish1_text" xml:space="preserve">
-    <value>claimfinish1</value>
+    <value>claimfinish1 cf1</value>
   </data>
   <data name="claimfinish1_desc" xml:space="preserve">
     <value>Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
@@ -2485,7 +2476,7 @@
     <value>`,cf [war_number] [optional_other_name]`</value>
   </data>
   <data name="unclaim_text" xml:space="preserve">
-    <value>unclaim</value>
+    <value>unclaim ucall uc</value>
   </data>
   <data name="unclaim_desc" xml:space="preserve">
     <value>Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim</value>
@@ -2494,7 +2485,7 @@
     <value>`,uc [war_number] [optional_other_name]`</value>
   </data>
   <data name="endwar_text" xml:space="preserve">
-    <value>endwar</value>
+    <value>endwar ew</value>
   </data>
   <data name="endwar_desc" xml:space="preserve">
     <value>Ends the war with a given index.</value>
@@ -2512,7 +2503,7 @@
     <value>`&gt;attack "vine whip" @someguy`</value>
   </data>
   <data name="movelist_text" xml:space="preserve">
-    <value>movelist</value>
+    <value>movelist ml</value>
   </data>
   <data name="movelist_desc" xml:space="preserve">
     <value>Lists the moves you are able to use</value>
@@ -2548,7 +2539,7 @@
     <value>`&gt;settype fire`</value>
   </data>
   <data name="translate_text" xml:space="preserve">
-    <value>translate</value>
+    <value>translate trans</value>
   </data>
   <data name="translate_desc" xml:space="preserve">
     <value>Translates from&gt;to text. From the given language to the destiation language.</value>
@@ -2584,7 +2575,7 @@
     <value>`trello unbind`</value>
   </data>
   <data name="lists_text" xml:space="preserve">
-    <value>lists</value>
+    <value>lists list</value>
   </data>
   <data name="lists_desc" xml:space="preserve">
     <value>Lists all lists, yo ;) **Bot Owner Only!**</value>
@@ -2608,7 +2599,7 @@
     <value>`-readme` or `-guide`</value>
   </data>
   <data name="guide_text" xml:space="preserve">
-    <value>readme</value>
+    <value>readme guide</value>
   </data>
   <data name="calcops_desc" xml:space="preserve">
     <value>Shows all available operations in .calc command</value>
@@ -2626,7 +2617,7 @@
     <value>`.delallq`</value>
   </data>
   <data name="delallquotes_text" xml:space="preserve">
-    <value>delallq</value>
+    <value>delallq daq</value>
   </data>
   <data name="greetdmmsg_text" xml:space="preserve">
     <value>greetdmmsg</value>
@@ -2636,5 +2627,14 @@
   </data>
   <data name="greetdmmsg_desc" xml:space="preserve">
     <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. **Needs Manage Server Permissions.**</value>
+  </data>
+  <data name="cash_desc" xml:space="preserve">
+    <value>Check how much NadekoFlowers a person has. (Defaults to yourself)</value>
+  </data>
+  <data name="cash_summary" xml:space="preserve">
+    <value>`$$$` or `$$$ @SomeGuy`</value>
+  </data>
+  <data name="cash_text" xml:space="preserve">
+    <value>$$$</value>
   </data>
 </root>

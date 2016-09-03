@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Games
             RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task TypeStart(IUserMessage msg)
         {
@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task TypeStop(IUserMessage imsg)
         {
@@ -169,7 +169,7 @@ namespace NadekoBot.Modules.Games
         }
 
         ////todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
         //{

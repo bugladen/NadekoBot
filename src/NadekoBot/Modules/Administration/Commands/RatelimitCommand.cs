@@ -8,7 +8,6 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo rewrite
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
@@ -85,7 +84,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Slowmode(IUserMessage umsg, int msg = 1, int perSec = 5)
             {

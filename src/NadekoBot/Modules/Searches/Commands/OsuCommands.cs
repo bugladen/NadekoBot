@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Searches
             {
                 _log = LogManager.GetCurrentClassLogger();
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Osu(IUserMessage umsg, string usr, string mode)
             {
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Osub(IUserMessage umsg, [Remainder] string map)
             {
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Osu5(IUserMessage umsg, string user, [Remainder] string mode)
             {

@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration
             public static readonly ConcurrentDictionary<int, HashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, HashSet<ITextChannel>>();
 
             ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
             //public async Task Scsc(IUserMessage msg)
             //{
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Administration
             //    }
             //}
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task Jcsc(IUserMessage imsg, int token)
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task Lcsc(IUserMessage imsg)
