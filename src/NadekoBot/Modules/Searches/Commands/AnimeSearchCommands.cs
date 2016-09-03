@@ -117,7 +117,6 @@ namespace NadekoBot.Modules.Searches
                     {
                         var res = await http.GetStringAsync("http://anilist.co/api/manga/search/" + Uri.EscapeUriString(query) + $"?access_token={anilistToken}").ConfigureAwait(false);
                         var smallObj = JArray.Parse(res)[0];
-                        //todo check if successfull
                         var aniData = await http.GetStringAsync("http://anilist.co/api/manga/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
 
                         return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(aniData)).ConfigureAwait(false);

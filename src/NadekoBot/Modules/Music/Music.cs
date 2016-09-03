@@ -417,7 +417,7 @@ namespace NadekoBot.Modules.Music
             musicPlayer.RemoveSongAt(num - 1);
             await channel.SendMessageAsync($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**").ConfigureAwait(false);
         }
-        //todo fix
+
         [LocalizedCommand, LocalizedDescription, LocalizedSummary]
         [RequireContext(ContextType.Guild)]
         public async Task Remove(IUserMessage umsg, string all)
