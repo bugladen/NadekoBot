@@ -107,26 +107,36 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        private async Task Vote(IMessage imsg)
+        private Task Vote(IMessage imsg)
         {
-            var msg = imsg as ISystemMessage;
+            // has to be a user message
+            var msg = imsg as IUserMessage;
             if (msg == null)
-                return;
-            try
+                return Task.CompletedTask;
+            // channel must be private
+            IPrivateChannel ch;
+            if ((ch = msg.Channel as IPrivateChannel) == null)
+                return Task.CompletedTask;
+
+            // has to be an integer
+            int vote;
+            if (!int.TryParse(msg.Content, out vote)) return Task.CompletedTask;
+
+            var t = Task.Run(async () =>
             {
-                IPrivateChannel ch;
-                if ((ch = msg.Channel as IPrivateChannel) == null)
-                    return;
-                int vote;
-                if (!int.TryParse(msg.Content, out vote)) return;
-                if (vote < 1 || vote > answers.Length)
-                    return;
-                if (participants.TryAdd(msg.Author, vote))
+                try
                 {
-                    await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                    
+                    if (vote < 1 || vote > answers.Length)
+                        return;
+                    if (participants.TryAdd(msg.Author, vote))
+                    {
+                        await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                    }
                 }
-            }
-            catch { }
+                catch { }
+            });
+            return Task.CompletedTask;
         }
     }
 }

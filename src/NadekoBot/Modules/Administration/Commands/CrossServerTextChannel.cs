@@ -46,7 +46,6 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch { }
                     });
-
                     return Task.CompletedTask;
                 };
             }

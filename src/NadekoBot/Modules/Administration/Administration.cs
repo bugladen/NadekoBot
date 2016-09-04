@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
 
-        private void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
+        private async void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (shouldDelete)
-                    e.Message.DeleteAsync();
+                    await e.Message.DeleteAsync();
             }
             catch (Exception ex)
             {

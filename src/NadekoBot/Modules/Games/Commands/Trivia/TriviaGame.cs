@@ -105,34 +105,36 @@ namespace NadekoBot.Modules.Games.Trivia
             var umsg = imsg as IUserMessage;
             if (umsg == null)
                 return;
-
-            try
+            var t = Task.Run(async () =>
             {
-                if (!(umsg.Channel is IGuildChannel && umsg.Channel is ITextChannel)) return;
-                if ((umsg.Channel as ITextChannel).Guild != guild) return;
-                if (umsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
-
-                var guildUser = umsg.Author as IGuildUser;
-
-                var guess = false;
-                await _guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
+                    if (!(umsg.Channel is IGuildChannel && umsg.Channel is ITextChannel)) return;
+                    if ((umsg.Channel as ITextChannel).Guild != guild) return;
+                    if (umsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
+
+                    var guildUser = umsg.Author as IGuildUser;
+
+                    var guess = false;
+                    await _guessLock.WaitAsync().ConfigureAwait(false);
+                    try
                     {
-                        Users.AddOrUpdate(guildUser, 0, (gu, old) => old++);
-                        guess = true;
+                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
+                        {
+                            Users.AddOrUpdate(guildUser, 0, (gu, old) => old++);
+                            guess = true;
+                        }
                     }
+                    finally { _guessLock.Release(); }
+                    if (!guess) return;
+                    triviaCancelSource.Cancel();
+                    await channel.SendMessageAsync($"☑️ {guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    if (Users[guildUser] != WinRequirement) return;
+                    ShouldStopGame = true;
+                    await channel.SendMessageAsync($":exclamation: We have a winner! It's {guildUser.Mention}.").ConfigureAwait(false);
                 }
-                finally { _guessLock.Release(); }
-                if (!guess) return;
-                triviaCancelSource.Cancel();
-                await channel.SendMessageAsync($"☑️ {guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
-                if (Users[guildUser] != WinRequirement) return;
-                ShouldStopGame = true;
-                await channel.SendMessageAsync($":exclamation: We have a winner! It's {guildUser.Mention}.").ConfigureAwait(false);
-            }
-            catch { }
+                catch { }
+            });
         }
 
         public string GetLeaderboard()

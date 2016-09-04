@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -24,10 +25,23 @@ namespace NadekoBot.Modules.Administration
                 _client.MessageReceived += _client_MessageReceived;
             }
 
-            private Task _client_MessageReceived(IMessage arg)
+            private Task _client_MessageReceived(IMessage imsg)
             {
-                throw new NotImplementedException();
+                var msg = imsg as IUserMessage;
+                if (msg == null)
+                    return Task.CompletedTask;
+
+                return Task.CompletedTask;
             }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            public async Task LogServer(IUserMessage msg)
+            {
+                var channel = (ITextChannel)msg.Channel;
+
+            }
+
         }
     }
 }
