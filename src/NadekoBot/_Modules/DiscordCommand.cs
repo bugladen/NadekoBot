@@ -34,6 +34,6 @@ namespace NadekoBot.Classes
         /// <summary>
         /// Initializes the CommandBuilder with values using CommandGroupBuilder
         /// </summary>
-        internal abstract void Init(CommandGroupBuilder cgb);
+        public abstract void Init(CommandGroupBuilder cgb);
     }
 }

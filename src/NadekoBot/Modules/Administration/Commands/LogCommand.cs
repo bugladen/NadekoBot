@@ -13,7 +13,7 @@
 ////todo Add flags for every event
 //namespace NadekoBot.Modules.Administration
 //{
-//    internal class LogCommand : DiscordCommand
+//    public class LogCommand : DiscordCommand
 //    {
 //        private string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
 
@@ -373,7 +373,7 @@
 //            catch { }
 //        }
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 
 //            cgb.CreateCommand(Module.Prefix + "spmom")

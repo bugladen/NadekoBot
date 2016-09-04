@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             Console.WriteLine("Permission initialization complete.");
         }
 
-        internal static Permissions GetRolePermissionsById(Server server, ulong id)
+        public static Permissions GetRolePermissionsById(Server server, ulong id)
         {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             return toReturn;
         }
 
-        internal static Permissions GetUserPermissionsById(Server server, ulong id)
+        public static Permissions GetUserPermissionsById(Server server, ulong id)
         {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             return toReturn;
         }
 
-        internal static Permissions GetChannelPermissionsById(Server server, ulong id)
+        public static Permissions GetChannelPermissionsById(Server server, ulong id)
         {
             ServerPermissions serverPerms;
             if (!PermissionsDict.TryGetValue(server.Id, out serverPerms))
@@ -74,13 +74,13 @@ namespace NadekoBot.Modules.Permissions.Classes
             return toReturn;
         }
 
-        internal static Permissions GetServerPermissions(Server server)
+        public static Permissions GetServerPermissions(Server server)
         {
             ServerPermissions serverPerms;
             return !PermissionsDict.TryGetValue(server.Id, out serverPerms) ? null : serverPerms.Permissions;
         }
 
-        internal static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel)
+        public static PermissionBanType GetPermissionBanType(Command command, User user, Channel channel)
         {
             var server = user.Server;
             ServerPermissions serverPerms = PermissionsDict.GetOrAdd(server.Id, id => new ServerPermissions(id, server.Name));
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             return serverPerms.PermissionsControllerRole;
         }
 
-        internal static async Task SetPermissionsRole(Server server, string roleName)
+        public static async Task SetPermissionsRole(Server server, string roleName)
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
 
-        internal static async Task SetVerbosity(Server server, bool val)
+        public static async Task SetVerbosity(Server server, bool val)
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
 
-        internal static async Task CopyRolePermissions(Role fromRole, Role toRole)
+        public static async Task CopyRolePermissions(Role fromRole, Role toRole)
         {
             var server = fromRole.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
 
-        internal static async Task CopyChannelPermissions(Channel fromChannel, Channel toChannel)
+        public static async Task CopyChannelPermissions(Channel fromChannel, Channel toChannel)
         {
             var server = fromChannel.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
@@ -228,7 +228,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
 
-        internal static async Task CopyUserPermissions(User fromUser, User toUser)
+        public static async Task CopyUserPermissions(User fromUser, User toUser)
         {
             var server = fromUser.Server;
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,

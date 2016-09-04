@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke(IUserMessage imsg)
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Repeat(IUserMessage imsg)
             {
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`No message is repeating.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {

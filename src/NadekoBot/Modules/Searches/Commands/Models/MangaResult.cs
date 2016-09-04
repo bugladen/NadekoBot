@@ -1,4 +1,4 @@
-namespace NadekoBot.Classes.JSONModels
+namespace NadekoBot.Modules.Searches.Models
 {
     public class MangaResult
     {

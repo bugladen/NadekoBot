@@ -30,7 +30,7 @@
 //        }
 
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 //            cgb.CreateCommand(Module.Prefix + "convert")
 //                .Description($"Convert quantities from>to. | `{Prefix}convert m>km 1000`")

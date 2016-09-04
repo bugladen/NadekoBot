@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Gambling
 
 
         ////todo drawing
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Flip(IUserMessage imsg, int count = 0)
         //{
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Gambling
         //    await channel.SendMessageAsync("Invalid number").ConfigureAwait(false);
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Betflip(IUserMessage umsg, int amount, string guess)
         //{

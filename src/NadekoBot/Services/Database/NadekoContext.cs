@@ -21,6 +21,7 @@ namespace NadekoBot.Services.Database
         public DbSet<Repeater> Repeaters { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
+        public DbSet<TypingArticle> TypingArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

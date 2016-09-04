@@ -98,7 +98,8 @@ namespace NadekoBot.Migrations
                     GuildId = table.Column<ulong>(nullable: false),
                     SendChannelByeMessage = table.Column<bool>(nullable: false),
                     SendChannelGreetMessage = table.Column<bool>(nullable: false),
-                    SendDmGreetMessage = table.Column<bool>(nullable: false)
+                    SendDmGreetMessage = table.Column<bool>(nullable: false),
+                    VoicePlusTextEnabled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -295,6 +296,30 @@ namespace NadekoBot.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FollowedStream",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    LastStatus = table.Column<bool>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Username = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FollowedStream", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FollowedStream_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BlacklistItem_BotConfigId",
                 table: "BlacklistItem",
@@ -321,6 +346,11 @@ namespace NadekoBot.Migrations
                 name: "IX_EightBallResponse_BotConfigId",
                 table: "EightBallResponse",
                 column: "BotConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FollowedStream_GuildConfigId",
+                table: "FollowedStream",
+                column: "GuildConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuildConfigs_GuildId",
@@ -374,7 +404,7 @@ namespace NadekoBot.Migrations
                 name: "EightBallResponse");
 
             migrationBuilder.DropTable(
-                name: "GuildConfigs");
+                name: "FollowedStream");
 
             migrationBuilder.DropTable(
                 name: "ModulePrefix");
@@ -399,6 +429,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClashOfClans");
+
+            migrationBuilder.DropTable(
+                name: "GuildConfigs");
 
             migrationBuilder.DropTable(
                 name: "BotConfig");

@@ -20,7 +20,7 @@
 //                this._client = client;
 //            }
 
-//            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+//            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
 //            [RequireContext(ContextType.Guild)]
 //            public async Task Leave(IUserMessage umsg, [Remainder] string guildStr)
 //            {

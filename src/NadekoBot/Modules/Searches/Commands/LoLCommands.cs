@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Searches
                                                 "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
 
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Lolban(IUserMessage umsg)
         {
@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Searches
 //            public float StatScore { get; set; }
 //        }
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 //            cgb.CreateCommand(Module.Prefix + "lolchamp")
 //                  .Description($"Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. |`{Prefix}lolchamp Riven` or `{Prefix}lolchamp Annie sup`")

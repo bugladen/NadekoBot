@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Games.Trivia
             return list[rand];
         }
 
-        internal void Reload()
+        public void Reload()
         {
             var arr = JArray.Parse(File.ReadAllText("data/triviaquestions.json"));
 

@@ -29,7 +29,7 @@ namespace NadekoBot.Services.Database.Models
         public ulong ChannelId { get; set; }
 
         [NotMapped]
-        public ITextChannel Channel { get; internal set; }
+        public ITextChannel Channel { get; set; }
 
         public List<ClashCaller> Bases { get; set; }
     }
