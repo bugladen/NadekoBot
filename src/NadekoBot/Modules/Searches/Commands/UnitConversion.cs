@@ -78,12 +78,16 @@ namespace NadekoBot.Modules.Searches
                         UnitType = unitTypeString
                     };
                     uow.ConverterUnits.Add(baseType);
-                    uow.ConverterUnits.AddRange(currencyRates.ConversionRates.Select(u => new ConvertUnit()
+                    Units.Add(baseType);
+                    var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
                     {
                         InternalTrigger = u.Key,
                         Modifier = u.Value,
                         UnitType = unitTypeString
-                    }).ToArray());
+                    }).ToArray();
+                    uow.ConverterUnits.AddRange(range);
+                    Units.AddRange(range);
+
                     uow.Complete();
                 }
                 _log.Info("Updated Currency");
@@ -132,7 +136,7 @@ namespace NadekoBot.Modules.Searches
                 var targetUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
-                    await msg.Reply(string.Format("Cannot convert {0} to {1}: units not found", originUnit.Triggers.First(), targetUnit.Triggers.First()));
+                    await msg.Reply(string.Format("Cannot convert {0} to {1}: units not found", origin, target));
                     return;
                 }
                 if (originUnit.UnitType != targetUnit.UnitType)
