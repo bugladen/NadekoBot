@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
 
             private Task UserUpdatedEventHandler(IGuildUser before, IGuildUser after)
             {
-                Task.Run(async () =>
+                var task = Task.Run(async () =>
                 {
                     var guild = before.Guild ?? after.Guild;
                     var botUserPerms = guild.GetCurrentUser().GuildPermissions;

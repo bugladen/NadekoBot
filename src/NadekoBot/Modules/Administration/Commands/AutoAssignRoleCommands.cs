@@ -19,22 +19,26 @@ namespace NadekoBot.Modules.Administration
             public AutoAssignRoleCommands()
             {
                 var _client = NadekoBot.Client;
-                _client.UserJoined += async (user) =>
+                _client.UserJoined += (user) =>
                 {
-                    GuildConfig conf;
-                    using (var uow = DbHandler.UnitOfWork())
+                    var t = Task.Run(async () =>
                     {
-                        conf = uow.GuildConfigs.For(user.Guild.Id);
-                    }
-                    var aarType = conf.AutoAssignRoleId.GetType();
+                        GuildConfig conf;
+                        using (var uow = DbHandler.UnitOfWork())
+                        {
+                            conf = uow.GuildConfigs.For(user.Guild.Id);
+                        }
+                        var aarType = conf.AutoAssignRoleId.GetType();
 
-                    if (conf.AutoAssignRoleId == 0)
-                        return;
+                        if (conf.AutoAssignRoleId == 0)
+                            return;
 
-                    var role = user.Guild.Roles.FirstOrDefault(r => r.Id == conf.AutoAssignRoleId);
+                        var role = user.Guild.Roles.FirstOrDefault(r => r.Id == conf.AutoAssignRoleId);
 
-                    if (role != null)
-                        await user.AddRolesAsync(role);
+                        if (role != null)
+                            await user.AddRolesAsync(role);
+                    });
+                    return Task.CompletedTask;
                 };
             }
 

@@ -92,30 +92,34 @@ namespace NadekoBot.Modules.Games
             NadekoBot.Client.MessageReceived += AnswerReceived;
         }
 
-        private async Task AnswerReceived(IMessage imsg)
+        private Task AnswerReceived(IMessage imsg)
         {
             var msg = imsg as IUserMessage;
             if (msg == null)
-                return;
-            try
+                return Task.CompletedTask;
+            var t = Task.Run(async () =>
             {
-                if (channel== null || channel.Id != channel.Id || msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
-
-                var guess = msg.Content;
-
-                var distance = CurrentSentence.LevenshteinDistance(guess);
-                var decision = Judge(distance, guess.Length);
-                if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                try
                 {
-                    finishedUserIds.Add(msg.Author.Id);
-                    await channel.SendMessageAsync($"{msg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
-                    if (finishedUserIds.Count % 2 == 0)
+                    if (channel == null || channel.Id != channel.Id || msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+
+                    var guess = msg.Content;
+
+                    var distance = CurrentSentence.LevenshteinDistance(guess);
+                    var decision = Judge(distance, guess.Length);
+                    if (decision && !finishedUserIds.Contains(msg.Author.Id))
                     {
-                        await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
+                        finishedUserIds.Add(msg.Author.Id);
+                        await channel.SendMessageAsync($"{msg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
+                        if (finishedUserIds.Count % 2 == 0)
+                        {
+                            await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
+                        }
                     }
                 }
-            }
-            catch { }
+                catch { }
+            });
+            return Task.CompletedTask;
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;

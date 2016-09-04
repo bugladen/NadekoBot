@@ -143,7 +143,6 @@ namespace NadekoBot.Modules.Gambling
                             //update the state
                             participants.ForEach(p =>
                             {
-
                                 p.Total += 1 + rng.Next(0, 10);
                                 if (p.Total > 60)
                                 {
