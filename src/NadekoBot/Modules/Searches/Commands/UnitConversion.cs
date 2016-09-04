@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -23,7 +24,8 @@ namespace NadekoBot.Modules.Searches
         public class UnitConverterCommands
         {
             private Logger _log;
-
+            private static Timer _timer;
+            public static TimeSpan Span = new TimeSpan(12, 0, 0);
             public UnitConverterCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
@@ -52,55 +54,43 @@ namespace NadekoBot.Modules.Searches
                 {
                     _log.Warn("Could not load units: " + e.Message);
                 }
+                
+                
+                
+                _timer = new Timer(new TimerCallback(UpdateCurrency), null, 0,(int)Span.TotalMilliseconds);
+
+            }
+
+            public void UpdateCurrency(object stateInfo)
+            {
+                var currencyRates = UpdateCurrencyRates().Result;
+                var unitTypeString = "currency";
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var toRemove = Units.Where(u => u.UnitType == unitTypeString);
+                    Units.RemoveAll(u => u.UnitType == unitTypeString);
+                    uow.ConverterUnits.RemoveRange(toRemove.ToArray());
+                    var baseType = new ConvertUnit()
+                    {
+                        Triggers = new[] { currencyRates.Base },
+                        Modifier = decimal.One,
+                        UnitType = unitTypeString
+                    };
+                    uow.ConverterUnits.Add(baseType);
+                    uow.ConverterUnits.AddRange(currencyRates.ConversionRates.Select(u => new ConvertUnit()
+                    {
+                        InternalTrigger = u.Key,
+                        Modifier = u.Value,
+                        UnitType = unitTypeString
+                    }).ToArray());
+                    uow.Complete();
+                }
+                _log.Info("Updated Currency");
             }
 
             public List<ConvertUnit> Units { get; set; }
 
-            [Command("updatecur")]
-            [RequireContext(ContextType.Guild)]
-            public async Task UpdateCurrency(IUserMessage msg)
-            {
-                var channel = msg.Channel as IGuildChannel;
-                var currencyRates = await UpdateCurrencyRates();
-                var unitTypeString = "currency";
-                var baseType = new ConvertUnit()
-                {
-                    Triggers = new[] { currencyRates.Base },
-                    Modifier = decimal.One,
-                    UnitType = unitTypeString
-                };
-                var baseIndex = Units.FindIndex(x => x.UnitType == "currency" && x.Modifier == baseType.Modifier);
-                if (baseIndex == -1)
-                    Units.Add(baseType);
-                else
-                    Units[baseIndex] = baseType;
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    foreach (var rate in currencyRates.ConversionRates)
-                    {
-                        var u = new ConvertUnit()
-                        {
-                            Triggers = new[] { rate.Key },
-                            UnitType = unitTypeString,
-                            Modifier = rate.Value
-                        };
-                        var lower = u.Triggers.First().ToLowerInvariant();
-                        var toUpdate = Units.FindIndex(x => x.UnitType == "currency" && x.Triggers.First().ToLowerInvariant() == lower);
-                        if (toUpdate == -1)
-                        {
-                            Units.Add(u);
-                            uow.ConverterUnits.Add(u);
-                        }
-                        else
-                        {
-                            Units[toUpdate] = u;
-                            uow.ConverterUnits.Update(u);
-                        }
-                        uow.Complete();
-                    }
-                }
-                await msg.Reply("done");
-            }
+
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertListE(IUserMessage msg) //extended and bugged list
