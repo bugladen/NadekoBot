@@ -20,6 +20,7 @@ namespace NadekoBot.Services.Database
         public DbSet<BotConfig> BotConfig { get; set; }
         public DbSet<Repeater> Repeaters { get; set; }
         public DbSet<Currency> Currency { get; set; }
+        public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -84,6 +85,7 @@ namespace NadekoBot.Services.Database
                 .HasIndex(c => c.UserId)
                 .IsUnique();
             #endregion
+            
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
     }

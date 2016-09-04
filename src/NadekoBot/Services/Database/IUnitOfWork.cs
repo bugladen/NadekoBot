@@ -17,6 +17,7 @@ namespace NadekoBot.Services.Database
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
         IBotConfigRepository BotConfig { get; }
         IRepeaterRepository Repeaters { get; }
+        IUnitConverterRepository ConverterUnits { get; }
 
         int Complete();
         Task<int> CompleteAsync();

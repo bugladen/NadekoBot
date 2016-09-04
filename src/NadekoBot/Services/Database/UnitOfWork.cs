@@ -38,6 +38,8 @@ namespace NadekoBot.Services.Database
 
         private ICurrencyRepository _currency;
         public ICurrencyRepository Currency => _currency ?? (_currency = new CurrencyRepository(_context));
+        private IUnitConverterRepository _conUnits;
+        public IUnitConverterRepository ConverterUnits => _conUnits ?? (_conUnits = new UnitConverterRepository(_context));
 
         private ITypingArticlesRepository _typingArticles;
         public ITypingArticlesRepository TypingArticles => _typingArticles ?? (_typingArticles = new TypingArticlesRepository(_context));
