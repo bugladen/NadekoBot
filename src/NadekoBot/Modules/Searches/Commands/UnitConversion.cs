@@ -2,6 +2,8 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
+using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -28,19 +30,31 @@ namespace NadekoBot.Modules.Searches
 
                 try
                 {
-                    Units = JsonConvert.DeserializeObject<List<JsonUnit>>(File.ReadAllText("units.json"));
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        //need to do this the first time                 
+                        if (uow.ConverterUnits.Empty())
+                        {
+                            var content = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("units.json")).Select(u => new ConvertUnit()
+                            {
+                                Modifier = u.Modifier,
+                                UnitType = u.UnitType,
+                                InternalTrigger = string.Join("|", u.Triggers)
+                            });
+
+                            uow.ConverterUnits.AddRange(content.ToArray());
+                            uow.Complete();
+                        }
+                        Units = uow.ConverterUnits.GetAll().ToList();
+                    }
                 }
                 catch (Exception e)
                 {
                     _log.Warn("Could not load units: " + e.Message);
-
                 }
-
             }
 
-            public List<JsonUnit> Units { get; set; }
-
-
+            public List<ConvertUnit> Units { get; set; }
 
             [Command("updatecur")]
             [RequireContext(ContextType.Guild)]
@@ -49,9 +63,9 @@ namespace NadekoBot.Modules.Searches
                 var channel = msg.Channel as IGuildChannel;
                 var currencyRates = await UpdateCurrencyRates();
                 var unitTypeString = "currency";
-                var baseType = new JsonUnit()
+                var baseType = new ConvertUnit()
                 {
-                    Triggers = new List<string>() { currencyRates.Base },
+                    Triggers = new[] { currencyRates.Base },
                     Modifier = decimal.One,
                     UnitType = unitTypeString
                 };
@@ -60,22 +74,31 @@ namespace NadekoBot.Modules.Searches
                     Units.Add(baseType);
                 else
                     Units[baseIndex] = baseType;
-                foreach (var rate in currencyRates.ConversionRates)
+                using (var uow = DbHandler.UnitOfWork())
                 {
-                    var u = new JsonUnit()
+                    foreach (var rate in currencyRates.ConversionRates)
                     {
-                        Triggers = new List<string>() { rate.Key },
-                        UnitType = unitTypeString,
-                        Modifier = rate.Value
-                    };
-                    var lower = u.Triggers.First().ToLowerInvariant();
-                    var toUpdate = Units.FindIndex(x => x.UnitType == "currency" && x.Triggers.First().ToLowerInvariant() == lower);
-                    if (toUpdate == -1)
-                        Units.Add(u);
-                    else
-                        Units[toUpdate] = u;
+                        var u = new ConvertUnit()
+                        {
+                            Triggers = new[] { rate.Key },
+                            UnitType = unitTypeString,
+                            Modifier = rate.Value
+                        };
+                        var lower = u.Triggers.First().ToLowerInvariant();
+                        var toUpdate = Units.FindIndex(x => x.UnitType == "currency" && x.Triggers.First().ToLowerInvariant() == lower);
+                        if (toUpdate == -1)
+                        {
+                            Units.Add(u);
+                            uow.ConverterUnits.Add(u);
+                        }
+                        else
+                        {
+                            Units[toUpdate] = u;
+                            uow.ConverterUnits.Update(u);
+                        }
+                        uow.Complete();
+                    }
                 }
-                File.WriteAllText("units.json", JsonConvert.SerializeObject(Units, Formatting.Indented));
                 await msg.Reply("done");
             }
             [LocalizedCommand, LocalizedDescription, LocalizedSummary]
@@ -162,8 +185,9 @@ namespace NadekoBot.Modules.Searches
                     if (originUnit.UnitType == "currency")
                     {
                         res = (value * targetUnit.Modifier) / originUnit.Modifier;
-                    } else
-                    res = (value * originUnit.Modifier) / targetUnit.Modifier;
+                    }
+                    else
+                        res = (value * originUnit.Modifier) / targetUnit.Modifier;
                 }
                 res = Math.Round(res, 2);
                 await msg.Reply(string.Format("{0} {1} is equal to {2} {3}", value, originUnit.Triggers.First(), res, targetUnit.Triggers.First()));
@@ -190,89 +214,11 @@ namespace NadekoBot.Modules.Searches
             public Dictionary<string, decimal> ConversionRates { get; set; }
         }
 
-
-        public class JsonUnit
+        public class MeasurementUnit
         {
             public List<string> Triggers { get; set; }
             public string UnitType { get; set; }
             public decimal Modifier { get; set; }
         }
-
-
-        #region GetXML
-        /*
-        public class UnitCollection
-        {
-            public List<UnitType> UnitTypes;
-
-            public UnitCollection(string content)
-            {
-                using (var xmlReader = XmlReader.Create(File.OpenRead("units.xml"), new XmlReaderSettings() { IgnoreComments = true, IgnoreWhitespace = true }))
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(xmlReader);
-
-                    UnitTypes = new List<UnitType>();
-                    foreach (XmlNode node in doc.LastChild.ChildNodes)
-                    { //units/
-                        UnitType type = new UnitType()
-                        {
-                            Name = node.Name
-                        };
-                        var units = new List<Unit>();
-                        foreach (XmlNode unitNode in node.ChildNodes)
-                        {
-                            var curNode = unitNode.FirstChild;
-                            Unit u = new Unit()
-                            {
-                                Key = curNode.InnerText,
-                                Singular = (curNode = curNode.NextSibling).InnerText,
-                                Plural = (curNode = curNode.NextSibling).InnerText,
-                                Symbol = (curNode = curNode.NextSibling).InnerText,
-                                Source = curNode.NextSibling.NextSibling.InnerText
-                            };
-                            List<Factor> factors = new List<Factor>();
-                            foreach (XmlNode factorNode in curNode.NextSibling.ChildNodes)
-                            {
-                                Factor f = new Factor()
-                                {
-                                    Modifier = factorNode.FirstChild.InnerText.Replace(" ", "")
-                                };
-                                f.From = factorNode.Attributes.GetNamedItem("from").InnerText;
-                                factors.Add(f);
-                            }
-                            u.Factors = factors;
-                            units.Add(u);
-                        }
-                        type.Units = units;
-                        UnitTypes.Add(type);
-                    }
-                }
-            }
-
-            public class UnitType
-            {
-                public string Name { get; set; }
-                public List<Unit> Units { get; set; }
-            }
-
-            public class Unit
-            {
-                public string Key { get; set; }
-                public string Plural { get; set; }
-                public string Singular { get; set; }
-                public string Symbol { get; set; }
-                public List<Factor> Factors { get; set; }
-                public string Source { get; set; }
-            }
-
-            public class Factor
-            {
-                public string From { get; set; }
-                public string Modifier { get; set; }
-            }
-        }
-        */
-        #endregion
     }
 }
