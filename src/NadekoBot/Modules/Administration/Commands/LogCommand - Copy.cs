@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -32,6 +33,15 @@ namespace NadekoBot.Modules.Administration
 
                 return Task.CompletedTask;
             }
+
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            public async Task LogServer(IUserMessage msg)
+            {
+                var channel = (ITextChannel)msg.Channel;
+
+            }
+
         }
     }
 }
