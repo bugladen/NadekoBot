@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Searches.Commands.Models;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
@@ -91,7 +92,7 @@ namespace NadekoBot.Modules.Searches
             public List<ConvertUnit> Units { get; set; }
 
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertListE(IUserMessage msg) //extended and bugged list
             {
@@ -110,7 +111,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 await msg.ReplyLong(sb.ToString(), "```xl", "```", "```xl");
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertList(IUserMessage msg)
             {
@@ -124,7 +125,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 await msg.ReplyLong(sb.ToString(), "```xl", "```", "```xl");
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             public async Task Convert(IUserMessage msg, string origin, string target, decimal value)
             {
                 var originUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
@@ -184,7 +185,6 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
-
         public static async Task<Rates> UpdateCurrencyRates()
         {
             using (var http = new HttpClient())
@@ -192,23 +192,6 @@ namespace NadekoBot.Modules.Searches
                 var res = await http.GetStringAsync("http://api.fixer.io/latest").ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<Rates>(res);
             }
-        }
-
-        public class Rates
-        {
-            [JsonProperty("base")]
-            public string Base { get; set; }
-            [JsonProperty("date")]
-            public DateTime Date { get; set; }
-            [JsonProperty("rates")]
-            public Dictionary<string, decimal> ConversionRates { get; set; }
-        }
-
-        public class MeasurementUnit
-        {
-            public List<string> Triggers { get; set; }
-            public string UnitType { get; set; }
-            public decimal Modifier { get; set; }
         }
     }
 }
