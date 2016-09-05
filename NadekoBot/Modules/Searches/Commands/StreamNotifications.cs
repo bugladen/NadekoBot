@@ -18,8 +18,11 @@ namespace NadekoBot.Modules.Searches.Commands
         public StreamNotifications(DiscordModule module) : base(module)
         {
             //start checking only after ready, because we need all servers to be initialized
-            NadekoBot.OnReady += () => Task.Run(async () =>
+            NadekoBot.OnReady += () =>
             {
+                Task.Run(async () =>
+            {
+                await Task.Delay(60000);
                 while (true)
                 {
                     cachedStatuses.Clear();
@@ -80,12 +83,13 @@ namespace NadekoBot.Modules.Searches.Commands
                     catch { }
                     finally
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(15));
+                        await Task.Delay(TimeSpan.FromSeconds(60));
                     }
                 }
             });
-        }
 
+            };
+        }
         private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream, bool checkCache = true)
         {
             bool isLive;
