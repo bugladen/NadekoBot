@@ -23,6 +23,11 @@ namespace NadekoBot.Services.Database
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
 
+        //logging
+        public DbSet<LogSetting> LogSettings { get; set; }
+        public DbSet<IgnoredLogChannel> IgnoredLogChannels { get; set; }
+        public DbSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceCHannels { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region QUOTES
@@ -85,7 +90,20 @@ namespace NadekoBot.Services.Database
                 .HasIndex(c => c.UserId)
                 .IsUnique();
             #endregion
-            
+
+            #region LogSettings
+
+            //var logSettingEntity = modelBuilder.Entity<LogSetting>();
+
+            //logSettingEntity
+            //    .HasMany(ls => ls.IgnoredChannels)
+            //    .WithOne(ls => ls.LogSetting)
+            //    .HasPrincipalKey(ls => ls.id;
+
+            //logSettingEntity
+            //    .HasMany(ls => ls.IgnoredVoicePresenceChannelIds)
+            //    .WithOne(ls => ls.LogSetting);
+            #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
     }

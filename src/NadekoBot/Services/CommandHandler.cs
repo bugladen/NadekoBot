@@ -17,7 +17,7 @@ namespace NadekoBot.Services
         private CommandService _commandService;
         private Logger _log;
 
-        public event EventHandler<CommandExecutedEventArgs> CommandExecuted = async delegate { };
+        public event EventHandler<CommandExecutedEventArgs> CommandExecuted = delegate { };
 
         public CommandHandler(DiscordSocketClient client, CommandService commandService)
         {

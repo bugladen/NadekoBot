@@ -48,6 +48,21 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ConversionUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    InternalTrigger = table.Column<string>(nullable: true),
+                    Modifier = table.Column<decimal>(nullable: false),
+                    UnitType = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConversionUnits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Currency",
                 columns: table => new
                 {
@@ -77,33 +92,32 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuildConfigs",
+                name: "LogSettings",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
-                    AutoDeleteByeMessages = table.Column<bool>(nullable: false),
-                    AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
-                    AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
-                    AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
-                    ByeMessageChannelId = table.Column<ulong>(nullable: false),
-                    ChannelByeMessageText = table.Column<string>(nullable: true),
-                    ChannelGreetMessageText = table.Column<string>(nullable: true),
-                    DefaultMusicVolume = table.Column<float>(nullable: false),
-                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
-                    DmGreetMessageText = table.Column<string>(nullable: true),
-                    ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
-                    GreetMessageChannelId = table.Column<ulong>(nullable: false),
-                    GuildId = table.Column<ulong>(nullable: false),
-                    SendChannelByeMessage = table.Column<bool>(nullable: false),
-                    SendChannelGreetMessage = table.Column<bool>(nullable: false),
-                    SendDmGreetMessage = table.Column<bool>(nullable: false),
-                    VoicePlusTextEnabled = table.Column<bool>(nullable: false)
+                    ChannelCreated = table.Column<bool>(nullable: false),
+                    ChannelDestroyed = table.Column<bool>(nullable: false),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    ChannelUpdated = table.Column<bool>(nullable: false),
+                    IsLogging = table.Column<bool>(nullable: false),
+                    LogUserPresence = table.Column<bool>(nullable: false),
+                    LogVoicePresence = table.Column<bool>(nullable: false),
+                    MessageDeleted = table.Column<bool>(nullable: false),
+                    MessageReceived = table.Column<bool>(nullable: false),
+                    MessageUpdated = table.Column<bool>(nullable: false),
+                    UserBanned = table.Column<bool>(nullable: false),
+                    UserJoined = table.Column<bool>(nullable: false),
+                    UserLeft = table.Column<bool>(nullable: false),
+                    UserPresenceChannelId = table.Column<ulong>(nullable: false),
+                    UserUnbanned = table.Column<bool>(nullable: false),
+                    UserUpdated = table.Column<bool>(nullable: false),
+                    VoicePresenceChannelId = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
+                    table.PrimaryKey("PK_LogSettings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,6 +183,20 @@ namespace NadekoBot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SelfAssignableRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TypingArticles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Author = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypingArticles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -297,6 +325,83 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GuildConfigs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
+                    AutoDeleteByeMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
+                    AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
+                    ByeMessageChannelId = table.Column<ulong>(nullable: false),
+                    ChannelByeMessageText = table.Column<string>(nullable: true),
+                    ChannelGreetMessageText = table.Column<string>(nullable: true),
+                    DefaultMusicVolume = table.Column<float>(nullable: false),
+                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
+                    DmGreetMessageText = table.Column<string>(nullable: true),
+                    ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
+                    GreetMessageChannelId = table.Column<ulong>(nullable: false),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    LogSettingId = table.Column<int>(nullable: true),
+                    SendChannelByeMessage = table.Column<bool>(nullable: false),
+                    SendChannelGreetMessage = table.Column<bool>(nullable: false),
+                    SendDmGreetMessage = table.Column<bool>(nullable: false),
+                    VoicePlusTextEnabled = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GuildConfigs_LogSettings_LogSettingId",
+                        column: x => x.LogSettingId,
+                        principalTable: "LogSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IgnoredLogChannels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    LogSettingId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IgnoredLogChannels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IgnoredLogChannels_LogSettings_LogSettingId",
+                        column: x => x.LogSettingId,
+                        principalTable: "LogSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IgnoredVoicePresenceCHannels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    LogSettingId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IgnoredVoicePresenceCHannels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IgnoredVoicePresenceCHannels_LogSettings_LogSettingId",
+                        column: x => x.LogSettingId,
+                        principalTable: "LogSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FollowedStream",
                 columns: table => new
                 {
@@ -359,6 +464,21 @@ namespace NadekoBot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GuildConfigs_LogSettingId",
+                table: "GuildConfigs",
+                column: "LogSettingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IgnoredLogChannels_LogSettingId",
+                table: "IgnoredLogChannels",
+                column: "LogSettingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IgnoredVoicePresenceCHannels_LogSettingId",
+                table: "IgnoredVoicePresenceCHannels",
+                column: "LogSettingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ModulePrefix_BotConfigId",
                 table: "ModulePrefix",
                 column: "BotConfigId");
@@ -395,6 +515,9 @@ namespace NadekoBot.Migrations
                 name: "ClashCallers");
 
             migrationBuilder.DropTable(
+                name: "ConversionUnits");
+
+            migrationBuilder.DropTable(
                 name: "Currency");
 
             migrationBuilder.DropTable(
@@ -405,6 +528,12 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "FollowedStream");
+
+            migrationBuilder.DropTable(
+                name: "IgnoredLogChannels");
+
+            migrationBuilder.DropTable(
+                name: "IgnoredVoicePresenceCHannels");
 
             migrationBuilder.DropTable(
                 name: "ModulePrefix");
@@ -428,6 +557,9 @@ namespace NadekoBot.Migrations
                 name: "SelfAssignableRoles");
 
             migrationBuilder.DropTable(
+                name: "TypingArticles");
+
+            migrationBuilder.DropTable(
                 name: "ClashOfClans");
 
             migrationBuilder.DropTable(
@@ -435,6 +567,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "BotConfig");
+
+            migrationBuilder.DropTable(
+                name: "LogSettings");
         }
     }
 }
