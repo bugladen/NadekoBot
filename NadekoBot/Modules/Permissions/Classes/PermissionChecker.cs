@@ -4,7 +4,6 @@ using Discord.Commands.Permissions;
 using NadekoBot.Classes.JSONModels;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions.Classes
@@ -14,10 +13,8 @@ namespace NadekoBot.Modules.Permissions.Classes
     {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
 
-        //key - sid:command
-        //value - userid
         private ConcurrentDictionary<string, ulong> commandCooldowns = new ConcurrentDictionary<string, ulong>();
-        private HashSet<ulong> timeBlackList { get; } = new HashSet<ulong>();
+        private ConcurrentDictionary<ulong, bool> timeBlackList { get; } = new ConcurrentDictionary<ulong, bool>();
 
         static PermissionChecker() { }
         private PermissionChecker()
@@ -26,7 +23,6 @@ namespace NadekoBot.Modules.Permissions.Classes
             {
                 while (true)
                 {
-                    //blacklist is cleared every 1.00 seconds. That is the most time anyone will be blocked
                     await Task.Delay(1000).ConfigureAwait(false);
                     timeBlackList.Clear();
                 }
@@ -43,21 +39,28 @@ namespace NadekoBot.Modules.Permissions.Classes
             if (channel.IsPrivate || channel.Server == null)
                 return command.Category == "Help";
 
+            if (user == null)
+                return false;
+
             if (ConfigHandler.IsUserBlacklisted(user.Id) ||
                 (!channel.IsPrivate &&
                  (ConfigHandler.IsServerBlacklisted(channel.Server.Id) || ConfigHandler.IsChannelBlacklisted(channel.Id))))
             {
                 return false;
             }
-            if (timeBlackList.Contains(user.Id))
-                return false;
+            try
+            {
+                if (timeBlackList.ContainsKey(user.Id))
+                    return false;
+            }
+            catch { return false; }
 
             if (!channel.IsPrivate && !channel.Server.CurrentUser.GetPermissions(channel).SendMessages)
             {
                 return false;
             }
 
-            timeBlackList.Add(user.Id);
+            timeBlackList.TryAdd(user.Id, true);
 
             ServerPermissions perms;
             PermissionsHandler.PermissionsDict.TryGetValue(user.Server.Id, out perms);

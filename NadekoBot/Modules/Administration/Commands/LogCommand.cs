@@ -56,33 +56,36 @@ namespace NadekoBot.Modules.Administration.Commands
 
             // start the userpresence queue
 
-            NadekoBot.OnReady += () => Task.Run(async () =>
-             {
-                 while (true)
-                 {
-                     var toSend = new Dictionary<Channel, string>();
-                     //take everything from the queue and merge the messages which are going to the same channel
-                     KeyValuePair<Channel, string> item;
-                     while (voicePresenceUpdates.TryTake(out item))
-                     {
-                         if (toSend.ContainsKey(item.Key))
-                         {
-                             toSend[item.Key] = toSend[item.Key] + Environment.NewLine + item.Value;
-                         }
-                         else
-                         {
-                             toSend.Add(item.Key, item.Value);
-                         }
-                     }
-                     //send merged messages to each channel
-                     foreach (var k in toSend)
-                     {
-                         try { await k.Key.SendMessage(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
-                     }
+            NadekoBot.OnReady += () =>
+            {
+                Task.Run(async () =>
+               {
+                   while (true)
+                   {
+                       var toSend = new Dictionary<Channel, string>();
+                       //take everything from the queue and merge the messages which are going to the same channel
+                       KeyValuePair<Channel, string> item;
+                       while (voicePresenceUpdates.TryTake(out item))
+                       {
+                           if (toSend.ContainsKey(item.Key))
+                           {
+                               toSend[item.Key] = toSend[item.Key] + Environment.NewLine + item.Value;
+                           }
+                           else
+                           {
+                               toSend.Add(item.Key, item.Value);
+                           }
+                       }
+                       //send merged messages to each channel
+                       foreach (var k in toSend)
+                       {
+                           try { await k.Key.SendMessage(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
+                       }
 
-                     await Task.Delay(5000);
-                 }
-             });
+                       await Task.Delay(5000);
+                   }
+               });
+            };
         }
 
         private async void ChannelUpdated(object sender, ChannelUpdatedEventArgs e)
