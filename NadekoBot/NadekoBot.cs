@@ -2,6 +2,7 @@
 using Discord.Audio;
 using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.Classes.Help.Commands;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules.Administration;
@@ -117,7 +118,7 @@ namespace NadekoBot
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
-                ConnectionTimeout = 200000,
+                ConnectionTimeout = int.MaxValue,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
@@ -144,9 +145,6 @@ namespace NadekoBot
                     catch { }
                 }
             });
-
-            //reply to personal messages and forward if enabled.
-            Client.MessageReceived += Client_MessageReceived;
 
             //add command service
             Client.AddService<CommandService>(commandService);
@@ -185,9 +183,18 @@ namespace NadekoBot
             //run the bot
             Client.ExecuteAndWait(async () =>
             {
+                await Task.Run(() =>
+                {
+                    Console.WriteLine("Specific config started initializing.");
+                    var x = SpecificConfigurations.Default;
+                    Console.WriteLine("Specific config done initializing.");
+                });
+
+                await PermissionsHandler.Initialize();
+
                 try
                 {
-                    await Client.Connect(Creds.Token).ConfigureAwait(false);
+                    await Client.Connect(Creds.Token, TokenType.Bot).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -197,7 +204,7 @@ namespace NadekoBot
                     return;
                 }
 #if NADEKO_RELEASE
-                await Task.Delay(180000).ConfigureAwait(false);
+                await Task.Delay(220000).ConfigureAwait(false);
 #else
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
@@ -232,11 +239,18 @@ namespace NadekoBot
                 Client.ClientAPI.SentRequest += (s, e) =>
                 {
                     Console.WriteLine($"[Request of type {e.Request.GetType()} sent in {e.Milliseconds}]");
+
+                    var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
+                    if (request == null) return;
+
+                    Console.WriteLine($"[Content: { request.Content }");
                 };
 #endif
-                PermissionsHandler.Initialize();
                 NadekoBot.Ready = true;
                 NadekoBot.OnReady();
+                Console.WriteLine("Ready!");
+                //reply to personal messages and forward if enabled.
+                Client.MessageReceived += Client_MessageReceived;
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
