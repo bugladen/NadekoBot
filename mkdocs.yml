@@ -9,13 +9,12 @@ pages:
     - OSX Guide: guides/OSX Guide.md
     - Building from Source: guides/Building from Source.md
     - Docker Guide: guides/Docker Guide.md
-    - DigitalOcean Guide: guides/DigitalOcean Guide.md
 - Commands:
     - Readme: Readme.md
     - Commands List: Commands List.md
 - Permissions System: Permissions System.md
 - JSON Explanations: JSON Explanations.md
-- Custom Commands: Custom Reactions.md
+- Custom Reactions: Custom Reactions.md
 - Frequently Asked Questions: Frequently Asked Questions.md
 - Contribution Guide: Contribution Guide.md
 - ❤ Donate ❤: Donate.md

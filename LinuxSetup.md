@@ -48,7 +48,7 @@ Note if the command is not being initiated, hit **Enter**
 **2.6)**
 *ONLY CentOS 7, Fedora 19 (and later)*
 
-`yum install yum-util`
+`yum install yum-utils`
 
 `rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"`
 
@@ -227,7 +227,7 @@ Type/ Copy and hit **Enter**.
 
 **CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING**
 
-Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will ditach the nadeko session using TMUX), and you can finally close PuTTY now.
+Now time to **move bot to background** and to do that, press **CTRL+B**,release and press **D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
 
 Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with it. Go to that link and you will be able to add your bot to your server.
 
@@ -256,7 +256,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 - **-18**
 - **-20**
 
-HIT **CTRL+B+D** and close **PuTTY**
+HIT **CTRL+B**,release, press **D** and close **PuTTY**
 
 `IF YOU FACE ANY TROUBLE ANYWHERE IN THE GUIDE JUST FIND US IN NADEKO'S DISCORD SERVER`
 
