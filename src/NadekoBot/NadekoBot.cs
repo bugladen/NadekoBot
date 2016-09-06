@@ -35,7 +35,7 @@ namespace NadekoBot
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
-                LargeThreshold = 200,
+                MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
             });
 

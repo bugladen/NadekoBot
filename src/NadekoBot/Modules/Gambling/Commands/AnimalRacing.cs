@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Gambling
                     var msg = imsg as IUserMessage;
                     if (msg == null)
                         return;
-                    if (await msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
+                    if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
                         return;
                     messagesSinceGameStarted++;
                 }

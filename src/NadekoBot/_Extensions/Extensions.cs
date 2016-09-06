@@ -36,8 +36,8 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) => 
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
 
-        public static Task<bool> IsAuthor(this IUserMessage msg) =>
-            Task.FromResult(NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id);
+        public static bool IsAuthor(this IUserMessage msg) =>
+            NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id;
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             NadekoBot.Client.GetGuild(role.GuildId)?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
@@ -227,5 +227,6 @@ namespace NadekoBot.Extensions
         public static ulong GiB(this ulong value) => value.MiB() * 1024;
         public static ulong GB(this ulong value) => value.MB() * 1000;
 
+        public static string Unmention(this string str) => str.Replace("@", "ම");
     }
 }

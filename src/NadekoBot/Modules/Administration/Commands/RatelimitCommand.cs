@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Administration
                         var usrMsg = umsg as IUserMessage;
                         var channel = usrMsg.Channel as ITextChannel;
 
-                        if (channel == null || await usrMsg.IsAuthor())
+                        if (channel == null || usrMsg.IsAuthor())
                             return;
                         Ratelimiter limiter;
                         if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
