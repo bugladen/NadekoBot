@@ -13,6 +13,14 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public GuildConfigRepository(DbContext context) : base(context)
         {
         }
+
+        public new IEnumerable<GuildConfig> GetAll() =>
+            _set.Include(gc => gc.LogSetting)
+                    .ThenInclude(ls => ls.IgnoredChannels)
+                .Include(gc => gc.LogSetting)
+                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                .ToList();
+
         /// <summary>
         /// Gets and creates if it doesn't exist a config for a guild.
         /// </summary>

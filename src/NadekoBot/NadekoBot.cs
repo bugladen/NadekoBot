@@ -56,15 +56,16 @@ namespace NadekoBot
             depMap.Add<IGoogleApiService>(Google);
 
             //connect
-            await Client.LoginAsync(TokenType.Bot, Credentials.Token);
-            await Client.ConnectAsync();
+            await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
+            await Client.ConnectAsync().ConfigureAwait(false);
+            await Client.DownloadAllUsersAsync().ConfigureAwait(false);
 
             _log.Info("Connected");
 
             //load commands
-            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap);
+            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 
-            Console.WriteLine(await Stats.Print());
+            Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 
             await Task.Delay(-1);
         }

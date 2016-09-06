@@ -12,9 +12,9 @@ namespace NadekoBot.Services.Database.Models
         public ulong ChannelId { get; set; }
         public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
 
-        public bool MessageReceived { get; set; }
-        public bool MessageUpdated { get; set; }
-        public bool MessageDeleted { get; set; }
+        public bool MessageReceived { get; set; } = true;
+        public bool MessageUpdated { get; set; } = true;
+        public bool MessageDeleted { get; set; } = true;
 
         public bool UserJoined { get; set; } = true;
         public bool UserLeft { get; set; } = true;
