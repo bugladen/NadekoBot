@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 //todo Rewrite? Fix trivia not stopping bug
 namespace NadekoBot.Modules.Games
 {
-    public partial class GamesModule
+    public partial class Games
     {
         [Group]
         public class TriviaCommands

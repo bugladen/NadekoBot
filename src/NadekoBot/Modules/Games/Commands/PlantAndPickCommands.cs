@@ -26,6 +26,7 @@ namespace NadekoBot.Modules.Games
         /// Check out GDL (its a growing gamedev community):
         /// https://discord.gg/0TYNJfCU4De7YIk8
         /// </summary>
+        [Group]
         public class PlantPick
         {
 
