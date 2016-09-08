@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Utility.Commands
                     sb.AppendLine($"`Roles:` **{server.Roles.Count()}**");
                     sb.AppendLine($"`Created At:` **{createdAt}**");
                     if (server.CustomEmojis.Count() > 0)
-                        sb.AppendLine($"`Custom Emojis:` **{string.Join(", ", server.CustomEmojis)}**");
+                        sb.AppendLine($"`Custom Emojis:` **{string.Join(", ", server.CustomEmojis.Select(em => em.Name))}**");
                     if (server.Features.Count() > 0)
                         sb.AppendLine($"`Features:` **{string.Join(", ", server.Features)}**");
                     if (!string.IsNullOrWhiteSpace(server.SplashId))

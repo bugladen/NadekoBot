@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules.Administration.Commands
@@ -38,7 +37,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 {"%trivia%", () => Games.Commands.TriviaCommands.RunningTrivias.Count.ToString()}
             };
 
-        private readonly SemaphoreSlim playingPlaceholderLock = new SemaphoreSlim(1,1);
+        private readonly SemaphoreSlim playingPlaceholderLock = new SemaphoreSlim(1, 1);
 
         public PlayingRotate(DiscordModule module) : base(module)
         {
@@ -70,8 +69,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 catch { }
             };
-
-            timer.Enabled = NadekoBot.Config.IsRotatingStatus;
+            NadekoBot.OnReady += () => timer.Enabled = NadekoBot.Config.IsRotatingStatus;
         }
 
         public Func<CommandEventArgs, Task> DoFunc() => async e =>
@@ -86,7 +84,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 NadekoBot.Config.IsRotatingStatus = timer.Enabled;
                 await ConfigHandler.SaveConfig().ConfigureAwait(false);
             }
-            finally {
+            finally
+            {
                 playingPlaceholderLock.Release();
             }
             await e.Channel.SendMessage($"❗`Rotating playing status has been {(timer.Enabled ? "enabled" : "disabled")}.`").ConfigureAwait(false);
@@ -103,7 +102,7 @@ namespace NadekoBot.Modules.Administration.Commands
             cgb.CreateCommand(Module.Prefix + "addplaying")
                 .Alias(Module.Prefix + "adpl")
                 .Description("Adds a specified string to the list of playing strings to rotate. " +
-                             "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys)+ $" **Bot Owner Only!**| `{Prefix}adpl`")
+                             "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys) + $" **Bot Owner Only!**| `{Prefix}adpl`")
                 .Parameter("text", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
@@ -152,7 +151,8 @@ namespace NadekoBot.Modules.Administration.Commands
                     int num;
                     string str;
                     await playingPlaceholderLock.WaitAsync().ConfigureAwait(false);
-                    try {
+                    try
+                    {
                         if (!int.TryParse(arg.Trim(), out num) || num <= 0 || num > NadekoBot.Config.RotatingStatuses.Count)
                             return;
                         str = NadekoBot.Config.RotatingStatuses[num - 1];

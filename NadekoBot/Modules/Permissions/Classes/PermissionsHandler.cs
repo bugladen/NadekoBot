@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Permissions.Classes
         }
 
 
-        public static void Initialize()
+        public static Task Initialize() => Task.Run(() =>
         {
             Console.WriteLine("Reading from the permission files.");
             Directory.CreateDirectory("data/permissions");
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 catch { }
             }
             Console.WriteLine("Permission initialization complete.");
-        }
+        });
 
         internal static Permissions GetRolePermissionsById(Server server, ulong id)
         {
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 Newtonsoft.Json.JsonConvert.SerializeObject(serverPerms, Newtonsoft.Json.Formatting.Indented));
         });
 
-        public static Task WriteToJson() => Task.Run(() => 
+        public static Task WriteToJson() => Task.Run(() =>
         {
             Directory.CreateDirectory("data/permissions/");
             foreach (var kvp in PermissionsDict)
@@ -428,11 +428,13 @@ namespace NadekoBot.Modules.Permissions.Classes
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
-            if (value == 0) {
+            if (value == 0)
+            {
                 int throwaway;
                 serverPerms.CommandCooldowns.TryRemove(commandName, out throwaway);
             }
-            else {
+            else
+            {
                 serverPerms.CommandCooldowns.AddOrUpdate(commandName, value, (str, v) => value);
             }
 

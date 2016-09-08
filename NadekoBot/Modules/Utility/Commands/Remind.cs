@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Utility.Commands
         {
             var remList = DbHandler.Instance.GetAllRows<Reminder>();
 
-            reminders = remList.Select(StartNewReminder).ToList();
+            NadekoBot.OnReady += () => reminders = remList.Select(StartNewReminder).ToList();
         }
 
         private Timer StartNewReminder(Reminder r)

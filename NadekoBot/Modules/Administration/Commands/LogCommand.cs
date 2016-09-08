@@ -19,67 +19,73 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public LogCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += MsgRecivd;
-            NadekoBot.Client.MessageDeleted += MsgDltd;
-            NadekoBot.Client.MessageUpdated += MsgUpdtd;
-            NadekoBot.Client.UserUpdated += UsrUpdtd;
-            NadekoBot.Client.UserBanned += UsrBanned;
-            NadekoBot.Client.UserLeft += UsrLeft;
-            NadekoBot.Client.UserJoined += UsrJoined;
-            NadekoBot.Client.UserUnbanned += UsrUnbanned;
-            NadekoBot.Client.ChannelCreated += ChannelCreated;
-            NadekoBot.Client.ChannelDestroyed += ChannelDestroyed;
-            NadekoBot.Client.ChannelUpdated += ChannelUpdated;
-
-
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            NadekoBot.OnReady += () =>
             {
-                if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
-                    return;
-                if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
-                try
+                NadekoBot.Client.MessageReceived += MsgRecivd;
+                NadekoBot.Client.MessageDeleted += MsgDltd;
+                NadekoBot.Client.MessageUpdated += MsgUpdtd;
+                NadekoBot.Client.UserUpdated += UsrUpdtd;
+                NadekoBot.Client.UserBanned += UsrBanned;
+                NadekoBot.Client.UserLeft += UsrLeft;
+                NadekoBot.Client.UserJoined += UsrJoined;
+                NadekoBot.Client.UserUnbanned += UsrUnbanned;
+                NadekoBot.Client.ChannelCreated += ChannelCreated;
+                NadekoBot.Client.ChannelDestroyed += ChannelDestroyed;
+                NadekoBot.Client.ChannelUpdated += ChannelUpdated;
+
+
+                NadekoBot.Client.MessageReceived += async (s, e) =>
                 {
-                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
-                    if (usr?.Status != UserStatus.Offline)
+                    if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                         return;
-                    await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
-                    await usr.SendMessage(
-                        $"User `{e.User.Name}` mentioned you on " +
-                        $"`{e.Server.Name}` server while you were offline.\n" +
-                        $"`Message:` {e.Message.Text}").ConfigureAwait(false);
-                }
-                catch { }
+                    if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
+                    try
+                    {
+                        var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
+                        if (usr?.Status != UserStatus.Offline)
+                            return;
+                        await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
+                        await usr.SendMessage(
+                            $"User `{e.User.Name}` mentioned you on " +
+                            $"`{e.Server.Name}` server while you were offline.\n" +
+                            $"`Message:` {e.Message.Text}").ConfigureAwait(false);
+                    }
+                    catch { }
+                };
             };
 
             // start the userpresence queue
 
-            NadekoBot.OnReady += () => Task.Run(async () =>
-             {
-                 while (true)
-                 {
-                     var toSend = new Dictionary<Channel, string>();
-                     //take everything from the queue and merge the messages which are going to the same channel
-                     KeyValuePair<Channel, string> item;
-                     while (voicePresenceUpdates.TryTake(out item))
-                     {
-                         if (toSend.ContainsKey(item.Key))
-                         {
-                             toSend[item.Key] = toSend[item.Key] + Environment.NewLine + item.Value;
-                         }
-                         else
-                         {
-                             toSend.Add(item.Key, item.Value);
-                         }
-                     }
-                     //send merged messages to each channel
-                     foreach (var k in toSend)
-                     {
-                         try { await k.Key.SendMessage(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
-                     }
+            NadekoBot.OnReady += () =>
+            {
+                Task.Run(async () =>
+               {
+                   while (true)
+                   {
+                       var toSend = new Dictionary<Channel, string>();
+                       //take everything from the queue and merge the messages which are going to the same channel
+                       KeyValuePair<Channel, string> item;
+                       while (voicePresenceUpdates.TryTake(out item))
+                       {
+                           if (toSend.ContainsKey(item.Key))
+                           {
+                               toSend[item.Key] = toSend[item.Key] + Environment.NewLine + item.Value;
+                           }
+                           else
+                           {
+                               toSend.Add(item.Key, item.Value);
+                           }
+                       }
+                       //send merged messages to each channel
+                       foreach (var k in toSend)
+                       {
+                           try { await k.Key.SendMessage(Environment.NewLine + k.Value).ConfigureAwait(false); } catch { }
+                       }
 
-                     await Task.Delay(5000);
-                 }
-             });
+                       await Task.Delay(5000);
+                   }
+               });
+            };
         }
 
         private async void ChannelUpdated(object sender, ChannelUpdatedEventArgs e)

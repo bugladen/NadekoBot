@@ -13,46 +13,49 @@ namespace NadekoBot.Modules.Administration.Commands
     {
         public CrossServerTextChannel(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            NadekoBot.OnReady += () =>
             {
-                try
+                NadekoBot.Client.MessageReceived += async (s, e) =>
                 {
-                    if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
-                    foreach (var subscriber in Subscribers)
+                    try
                     {
-                        var set = subscriber.Value;
-                        if (!set.Contains(e.Channel))
-                            continue;
-                        foreach (var chan in set.Except(new[] { e.Channel }))
+                        if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+                        foreach (var subscriber in Subscribers)
                         {
-                            await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message)).ConfigureAwait(false);
+                            var set = subscriber.Value;
+                            if (!set.Contains(e.Channel))
+                                continue;
+                            foreach (var chan in set.Except(new[] { e.Channel }))
+                            {
+                                await chan.SendMessage(GetText(e.Server, e.Channel, e.User, e.Message)).ConfigureAwait(false);
+                            }
                         }
                     }
-                }
-                catch { }
-            };
-            NadekoBot.Client.MessageUpdated += async (s, e) =>
-            {
-                try
+                    catch { }
+                };
+                NadekoBot.Client.MessageUpdated += async (s, e) =>
                 {
-                    if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Client.CurrentUser.Id) return;
-                    foreach (var subscriber in Subscribers)
+                    try
                     {
-                        var set = subscriber.Value;
-                        if (!set.Contains(e.Channel))
-                            continue;
-                        foreach (var chan in set.Except(new[] { e.Channel }))
+                        if (e.After?.User?.Id == null || e.After.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+                        foreach (var subscriber in Subscribers)
                         {
-                            var msg = chan.Messages
-                                .FirstOrDefault(m =>
-                                    m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
-                            if (msg != default(Message))
-                                await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After)).ConfigureAwait(false);
+                            var set = subscriber.Value;
+                            if (!set.Contains(e.Channel))
+                                continue;
+                            foreach (var chan in set.Except(new[] { e.Channel }))
+                            {
+                                var msg = chan.Messages
+                                    .FirstOrDefault(m =>
+                                        m.RawText == GetText(e.Server, e.Channel, e.User, e.Before));
+                                if (msg != default(Message))
+                                    await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After)).ConfigureAwait(false);
+                            }
                         }
-                    }
 
-                }
-                catch { }
+                    }
+                    catch { }
+                };
             };
         }
 

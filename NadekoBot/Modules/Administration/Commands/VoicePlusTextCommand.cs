@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration.Commands
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
-            NadekoBot.Client.UserUpdated += async (sender, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.UserUpdated += async (sender, e) =>
             {
                 try
                 {
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "cleanv+t")
                 .Alias(Module.Prefix + "cv+t")
-                .Description($"Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.\nNeeds Manage Roles and Manage Channels Permissions.** | `{Prefix}cleanv+t`")
+                .Description($"Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.** | `{Prefix}cleanv+t`")
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .Do(async e =>

@@ -64,7 +64,7 @@ namespace NadekoBot.Classes
             await saveLock.WaitAsync();
             try
             {
-                File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented));
+                await Task.Run(() => File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented)));
             }
             finally
             {
@@ -208,11 +208,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private bool exclusiveSelfAssignedRoles = false;
-        public bool ExclusiveSelfAssignedRoles
-        {
+        public bool ExclusiveSelfAssignedRoles {
             get { return exclusiveSelfAssignedRoles; }
-            set
-            {
+            set {
                 exclusiveSelfAssignedRoles = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -280,7 +278,7 @@ namespace NadekoBot.Classes
         }
 
         public bool Equals(StreamNotificationConfig other) =>
-            this.Username.ToLower().Trim() == other.Username.ToLower().Trim() &&
+            this.Username.ToUpperInvariant().Trim() == other.Username.ToUpperInvariant().Trim() &&
             this.Type == other.Type &&
             this.ServerId == other.ServerId;
 

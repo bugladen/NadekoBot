@@ -679,7 +679,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "ubl")
-                    .Description($"Blacklists a mentioned user. | `{Prefix}ubl [user_mention]`")
+                    .Description($"Blacklists a mentioned user. **Bot Owner Only!**| `{Prefix}ubl [user_mention]`")
                     .Parameter("user", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -695,7 +695,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "uubl")
-                   .Description($"Unblacklists a mentioned user. | `{Prefix}uubl [user_mention]`")
+                   .Description($"Unblacklists a mentioned user. **Bot Owner Only!** | `{Prefix}uubl [user_mention]`")
                    .Parameter("user", ParameterType.Unparsed)
                    .AddCheck(SimpleCheckers.OwnerOnly())
                    .Do(async e =>
@@ -726,7 +726,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Add(ch.Id);
+                            NadekoBot.Config.ChannelBlacklist.Add(ch.Id);
                             await ConfigHandler.SaveConfig().ConfigureAwait(false);
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
@@ -741,9 +741,14 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Remove(ch.Id);
-                            await ConfigHandler.SaveConfig().ConfigureAwait(false);
-                            await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
+                            if (NadekoBot.Config.ChannelBlacklist.Contains(ch.Id))
+                            {
+                                NadekoBot.Config.ChannelBlacklist.Remove(ch.Id);
+                                await ConfigHandler.SaveConfig().ConfigureAwait(false);
+                                await e.Channel.SendMessage($"`Sucessfully unblacklisted channel {ch.Name}`").ConfigureAwait(false);
+                            }
+                            else
+                                await e.Channel.SendMessage($"`{ch.Name} was not in blacklist`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
                     });
 
@@ -780,7 +785,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "cmdcooldown")
                     .Alias(Prefix+ "cmdcd")
-                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. | `{Prefix}cmdcd \"some cmd\" 5`")
+                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. **Needs Manager Messages Permissions**| `{Prefix}cmdcd \"some cmd\" 5`")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("secs",ParameterType.Required)
                     .AddCheck(SimpleCheckers.ManageMessages())
