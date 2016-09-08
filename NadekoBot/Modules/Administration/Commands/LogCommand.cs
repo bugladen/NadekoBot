@@ -7,7 +7,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
@@ -53,7 +52,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     catch { }
                 };
             };
-
+#if !NADEKO_RELEASE
             // start the userpresence queue
 
             NadekoBot.OnReady += () =>
@@ -86,6 +85,7 @@ namespace NadekoBot.Modules.Administration.Commands
                    }
                });
             };
+#endif
         }
 
         private async void ChannelUpdated(object sender, ChannelUpdatedEventArgs e)
