@@ -2635,6 +2635,6 @@
     <value>`$$$` or `$$$ @SomeGuy`</value>
   </data>
   <data name="cash_text" xml:space="preserve">
-    <value>$$$</value>
+    <value>cash $$</value>
   </data>
 </root>

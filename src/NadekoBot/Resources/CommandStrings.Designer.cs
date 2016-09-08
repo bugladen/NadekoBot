@@ -969,7 +969,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to $$$.
+        ///    Looks up a localized string similar to cash $$.
         /// </summary>
         public static string cash_text {
             get {
