@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Games
         /// https://discord.gg/0TYNJfCU4De7YIk8
         /// </summary>
         [Group]
-        public class PlantPick
+        public class PlantPickCommands
         {
 
             private Random rng;
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Games
             private float chance;
             private int cooldown;
 
-            public PlantPick()
+            public PlantPickCommands()
             {
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
                 rng = new Random();
@@ -113,14 +113,14 @@ namespace NadekoBot.Modules.Games
 
                 List<IUserMessage> msgs;
 
-                await imsg.DeleteAsync().ConfigureAwait(false);
+                try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
                 if (!plantedFlowers.TryRemove(channel.Id, out msgs))
                     return;
 
                 await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked a flower.", 1, false).ConfigureAwait(false);
-                var msg = await channel.SendMessageAsync($"**{imsg.Author.Username}** picked a {Gambling.Gambling.CurrencyName}!").ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                var msg = await channel.SendMessageAsync($"**{imsg.Author.Username}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                 var t = Task.Run(async () =>
                  {
                      try
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Games
                 var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await channel.SendMessageAsync($"You don't have any {Gambling.Gambling.CurrencyName}s.").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"You don't have any {Gambling.Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
 

@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Gambling
             var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
             if (!success)
             {
-                await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}s.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {umsg.Author.Username} ({umsg.Author.Id}).", amount, true).ConfigureAwait(false);
@@ -136,12 +136,12 @@ namespace NadekoBot.Modules.Gambling
             long userFlowers;
             using (var uow = DbHandler.UnitOfWork())
             {
-                userFlowers = uow.Currency.GetOrCreate(umsg.Id).Amount;
+                userFlowers = uow.Currency.GetOrCreate(umsg.Author.Id).Amount;
             }
 
             if (userFlowers < amount)
             {
-                await channel.SendMessageAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyName}s. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                 return;
             }
 

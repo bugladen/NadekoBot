@@ -15,19 +15,21 @@ namespace NadekoBot.Services.Impl
         private int messageCounter;
         private DiscordSocketClient client;
         private DateTime started;
+        private int commandsRan = 0;
 
         public string BotVersion => "1.0-alpha";
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
 
 
-        public StatsService(DiscordSocketClient client)
+        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler)
         {
 
             this.client = client;
 
             Reset();
             this.client.MessageReceived += _ => Task.FromResult(messageCounter++);
+            cmdHandler.CommandExecuted += (_, e) => commandsRan++;
 
             this.client.Disconnected += _ => Reset();
         }
@@ -37,6 +39,7 @@ namespace NadekoBot.Services.Impl
 `Owners' Ids: {string.Join(", ", NadekoBot.Credentials.OwnerIds)}`
 `Uptime: {GetUptimeString()}`
 `Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}`
+`Commands Ran this session: {commandsRan}`
 `Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`");
 
         public Task Reset()
