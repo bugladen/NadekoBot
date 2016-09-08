@@ -27,7 +27,7 @@ namespace NadekoBot.Services
             }
 
             if (sendMessage)
-                try { await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+                try { await author.SendMessageAsync($"`You lost:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
 
             return true;
         }

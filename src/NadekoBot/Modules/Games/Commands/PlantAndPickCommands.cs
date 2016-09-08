@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Games
                 if (channel == null)
                     return;
 
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, true).ConfigureAwait(false);
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await channel.SendMessageAsync($"You don't have any {Gambling.Gambling.CurrencyName}s.").ConfigureAwait(false);
