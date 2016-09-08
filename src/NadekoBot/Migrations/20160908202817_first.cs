@@ -15,6 +15,8 @@ namespace NadekoBot.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     BufferSize = table.Column<ulong>(nullable: false),
+                    CurrencyGenerationChance = table.Column<float>(nullable: false),
+                    CurrencyGenerationCooldown = table.Column<int>(nullable: false),
                     CurrencyName = table.Column<string>(nullable: true),
                     CurrencyPluralName = table.Column<string>(nullable: true),
                     CurrencySign = table.Column<string>(nullable: true),
@@ -342,6 +344,7 @@ namespace NadekoBot.Migrations
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     DmGreetMessageText = table.Column<string>(nullable: true),
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
+                    GenerateCurrencyChannelId = table.Column<ulong>(nullable: true),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
                     LogSettingId = table.Column<int>(nullable: true),

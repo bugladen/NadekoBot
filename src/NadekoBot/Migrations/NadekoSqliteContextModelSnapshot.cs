@@ -38,6 +38,10 @@ namespace NadekoBot.Migrations
 
                     b.Property<ulong>("BufferSize");
 
+                    b.Property<float>("CurrencyGenerationChance");
+
+                    b.Property<int>("CurrencyGenerationCooldown");
+
                     b.Property<string>("CurrencyName");
 
                     b.Property<string>("CurrencyPluralName");
@@ -223,6 +227,8 @@ namespace NadekoBot.Migrations
                     b.Property<string>("DmGreetMessageText");
 
                     b.Property<bool>("ExclusiveSelfAssignedRoles");
+
+                    b.Property<ulong?>("GenerateCurrencyChannelId");
 
                     b.Property<ulong>("GreetMessageChannelId");
 

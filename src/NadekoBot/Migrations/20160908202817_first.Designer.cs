@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160905095544_first")]
+    [Migration("20160908202817_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,10 @@ namespace NadekoBot.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<ulong>("BufferSize");
+
+                    b.Property<float>("CurrencyGenerationChance");
+
+                    b.Property<int>("CurrencyGenerationCooldown");
 
                     b.Property<string>("CurrencyName");
 
@@ -224,6 +228,8 @@ namespace NadekoBot.Migrations
                     b.Property<string>("DmGreetMessageText");
 
                     b.Property<bool>("ExclusiveSelfAssignedRoles");
+
+                    b.Property<ulong?>("GenerateCurrencyChannelId");
 
                     b.Property<ulong>("GreetMessageChannelId");
 
