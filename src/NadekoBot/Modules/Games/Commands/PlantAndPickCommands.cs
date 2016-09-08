@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Games
             private float chance;
             private int cooldown;
 
-            public PlantPick(DiscordModule module)
+            public PlantPick()
             {
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
                 rng = new Random();
