@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Games
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
-            public async Task Trivia(IUserMessage umsg, string[] args)
+            public async Task Trivia(IUserMessage umsg, params string[] args)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
