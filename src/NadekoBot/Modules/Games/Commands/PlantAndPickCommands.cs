@@ -190,15 +190,15 @@ namespace NadekoBot.Modules.Games
                         generationChannels.TryRemove(channel.Id, out throwaway);
                         enabled = false;
                     }
-
+                    await uow.CompleteAsync();
                 }
                 if (enabled)
                 {
-                    await channel.SendMessageAsync("`Currency generation disabled on this channel.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Currency generation enabled on this channel.`").ConfigureAwait(false);
                 }
                 else
                 {
-                    await channel.SendMessageAsync($"`Currency generation enabled on this channel.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"`Currency generation disabled on this channel.`").ConfigureAwait(false);
                 }
             }
 

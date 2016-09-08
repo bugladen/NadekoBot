@@ -20,7 +20,7 @@ namespace NadekoBot.Services
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var success = uow.Currency.TryUpdateState(author.Id, amount);
+                var success = uow.Currency.TryUpdateState(author.Id, -amount);
                 if (!success)
                     return false;
                 await uow.CompleteAsync();
