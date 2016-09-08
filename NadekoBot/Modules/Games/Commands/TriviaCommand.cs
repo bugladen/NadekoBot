@@ -1,7 +1,9 @@
 ﻿using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Modules.Games.Commands.Trivia;
+using System;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace NadekoBot.Modules.Games.Commands
 {
@@ -22,26 +24,25 @@ namespace NadekoBot.Modules.Games.Commands
                 .Parameter("args", ParameterType.Multiple)
                 .Do(async e =>
                 {
-                    //TriviaGame trivia;
-                    //if (!RunningTrivias.TryGetValue(e.Server.Id, out trivia))
-                    //{
-                    //    var showHints = !e.Args.Contains("nohint");
-                    //    var number = e.Args.Select(s =>
-                    //    {
-                    //        int num;
-                    //        return new Tuple<bool, int>(int.TryParse(s, out num), num);
-                    //    }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
-                    //    if (number < 0)
-                    //        return;
-                    //    var triviaGame = new TriviaGame(e, showHints, number == 0 ? 10 : number);
-                    //    if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
-                    //        await e.Channel.SendMessage($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
-                    //    else
-                    //        await triviaGame.StopGame().ConfigureAwait(false);
-                    //}
-                    //else
-                    //    await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
-                    await e.Channel.SendMessage("`Trivia game is temporarily disabled.`").ConfigureAwait(false);
+                    TriviaGame trivia;
+                    if (!RunningTrivias.TryGetValue(e.Server.Id, out trivia))
+                    {
+                        var showHints = !e.Args.Contains("nohint");
+                        var number = e.Args.Select(s =>
+                        {
+                            int num;
+                            return new Tuple<bool, int>(int.TryParse(s, out num), num);
+                        }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
+                        if (number < 0)
+                            return;
+                        var triviaGame = new TriviaGame(e, showHints, number == 0 ? 10 : number);
+                        if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
+                            await e.Channel.SendMessage($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
+                        else
+                            await triviaGame.StopGame().ConfigureAwait(false);
+                    }
+                    else
+                        await e.Channel.SendMessage("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
                 });
 
             cgb.CreateCommand(Module.Prefix + "tl")
