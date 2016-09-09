@@ -31,7 +31,6 @@ namespace NadekoBot.Modules.Gambling
                 CurrencySign = conf.CurrencySign;
                 CurrencyPluralName = conf.CurrencyPluralName;
             }
-            
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -68,26 +67,18 @@ namespace NadekoBot.Modules.Gambling
         
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Give(IUserMessage umsg, long amount, [Remainder] IUser receiver)
+        public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
         {
             var channel = (ITextChannel)umsg.Channel;
             if (amount <= 0)
                 return;
-            bool success = false;
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                success = uow.Currency.TryUpdateState(umsg.Author.Id, amount);
-                if(success)
-                    uow.Currency.TryUpdateState(umsg.Author.Id, amount);
-
-                await uow.CompleteAsync();
-            }
+            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
             if (!success)
             {
-                await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}s.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
-
+            await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {umsg.Author.Username} ({umsg.Author.Id}).", amount, true).ConfigureAwait(false);
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully sent {amount} {Gambling.CurrencyPluralName}s to {receiver.Mention}!").ConfigureAwait(false);
         }
 
@@ -145,12 +136,12 @@ namespace NadekoBot.Modules.Gambling
             long userFlowers;
             using (var uow = DbHandler.UnitOfWork())
             {
-                userFlowers = uow.Currency.GetOrCreate(umsg.Id).Amount;
+                userFlowers = uow.Currency.GetOrCreate(umsg.Author.Id).Amount;
             }
 
             if (userFlowers < amount)
             {
-                await channel.SendMessageAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyName}s. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                 return;
             }
 
@@ -160,7 +151,7 @@ namespace NadekoBot.Modules.Gambling
             var str = $"{guildUser.Mention} `You rolled {rng}.` ";
             if (rng < 67)
             {
-                str += "Better luck next time.";
+                str += "More luck next time.";
             }
             else if (rng < 90)
             {

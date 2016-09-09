@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
 {
-    public partial class GamesModule
+    public partial class Games
     {
         public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
 

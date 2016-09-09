@@ -44,8 +44,8 @@ namespace NadekoBot
             Commands = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();
-            Stats = new StatsService(Client);
             CommandHandler = new CommandHandler(Client, Commands);
+            Stats = new StatsService(Client, CommandHandler);
             _log = LogManager.GetCurrentClassLogger();
 
             //setup DI

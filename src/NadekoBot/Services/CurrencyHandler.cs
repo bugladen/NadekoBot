@@ -20,14 +20,14 @@ namespace NadekoBot.Services
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var success = uow.Currency.TryUpdateState(author.Id, amount);
+                var success = uow.Currency.TryUpdateState(author.Id, -amount);
                 if (!success)
                     return false;
                 await uow.CompleteAsync();
             }
 
             if (sendMessage)
-                try { await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+                try { await author.SendMessageAsync($"`You lost:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
 
             return true;
         }

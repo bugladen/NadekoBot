@@ -38,5 +38,8 @@ namespace NadekoBot.Services.Database.Models
 
         //stream notifications
         public List<FollowedStream> FollowedStreams { get; set; } = new List<FollowedStream>();
+
+        //currencyGeneration
+        public ulong? GenerateCurrencyChannelId { get; set; }
     }
 }

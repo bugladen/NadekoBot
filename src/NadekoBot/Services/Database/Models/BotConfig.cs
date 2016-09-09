@@ -15,6 +15,9 @@ namespace NadekoBot.Services.Database.Models
         public bool ForwardMessages { get; set; } = true;
         public bool ForwardToAllOwners { get; set; } = true;
 
+        public float CurrencyGenerationChance { get; set; } = 0.02f;
+        public int CurrencyGenerationCooldown { get; set; } = 10;
+
         public List<ModulePrefix> ModulePrefixes { get; set; } = new List<ModulePrefix>()
         {
            new ModulePrefix() { ModuleName="Administration", Prefix="." },
