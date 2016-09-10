@@ -235,11 +235,10 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 **FOLLOW THESE STEPS SERIALLY**
 
-- **-21 OR 22**
-- **-19**
 - **-16**
 - **-17**
 - **-18**
+- **-19**
 - **-20**
 
 HIT **CTRL+B+D** and close **PuTTY**
