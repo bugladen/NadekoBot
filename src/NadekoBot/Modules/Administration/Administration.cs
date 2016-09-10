@@ -16,7 +16,7 @@ using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration
 {
-    [Module(".", AppendSpace = false)]
+    [NadekoModule("Administration", ".")]
     public partial class Administration : DiscordModule
     {
         public Administration(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)

@@ -12,7 +12,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Help
 {
-    [Module("-", AppendSpace = false)]
+    [NadekoModule("Help", "-")]
     public partial class Help : DiscordModule
     {
         public string HelpString {

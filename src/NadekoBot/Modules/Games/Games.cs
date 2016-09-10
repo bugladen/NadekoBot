@@ -12,7 +12,7 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Games
 {
-    [Module(">", AppendSpace = false)]
+    [NadekoModule("Games", ">")]
     public partial class Games : DiscordModule
     {
         private IEnumerable<string> _8BallResponses {

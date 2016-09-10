@@ -15,7 +15,7 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.NSFW
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
         public NSFW(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)

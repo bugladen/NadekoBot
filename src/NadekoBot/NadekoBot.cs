@@ -32,12 +32,6 @@ namespace NadekoBot
         {
             SetupLogger();
 
-            for (int i = 0; i < 100; i++)
-            {
-                var rnd = new NadekoRandom();
-                Console.WriteLine(rnd.Next(-10, -1));
-            }
-
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {

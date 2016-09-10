@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Gambling
 {
-    [Module("$", AppendSpace = false)]
+    [NadekoModule("Gambling", "$")]
     public partial class Gambling : DiscordModule
     {
         public static string CurrencyName { get; set; }

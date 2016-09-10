@@ -15,7 +15,7 @@ using Discord.WebSocket;
 namespace NadekoBot.Modules.Utility
 {
 
-    [Module(".", AppendSpace = false)]
+    [NadekoModule("Utility", ".")]
     public partial class Utility : DiscordModule
     {
         public Utility(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)

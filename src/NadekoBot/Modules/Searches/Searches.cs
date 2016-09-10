@@ -16,7 +16,7 @@ using NadekoBot.Modules.Searches.IMDB;
 
 namespace NadekoBot.Modules.Searches
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("Searches", "~")]
     public partial class Searches : DiscordModule
     {
         private IGoogleApiService _google { get; }

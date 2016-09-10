@@ -14,7 +14,7 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
-    [Module(",", AppendSpace = false)]
+    [NadekoModule("ClashOfClans", ",")]
     public class ClashOfClans : DiscordModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();

@@ -9,7 +9,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Translator
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("Translator", "~")]
     public class Translator : DiscordModule
     {
         public Translator(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)

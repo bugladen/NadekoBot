@@ -43,6 +43,7 @@ namespace NadekoBot.Services.Database
                 {
                     new ModulePrefix() { ModuleName = "Administration", Prefix = "." },
                     new ModulePrefix() { ModuleName = "Searches", Prefix = "~" },
+                    new ModulePrefix() { ModuleName = "Translator", Prefix = "~" },
                     new ModulePrefix() { ModuleName = "NSFW", Prefix = "~" },
                     new ModulePrefix() { ModuleName = "ClashOfClans", Prefix = "," },
                     new ModulePrefix() { ModuleName = "Help", Prefix = "-" },
