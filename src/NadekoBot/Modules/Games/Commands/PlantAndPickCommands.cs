@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games
             public PlantPickCommands()
             {
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
-                rng = new Random();
+                rng = new NadekoRandom();
 
                 using (var uow = DbHandler.UnitOfWork())
                 {

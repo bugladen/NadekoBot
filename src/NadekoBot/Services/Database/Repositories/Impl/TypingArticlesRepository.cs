@@ -11,7 +11,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
     public class TypingArticlesRepository : Repository<TypingArticle>, ITypingArticlesRepository
     {
         private Random _rand = null;
-        private Random rand => _rand ?? (_rand = new Random());
+        private Random rand => _rand ?? (_rand = new NadekoRandom());
         public TypingArticlesRepository(DbContext context) : base(context)
         {
         }

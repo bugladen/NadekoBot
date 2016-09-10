@@ -152,7 +152,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             {
                 using (var http = new HttpClient())
                 {
-                    var rng = new Random();
+                    var rng = new NadekoRandom();
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                     var items = obj["items"] as JArray;
@@ -428,7 +428,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var allUsrs = umsg.MentionedUsers.Append(umsg.Author);
                 var allUsrsArray = allUsrs.ToArray();
                 var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
-                str += new Random().Next();
+                str += new NadekoRandom().Next();
                 foreach (var usr in allUsrsArray)
                 {
                     await (await (usr as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(str).ConfigureAwait(false);
@@ -457,7 +457,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         public static async Task<string> GetSafebooruImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             var url =
             $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
             using (var http = new HttpClient())

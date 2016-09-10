@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Gambling
 
         //    var isHeads = guessStr == "HEADS" || guessStr == "H";
         //    bool result = false;
-        //    var rng = new Random();
+        //    var rng = new NadekoRandom();
         //    if (rng.Next(0, 2) == 1)
         //    {
         //        await channel.SendFileAsync("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);

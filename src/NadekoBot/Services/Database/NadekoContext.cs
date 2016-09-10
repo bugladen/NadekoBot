@@ -28,6 +28,80 @@ namespace NadekoBot.Services.Database
         public DbSet<IgnoredLogChannel> IgnoredLogChannels { get; set; }
         public DbSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceCHannels { get; set; }
 
+        //orphans xD
+        public DbSet<EightBallResponse> EightBallResponses { get; set; }
+        public DbSet<RaceAnimal> RaceAnimals { get; set; }
+        public DbSet<ModulePrefix> ModulePrefixes { get; set; }
+
+        public void EnsureSeedData()
+        {
+            if (!BotConfig.Any())
+            {
+                var bc = new BotConfig();
+
+                bc.ModulePrefixes.AddRange(new HashSet<ModulePrefix>()
+                {
+                    new ModulePrefix() { ModuleName = "Administration", Prefix = "." },
+                    new ModulePrefix() { ModuleName = "Searches", Prefix = "~" },
+                    new ModulePrefix() { ModuleName = "NSFW", Prefix = "~" },
+                    new ModulePrefix() { ModuleName = "ClashOfClans", Prefix = "," },
+                    new ModulePrefix() { ModuleName = "Help", Prefix = "-" },
+                    new ModulePrefix() { ModuleName = "Music", Prefix = "!!" },
+                    new ModulePrefix() { ModuleName = "Trello", Prefix = "trello" },
+                    new ModulePrefix() { ModuleName = "Games", Prefix = ">" },
+                    new ModulePrefix() { ModuleName = "Gambling", Prefix = "$" },
+                    new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
+                    new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
+                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." }
+                });
+                bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
+                {
+                    new RaceAnimal { Icon = "🐼", Name = "Panda" },
+                    new RaceAnimal { Icon = "🐻", Name = "Bear" },
+                    new RaceAnimal { Icon = "🐧", Name = "Pengu" },
+                    new RaceAnimal { Icon = "🐨", Name = "Koala" },
+                    new RaceAnimal { Icon = "🐬", Name = "Dolphin" },
+                    new RaceAnimal { Icon = "🐞", Name = "Ladybird" },
+                    new RaceAnimal { Icon = "🦀", Name = "Crab" },
+                    new RaceAnimal { Icon = "🦄", Name = "Unicorn" }
+                });
+                bc.EightBallResponses.AddRange(new HashSet<EightBallResponse>
+                {
+                    new EightBallResponse() { Text = "Most definitely yes" },
+                    new EightBallResponse() { Text = "For sure" },
+                    new EightBallResponse() { Text = "Totally!" },
+                    new EightBallResponse() { Text = "Of course!" },
+                    new EightBallResponse() { Text = "As I see it, yes" },
+                    new EightBallResponse() { Text = "My sources say yes" },
+                    new EightBallResponse() { Text = "Yes" },
+                    new EightBallResponse() { Text = "Most likely" },
+                    new EightBallResponse() { Text = "Perhaps" },
+                    new EightBallResponse() { Text = "Maybe" },
+                    new EightBallResponse() { Text = "Not sure" },
+                    new EightBallResponse() { Text = "It is uncertain" },
+                    new EightBallResponse() { Text = "Ask me again later" },
+                    new EightBallResponse() { Text = "Don't count on it" },
+                    new EightBallResponse() { Text = "Probably not" },
+                    new EightBallResponse() { Text = "Very doubtful" },
+                    new EightBallResponse() { Text = "Most likely no" },
+                    new EightBallResponse() { Text = "Nope" },
+                    new EightBallResponse() { Text = "No" },
+                    new EightBallResponse() { Text = "My sources say no" },
+                    new EightBallResponse() { Text = "Dont even think about it" },
+                    new EightBallResponse() { Text = "Definitely no" },
+                    new EightBallResponse() { Text = "NO - It may cause disease contraction" }
+                });
+
+                BotConfig.Add(bc);
+
+                this.SaveChanges();
+            }
+            if (!TypingArticles.Any())
+            {
+                //todo load default typing articles
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region QUOTES
@@ -45,13 +119,22 @@ namespace NadekoBot.Services.Database
 
             #endregion
 
-            #region Config
+            #region GuildConfig
 
             var configEntity = modelBuilder.Entity<GuildConfig>();
             configEntity
                 .HasIndex(c => c.GuildId)
                 .IsUnique();
 
+            #endregion
+
+            #region BotConfig
+            var botConfigEntity = modelBuilder.Entity<BotConfig>();
+            //botConfigEntity
+            //    .HasMany(c => c.ModulePrefixes)
+            //    .WithOne(mp => mp.BotConfig)
+            //    .HasForeignKey(mp => mp.BotConfigId);
+                
             #endregion
 
             #region ClashOfClans

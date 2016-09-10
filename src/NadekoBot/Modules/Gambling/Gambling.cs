@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Gambling
 
             var members = role.Members().Where(u => u.Status == UserStatus.Online);
             var membersArray = members as IUser[] ?? members.ToArray();
-            var usr = membersArray[new Random().Next(0, membersArray.Length)];
+            var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
         }
         
@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Gambling
 
             await CurrencyHandler.RemoveCurrencyAsync(guildUser, "Betroll Gamble", amount, false).ConfigureAwait(false);
 
-            var rng = new Random().Next(0, 101);
+            var rng = new NadekoRandom().Next(0, 101);
             var str = $"{guildUser.Mention} `You rolled {rng}.` ";
             if (rng < 67)
             {

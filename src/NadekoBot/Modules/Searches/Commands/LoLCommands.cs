@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace NadekoBot.Modules.Searches
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
                     var sb = new StringBuilder();
                     sb.AppendLine($"**Showing {dataList.Count} top banned champions.**");
-                    sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
+                    sb.AppendLine($"`{trashTalk[new NadekoRandom().Next(0, trashTalk.Length)]}`");
                     for (var i = 0; i < dataList.Count; i++)
                     {
                         if (i % 2 == 0 && i != 0)

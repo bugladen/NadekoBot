@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Modules.Searches.Models;
+using NadekoBot.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
@@ -86,7 +87,7 @@ namespace NadekoBot.Modules.Searches
                 if (!wowJokes.Any())
                 {
                 }
-                await channel.SendMessageAsync(wowJokes[new Random().Next(0, wowJokes.Count)].ToString());
+                await channel.SendMessageAsync(wowJokes[new NadekoRandom().Next(0, wowJokes.Count)].ToString());
             }
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -94,7 +95,7 @@ namespace NadekoBot.Modules.Searches
             public async Task MagicItem(IUserMessage umsg)
             {
                 var channel = (ITextChannel)umsg.Channel;
-                var rng = new Random();
+                var rng = new NadekoRandom();
                 var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 
                 await channel.SendMessageAsync(item).ConfigureAwait(false);

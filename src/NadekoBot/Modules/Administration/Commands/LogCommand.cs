@@ -49,12 +49,14 @@ namespace NadekoBot.Modules.Administration
                 t = new Timer(async (state) =>
                 {
                     var keys = UserPresenceUpdates.Keys.ToList();
-                    foreach (var key in keys)
+
+                    await Task.WhenAll(keys.Select(key =>
                     {
                         List<string> messages;
                         if (UserPresenceUpdates.TryRemove(key, out messages))
-                            try { await key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { } //502/403
-                    }
+                            try { return key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { } //502/403
+                        return Task.CompletedTask;
+                    }));
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
                 
 

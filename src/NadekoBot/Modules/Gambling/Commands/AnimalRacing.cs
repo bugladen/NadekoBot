@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private async Task StartRace()
                 {
-                    var rng = new Random();
+                    var rng = new NadekoRandom();
                     Participant winner = null;
                     IUserMessage msg = null;
                     int place = 1;
@@ -194,14 +194,15 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private async Task Client_MessageReceived(IMessage imsg)
+                private Task Client_MessageReceived(IMessage imsg)
                 {
                     var msg = imsg as IUserMessage;
                     if (msg == null)
-                        return;
+                        return Task.CompletedTask;
                     if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
-                        return;
+                        return Task.CompletedTask;
                     messagesSinceGameStarted++;
+                    return Task.CompletedTask;
                 }
 
                 private async Task CheckForFullGameAsync(CancellationToken cancelToken)

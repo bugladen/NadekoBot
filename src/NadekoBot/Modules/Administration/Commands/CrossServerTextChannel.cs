@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Administration
             //public async Task Scsc(IUserMessage msg)
             //{
             //    var channel = (ITextChannel)msg.Channel;
-            //    var token = new Random().Next();
+            //    var token = new NadekoRandom().Next();
             //    var set = new HashSet<ITextChannel>();
             //    if (Subscribers.TryAdd(token, set))
             //    {

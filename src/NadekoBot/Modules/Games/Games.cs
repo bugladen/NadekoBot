@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Games
             var listArr = list.Split(';');
             if (listArr.Count() < 2)
                 return;
-            var rng = new Random();
+            var rng = new NadekoRandom();
             await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Games
 
             if (string.IsNullOrWhiteSpace(question))
                 return;
-                var rng = new Random();
+                var rng = new NadekoRandom();
             await channel.SendMessageAsync($@":question: `Question` __**{question}**__ 
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Games
                 default:
                     return;
             }
-            var nadekoPick = new Random().Next(0, 3);
+            var nadekoPick = new NadekoRandom().Next(0, 3);
             var msg = "";
             if (pick == nadekoPick)
                 msg = $"It's a draw! Both picked :{GetRPSPick(pick)}:";

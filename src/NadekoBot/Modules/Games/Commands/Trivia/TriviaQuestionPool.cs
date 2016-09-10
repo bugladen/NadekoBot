@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using NadekoBot.Services;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace NadekoBot.Modules.Games.Trivia
         public static TriviaQuestionPool Instance { get; } = new TriviaQuestionPool();
         public HashSet<TriviaQuestion> pool = new HashSet<TriviaQuestion>();
 
-        private Random rng { get; } = new Random();
+        private Random rng { get; } = new NadekoRandom();
 
         static TriviaQuestionPool() { }
 
@@ -36,7 +37,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 var tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());
                 pool.Add(tq);
             }
-            var r = new Random();
+            var r = new NadekoRandom();
             pool = new HashSet<TriviaQuestion>(pool.OrderBy(x => r.Next()));
         }
     }

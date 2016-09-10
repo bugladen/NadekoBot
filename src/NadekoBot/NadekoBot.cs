@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services;
+using NadekoBot.Services.Database;
 using NadekoBot.Services.Impl;
 using NLog;
 using NLog.Config;
@@ -31,6 +32,12 @@ namespace NadekoBot
         {
             SetupLogger();
 
+            for (int i = 0; i < 100; i++)
+            {
+                var rnd = new NadekoRandom();
+                Console.WriteLine(rnd.Next(-10, -1));
+            }
+
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -47,6 +54,12 @@ namespace NadekoBot
             CommandHandler = new CommandHandler(Client, Commands);
             Stats = new StatsService(Client, CommandHandler);
             _log = LogManager.GetCurrentClassLogger();
+
+            //init db
+            using (var context = DbHandler.Instance.GetDbContext())
+            {
+                context.EnsureSeedData();
+            }
 
             //setup DI
             var depMap = new DependencyMap();

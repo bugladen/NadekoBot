@@ -100,11 +100,11 @@ namespace NadekoBot.Modules.Games.Trivia
             ShouldStopGame = true;
         }
 
-        private async Task PotentialGuess(IMessage imsg)
+        private Task PotentialGuess(IMessage imsg)
         {
             var umsg = imsg as IUserMessage;
             if (umsg == null)
-                return;
+                return Task.CompletedTask;
             var t = Task.Run(async () =>
             {
                 try
@@ -135,6 +135,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 }
                 catch { }
             });
+            return Task.CompletedTask;
         }
 
         public string GetLeaderboard()

@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new Random().Next(0, 9880) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new NadekoRandom().Next(0, 9880) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new Random().Next(0, 3873) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new NadekoRandom().Next(0, 3873) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.NSFW
 
         public static async Task<string> GetDanbooruImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
 
             if (tag == "loli") //loli doesn't work for some reason atm
                 tag = "flat_chest";
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.NSFW
                 if (matches.Count == 0)
                     return null;
 
-                var rng = new Random();
+                var rng = new NadekoRandom();
                 var match = matches[rng.Next(0, matches.Count)];
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.NSFW
 
         public static async Task<string> GetRule34ImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             var url =
             $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
             using (var http = new HttpClient())

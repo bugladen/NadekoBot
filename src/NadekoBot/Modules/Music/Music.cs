@@ -37,41 +37,44 @@ namespace NadekoBot.Modules.Music
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Next(IUserMessage umsg)
+        public Task Next(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)umsg.Author).VoiceChannel)
                 musicPlayer.Next();
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Stop(IUserMessage umsg)
+        public Task Stop(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
             }
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Destroy(IUserMessage umsg)
+        public Task Destroy(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 musicPlayer.Destroy();
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -204,28 +207,30 @@ namespace NadekoBot.Modules.Music
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Mute(IUserMessage umsg)
+        public Task Mute(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return;
+                return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
             musicPlayer.SetVolume(0);
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Max(IUserMessage umsg)
+        public Task Max(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return;
+                return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
             musicPlayer.SetVolume(100);
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -395,7 +400,7 @@ namespace NadekoBot.Modules.Music
             var voiceChannel = ((IGuildUser)umsg.Author).VoiceChannel;
             if (voiceChannel == null || voiceChannel.Guild != channel.Guild || !MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
-            musicPlayer.MoveToVoiceChannel(voiceChannel);
+            await musicPlayer.MoveToVoiceChannel(voiceChannel);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]

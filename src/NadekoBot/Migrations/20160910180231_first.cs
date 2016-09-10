@@ -222,7 +222,7 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EightBallResponse",
+                name: "EightBallResponses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -232,9 +232,9 @@ namespace NadekoBot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EightBallResponse", x => x.Id);
+                    table.PrimaryKey("PK_EightBallResponses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EightBallResponse_BotConfig_BotConfigId",
+                        name: "FK_EightBallResponses_BotConfig_BotConfigId",
                         column: x => x.BotConfigId,
                         principalTable: "BotConfig",
                         principalColumn: "Id",
@@ -242,24 +242,24 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModulePrefix",
+                name: "ModulePrefixes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    BotConfigId = table.Column<int>(nullable: true),
+                    BotConfigId = table.Column<int>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
                     Prefix = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModulePrefix", x => x.Id);
+                    table.PrimaryKey("PK_ModulePrefixes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ModulePrefix_BotConfig_BotConfigId",
+                        name: "FK_ModulePrefixes_BotConfig_BotConfigId",
                         column: x => x.BotConfigId,
                         principalTable: "BotConfig",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -283,7 +283,7 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RaceAnimal",
+                name: "RaceAnimals",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -294,9 +294,9 @@ namespace NadekoBot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RaceAnimal", x => x.Id);
+                    table.PrimaryKey("PK_RaceAnimals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RaceAnimal_BotConfig_BotConfigId",
+                        name: "FK_RaceAnimals_BotConfig_BotConfigId",
                         column: x => x.BotConfigId,
                         principalTable: "BotConfig",
                         principalColumn: "Id",
@@ -451,8 +451,8 @@ namespace NadekoBot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EightBallResponse_BotConfigId",
-                table: "EightBallResponse",
+                name: "IX_EightBallResponses_BotConfigId",
+                table: "EightBallResponses",
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
@@ -482,8 +482,8 @@ namespace NadekoBot.Migrations
                 column: "LogSettingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModulePrefix_BotConfigId",
-                table: "ModulePrefix",
+                name: "IX_ModulePrefixes_BotConfigId",
+                table: "ModulePrefixes",
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
@@ -492,8 +492,8 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RaceAnimal_BotConfigId",
-                table: "RaceAnimal",
+                name: "IX_RaceAnimals_BotConfigId",
+                table: "RaceAnimals",
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
@@ -527,7 +527,7 @@ namespace NadekoBot.Migrations
                 name: "Donators");
 
             migrationBuilder.DropTable(
-                name: "EightBallResponse");
+                name: "EightBallResponses");
 
             migrationBuilder.DropTable(
                 name: "FollowedStream");
@@ -539,7 +539,7 @@ namespace NadekoBot.Migrations
                 name: "IgnoredVoicePresenceCHannels");
 
             migrationBuilder.DropTable(
-                name: "ModulePrefix");
+                name: "ModulePrefixes");
 
             migrationBuilder.DropTable(
                 name: "PlayingStatus");
@@ -548,7 +548,7 @@ namespace NadekoBot.Migrations
                 name: "Quotes");
 
             migrationBuilder.DropTable(
-                name: "RaceAnimal");
+                name: "RaceAnimals");
 
             migrationBuilder.DropTable(
                 name: "Reminders");

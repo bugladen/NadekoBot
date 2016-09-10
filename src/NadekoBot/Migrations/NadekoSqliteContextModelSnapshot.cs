@@ -172,7 +172,7 @@ namespace NadekoBot.Migrations
 
                     b.HasIndex("BotConfigId");
 
-                    b.ToTable("EightBallResponse");
+                    b.ToTable("EightBallResponses");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.FollowedStream", b =>
@@ -335,7 +335,7 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BotConfigId");
+                    b.Property<int>("BotConfigId");
 
                     b.Property<string>("ModuleName");
 
@@ -345,7 +345,7 @@ namespace NadekoBot.Migrations
 
                     b.HasIndex("BotConfigId");
 
-                    b.ToTable("ModulePrefix");
+                    b.ToTable("ModulePrefixes");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
@@ -402,7 +402,7 @@ namespace NadekoBot.Migrations
 
                     b.HasIndex("BotConfigId");
 
-                    b.ToTable("RaceAnimal");
+                    b.ToTable("RaceAnimals");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Reminder", b =>
@@ -531,9 +531,10 @@ namespace NadekoBot.Migrations
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
                 {
-                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig", "BotConfig")
                         .WithMany("ModulePrefixes")
-                        .HasForeignKey("BotConfigId");
+                        .HasForeignKey("BotConfigId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>

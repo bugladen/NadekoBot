@@ -2,6 +2,7 @@ using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Gambling
         private async Task publicRoll(IUserMessage umsg, string arg, bool ordered)
         {
             var channel = (ITextChannel)umsg.Channel;
-            var r = new Random();
+            var r = new NadekoRandom();
             //if (string.IsNullOrWhiteSpace(arg))
             //{
             //    var gen = r.Next(0, 101);
@@ -124,11 +125,11 @@ namespace NadekoBot.Modules.Gambling
                                     .ToArray();
                     if (arr[0] > arr[1])
                         throw new ArgumentException("First argument should be bigger than the second one.");
-                    rolled = new Random().Next(arr[0], arr[1] + 1);
+                    rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
                 }
                 else
                 {
-                    rolled = new Random().Next(0, int.Parse(range) + 1);
+                    rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                 }
 
                 await channel.SendMessageAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
