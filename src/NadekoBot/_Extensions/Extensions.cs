@@ -32,7 +32,7 @@ namespace NadekoBot.Extensions
 
         public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
-        
+
         public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) =>
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
 
@@ -41,7 +41,7 @@ namespace NadekoBot.Extensions
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             NadekoBot.Client.GetGuild(role.GuildId)?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
-        
+
         public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string[] breakOn = null, string addToPartialEnd = "", string addToPartialStart = "")
         {
             if (content.Length == 0) return null;
@@ -54,17 +54,16 @@ namespace NadekoBot.Extensions
             {
                 if (splitItems.Count == 0)
                 {
-                    splitItems = content.Split(new[] { breaker }, StringSplitOptions.RemoveEmptyEntries).Select(x => x += breaker).ToList();
+                    splitItems = Regex.Split(content, $"(?={breaker})").Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
                 }
                 else
                 {
                     for (int i = 0; i < splitItems.Count; i++)
                     {
-
                         var temp = splitItems[i];
                         if (temp.Length > characterLimit)
                         {
-                            var splitDeep = temp.Split(new[] { breaker }, StringSplitOptions.RemoveEmptyEntries).Select(x => x += breaker);
+                            var splitDeep = Regex.Split(temp, $"(?={breaker})").Where(s => !string.IsNullOrWhiteSpace(s));
                             splitItems.RemoveAt(i);
                             splitItems.InsertRange(i, splitDeep);
                         }
@@ -78,12 +77,12 @@ namespace NadekoBot.Extensions
                 splitItems = splitItems.Where(s => s.Length < characterLimit).ToList();
             }
             //ensured every item can be sent (if individually)
-            var firstItem = true; 
-            Queue<string> buildItems = new Queue<string>();
+            var firstItem = true;
+            Queue<string> buildItems = new Queue<string>(splitItems);
             StringBuilder builder = new StringBuilder();
-          
+
             while (buildItems.Count > 0)
-            {               
+            {
                 if (builder.Length == 0)
                 {
                     //first item to add
@@ -92,7 +91,8 @@ namespace NadekoBot.Extensions
                     else
                         firstItem = false;
                     builder.Append(buildItems.Dequeue());
-                } else
+                }
+                else
                 {
                     builder.Append(buildItems.Dequeue());
                 }
@@ -100,7 +100,8 @@ namespace NadekoBot.Extensions
                 {
                     list.Add(await msg.Channel.SendMessageAsync(builder.ToString()));
                     builder.Clear();
-                } else
+                }
+                else
                 {
                     var peeked = buildItems.Peek();
                     if (builder.Length + peeked.Length + addToPartialEnd.Length > characterLimit)
