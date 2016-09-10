@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NLog.Fluent;
 
 namespace NadekoBot
 {
@@ -31,6 +32,9 @@ namespace NadekoBot
         public async Task RunAsync(string[] args)
         {
             SetupLogger();
+            _log = LogManager.GetCurrentClassLogger();
+
+            _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
@@ -47,7 +51,6 @@ namespace NadekoBot
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, Commands);
             Stats = new StatsService(Client, CommandHandler);
-            _log = LogManager.GetCurrentClassLogger();
 
             //init db
             using (var context = DbHandler.Instance.GetDbContext())
