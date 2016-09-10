@@ -42,7 +42,7 @@ namespace NadekoBot.Extensions
         public static IEnumerable<IUser> Members(this IRole role) =>
             NadekoBot.Client.GetGuild(role.GuildId)?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
         
-        public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string[] breakOn = null, string addToEnd = "", string addToStart = "")
+        public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string[] breakOn = null, string addToPartialEnd = "", string addToPartialStart = "")
         {
             if (content.Length == 0) return null;
             var characterLimit = 1750;
@@ -88,7 +88,7 @@ namespace NadekoBot.Extensions
                 {
                     //first item to add
                     if (!firstItem)
-                        builder.Append(addToStart);
+                        builder.Append(addToPartialStart);
                     else
                         firstItem = false;
                     builder.Append(buildItems.Dequeue());
@@ -103,9 +103,9 @@ namespace NadekoBot.Extensions
                 } else
                 {
                     var peeked = buildItems.Peek();
-                    if (builder.Length + peeked.Length + addToEnd.Length > characterLimit)
+                    if (builder.Length + peeked.Length + addToPartialEnd.Length > characterLimit)
                     {
-                        builder.Append(addToEnd);
+                        builder.Append(addToPartialEnd);
                         list.Add(await msg.Channel.SendMessageAsync(builder.ToString()));
                         builder.Clear();
                     }
