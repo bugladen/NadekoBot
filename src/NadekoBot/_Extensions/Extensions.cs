@@ -33,7 +33,7 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
-        public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) => 
+        public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) =>
             await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
 
         public static bool IsAuthor(this IUserMessage msg) =>
@@ -42,38 +42,76 @@ namespace NadekoBot.Extensions
         public static IEnumerable<IUser> Members(this IRole role) =>
             NadekoBot.Client.GetGuild(role.GuildId)?.GetUsers().Where(u => u.Roles.Contains(role)) ?? Enumerable.Empty<IUser>();
 
-        public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string breakOn = "\n", string addToEnd = "", string addToStart = "")
+        public static async Task<IUserMessage[]> ReplyLong(this IUserMessage msg, string content, string[] breakOn = null, string addToPartialEnd = "", string addToPartialStart = "")
         {
-
-            if (content.Length < 2000) return new[] { await msg.Channel.SendMessageAsync(content).ConfigureAwait(false) };
+            if (content.Length == 0) return null;
+            var characterLimit = 1750;
+            if (content.Length < characterLimit) return new[] { await msg.Channel.SendMessageAsync(content).ConfigureAwait(false) };
+            if (breakOn == null) breakOn = new[] { "\n", "   ", " " };
             var list = new List<IUserMessage>();
-
-            var temp = Regex.Split(content, breakOn).Select(x => x += breakOn).ToList();
-            string toolong;
-            //while ((toolong = temp.FirstOrDefault(x => x.Length > 2000)) != null)
-            //{
-            //    more desperate measures == split on whitespace?
-            //}
-
-            StringBuilder builder = new StringBuilder();
-            //make this less crappy to look at, maybe it's bugged
-            for (int i = 0; i < temp.Count; i++)
+            var splitItems = new List<string>();
+            foreach (var breaker in breakOn)
             {
-                var addition = temp[i];
-                //we append 
-
-                if (builder.Length == 0 && i != 0) builder.Append(addToStart + addition);
-                else builder.Append(addition);
-
-                //Check if the next would have room
-                if (i + 1 >= temp.Count || temp[i + 1].Length + builder.Length + addToEnd.Length > 2000)
+                if (splitItems.Count == 0)
                 {
-                    if (i + 1 < temp.Count) builder.Append(addToEnd);
+                    splitItems = Regex.Split(content, $"(?={breaker})").Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+                }
+                else
+                {
+                    for (int i = 0; i < splitItems.Count; i++)
+                    {
+                        var temp = splitItems[i];
+                        if (temp.Length > characterLimit)
+                        {
+                            var splitDeep = Regex.Split(temp, $"(?={breaker})").Where(s => !string.IsNullOrWhiteSpace(s));
+                            splitItems.RemoveAt(i);
+                            splitItems.InsertRange(i, splitDeep);
+                        }
+                    }
+                }
+                if (splitItems.All(s => s.Length < characterLimit)) break;
+            }
+            //We remove any entries that are larger than 2000 chars
+            if (splitItems.Any(s => s.Length >= characterLimit))
+            {
+                splitItems = splitItems.Where(s => s.Length < characterLimit).ToList();
+            }
+            //ensured every item can be sent (if individually)
+            var firstItem = true;
+            Queue<string> buildItems = new Queue<string>(splitItems);
+            StringBuilder builder = new StringBuilder();
+
+            while (buildItems.Count > 0)
+            {
+                if (builder.Length == 0)
+                {
+                    //first item to add
+                    if (!firstItem)
+                        builder.Append(addToPartialStart);
+                    else
+                        firstItem = false;
+                    builder.Append(buildItems.Dequeue());
+                }
+                else
+                {
+                    builder.Append(buildItems.Dequeue());
+                }
+                if (buildItems.Count == 0)
+                {
                     list.Add(await msg.Channel.SendMessageAsync(builder.ToString()));
                     builder.Clear();
                 }
+                else
+                {
+                    var peeked = buildItems.Peek();
+                    if (builder.Length + peeked.Length + addToPartialEnd.Length > characterLimit)
+                    {
+                        builder.Append(addToPartialEnd);
+                        list.Add(await msg.Channel.SendMessageAsync(builder.ToString()));
+                        builder.Clear();
+                    }
+                }
             }
-
             return list.ToArray();
         }
 

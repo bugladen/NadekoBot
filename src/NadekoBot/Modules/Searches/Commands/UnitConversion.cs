@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Searches
                     }
                     sb.AppendLine("```");
                 }
-                await msg.ReplyLong(sb.ToString(), "```xl", "```", "```xl");
+                await msg.ReplyLong(sb.ToString(), breakOn: new[] { "```xl", "\n" });
             }
             [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Searches
                     sb.AppendLine(string.Join(",", group.Select(x => x.Triggers.FirstOrDefault()).OrderBy(x => x)));
                     sb.AppendLine("```");
                 }
-                await msg.ReplyLong(sb.ToString(), "```xl", "```", "```xl");
+                await msg.ReplyLong(sb.ToString(),  breakOn: new[] { "```xl\n", "\n" });
             }
             [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             public async Task Convert(IUserMessage msg, string origin, string target, decimal value)
