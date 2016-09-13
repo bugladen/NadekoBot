@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Utility
 
             StringBuilder builder = new StringBuilder("```\n");
             var user = msg.Author as IGuildUser;
-            var perms = user.GetPermissions(msg.Channel as ITextChannel);
+            var perms = user.GetPermissions((ITextChannel)msg.Channel);
             foreach (var p in perms.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
             {
                 builder.AppendLine($"{p.Name} : {p.GetValue(perms, null).ToString()}");
@@ -111,21 +111,22 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task ServerId(IUserMessage msg)
         {
-            await msg.Reply($"This server's ID is {(msg.Channel as ITextChannel).Guild.Id}").ConfigureAwait(false);
+            await msg.Reply($"This server's ID is {((ITextChannel)msg.Channel).Guild.Id}").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Roles(IUserMessage msg, IGuildUser target = null)
         {
-            var guild = (msg.Channel as ITextChannel).Guild;
+            var channel = (ITextChannel)msg.Channel;
+            var guild = channel.Guild;
             if (target != null)
             {
                 await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)));
             }
             else
             {
-                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", (msg.Channel as ITextChannel).Guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)));
+                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)));
             }
         }
 

@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Games
                     }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
                     if (number < 0)
                         return;
-                    var triviaGame = new TriviaGame(channel.Guild, umsg.Channel as ITextChannel, showHints, number == 0 ? 10 : number);
+                    var triviaGame = new TriviaGame(channel.Guild, (ITextChannel)umsg.Channel, showHints, number == 0 ? 10 : number);
                     if (RunningTrivias.TryAdd(channel.Guild.Id, triviaGame))
                         await channel.SendMessageAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
                     else

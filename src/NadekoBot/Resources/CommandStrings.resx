@@ -1408,7 +1408,7 @@
     <value>rolluo</value>
   </data>
   <data name="rolluo_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+    <value>Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
   </data>
   <data name="rolluo_summary" xml:space="preserve">
     <value>`$rolluo` or `$rolluo 7` or `$rolluo 3d5`</value>

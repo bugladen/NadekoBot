@@ -146,6 +146,34 @@
           "lib/netstandard1.3/Google.Apis.YouTube.v3.dll": {}
         }
       },
+      "ImageProcessorCore/1.0.0-alpha1039": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Diagnostics.Tools": "4.0.1",
+          "System.IO": "4.1.0",
+          "System.IO.Compression": "4.1.0",
+          "System.Linq": "4.1.0",
+          "System.Numerics.Vectors": "4.1.1",
+          "System.ObjectModel": "4.0.12",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.0.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Runtime.Numerics": "4.0.1",
+          "System.Text.Encoding.Extensions": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "System.Threading.Tasks.Parallel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/ImageProcessorCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/ImageProcessorCore.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -2380,6 +2408,18 @@
           "lib/portable-net45+win8+wp80+wpa81/_._": {}
         }
       },
+      "System.Runtime.CompilerServices.Unsafe/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
       "System.Runtime.Extensions/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -3369,6 +3409,16 @@
         "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.YouTube.v3.dll",
         "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.YouTube.v3.pdb",
         "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.YouTube.v3.xml"
+      ]
+    },
+    "ImageProcessorCore/1.0.0-alpha1039": {
+      "sha512": "nNLCXniPRY+m59tIQRA71uQQGmbtL0GASzex7zIz0PH6M1/yHxgYtlXZQmeyfkJIrGhJmqJDlYwEu3aZxlTfHw==",
+      "type": "package",
+      "path": "ImageProcessorCore/1.0.0-alpha1039",
+      "files": [
+        "ImageProcessorCore.1.0.0-alpha1039.nupkg.sha512",
+        "ImageProcessorCore.nuspec",
+        "lib/netstandard1.1/ImageProcessorCore.dll"
       ]
     },
     "Libuv/1.9.0": {
@@ -7249,6 +7299,19 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Runtime.CompilerServices.Unsafe/4.0.0": {
+      "sha512": "LDvjxLx2fkThOFo/SC+901fJrh5artALmgzeSqnVxzvFp4q3HO8BkeLyshPdcbs5zpN7Xh9G23M6sDhgIPbG9A==",
+      "type": "package",
+      "path": "System.Runtime.CompilerServices.Unsafe/4.0.0",
+      "files": [
+        "System.Runtime.CompilerServices.Unsafe.4.0.0.nupkg.sha512",
+        "System.Runtime.CompilerServices.Unsafe.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml"
+      ]
+    },
     "System.Runtime.Extensions/4.1.0": {
       "sha512": "CUOHjTT/vgP0qGW22U4/hDlOqXmcPq5YicBaXdUR2UiUoLwBT+olO6we4DVbq57jeX5uXH2uerVZhf0qGj+sVQ==",
       "type": "package",
@@ -9037,6 +9100,7 @@
       "Google.Apis.Customsearch.v1 >= 1.16.0.466",
       "Google.Apis.Urlshortener.v1 >= 1.15.0.138",
       "Google.Apis.YouTube.v3 >= 1.15.0.582",
+      "ImageProcessorCore >= 1.0.0-alpha1039",
       "Microsoft.EntityFrameworkCore >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 1.0.0-preview2-final",
       "Microsoft.EntityFrameworkCore.Sqlite >= 1.0.0",

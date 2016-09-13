@@ -14,7 +14,6 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo rewrite
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
@@ -150,6 +149,7 @@ namespace NadekoBot.Modules.Games
                 var file = GetRandomCurrencyImagePath();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
+                //todo add prefix
                 var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using >pick";
                 if (file == null)
                 {
@@ -157,7 +157,6 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    //todo add prefix
                     msg = await channel.SendFileAsync(file, msgToSend).ConfigureAwait(false);
                 }
                 plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
@@ -168,7 +167,7 @@ namespace NadekoBot.Modules.Games
             [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Gencurrency(IUserMessage imsg)
             {
-                var channel = imsg.Channel as ITextChannel;
+                var channel = (ITextChannel)imsg.Channel;
                 if (channel == null)
                     return;
 

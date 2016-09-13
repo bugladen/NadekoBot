@@ -432,7 +432,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
             topic = topic ?? "";
-            await (channel as ITextChannel).ModifyAsync(c => c.Topic = topic);
+            await channel.ModifyAsync(c => c.Topic = topic);
             await channel.SendMessageAsync(":ok: **New channel topic set.**").ConfigureAwait(false);
 
         }
@@ -467,7 +467,7 @@ namespace NadekoBot.Modules.Administration
         [RequirePermission(ChannelPermission.ManageMessages)]
         public async Task Prune(IUserMessage msg, int count)
         {
-            var channel = msg.Channel as ITextChannel;
+            var channel = (ITextChannel)msg.Channel;
             await (msg as IUserMessage).DeleteAsync();
             while (count > 0)
             {
@@ -485,7 +485,7 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         public async Task Prune(IUserMessage msg, IGuildUser user, int count = 100)
         {
-            var channel = msg.Channel as ITextChannel;
+            var channel = (ITextChannel)msg.Channel;
             int limit = (count < 100) ? count : 100;
             var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit)).Where(m => m.Author == user);
             await msg.Channel.DeleteMessagesAsync(enumerable);

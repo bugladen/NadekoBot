@@ -27,11 +27,8 @@ namespace NadekoBot.Modules.ClashOfClans
                     uow.ClashOfClans
                         .GetAll()
                         .Select(cw => {
-                            cw.Channel = NadekoBot.Client.GetGuilds()
-                                                        .FirstOrDefault(s => s.Id == cw.GuildId)?
-                                                        .GetChannels()
-                                                        .FirstOrDefault(c => c.Id == cw.ChannelId)
-                                                            as ITextChannel;
+                            cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
+                                                         ?.GetTextChannel(cw.ChannelId);
                             cw.Bases.Capacity = cw.Size;
                             return cw;
                         })
@@ -318,11 +315,8 @@ namespace NadekoBot.Modules.ClashOfClans
                     Bases = new List<ClashCaller>(size),
                     GuildId = serverId,
                     ChannelId = channelId,
-                    Channel = NadekoBot.Client.GetGuilds()
-                                    .FirstOrDefault(s => s.Id == serverId)?
-                                    .GetChannels()
-                                    .FirstOrDefault(c => c.Id == channelId)
-                                        as ITextChannel
+                    Channel = NadekoBot.Client.GetGuild(serverId)
+                                       ?.GetTextChannel(channelId)
                 };
                 uow.ClashOfClans.Add(cw);
                 await uow.CompleteAsync();

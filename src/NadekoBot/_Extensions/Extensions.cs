@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using ImageProcessorCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -266,5 +267,28 @@ namespace NadekoBot.Extensions
         public static ulong GB(this ulong value) => value.MB() * 1000;
 
         public static string Unmention(this string str) => str.Replace("@", "ම");
+
+        public static Image Merge(this IEnumerable<Image> images)
+        {
+            var imgList = images.ToList();
+
+            var canvas = new Image(imgList.Sum(img => img.Width), imgList.Max(img => img.Height));
+
+            var canvasPixels = canvas.Lock();
+            int offsetX = 0;
+            foreach (var img in imgList.Select(img=>img.Lock()))
+            {
+                for (int i = 0; i < img.Width; i++)
+                {
+                    for (int j = 0; j < img.Height; j++)
+                    {
+                        canvasPixels[i + offsetX, j] = img[i, j];
+                    }
+                }
+                offsetX += img.Width;                
+            }
+
+            return canvas;
+        }
     }
 }

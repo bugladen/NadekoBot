@@ -1,92 +1,70 @@
-﻿//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.Extensions;
-//using NadekoBot.Modules.Gambling.Helpers;
-//using System;
-//using System.Collections.Concurrent;
-//using System.Collections.Generic;
-//using System.Drawing;
-//using System.Threading.Tasks;
+﻿using Discord;
+using Discord.Commands;
+using ImageProcessorCore;
+using NadekoBot.Attributes;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Models;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
-////todo drawing
-//namespace NadekoBot.Modules.Gambling
-//{
-//    public class DrawCommand : DiscordCommand
-//    {
-//        public DrawCommand(DiscordModule module) : base(module) { }
+namespace NadekoBot.Modules.Gambling
+{
+    [Group]
+    public class DrawCommands
+    {
+        private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
-//        public override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "draw")
-//                .Description($"Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. | `{Prefix}draw [x]`")
-//                .Parameter("count", ParameterType.Optional)
-//                .Do(DrawCardFunc());
+        private const string cardsPath = "data/images/cards";
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Draw(IUserMessage msg)
+        {
+            var channel = (ITextChannel)msg.Channel;
+            var cards = AllDecks.GetOrAdd(channel.Guild, (s) => new Cards());
+            
+            var num = 1;
+            var images = new List<Image>();
+            var cardObjects = new List<Cards.Card>();
+            for (var i = 0; i < num; i++)
+            {
+                if (cards.CardPool.Count == 0 && i != 0)
+                {
+                    await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false);
+                    break;
+                }
+                var currentCard = cards.DrawACard();
+                cardObjects.Add(currentCard);
+                using (var stream = File.OpenRead(Path.Combine(cardsPath, currentCard.GetName())))
+                    images.Add(new Image(stream));
+            }
+            MemoryStream bitmapStream = new MemoryStream();
+            images.Merge().SaveAsPng(bitmapStream);
+            bitmapStream.Position = 0;
+            await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", $"{msg.Author.Mention} drew (TODO: CARD NAMES HERE)").ConfigureAwait(false);
+            if (cardObjects.Count == 5)
+            {
+                await channel.SendMessageAsync($"{msg.Author.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
+            }
+        }
 
-//            cgb.CreateCommand(Module.Prefix + "shuffle")
-//                .Alias(Module.Prefix + "sh")
-//                .Description($"Reshuffles all cards back into the deck.|`{Prefix}shuffle`")
-//                .Do(ReshuffleTask());
-//        }
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Shuffle(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
 
-//        private static readonly ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
+            AllDecks.AddOrUpdate(channel.Guild,
+                    (s) => new Cards(),
+                    (s, c) =>
+                    {
+                        c.Restart();
+                        return c;
+                    });
 
-//        private static Func<CommandEventArgs, Task> ReshuffleTask()
-//        {
-//            return async e =>
-//            {
-//                AllDecks.AddOrUpdate(e.Server,
-//                    (s) => new Cards(),
-//                    (s, c) =>
-//                    {
-//                        c.Restart();
-//                        return c;
-//                    });
-
-//                await channel.SendMessageAsync("Deck reshuffled.").ConfigureAwait(false);
-//            };
-//        }
-
-//        private Func<CommandEventArgs, Task> DrawCardFunc() => async (e) =>
-//        {
-//            var cards = AllDecks.GetOrAdd(e.Server, (s) => new Cards());
-
-//            try
-//            {
-//                var num = 1;
-//                var isParsed = int.TryParse(count, out num);
-//                if (!isParsed || num < 2)
-//                {
-//                    var c = cards.DrawACard();
-//                    await e.Channel.SendFile(c.Name + ".jpg", (Properties.Resources.ResourceManager.GetObject(c.Name) as Image).ToStream()).ConfigureAwait(false);
-//                    return;
-//                }
-//                if (num > 5)
-//                    num = 5;
-
-//                var images = new List<Image>();
-//                var cardObjects = new List<Cards.Card>();
-//                for (var i = 0; i < num; i++)
-//                {
-//                    if (cards.CardPool.Count == 0 && i != 0)
-//                    {
-//                        await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false);
-//                        break;
-//                    }
-//                    var currentCard = cards.DrawACard();
-//                    cardObjects.Add(currentCard);
-//                    images.Add(Properties.Resources.ResourceManager.GetObject(currentCard.Name) as Image);
-//                }
-//                var bitmap = images.Merge();
-//                await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream()).ConfigureAwait(false);
-//                if (cardObjects.Count == 5)
-//                {
-//                    await channel.SendMessageAsync($"{umsg.Author.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine("Error drawing (a) card(s) " + ex.ToString());
-//            }
-//        };
-//    }
-//}
+            await channel.SendMessageAsync("`Deck reshuffled.`").ConfigureAwait(false);
+        }
+    }
+}

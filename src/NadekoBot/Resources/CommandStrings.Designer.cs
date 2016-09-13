@@ -5622,7 +5622,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y..
+        ///    Looks up a localized string similar to Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y..
         /// </summary>
         public static string rolluo_desc {
             get {

@@ -52,7 +52,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         public async Task Youtube(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
+            if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
             var result = (await _google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
@@ -68,7 +68,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            if (!(await ValidateQuery(umsg.Channel as ITextChannel, query).ConfigureAwait(false))) return;
+            if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string result;
             try

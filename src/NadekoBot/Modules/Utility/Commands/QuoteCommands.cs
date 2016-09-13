@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task ShowQuote(IUserMessage umsg, string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task AddQuote(IUserMessage umsg, string keyword, [Remainder] string text)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                 return;
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task DeleteQuote(IUserMessage umsg, string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task DelAllQuotes(IUserMessage umsg, string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
