@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace NadekoBot.Modules.Searches
                                                 "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
 
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Lolban(IUserMessage umsg)
         {
@@ -52,7 +53,7 @@ namespace NadekoBot.Modules.Searches
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
                     var sb = new StringBuilder();
                     sb.AppendLine($"**Showing {dataList.Count} top banned champions.**");
-                    sb.AppendLine($"`{trashTalk[new Random().Next(0, trashTalk.Length)]}`");
+                    sb.AppendLine($"`{trashTalk[new NadekoRandom().Next(0, trashTalk.Length)]}`");
                     for (var i = 0; i < dataList.Count; i++)
                     {
                         if (i % 2 == 0 && i != 0)
@@ -113,7 +114,7 @@ namespace NadekoBot.Modules.Searches
 //            public float StatScore { get; set; }
 //        }
 
-//        internal override void Init(CommandGroupBuilder cgb)
+//        public override void Init(CommandGroupBuilder cgb)
 //        {
 //            cgb.CreateCommand(Module.Prefix + "lolchamp")
 //                  .Description($"Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. |`{Prefix}lolchamp Riven` or `{Prefix}lolchamp Annie sup`")

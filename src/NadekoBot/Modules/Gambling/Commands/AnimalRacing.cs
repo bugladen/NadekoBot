@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Gambling
         {
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Race(IUserMessage umsg)
             {
@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Gambling
                     await channel.SendMessageAsync("🏁 `Failed starting a race. Another race is probably running.`");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(IUserMessage umsg, int amount = 0)
             {
@@ -41,17 +41,10 @@ namespace NadekoBot.Modules.Gambling
                 if (amount < 0)
                     amount = 0;
 
-                //todo DB
-                //var userFlowers = Gambling.GetUserFlowers(umsg.Author.Id);
+                if (amount > 0)
+                    if(!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, "BetRace", amount, true).ConfigureAwait(false))
+                        await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false);
 
-                //if (userFlowers < amount)
-                //{
-                //    await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {NadekoBot.Config.CurrencyName}s. You only have {userFlowers}{NadekoBot.Config.CurrencySign}.").ConfigureAwait(false);
-                //    return;
-                //}
-
-                //if (amount > 0)
-                //    await FlowersHandler.RemoveFlowers(umsg.Author, "BetRace", (int)amount, true).ConfigureAwait(false);
 
                 AnimalRace ar;
                 if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
@@ -67,7 +60,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private ConcurrentQueue<string> animals { get; }
 
-                public bool Fail { get; internal set; }
+                public bool Fail { get; set; }
 
                 public List<Participant> participants = new List<Participant>();
                 private ulong serverId;
@@ -116,9 +109,9 @@ namespace NadekoBot.Modules.Gambling
                             {
                                 await raceChannel.SendMessageAsync("🏁`Race failed to start since there was not enough participants.`");
                                 var p = participants.FirstOrDefault();
-                                //todo DB
-                                //if (p != null)
-                                //    await FlowersHandler.AddFlowersAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                                
+                                if (p != null)
+                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
                                 End();
                                 return;
                             }
@@ -137,7 +130,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private async Task StartRace()
                 {
-                    var rng = new Random();
+                    var rng = new NadekoRandom();
                     Participant winner = null;
                     IUserMessage msg = null;
                     int place = 1;
@@ -150,7 +143,6 @@ namespace NadekoBot.Modules.Gambling
                             //update the state
                             participants.ForEach(p =>
                             {
-
                                 p.Total += 1 + rng.Next(0, 10);
                                 if (p.Total > 60)
                                 {
@@ -191,8 +183,8 @@ namespace NadekoBot.Modules.Gambling
                     if (winner.AmountBet > 0)
                     {
                         var wonAmount = winner.AmountBet * (participants.Count - 1);
-                        //todo DB
-                        //await FlowersHandler.AddFlowersAsync(winner.User, "Won a Race", wonAmount).ConfigureAwait(false);
+                        
+                        await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, false).ConfigureAwait(false);
                         await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
                     }
                     else
@@ -202,14 +194,15 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private async Task Client_MessageReceived(IMessage imsg)
+                private Task Client_MessageReceived(IMessage imsg)
                 {
                     var msg = imsg as IUserMessage;
                     if (msg == null)
-                        return;
-                    if (await msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
-                        return;
+                        return Task.CompletedTask;
+                    if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
+                        return Task.CompletedTask;
                     messagesSinceGameStarted++;
+                    return Task.CompletedTask;
                 }
 
                 private async Task CheckForFullGameAsync(CancellationToken cancelToken)

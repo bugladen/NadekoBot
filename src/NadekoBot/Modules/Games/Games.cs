@@ -12,10 +12,9 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Games
 {
-    [Module(">", AppendSpace = false)]
+    [NadekoModule("Games", ">")]
     public partial class Games : DiscordModule
     {
-        //todo DB
         private IEnumerable<string> _8BallResponses {
             get {
                 using (var uow = DbHandler.UnitOfWork())
@@ -28,7 +27,7 @@ namespace NadekoBot.Modules.Games
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Choose(IUserMessage umsg, [Remainder] string list = null)
         {
@@ -38,11 +37,11 @@ namespace NadekoBot.Modules.Games
             var listArr = list.Split(';');
             if (listArr.Count() < 2)
                 return;
-            var rng = new Random();
+            var rng = new NadekoRandom();
             await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task _8Ball(IUserMessage umsg, [Remainder] string question = null)
         {
@@ -50,12 +49,12 @@ namespace NadekoBot.Modules.Games
 
             if (string.IsNullOrWhiteSpace(question))
                 return;
-                var rng = new Random();
+                var rng = new NadekoRandom();
             await channel.SendMessageAsync($@":question: `Question` __**{question}**__ 
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Rps(IUserMessage umsg, string input)
         {
@@ -91,7 +90,7 @@ namespace NadekoBot.Modules.Games
                 default:
                     return;
             }
-            var nadekoPick = new Random().Next(0, 3);
+            var nadekoPick = new NadekoRandom().Next(0, 3);
             var msg = "";
             if (pick == nadekoPick)
                 msg = $"It's a draw! Both picked :{GetRPSPick(pick)}:";
@@ -105,7 +104,7 @@ namespace NadekoBot.Modules.Games
             await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Linux(IUserMessage umsg, string guhnoo, string loonix)
         {

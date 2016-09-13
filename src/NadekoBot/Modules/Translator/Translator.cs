@@ -9,14 +9,14 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Translator
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("Translator", "~")]
     public class Translator : DiscordModule
     {
         public Translator(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)
         {
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Translator
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Translangs(IUserMessage umsg)
         {

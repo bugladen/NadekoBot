@@ -67,12 +67,7 @@ namespace NadekoBot.Modules.Utility
                     }
                     else
                     {
-                        ch = NadekoBot.Client.GetGuilds()
-                                .Where(g => g.Id == r.ServerId)
-                                .FirstOrDefault()
-                                .GetTextChannels()
-                                .Where(c => c.Id == r.ChannelId)
-                                .FirstOrDefault();
+                        ch = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
                     }
                     if (ch == null)
                         return;
@@ -97,7 +92,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
             {
@@ -190,7 +185,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
             //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
             //{

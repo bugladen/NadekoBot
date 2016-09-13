@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services;
+using NadekoBot.Services.Database;
 using NadekoBot.Services.Impl;
 using NLog;
 using NLog.Config;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NLog.Fluent;
 
 namespace NadekoBot
 {
@@ -19,22 +21,26 @@ namespace NadekoBot
         private Logger _log;
 
         public static CommandService Commands { get; private set; }
+        public static CommandHandler CommandHandler { get; private set; }
         public static DiscordSocketClient Client { get; private set; }
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
-        public static GoogleApiService Google { get; set; }
+        public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
             SetupLogger();
+            _log = LogManager.GetCurrentClassLogger();
+
+            _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
-                LargeThreshold = 200,
+                MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
             });
 
@@ -43,8 +49,14 @@ namespace NadekoBot
             Commands = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();
-            Stats = new StatsService(Client);
-            _log = LogManager.GetCurrentClassLogger();
+            CommandHandler = new CommandHandler(Client, Commands);
+            Stats = new StatsService(Client, CommandHandler);
+
+            //init db
+            using (var context = DbHandler.Instance.GetDbContext())
+            {
+                context.EnsureSeedData();
+            }
 
             //setup DI
             var depMap = new DependencyMap();
@@ -54,16 +66,16 @@ namespace NadekoBot
             depMap.Add<IGoogleApiService>(Google);
 
             //connect
-            await Client.LoginAsync(TokenType.Bot, Credentials.Token);
-            await Client.ConnectAsync();
+            await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
+            await Client.ConnectAsync().ConfigureAwait(false);
+            await Client.DownloadAllUsersAsync().ConfigureAwait(false);
 
             _log.Info("Connected");
 
             //load commands
-            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap);
-            Client.MessageReceived += Client_MessageReceived;
+            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 
-            Console.WriteLine(await Stats.Print());
+            Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 
             await Task.Delay(-1);
         }
@@ -83,57 +95,10 @@ namespace NadekoBot
 
                 LogManager.Configuration = logConfig;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
             }
-        }
-
-        private Task Client_MessageReceived(IMessage umsg)
-        {
-            var usrMsg = umsg as IUserMessage;
-            if (usrMsg == null)
-                return Task.CompletedTask;
-            var throwaway = Task.Run(async () =>
-            {
-                var sw = new Stopwatch();
-                sw.Start();
-                var t = await Commands.Execute(usrMsg, usrMsg.Content);
-                sw.Stop();
-                var channel = (umsg.Channel as ITextChannel);
-                if (t.IsSuccess)
-                {
-
-                    _log.Info("Command Executed after {4}s\n\t" +
-                              "User: {0}\n\t" +
-                              "Server: {1}\n\t" +
-                              "Channel: {2}\n\t" +
-                              "Message: {3}",
-                              umsg.Author + " [" + umsg.Author.Id + "]", // {0}
-                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), //{2}
-                              umsg.Content, // {3}
-                              sw.Elapsed.TotalSeconds // {4}
-                              );
-                }
-                else if (!t.IsSuccess && t.Error != CommandError.UnknownCommand)
-                {
-                    _log.Warn("Command Errored after {5}s\n\t" +
-                              "User: {0}\n\t" +
-                              "Server: {1}\n\t" +
-                              "Channel: {2}\n\t" +
-                              "Message: {3}\n\t" + 
-                              "Error: {4}",
-                              umsg.Author + " [" + umsg.Author.Id + "]", // {0}
-                              (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                              (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), //{2}
-                              umsg.Content,// {3}
-                              t.ErrorReason, // {4}
-                              sw.Elapsed.TotalSeconds //{5}
-                              );
-                }
-            });
-
-            return Task.CompletedTask;
         }
     }
 }

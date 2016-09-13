@@ -28,7 +28,7 @@ namespace NadekoBot.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal ResponseStrings() {
+        public ResponseStrings() {
         }
         
         /// <summary>

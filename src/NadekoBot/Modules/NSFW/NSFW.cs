@@ -15,14 +15,14 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.NSFW
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
         public NSFW(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Hentai(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.NSFW
             await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Danbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task E621(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Cp(IUserMessage umsg)
         {
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.NSFW
             await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Boobs(IUserMessage umsg)
         {
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new Random().Next(0, 9880) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new NadekoRandom().Next(0, 9880) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Butts(IUserMessage umsg)
         {
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new Random().Next(0, 3873) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new NadekoRandom().Next(0, 3873) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.NSFW
 
         public static async Task<string> GetDanbooruImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
 
             if (tag == "loli") //loli doesn't work for some reason atm
                 tag = "flat_chest";
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.NSFW
                 if (matches.Count == 0)
                     return null;
 
-                var rng = new Random();
+                var rng = new NadekoRandom();
                 var match = matches[rng.Next(0, matches.Count)];
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.NSFW
 
         public static async Task<string> GetRule34ImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             var url =
             $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
             using (var http = new HttpClient())
@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.NSFW
         }
 
 
-        internal static async Task<string> GetE621ImageLink(string tags)
+        public static async Task<string> GetE621ImageLink(string tags)
         {
             try
             {

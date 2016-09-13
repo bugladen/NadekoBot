@@ -8,10 +8,10 @@ namespace NadekoBot.Modules
 {
     public class DiscordModule
     {
-        protected ILocalization _l;
-        protected CommandService _commands;
-        protected DiscordSocketClient _client;
-        protected Logger _log;
+        protected ILocalization _l { get; }
+        protected CommandService _commands { get; }
+        protected DiscordSocketClient _client { get; }
+        protected Logger _log { get; }
 
         public DiscordModule(ILocalization loc, CommandService cmds, DiscordSocketClient client)
         {

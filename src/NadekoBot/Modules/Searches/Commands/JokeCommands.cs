@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Modules.Searches.Models;
+using NadekoBot.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
@@ -19,7 +20,6 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class JokeCommands
         {
-            //todo DB
             private List<WoWJoke> wowJokes = new List<WoWJoke>();
             private List<MagicItem> magicItems;
             private Logger _log;
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Searches
                     _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Yomama(IUserMessage umsg)
             {
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Randjoke(IUserMessage umsg)
             {
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task ChuckNorris(IUserMessage umsg)
             {
@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task WowJoke(IUserMessage umsg)
             {
@@ -87,15 +87,15 @@ namespace NadekoBot.Modules.Searches
                 if (!wowJokes.Any())
                 {
                 }
-                await channel.SendMessageAsync(wowJokes[new Random().Next(0, wowJokes.Count)].ToString());
+                await channel.SendMessageAsync(wowJokes[new NadekoRandom().Next(0, wowJokes.Count)].ToString());
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task MagicItem(IUserMessage umsg)
             {
                 var channel = (ITextChannel)umsg.Channel;
-                var rng = new Random();
+                var rng = new NadekoRandom();
                 var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
 
                 await channel.SendMessageAsync(item).ConfigureAwait(false);

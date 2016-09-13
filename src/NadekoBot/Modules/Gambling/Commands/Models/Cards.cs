@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NadekoBot.Extensions;
+using NadekoBot.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -114,7 +116,7 @@ namespace NadekoBot.Modules.Gambling.Models
                 }
             }
         }
-        private Random r = new Random();
+        private Random r = new NadekoRandom();
         /// <summary>
         /// Take a card from the pool, you either take it from the top if the deck is shuffled, or from a random place if the deck is in the default order.
         /// </summary>
@@ -143,7 +145,7 @@ namespace NadekoBot.Modules.Gambling.Models
         private void Shuffle()
         {
             if (cardPool.Count <= 1) return;
-            var orderedPool = cardPool.OrderBy(x => r.Next());
+            var orderedPool = cardPool.Shuffle();
             cardPool = cardPool as List<Card> ?? orderedPool.ToList();
         }
         public override string ToString() => string.Concat(cardPool.Select(c => c.ToString())) + Environment.NewLine;

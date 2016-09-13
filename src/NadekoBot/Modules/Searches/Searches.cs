@@ -16,7 +16,7 @@ using NadekoBot.Modules.Searches.IMDB;
 
 namespace NadekoBot.Modules.Searches
 {
-    [Module("~", AppendSpace = false)]
+    [NadekoModule("Searches", "~")]
     public partial class Searches : DiscordModule
     {
         private IGoogleApiService _google { get; }
@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Searches
             _google = youtube;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IUserMessage umsg, string city, string country)
         {
@@ -47,7 +47,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Youtube(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -62,7 +62,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Imdb(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -86,7 +86,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task RandomCat(IUserMessage umsg)
         {
@@ -99,7 +99,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IUserMessage umsg)
         {
@@ -110,7 +110,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task I(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -140,7 +140,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Ir(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -152,7 +152,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             {
                 using (var http = new HttpClient())
                 {
-                    var rng = new Random();
+                    var rng = new NadekoRandom();
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                     var items = obj["items"] as JArray;
@@ -172,7 +172,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Lmgtfy(IUserMessage umsg, [Remainder] string ffs = null)
         {
@@ -186,7 +186,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                            .ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
@@ -200,7 +200,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                            .ConfigureAwait(false);
         }
         ////todo drawing
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
         //{
@@ -245,7 +245,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //    }
         //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Ud(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -279,7 +279,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Hashtag(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -314,7 +314,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Catfact(IUserMessage umsg)
         {
@@ -328,7 +328,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Revav(IUserMessage umsg, [Remainder] string arg = null)
         {
@@ -338,14 +338,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             if (string.IsNullOrWhiteSpace(usrStr))
                 return;
 
-            var usr = (await channel.Guild.GetUsersAsync()).Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
+            var usr = channel.Guild.GetUsers().Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
 
             if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                 return;
             await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Revimg(IUserMessage umsg, [Remainder] string imageLink = null)
         {
@@ -357,7 +357,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -371,7 +371,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Wiki(IUserMessage umsg, [Remainder] string query = null)
         {
@@ -392,7 +392,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         }
 
         ////todo drawing
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Clr(IUserMessage umsg, [Remainder] string color = null)
         //{
@@ -417,7 +417,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         //    await channel.SendFileAsync("arg1.png", img.ToStream());
         //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Videocall(IUserMessage umsg, [Remainder] string arg = null)
         {
@@ -428,7 +428,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 var allUsrs = umsg.MentionedUsers.Append(umsg.Author);
                 var allUsrsArray = allUsrs.ToArray();
                 var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
-                str += new Random().Next();
+                str += new NadekoRandom().Next();
                 foreach (var usr in allUsrsArray)
                 {
                     await (await (usr as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(str).ConfigureAwait(false);
@@ -440,7 +440,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Avatar(IUserMessage umsg, [Remainder] string mention = null)
         {
@@ -457,7 +457,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         public static async Task<string> GetSafebooruImageLink(string tag)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             var url =
             $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
             using (var http = new HttpClient())

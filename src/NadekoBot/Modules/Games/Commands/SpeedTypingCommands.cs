@@ -1,196 +1,197 @@
-﻿//using Discord;
-//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.DataModels;
-//using NadekoBot.Extensions;
-//using System;
-//using System.Collections.Concurrent;
-//using System.Collections.Generic;
-//using System.Diagnostics;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using NadekoBot.Attributes;
+using NadekoBot.Extensions;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
-////todo DB
-////todo Rewrite?
-//namespace NadekoBot.Modules.Games
-//{
-//    public static class SentencesProvider
-//    {
-//        internal static string GetRandomSentence()
-//        {
-//            var data = DbHandler.Instance.GetAllRows<TypingArticle>();
-//            try
-//            {
-//                return data.ToList()[new Random().Next(0, data.Count())].Text;
-//            }
-//            catch
-//            {
-//                return "Failed retrieving data from parse. Owner didn't add any articles to type using `typeadd`.";
-//            }
-//        }
-//    }
+namespace NadekoBot.Modules.Games
+{
+    public partial class Games
+    {
+        public class TypingGame
+        {
+            public const float WORD_VALUE = 4.5f;
+            private readonly ITextChannel channel;
+            public string CurrentSentence;
+            public bool IsActive;
+            private readonly Stopwatch sw;
+            private readonly List<ulong> finishedUserIds;
 
-//    public class TypingGame
-//    {
-//        public const float WORD_VALUE = 4.5f;
-//        private readonly Channel channel;
-//        public string CurrentSentence;
-//        public bool IsActive;
-//        private readonly Stopwatch sw;
-//        private readonly List<ulong> finishedUserIds;
+            public TypingGame(ITextChannel channel)
+            {
+                this.channel = channel;
+                IsActive = false;
+                sw = new Stopwatch();
+                finishedUserIds = new List<ulong>();
+            }
 
-//        public TypingGame(Channel channel)
-//        {
-//            this.channel = channel;
-//            IsActive = false;
-//            sw = new Stopwatch();
-//            finishedUserIds = new List<ulong>();
-//        }
+            public ITextChannel Channel { get; set; }
 
-//        public Channel Channell { get; internal set; }
+            public async Task<bool> Stop()
+            {
+                if (!IsActive) return false;
+                NadekoBot.Client.MessageReceived -= AnswerReceived;
+                finishedUserIds.Clear();
+                IsActive = false;
+                sw.Stop();
+                sw.Reset();
+                await channel.SendMessageAsync("Typing contest stopped").ConfigureAwait(false);
+                return true;
+            }
 
-//        internal async Task<bool> Stop()
-//        {
-//            if (!IsActive) return false;
-//            NadekoBot.Client.MessageReceived -= AnswerReceived;
-//            finishedUserIds.Clear();
-//            IsActive = false;
-//            sw.Stop();
-//            sw.Reset();
-//            await channel.Send("Typing contest stopped").ConfigureAwait(false);
-//            return true;
-//        }
-
-//        internal async Task Start()
-//        {
-//            while (true)
-//            {
-//                if (IsActive) return; // can't start running game
-//                IsActive = true;
-//                CurrentSentence = SentencesProvider.GetRandomSentence();
-//                var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
-//                await channel.SendMessageAsync($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
+            public async Task Start()
+            {
+                while (true)
+                {
+                    if (IsActive) return; // can't start running game
+                    IsActive = true;
+                    CurrentSentence = GetRandomSentence();
+                    var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
+                    await channel.SendMessageAsync($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
 
-//                var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
-//                await Task.Delay(1000).ConfigureAwait(false);
-//                await msg.Edit("Starting new typing contest in **2**...").ConfigureAwait(false);
-//                await Task.Delay(1000).ConfigureAwait(false);
-//                await msg.Edit("Starting new typing contest in **1**...").ConfigureAwait(false);
-//                await Task.Delay(1000).ConfigureAwait(false);
-//                await msg.Edit($":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
-//                sw.Start();
-//                HandleAnswers();
+                    var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    await msg.ModifyAsync(m => m.Content = $":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
+                    sw.Start();
+                    HandleAnswers();
 
-//                while (i > 0)
-//                {
-//                    await Task.Delay(1000).ConfigureAwait(false);
-//                    i--;
-//                    if (!IsActive)
-//                        return;
-//                }
+                    while (i > 0)
+                    {
+                        await Task.Delay(1000).ConfigureAwait(false);
+                        i--;
+                        if (!IsActive)
+                            return;
+                    }
 
-//                await Stop().ConfigureAwait(false);
-//            }
-//        }
+                    await Stop().ConfigureAwait(false);
+                }
+            }
 
-//        private void HandleAnswers()
-//        {
-//            NadekoBot.Client.MessageReceived += AnswerReceived;
-//        }
+            public string GetRandomSentence()
+            {
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    return uow.TypingArticles.GetRandom()?.Text ?? "No typing articles found. Use `>typeadd` command to add a new article for typing.";
+                }
 
-//        private async void AnswerReceived(object sender, MessageEventArgs e)
-//        {
-//            try
-//            {
-//                if (e.Channel == null || e.Channel.Id != channel.Id || umsg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
+            }
 
-//                var guess = e.Message.RawText;
+            private void HandleAnswers()
+            {
+                NadekoBot.Client.MessageReceived += AnswerReceived;
+            }
 
-//                var distance = CurrentSentence.LevenshteinDistance(guess);
-//                var decision = Judge(distance, guess.Length);
-//                if (decision && !finishedUserIds.Contains(umsg.Author.Id))
-//                {
-//                    finishedUserIds.Add(umsg.Author.Id);
-//                    await channel.Send($"{umsg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
-//                    if (finishedUserIds.Count % 2 == 0)
-//                    {
-//                        await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
-//                    }
-//                }
-//            }
-//            catch { }
-//        }
+            private Task AnswerReceived(IMessage imsg)
+            {
+                var msg = imsg as IUserMessage;
+                if (msg == null)
+                    return Task.CompletedTask;
+                var t = Task.Run(async () =>
+                {
+                    try
+                    {
+                        if (channel == null || channel.Id != channel.Id || msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
 
-//        private bool Judge(int errors, int textLength) => errors <= textLength / 25;
+                        var guess = msg.Content;
 
-//    }
+                        var distance = CurrentSentence.LevenshteinDistance(guess);
+                        var decision = Judge(distance, guess.Length);
+                        if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                        {
+                            finishedUserIds.Add(msg.Author.Id);
+                            await channel.SendMessageAsync($"{msg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
+                            if (finishedUserIds.Count % 2 == 0)
+                            {
+                                await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
+                            }
+                        }
+                    }
+                    catch { }
+                });
+                return Task.CompletedTask;
+            }
 
-//    internal class SpeedTyping : DiscordCommand
-//    {
+            private bool Judge(int errors, int textLength) => errors <= textLength / 25;
 
-//        public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
+        }
 
-//        public SpeedTyping(DiscordModule module) : base(module)
-//        {
-//            RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
-//        }
+        [Group]
+        public class SpeedTypingCommands
+        {
 
-//        public Func<CommandEventArgs, Task> DoFunc() =>
-//            async e =>
-//            {
-//                var game = RunningContests.GetOrAdd(umsg.Author.Server.Id, id => new TypingGame(e.Channel));
+            public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
-//                if (game.IsActive)
-//                {
-//                    await channel.SendMessageAsync(
-//                            $"Contest already running in " +
-//                            $"{game.Channell.Mention} channel.")
-//                                .ConfigureAwait(false);
-//                }
-//                else
-//                {
-//                    await game.Start().ConfigureAwait(false);
-//                }
-//            };
+            public SpeedTypingCommands()
+            {
+                RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
+            }
 
-//        private Func<CommandEventArgs, Task> QuitFunc() =>
-//            async e =>
-//            {
-//                TypingGame game;
-//                if (RunningContests.TryRemove(umsg.Author.Server.Id, out game))
-//                {
-//                    await game.Stop().ConfigureAwait(false);
-//                    return;
-//                }
-//                await channel.SendMessageAsync("No contest to stop on this channel.").ConfigureAwait(false);
-//            };
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            public async Task TypeStart(IUserMessage msg)
+            {
+                var channel = (ITextChannel)msg.Channel;
 
-//        internal override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "typestart")
-//                .Description($"Starts a typing contest. | `{Prefix}typestart`")
-//                .Do(DoFunc());
+                var game = RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(channel));
 
-//            cgb.CreateCommand(Module.Prefix + "typestop")
-//                .Description($"Stops a typing contest on the current channel. | `{Prefix}typestop`")
-//                .Do(QuitFunc());
+                if (game.IsActive)
+                {
+                    await channel.SendMessageAsync(
+                            $"Contest already running in " +
+                            $"{game.Channel.Mention} channel.")
+                                .ConfigureAwait(false);
+                }
+                else
+                {
+                    await game.Start().ConfigureAwait(false);
+                }
+            }
 
-//            cgb.CreateCommand(Module.Prefix + "typeadd")
-//                .Description($"Adds a new article to the typing contest. Owner only. | `{Prefix}typeadd wordswords`")
-//                .Parameter("text", ParameterType.Unparsed)
-//                .Do(async e =>
-//                {
-//                    if (!NadekoBot.IsOwner(umsg.Author.Id) || string.IsNullOrWhiteSpace(text)) return;
+            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            public async Task TypeStop(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                TypingGame game;
+                if (RunningContests.TryRemove(channel.Guild.Id, out game))
+                {
+                    await game.Stop().ConfigureAwait(false);
+                    return;
+                }
+                await channel.SendMessageAsync("No contest to stop on this channel.").ConfigureAwait(false);
+            }
 
-//                    DbHandler.Instance.Connection.Insert(new TypingArticle
-//                    {
-//                        Text = text,
-//                        DateAdded = DateTime.Now
-//                    });
+            ////todo owner only
+            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
+            //{
+            //    var channel = (ITextChannel)imsg.Channel;
 
-//                    await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
-//                });
-//        }
-//    }
-//}
+            //    using (var uow = DbHandler.UnitOfWork())
+            //    {
+            //        uow.TypingArticles.Add(new Services.Database.Models.TypingArticle
+            //        {
+            //            Author = imsg.Author.Username,
+            //            Text = text
+            //        });
+            //    }
+
+            //    await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
+            //}
+        }
+    }
+}

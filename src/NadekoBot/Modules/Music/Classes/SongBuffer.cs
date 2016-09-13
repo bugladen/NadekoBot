@@ -1,4 +1,5 @@
 ﻿using NadekoBot.Extensions;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,14 +18,15 @@ namespace NadekoBot.Modules.Music.Classes
     /// </summary>
     class SongBuffer : Stream
     {
-
-        public SongBuffer(MusicPlayer musicPlayer, string basename, SongInfo songInfo, int skipTo)
+        public SongBuffer(MusicPlayer musicPlayer, string basename, SongInfo songInfo, int skipTo, int maxFileSize)
         {
             MusicPlayer = musicPlayer;
             Basename = basename;
             SongInfo = songInfo;
             SkipTo = skipTo;
+            MaxFileSize = maxFileSize;
             CurrentFileStream = new FileStream(this.GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         MusicPlayer MusicPlayer;
@@ -35,7 +37,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private int SkipTo;
 
-        private static int MAX_FILE_SIZE = 2.MiB();
+        private int MaxFileSize = 2.MiB();
 
         private long FileNumber = -1;
 
@@ -46,9 +48,10 @@ namespace NadekoBot.Modules.Music.Classes
         private ulong CurrentBufferSize = 0;
 
         private FileStream CurrentFileStream;
+        private Logger _log;
 
         public Task BufferSong(CancellationToken cancelToken) =>
-           Task.Factory.StartNew(async () =>
+           Task.Run(async () =>
            {
                Process p = null;
                FileStream outStream = null;
@@ -72,7 +75,7 @@ namespace NadekoBot.Modules.Music.Classes
                    while (!p.HasExited) //Also fix low bandwidth
                    {
                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false);
-                       if (currentFileSize >= MAX_FILE_SIZE)
+                       if (currentFileSize >= MaxFileSize)
                        {
                            try
                            {
@@ -122,7 +125,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                        p.Dispose();
                    }
                }
-           }, TaskCreationOptions.LongRunning);
+           });
 
         /// <summary>
         /// Return the next file to read, and delete the old one
@@ -172,18 +175,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
         public override long Length => (long) CurrentBufferSize;
 
-        public override long Position
-        {
-            get
-            {
-                return 0;
-            }
-
-            set
-            {
-                
-            }
-        }
+        public override long Position { get; set; } = 0;
 
         public override void Flush() { }
 
@@ -198,6 +190,8 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                     CurrentFileStream = new FileStream(GetNextFile(), FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
                     read += CurrentFileStream.Read(buffer, read + offset, count - read);
                 }
+                if (read < count)
+                    Array.Clear(buffer, read, count - read);
             }
             return read;
         }

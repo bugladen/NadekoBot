@@ -20,7 +20,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             return _set.Where(q => q.Keyword == keyword).OrderBy(q => rng.Next()).FirstOrDefaultAsync();
         }
     }

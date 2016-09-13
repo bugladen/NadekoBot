@@ -13,10 +13,11 @@ using NadekoBot.Extensions;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Music
 {
-    [Module("!!", AppendSpace = false)]
+    [NadekoModule("ClashOfClans", "!!")]
     public partial class Music : DiscordModule
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers = new ConcurrentDictionary<ulong, MusicPlayer>();
@@ -34,46 +35,49 @@ namespace NadekoBot.Modules.Music
             _google = google;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Next(IUserMessage umsg)
+        public Task Next(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)umsg.Author).VoiceChannel)
                 musicPlayer.Next();
+            return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Stop(IUserMessage umsg)
+        public Task Stop(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
             }
+            return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Destroy(IUserMessage umsg)
+        public Task Destroy(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 musicPlayer.Destroy();
+            return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Pause(IUserMessage umsg)
         {
@@ -90,7 +94,7 @@ namespace NadekoBot.Modules.Music
                 await channel.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Queue(IUserMessage umsg, [Remainder] string query)
         {
@@ -104,7 +108,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudQueue(IUserMessage umsg, [Remainder] string query)
         {
@@ -118,7 +122,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(IUserMessage umsg, int page = 1)
         {
@@ -151,7 +155,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync(toSend + string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying(IUserMessage umsg)
         {
@@ -166,7 +170,7 @@ namespace NadekoBot.Modules.Music
                                         $"{currentSong.PrettyCurrentTime()}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Volume(IUserMessage umsg, int val)
         {
@@ -181,51 +185,55 @@ namespace NadekoBot.Modules.Music
             var volume = musicPlayer.SetVolume(val);
             await channel.SendMessageAsync($"🎵 `Volume set to {volume}%`").ConfigureAwait(false);
         }
-        ////todo DB
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Defvol(IUserMessage umsg, [Remainder] int val)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    var arg = val;
-        //    float volume;
-        //    if (!float.TryParse(arg, out volume) || volume < 0 || volume > 100)
-        //    {
-        //        await channel.SendMessageAsync("Volume number invalid.").ConfigureAwait(false);
-        //        return;
-        //    }
-        //    var conf = SpecificConfigurations.Default.Of(channel.Guild.Id);
-        //    conf.DefaultMusicVolume = volume / 100;
-        //    await channel.SendMessageAsync($"🎵 `Default volume set to {volume}%`").ConfigureAwait(false);
-        //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Mute(IUserMessage umsg)
+        public async Task Defvol(IUserMessage umsg, [Remainder] int val)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            if (val < 0 || val > 100)
+            {
+                await channel.SendMessageAsync("Volume number invalid. Must be between 0 and 100").ConfigureAwait(false);
+                return;
+            }
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.GuildConfigs.For(channel.Guild.Id).DefaultMusicVolume = val / 100.0f;
+                uow.Complete();
+            }
+            await channel.SendMessageAsync($"🎵 `Default volume set to {val}%`").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public Task Mute(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return;
+                return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
             musicPlayer.SetVolume(0);
+            return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task Max(IUserMessage umsg)
+        public Task Max(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return;
+                return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
             musicPlayer.SetVolume(100);
+            return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Shuffle(IUserMessage umsg)
         {
@@ -245,7 +253,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync("🎵 `Songs shuffled.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Playlist(IUserMessage umsg, [Remainder] string playlist)
         {
@@ -287,7 +295,7 @@ namespace NadekoBot.Modules.Music
             await msg.ModifyAsync(m => m.Content = "🎵 `Playlist queue complete.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl(IUserMessage umsg, [Remainder] string pl)
         {
@@ -324,7 +332,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task LocalPl(IUserMessage umsg, [Remainder] string directory)
         {
@@ -353,7 +361,7 @@ namespace NadekoBot.Modules.Music
             catch { }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Radio(IUserMessage umsg, string radio_link)
         {
@@ -371,7 +379,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Local(IUserMessage umsg, [Remainder] string path)
         {
@@ -383,7 +391,7 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Move(IUserMessage umsg)
         {
@@ -392,10 +400,10 @@ namespace NadekoBot.Modules.Music
             var voiceChannel = ((IGuildUser)umsg.Author).VoiceChannel;
             if (voiceChannel == null || voiceChannel.Guild != channel.Guild || !MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
-            musicPlayer.MoveToVoiceChannel(voiceChannel);
+            await musicPlayer.MoveToVoiceChannel(voiceChannel);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Remove(IUserMessage umsg, int num)
         {
@@ -414,8 +422,8 @@ namespace NadekoBot.Modules.Music
             musicPlayer.RemoveSongAt(num - 1);
             await channel.SendMessageAsync($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**").ConfigureAwait(false);
         }
-        //todo fix
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Remove(IUserMessage umsg, string all)
         {
@@ -430,7 +438,7 @@ namespace NadekoBot.Modules.Music
             return;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task MoveSong(IUserMessage umsg, [Remainder] string fromto)
         {
@@ -466,7 +474,7 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(IUserMessage umsg, uint size)
         {
@@ -480,7 +488,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵 `Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}`");
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ReptCurSong(IUserMessage umsg)
         {
@@ -498,7 +506,7 @@ namespace NadekoBot.Modules.Music
                                             .ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task RepeatPl(IUserMessage umsg)
         {
@@ -511,7 +519,7 @@ namespace NadekoBot.Modules.Music
         }
 
         ///
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Save(IUserMessage umsg, [Remainder] string name)
         //{
@@ -519,7 +527,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Load(IUserMessage umsg, [Remainder] string name)
         //{
@@ -527,7 +535,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Playlists(IUserMessage umsg, [Remainder] string num)
         //{
@@ -535,7 +543,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task DeletePlaylist(IUserMessage umsg, [Remainder] string pl)
         //{
@@ -543,7 +551,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Goto(IUserMessage umsg, int time)
         {
@@ -580,7 +588,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"`Skipped to {minutes}:{seconds}`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task GetLink(IUserMessage umsg, int index = 0)
         {
@@ -615,7 +623,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Autoplay(IUserMessage umsg)
         {
@@ -643,8 +651,11 @@ namespace NadekoBot.Modules.Music
 
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
-                //todo DB
                 float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    vol = uow.GuildConfigs.For(textCh.Guild.Id).DefaultMusicVolume;
+                }
                 var mp = new MusicPlayer(voiceCh, vol);
 
 

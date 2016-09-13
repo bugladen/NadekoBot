@@ -16,18 +16,18 @@ namespace NadekoBot.Modules.Music.Classes
 {
     public class SongInfo
     {
-        public string Provider { get; internal set; }
-        public MusicType ProviderType { get; internal set; }
+        public string Provider { get; set; }
+        public MusicType ProviderType { get; set; }
         /// <summary>
         /// Will be set only if the providertype is normal
         /// </summary>
-        public string Query { get; internal set; }
-        public string Title { get; internal set; }
-        public string Uri { get; internal set; }
+        public string Query { get; set; }
+        public string Title { get; set; }
+        public string Uri { get; set; }
     }
     public class Song
     {
-        public StreamState State { get; internal set; }
+        public StreamState State { get; set; }
         public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
         public SongInfo SongInfo { get; }
@@ -80,11 +80,11 @@ namespace NadekoBot.Modules.Music.Classes
             return this;
         }
 
-        internal async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
+        public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo);
+            SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo, frameBytes * 100);
             var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);
 
             bytesSent = 0;
@@ -118,9 +118,10 @@ namespace NadekoBot.Modules.Music.Classes
                 while (!cancelToken.IsCancellationRequested)
                 {
                     //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
-                    var read = inStream.Read(buffer, 0, buffer.Length);
+                    var read = await inStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     //await inStream.CopyToAsync(voiceClient.OutputStream);
-                    _log.Debug("read {0}", read);
+                    if(read < frameBytes)
+                        _log.Debug("read {0}", read);
                     unchecked
                     {
                         bytesSent += (ulong)read;
@@ -155,7 +156,7 @@ namespace NadekoBot.Modules.Music.Classes
                     int delayMillis = unchecked(nextTime - Environment.TickCount);
                     if (delayMillis > 0)
                         await Task.Delay(delayMillis, cancelToken).ConfigureAwait(false);
-                    await outStream.WriteAsync(buffer, 0, read);
+                    await outStream.WriteAsync(buffer, 0, read).ConfigureAwait(false);
                 }
             }
             finally

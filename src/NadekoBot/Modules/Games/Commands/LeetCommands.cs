@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 // because i don't want to waste my time on this cancerous command
 namespace NadekoBot.Modules.Games
 {
-    public partial class GamesModule
+    public partial class Games
     {
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary]
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Leet(IUserMessage umsg, int level, [Remainder] string text = null)
         {

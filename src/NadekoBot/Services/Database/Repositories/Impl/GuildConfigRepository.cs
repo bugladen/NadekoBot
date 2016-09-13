@@ -13,6 +13,14 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public GuildConfigRepository(DbContext context) : base(context)
         {
         }
+
+        public new IEnumerable<GuildConfig> GetAll() =>
+            _set.Include(gc => gc.LogSetting)
+                    .ThenInclude(ls => ls.IgnoredChannels)
+                .Include(gc => gc.LogSetting)
+                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                .ToList();
+
         /// <summary>
         /// Gets and creates if it doesn't exist a config for a guild.
         /// </summary>
@@ -20,7 +28,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// <returns></returns>
         public GuildConfig For(ulong guildId)
         {
-            var config = _set.FirstOrDefault(c => c.GuildId == guildId);
+            var config = _set.Include(gc => gc.FollowedStreams)
+                             .Include(gc => gc.LogSetting)
+                                .ThenInclude(ls=>ls.IgnoredChannels)
+                             .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
             {
@@ -32,5 +43,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             }
             return config;
         }
+
+        public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
+            _set.Include(gc => gc.FollowedStreams)
+                .SelectMany(gc => gc.FollowedStreams)
+                .ToList();
     }
 }
