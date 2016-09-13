@@ -57,8 +57,8 @@ namespace NadekoBot.Modules.Gambling
             var channel = (ITextChannel)imsg.Channel;
 
             AllDecks.AddOrUpdate(channel.Guild,
-                    (s) => new Cards(),
-                    (s, c) =>
+                    (g) => new Cards(),
+                    (g, c) =>
                     {
                         c.Restart();
                         return c;

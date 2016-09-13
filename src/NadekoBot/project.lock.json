@@ -146,7 +146,7 @@
           "lib/netstandard1.3/Google.Apis.YouTube.v3.dll": {}
         }
       },
-      "ImageProcessorCore/1.0.0-alpha1039": {
+      "ImageProcessorCore/1.0.0-alpha-1021": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -3411,12 +3411,12 @@
         "lib/portable-net45+netcore45+wpa81+wp8/Google.Apis.YouTube.v3.xml"
       ]
     },
-    "ImageProcessorCore/1.0.0-alpha1039": {
-      "sha512": "nNLCXniPRY+m59tIQRA71uQQGmbtL0GASzex7zIz0PH6M1/yHxgYtlXZQmeyfkJIrGhJmqJDlYwEu3aZxlTfHw==",
+    "ImageProcessorCore/1.0.0-alpha-1021": {
+      "sha512": "ItWOgl9z3E67X5WW6Qp9U0E8rmD9ZkBFPeywkuODASCEfuArc+g5viRo6cD8lXyu2TXDE/LAYlsvu6X5dSOP9w==",
       "type": "package",
-      "path": "ImageProcessorCore/1.0.0-alpha1039",
+      "path": "ImageProcessorCore/1.0.0-alpha-1021",
       "files": [
-        "ImageProcessorCore.1.0.0-alpha1039.nupkg.sha512",
+        "ImageProcessorCore.1.0.0-alpha-1021.nupkg.sha512",
         "ImageProcessorCore.nuspec",
         "lib/netstandard1.1/ImageProcessorCore.dll"
       ]
@@ -9100,7 +9100,7 @@
       "Google.Apis.Customsearch.v1 >= 1.16.0.466",
       "Google.Apis.Urlshortener.v1 >= 1.15.0.138",
       "Google.Apis.YouTube.v3 >= 1.15.0.582",
-      "ImageProcessorCore >= 1.0.0-alpha1039",
+      "ImageProcessorCore >= 1.0.0-alpha-1021",
       "Microsoft.EntityFrameworkCore >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 1.0.0-preview2-final",
       "Microsoft.EntityFrameworkCore.Sqlite >= 1.0.0",
