@@ -278,7 +278,7 @@ namespace NadekoBot.Classes
         }
 
         public bool Equals(StreamNotificationConfig other) =>
-            this.Username.ToLower().Trim() == other.Username.ToLower().Trim() &&
+            this.Username.ToUpperInvariant().Trim() == other.Username.ToUpperInvariant().Trim() &&
             this.Type == other.Type &&
             this.ServerId == other.ServerId;
 

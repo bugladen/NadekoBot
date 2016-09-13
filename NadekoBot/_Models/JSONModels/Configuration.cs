@@ -90,6 +90,15 @@ namespace NadekoBot.Classes.JSONModels
             } },
             { "%mention% archer", new List<string>() {
                 "http://i.imgur.com/Bha9NhL.jpg"
+            } },
+            { "%mention% formuoli", new List<string>() {
+                "http://i.imgur.com/sCHYQhl.jpg"
+            } },
+            { "%mention% mei", new List<string>() {
+                "http://i.imgur.com/Xkrf5y7.png"
+            } },
+            { "%mention% omega yato", new List<string>() {
+                "https://cdn.discordapp.com/attachments/168617088892534784/221047921410310144/Yato_Animated.gif"
             } }
         };
 

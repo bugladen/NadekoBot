@@ -23,7 +23,9 @@ namespace NadekoBot.Modules.ClashOfClans
 
         public ClashOfClansModule()
         {
-            NadekoBot.OnReady += () => Task.Run(async () =>
+            NadekoBot.OnReady += () =>
+            {
+                Task.Run(async () =>
             {
                 if (File.Exists("data/clashofclans/wars.json"))
                 {
@@ -109,6 +111,7 @@ namespace NadekoBot.Modules.ClashOfClans
                     await Task.Delay(5000);
                 }
             });
+            };
         }
 
         private static void Save()
