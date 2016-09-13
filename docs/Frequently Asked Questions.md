@@ -54,7 +54,9 @@ Question 13: I want "BOT" tag with my bot a, is there a simple way?
 ----
 **Answer:** Yes, you can create an application using your account and use the APP BOT USER TOKEN from here: [DiscordApp][1] **NOTE: This will create a new bot account**
 [1]:https://discordapp.com/developers/applications/me
+
 Question 14:  I made an application, but I can't add that new bot to my server, how do I invite it to my server?
+----
 **Answer:** You need to use oauth link to add it to you server, just copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in the link below: https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303
 
 Follow this Detailed [Guide](http://discord.kongslien.net/guide.html) if you do not understand.
