@@ -203,7 +203,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
         }
-        //todo drawing
+
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
@@ -403,31 +403,25 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             }
         }
 
-        ////todo drawing
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Clr(IUserMessage umsg, [Remainder] string color = null)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Clr(IUserMessage umsg, [Remainder] string color = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
 
-        //    color = color?.Trim().Replace("#", "");
-        //    if (string.IsNullOrWhiteSpace((string)color))
-        //        return;
-        //    var img = new Bitmap(50, 50);
+            color = color?.Trim().Replace("#", "");
+            if (string.IsNullOrWhiteSpace((string)color))
+                return;
+            var img = new Image(50, 50);
 
-        //    var red = Convert.ToInt32(color.Substring(0, 2), 16);
-        //    var green = Convert.ToInt32(color.Substring(2, 2), 16);
-        //    var blue = Convert.ToInt32(color.Substring(4, 2), 16);
-        //    var brush = new SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
+            var red = Convert.ToInt32(color.Substring(0, 2), 16);
+            var green = Convert.ToInt32(color.Substring(2, 2), 16);
+            var blue = Convert.ToInt32(color.Substring(4, 2), 16);
 
-        //    using (Graphics g = Graphics.FromImage(img))
-        //    {
-        //        g.FillRectangle(brush, 0, 0, 50, 50);
-        //        g.Flush();
-        //    }
+            img.BackgroundColor(new ImageProcessorCore.Color(color));
 
-        //    await channel.SendFileAsync("arg1.png", img.ToStream());
-        //}
+            await channel.SendFileAsync(img.ToStream(), $"{color}.png");
+        }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
