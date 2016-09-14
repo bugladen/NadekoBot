@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.NSFW
             var channel = (ITextChannel)umsg.Channel;
 
             tag = tag?.Trim() ?? "";
-            var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
+            var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendMessageAsync("Search yielded no results ;(");
             else
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.NSFW
             var channel = (ITextChannel)umsg.Channel;
 
             tag = tag?.Trim() ?? "";
-            var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
+            var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendMessageAsync("Search yielded no results ;(");
             else

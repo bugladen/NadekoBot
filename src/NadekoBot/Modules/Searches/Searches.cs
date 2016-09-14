@@ -13,6 +13,10 @@ using System.Net;
 using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
 using NadekoBot.Modules.Searches.IMDB;
+using System.Collections.Generic;
+using ImageProcessorCore;
+using NadekoBot.Extensions;
+using System.IO;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -199,51 +203,59 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
         }
-        ////todo drawing
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    var arg = name;
-        //    if (string.IsNullOrWhiteSpace(arg))
-        //    {
-        //        await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
-        //        return;
-        //    }
-        //    await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        //    string response = "";
-        //    using (var http = new HttpClient())
-        //    {
-        //        http.DefaultRequestHeaders.Clear();
-        //        http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
-        //        response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}", headers)
-        //                                .ConfigureAwait(false);
-        //        try
-        //        {
-        //            var items = JArray.Parse(response).Shuffle().ToList();
-        //            var images = new List<Image>();
-        //            if (items == null)
-        //                throw new KeyNotFoundException("Cannot find a card by that name");
-        //            var cnt = 0;
-        //            foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null))
-        //            {
-        //                images.Add(
-        //                    Image.FromStream(await http.GetStreamAsync(item["img"].ToString()).ConfigureAwait(false)));
-        //            }
-        //            if (items.Count > 4)
-        //            {
-        //                await channel.SendMessageAsync("⚠ Found over 4 images. Showing random 4.").ConfigureAwait(false);
-        //            }
-        //            await channel.SendMessageAsync(arg + ".png", (await images.MergeAsync()).ToStream(System.Drawing.Imaging.ImageFormat.Png))
-        //                           .ConfigureAwait(false);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
-        //        }
-        //    }
-        //}
+        //todo drawing
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = name;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            string response = "";
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}")
+                                        .ConfigureAwait(false);
+                try
+                {
+                    var items = JArray.Parse(response).Shuffle().ToList();
+                    var images = new List<Image>();
+                    if (items == null)
+                        throw new KeyNotFoundException("Cannot find a card by that name");
+                    var cnt = 0;
+                    foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null))
+                    {
+                        using (var sr =await http.GetStreamAsync(item["img"].ToString()))
+                        {
+                            var imgStream = new MemoryStream();
+                            await sr.CopyToAsync(imgStream);
+                            imgStream.Position = 0;
+                            images.Add(new Image(imgStream));
+                        }
+                    }
+                    string msg = null;
+                    if (items.Count > 4)
+                    {
+                        msg = "⚠ Found over 4 images. Showing random 4.";
+                    }
+                    var ms = new MemoryStream();
+                    images.Merge().SaveAsPng(ms);
+                    ms.Position = 0;
+                    await channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    await channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
+                }
+            }
+        }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]

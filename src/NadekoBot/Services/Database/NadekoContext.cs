@@ -33,6 +33,12 @@ namespace NadekoBot.Services.Database
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<ModulePrefix> ModulePrefixes { get; set; }
 
+        public NadekoContext()
+        {
+            this.Database.Migrate();
+            EnsureSeedData();
+        }
+
         public void EnsureSeedData()
         {
             if (!BotConfig.Any())

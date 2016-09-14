@@ -3003,6 +3003,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Searches for a Hearthstone card and shows its image. Takes a while to complete..
+        /// </summary>
+        public static string hearthstone_desc {
+            get {
+                return ResourceManager.GetString("hearthstone_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `~hs Ysera`.
+        /// </summary>
+        public static string hearthstone_summary {
+            get {
+                return ResourceManager.GetString("hearthstone_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to hearthstone hs.
+        /// </summary>
+        public static string hearthstone_text {
+            get {
+                return ResourceManager.GetString("hearthstone_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
         /// </summary>
         public static string hentai_desc {
@@ -3107,33 +3134,6 @@ namespace NadekoBot.Resources {
         public static string howareyou_text {
             get {
                 return ResourceManager.GetString("howareyou_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Searches for a Hearthstone card and shows its image. Takes a while to complete..
-        /// </summary>
-        public static string hs_desc {
-            get {
-                return ResourceManager.GetString("hs_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `~hs Ysera`.
-        /// </summary>
-        public static string hs_summary {
-            get {
-                return ResourceManager.GetString("hs_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to hs.
-        /// </summary>
-        public static string hs_text {
-            get {
-                return ResourceManager.GetString("hs_text", resourceCulture);
             }
         }
         

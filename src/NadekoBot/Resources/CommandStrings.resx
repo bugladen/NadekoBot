@@ -2205,13 +2205,13 @@
   <data name="google_summary" xml:space="preserve">
     <value>`~google query`</value>
   </data>
-  <data name="hs_text" xml:space="preserve">
-    <value>hs</value>
+  <data name="hearthstone_text" xml:space="preserve">
+    <value>hearthstone hs</value>
   </data>
-  <data name="hs_desc" xml:space="preserve">
+  <data name="hearthstone_desc" xml:space="preserve">
     <value>Searches for a Hearthstone card and shows its image. Takes a while to complete.</value>
   </data>
-  <data name="hs_summary" xml:space="preserve">
+  <data name="hearthstone_summary" xml:space="preserve">
     <value>`~hs Ysera`</value>
   </data>
   <data name="urbandict_text" xml:space="preserve">

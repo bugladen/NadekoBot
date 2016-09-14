@@ -40,11 +40,10 @@ namespace NadekoBot.Attributes
             string prefix;
             if (ModulePrefixes.TryGetValue(moduleName, out prefix))
             {
-                Console.WriteLine("Cache hit");
                 return prefix;
             }
 
-            Console.WriteLine("Cache not hit for " + moduleName);
+            NLog.LogManager.GetCurrentClassLogger().Warn("Cache not hit for {0}", moduleName);
             return null;
         }
     }

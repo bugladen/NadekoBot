@@ -13,6 +13,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NLog.Fluent;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot
 {
@@ -51,12 +55,6 @@ namespace NadekoBot
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, Commands);
             Stats = new StatsService(Client, CommandHandler);
-
-            //init db
-            using (var context = DbHandler.Instance.GetDbContext())
-            {
-                context.EnsureSeedData();
-            }
 
             //setup DI
             var depMap = new DependencyMap();
