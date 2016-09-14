@@ -34,18 +34,23 @@ namespace NadekoBot.Services
 
         public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
         {
+            await AddCurrencyAsync(author.Id, reason, amount);
+
+            if (sendMessage)
+                await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false);
+        }
+
+        public static async Task AddCurrencyAsync(ulong receiverId, string reason, long amount)
+        {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
 
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.Currency.TryUpdateState(author.Id, amount);
+                uow.Currency.TryUpdateState(receiverId, amount);
                 await uow.CompleteAsync();
             }
-
-            if (sendMessage)
-                await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false);
         }
     }
 }

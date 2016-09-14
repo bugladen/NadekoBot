@@ -290,5 +290,13 @@ namespace NadekoBot.Extensions
 
             return canvas;
         }
+
+        public static Stream ToStream(this Image img)
+        {
+            var imageStream = new MemoryStream();
+            img.SaveAsPng(imageStream);
+            imageStream.Position = 0;
+            return imageStream;
+        }
     }
 }

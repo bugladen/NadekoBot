@@ -82,25 +82,25 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully sent {amount} {Gambling.CurrencyPluralName}s to {receiver.Mention}!").ConfigureAwait(false);
         }
 
-        ////todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
-        //    Award(umsg, amount, usr.Id);
+        //todo owner only
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
+            Award(umsg, amount, usr.Id);
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        {
+            var channel = (ITextChannel)umsg.Channel;
 
-        //    if (amount <= 0)
-        //        return;
+            if (amount <= 0)
+                return;
 
-        //    await CurrencyHandler.AddFlowersAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
+            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
 
-        //    await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {Gambling.CurrencyName}s to <@{usrId}>!").ConfigureAwait(false);
-        //}
+            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {Gambling.CurrencyName}s to <@{usrId}>!").ConfigureAwait(false);
+        }
 
         ////todo owner only
         //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
