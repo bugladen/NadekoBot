@@ -12,11 +12,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NLog.Fluent;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace NadekoBot
 {
@@ -32,6 +29,8 @@ namespace NadekoBot
 
         public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
+
+        public static IReadOnlyDictionary<string, string> ModulePrefixes { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
@@ -70,7 +69,11 @@ namespace NadekoBot
 
             _log.Info("Connected");
 
-            //load commands
+            //load commands and prefixes
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                ModulePrefixes = new ReadOnlyDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+            }
             await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));

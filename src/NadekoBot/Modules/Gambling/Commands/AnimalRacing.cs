@@ -18,6 +18,10 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class AnimalRacing
         {
+
+            public AnimalRacing()
+            {
+            }
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
 
             [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -92,8 +96,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         try
                         {
-                            //todo Commmand prefixes from config
-                            await raceChannel.SendMessageAsync($"🏁`Race is starting in 20 seconds or when the room is full. Type $jr to join the race.`");
+                            await raceChannel.SendMessageAsync($"🏁`Race is starting in 20 seconds or when the room is full. Type {NadekoBot.ModulePrefixes["Gambling"]}jr to join the race.`");
                             var t = await Task.WhenAny(Task.Delay(20000, token), fullgame);
                             Started = true;
                             cancelSource.Cancel();

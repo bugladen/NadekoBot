@@ -12,9 +12,16 @@ namespace NadekoBot.Modules
         protected CommandService _commands { get; }
         protected DiscordSocketClient _client { get; }
         protected Logger _log { get; }
+        private string _prefix { get; }
 
         public DiscordModule(ILocalization loc, CommandService cmds, DiscordSocketClient client)
         {
+            string prefix;
+            if (NadekoBot.ModulePrefixes.TryGetValue(this.GetType().Name, out prefix))
+                _prefix = prefix;
+            else
+                _prefix = "?missing_prefix?";
+
             _l = loc;
             _commands = cmds;
             _client = client;

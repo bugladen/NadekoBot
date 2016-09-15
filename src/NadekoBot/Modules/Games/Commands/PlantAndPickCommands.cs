@@ -28,7 +28,6 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PlantPickCommands
         {
-
             private Random rng;
 
             private ConcurrentDictionary<ulong, bool> generationChannels = new ConcurrentDictionary<ulong, bool>();
@@ -83,12 +82,11 @@ namespace NadekoBot.Modules.Games
                     if (num > 100)
                     {
                         lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
-                        //todo get prefix
                         try
                         {
                             var sent = await channel.SendFileAsync(
                                 GetRandomCurrencyImagePath(), 
-                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `>pick`")
+                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes["Gambling"]}pick`")
                                     .ConfigureAwait(false);
                             plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
                         }
@@ -149,8 +147,8 @@ namespace NadekoBot.Modules.Games
                 var file = GetRandomCurrencyImagePath();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
-                //todo add prefix
-                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using >pick";
+                
+                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes["Games"]}pick";
                 if (file == null)
                 {
                     msg = await channel.SendMessageAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
