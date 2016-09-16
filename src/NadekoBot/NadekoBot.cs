@@ -14,6 +14,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using NadekoBot.Modules.Permissions;
+using Module = Discord.Commands.Module;
+using NadekoBot.TypeReaders;
 
 namespace NadekoBot
 {
@@ -21,7 +24,7 @@ namespace NadekoBot
     {
         private Logger _log;
 
-        public static CommandService Commands { get; private set; }
+        public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
         public static DiscordSocketClient Client { get; private set; }
         public static Localization Localizer { get; private set; }
@@ -49,18 +52,24 @@ namespace NadekoBot
 
             //initialize Services
             Credentials = new BotCredentials();
-            Commands = new CommandService();
+            CommandService = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();
-            CommandHandler = new CommandHandler(Client, Commands);
+            CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
 
             //setup DI
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
             depMap.Add<DiscordSocketClient>(Client);
-            depMap.Add<CommandService>(Commands);
+            depMap.Add<CommandService>(CommandService);
             depMap.Add<IGoogleApiService>(Google);
+
+
+            //setup typereaders
+            CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
+            CommandService.AddTypeReader<Command>(new CommandTypeReader());
+            CommandService.AddTypeReader<Module>(new ModuleTypeReader());
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
@@ -74,7 +83,7 @@ namespace NadekoBot
             {
                 ModulePrefixes = new ReadOnlyDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
-            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
+            await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 

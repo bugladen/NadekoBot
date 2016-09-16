@@ -229,8 +229,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var images = new List<Image>();
                     if (items == null)
                         throw new KeyNotFoundException("Cannot find a card by that name");
-                    var cnt = 0;
-                    foreach (var item in items.TakeWhile(item => cnt++ < 4).Where(item => item.HasValues && item["img"] != null))
+                    foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
                     {
                         using (var sr =await http.GetStreamAsync(item["img"].ToString()))
                         {
