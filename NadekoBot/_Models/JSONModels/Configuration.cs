@@ -192,7 +192,7 @@ For a specific command help, use `{0}h ""Command name""` (for example `-h ""!m q
 
 
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
-<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+<http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
 
 
 Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
