@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "addcustreact")
                 .Alias(Prefix + "acr")
-                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   | `{Prefix}acr \"hello\" Hi there %user%`")
+                .Description($"Add a custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions> **Bot Owner Only!**   | `{Prefix}acr \"hello\" Hi there %user%`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Parameter("name", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)

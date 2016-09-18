@@ -105,6 +105,13 @@ To build Mono in 64 bit mode instead use this to configure the build:
 ^this will create a new session named “nadeko” `(you can replace “nadeko” with anything you prefer and remember its your
 session name)`.
 
+or if you want to use Screen, run:
+
+`screen -S nadeko`
+
+^this will create a new screen named “nadeko” `(you can replace “nadeko” with anything you prefer and remember its your
+screen name)`.
+
 `cd nadeko`
 
 - Start NadekoBot.exe using Mono:
@@ -114,6 +121,8 @@ session name)`.
 CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING
 
 Now time to move bot to background and to do that, press CTRL+B+D (this will ditach the nadeko session using TMUX)
+
+*if you used Screen press CTRL+A+D (this will detach the nadeko screen)*
 
 ####Inviting your bot to your server - [Invite Guide][Invite Guide]
 - Create a new server in Discord.
@@ -136,11 +145,17 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will dit
 
 For Music Setup and API keys check [Setting up NadekoBot for Music](Windows Guide.md#setting-up-nadekobot-for-music) and [JSON Explanations](JSON Explanations.md).
 
-####Some more Info (just in case)
+####Some more Info - TMUX
 
 -If you want to see the sessions after logging back again, type `tmux ls`, and that will give you the list of sessions running. 
 -If you want to switch to/ see that session, type `tmux a -t nadeko` (nadeko is the name of the session we created before so, replace `“nadeko”` with the session name you created.)
 -If you want to kill NadekoBot session, type `tmux kill-session -t nadeko`
+
+####Some more Info - Screen
+
+-If you want to see the sessions after logging back again, type `screen -ls`, and that will give you the list of screens. 
+-If you want to switch to/ see that screen, type `screen -r nadeko` (nadeko is the name of the screen we created before so, replace `“nadeko”` with the screen name you created.)
+-If you want to kill the NadekoBot screen, type `screen -X -S nadeko quit`
 
 [Homebrew]: http://brew.sh/
 [Mono]: http://www.mono-project.com/docs/compiling-mono/mac/

@@ -83,7 +83,7 @@ ________________________________________________________________________________
     - Go to [Google Console][Google Console] and log in.
     - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
     - Under the "Other Popular APIs" section, enable `URL Shortener API` and `Custom Search Api`. Under the `YouTube APIs` section, enable `YouTube Data API`.
-    - On the left tab, access `Credentials`. Click `Create Credentials` button. Click on `API Key`, and then `Server Key` in the new window that appears. Enter in a name for the `Server Key`. A new window will appear with your `Google API key`. 
+    - On the left tab, access `Credentials`. Click `Create Credentials` button. Click on `API Key`. A new window will appear with your `Google API key`. 
     - Copy the key.
     - Open up `credentials.json`. 
     - For `"GoogleAPIKey"`, fill in with the new key we copied.
