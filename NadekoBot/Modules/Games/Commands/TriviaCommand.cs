@@ -33,8 +33,11 @@ namespace NadekoBot.Modules.Games.Commands
                             int num;
                             return new Tuple<bool, int>(int.TryParse(s, out num), num);
                         }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
-                        if (number < 0)
+                        if (number < 3)
+                        {
+                            await e.Channel.SendMessage("Number too small.");
                             return;
+                        }
                         var triviaGame = new TriviaGame(e, showHints, number == 0 ? 10 : number);
                         if (RunningTrivias.TryAdd(e.Server.Id, triviaGame))
                             await e.Channel.SendMessage($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
