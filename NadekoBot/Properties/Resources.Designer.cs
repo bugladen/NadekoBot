@@ -583,16 +583,6 @@ namespace NadekoBot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap hidden {
-            get {
-                object obj = ResourceManager.GetObject("hidden", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap jack_of_clubs {
             get {
                 object obj = ResourceManager.GetObject("jack_of_clubs", resourceCulture);
