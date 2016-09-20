@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Searches
                         cachedStatuses.TryAdd(hitboxUrl, result);
                         return result;
                     case FollowedStream.FollowedStreamType.Twitch:
-                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
+                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
                         if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
                             return result;
                         using (var http = new HttpClient())
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         data = JObject.Parse(response);
                         isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
-                        result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
+                        result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : stream.Username);
                         cachedStatuses.TryAdd(twitchUrl, result);
                         return result;
                     case FollowedStream.FollowedStreamType.Beam:
@@ -225,7 +225,11 @@ namespace NadekoBot.Modules.Searches
                     }));
                     if (streamStatus.Item1)
                     {
-                        await channel.SendMessageAsync($"`Streamer {streamStatus.Item2} is online.`");
+                        await channel.SendMessageAsync($"`Streamer {username} is online with {streamStatus.Item2}.`");
+                    }
+                    else
+                    {
+                        await channel.SendMessageAsync($"`Streamer {username} is offline.`");
                     }
                 }
                 catch

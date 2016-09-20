@@ -8,6 +8,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services;
 using Discord;
+using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -24,7 +26,18 @@ namespace NadekoBot.Modules.Permissions
         {
             var channel = (ITextChannel)imsg.Channel;
 
-            await channel.SendMessageAsync($"{command.Text} {action.Value} {user}");
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                {
+                    TargetType = PermissionType.User,
+                    Target = user.Id.ToString(),
+                    Command = command.Text.ToLowerInvariant(),
+                    State = action.Value,
+                });
+                await uow.CompleteAsync();
+            }
+            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{user}` user.");
         }
 
         [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
@@ -33,7 +46,18 @@ namespace NadekoBot.Modules.Permissions
         {
             var channel = (ITextChannel)imsg.Channel;
 
-            await channel.SendMessageAsync($"{module.Name} {action.Value} {user}");
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                {
+                    TargetType = PermissionType.User,
+                    Target = user.Id.ToString(),
+                    Module = module.Name.ToLowerInvariant(),
+                    State = action.Value,
+                });
+                await uow.CompleteAsync();
+            }
+            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{user}` user.");
         }
     }
 }
