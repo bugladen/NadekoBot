@@ -8,17 +8,25 @@ namespace NadekoBot.Services.Database.Models
 {
     public class Permission : DbEntity
     {
-        public PermissionType TargetType { get; set; }
-        public string Command { get; set; } = null;
-        public string Module { get; set; } = null;
+        public PrimaryPermissionType PrimaryTarget { get; set; }
+        public ulong PrimaryTargetId { get; set; }
+
+        public SecondaryPermissionType SecondaryTarget { get; set; }
+        public string SecondaryTargetName { get; set; }
+
         public bool State { get; set; }
-        public string Target { get; set; }
     }
 
-    public enum PermissionType
+    public enum PrimaryPermissionType
     {
         User,
         Channel,
         Role
+    }
+
+    public enum SecondaryPermissionType
+    {
+        Module,
+        Command
     }
 }

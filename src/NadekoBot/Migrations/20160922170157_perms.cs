@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NadekoBot.Migrations
 {
-    public partial class first : Migration
+    public partial class perms : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -428,6 +428,30 @@ namespace NadekoBot.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Permission",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    PrimaryTarget = table.Column<int>(nullable: false),
+                    PrimaryTargetId = table.Column<ulong>(nullable: false),
+                    SecondaryTarget = table.Column<int>(nullable: false),
+                    SecondaryTargetName = table.Column<string>(nullable: true),
+                    State = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permission", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permission_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BlacklistItem_BotConfigId",
                 table: "BlacklistItem",
@@ -487,6 +511,11 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Permission_GuildConfigId",
+                table: "Permission",
+                column: "GuildConfigId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlayingStatus_BotConfigId",
                 table: "PlayingStatus",
                 column: "BotConfigId");
@@ -540,6 +569,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "ModulePrefixes");
+
+            migrationBuilder.DropTable(
+                name: "Permission");
 
             migrationBuilder.DropTable(
                 name: "PlayingStatus");

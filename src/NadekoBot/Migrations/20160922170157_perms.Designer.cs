@@ -8,8 +8,8 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160910180231_first")]
-    partial class first
+    [Migration("20160922170157_perms")]
+    partial class perms
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -349,6 +349,30 @@ namespace NadekoBot.Migrations
                     b.ToTable("ModulePrefixes");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GuildConfigId");
+
+                    b.Property<int>("PrimaryTarget");
+
+                    b.Property<ulong>("PrimaryTargetId");
+
+                    b.Property<int>("SecondaryTarget");
+
+                    b.Property<string>("SecondaryTargetName");
+
+                    b.Property<bool>("State");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId");
+
+                    b.ToTable("Permission");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -536,6 +560,13 @@ namespace NadekoBot.Migrations
                         .WithMany("ModulePrefixes")
                         .HasForeignKey("BotConfigId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                        .WithMany("Permissions")
+                        .HasForeignKey("GuildConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>

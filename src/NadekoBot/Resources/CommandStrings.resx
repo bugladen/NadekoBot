@@ -2637,4 +2637,13 @@
   <data name="cash_text" xml:space="preserve">
     <value>cash $$</value>
   </data>
+  <data name="listperms_desc" xml:space="preserve">
+    <value>Lists whole permission chain with their indexes.</value>
+  </data>
+  <data name="listperms_summary" xml:space="preserve">
+    <value>`;lp`</value>
+  </data>
+  <data name="listperms_text" xml:space="preserve">
+    <value>listperms lp</value>
+  </data>
 </root>

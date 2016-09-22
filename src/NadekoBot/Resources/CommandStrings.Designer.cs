@@ -3597,6 +3597,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Lists whole permission chain with their indexes..
+        /// </summary>
+        public static string listperms_desc {
+            get {
+                return ResourceManager.GetString("listperms_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;lp`.
+        /// </summary>
+        public static string listperms_summary {
+            get {
+                return ResourceManager.GetString("listperms_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listperms lp.
+        /// </summary>
+        public static string listperms_text {
+            get {
+                return ResourceManager.GetString("listperms_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Lists all playing statuses with their corresponding number. **Bot Owner Only!**.
         /// </summary>
         public static string listplaying_desc {

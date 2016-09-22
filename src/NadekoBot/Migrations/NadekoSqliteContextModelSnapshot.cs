@@ -353,17 +353,17 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Command");
-
                     b.Property<int?>("GuildConfigId");
 
-                    b.Property<string>("Module");
+                    b.Property<int>("PrimaryTarget");
+
+                    b.Property<ulong>("PrimaryTargetId");
+
+                    b.Property<int>("SecondaryTarget");
+
+                    b.Property<string>("SecondaryTargetName");
 
                     b.Property<bool>("State");
-
-                    b.Property<string>("Target");
-
-                    b.Property<int>("TargetType");
 
                     b.HasKey("Id");
 
