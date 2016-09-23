@@ -158,5 +158,5 @@
   "CurrencySign": "🌸",
   "CurrencyName": "NadekoFlower",
   "DMHelpString": "Type `-h` for help.",
-  "HelpString": "You can use `{0}modules` command to see a list of all modules.\r\nYou can use `{0}commands ModuleName`\r\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\r\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\r\n\r\n\r\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\r\n<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>\r\n\r\n\r\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
+  "HelpString": "You can use `{0}modules` command to see a list of all modules.\r\nYou can use `{0}commands ModuleName`\r\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\r\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\r\n\r\n\r\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\r\n<http://nadekobot.readthedocs.io/en/latest/Commands%20List/>\r\n\r\n\r\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
 }
