@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using System.Text;
 using Discord.WebSocket;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Help
 {
@@ -25,17 +27,17 @@ namespace NadekoBot.Modules.Help
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Modules(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            await channel.SendMessageAsync("`List of modules:` \n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n`Type \"-commands module_name\" to get a list of commands in that module.`")
+            await channel.SendMessageAsync("`List of modules:` ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` `Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Commands(IUserMessage umsg, [Remainder] string module = null)
         {
@@ -46,7 +48,9 @@ namespace NadekoBot.Modules.Help
                 return;
             var cmds = _commands.Commands.Where(c => c.Module.Name.ToUpperInvariant().StartsWith(module))
                                                   .OrderBy(c => c.Text)
+                                                  .Distinct(new CommandTextEqualityComparer())
                                                   .AsEnumerable();
+
             var cmdsArray = cmds as Command[] ?? cmds.ToArray();
             if (!cmdsArray.Any())
             {
@@ -64,7 +68,7 @@ namespace NadekoBot.Modules.Help
             await channel.SendMessageAsync($"`You can type \"-h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task H(IUserMessage umsg, [Remainder] string comToFind = null)
         {
@@ -88,11 +92,11 @@ namespace NadekoBot.Modules.Help
             if (alias != null)
                 str += $" / `{ alias }`";
             if (com != null)
-                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {com.Description}
+                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {com.Remarks}
 **Usage:** {com.Summary}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Hgit(IUserMessage umsg)
         {
@@ -108,7 +112,7 @@ namespace NadekoBot.Modules.Help
                     helpstr.AppendLine("----------------|--------------|-------");
                     lastModule = com.Module.Name;
                 }
-                helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Description} | {com.Summary}");
+                helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Remarks} | {com.Summary}");
             }
             helpstr = helpstr.Replace((await NadekoBot.Client.GetCurrentUserAsync()).Username , "@BotName");
 #if DEBUG
@@ -118,7 +122,7 @@ namespace NadekoBot.Modules.Help
 #endif
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Guide(IUserMessage umsg)
         {
@@ -129,7 +133,7 @@ namespace NadekoBot.Modules.Help
 **Hosting Guides and docs can be found here**: <http://nadekobot.rtfd.io>").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Donate(IUserMessage umsg)
         {
@@ -142,5 +146,13 @@ Don't forget to leave your discord name or id in the message.
 
 **Thank you** ♥️").ConfigureAwait(false);
         }
+    }
+
+    public class CommandTextEqualityComparer : IEqualityComparer<Command>
+    {
+        public bool Equals(Command x, Command y) => x.Text == y.Text;
+
+        public int GetHashCode(Command obj) => obj.Text.GetHashCode();
+
     }
 }

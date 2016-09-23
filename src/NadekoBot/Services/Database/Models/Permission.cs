@@ -27,6 +27,8 @@ namespace NadekoBot.Services.Database.Models
     public enum SecondaryPermissionType
     {
         Module,
-        Command
+        Command,
+        AllCommands,
+        AllModules
     }
 }

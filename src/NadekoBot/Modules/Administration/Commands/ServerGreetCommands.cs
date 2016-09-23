@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                 return Task.CompletedTask;
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task GreetDel(IUserMessage umsg)
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`Automatic deletion of greet messages has been disabled.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task Greet(IUserMessage umsg)
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Greet announcements disabled.").ConfigureAwait(false);
             }
             
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task GreetMsg(IUserMessage umsg, [Remainder] string text)
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Enable greet messsages by typing `.greet`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task GreetDm(IUserMessage umsg)
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Greet announcements disabled.").ConfigureAwait(false);
             }
             
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task GreetDmMsg(IUserMessage umsg, [Remainder] string text)
@@ -231,7 +231,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Enable DM greet messsages by typing `.greetdm`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task Bye(IUserMessage umsg)
@@ -254,7 +254,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Bye announcements disabled.").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task ByeMsg(IUserMessage umsg, [Remainder] string text)
@@ -283,7 +283,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("Enable bye messsages by typing `.bye`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
             public async Task ByeDel(IUserMessage umsg)

@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Music
             _google = google;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Next(IUserMessage umsg)
         {
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Music
             return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Stop(IUserMessage umsg)
         {
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Music
             return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Destroy(IUserMessage umsg)
         {
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Music
             return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Pause(IUserMessage umsg)
         {
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Music
                 await channel.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Queue(IUserMessage umsg, [Remainder] string query)
         {
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudQueue(IUserMessage umsg, [Remainder] string query)
         {
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(IUserMessage umsg, int page = 1)
         {
@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync(toSend + string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying(IUserMessage umsg)
         {
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Music
                                         $"{currentSong.PrettyCurrentTime()}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Volume(IUserMessage umsg, int val)
         {
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵 `Volume set to {volume}%`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Defvol(IUserMessage umsg, [Remainder] int val)
         {
@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵 `Default volume set to {val}%`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Mute(IUserMessage umsg)
         {
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Music
             return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Max(IUserMessage umsg)
         {
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Music
             return Task.CompletedTask;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Shuffle(IUserMessage umsg)
         {
@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync("🎵 `Songs shuffled.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Playlist(IUserMessage umsg, [Remainder] string playlist)
         {
@@ -295,7 +295,7 @@ namespace NadekoBot.Modules.Music
             await msg.ModifyAsync(m => m.Content = "🎵 `Playlist queue complete.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl(IUserMessage umsg, [Remainder] string pl)
         {
@@ -332,7 +332,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task LocalPl(IUserMessage umsg, [Remainder] string directory)
         {
@@ -361,7 +361,7 @@ namespace NadekoBot.Modules.Music
             catch { }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Radio(IUserMessage umsg, string radio_link)
         {
@@ -379,7 +379,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Local(IUserMessage umsg, [Remainder] string path)
         {
@@ -391,7 +391,7 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Move(IUserMessage umsg)
         {
@@ -403,7 +403,7 @@ namespace NadekoBot.Modules.Music
             await musicPlayer.MoveToVoiceChannel(voiceChannel);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Remove(IUserMessage umsg, int num)
         {
@@ -423,7 +423,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Remove(IUserMessage umsg, string all)
         {
@@ -438,7 +438,7 @@ namespace NadekoBot.Modules.Music
             return;
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task MoveSong(IUserMessage umsg, [Remainder] string fromto)
         {
@@ -474,7 +474,7 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(IUserMessage umsg, uint size)
         {
@@ -488,7 +488,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵 `Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}`");
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ReptCurSong(IUserMessage umsg)
         {
@@ -506,7 +506,7 @@ namespace NadekoBot.Modules.Music
                                             .ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task RepeatPl(IUserMessage umsg)
         {
@@ -551,7 +551,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Goto(IUserMessage umsg, int time)
         {
@@ -588,7 +588,7 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"`Skipped to {minutes}:{seconds}`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task GetLink(IUserMessage umsg, int index = 0)
         {
@@ -623,7 +623,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Autoplay(IUserMessage umsg)
         {

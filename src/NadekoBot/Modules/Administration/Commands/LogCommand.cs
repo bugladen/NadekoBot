@@ -482,7 +482,7 @@ namespace NadekoBot.Modules.Administration
                     return channel;
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task LogServer(IUserMessage msg)
             {
@@ -504,7 +504,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`Logging disabled.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task LogIgnore(IUserMessage imsg)
             {
@@ -527,7 +527,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync($"`Logging will no longer ignore {channel.Name} ({channel.Id}) channel.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task LogAdd(IUserMessage msg, [Remainder] string eventName)
             {
@@ -597,7 +597,7 @@ namespace NadekoBot.Modules.Administration
             //    }
             //}
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task UserPresence(IUserMessage imsg)
             {
@@ -619,7 +619,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync($"`Stopped logging user presence updates.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task VoicePresence(IUserMessage imsg)
             {

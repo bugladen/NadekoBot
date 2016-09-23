@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
             {

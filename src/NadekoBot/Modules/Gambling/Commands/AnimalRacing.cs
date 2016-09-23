@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Gambling
             }
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Race(IUserMessage umsg)
             {
@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Gambling
                     await channel.SendMessageAsync("🏁 `Failed starting a race. Another race is probably running.`");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(IUserMessage umsg, int amount = 0)
             {

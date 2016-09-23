@@ -145,7 +145,7 @@
     <value>`-donate` or `~donate`</value>
   </data>
   <data name="modules_text" xml:space="preserve">
-    <value>modules</value>
+    <value>modules mdls</value>
   </data>
   <data name="modules_desc" xml:space="preserve">
     <value>List all bot modules.</value>
@@ -154,7 +154,7 @@
     <value>`-modules` or `.modules`</value>
   </data>
   <data name="commands_text" xml:space="preserve">
-    <value>commands</value>
+    <value>commands cmds</value>
   </data>
   <data name="commands_desc" xml:space="preserve">
     <value>List all of the bot's commands from a certain module.</value>

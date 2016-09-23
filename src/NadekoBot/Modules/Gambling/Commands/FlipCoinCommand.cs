@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Gambling
             private const string tailsPath = "data/images/coins/tails.png";
             public FlipCoinCommands() { }
             
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Flip(IUserMessage imsg, int count = 1)
             {
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Gambling
                 await channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Betflip(IUserMessage umsg, int amount, string guess)
             {

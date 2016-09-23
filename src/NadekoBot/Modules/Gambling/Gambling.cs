@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Raffle(IUserMessage umsg, [Remainder] IRole role = null)
         {
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
         }
         
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"{user.Username} has {amount} {config.CurrencySign}").ConfigureAwait(false);
         }
         
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
         {
@@ -83,12 +83,12 @@ namespace NadekoBot.Modules.Gambling
         }
 
         //todo owner only
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
             Award(umsg, amount, usr.Id);
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
         {
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Gambling
         //    await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
         //}
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task BetRoll(IUserMessage umsg, long amount)
         {
@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync(str).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Leaderboard(IUserMessage umsg)
         {

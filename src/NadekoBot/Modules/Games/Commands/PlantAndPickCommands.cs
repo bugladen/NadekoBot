@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Games
                 });
                 return Task.CompletedTask;
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(IUserMessage imsg)
             {
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Games
                  });
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task Plant(IUserMessage imsg)
             {
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Games
                 plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
             
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Gencurrency(IUserMessage imsg)

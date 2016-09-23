@@ -1671,7 +1671,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to commands.
+        ///    Looks up a localized string similar to commands cmds.
         /// </summary>
         public static string commands_text {
             get {
@@ -4209,7 +4209,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to modules.
+        ///    Looks up a localized string similar to modules mdls.
         /// </summary>
         public static string modules_text {
             get {

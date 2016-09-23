@@ -49,8 +49,10 @@ namespace NadekoBot.Modules.Permissions
         {
             if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
                     perm.SecondaryTargetName == command.Text.ToLowerInvariant()) ||
-                (perm.SecondaryTarget == SecondaryPermissionType.Module &&
-                    perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant())))
+                ((perm.SecondaryTarget == SecondaryPermissionType.Module || perm.SecondaryTarget == SecondaryPermissionType.AllCommands) &&
+                    perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant()) || 
+                    perm.SecondaryTarget == SecondaryPermissionType.AllModules || 
+                    (perm.SecondaryTarget == SecondaryPermissionType.AllCommands && perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant())))
                 return null;
 
             switch (perm.PrimaryTarget)
@@ -76,7 +78,7 @@ namespace NadekoBot.Modules.Permissions
 
         public static string GetCommand(this Permission perm)
         {
-            var com = NadekoBot.ModulePrefixes[typeof(Permissions).Name];
+            var com = "";
             switch (perm.PrimaryTarget)
             {
                 case PrimaryPermissionType.User:
@@ -98,6 +100,12 @@ namespace NadekoBot.Modules.Permissions
                 case SecondaryPermissionType.Command:
                     com += "c";
                     break;
+                case SecondaryPermissionType.AllCommands:
+                    com = "a" + com + "c";
+                    break;
+                case SecondaryPermissionType.AllModules:
+                    com = "a" + com + "m";
+                    break;
             }
             com += " " + perm.SecondaryTargetName + " " + (perm.State ? "enable" : "disable") + " ";
 
@@ -114,7 +122,7 @@ namespace NadekoBot.Modules.Permissions
                     break;
             }
 
-            return com;
+            return NadekoBot.ModulePrefixes[typeof(Permissions).Name] + com;
         }
 
     }

@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace NadekoBot.Attributes
 {
-    public class LocalizedDescriptionAttribute : DescriptionAttribute
+    public class LocalizedRemarksAttribute : RemarksAttribute
     {
-        public LocalizedDescriptionAttribute([CallerMemberName] string memberName="") : base(Localization.LoadCommandString(memberName.ToLowerInvariant()+"_desc"))
+        public LocalizedRemarksAttribute([CallerMemberName] string memberName="") : base(Localization.LoadCommandString(memberName.ToLowerInvariant()+"_desc"))
         {
 
         }

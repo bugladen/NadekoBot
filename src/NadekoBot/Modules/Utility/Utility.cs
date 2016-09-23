@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Utility
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task WhosPlaying(IUserMessage umsg, [Remainder] string game = null)
         {
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Utility
                 await channel.SendMessageAsync("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task InRole(IUserMessage umsg, [Remainder] string roles = null)
         {
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Utility
             await channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task CheckMyPerms(IUserMessage msg)
         {
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(builder.ToString());
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task UserId(IUserMessage msg, IGuildUser target = null)
         {
@@ -101,20 +101,20 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply($"Id of the user { usr.Username } is { usr.Id })").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         public async Task ChannelId(IUserMessage msg)
         {
             await msg.Reply($"This Channel's ID is {msg.Channel.Id}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ServerId(IUserMessage msg)
         {
             await msg.Reply($"This server's ID is {((ITextChannel)msg.Channel).Guild.Id}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Roles(IUserMessage msg, IGuildUser target = null)
         {
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Utility
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task ChannelTopic(IUserMessage umsg)
         {
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Utility
                 await channel.SendMessageAsync("`Topic:` " + topic);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         public async Task Stats(IUserMessage umsg)
         {
