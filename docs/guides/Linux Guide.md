@@ -68,6 +68,48 @@ tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 `apt-get install ca-certificates-mono`
 `mozroots --import --sync`
 
+####Mono Fix 401 Error
+
+The problem comes from Mono. Mono 4.6 is broken.
+
+To fix it on debian/ubuntu
+```
+apt-get remove mono-complete mono-devel mono-runtime
+apt-get autoremove
+```
+
+Now Check for some mono remaining parts as lib or others things and unistall them
+```
+dpkg --get-selections | grep mono
+```
+Now unistall them
+```
+apt-get remove remainings-parts
+```
+Now clzean apt cache
+```
+apt get clean
+apt-get autoclean
+```
+
+Check the exact version of Mono 4.2
+```
+apt-cache showpkg mono-devel
+```
+And install it
+```
+aptitude install mono-devel=version
+```
+For me in ubuntu 16.04 it's :
+```
+aptitude install mono-devel=4.2.1.102+dfsg2-7ubuntu4
+```
+
+It will say if you want to stay in the same state ie uninstalled, say `n` after If will list all dependencies as 4.2 says say `y`
+
+Mono is now downgraded and installed at 4.2 version :D
+
+
 ####Installing Opus Voice Codec
 **4)**
 `sudo apt-get install libopus0 opus-tools`
