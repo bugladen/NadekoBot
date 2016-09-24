@@ -99,6 +99,12 @@ namespace NadekoBot.Classes.JSONModels
             } },
             { "%mention% omega yato", new List<string>() {
                 "https://cdn.discordapp.com/attachments/168617088892534784/221047921410310144/Yato_Animated.gif"
+            } },
+            { "%mention% smack", new List<string>() {
+                "%target% https://66.media.tumblr.com/dd5d751f86002fd4a544dcef7a9763d6/tumblr_mjpheaAVj51s725bno1_500.gif",
+                "%target% https://media.giphy.com/media/jLeyZWgtwgr2U/giphy.gif",
+                "%target% http://orig11.deviantart.net/2d34/f/2013/339/1/2/golden_time_flower_slap_gif_by_paranoxias-d6wv007.gif",
+                "%target% http://media.giphy.com/media/LB1kIoSRFTC2Q/giphy.gif",
             } }
         };
 
@@ -192,7 +198,7 @@ For a specific command help, use `{0}h ""Command name""` (for example `-h ""!m q
 
 
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
-<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+<http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
 
 
 Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";

@@ -91,6 +91,21 @@
     ],
     "%mention% archer": [
       "http://i.imgur.com/Bha9NhL.jpg"
+    ],
+    "%mention% formuoli": [
+      "http://i.imgur.com/sCHYQhl.jpg"
+    ],
+    "%mention% mei": [
+      "http://i.imgur.com/Xkrf5y7.png"
+    ],
+    "%mention% omega yato": [
+      "https://cdn.discordapp.com/attachments/168617088892534784/221047921410310144/Yato_Animated.gif"
+    ],
+    "%mention% smack": [
+      "%target% https://66.media.tumblr.com/dd5d751f86002fd4a544dcef7a9763d6/tumblr_mjpheaAVj51s725bno1_500.gif",
+      "%target% https://media.giphy.com/media/jLeyZWgtwgr2U/giphy.gif",
+      "%target% http://orig11.deviantart.net/2d34/f/2013/339/1/2/golden_time_flower_slap_gif_by_paranoxias-d6wv007.gif",
+      "%target% http://media.giphy.com/media/LB1kIoSRFTC2Q/giphy.gif"
     ]
   },
   "RotatingStatuses": [],
@@ -143,5 +158,5 @@
   "CurrencySign": "🌸",
   "CurrencyName": "NadekoFlower",
   "DMHelpString": "Type `-h` for help.",
-  "HelpString": "You can use `{0}modules` command to see a list of all modules.\r\nYou can use `{0}commands ModuleName`\r\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\r\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\r\n\r\n\r\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\r\n<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>\r\n\r\n\r\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
+  "HelpString": "You can use `{0}modules` command to see a list of all modules.\r\nYou can use `{0}commands ModuleName`\r\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\r\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\r\n\r\n\r\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\r\n<http://nadekobot.readthedocs.io/en/latest/Commands%20List/>\r\n\r\n\r\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
 }

@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             NadekoBot.OnReady += () =>
             {
-                NadekoBot.Client.MessageReceived += MsgRecivd;
+                //NadekoBot.Client.MessageReceived += MsgRecivd;
                 NadekoBot.Client.MessageDeleted += MsgDltd;
                 NadekoBot.Client.MessageUpdated += MsgUpdtd;
                 NadekoBot.Client.UserUpdated += UsrUpdtd;
@@ -202,35 +202,35 @@ namespace NadekoBot.Modules.Administration.Commands
             catch { }
         }
 
-        private async void MsgRecivd(object sender, MessageEventArgs e)
-        {
-            try
-            {
-                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
-                    return;
-                var config = SpecificConfigurations.Default.Of(e.Server.Id);
-                var chId = config.LogServerChannel;
-                if (chId == null || e.Channel.Id == chId || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
-                    return;
-                Channel ch;
-                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
-                    return;
-                if (!string.IsNullOrWhiteSpace(e.Message.Text))
-                {
-                    await ch.SendMessage(
-        $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
-👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
-                }
-                else
-                {
-                    await ch.SendMessage(
-        $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
-👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
-                }
+        //        private async void MsgRecivd(object sender, MessageEventArgs e)
+        //        {
+        //            try
+        //            {
+        //                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
+        //                    return;
+        //                var config = SpecificConfigurations.Default.Of(e.Server.Id);
+        //                var chId = config.LogServerChannel;
+        //                if (chId == null || e.Channel.Id == chId || config.LogserverIgnoreChannels.Contains(e.Channel.Id))
+        //                    return;
+        //                Channel ch;
+        //                if ((ch = e.Server.TextChannels.Where(tc => tc.Id == chId).FirstOrDefault()) == null)
+        //                    return;
+        //                if (!string.IsNullOrWhiteSpace(e.Message.Text))
+        //                {
+        //                    await ch.SendMessage(
+        //        $@"🕔`{prettyCurrentTime}` **New Message** `#{e.Channel.Name}`
+        //👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Text.Unmention()}").ConfigureAwait(false);
+        //                }
+        //                else
+        //                {
+        //                    await ch.SendMessage(
+        //        $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
+        //👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
+        //                }
 
-            }
-            catch { }
-        }
+        //            }
+        //            catch { }
+        //        }
         private async void MsgDltd(object sender, MessageEventArgs e)
         {
             try

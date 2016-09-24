@@ -68,6 +68,48 @@ tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 `apt-get install ca-certificates-mono`
 `mozroots --import --sync`
 
+####Mono Fix Socket Error
+
+The problem comes from Mono. Mono 4.6 is broken.
+
+To fix it on debian/ubuntu
+```
+apt-get remove mono-complete mono-devel mono-runtime
+apt-get autoremove
+```
+
+Now Check for some mono remaining parts as lib or others things and unistall them
+```
+dpkg --get-selections | grep mono
+```
+Now unistall them
+```
+apt-get remove remainings-parts
+```
+Now clzean apt cache
+```
+apt get clean
+apt-get autoclean
+```
+
+Check the exact version of Mono 4.2
+```
+apt-cache showpkg mono-devel
+```
+And install it
+```
+aptitude install mono-devel=version
+```
+For me in ubuntu 16.04 it's :
+```
+aptitude install mono-devel=4.2.1.102+dfsg2-7ubuntu4
+```
+
+It will say if you want to stay in the same state ie uninstalled, say `n` after If will list all dependencies as 4.2 says say `y`
+
+Mono is now downgraded and installed at 4.2 version :D
+
+
 ####Installing Opus Voice Codec
 **4)**
 `sudo apt-get install libopus0 opus-tools`
@@ -216,7 +258,7 @@ its your session name) so you can run the bot in background without having to ke
 
 For how to set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](Windows Guide.md#setting-up-nadekobot-for-music)
 
-Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will ditach the nadeko session using TMUX), and you can finally close PuTTY now.
+Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
 
 Copy your CLIENT ID (that's in the same Developer page where you brought your token) and replace `12345678` in this link: `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with it. Go to that link and you will be able to add your bot to your server.
 
@@ -235,11 +277,10 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 **FOLLOW THESE STEPS SERIALLY**
 
-- **-21 OR 22**
-- **-19**
 - **-16**
 - **-17**
 - **-18**
+- **-19**
 - **-20**
 
 HIT **CTRL+B+D** and close **PuTTY**
