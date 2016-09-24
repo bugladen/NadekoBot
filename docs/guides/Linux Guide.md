@@ -68,7 +68,7 @@ tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 `apt-get install ca-certificates-mono`
 `mozroots --import --sync`
 
-####Mono Fix 401 Error
+####Mono Fix Socket Error
 
 The problem comes from Mono. Mono 4.6 is broken.
 
