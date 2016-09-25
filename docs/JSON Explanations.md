@@ -17,7 +17,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "LOLAPIKEY": "",
   "TrelloAPPKey": "",
   "OsuAPIKey": "",
-  "CarbonKey": "",
+  "CarbonKey": ""
 }
 ```
 ####Required Parts
@@ -37,9 +37,10 @@ Setting up your API keys
   + You can get this api Key [here](https://console.developers.google.com/apis)
 + **SoundCloudClientID** - Required to queue soundloud songs from sc links.
   + You will need to create a new app [here](http://soundcloud.com/you/apps). **Please note you must be logged into SoundCloud**
-    + You should come to a page that looks like this ![Imgur](http://i.imgur.com/RAZ2HDM.png)
     + Simply click Register a new application and enter a name.
-    + After naming your app you will be brought to this page: ![Imgur](http://i.imgur.com/GH1gjKK.png) Copy the Client ID and click "save app" then paste the Client Id it into your `credentials.json` 
+    + You will need to fill out an application form to request access to Soundcloud API. 
+    + All requests for an API key must go through the review process, where applications will be reviewed on a case by case basis, in line with Soundcloud API Terms of Use. If your application is successful, you will receive an API key. 
+    + Copy the Client ID and click "save app" then paste the Client Id it into your `credentials.json` 
 + **MashapeKey** - Required for Urban Disctionary, Hashtag search, and Hearthstone cards.
   + You need to create an account on their [api marketplace](https://market.mashape.com/), after that go to `market.mashape.com/YOURNAMEHERE/applications/default-application` and press **Get the keys** in the top right corner.
     + Copy the key and paste it into `credentials.json`

@@ -90,6 +90,8 @@ ________________________________________________________________________________
 - Follow these steps on how to setup Soundcloud API key:
     - Go to [Soundcloud][Soundcloud]. 
     - Enter a name for the app and create it. 
+    - You will need to fill out an application form to request access to Soundcloud API.
+    - All requests for an API key must go through the review process, where applications will be reviewed on a case by case basis, in line with Soundcloud API Terms of Use. If your application is successful, you will receive an API key. 
     - You will see a page with the title of your app, and a field labeled `Client ID`. Copy the ID. 
     - In `credentials.json`, fill in `"SoundcloudClientID"` with the copied ID.
 - Restart your computer.
