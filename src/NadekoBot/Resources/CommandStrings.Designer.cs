@@ -384,6 +384,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Sets permission for all commands from a module for a specific user..
+        /// </summary>
+        public static string allusrcmds_desc {
+            get {
+                return ResourceManager.GetString("allusrcmds_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;auc Searches disable @Someone`.
+        /// </summary>
+        public static string allusrcmds_summary {
+            get {
+                return ResourceManager.GetString("allusrcmds_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to allusrcmds auc.
+        /// </summary>
+        public static string allusrcmds_text {
+            get {
+                return ResourceManager.GetString("allusrcmds_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets permission for all modules for a specific user..
+        /// </summary>
+        public static string allusrmdls_desc {
+            get {
+                return ResourceManager.GetString("allusrmdls_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;aum enable @someone`.
+        /// </summary>
+        public static string allusrmdls_summary {
+            get {
+                return ResourceManager.GetString("allusrmdls_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to allusrmdls aum.
+        /// </summary>
+        public static string allusrmdls_text {
+            get {
+                return ResourceManager.GetString("allusrmdls_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Queries anilist for an anime and shows the first result..
         /// </summary>
         public static string ani_desc {
@@ -4272,6 +4326,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Moves permission from one position to another..
+        /// </summary>
+        public static string moveperm_desc {
+            get {
+                return ResourceManager.GetString("moveperm_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;mp 2 4`.
+        /// </summary>
+        public static string moveperm_summary {
+            get {
+                return ResourceManager.GetString("moveperm_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to moveperm mp.
+        /// </summary>
+        public static string moveperm_text {
+            get {
+                return ResourceManager.GetString("moveperm_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Moves a song from one position to another..
         /// </summary>
         public static string movesong_desc {
@@ -5105,6 +5186,33 @@ namespace NadekoBot.Resources {
         public static string removeallroles_text {
             get {
                 return ResourceManager.GetString("removeallroles_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a permission from a given position.
+        /// </summary>
+        public static string removeperm_desc {
+            get {
+                return ResourceManager.GetString("removeperm_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;rp 1`.
+        /// </summary>
+        public static string removeperm_summary {
+            get {
+                return ResourceManager.GetString("removeperm_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to removeperm rp.
+        /// </summary>
+        public static string removeperm_text {
+            get {
+                return ResourceManager.GetString("removeperm_text", resourceCulture);
             }
         }
         

@@ -2646,4 +2646,40 @@
   <data name="listperms_text" xml:space="preserve">
     <value>listperms lp</value>
   </data>
+  <data name="allusrcmds_desc" xml:space="preserve">
+    <value>Sets permission for all commands from a module for a specific user.</value>
+  </data>
+  <data name="allusrcmds_summary" xml:space="preserve">
+    <value>`;auc Searches disable @Someone`</value>
+  </data>
+  <data name="allusrcmds_text" xml:space="preserve">
+    <value>allusrcmds auc</value>
+  </data>
+  <data name="allusrmdls_desc" xml:space="preserve">
+    <value>Sets permission for all modules for a specific user.</value>
+  </data>
+  <data name="allusrmdls_summary" xml:space="preserve">
+    <value>`;aum enable @someone`</value>
+  </data>
+  <data name="allusrmdls_text" xml:space="preserve">
+    <value>allusrmdls aum</value>
+  </data>
+  <data name="moveperm_desc" xml:space="preserve">
+    <value>Moves permission from one position to another.</value>
+  </data>
+  <data name="moveperm_summary" xml:space="preserve">
+    <value>`;mp 2 4`</value>
+  </data>
+  <data name="moveperm_text" xml:space="preserve">
+    <value>moveperm mp</value>
+  </data>
+  <data name="removeperm_desc" xml:space="preserve">
+    <value>Removes a permission from a given position</value>
+  </data>
+  <data name="removeperm_summary" xml:space="preserve">
+    <value>`;rp 1`</value>
+  </data>
+  <data name="removeperm_text" xml:space="preserve">
+    <value>removeperm rp</value>
+  </data>
 </root>

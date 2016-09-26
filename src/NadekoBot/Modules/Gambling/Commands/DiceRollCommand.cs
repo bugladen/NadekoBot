@@ -46,6 +46,7 @@ namespace NadekoBot.Modules.Gambling
             //todo merge into internallDndRoll and internalRoll
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
+            [Priority(1)]
             public async Task Roll(IUserMessage umsg, string arg)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -76,6 +77,7 @@ namespace NadekoBot.Modules.Gambling
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
+            [Priority(2)]
             public async Task Roll(IUserMessage umsg, int num)
             {
                 var channel = (ITextChannel)umsg.Channel;

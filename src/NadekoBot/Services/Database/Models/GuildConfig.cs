@@ -43,6 +43,6 @@ namespace NadekoBot.Services.Database.Models
         public ulong? GenerateCurrencyChannelId { get; set; }
 
         //permissions
-        public List<Permission> Permissions { get; set; }
+        public List<Permission> Permissions { get; set; } = new List<Permission>();
     }
 }

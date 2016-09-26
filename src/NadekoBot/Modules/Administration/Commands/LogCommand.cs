@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Administration
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
                 
 
-                _client.MessageReceived += _client_MessageReceived;
+                //_client.MessageReceived += _client_MessageReceived;
                 _client.MessageUpdated += _client_MessageUpdated;
                 _client.MessageDeleted += _client_MessageDeleted;
                 _client.UserBanned += _client_UserBanned;
@@ -408,37 +408,37 @@ namespace NadekoBot.Modules.Administration
                 return Task.CompletedTask;
             }
 
-            private Task _client_MessageReceived(IMessage imsg)
-            {
-                var msg = imsg as IUserMessage;
-                if (msg == null || msg.IsAuthor())
-                    return Task.CompletedTask;
+//            private Task _client_MessageReceived(IMessage imsg)
+//            {
+//                var msg = imsg as IUserMessage;
+//                if (msg == null || msg.IsAuthor())
+//                    return Task.CompletedTask;
 
-                var channel = msg.Channel as ITextChannel;
-                if (channel == null)
-                    return Task.CompletedTask;
+//                var channel = msg.Channel as ITextChannel;
+//                if (channel == null)
+//                    return Task.CompletedTask;
 
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting) 
-                    || !logSetting.IsLogging
-                    || !logSetting.MessageReceived)
-                    return Task.CompletedTask;
+//                LogSetting logSetting;
+//                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting) 
+//                    || !logSetting.IsLogging
+//                    || !logSetting.MessageReceived)
+//                    return Task.CompletedTask;
 
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting)) == null || logChannel.Id == imsg.Channel.Id)
-                    return Task.CompletedTask;
+//                ITextChannel logChannel;
+//                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting)) == null || logChannel.Id == imsg.Channel.Id)
+//                    return Task.CompletedTask;
 
-                var task = Task.Run(async () =>
-                {
-                    var str = $@"🕔`{prettyCurrentTime}` **New Message** `#{channel.Name}`
-👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
-                    if (msg.Attachments.Any())
-                        str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
-                });
+//                var task = Task.Run(async () =>
+//                {
+//                    var str = $@"🕔`{prettyCurrentTime}` **New Message** `#{channel.Name}`
+//👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+//                    if (msg.Attachments.Any())
+//                        str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
+//                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+//                });
                 
-                return Task.CompletedTask;
-            }
+//                return Task.CompletedTask;
+//            }
 
             private enum LogChannelType { Text, Voice, UserPresence };
             private ITextChannel TryGetLogChannel(IGuild guild, LogSetting logSetting, LogChannelType logChannelType = LogChannelType.Text)

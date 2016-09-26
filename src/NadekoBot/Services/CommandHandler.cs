@@ -137,7 +137,7 @@ namespace NadekoBot.Services
                     }
                     int index;
                     if (!perms.CheckPermissions(message, cmd, out index))
-                        return new Tuple<Command, IResult>(null, SearchResult.FromError(CommandError.Exception, $"Permission error. Permission number {index} (`{(index != -1 ? perms[index - 1].GetCommand() : "default")}`)"));
+                        return new Tuple<Command, IResult>(null, SearchResult.FromError(CommandError.Exception, $"Permission error. Permission number {index} (`{(index != -1 ? perms[perms.Count - index].GetCommand() : "default")}`)"));
                 }
 
                 return new Tuple<Command, IResult>(commands[i], await commands[i].Execute(message, parseResult));

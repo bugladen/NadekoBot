@@ -20,6 +20,7 @@ namespace NadekoBot.Modules.Permissions
 
         public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, Command command, out int permIndex)
         {
+            permsEnumerable = permsEnumerable.Reverse();
             var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
 
             for (int i = 0; i < perms.Count; i++)
@@ -107,7 +108,7 @@ namespace NadekoBot.Modules.Permissions
                     com = "a" + com + "m";
                     break;
             }
-            com += " " + perm.SecondaryTargetName + " " + (perm.State ? "enable" : "disable") + " ";
+            com += " " + (perm.SecondaryTargetName != "*" ? perm.SecondaryTargetName + " " : "") + (perm.State ? "enable" : "disable") + " ";
 
             switch (perm.PrimaryTarget)
             {

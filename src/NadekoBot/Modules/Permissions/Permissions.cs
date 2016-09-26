@@ -10,6 +10,7 @@ using NadekoBot.Services;
 using Discord;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
+using Discord.API;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -29,7 +30,7 @@ namespace NadekoBot.Modules.Permissions
             string toSend = "";
             using (var uow = DbHandler.UnitOfWork())
             {
-                var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions;
+                var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().Reverse();
 
                 var i = 1;
                 toSend = String.Join("\n", perms.Select(p => $"`{(i++)}.` {p.GetCommand()}"));
@@ -39,6 +40,61 @@ namespace NadekoBot.Modules.Permissions
                 await channel.SendMessageAsync("`No permissions set.`").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(toSend).ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task RemovePerm(IUserMessage imsg, int index)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            try
+            {
+                Permission p;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().ToList();
+                    p = perms[perms.Count - index];
+                    perms.RemoveAt(perms.Count - index);
+                    uow.GuildConfigs.For(channel.Guild.Id).Permissions = perms;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+                await channel.SendMessageAsync($"`Removed permission \"{p.GetCommand()}\" from position #{index}.`").ConfigureAwait(false);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                await channel.SendMessageAsync("`No command on that index found.`").ConfigureAwait(false);
+            }
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task MovePerm(IUserMessage imsg, int from, int to)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            if (!(from == to || from < 1 || to < 1))
+            {
+                try
+                {
+                    Permission toInsert;
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().ToList();
+                        toInsert = perms[perms.Count - from];
+                        perms.RemoveAt(perms.Count - from);
+                        uow.GuildConfigs.For(channel.Guild.Id).Permissions = perms;
+                        if (from < to)
+                            to -= 1;
+                        perms.Insert(perms.Count - to, toInsert);
+                        await uow.CompleteAsync().ConfigureAwait(false);
+                    }
+                    await channel.SendMessageAsync($"`Moved permission \"{toInsert.GetCommand()}\" from #{from} to #{to}.`").ConfigureAwait(false);
+                    return;
+                }
+                catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
+                {
+                }
+            }
+            await channel.SendMessageAsync("`Invalid index(es) specified.`").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
@@ -211,7 +267,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUserMdls(IUserMessage imsg, PermissionAction action, IUser user)
+        public async Task AllUsrMdls(IUserMessage imsg, PermissionAction action, IUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -242,7 +298,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
-                    SecondaryTarget = SecondaryPermissionType.Command,
+                    SecondaryTarget = SecondaryPermissionType.AllCommands,
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 });
@@ -274,7 +330,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUserCmds(IUserMessage imsg, Module module, PermissionAction action, IUser user)
+        public async Task AllUsrCmds(IUserMessage imsg, Module module, PermissionAction action, IUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
