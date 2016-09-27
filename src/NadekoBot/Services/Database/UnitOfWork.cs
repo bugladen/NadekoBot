@@ -10,7 +10,7 @@ namespace NadekoBot.Services.Database
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private NadekoContext _context;
+        public NadekoContext _context;
 
         private IQuoteRepository _quotes;
         public IQuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(_context));

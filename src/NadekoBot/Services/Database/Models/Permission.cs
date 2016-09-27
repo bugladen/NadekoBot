@@ -8,6 +8,9 @@ namespace NadekoBot.Services.Database.Models
 {
     public class Permission : DbEntity
     {
+        public Permission Previous { get; set; } = null;
+        public Permission Next { get; set; } = null;
+
         public PrimaryPermissionType PrimaryTarget { get; set; }
         public ulong PrimaryTargetId { get; set; }
 

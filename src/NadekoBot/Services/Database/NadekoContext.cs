@@ -181,6 +181,13 @@ namespace NadekoBot.Services.Database
                 .IsUnique();
             #endregion
 
+            #region Permission
+            var permissionEntity = modelBuilder.Entity<Permission>();
+            permissionEntity
+                .HasOne(p => p.Next)
+                .WithOne(p => p.Previous);
+            #endregion
+
             #region LogSettings
 
             //var logSettingEntity = modelBuilder.Entity<LogSetting>();

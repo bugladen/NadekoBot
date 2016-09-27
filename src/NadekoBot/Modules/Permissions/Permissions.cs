@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Permissions
             string toSend = "";
             using (var uow = DbHandler.UnitOfWork())
             {
-                var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().Reverse();
+                var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission.AsEnumerable().Reverse();
 
                 var i = 1;
                 toSend = String.Join("\n", perms.Select(p => $"`{(i++)}.` {p.GetCommand()}"));
@@ -52,10 +52,8 @@ namespace NadekoBot.Modules.Permissions
                 Permission p;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().ToList();
-                    p = perms[perms.Count - index];
-                    perms.RemoveAt(perms.Count - index);
-                    uow.GuildConfigs.For(channel.Guild.Id).Permissions = perms;
+                    var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission;
+                    p = perms.RemoveAt(perms.Count() - index);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 await channel.SendMessageAsync($"`Removed permission \"{p.GetCommand()}\" from position #{index}.`").ConfigureAwait(false);
@@ -78,13 +76,13 @@ namespace NadekoBot.Modules.Permissions
                     Permission toInsert;
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        var perms = uow.GuildConfigs.For(channel.Guild.Id).Permissions.AsEnumerable().ToList();
-                        toInsert = perms[perms.Count - from];
-                        perms.RemoveAt(perms.Count - from);
-                        uow.GuildConfigs.For(channel.Guild.Id).Permissions = perms;
+                        var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission;
+                        var count = perms.Count();
+                        toInsert = perms.RemoveAt(count - from);
                         if (from < to)
                             to -= 1;
-                        perms.Insert(perms.Count - to, toInsert);
+                        perms.Insert(count - to, toInsert);
+                        uow.GuildConfigs.For(channel.Guild.Id).RootPermission = perms;
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
                     await channel.SendMessageAsync($"`Moved permission \"{toInsert.GetCommand()}\" from #{from} to #{to}.`").ConfigureAwait(false);
@@ -105,7 +103,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
@@ -126,7 +124,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
@@ -147,7 +145,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
@@ -168,7 +166,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
@@ -189,7 +187,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
@@ -210,7 +208,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
@@ -231,7 +229,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
@@ -252,7 +250,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
@@ -273,7 +271,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
@@ -294,7 +292,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
@@ -315,7 +313,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
@@ -336,7 +334,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).Permissions.Add(new Permission
+                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,

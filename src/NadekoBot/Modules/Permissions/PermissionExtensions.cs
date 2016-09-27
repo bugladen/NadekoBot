@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -51,8 +52,8 @@ namespace NadekoBot.Modules.Permissions
             if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
                     perm.SecondaryTargetName == command.Text.ToLowerInvariant()) ||
                 ((perm.SecondaryTarget == SecondaryPermissionType.Module || perm.SecondaryTarget == SecondaryPermissionType.AllCommands) &&
-                    perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant()) || 
-                    perm.SecondaryTarget == SecondaryPermissionType.AllModules || 
+                    perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant()) ||
+                    perm.SecondaryTarget == SecondaryPermissionType.AllModules ||
                     (perm.SecondaryTarget == SecondaryPermissionType.AllCommands && perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant())))
                 return null;
 
@@ -126,5 +127,109 @@ namespace NadekoBot.Modules.Permissions
             return NadekoBot.ModulePrefixes[typeof(Permissions).Name] + com;
         }
 
+        public static void Add(this Permission perm, Permission toAdd)
+        {
+            var last = perm;
+            while (last.Next != null)
+            {
+                last = last.Next;
+            }
+
+            toAdd.Previous = last;
+            last.Next = toAdd;
+            toAdd.Next = null;
+        }
+
+        public static void Insert(this Permission perm, int index, Permission toAdd)
+        {
+            if (index < 0)
+                throw new IndexOutOfRangeException();
+
+            if (index == 0)
+            {
+                perm.Previous = toAdd;
+                toAdd.Next = perm;
+                return;
+            }
+
+            var atIndex = perm;
+            var i = 0;
+            while (i != index)
+            {
+                atIndex = atIndex.Next;
+                i++;
+                if (atIndex == null)
+                    throw new IndexOutOfRangeException();
+            }
+            var previous = atIndex.Previous;
+
+            //connect right side
+            atIndex.Previous = toAdd;
+            toAdd.Next = atIndex;
+
+            //connect left side
+            toAdd.Previous = previous;
+            previous.Next = toAdd;
+        }
+
+        public static Permission RemoveAt(this Permission perm, int index)
+        {
+            if (index < 0)
+                throw new IndexOutOfRangeException();
+
+            if (index == 0)
+            {
+                perm.Next.Previous = null;
+                perm.Next = null;
+                return perm;
+            }
+
+            var toRemove = perm;
+            var i = 0;
+            while (i != index)
+            {
+                toRemove = toRemove.Next;
+                i++;
+                if (toRemove == null)
+                    throw new IndexOutOfRangeException();
+            }
+
+            toRemove.Previous.Next = toRemove.Next;
+            toRemove.Next.Previous = toRemove.Previous;
+            return toRemove;
+        }
+
+        public static Permission GetAt(this Permission perm, int index)
+        {
+            if (index < 0)
+                throw new IndexOutOfRangeException();
+            var temp = perm;
+            while (index > 0) { temp = temp?.Next; index--; }
+            if (temp == null)
+                throw new IndexOutOfRangeException();
+            return temp;
+        }
+
+        public static int Count(this Permission perm)
+        {
+            var i = 1;
+            var temp = perm;
+            while ((temp = temp.Next) != null) { i++; }
+            return i;
+        }
+
+        public static IEnumerable<Permission> AsEnumerable(this Permission perm)
+        {
+            do yield return perm;
+            while ((perm = perm.Next) != null);
+        }
+
+        public static Permission GetRoot(this Permission perm)
+        {
+            Permission toReturn;
+            do toReturn = perm;
+            while ((perm = perm.Previous) != null);
+            return toReturn;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public GuildConfig For(ulong guildId)
         {
             var config = _set.Include(gc => gc.FollowedStreams)
-                             .Include(gc => gc.Permissions)
+                             .Include(gc => gc.RootPermission)
                              .Include(gc => gc.LogSetting)
                                 .ThenInclude(ls=>ls.IgnoredChannels)
                              .FirstOrDefault(c => c.GuildId == guildId);

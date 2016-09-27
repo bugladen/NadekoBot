@@ -127,17 +127,17 @@ namespace NadekoBot.Services
                     }
                 }
                 var cmd = commands[i];
-                List<Permission> perms;
+                Permission rootPerm;
                 //check permissions
                 if (guild != null)
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        perms = uow.GuildConfigs.For(guild.Id).Permissions;
+                        rootPerm = uow.GuildConfigs.For(guild.Id).RootPermission;
                     }
                     int index;
-                    if (!perms.CheckPermissions(message, cmd, out index))
-                        return new Tuple<Command, IResult>(null, SearchResult.FromError(CommandError.Exception, $"Permission error. Permission number {index} (`{(index != -1 ? perms[perms.Count - index].GetCommand() : "default")}`)"));
+                    if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd, out index))
+                        return new Tuple<Command, IResult>(null, SearchResult.FromError(CommandError.Exception, $"Permission error. Permission number {index} (`{(index != -1 ? rootPerm.GetAt(rootPerm.Count() - index).GetCommand() : "default")}`)"));
                 }
 
                 return new Tuple<Command, IResult>(commands[i], await commands[i].Execute(message, parseResult));
