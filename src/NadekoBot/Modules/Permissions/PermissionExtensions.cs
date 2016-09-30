@@ -17,10 +17,17 @@ namespace NadekoBot.Modules.Permissions
         {
             var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
             int throwaway;
-            return perms.CheckPermissions(message, command, out throwaway);
+            return perms.CheckPermissions(message, command.Name, command.Module.Name, out throwaway);
         }
 
-        public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, Command command, out int permIndex)
+        public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, string commandName, string moduleName)
+        {
+            var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
+            int throwaway;
+            return perms.CheckPermissions(message, commandName, moduleName, out throwaway);
+        }
+
+        public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, string commandName, string moduleName, out int permIndex)
         {
             var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
 
@@ -28,7 +35,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 var perm = perms[i];
 
-                var result = perm.CheckPermission(message, command);
+                var result = perm.CheckPermission(message, commandName, moduleName);
 
                 if (result == null)
                 {
@@ -47,12 +54,12 @@ namespace NadekoBot.Modules.Permissions
         //null = not applicable
         //true = applicable, allowed
         //false = applicable, not allowed
-        public static bool? CheckPermission(this Permission perm, IUserMessage message, Command command)
+        public static bool? CheckPermission(this Permission perm, IUserMessage message, string commandName, string moduleName)
         {
             if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
-                    perm.SecondaryTargetName.ToLowerInvariant() == command.Text.ToLowerInvariant()) ||
+                    perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
                 (perm.SecondaryTarget == SecondaryPermissionType.Module &&
-                    perm.SecondaryTargetName.ToLowerInvariant() == command.Module.Name.ToLowerInvariant()) ||
+                    perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
                     perm.SecondaryTarget == SecondaryPermissionType.AllModules))
                 return null;
 

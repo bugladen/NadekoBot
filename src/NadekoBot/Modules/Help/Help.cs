@@ -19,8 +19,19 @@ namespace NadekoBot.Modules.Help
     {
         public string HelpString {
             get {
-                var str = "To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>\n";
-                return str + String.Format(str, NadekoBot.Credentials.ClientId);
+                var str = @"To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>
+You can use `{1}modules` command to see a list of all modules.
+You can use `{1}commands ModuleName`
+(for example `{1}commands Administration`) to see a list of all of the commands in that module.
+For a specific command help, use {1}h ""Command name"" (for example {1}h !!q)
+
+
+**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
+<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+
+
+Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
+                return String.Format(str, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);
             }
         }
         public Help(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)

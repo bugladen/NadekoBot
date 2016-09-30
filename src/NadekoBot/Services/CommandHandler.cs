@@ -164,7 +164,7 @@ namespace NadekoBot.Services
                 if (guild != null)
                 {
                     int index;
-                    if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd, out index))
+                    if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd.Name, cmd.Module.Name, out index))
                     {
                         var returnMsg = $"Permission number #{index} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
                         return new Tuple<Command, IResult>(cmd, SearchResult.FromError(CommandError.Exception, returnMsg));
