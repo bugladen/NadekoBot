@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Help
 You can use `{1}modules` command to see a list of all modules.
 You can use `{1}commands ModuleName`
 (for example `{1}commands Administration`) to see a list of all of the commands in that module.
-For a specific command help, use {1}h ""Command name"" (for example {1}h !!q)
+For a specific command help, use `{1}h CommandName` (for example {1}h !!q)
 
 
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
@@ -39,20 +39,17 @@ Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
         public async Task Modules(IUserMessage umsg)
         {
-            var channel = (ITextChannel)umsg.Channel;
 
-            await channel.SendMessageAsync("`List of modules:` ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` `Type \"-commands module_name\" to get a list of commands in that module.`")
+            await umsg.Channel.SendMessageAsync("`List of modules:` ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` `Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
         public async Task Commands(IUserMessage umsg, [Remainder] string module = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
@@ -76,14 +73,13 @@ Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
             {
                 await channel.SendMessageAsync("`List Of Commands:`\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
             }
-            await channel.SendMessageAsync($"`You can type \"-h command_name\" to see the help about that specific command.`").ConfigureAwait(false);
+            await channel.SendMessageAsync($"`You can type \"{NadekoBot.ModulePrefixes[typeof(Help).Name]}h CommandName\" to see the help about that specific command.`").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
         public async Task H(IUserMessage umsg, [Remainder] string comToFind = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             comToFind = comToFind?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(comToFind))

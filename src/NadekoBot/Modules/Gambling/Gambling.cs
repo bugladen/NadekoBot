@@ -48,10 +48,9 @@ namespace NadekoBot.Modules.Gambling
         }
         
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             user = user ?? umsg.Author;
             long amount;
