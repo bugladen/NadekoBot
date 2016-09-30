@@ -98,6 +98,7 @@ namespace NadekoBot.Modules.Help
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
         public async Task Hgit(IUserMessage umsg)
         {
             var helpstr = new StringBuilder();

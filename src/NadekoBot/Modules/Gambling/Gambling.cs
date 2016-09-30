@@ -82,14 +82,15 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully sent {amount} {Gambling.CurrencyPluralName}s to {receiver.Mention}!").ConfigureAwait(false);
         }
 
-        //todo owner only
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
         public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
             Award(umsg, amount, usr.Id);
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
         public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -101,26 +102,35 @@ namespace NadekoBot.Modules.Gambling
 
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {Gambling.CurrencyName}s to <@{usrId}>!").ConfigureAwait(false);
         }
+        
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (amount <= 0)
+                return;
 
-        ////todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user) =>
-        //    Take(umsg, amount, user.Id);
+            await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount, true).ConfigureAwait(false);
 
-        //todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    if (amount <= 0)
-        //        return;
+            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from {user}!").ConfigureAwait(false);
+        }
 
-        //    await CurrencyHandler.RemoveFlowers(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
 
-        //    await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
-        //}
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (amount <= 0)
+                return;
+
+            await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false);
+
+            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
+        }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]

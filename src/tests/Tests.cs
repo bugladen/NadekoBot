@@ -38,7 +38,7 @@ namespace Tests
         {
             var root = GetRoot();
 
-            root.Add(new Permission() { SecondaryTargetName = "Added" });
+            root.Prepend(new Permission() { SecondaryTargetName = "Added" });
 
             Assert.Equal(11, root.Count());
 

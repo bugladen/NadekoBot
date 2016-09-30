@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -52,23 +53,23 @@ namespace NadekoBot.Modules.Administration
 
             private string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
                 $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content;
-
+            
             public static readonly ConcurrentDictionary<int, HashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, HashSet<ITextChannel>>();
 
-            ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task Scsc(IUserMessage msg)
-            //{
-            //    var channel = (ITextChannel)msg.Channel;
-            //    var token = new NadekoRandom().Next();
-            //    var set = new HashSet<ITextChannel>();
-            //    if (Subscribers.TryAdd(token, set))
-            //    {
-            //        set.Add(channel);
-            //        await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
-            //    }
-            //}
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task Scsc(IUserMessage msg)
+            {
+                var channel = (ITextChannel)msg.Channel;
+                var token = new NadekoRandom().Next();
+                var set = new HashSet<ITextChannel>();
+                if (Subscribers.TryAdd(token, set))
+                {
+                    set.Add(channel);
+                    await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+                }
+            }
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]

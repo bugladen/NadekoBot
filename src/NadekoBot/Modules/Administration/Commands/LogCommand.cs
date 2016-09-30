@@ -484,6 +484,7 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task LogServer(IUserMessage msg)
             {
                 var channel = (ITextChannel)msg.Channel;
@@ -506,6 +507,7 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task LogIgnore(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -529,6 +531,7 @@ namespace NadekoBot.Modules.Administration
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task LogAdd(IUserMessage msg, [Remainder] string eventName)
             {
                 var channel = (ITextChannel)msg.Channel;

@@ -48,7 +48,18 @@ namespace NadekoBot.Services
 
                 try
                 {
-                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, MultiMatchHandling.Best);
+                    bool verbose;
+                    Permission rootPerm;
+                    string permRole;
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        var config = uow.GuildConfigs.PermissionsFor(guild.Id);
+                        verbose = config.VerbosePermissions;
+                        rootPerm = config.RootPermission;
+                        permRole = config.PermissionRole.Trim().ToLowerInvariant();
+                    }
+
+                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, rootPerm, permRole, MultiMatchHandling.Best);
                     var command = t.Item1;
                     var result = t.Item2;
                     sw.Stop();
@@ -85,11 +96,6 @@ namespace NadekoBot.Services
                                   );
                         if (guild != null && command != null && result.Error == CommandError.Exception)
                         {
-                            bool verbose;
-                            using (var uow = DbHandler.UnitOfWork())
-                            {
-                                verbose = uow.GuildConfigs.For(guild.Id).VerbosePermissions;
-                            }
                             if (verbose)
                                 await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false);
                         }
@@ -112,7 +118,7 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
-        public async Task<Tuple<Command,IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
+        public async Task<Tuple<Command,IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, Permission rootPerm, string permRole, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
             var searchResult = _commandService.Search(message, input);
             if (!searchResult.IsSuccess)
                 return new Tuple<Command, IResult>(null, searchResult);
@@ -154,19 +160,23 @@ namespace NadekoBot.Services
                     }
                 }
                 var cmd = commands[i];
-                Permission rootPerm;
                 //check permissions
                 if (guild != null)
                 {
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        rootPerm = uow.GuildConfigs.PermissionsFor(guild.Id).RootPermission;
-                    }
                     int index;
                     if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd, out index))
                     {
                         var returnMsg = $"Permission number #{index} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
                         return new Tuple<Command, IResult>(cmd, SearchResult.FromError(CommandError.Exception, returnMsg));
+                    }
+
+
+                    if (cmd.Module.Source.Name == typeof(Permissions).Name) //permissions, you must have special role
+                    {
+                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == permRole))
+                        {
+                            return new Tuple<Command, IResult>(cmd, SearchResult.FromError(CommandError.Exception, $"You need a **{permRole}** role in order to use permission commands."));
+                        }
                     }
                 }
 

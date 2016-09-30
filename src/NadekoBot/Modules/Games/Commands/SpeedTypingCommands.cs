@@ -174,24 +174,25 @@ namespace NadekoBot.Modules.Games
                 await channel.SendMessageAsync("No contest to stop on this channel.").ConfigureAwait(false);
             }
 
-            ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
-            //{
-            //    var channel = (ITextChannel)imsg.Channel;
+            
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
+            {
+                var channel = (ITextChannel)imsg.Channel;
 
-            //    using (var uow = DbHandler.UnitOfWork())
-            //    {
-            //        uow.TypingArticles.Add(new Services.Database.Models.TypingArticle
-            //        {
-            //            Author = imsg.Author.Username,
-            //            Text = text
-            //        });
-            //    }
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.TypingArticles.Add(new Services.Database.Models.TypingArticle
+                    {
+                        Author = imsg.Author.Username,
+                        Text = text
+                    });
+                }
 
-            //    await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
-            //}
+                await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
+            }
         }
     }
 }

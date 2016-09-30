@@ -334,6 +334,7 @@ namespace NadekoBot.Modules.Music
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
         public async Task LocalPl(IUserMessage umsg, [Remainder] string directory)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -381,6 +382,7 @@ namespace NadekoBot.Modules.Music
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
         public async Task Local(IUserMessage umsg, [Remainder] string path)
         {
             var channel = (ITextChannel)umsg.Channel;

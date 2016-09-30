@@ -184,21 +184,23 @@ namespace NadekoBot.Modules.Utility
                 await StartReminder(rem);
             }
 
-            ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
-            //{
-            //    var channel = (ITextChannel)umsg.Channel;
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
+                if (string.IsNullOrWhiteSpace(arg))
+                    return;
 
-            //    arg = arg?.Trim();
-            //    if (string.IsNullOrWhiteSpace(arg))
-            //        return;
-
-            //    NadekoBot.Config.RemindMessageFormat = arg;
-            //    await channel.SendMessageAsync("`New remind message set.`");
-            //}
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+                await channel.SendMessageAsync("`New remind message set.`");
+            }
         }
     }
 }

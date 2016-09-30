@@ -39,6 +39,28 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        public async Task PermRole(IUserMessage msg, [Remainder] IRole role = null)
+        {
+            var channel = (ITextChannel)msg.Channel;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                if (role == null)
+                {
+                    await channel.SendMessageAsync($"Current permission role is **{config.PermissionRole}**.").ConfigureAwait(false);
+                    return;
+                }
+                else {
+                    config.PermissionRole = role.Name.Trim();
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+            }
+
+            await channel.SendMessageAsync($"Users now require **{role.Name}** role in order to edit permissions.").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
         public async Task ListPerms(IUserMessage msg)
         {
             var channel = (ITextChannel)msg.Channel;
@@ -186,7 +208,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrCmd(IUserMessage imsg, Command command, PermissionAction action, IGuildUser user)
+        public async Task UsrCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] IGuildUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -209,7 +231,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrMdl(IUserMessage imsg, Module module, PermissionAction action, IGuildUser user)
+        public async Task UsrMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] IGuildUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -232,7 +254,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleCmd(IUserMessage imsg, Command command, PermissionAction action, IRole role)
+        public async Task RoleCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] IRole role)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -255,7 +277,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleMdl(IUserMessage imsg, Module module, PermissionAction action, IRole role)
+        public async Task RoleMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] IRole role)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -278,7 +300,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlCmd(IUserMessage imsg, Command command, PermissionAction action, ITextChannel chnl)
+        public async Task ChnlCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] ITextChannel chnl)
         {
             var channel = (ITextChannel)imsg.Channel;
             try
@@ -306,7 +328,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlMdl(IUserMessage imsg, Module module, PermissionAction action, ITextChannel chnl)
+        public async Task ChnlMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] ITextChannel chnl)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -329,7 +351,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllChnlMdls(IUserMessage imsg, PermissionAction action, ITextChannel chnl)
+        public async Task AllChnlMdls(IUserMessage imsg, PermissionAction action, [Remainder] ITextChannel chnl)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -352,7 +374,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllRoleMdls(IUserMessage imsg, PermissionAction action, IRole role)
+        public async Task AllRoleMdls(IUserMessage imsg, PermissionAction action, [Remainder] IRole role)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -375,7 +397,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUsrMdls(IUserMessage imsg, PermissionAction action, IUser user)
+        public async Task AllUsrMdls(IUserMessage imsg, PermissionAction action, [Remainder] IUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
@@ -398,7 +420,7 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action, IUser user)
+        public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action, [Remainder] IUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 

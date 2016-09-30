@@ -3614,7 +3614,8 @@
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "CoreCLR-NCalc": "2.1.0",
-          "Discord.Net.Commands": "1.0.0-dev",
+          "Discord.Net": "1.0.0-beta",
+          "Discord.Net.Commands": "1.0.0-beta",
           "Google.Apis.Customsearch.v1": "1.16.0.466",
           "Google.Apis.Urlshortener.v1": "1.15.0.138",
           "Google.Apis.YouTube.v3": "1.15.0.582",
