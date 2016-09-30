@@ -711,17 +711,5 @@ namespace NadekoBot.Modules.Administration
 
             await channel.SendMessageAsync($"Successfuly added a new donator. Total donated amount from this user: {don.Amount} 👑").ConfigureAwait(false);
         }
-
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task Leave(IUserMessage imsg, [Remainder] IGuild guild)
-        {
-            var channel = (ITextChannel)imsg.Channel;
-            
-            await guild.LeaveAsync();
-
-            await channel.SendMessageAsync($"Left guild **{guild.Name}**\nId: `{guild.Id}`.");
-        }
     }
 }

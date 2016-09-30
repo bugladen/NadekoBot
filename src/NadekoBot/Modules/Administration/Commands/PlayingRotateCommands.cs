@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo owner only
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
