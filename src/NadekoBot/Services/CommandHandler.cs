@@ -101,17 +101,11 @@ namespace NadekoBot.Services
                         }
                     }
                 }
-                catch (InvalidOperationException ex)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
-                }
-                catch (SqliteException ex)
-                {
-                    Console.WriteLine(ex.InnerException);
-                }
-                catch (HttpException ex)
-                {
-                    Console.WriteLine(ex);
+                    _log.Warn(ex, "Error in CommandHandler");
+                    if(ex.InnerException != null)
+                        _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
                 }
             });
 
