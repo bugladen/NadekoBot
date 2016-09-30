@@ -1588,10 +1588,10 @@
     <value>gencurrency gc</value>
   </data>
   <data name="gencurrency_desc" xml:space="preserve">
-    <value>Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission.</value>
+    <value>Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission.</value>
   </data>
   <data name="gencurrency_summary" xml:space="preserve">
-    <value>`&gt;gc` or `&gt;gc 60`</value>
+    <value>`&gt;gc`</value>
   </data>
   <data name="leet_text" xml:space="preserve">
     <value>leet</value>

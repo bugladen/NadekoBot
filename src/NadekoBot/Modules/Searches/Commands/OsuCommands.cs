@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Searches
             }
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
-            public async Task Osu(IUserMessage umsg, string usr, string mode)
+            public async Task Osu(IUserMessage umsg, string usr, [Remainder] string mode = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
 

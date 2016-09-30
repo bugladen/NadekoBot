@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
 {
+    //todo make currency generation change and cooldown modifyable
+    //only by bot owner through commands
     public partial class Games
     {
         /// <summary>

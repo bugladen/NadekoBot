@@ -5,7 +5,6 @@ using NadekoBot.Attributes;
 using System.Linq;
 using System.Threading.Tasks;
 
-//todo owner only
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration

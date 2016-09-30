@@ -2625,7 +2625,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission..
+        ///    Looks up a localized string similar to Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission..
         /// </summary>
         public static string gencurrency_desc {
             get {
@@ -2634,7 +2634,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `&gt;gc` or `&gt;gc 60`.
+        ///    Looks up a localized string similar to `&gt;gc`.
         /// </summary>
         public static string gencurrency_summary {
             get {
