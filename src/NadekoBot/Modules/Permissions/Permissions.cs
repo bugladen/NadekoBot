@@ -23,6 +23,22 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        public async Task Verbose(IUserMessage msg, PermissionAction action)
+        {
+            var channel = (ITextChannel)msg.Channel;
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                config.VerbosePermissions = action.Value;
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+
+            await channel.SendMessageAsync("I will " + (action.Value ? "now" : "no longer") + " show permission warnings.").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
         public async Task ListPerms(IUserMessage msg)
         {
             var channel = (ITextChannel)msg.Channel;
@@ -30,10 +46,10 @@ namespace NadekoBot.Modules.Permissions
             string toSend = "";
             using (var uow = DbHandler.UnitOfWork())
             {
-                var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission.AsEnumerable().Reverse();
+                var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
 
                 var i = 1;
-                toSend = String.Join("\n", perms.Select(p => $"`{(i++)}.` {p.GetCommand()}"));
+                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {p.GetCommand()}"));
             }
 
             if (string.IsNullOrWhiteSpace(toSend))
@@ -47,16 +63,36 @@ namespace NadekoBot.Modules.Permissions
         public async Task RemovePerm(IUserMessage imsg, int index)
         {
             var channel = (ITextChannel)imsg.Channel;
+            index -= 1;
             try
             {
                 Permission p;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission;
-                    p = perms.RemoveAt(perms.Count() - index);
+                    var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
+                    if (index == perms.Count() - 1)
+                    {
+                        return;
+                    }
+                    else if (index == 0)
+                    {
+                        p = perms;
+                        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = perms.Next;
+                    }
+                    else
+                    {
+                        p = perms.RemoveAt(index);
+                    }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync($"`Removed permission \"{p.GetCommand()}\" from position #{index}.`").ConfigureAwait(false);
+
+                using (var uow2 = DbHandler.UnitOfWork())
+                {
+                    uow2._context.Remove<Permission>(p);
+                    uow2._context.SaveChanges();
+                }
+
+                await channel.SendMessageAsync($"{imsg.Author.Mention} removed permission **{p.GetCommand()}** from position #{index + 1}.").ConfigureAwait(false);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -68,24 +104,31 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task MovePerm(IUserMessage imsg, int from, int to)
         {
+            from -= 1;
+            to -= 1;
             var channel = (ITextChannel)imsg.Channel;
-            if (!(from == to || from < 1 || to < 1))
+            if (!(from == to || from < 0 || to < 0))
             {
                 try
                 {
                     Permission toInsert;
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        var perms = uow.GuildConfigs.For(channel.Guild.Id).RootPermission;
-                        var count = perms.Count();
-                        toInsert = perms.RemoveAt(count - from);
+                        var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
+                        if (from == 0)
+                            toInsert = perms;
+                        else
+                            toInsert = perms.RemoveAt(from);
                         if (from < to)
                             to -= 1;
-                        perms.Insert(count - to, toInsert);
-                        uow.GuildConfigs.For(channel.Guild.Id).RootPermission = perms;
+                        var last = perms.Count() - 1;
+                        if (from == last || to == last)
+                            throw new IndexOutOfRangeException();
+                        perms.Insert(to, toInsert);
+                        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = perms.GetRoot();
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendMessageAsync($"`Moved permission \"{toInsert.GetCommand()}\" from #{from} to #{to}.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"`Moved permission:` \"{toInsert.GetCommand()}\" `from #{from} to #{to}.`").ConfigureAwait(false);
                     return;
                 }
                 catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
@@ -97,20 +140,68 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
+        public async Task SrvrCmd(IUserMessage imsg, Command command, PermissionAction action)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var newPerm = new Permission
+                {
+                    PrimaryTarget = PrimaryPermissionType.Server,
+                    PrimaryTargetId = 0,
+                    SecondaryTarget = SecondaryPermissionType.Command,
+                    SecondaryTargetName = command.Text.ToLowerInvariant(),
+                    State = action.Value,
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task SrvrMdl(IUserMessage imsg, Module module, PermissionAction action)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var newPerm = new Permission
+                {
+                    PrimaryTarget = PrimaryPermissionType.Server,
+                    PrimaryTargetId = 0,
+                    SecondaryTarget = SecondaryPermissionType.Module,
+                    SecondaryTargetName = module.Name.ToLowerInvariant(),
+                    State = action.Value,
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module on this server.").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
         public async Task UsrCmd(IUserMessage imsg, Command command, PermissionAction action, IGuildUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
                     SecondaryTarget = SecondaryPermissionType.Command,
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
@@ -124,14 +215,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
                     SecondaryTarget = SecondaryPermissionType.Module,
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
@@ -145,14 +238,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
                     SecondaryTarget = SecondaryPermissionType.Command,
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
@@ -166,14 +261,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
                     SecondaryTarget = SecondaryPermissionType.Module,
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
@@ -184,18 +281,25 @@ namespace NadekoBot.Modules.Permissions
         public async Task ChnlCmd(IUserMessage imsg, Command command, PermissionAction action, ITextChannel chnl)
         {
             var channel = (ITextChannel)imsg.Channel;
-
-            using (var uow = DbHandler.UnitOfWork())
+            try
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                using (var uow = DbHandler.UnitOfWork())
                 {
-                    PrimaryTarget = PrimaryPermissionType.Channel,
-                    PrimaryTargetId = chnl.Id,
-                    SecondaryTarget = SecondaryPermissionType.Command,
-                    SecondaryTargetName = command.Text.ToLowerInvariant(),
-                    State = action.Value,
-                });
-                await uow.CompleteAsync().ConfigureAwait(false);
+                    var newPerm = new Permission
+                    {
+                        PrimaryTarget = PrimaryPermissionType.Channel,
+                        PrimaryTargetId = chnl.Id,
+                        SecondaryTarget = SecondaryPermissionType.Command,
+                        SecondaryTargetName = command.Text.ToLowerInvariant(),
+                        State = action.Value,
+                    };
+                    uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                    uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{chnl}` channel.").ConfigureAwait(false);
         }
@@ -208,14 +312,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
                     SecondaryTarget = SecondaryPermissionType.Module,
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
@@ -229,14 +335,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Channel,
                     PrimaryTargetId = chnl.Id,
                     SecondaryTarget = SecondaryPermissionType.AllModules,
                     SecondaryTargetName = "*",
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
@@ -250,14 +358,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.Role,
                     PrimaryTargetId = role.Id,
                     SecondaryTarget = SecondaryPermissionType.AllModules,
                     SecondaryTargetName = "*",
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
@@ -271,14 +381,16 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
                     PrimaryTarget = PrimaryPermissionType.User,
                     PrimaryTargetId = user.Id,
                     SecondaryTarget = SecondaryPermissionType.AllModules,
                     SecondaryTargetName = "*",
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
@@ -286,66 +398,89 @@ namespace NadekoBot.Modules.Permissions
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
-        public async Task AllChnlCmds(IUserMessage imsg, Module module, PermissionAction action, ITextChannel chnl)
+        public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action, IUser user)
         {
             var channel = (ITextChannel)imsg.Channel;
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
+                var newPerm = new Permission
                 {
-                    PrimaryTarget = PrimaryPermissionType.Channel,
-                    PrimaryTargetId = chnl.Id,
-                    SecondaryTarget = SecondaryPermissionType.AllCommands,
-                    SecondaryTargetName = module.Name.ToLowerInvariant(),
+                    PrimaryTarget = PrimaryPermissionType.Server,
+                    PrimaryTargetId = 0,
+                    SecondaryTarget = SecondaryPermissionType.AllModules,
+                    SecondaryTargetName = "*",
                     State = action.Value,
-                });
+                };
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
+                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
-        public async Task AllRoleCmds(IUserMessage imsg, Module module, PermissionAction action, IRole role)
-        {
-            var channel = (ITextChannel)imsg.Channel;
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task AllChnlCmds(IUserMessage imsg, Module module, PermissionAction action, ITextChannel chnl)
+        //{
+        //    var channel = (ITextChannel)imsg.Channel;
 
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
-                {
-                    PrimaryTarget = PrimaryPermissionType.Role,
-                    PrimaryTargetId = role.Id,
-                    SecondaryTarget = SecondaryPermissionType.AllCommands,
-                    SecondaryTargetName = module.Name.ToLowerInvariant(),
-                    State = action.Value,
-                });
-                await uow.CompleteAsync().ConfigureAwait(false);
-            }
-            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
-        }
+        //    using (var uow = DbHandler.UnitOfWork())
+        //    {
+        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
+        //        {
+        //            PrimaryTarget = PrimaryPermissionType.Channel,
+        //            PrimaryTargetId = chnl.Id,
+        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
+        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
+        //            State = action.Value,
+        //        });
+        //        await uow.CompleteAsync().ConfigureAwait(false);
+        //    }
+        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
+        //}
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
-        public async Task AllUsrCmds(IUserMessage imsg, Module module, PermissionAction action, IUser user)
-        {
-            var channel = (ITextChannel)imsg.Channel;
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task AllRoleCmds(IUserMessage imsg, Module module, PermissionAction action, IRole role)
+        //{
+        //    var channel = (ITextChannel)imsg.Channel;
 
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                uow.GuildConfigs.For(channel.Guild.Id).RootPermission.Add(new Permission
-                {
-                    PrimaryTarget = PrimaryPermissionType.User,
-                    PrimaryTargetId = user.Id,
-                    SecondaryTarget = SecondaryPermissionType.AllCommands,
-                    SecondaryTargetName = module.Name.ToLowerInvariant(),
-                    State = action.Value,
-                });
-                await uow.CompleteAsync().ConfigureAwait(false);
-            }
-            await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
-        }
+        //    using (var uow = DbHandler.UnitOfWork())
+        //    {
+        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
+        //        {
+        //            PrimaryTarget = PrimaryPermissionType.Role,
+        //            PrimaryTargetId = role.Id,
+        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
+        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
+        //            State = action.Value,
+        //        });
+        //        await uow.CompleteAsync().ConfigureAwait(false);
+        //    }
+        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
+        //}
+
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task AllUsrCmds(IUserMessage imsg, Module module, PermissionAction action, IUser user)
+        //{
+        //    var channel = (ITextChannel)imsg.Channel;
+
+        //    using (var uow = DbHandler.UnitOfWork())
+        //    {
+        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
+        //        {
+        //            PrimaryTarget = PrimaryPermissionType.User,
+        //            PrimaryTargetId = user.Id,
+        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
+        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
+        //            State = action.Value,
+        //        });
+        //        await uow.CompleteAsync().ConfigureAwait(false);
+        //    }
+        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
+        //}
 
     }
 }

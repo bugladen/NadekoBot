@@ -236,6 +236,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<int?>("LogSettingId");
 
+                    b.Property<string>("PermissionRole");
+
                     b.Property<int?>("RootPermissionId");
 
                     b.Property<bool>("SendChannelByeMessage");
@@ -243,6 +245,8 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("SendChannelGreetMessage");
 
                     b.Property<bool>("SendDmGreetMessage");
+
+                    b.Property<bool>("VerbosePermissions");
 
                     b.Property<bool>("VoicePlusTextEnabled");
 

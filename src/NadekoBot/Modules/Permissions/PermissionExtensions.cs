@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
@@ -21,7 +22,6 @@ namespace NadekoBot.Modules.Permissions
 
         public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, Command command, out int permIndex)
         {
-            permsEnumerable = permsEnumerable.Reverse();
             var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
 
             for (int i = 0; i < perms.Count; i++)
@@ -50,12 +50,13 @@ namespace NadekoBot.Modules.Permissions
         public static bool? CheckPermission(this Permission perm, IUserMessage message, Command command)
         {
             if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
-                    perm.SecondaryTargetName == command.Text.ToLowerInvariant()) ||
-                ((perm.SecondaryTarget == SecondaryPermissionType.Module || perm.SecondaryTarget == SecondaryPermissionType.AllCommands) &&
-                    perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant()) ||
-                    perm.SecondaryTarget == SecondaryPermissionType.AllModules ||
-                    (perm.SecondaryTarget == SecondaryPermissionType.AllCommands && perm.SecondaryTargetName == command.Module.Name.ToLowerInvariant())))
+                    perm.SecondaryTargetName.ToLowerInvariant() == command.Text.ToLowerInvariant()) ||
+                (perm.SecondaryTarget == SecondaryPermissionType.Module &&
+                    perm.SecondaryTargetName.ToLowerInvariant() == command.Module.Name.ToLowerInvariant()) ||
+                    perm.SecondaryTarget == SecondaryPermissionType.AllModules))
                 return null;
+
+            var guildUser = message.Author as IGuildUser;
 
             switch (perm.PrimaryTarget)
             {
@@ -67,13 +68,16 @@ namespace NadekoBot.Modules.Permissions
                     if (perm.PrimaryTargetId == message.Channel.Id)
                         return perm.State;
                     break;
-                case PrimaryPermissionType.Role:
-                    var guildUser = message.Author as IGuildUser;
+                case PrimaryPermissionType.Role:        
                     if (guildUser == null)
                         break;
                     if (guildUser.Roles.Any(r => r.Id == perm.PrimaryTargetId))
                         return perm.State;
                     break;
+                case PrimaryPermissionType.Server:
+                    if (guildUser == null)
+                        break;
+                    return perm.State;
             }
             return null;
         }
@@ -92,6 +96,9 @@ namespace NadekoBot.Modules.Permissions
                 case PrimaryPermissionType.Role:
                     com += "r";
                     break;
+                case PrimaryPermissionType.Server:
+                    com += "s";
+                    break;
             }
 
             switch (perm.SecondaryTarget)
@@ -101,9 +108,6 @@ namespace NadekoBot.Modules.Permissions
                     break;
                 case SecondaryPermissionType.Command:
                     com += "c";
-                    break;
-                case SecondaryPermissionType.AllCommands:
-                    com = "a" + com + "c";
                     break;
                 case SecondaryPermissionType.AllModules:
                     com = "a" + com + "m";
@@ -122,22 +126,19 @@ namespace NadekoBot.Modules.Permissions
                 case PrimaryPermissionType.Role:
                     com += $"<@&{perm.PrimaryTargetId}>";
                     break;
+                case PrimaryPermissionType.Server:
+                    break;
             }
 
             return NadekoBot.ModulePrefixes[typeof(Permissions).Name] + com;
         }
 
-        public static void Add(this Permission perm, Permission toAdd)
+        public static void Prepend(this Permission perm, Permission toAdd)
         {
-            var last = perm;
-            while (last.Next != null)
-            {
-                last = last.Next;
-            }
+            perm = perm.GetRoot();
 
-            toAdd.Previous = last;
-            last.Next = toAdd;
-            toAdd.Next = null;
+            perm.Previous = toAdd;
+            toAdd.Next = perm;
         }
 
         public static void Insert(this Permission perm, int index, Permission toAdd)
@@ -174,15 +175,8 @@ namespace NadekoBot.Modules.Permissions
 
         public static Permission RemoveAt(this Permission perm, int index)
         {
-            if (index < 0)
+            if (index <= 0) //can't really remove at 0, that means deleting the element right now. Just use perm.Next if its 0
                 throw new IndexOutOfRangeException();
-
-            if (index == 0)
-            {
-                perm.Next.Previous = null;
-                perm.Next = null;
-                return perm;
-            }
 
             var toRemove = perm;
             var i = 0;
@@ -195,7 +189,8 @@ namespace NadekoBot.Modules.Permissions
             }
 
             toRemove.Previous.Next = toRemove.Next;
-            toRemove.Next.Previous = toRemove.Previous;
+            if (toRemove.Next != null)
+                toRemove.Next.Previous = toRemove.Previous;
             return toRemove;
         }
 

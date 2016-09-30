@@ -19,6 +19,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                .Include(gc => gc.RootPermission)
+                    .ThenInclude(gc => gc.Previous)
+                .Include(gc => gc.RootPermission)
+                    .ThenInclude(gc => gc.Next)
                 .ToList();
 
         /// <summary>
@@ -29,16 +33,45 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public GuildConfig For(ulong guildId)
         {
             var config = _set.Include(gc => gc.FollowedStreams)
-                             .Include(gc => gc.RootPermission)
                              .Include(gc => gc.LogSetting)
-                                .ThenInclude(ls=>ls.IgnoredChannels)
-                             .FirstOrDefault(c => c.GuildId == guildId);
+                                .ThenInclude(ls => ls.IgnoredChannels)
+                            .Include(gc => gc.LogSetting)
+                                .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                            .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
             {
                 _set.Add((config = new GuildConfig
                 {
-                    GuildId = guildId
+                    GuildId = guildId,
+                    RootPermission = Permission.GetDefaultRoot(),
+                }));
+                _context.SaveChanges();
+            }
+            return config;
+        }
+
+        public GuildConfig PermissionsFor(ulong guildId)
+        {
+            var query = _set.Include(gc => gc.RootPermission);
+
+            //todo this is possibly a disaster for performance
+            //What i could do instead is count the number of permissions in the permission table for this guild
+            // and make a for loop with those.
+            // or just select permissions for this guild and manually chain them
+            for (int i = 0; i < 60; i++)
+            {
+                query = query.ThenInclude(gc => gc.Next);
+            }
+
+            var config = query.FirstOrDefault(c => c.GuildId == guildId);
+
+            if (config == null)
+            {
+                _set.Add((config = new GuildConfig
+                {
+                    GuildId = guildId,
+                    RootPermission = Permission.GetDefaultRoot(),
                 }));
                 _context.SaveChanges();
             }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NadekoBot.Migrations
 {
-    public partial class perms : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,6 +120,30 @@ namespace NadekoBot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LogSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permission",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    NextId = table.Column<int>(nullable: true),
+                    PrimaryTarget = table.Column<int>(nullable: false),
+                    PrimaryTargetId = table.Column<ulong>(nullable: false),
+                    SecondaryTarget = table.Column<int>(nullable: false),
+                    SecondaryTargetName = table.Column<string>(nullable: true),
+                    State = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permission", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permission_Permission_NextId",
+                        column: x => x.NextId,
+                        principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,44 +351,6 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuildConfigs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
-                    AutoDeleteByeMessages = table.Column<bool>(nullable: false),
-                    AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
-                    AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
-                    AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
-                    ByeMessageChannelId = table.Column<ulong>(nullable: false),
-                    ChannelByeMessageText = table.Column<string>(nullable: true),
-                    ChannelGreetMessageText = table.Column<string>(nullable: true),
-                    DefaultMusicVolume = table.Column<float>(nullable: false),
-                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
-                    DmGreetMessageText = table.Column<string>(nullable: true),
-                    ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
-                    GenerateCurrencyChannelId = table.Column<ulong>(nullable: true),
-                    GreetMessageChannelId = table.Column<ulong>(nullable: false),
-                    GuildId = table.Column<ulong>(nullable: false),
-                    LogSettingId = table.Column<int>(nullable: true),
-                    SendChannelByeMessage = table.Column<bool>(nullable: false),
-                    SendChannelGreetMessage = table.Column<bool>(nullable: false),
-                    SendDmGreetMessage = table.Column<bool>(nullable: false),
-                    VoicePlusTextEnabled = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GuildConfigs_LogSettings_LogSettingId",
-                        column: x => x.LogSettingId,
-                        principalTable: "LogSettings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "IgnoredLogChannels",
                 columns: table => new
                 {
@@ -405,6 +391,53 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GuildConfigs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    AutoAssignRoleId = table.Column<ulong>(nullable: false),
+                    AutoDeleteByeMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
+                    AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
+                    AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
+                    ByeMessageChannelId = table.Column<ulong>(nullable: false),
+                    ChannelByeMessageText = table.Column<string>(nullable: true),
+                    ChannelGreetMessageText = table.Column<string>(nullable: true),
+                    DefaultMusicVolume = table.Column<float>(nullable: false),
+                    DeleteMessageOnCommand = table.Column<bool>(nullable: false),
+                    DmGreetMessageText = table.Column<string>(nullable: true),
+                    ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
+                    GenerateCurrencyChannelId = table.Column<ulong>(nullable: true),
+                    GreetMessageChannelId = table.Column<ulong>(nullable: false),
+                    GuildId = table.Column<ulong>(nullable: false),
+                    LogSettingId = table.Column<int>(nullable: true),
+                    PermissionRole = table.Column<string>(nullable: true),
+                    RootPermissionId = table.Column<int>(nullable: true),
+                    SendChannelByeMessage = table.Column<bool>(nullable: false),
+                    SendChannelGreetMessage = table.Column<bool>(nullable: false),
+                    SendDmGreetMessage = table.Column<bool>(nullable: false),
+                    VerbosePermissions = table.Column<bool>(nullable: false),
+                    VoicePlusTextEnabled = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuildConfigs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GuildConfigs_LogSettings_LogSettingId",
+                        column: x => x.LogSettingId,
+                        principalTable: "LogSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GuildConfigs_Permission_RootPermissionId",
+                        column: x => x.RootPermissionId,
+                        principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FollowedStream",
                 columns: table => new
                 {
@@ -422,30 +455,6 @@ namespace NadekoBot.Migrations
                     table.PrimaryKey("PK_FollowedStream", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FollowedStream_GuildConfigs_GuildConfigId",
-                        column: x => x.GuildConfigId,
-                        principalTable: "GuildConfigs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    GuildConfigId = table.Column<int>(nullable: true),
-                    PrimaryTarget = table.Column<int>(nullable: false),
-                    PrimaryTargetId = table.Column<ulong>(nullable: false),
-                    SecondaryTarget = table.Column<int>(nullable: false),
-                    SecondaryTargetName = table.Column<string>(nullable: true),
-                    State = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permission_GuildConfigs_GuildConfigId",
                         column: x => x.GuildConfigId,
                         principalTable: "GuildConfigs",
                         principalColumn: "Id",
@@ -496,6 +505,11 @@ namespace NadekoBot.Migrations
                 column: "LogSettingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GuildConfigs_RootPermissionId",
+                table: "GuildConfigs",
+                column: "RootPermissionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IgnoredLogChannels_LogSettingId",
                 table: "IgnoredLogChannels",
                 column: "LogSettingId");
@@ -511,9 +525,10 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permission_GuildConfigId",
+                name: "IX_Permission_NextId",
                 table: "Permission",
-                column: "GuildConfigId");
+                column: "NextId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayingStatus_BotConfigId",
@@ -571,9 +586,6 @@ namespace NadekoBot.Migrations
                 name: "ModulePrefixes");
 
             migrationBuilder.DropTable(
-                name: "Permission");
-
-            migrationBuilder.DropTable(
                 name: "PlayingStatus");
 
             migrationBuilder.DropTable(
@@ -605,6 +617,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "LogSettings");
+
+            migrationBuilder.DropTable(
+                name: "Permission");
         }
     }
 }

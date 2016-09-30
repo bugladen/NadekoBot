@@ -186,6 +186,7 @@ namespace NadekoBot.Services.Database
             permissionEntity
                 .HasOne(p => p.Next)
                 .WithOne(p => p.Previous);
+                
             #endregion
 
             #region LogSettings

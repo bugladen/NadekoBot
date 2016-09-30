@@ -8,8 +8,8 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160926144107_second")]
-    partial class second
+    [Migration("20160930001917_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,11 +237,17 @@ namespace NadekoBot.Migrations
 
                     b.Property<int?>("LogSettingId");
 
+                    b.Property<string>("PermissionRole");
+
+                    b.Property<int?>("RootPermissionId");
+
                     b.Property<bool>("SendChannelByeMessage");
 
                     b.Property<bool>("SendChannelGreetMessage");
 
                     b.Property<bool>("SendDmGreetMessage");
+
+                    b.Property<bool>("VerbosePermissions");
 
                     b.Property<bool>("VoicePlusTextEnabled");
 
@@ -251,6 +257,8 @@ namespace NadekoBot.Migrations
                         .IsUnique();
 
                     b.HasIndex("LogSettingId");
+
+                    b.HasIndex("RootPermissionId");
 
                     b.ToTable("GuildConfigs");
                 });
@@ -354,7 +362,7 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GuildConfigId");
+                    b.Property<int?>("NextId");
 
                     b.Property<int>("PrimaryTarget");
 
@@ -368,7 +376,8 @@ namespace NadekoBot.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GuildConfigId");
+                    b.HasIndex("NextId")
+                        .IsUnique();
 
                     b.ToTable("Permission");
                 });
@@ -538,6 +547,10 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Services.Database.Models.LogSetting", "LogSetting")
                         .WithMany()
                         .HasForeignKey("LogSettingId");
+
+                    b.HasOne("NadekoBot.Services.Database.Models.Permission", "RootPermission")
+                        .WithMany()
+                        .HasForeignKey("RootPermissionId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.IgnoredLogChannel", b =>
@@ -564,9 +577,9 @@ namespace NadekoBot.Migrations
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
                 {
-                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
-                        .WithMany("Permissions")
-                        .HasForeignKey("GuildConfigId");
+                    b.HasOne("NadekoBot.Services.Database.Models.Permission", "Next")
+                        .WithOne("Previous")
+                        .HasForeignKey("NadekoBot.Services.Database.Models.Permission", "NextId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.PlayingStatus", b =>
