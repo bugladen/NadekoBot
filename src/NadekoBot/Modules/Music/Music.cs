@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Music
         public const string MusicDataPath = "data/musicdata";
         private IGoogleApiService _google;
 
-        public Music(ILocalization loc, CommandService cmds, DiscordSocketClient client, IGoogleApiService google) : base(loc, cmds, client)
+        public Music(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService google) : base(loc, cmds, client)
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }
@@ -520,16 +520,33 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`").ConfigureAwait(false);
         }
 
-        ///
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Save(IUserMessage umsg, [Remainder] string name)
         //{
         //    var channel = (ITextChannel)umsg.Channel;
+        //    MusicPlayer musicPlayer;
+        //    if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
+        //        return;
 
+        //    var curSong = musicPlayer.CurrentSong;
+        //    var items = musicPlayer.Playlist.Append(curSong);
+
+        //    MusicPlaylist playlist;
+        //    using (var uow = DbHandler.UnitOfWork())
+        //    {
+        //        playlist = new MusicPlaylist
+        //        {
+        //            Name = name,
+        //            Songs = items.ToList()
+        //        };
+        //        uow.MusicPlaylists.Add(playlist);
+        //    }
+
+        //    await channel.SendMessageAsync($"Playlist saved as {name}, id: {playlist.Id}.");
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Load(IUserMessage umsg, [Remainder] string name)
         //{
@@ -537,7 +554,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task Playlists(IUserMessage umsg, [Remainder] string num)
         //{
@@ -545,7 +562,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task DeletePlaylist(IUserMessage umsg, [Remainder] string pl)
         //{

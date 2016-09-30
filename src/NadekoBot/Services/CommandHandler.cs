@@ -18,13 +18,13 @@ namespace NadekoBot.Services
 {
     public class CommandHandler
     {
-        private DiscordSocketClient _client;
+        private ShardedDiscordClient  _client;
         private CommandService _commandService;
         private Logger _log;
 
         public event EventHandler<CommandExecutedEventArgs> CommandExecuted = delegate { };
 
-        public CommandHandler(DiscordSocketClient client, CommandService commandService)
+        public CommandHandler(ShardedDiscordClient client, CommandService commandService)
         {
             _client = client;
             _commandService = commandService;

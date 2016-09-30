@@ -26,7 +26,7 @@ namespace NadekoBot
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
-        public static DiscordSocketClient Client { get; private set; }
+        public static ShardedDiscordClient  Client { get; private set; }
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
@@ -43,7 +43,7 @@ namespace NadekoBot
             _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
             //create client
-            Client = new DiscordSocketClient(new DiscordSocketConfig
+            Client = new ShardedDiscordClient (new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
                 MessageCacheSize = 10,
@@ -61,7 +61,7 @@ namespace NadekoBot
             //setup DI
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
-            depMap.Add<DiscordSocketClient>(Client);
+            depMap.Add<ShardedDiscordClient >(Client);
             depMap.Add<CommandService>(CommandService);
             depMap.Add<IGoogleApiService>(Google);
 

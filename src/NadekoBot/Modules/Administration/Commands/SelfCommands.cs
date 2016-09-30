@@ -12,9 +12,9 @@ namespace NadekoBot.Modules.Administration
         [Group]
         class SelfCommands
         {
-            private DiscordSocketClient _client;
+            private ShardedDiscordClient _client;
 
-            public SelfCommands(DiscordSocketClient client)
+            public SelfCommands(ShardedDiscordClient client)
             {
                 this._client = client;
             }

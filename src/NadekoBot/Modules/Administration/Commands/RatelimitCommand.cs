@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
 
-            private DiscordSocketClient _client { get; }
+            private ShardedDiscordClient _client { get; }
 
             public class Ratelimiter
             {

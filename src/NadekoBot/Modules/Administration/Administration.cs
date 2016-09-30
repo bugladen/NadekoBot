@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Administration
     [NadekoModule("Administration", ".")]
     public partial class Administration : DiscordModule
     {
-        public Administration(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Administration(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
@@ -614,7 +614,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            foreach (var ch in (await _client.GetGuildsAsync().ConfigureAwait(false)).Select(async g => await g.GetDefaultChannelAsync().ConfigureAwait(false)))
+            foreach (var ch in _client.GetGuilds().Select(async g => await g.GetDefaultChannelAsync().ConfigureAwait(false)))
             {
                 await channel.SendMessageAsync(message).ConfigureAwait(false);
             }

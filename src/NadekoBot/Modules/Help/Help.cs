@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Help
                 return str + String.Format(str, NadekoBot.Credentials.ClientId);
             }
         }
-        public Help(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Help(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
 
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Help
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Hgit(IUserMessage umsg)
+        public Task Hgit(IUserMessage umsg)
         {
             var helpstr = new StringBuilder();
 
@@ -115,12 +115,13 @@ namespace NadekoBot.Modules.Help
                 }
                 helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Remarks} | {com.Summary}");
             }
-            helpstr = helpstr.Replace((await NadekoBot.Client.GetCurrentUserAsync()).Username , "@BotName");
+            helpstr = helpstr.Replace(NadekoBot.Client.GetCurrentUser().Username , "@BotName");
 #if DEBUG
             File.WriteAllText("../../../../../docs/Commands List.md", helpstr.ToString());
 #else
             File.WriteAllText("commandlist.md", helpstr.ToString());
 #endif
+            return Task.CompletedTask;
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]

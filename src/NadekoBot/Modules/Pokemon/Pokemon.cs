@@ -10,7 +10,7 @@ namespace NadekoBot.Modules.Games
     [Module(">", AppendSpace = false)]
     public partial class Pokemon : DiscordModule
     {
-        public Pokemon(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Pokemon(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
 

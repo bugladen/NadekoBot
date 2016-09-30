@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Permissions
     [NadekoModule("Permissions", ";")]
     public class Permissions : DiscordModule
     {
-        public Permissions(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Permissions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
 
