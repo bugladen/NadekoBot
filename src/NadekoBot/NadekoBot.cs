@@ -42,16 +42,20 @@ namespace NadekoBot
 
             _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
+
+            Credentials = new BotCredentials();
+
             //create client
             Client = new ShardedDiscordClient (new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
+                TotalShards = Credentials.TotalShards,
+                ConnectionTimeout = 60000
             });
 
             //initialize Services
-            Credentials = new BotCredentials();
             CommandService = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();

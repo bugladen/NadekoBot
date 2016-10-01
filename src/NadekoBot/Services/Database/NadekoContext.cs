@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
+        public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }

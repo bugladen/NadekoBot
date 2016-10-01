@@ -43,21 +43,26 @@ namespace NadekoBot.Services
 
             var throwaway = Task.Run(async () =>
             {
-                var sw = new Stopwatch();
+              var sw = new Stopwatch();
                 sw.Start();
 
                 try
                 {
-                    bool verbose;
-                    Permission rootPerm;
-                    string permRole;
-                    using (var uow = DbHandler.UnitOfWork())
+                    
+                    bool verbose = false;
+                    Permission rootPerm = null;
+                    string permRole = "";
+                    if (guild != null)
                     {
-                        var config = uow.GuildConfigs.PermissionsFor(guild.Id);
-                        verbose = config.VerbosePermissions;
-                        rootPerm = config.RootPermission;
-                        permRole = config.PermissionRole.Trim().ToLowerInvariant();
+                        using (var uow = DbHandler.UnitOfWork())
+                        {
+                            var config = uow.GuildConfigs.PermissionsFor(guild.Id);
+                            verbose = config.VerbosePermissions;
+                            rootPerm = config.RootPermission;
+                            permRole = config.PermissionRole.Trim().ToLowerInvariant();
+                        }
                     }
+
 
                     var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, rootPerm, permRole, MultiMatchHandling.Best);
                     var command = t.Item1;

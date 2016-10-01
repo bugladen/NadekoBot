@@ -84,7 +84,8 @@ Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
             comToFind = comToFind?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(comToFind))
             {
-                await (await (umsg.Author as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(HelpString).ConfigureAwait(false);
+                IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)umsg.Author).CreateDMChannelAsync() : channel;
+                await ch.SendMessageAsync(HelpString).ConfigureAwait(false);
                 return;
             }
             var com = _commands.Commands.FirstOrDefault(c => c.Text.ToLowerInvariant() == comToFind || c.Aliases.Select(a=>a.ToLowerInvariant()).Contains(comToFind));

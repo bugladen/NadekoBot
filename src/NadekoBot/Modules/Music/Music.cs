@@ -14,6 +14,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Music
 {
@@ -520,48 +521,95 @@ namespace NadekoBot.Modules.Music
             await channel.SendMessageAsync($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`").ConfigureAwait(false);
         }
 
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Save(IUserMessage umsg, [Remainder] string name)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    MusicPlayer musicPlayer;
-        //    if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-        //        return;
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Save(IUserMessage umsg, [Remainder] string name)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
+                return;
 
-        //    var curSong = musicPlayer.CurrentSong;
-        //    var items = musicPlayer.Playlist.Append(curSong);
+            var curSong = musicPlayer.CurrentSong;
+            var songs = musicPlayer.Playlist.Append(curSong)
+                                .Select(s=> new PlaylistSong() {
+                                    Provider = s.SongInfo.Provider,
+                                    ProviderType = s.SongInfo.ProviderType,
+                                    Title = s.SongInfo.Title,
+                                    Uri = s.SongInfo.Uri,
+                                    Query = s.SongInfo.Query,
+                                }).ToList();
 
-        //    MusicPlaylist playlist;
-        //    using (var uow = DbHandler.UnitOfWork())
-        //    {
-        //        playlist = new MusicPlaylist
-        //        {
-        //            Name = name,
-        //            Songs = items.ToList()
-        //        };
-        //        uow.MusicPlaylists.Add(playlist);
-        //    }
+            MusicPlaylist playlist;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                playlist = new MusicPlaylist
+                {
+                    Name = name,
+                    Author = umsg.Author.Username,
+                    Songs = songs,
+                };
+                uow.MusicPlaylists.Add(playlist);
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
 
-        //    await channel.SendMessageAsync($"Playlist saved as {name}, id: {playlist.Id}.");
-        //}
+            await channel.SendMessageAsync(($"🎵 `Saved playlist as {name}.` `Id: {playlist.Id}`")).ConfigureAwait(false);
+        }
 
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Load(IUserMessage umsg, [Remainder] string name)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Load(IUserMessage umsg, [Remainder] int id)
+        {
+            var channel = (ITextChannel)umsg.Channel;
 
-        //}
+            MusicPlaylist mpl;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                mpl = uow.MusicPlaylists.GetWithSongs(id);
+            }
 
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Playlists(IUserMessage umsg, [Remainder] string num)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+            if (mpl == null)
+            {
+                await channel.SendMessageAsync("Can't find playlist with that ID").ConfigureAwait(false);
+                return;
+            }
 
-        //}
+            var msg = await channel.SendMessageAsync($"`Attempting to load {mpl.Songs.Count} songs...`").ConfigureAwait(false);
+            foreach (var item in mpl.Songs)
+            {
+                try
+                {
+                    var usr = (IGuildUser)umsg.Author;
+                    await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
+                }
+                catch { break; }
+            }
 
+            await msg.ModifyAsync(m => m.Content = $"`Done loading playlist {mpl.Name}.`").ConfigureAwait(false);
+        }
+
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task Playlists(IUserMessage umsg, [Remainder] int num = 1)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            if (num <= 0)
+                return;
+
+            List<MusicPlaylist> playlists;
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                playlists = uow.MusicPlaylists.GetPlaylistsOnPage(num);
+            }
+
+            await channel.SendMessageAsync($@"`Page {num} of saved playlists`
+
+" + string.Join("\n", playlists.Select(r => $"`#{r.Id}` - `{r.Name}` by {r.Author} - **{r.Songs.Count}** songs"))).ConfigureAwait(false);
+        }
+
+        //todo only author or owner
         //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         //[RequireContext(ContextType.Guild)]
         //public async Task DeletePlaylist(IUserMessage umsg, [Remainder] string pl)

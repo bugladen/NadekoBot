@@ -614,10 +614,11 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            foreach (var ch in _client.GetGuilds().Select(async g => await g.GetDefaultChannelAsync().ConfigureAwait(false)))
-            {
-                await channel.SendMessageAsync(message).ConfigureAwait(false);
-            }
+            var channels = await Task.WhenAll(_client.GetGuilds().Select(g =>
+                g.GetDefaultChannelAsync()
+            )).ConfigureAwait(false);
+
+            await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"`Message from {umsg.Author} (Bot Owner):` " + message)));
 
             await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
         }

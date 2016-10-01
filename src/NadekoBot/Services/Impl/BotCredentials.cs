@@ -27,6 +27,7 @@ namespace NadekoBot.Services.Impl
         public string SoundCloudClientId { get; }
 
         public DB Db { get; }
+        public int TotalShards { get; }
 
         public BotCredentials()
         {
@@ -40,6 +41,7 @@ namespace NadekoBot.Services.Impl
                 GoogleApiKey = cm.GoogleApiKey;
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
+                TotalShards = cm.TotalShards < 1 ? 1 : cm.TotalShards;
                 SoundCloudClientId = cm.SoundCloudClientId;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
@@ -60,6 +62,7 @@ namespace NadekoBot.Services.Impl
             public string OsuApiKey { get; set; }
             public string SoundCloudClientId { get; set; }
             public DB Db { get; set; }
+            public int TotalShards { get; set; } = 1;
         }
 
         private class DbModel
