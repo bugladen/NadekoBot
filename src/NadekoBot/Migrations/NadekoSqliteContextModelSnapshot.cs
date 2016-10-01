@@ -363,6 +363,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("Author");
 
+                    b.Property<ulong>("AuthorId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");

@@ -547,6 +547,7 @@ namespace NadekoBot.Modules.Music
                 {
                     Name = name,
                     Author = umsg.Author.Username,
+                    AuthorId = umsg.Author.Id,
                     Songs = songs,
                 };
                 uow.MusicPlaylists.Add(playlist);
@@ -610,13 +611,35 @@ namespace NadekoBot.Modules.Music
         }
 
         //todo only author or owner
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task DeletePlaylist(IUserMessage umsg, [Remainder] string pl)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [RequireContext(ContextType.Guild)]
+        public async Task DeletePlaylist(IUserMessage umsg, [Remainder] int id)
+        {
+            var channel = (ITextChannel)umsg.Channel;
 
-        //}
+            bool success = false;
+            MusicPlaylist pl = null;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                pl = uow.MusicPlaylists.Get(id);
+
+                if (pl != null)
+                {
+                    if (NadekoBot.Credentials.IsOwner(umsg.Author) || pl.AuthorId == umsg.Author.Id)
+                    {
+                        uow.MusicPlaylists.Remove(pl.Id);
+                        await uow.CompleteAsync().ConfigureAwait(false);
+                    }
+                    else
+                        success = false;
+                }
+            }
+
+            if (success)
+                await channel.SendMessageAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync("`Playlist successfully deleted.`").ConfigureAwait(false);
+        }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
         [RequireContext(ContextType.Guild)]

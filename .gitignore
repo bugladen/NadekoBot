@@ -17,7 +17,7 @@ Tests/bin
 src/NadekoBot/credentials.json
 src/NadekoBot/project.lock.json
 src/NadekoBot/data/NadekoBot.db
-src/NadekoBot/musicdata/*
+src/NadekoBot/musicdata
 src/NadekoBot/project.lock.json
 
 # NuGet Packages
