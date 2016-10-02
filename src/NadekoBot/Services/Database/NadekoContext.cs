@@ -187,7 +187,7 @@ namespace NadekoBot.Services.Database
             permissionEntity
                 .HasOne(p => p.Next)
                 .WithOne(p => p.Previous);
-                
+
             #endregion
 
             #region LogSettings
@@ -202,6 +202,17 @@ namespace NadekoBot.Services.Database
             //logSettingEntity
             //    .HasMany(ls => ls.IgnoredVoicePresenceChannelIds)
             //    .WithOne(ls => ls.LogSetting);
+            #endregion
+
+            #region MusicPlaylists
+            var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
+
+            musicPlaylistEntity
+                .HasMany<PlaylistSong>(p => p.Songs)
+                .WithOne()
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+                
+
             #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);

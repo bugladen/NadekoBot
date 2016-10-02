@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20160930001917_first")]
+    [Migration("20161001173937_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -357,6 +357,22 @@ namespace NadekoBot.Migrations
                     b.ToTable("ModulePrefixes");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.MusicPlaylist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author");
+
+                    b.Property<ulong>("AuthorId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MusicPlaylists");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -396,6 +412,30 @@ namespace NadekoBot.Migrations
                     b.HasIndex("BotConfigId");
 
                     b.ToTable("PlayingStatus");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.PlaylistSong", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MusicPlaylistId");
+
+                    b.Property<string>("Provider");
+
+                    b.Property<int>("ProviderType");
+
+                    b.Property<string>("Query");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicPlaylistId");
+
+                    b.ToTable("PlaylistSong");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Quote", b =>
@@ -587,6 +627,13 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("RotatingStatusMessages")
                         .HasForeignKey("BotConfigId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.PlaylistSong", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.MusicPlaylist")
+                        .WithMany("Songs")
+                        .HasForeignKey("MusicPlaylistId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.RaceAnimal", b =>

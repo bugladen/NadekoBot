@@ -123,6 +123,21 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MusicPlaylists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Author = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<ulong>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MusicPlaylists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permission",
                 columns: table => new
                 {
@@ -391,6 +406,30 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlaylistSong",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    MusicPlaylistId = table.Column<int>(nullable: true),
+                    Provider = table.Column<string>(nullable: true),
+                    ProviderType = table.Column<int>(nullable: false),
+                    Query = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaylistSong", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaylistSong_MusicPlaylists_MusicPlaylistId",
+                        column: x => x.MusicPlaylistId,
+                        principalTable: "MusicPlaylists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GuildConfigs",
                 columns: table => new
                 {
@@ -536,6 +575,11 @@ namespace NadekoBot.Migrations
                 column: "BotConfigId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlaylistSong_MusicPlaylistId",
+                table: "PlaylistSong",
+                column: "MusicPlaylistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RaceAnimals_BotConfigId",
                 table: "RaceAnimals",
                 column: "BotConfigId");
@@ -589,6 +633,9 @@ namespace NadekoBot.Migrations
                 name: "PlayingStatus");
 
             migrationBuilder.DropTable(
+                name: "PlaylistSong");
+
+            migrationBuilder.DropTable(
                 name: "Quotes");
 
             migrationBuilder.DropTable(
@@ -611,6 +658,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "GuildConfigs");
+
+            migrationBuilder.DropTable(
+                name: "MusicPlaylists");
 
             migrationBuilder.DropTable(
                 name: "BotConfig");

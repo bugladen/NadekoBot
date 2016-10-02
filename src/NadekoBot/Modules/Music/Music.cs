@@ -571,7 +571,7 @@ namespace NadekoBot.Modules.Music
 
             if (mpl == null)
             {
-                await channel.SendMessageAsync("Can't find playlist with that ID").ConfigureAwait(false);
+                await channel.SendMessageAsync("`Can't find playlist with that ID`").ConfigureAwait(false);
                 return;
             }
 
@@ -619,26 +619,34 @@ namespace NadekoBot.Modules.Music
 
             bool success = false;
             MusicPlaylist pl = null;
-            using (var uow = DbHandler.UnitOfWork())
+            try
             {
-                pl = uow.MusicPlaylists.Get(id);
-
-                if (pl != null)
+                using (var uow = DbHandler.UnitOfWork())
                 {
-                    if (NadekoBot.Credentials.IsOwner(umsg.Author) || pl.AuthorId == umsg.Author.Id)
-                    {
-                        uow.MusicPlaylists.Remove(pl.Id);
-                        await uow.CompleteAsync().ConfigureAwait(false);
-                    }
-                    else
-                        success = false;
-                }
-            }
+                    pl = uow.MusicPlaylists.Get(id);
 
-            if (success)
-                await channel.SendMessageAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync("`Playlist successfully deleted.`").ConfigureAwait(false);
+                    if (pl != null)
+                    {
+                        if (NadekoBot.Credentials.IsOwner(umsg.Author) || pl.AuthorId == umsg.Author.Id)
+                        {
+                            uow.MusicPlaylists.Remove(pl);
+                            await uow.CompleteAsync().ConfigureAwait(false);
+                            success = true;
+                        }
+                        else
+                            success = false;
+                    }
+                }
+
+                if (!success)
+                    await channel.SendMessageAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
+                else
+                    await channel.SendMessageAsync("`Playlist successfully deleted.`").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
