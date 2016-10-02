@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20161001173937_first")]
+    [Migration("20161002021256_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -633,7 +633,8 @@ namespace NadekoBot.Migrations
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.MusicPlaylist")
                         .WithMany("Songs")
-                        .HasForeignKey("MusicPlaylistId");
+                        .HasForeignKey("MusicPlaylistId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.RaceAnimal", b =>

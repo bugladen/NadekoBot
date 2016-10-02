@@ -208,7 +208,7 @@ namespace NadekoBot.Services.Database
             var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
 
             musicPlaylistEntity
-                .HasMany<PlaylistSong>(p => p.Songs)
+                .HasMany(p => p.Songs)
                 .WithOne()
                 .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
                 

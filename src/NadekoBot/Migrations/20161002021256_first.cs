@@ -426,7 +426,7 @@ namespace NadekoBot.Migrations
                         column: x => x.MusicPlaylistId,
                         principalTable: "MusicPlaylists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

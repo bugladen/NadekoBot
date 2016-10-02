@@ -632,7 +632,8 @@ namespace NadekoBot.Migrations
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.MusicPlaylist")
                         .WithMany("Songs")
-                        .HasForeignKey("MusicPlaylistId");
+                        .HasForeignKey("MusicPlaylistId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.RaceAnimal", b =>
