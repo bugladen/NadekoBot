@@ -24,6 +24,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<ulong>("ItemId");
 
+                    b.Property<int>("Type");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BotConfigId");

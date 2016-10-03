@@ -13,8 +13,8 @@ namespace NadekoBot.Modules.Games.Trivia
     {
         private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1, 1);
 
-        private IGuild guild { get; }
-        private ITextChannel channel { get; }
+        public IGuild guild { get; }
+        public ITextChannel channel { get; }
 
         private int QuestionDurationMiliseconds { get; } = 30000;
         private int HintTimeoutMiliseconds { get; } = 6000;

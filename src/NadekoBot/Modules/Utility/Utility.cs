@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Utility
         public async Task UserId(IUserMessage msg, IGuildUser target = null)
         {
             var usr = target ?? msg.Author;
-            await msg.Reply($"Id of the user { usr.Username } is { usr.Id })").ConfigureAwait(false);
+            await msg.Reply($"Id of the user { usr.Username } is { usr.Id }").ConfigureAwait(false);
         }
 
         [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]

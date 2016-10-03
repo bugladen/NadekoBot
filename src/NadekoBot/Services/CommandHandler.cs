@@ -39,16 +39,29 @@ namespace NadekoBot.Services
             if (usrMsg == null)
                 return Task.CompletedTask;
 
+            if (usrMsg.Author.IsBot) //no bots
+                return Task.CompletedTask;
+
             var guild = (msg.Channel as ITextChannel)?.Guild;
+
+            BlacklistItem blacklistedItem;
+            if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
+                 (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
+            {
+                _log.Warn("Attempt was made to run a command by a blacklisted {0}, id: {1}", blacklistedItem.Type, blacklistedItem.ItemId);
+                return Task.CompletedTask;
+            }
 
             var throwaway = Task.Run(async () =>
             {
-              var sw = new Stopwatch();
+                var sw = new Stopwatch();
                 sw.Start();
 
                 try
                 {
-                    
+                          
                     bool verbose = false;
                     Permission rootPerm = null;
                     string permRole = "";
@@ -165,7 +178,7 @@ namespace NadekoBot.Services
                     int index;
                     if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd.Name, cmd.Module.Name, out index))
                     {
-                        var returnMsg = $"Permission number #{index} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
+                        var returnMsg = $"Permission number #{index + 1} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
                         return new Tuple<Command, IResult>(cmd, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 

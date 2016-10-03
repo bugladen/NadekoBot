@@ -197,13 +197,12 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync(
                 richest.Aggregate(new StringBuilder(
 $@"```xl
-        ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
-        ┃        Id           ┃  $$$  ┃
-        "),
-                (cur, cs) => cur.AppendLine(
-$@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━┫
-        ┃{(channel.Guild.GetUser(cs.UserId)?.Username.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs,5} ┃")
-                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+┃        Id           ┃  $$$   ┃
+"),
+                (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
+┃{(channel.Guild.GetUser(cs.UserId)?.Username.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
+                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
         }
     }
 }

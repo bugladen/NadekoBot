@@ -919,7 +919,7 @@
     <value>`.uid` or `.uid "@SomeGuy"`</value>
   </data>
   <data name="channelid_text" xml:space="preserve">
-    <value>channelid</value>
+    <value>channelid cid</value>
   </data>
   <data name="channelid_desc" xml:space="preserve">
     <value>Shows current channel ID.</value>
@@ -1224,13 +1224,13 @@
   <data name="allrolecmds_summary" xml:space="preserve">
     <value>`;arc "module name" [enable/disable] MyRole`</value>
   </data>
-  <data name="ubl_text" xml:space="preserve">
+  <data name="userblacklist_text" xml:space="preserve">
     <value>ubl</value>
   </data>
-  <data name="ubl_desc" xml:space="preserve">
+  <data name="userblacklist_desc" xml:space="preserve">
     <value>Blacklists a mentioned user. **Bot Owner Only!**</value>
   </data>
-  <data name="ubl_summary" xml:space="preserve">
+  <data name="userblacklist_summary" xml:space="preserve">
     <value>`;ubl [user_mention]`</value>
   </data>
   <data name="uubl_text" xml:space="preserve">
@@ -1242,13 +1242,13 @@
   <data name="uubl_summary" xml:space="preserve">
     <value>`;uubl [user_mention]`</value>
   </data>
-  <data name="cbl_text" xml:space="preserve">
+  <data name="channelblacklist_text" xml:space="preserve">
     <value>cbl</value>
   </data>
-  <data name="cbl_desc" xml:space="preserve">
+  <data name="channelblacklist_desc" xml:space="preserve">
     <value>Blacklists a mentioned channel (#general for example).</value>
   </data>
-  <data name="cbl_summary" xml:space="preserve">
+  <data name="channelblacklist_summary" xml:space="preserve">
     <value>`;cbl #some_channel`</value>
   </data>
   <data name="cubl_text" xml:space="preserve">
@@ -1260,13 +1260,13 @@
   <data name="cubl_summary" xml:space="preserve">
     <value>`;cubl #some_channel`</value>
   </data>
-  <data name="sbl_text" xml:space="preserve">
+  <data name="serverblacklist_text" xml:space="preserve">
     <value>sbl</value>
   </data>
-  <data name="sbl_desc" xml:space="preserve">
+  <data name="serverblacklist_desc" xml:space="preserve">
     <value>Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY**</value>
   </data>
-  <data name="sbl_summary" xml:space="preserve">
+  <data name="serverblacklist_summary" xml:space="preserve">
     <value>`;sbl [servername/serverid]`</value>
   </data>
   <data name="cmdcooldown_text" xml:space="preserve">

@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    permIndex = i + 1;
+                    permIndex = i;
                     return result.Value;
                 }
             }

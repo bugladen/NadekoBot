@@ -1061,27 +1061,27 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to Blacklists a mentioned channel (#general for example)..
         /// </summary>
-        public static string cbl_desc {
+        public static string channelblacklist_desc {
             get {
-                return ResourceManager.GetString("cbl_desc", resourceCulture);
+                return ResourceManager.GetString("channelblacklist_desc", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to `;cbl #some_channel`.
         /// </summary>
-        public static string cbl_summary {
+        public static string channelblacklist_summary {
             get {
-                return ResourceManager.GetString("cbl_summary", resourceCulture);
+                return ResourceManager.GetString("channelblacklist_summary", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to cbl.
         /// </summary>
-        public static string cbl_text {
+        public static string channelblacklist_text {
             get {
-                return ResourceManager.GetString("cbl_text", resourceCulture);
+                return ResourceManager.GetString("channelblacklist_text", resourceCulture);
             }
         }
         
@@ -1104,7 +1104,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to channelid.
+        ///    Looks up a localized string similar to channelid cid.
         /// </summary>
         public static string channelid_text {
             get {
@@ -5973,33 +5973,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY**.
-        /// </summary>
-        public static string sbl_desc {
-            get {
-                return ResourceManager.GetString("sbl_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;sbl [servername/serverid]`.
-        /// </summary>
-        public static string sbl_summary {
-            get {
-                return ResourceManager.GetString("sbl_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to sbl.
-        /// </summary>
-        public static string sbl_text {
-            get {
-                return ResourceManager.GetString("sbl_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot Owner Only.**.
         /// </summary>
         public static string scsc_desc {
@@ -6050,6 +6023,33 @@ namespace NadekoBot.Resources {
         public static string send_text {
             get {
                 return ResourceManager.GetString("send_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY**.
+        /// </summary>
+        public static string serverblacklist_desc {
+            get {
+                return ResourceManager.GetString("serverblacklist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;sbl [servername/serverid]`.
+        /// </summary>
+        public static string serverblacklist_summary {
+            get {
+                return ResourceManager.GetString("serverblacklist_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to sbl.
+        /// </summary>
+        public static string serverblacklist_text {
+            get {
+                return ResourceManager.GetString("serverblacklist_text", resourceCulture);
             }
         }
         
@@ -7053,33 +7053,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Blacklists a mentioned user. **Bot Owner Only!**.
-        /// </summary>
-        public static string ubl_desc {
-            get {
-                return ResourceManager.GetString("ubl_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;ubl [user_mention]`.
-        /// </summary>
-        public static string ubl_summary {
-            get {
-                return ResourceManager.GetString("ubl_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to ubl.
-        /// </summary>
-        public static string ubl_text {
-            get {
-                return ResourceManager.GetString("ubl_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Unbinds a bot from the channel and board. **Bot Owner Only!**.
         /// </summary>
         public static string unbind_desc {
@@ -7238,6 +7211,33 @@ namespace NadekoBot.Resources {
         public static string urbandict_text {
             get {
                 return ResourceManager.GetString("urbandict_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blacklists a mentioned user. **Bot Owner Only!**.
+        /// </summary>
+        public static string userblacklist_desc {
+            get {
+                return ResourceManager.GetString("userblacklist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;ubl [user_mention]`.
+        /// </summary>
+        public static string userblacklist_summary {
+            get {
+                return ResourceManager.GetString("userblacklist_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to ubl.
+        /// </summary>
+        public static string userblacklist_text {
+            get {
+                return ResourceManager.GetString("userblacklist_text", resourceCulture);
             }
         }
         

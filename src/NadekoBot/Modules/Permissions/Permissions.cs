@@ -15,7 +15,7 @@ using Discord.API;
 namespace NadekoBot.Modules.Permissions
 {
     [NadekoModule("Permissions", ";")]
-    public class Permissions : DiscordModule
+    public partial class Permissions : DiscordModule
     {
         public Permissions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
