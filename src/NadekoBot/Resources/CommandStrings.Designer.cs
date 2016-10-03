@@ -114,33 +114,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a new word to the list of filtered words.
-        /// </summary>
-        public static string addfilterword_desc {
-            get {
-                return ResourceManager.GetString("addfilterword_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;afw poop`.
-        /// </summary>
-        public static string addfilterword_summary {
-            get {
-                return ResourceManager.GetString("addfilterword_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to addfilterword afw.
-        /// </summary>
-        public static string addfilterword_text {
-            get {
-                return ResourceManager.GetString("addfilterword_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia% **Bot Owner Only!**.
         /// </summary>
         public static string addplaying_desc {
@@ -2540,6 +2513,33 @@ namespace NadekoBot.Resources {
         public static string endwar_text {
             get {
                 return ResourceManager.GetString("endwar_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Adds or removes (if it exists) a word from the list of filtered words.
+        /// </summary>
+        public static string filterword_desc {
+            get {
+                return ResourceManager.GetString("filterword_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `;fw poop`.
+        /// </summary>
+        public static string filterword_summary {
+            get {
+                return ResourceManager.GetString("filterword_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to fw.
+        /// </summary>
+        public static string filterword_text {
+            get {
+                return ResourceManager.GetString("filterword_text", resourceCulture);
             }
         }
         

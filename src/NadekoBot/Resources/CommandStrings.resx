@@ -981,14 +981,14 @@
   <data name="chnlfilterwords_summary" xml:space="preserve">
     <value>`;cfw enable #general-chat`</value>
   </data>
-  <data name="addfilterword_text" xml:space="preserve">
-    <value>addfilterword afw</value>
+  <data name="filterword_text" xml:space="preserve">
+    <value>fw</value>
   </data>
-  <data name="addfilterword_desc" xml:space="preserve">
-    <value>Adds a new word to the list of filtered words</value>
+  <data name="filterword_desc" xml:space="preserve">
+    <value>Adds or removes (if it exists) a word from the list of filtered words</value>
   </data>
-  <data name="addfilterword_summary" xml:space="preserve">
-    <value>`;afw poop`</value>
+  <data name="filterword_summary" xml:space="preserve">
+    <value>`;fw poop`</value>
   </data>
   <data name="rmvfilterword_text" xml:space="preserve">
     <value>rmvfilterword rw</value>

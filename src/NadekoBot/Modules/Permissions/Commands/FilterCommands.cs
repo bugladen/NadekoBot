@@ -28,17 +28,17 @@ namespace NadekoBot.Modules.Permissions
 
             public static HashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
             {
-                var words = FilteredWordsForServer(guildId);
-
-                if (!words.Any() || WordFilteringChannels.Contains(channelId))
-                    return words;
-                return new HashSet<string>();
+                HashSet<string> words = new HashSet<string>();
+                if(WordFilteringChannels.Contains(channelId))
+                    ServerFilteredWords.TryGetValue(guildId, out words);
+                return words;
             }
 
             public static HashSet<string> FilteredWordsForServer(ulong guildId)
             {
                 var words = new HashSet<string>();
-                ServerFilteredWords.TryGetValue(guildId, out words);
+                if(WordFilteringServers.Contains(guildId))
+                    ServerFilteredWords.TryGetValue(guildId, out words);
                 return words;
             }
 
@@ -80,12 +80,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     InviteFilteringServers.Add(channel.Guild.Id);
-                    await channel.SendMessageAsync("`Invite filtering enabled on the whole server.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Invite filtering enabled on this server.`").ConfigureAwait(false);
                 }
                 else
                 {
                     InviteFilteringServers.Remove(channel.Guild.Id);
-                    await channel.SendMessageAsync("`Invite filtering disabled on the whole server.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Invite filtering disabled on this server.`").ConfigureAwait(false);
                 }
             }
 
@@ -139,12 +139,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     WordFilteringServers.Add(channel.Guild.Id);
-                    await channel.SendMessageAsync("`Word filtering enabled on the whole server.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Word filtering enabled on this server.`").ConfigureAwait(false);
                 }
                 else
                 {
                     WordFilteringServers.Remove(channel.Guild.Id);
-                    await channel.SendMessageAsync("`Word filtering disabled on the whole server.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`Word filtering disabled on this server.`").ConfigureAwait(false);
                 }
             }
 
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Permissions
 
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
-            public async Task AddFilterWord(IUserMessage imsg, [Remainder] string word)
+            public async Task FilterWord(IUserMessage imsg, [Remainder] string word)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -192,26 +192,47 @@ namespace NadekoBot.Modules.Permissions
                 if (string.IsNullOrWhiteSpace(word))
                     return;
 
-                bool contains;
+                int removed;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.GuildConfigs.For(channel.Guild.Id);
 
-                    contains = config.FilteredWords.Any(fw => fw.Word == word);
+                    removed = config.FilteredWords.RemoveWhere(fw => fw.Word == word);
 
-                    if (!contains)
-                        config.FilteredWords.Add(new Services.Database.Models.FilteredWord() { Word = word});
+                    if (removed == 0)
+                        config.FilteredWords.Add(new Services.Database.Models.FilteredWord() { Word = word });
+
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                if (!contains)
-                {
-                    var filteredWords = ServerFilteredWords.GetOrAdd(channel.Guild.Id, new HashSet<string>());
+                var filteredWords = ServerFilteredWords.GetOrAdd(channel.Guild.Id, new HashSet<string>());
 
+                if (removed == 0)
+                {
                     filteredWords.Add(word);
-                    await channel.SendMessageAsync($"Word `{word}` successfully added to the list of filtered words.");
+                    await channel.SendMessageAsync($"Word `{word}` successfully added to the list of filtered words.")
+                            .ConfigureAwait(false);
+                }
+                else
+                {
+                    filteredWords.Remove(word);
+                    await channel.SendMessageAsync($"Word `{word}` removed from the list of filtered words.")
+                            .ConfigureAwait(false);
                 }
             }
 
+            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [RequireContext(ContextType.Guild)]
+            public async Task LstFilterWords(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                HashSet<string> filteredWords;
+                ServerFilteredWords.TryGetValue(channel.Guild.Id, out filteredWords);
+
+                await channel.SendMessageAsync($"`List of banned words:`\n" + string.Join(",\n", filteredWords))
+                        .ConfigureAwait(false);
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ namespace NadekoBot.Services
                 return;
             }
 
-            if (guild != null)
+            if (guild != null && guild.OwnerId != usrMsg.Author.Id)
             {
                 if (Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
                     Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
@@ -73,9 +73,12 @@ namespace NadekoBot.Services
                         }
                     }
                 }
+            }
+            if (guild != null && guild.OwnerId != usrMsg.Author.Id)
+            {
                 var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
                 var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
-                if (filteredWords.Any())
+                if (filteredWords.Any(w=>wordsInMessage.Contains(w)))
                 {
                     try
                     {
