@@ -23,6 +23,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .ThenInclude(gc => gc.Previous)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Next)
+                .Include(gc => gc.FilterInvitesChannelIds)
+                .Include(gc => gc.FilterWordsChannelIds)
+                .Include(gc => gc.FilteredWords)
                 .ToList();
 
         /// <summary>
@@ -37,6 +40,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                                 .ThenInclude(ls => ls.IgnoredChannels)
                             .Include(gc => gc.LogSetting)
                                 .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                            .Include(gc => gc.FilterInvitesChannelIds)
+                            .Include(gc => gc.FilterWordsChannelIds)
+                            .Include(gc => gc.FilteredWords)
                             .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)

@@ -13,6 +13,7 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Modules.Permissions;
 using Microsoft.Data.Sqlite;
 using Discord.Net;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Services
 {
@@ -33,14 +34,14 @@ namespace NadekoBot.Services
             _client.MessageReceived += MessageReceivedHandler;
         }
 
-        private Task MessageReceivedHandler(IMessage msg)
+        private async Task MessageReceivedHandler(IMessage msg)
         {
             var usrMsg = msg as IUserMessage;
             if (usrMsg == null)
-                return Task.CompletedTask;
+                return;
 
             if (usrMsg.Author.IsBot) //no bots
-                return Task.CompletedTask;
+                return;
 
             var guild = (msg.Channel as ITextChannel)?.Guild;
 
@@ -51,83 +52,124 @@ namespace NadekoBot.Services
                  (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
             {
                 _log.Warn("Attempt was made to run a command by a blacklisted {0}, id: {1}", blacklistedItem.Type, blacklistedItem.ItemId);
-                return Task.CompletedTask;
+                return;
             }
 
-            var throwaway = Task.Run(async () =>
+            if (guild != null)
             {
-                var sw = new Stopwatch();
-                sw.Start();
-
-                try
+                if (Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
+                    Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
                 {
-                          
-                    bool verbose = false;
-                    Permission rootPerm = null;
-                    string permRole = "";
-                    if (guild != null)
+                    if (usrMsg.Content.IsDiscordInvite())
                     {
-                        using (var uow = DbHandler.UnitOfWork())
+                        try
                         {
-                            var config = uow.GuildConfigs.PermissionsFor(guild.Id);
-                            verbose = config.VerbosePermissions;
-                            rootPerm = config.RootPermission;
-                            permRole = config.PermissionRole.Trim().ToLowerInvariant();
+                            await usrMsg.DeleteAsync().ConfigureAwait(false);
+                            return;
                         }
-                    }
-
-
-                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, rootPerm, permRole, MultiMatchHandling.Best);
-                    var command = t.Item1;
-                    var result = t.Item2;
-                    sw.Stop();
-                    var channel = (usrMsg.Channel as ITextChannel);
-                    if (result.IsSuccess)
-                    {
-                        CommandExecuted(this, new CommandExecutedEventArgs(usrMsg, command));
-                        _log.Info("Command Executed after {4}s\n\t" +
-                                  "User: {0}\n\t" +
-                                  "Server: {1}\n\t" +
-                                  "Channel: {2}\n\t" +
-                                  "Message: {3}",
-                                  usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                                  (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                  (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                  usrMsg.Content, // {3}
-                                  sw.Elapsed.TotalSeconds // {4}
-                                  );
-                    }
-                    else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
-                    {
-                        _log.Warn("Command Errored after {5}s\n\t" +
-                                  "User: {0}\n\t" +
-                                  "Server: {1}\n\t" +
-                                  "Channel: {2}\n\t" +
-                                  "Message: {3}\n\t" +
-                                  "Error: {4}",
-                                  usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                                  (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                  (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                  usrMsg.Content,// {3}
-                                  result.ErrorReason, // {4}
-                                  sw.Elapsed.TotalSeconds // {5}
-                                  );
-                        if (guild != null && command != null && result.Error == CommandError.Exception)
+                        catch (HttpException ex)
                         {
-                            if (verbose)
-                                await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false);
+                            _log.Warn("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id, ex);
                         }
                     }
                 }
-                catch (Exception ex)
+                var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
+                var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
+                if (filteredWords.Any())
                 {
-                    _log.Warn(ex, "Error in CommandHandler");
-                    if(ex.InnerException != null)
-                        _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+                    try
+                    {
+                        await usrMsg.DeleteAsync().ConfigureAwait(false);
+                        return;
+                    }
+                    catch (HttpException ex)
+                    {
+                        _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
+                    }
                 }
-            });
+            }
 
-            return Task.CompletedTask;
+            try
+            {
+                bool verbose = false;
+                Permission rootPerm = null;
+                string permRole = "";
+                if (guild != null)
+                {
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        var config = uow.GuildConfigs.PermissionsFor(guild.Id);
+                        verbose = config.VerbosePermissions;
+                        rootPerm = config.RootPermission;
+                        permRole = config.PermissionRole.Trim().ToLowerInvariant();
+                    }
+
+                    
+                }
+
+                var throwaway = Task.Run(async () =>
+                {
+                    var sw = new Stopwatch();
+                    sw.Start();
+
+                    try
+                    {
+                        var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, rootPerm, permRole, MultiMatchHandling.Best);
+                        var command = t.Item1;
+                        var result = t.Item2;
+                        sw.Stop();
+                        var channel = (usrMsg.Channel as ITextChannel);
+                        if (result.IsSuccess)
+                        {
+                            CommandExecuted(this, new CommandExecutedEventArgs(usrMsg, command));
+                            _log.Info("Command Executed after {4}s\n\t" +
+                                      "User: {0}\n\t" +
+                                      "Server: {1}\n\t" +
+                                      "Channel: {2}\n\t" +
+                                      "Message: {3}",
+                                      usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                                      (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                                      (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                                      usrMsg.Content, // {3}
+                                      sw.Elapsed.TotalSeconds // {4}
+                                      );
+                        }
+                        else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
+                        {
+                            _log.Warn("Command Errored after {5}s\n\t" +
+                                      "User: {0}\n\t" +
+                                      "Server: {1}\n\t" +
+                                      "Channel: {2}\n\t" +
+                                      "Message: {3}\n\t" +
+                                      "Error: {4}",
+                                      usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                                      (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                                      (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                                      usrMsg.Content,// {3}
+                                      result.ErrorReason, // {4}
+                                      sw.Elapsed.TotalSeconds // {5}
+                                      );
+                            if (guild != null && command != null && result.Error == CommandError.Exception)
+                            {
+                                if (verbose)
+                                    await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex, "Error in CommandHandler");
+                        if (ex.InnerException != null)
+                            _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error in the outter scope of the commandhandler.");
+                if (ex.InnerException != null)
+                    _log.Error(ex.InnerException, "Inner exception: ");
+            }
         }
 
         public async Task<Tuple<Command,IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, Permission rootPerm, string permRole, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {

@@ -40,9 +40,11 @@ namespace Tests
 
             root.Prepend(new Permission() { SecondaryTargetName = "Added" });
 
+            root = root.GetRoot();
+
             Assert.Equal(11, root.Count());
 
-            Assert.Equal("Added", root.AsEnumerable().Last().SecondaryTargetName);
+            Assert.Equal("Added", root.AsEnumerable().First().SecondaryTargetName);
         }
 
         [Fact]
@@ -87,15 +89,9 @@ namespace Tests
 
             Assert.Equal("3", removed.SecondaryTargetName);
             Assert.Equal(9, root.Count());
-
-            var temp = root.Next;
-            removed = root.RemoveAt(0);
-            
-            Assert.Equal(8, temp.Count());
-            Assert.Equal(null, temp.Previous);
-
-            Assert.Throws(typeof(IndexOutOfRangeException), () => { temp.RemoveAt(8); });
-            Assert.Throws(typeof(IndexOutOfRangeException), () => { temp.RemoveAt(-1); });
+            Assert.Throws(typeof(IndexOutOfRangeException), () => { root.RemoveAt(0); });
+            Assert.Throws(typeof(IndexOutOfRangeException), () => { root.RemoveAt(9); });
+            Assert.Throws(typeof(IndexOutOfRangeException), () => { root.RemoveAt(-1); });
         }
 
         [Fact]

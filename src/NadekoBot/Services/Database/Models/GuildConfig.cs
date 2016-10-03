@@ -46,5 +46,23 @@ namespace NadekoBot.Services.Database.Models
         public Permission RootPermission { get; set; }
         public bool VerbosePermissions { get; set; }
         public string PermissionRole { get; set; } = "Nadeko";
+
+        //filtering
+        public bool FilterInvites { get; set; }
+        public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; }
+
+        public bool FilterWords { get; set; }
+        public HashSet<FilteredWord> FilteredWords { get; set; }
+        public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; }
+    }
+
+    public class FilterChannelId :DbEntity
+    {
+        public ulong ChannelId { get; set; }
+    }
+
+    public class FilteredWord :DbEntity
+    {
+        public string Word { get; set; }
     }
 }
