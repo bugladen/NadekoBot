@@ -49,7 +49,7 @@ tee -a /etc/apt/sources.list.d/mono-xamarin.list`
 ####Mono on CentOS 7, Fedora 19 (and later) and later
 **2.6)**
 
-`yum install yum-util`
+`yum install yum-utils`
 `rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"`
 `yum-config-manager --add-repo http://download.mono-project.com/repo/centos/`
 
@@ -86,9 +86,9 @@ Now unistall them
 ```
 apt-get remove remainings-parts
 ```
-Now clzean apt cache
+Now clean apt cache
 ```
-apt get clean
+apt-get clean
 apt-get autoclean
 ```
 
