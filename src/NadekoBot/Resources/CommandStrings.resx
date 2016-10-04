@@ -2646,4 +2646,13 @@
   <data name="removeperm_text" xml:space="preserve">
     <value>removeperm rp</value>
   </data>
+  <data name="migratedata_desc" xml:space="preserve">
+    <value>Migrate data from old bot configuration</value>
+  </data>
+  <data name="migratedata_summary" xml:space="preserve">
+    <value>`.migratedata`</value>
+  </data>
+  <data name="migratedata_text" xml:space="preserve">
+    <value>migratedata</value>
+  </data>
 </root>
