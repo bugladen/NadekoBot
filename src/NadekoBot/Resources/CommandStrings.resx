@@ -238,7 +238,7 @@
     <value>logserver</value>
   </data>
   <data name="logserver_desc" xml:space="preserve">
-    <value>Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Bot Owner Only!**</value>
+    <value>Logs server activity in this channel.</value>
   </data>
   <data name="logserver_summary" xml:space="preserve">
     <value>`.logserver`</value>
@@ -1264,10 +1264,10 @@
     <value>.</value>
   </data>
   <data name="addquote_desc" xml:space="preserve">
-    <value>Adds a new quote with the specified name and message (no limit).</value>
+    <value>Adds a new quote with the specified name and message.</value>
   </data>
   <data name="addquote_summary" xml:space="preserve">
-    <value>`.. abc sayhi Hi`</value>
+    <value>`.. sayhi Hi`</value>
   </data>
   <data name="showquote_text" xml:space="preserve">
     <value>..</value>
@@ -1467,13 +1467,13 @@
   <data name="leaderboard_summary" xml:space="preserve">
     <value>`$lb`</value>
   </data>
-  <data name="t_text" xml:space="preserve">
+  <data name="trivia_text" xml:space="preserve">
     <value>trivia t</value>
   </data>
-  <data name="t_desc" xml:space="preserve">
+  <data name="trivia_desc" xml:space="preserve">
     <value>Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
   </data>
-  <data name="t_summary" xml:space="preserve">
+  <data name="trivia_summary" xml:space="preserve">
     <value>`&gt;t nohint` or `&gt;t 5 nohint`</value>
   </data>
   <data name="tl_text" xml:space="preserve">
@@ -1935,33 +1935,6 @@
   <data name="beam_summary" xml:space="preserve">
     <value>`~beam SomeStreamer`</value>
   </data>
-  <data name="checkhitbox_text" xml:space="preserve">
-    <value>checkhitbox chhb</value>
-  </data>
-  <data name="checkhitbox_desc" xml:space="preserve">
-    <value>Checks if a certain user is streaming on the hitbox platform.</value>
-  </data>
-  <data name="checkhitbox_summary" xml:space="preserve">
-    <value>`~chhb SomeStreamer`</value>
-  </data>
-  <data name="checktwitch_text" xml:space="preserve">
-    <value>checktwitch chtw</value>
-  </data>
-  <data name="checktwitch_desc" xml:space="preserve">
-    <value>Checks if a certain user is streaming on the twitch platform.</value>
-  </data>
-  <data name="checktwitch_summary" xml:space="preserve">
-    <value>`~chtw SomeStreamer`</value>
-  </data>
-  <data name="checkbeam_text" xml:space="preserve">
-    <value>checkbeam chbm</value>
-  </data>
-  <data name="checkbeam_desc" xml:space="preserve">
-    <value>Checks if a certain user is streaming on the beam platform.</value>
-  </data>
-  <data name="checkbeam_summary" xml:space="preserve">
-    <value>`~chbm SomeStreamer`</value>
-  </data>
   <data name="removestream_text" xml:space="preserve">
     <value>removestream rms</value>
   </data>
@@ -2032,7 +2005,7 @@
     <value>Shows information about an osu beatmap.</value>
   </data>
   <data name="osub_summary" xml:space="preserve">
-    <value>`~osu b https://osu.ppy.sh/s/127712`</value>
+    <value>`~osub https://osu.ppy.sh/s/127712`</value>
   </data>
   <data name="osu5_text" xml:space="preserve">
     <value>osu5</value>
@@ -2041,7 +2014,7 @@
     <value>Displays a user's top 5 plays.</value>
   </data>
   <data name="osu5_summary" xml:space="preserve">
-    <value>`~osu top5 Name`</value>
+    <value>`~osu5 Name`</value>
   </data>
   <data name="pokemon_text" xml:space="preserve">
     <value>pokemon poke</value>
@@ -2645,5 +2618,14 @@
   </data>
   <data name="removeperm_text" xml:space="preserve">
     <value>removeperm rp</value>
+  </data>
+  <data name="checkstream_desc" xml:space="preserve">
+    <value>Checks if a user is online on a certain streaming platform.</value>
+  </data>
+  <data name="checkstream_summary" xml:space="preserve">
+    <value>`~cs twitch MyFavStreamer`</value>
+  </data>
+  <data name="checkstream_text" xml:space="preserve">
+    <value>checkstream cs</value>
   </data>
 </root>

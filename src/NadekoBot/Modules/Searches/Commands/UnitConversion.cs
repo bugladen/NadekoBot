@@ -94,27 +94,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             public List<ConvertUnit> Units { get; set; }
-
-
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-            [RequireContext(ContextType.Guild)]
-            public async Task ConvertListE(IUserMessage msg) //extended and bugged list
-            {
-                var channel = msg.Channel as IGuildChannel;
-
-                var sb = new StringBuilder("Units that can be used by the converter: \n");
-                var res = Units.GroupBy(x => x.UnitType);
-                foreach (var group in res)
-                {
-                    sb.AppendLine($"{group.Key}: ```xl");
-                    foreach (var el in group)
-                    {
-                        sb.Append($" [{string.Join(",", el.Triggers)}] ");
-                    }
-                    sb.AppendLine("```");
-                }
-                await msg.ReplyLong(sb.ToString(), breakOn: new[] { "```xl", "\n" });
-            }
             [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertList(IUserMessage msg)
@@ -176,7 +155,6 @@ namespace NadekoBot.Modules.Searches
                 }
                 else
                 {
-                    //I just love currency
                     if (originUnit.UnitType == "currency")
                     {
                         res = (value * targetUnit.Modifier) / originUnit.Modifier;
