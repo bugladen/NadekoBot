@@ -87,7 +87,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt; **Bot Owner Only!**.
+        ///    Looks up a localized string similar to Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;.
         /// </summary>
         public static string addcustreact_desc {
             get {
@@ -114,7 +114,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia% **Bot Owner Only!**.
+        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%.
         /// </summary>
         public static string addplaying_desc {
             get {
@@ -141,7 +141,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a new quote with the specified name (single word) and message (no limit)..
+        ///    Looks up a localized string similar to Adds a new quote with the specified name and message (no limit)..
         /// </summary>
         public static string addquote_desc {
             get {
@@ -150,7 +150,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.. abc My message`.
+        ///    Looks up a localized string similar to `.. abc sayhi Hi`.
         /// </summary>
         public static string addquote_summary {
             get {
@@ -168,34 +168,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all commands from a certain module at the channel level..
-        /// </summary>
-        public static string allchnlcmds_desc {
-            get {
-                return ResourceManager.GetString("allchnlcmds_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;acc &quot;module name&quot; [enable/disable] SomeChannel`.
-        /// </summary>
-        public static string allchnlcmds_summary {
-            get {
-                return ResourceManager.GetString("allchnlcmds_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to allchnlcmds acc.
-        /// </summary>
-        public static string allchnlcmds_text {
-            get {
-                return ResourceManager.GetString("allchnlcmds_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all modules at the channel level..
+        ///    Looks up a localized string similar to Enable or disable all modules in a specified channel..
         /// </summary>
         public static string allchnlmdls_desc {
             get {
@@ -204,7 +177,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;acm [enable/disable] SomeChannel`.
+        ///    Looks up a localized string similar to `;acm enable #SomeChannel`.
         /// </summary>
         public static string allchnlmdls_summary {
             get {
@@ -240,7 +213,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to allcmdcooldowns.
+        ///    Looks up a localized string similar to allcmdcooldowns acmdcds.
         /// </summary>
         public static string allcmdcooldowns_text {
             get {
@@ -249,34 +222,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all commands from a certain module at the role level..
-        /// </summary>
-        public static string allrolecmds_desc {
-            get {
-                return ResourceManager.GetString("allrolecmds_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;arc &quot;module name&quot; [enable/disable] MyRole`.
-        /// </summary>
-        public static string allrolecmds_summary {
-            get {
-                return ResourceManager.GetString("allrolecmds_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to allrolecmds acmdcds.
-        /// </summary>
-        public static string allrolecmds_text {
-            get {
-                return ResourceManager.GetString("allrolecmds_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all modules at the role level..
+        ///    Looks up a localized string similar to Enable or disable all modules for a specific role..
         /// </summary>
         public static string allrolemdls_desc {
             get {
@@ -303,34 +249,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all commands from a certain module at the server level..
-        /// </summary>
-        public static string allsrvrcmds_desc {
-            get {
-                return ResourceManager.GetString("allsrvrcmds_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;asc &quot;module name&quot; [enable/disable]`.
-        /// </summary>
-        public static string allsrvrcmds_summary {
-            get {
-                return ResourceManager.GetString("allsrvrcmds_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to allsrvrcmds asc.
-        /// </summary>
-        public static string allsrvrcmds_text {
-            get {
-                return ResourceManager.GetString("allsrvrcmds_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets permissions for all modules at the server level..
+        ///    Looks up a localized string similar to Enable or disable all modules for your server..
         /// </summary>
         public static string allsrvrmdls_desc {
             get {
@@ -357,34 +276,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets permission for all commands from a module for a specific user..
-        /// </summary>
-        public static string allusrcmds_desc {
-            get {
-                return ResourceManager.GetString("allusrcmds_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;auc Searches disable @Someone`.
-        /// </summary>
-        public static string allusrcmds_summary {
-            get {
-                return ResourceManager.GetString("allusrcmds_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to allusrcmds auc.
-        /// </summary>
-        public static string allusrcmds_text {
-            get {
-                return ResourceManager.GetString("allusrcmds_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets permission for all modules for a specific user..
+        ///    Looks up a localized string similar to Enable or disable all modules for a specific user..
         /// </summary>
         public static string allusrmdls_desc {
             get {
@@ -420,7 +312,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~aq aquarion evol`.
+        ///    Looks up a localized string similar to `~ani aquarion evol`.
         /// </summary>
         public static string ani_summary {
             get {
@@ -438,7 +330,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sends a message to all servers&apos; general channel bot is connected to.**Bot Owner Only!**.
+        ///    Looks up a localized string similar to Sends a message to all servers&apos; general channel bot is connected to..
         /// </summary>
         public static string announce_desc {
             get {
@@ -465,7 +357,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. **Needs Manage Roles Permissions.**.
+        ///    Looks up a localized string similar to Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles..
         /// </summary>
         public static string asar_desc {
             get {
@@ -519,7 +411,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Automaticaly assigns a specified role to every user who joins the server. **Needs Manage Roles Permissions.**.
+        ///    Looks up a localized string similar to Automaticaly assigns a specified role to every user who joins the server. .
         /// </summary>
         public static string autoassignrole_desc {
             get {
@@ -627,7 +519,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bans a user by id or name with an optional message. **Needs Ban Permissions.**.
+        ///    Looks up a localized string similar to Bans a user by id or name with an optional message..
         /// </summary>
         public static string ban_desc {
             get {

@@ -7,7 +7,7 @@
     "emitEntryPoint": true,
     "allowUnsafe": true,
     "compile": {
-      "exclude": [ "_Models", "_Classes", "_Modules" ],
+      "exclude": [ ],
     },
     "copyToOutput": {
       "include": [ "data" ],

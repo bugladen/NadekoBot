@@ -301,7 +301,7 @@
     <value>addplaying adpl</value>
   </data>
   <data name="addplaying_desc" xml:space="preserve">
-    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %trivia% **Bot Owner Only!**</value>
+    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%</value>
   </data>
   <data name="addplaying_summary" xml:space="preserve">
     <value>`.adpl`</value>
@@ -382,7 +382,7 @@
     <value>asar</value>
   </data>
   <data name="asar_desc" xml:space="preserve">
-    <value>Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. **Needs Manage Roles Permissions.**</value>
+    <value>Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles.</value>
   </data>
   <data name="asar_summary" xml:space="preserve">
     <value>`.asar Gamer`</value>
@@ -436,7 +436,7 @@
     <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt; **Bot Owner Only!**</value>
+    <value>Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;</value>
   </data>
   <data name="addcustreact_summary" xml:space="preserve">
     <value>`.acr "hello" Hi there %user%`</value>
@@ -481,7 +481,7 @@
     <value>autoassignrole aar</value>
   </data>
   <data name="autoassignrole_desc" xml:space="preserve">
-    <value>Automaticaly assigns a specified role to every user who joins the server. **Needs Manage Roles Permissions.**</value>
+    <value>Automaticaly assigns a specified role to every user who joins the server. </value>
   </data>
   <data name="autoassignrole_summary" xml:space="preserve">
     <value>`.aar` to disable, `.aar Role Name` to enable</value>
@@ -589,7 +589,7 @@
     <value>ban b</value>
   </data>
   <data name="ban_desc" xml:space="preserve">
-    <value>Bans a user by id or name with an optional message. **Needs Ban Permissions.**</value>
+    <value>Bans a user by id or name with an optional message.</value>
   </data>
   <data name="ban_summary" xml:space="preserve">
     <value>`.b "@some Guy" Your behaviour is toxic.`</value>
@@ -805,7 +805,7 @@
     <value>announce</value>
   </data>
   <data name="announce_desc" xml:space="preserve">
-    <value>Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!**</value>
+    <value>Sends a message to all servers' general channel bot is connected to.</value>
   </data>
   <data name="announce_summary" xml:space="preserve">
     <value>`.announce Useless spam`</value>
@@ -1174,55 +1174,28 @@
     <value>allsrvrmdls asm</value>
   </data>
   <data name="allsrvrmdls_desc" xml:space="preserve">
-    <value>Sets permissions for all modules at the server level.</value>
+    <value>Enable or disable all modules for your server.</value>
   </data>
   <data name="allsrvrmdls_summary" xml:space="preserve">
     <value>`;asm [enable/disable]`</value>
-  </data>
-  <data name="allsrvrcmds_text" xml:space="preserve">
-    <value>allsrvrcmds asc</value>
-  </data>
-  <data name="allsrvrcmds_desc" xml:space="preserve">
-    <value>Sets permissions for all commands from a certain module at the server level.</value>
-  </data>
-  <data name="allsrvrcmds_summary" xml:space="preserve">
-    <value>`;asc "module name" [enable/disable]`</value>
   </data>
   <data name="allchnlmdls_text" xml:space="preserve">
     <value>allchnlmdls acm</value>
   </data>
   <data name="allchnlmdls_desc" xml:space="preserve">
-    <value>Sets permissions for all modules at the channel level.</value>
+    <value>Enable or disable all modules in a specified channel.</value>
   </data>
   <data name="allchnlmdls_summary" xml:space="preserve">
-    <value>`;acm [enable/disable] SomeChannel`</value>
-  </data>
-  <data name="allchnlcmds_text" xml:space="preserve">
-    <value>allchnlcmds acc</value>
-  </data>
-  <data name="allchnlcmds_desc" xml:space="preserve">
-    <value>Sets permissions for all commands from a certain module at the channel level.</value>
-  </data>
-  <data name="allchnlcmds_summary" xml:space="preserve">
-    <value>`;acc "module name" [enable/disable] SomeChannel`</value>
+    <value>`;acm enable #SomeChannel`</value>
   </data>
   <data name="allrolemdls_text" xml:space="preserve">
     <value>allrolemdls arm</value>
   </data>
   <data name="allrolemdls_desc" xml:space="preserve">
-    <value>Sets permissions for all modules at the role level.</value>
+    <value>Enable or disable all modules for a specific role.</value>
   </data>
   <data name="allrolemdls_summary" xml:space="preserve">
     <value>`;arm [enable/disable] MyRole`</value>
-  </data>
-  <data name="allrolecmds_text" xml:space="preserve">
-    <value>allrolecmds acmdcds</value>
-  </data>
-  <data name="allrolecmds_desc" xml:space="preserve">
-    <value>Sets permissions for all commands from a certain module at the role level.</value>
-  </data>
-  <data name="allrolecmds_summary" xml:space="preserve">
-    <value>`;arc "module name" [enable/disable] MyRole`</value>
   </data>
   <data name="userblacklist_text" xml:space="preserve">
     <value>ubl</value>
@@ -1279,7 +1252,7 @@
     <value>`;cmdcd "some cmd" 5`</value>
   </data>
   <data name="allcmdcooldowns_text" xml:space="preserve">
-    <value>allcmdcooldowns</value>
+    <value>allcmdcooldowns acmdcds</value>
   </data>
   <data name="allcmdcooldowns_desc" xml:space="preserve">
     <value>Shows a list of all commands and their respective cooldowns.</value>
@@ -1291,10 +1264,10 @@
     <value>.</value>
   </data>
   <data name="addquote_desc" xml:space="preserve">
-    <value>Adds a new quote with the specified name (single word) and message (no limit).</value>
+    <value>Adds a new quote with the specified name and message (no limit).</value>
   </data>
   <data name="addquote_summary" xml:space="preserve">
-    <value>`.. abc My message`</value>
+    <value>`.. abc sayhi Hi`</value>
   </data>
   <data name="showquote_text" xml:space="preserve">
     <value>..</value>
@@ -2131,7 +2104,7 @@
     <value>Queries anilist for an anime and shows the first result.</value>
   </data>
   <data name="ani_summary" xml:space="preserve">
-    <value>`~aq aquarion evol`</value>
+    <value>`~ani aquarion evol`</value>
   </data>
   <data name="imdb_text" xml:space="preserve">
     <value>imdb</value>
@@ -2646,17 +2619,8 @@
   <data name="listperms_text" xml:space="preserve">
     <value>listperms lp</value>
   </data>
-  <data name="allusrcmds_desc" xml:space="preserve">
-    <value>Sets permission for all commands from a module for a specific user.</value>
-  </data>
-  <data name="allusrcmds_summary" xml:space="preserve">
-    <value>`;auc Searches disable @Someone`</value>
-  </data>
-  <data name="allusrcmds_text" xml:space="preserve">
-    <value>allusrcmds auc</value>
-  </data>
   <data name="allusrmdls_desc" xml:space="preserve">
-    <value>Sets permission for all modules for a specific user.</value>
+    <value>Enable or disable all modules for a specific user.</value>
   </data>
   <data name="allusrmdls_summary" xml:space="preserve">
     <value>`;aum enable @someone`</value>
