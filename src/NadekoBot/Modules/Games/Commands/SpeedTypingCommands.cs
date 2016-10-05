@@ -194,6 +194,7 @@ namespace NadekoBot.Modules.Games
                         Author = imsg.Author.Username,
                         Text = text
                     });
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
