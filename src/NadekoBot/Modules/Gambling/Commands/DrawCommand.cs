@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Gambling
         private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
         private const string cardsPath = "data/images/cards";
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Draw(IUserMessage msg)
         {
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
             }
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Shuffle(IUserMessage imsg)
         {

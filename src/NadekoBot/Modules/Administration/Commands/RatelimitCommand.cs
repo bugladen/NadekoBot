@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Slowmode(IUserMessage umsg, int msg = 1, int perSec = 5)
             {

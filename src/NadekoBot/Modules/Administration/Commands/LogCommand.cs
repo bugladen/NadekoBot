@@ -482,7 +482,7 @@ namespace NadekoBot.Modules.Administration
                     return channel;
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task LogServer(IUserMessage msg)
@@ -505,7 +505,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`Logging disabled.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task LogIgnore(IUserMessage imsg)
@@ -600,7 +600,7 @@ namespace NadekoBot.Modules.Administration
             //    }
             //}
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task UserPresence(IUserMessage imsg)
             {
@@ -622,7 +622,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync($"`Stopped logging user presence updates.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task VoicePresence(IUserMessage imsg)
             {

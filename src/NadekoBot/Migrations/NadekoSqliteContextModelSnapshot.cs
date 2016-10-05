@@ -50,6 +50,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("CurrencySign");
 
+                    b.Property<string>("DMHelpString");
+
                     b.Property<bool>("DontJoinServers");
 
                     b.Property<bool>("ForwardMessages");
@@ -360,8 +362,6 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("LogVoicePresence");
 
                     b.Property<bool>("MessageDeleted");
-
-                    b.Property<bool>("MessageReceived");
 
                     b.Property<bool>("MessageUpdated");
 

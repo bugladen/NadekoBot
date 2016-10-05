@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Translator
         {
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)
         {
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Translator
             }
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Translangs(IUserMessage umsg)
         {

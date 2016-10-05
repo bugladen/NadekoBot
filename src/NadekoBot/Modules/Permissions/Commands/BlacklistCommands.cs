@@ -35,17 +35,17 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task UserBlacklist(IUserMessage imsg, AddRemove action, ulong id)
                 => Blacklist(imsg, action, id, BlacklistType.User);
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task ChannelBlacklist(IUserMessage imsg, AddRemove action, ulong id)
                 => Blacklist(imsg, action, id, BlacklistType.Channel);
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task ServerBlacklist(IUserMessage imsg, AddRemove action, ulong id)
                 => Blacklist(imsg, action, id, BlacklistType.Server);

@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Permissions
         {
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(IUserMessage msg, PermissionAction action)
         {
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync("I will " + (action.Value ? "now" : "no longer") + " show permission warnings.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task PermRole(IUserMessage msg, [Remainder] IRole role = null)
         {
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"Users now require **{role.Name}** role in order to edit permissions.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListPerms(IUserMessage msg)
         {
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Permissions
                 await channel.SendMessageAsync(toSend).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RemovePerm(IUserMessage imsg, int index)
         {
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Permissions
             }
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task MovePerm(IUserMessage imsg, int from, int to)
         {
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync("`Invalid index(es) specified.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SrvrCmd(IUserMessage imsg, Command command, PermissionAction action)
         {
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SrvrMdl(IUserMessage imsg, Module module, PermissionAction action)
         {
@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module on this server.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UsrCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] IGuildUser user)
         {
@@ -229,7 +229,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UsrMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] IGuildUser user)
         {
@@ -252,7 +252,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RoleCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] IRole role)
         {
@@ -275,7 +275,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RoleMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] IRole role)
         {
@@ -298,7 +298,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ChnlCmd(IUserMessage imsg, Command command, PermissionAction action, [Remainder] ITextChannel chnl)
         {
@@ -326,7 +326,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{chnl}` channel.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ChnlMdl(IUserMessage imsg, Module module, PermissionAction action, [Remainder] ITextChannel chnl)
         {
@@ -349,7 +349,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AllChnlMdls(IUserMessage imsg, PermissionAction action, [Remainder] ITextChannel chnl)
         {
@@ -372,7 +372,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AllRoleMdls(IUserMessage imsg, PermissionAction action, [Remainder] IRole role)
         {
@@ -395,7 +395,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AllUsrMdls(IUserMessage imsg, PermissionAction action, [Remainder] IUser user)
         {
@@ -418,7 +418,7 @@ namespace NadekoBot.Modules.Permissions
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action, [Remainder] IUser user)
         {

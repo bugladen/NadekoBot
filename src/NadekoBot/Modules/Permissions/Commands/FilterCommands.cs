@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterInv(IUserMessage imsg)
             {
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterInv(IUserMessage imsg)
             {
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterWords(IUserMessage imsg)
             {
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterWords(IUserMessage imsg)
             {
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task FilterWord(IUserMessage imsg, [Remainder] string word)
             {
@@ -221,7 +221,7 @@ namespace NadekoBot.Modules.Permissions
                 }
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task LstFilterWords(IUserMessage imsg)
             {

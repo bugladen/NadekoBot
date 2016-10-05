@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Attributes
 {
-    public class LocalizedAliasAttribute : AliasAttribute
+    public class Aliases : AliasAttribute
     {
-        public LocalizedAliasAttribute([CallerMemberName] string memberName = "") : base(Localization.LoadCommandString(memberName.ToLowerInvariant() + "_text").Split(' ').Skip(1).ToArray())
+        public Aliases([CallerMemberName] string memberName = "") : base(Localization.LoadCommandString(memberName.ToLowerInvariant() + "_cmd").Split(' ').Skip(1).ToArray())
         {
         }
     }

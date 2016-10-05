@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Games
         }
 
         //todo Dragon should PR this in
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Poke(IUserMessage umsg)
         {

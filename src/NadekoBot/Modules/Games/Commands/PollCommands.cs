@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Games
     {
         public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Poll(IUserMessage umsg, [Remainder] string arg = null)
         {
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Pollend(IUserMessage umsg)
         {

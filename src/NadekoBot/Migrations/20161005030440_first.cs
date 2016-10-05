@@ -20,9 +20,12 @@ namespace NadekoBot.Migrations
                     CurrencyName = table.Column<string>(nullable: true),
                     CurrencyPluralName = table.Column<string>(nullable: true),
                     CurrencySign = table.Column<string>(nullable: true),
+                    DMHelpString = table.Column<string>(nullable: true),
                     DontJoinServers = table.Column<bool>(nullable: false),
                     ForwardMessages = table.Column<bool>(nullable: false),
                     ForwardToAllOwners = table.Column<bool>(nullable: false),
+                    HelpString = table.Column<string>(nullable: true),
+                    MigrationVersion = table.Column<int>(nullable: false),
                     RemindMessageFormat = table.Column<string>(nullable: true),
                     RotatingStatuses = table.Column<bool>(nullable: false)
                 },
@@ -107,7 +110,6 @@ namespace NadekoBot.Migrations
                     LogUserPresence = table.Column<bool>(nullable: false),
                     LogVoicePresence = table.Column<bool>(nullable: false),
                     MessageDeleted = table.Column<bool>(nullable: false),
-                    MessageReceived = table.Column<bool>(nullable: false),
                     MessageUpdated = table.Column<bool>(nullable: false),
                     UserBanned = table.Column<bool>(nullable: false),
                     UserJoined = table.Column<bool>(nullable: false),
@@ -247,7 +249,8 @@ namespace NadekoBot.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     BotConfigId = table.Column<int>(nullable: true),
-                    ItemId = table.Column<ulong>(nullable: false)
+                    ItemId = table.Column<ulong>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -447,6 +450,8 @@ namespace NadekoBot.Migrations
                     DeleteMessageOnCommand = table.Column<bool>(nullable: false),
                     DmGreetMessageText = table.Column<string>(nullable: true),
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
+                    FilterInvites = table.Column<bool>(nullable: false),
+                    FilterWords = table.Column<bool>(nullable: false),
                     GenerateCurrencyChannelId = table.Column<ulong>(nullable: true),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
@@ -472,6 +477,53 @@ namespace NadekoBot.Migrations
                         name: "FK_GuildConfigs_Permission_RootPermissionId",
                         column: x => x.RootPermissionId,
                         principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FilterChannelId",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    GuildConfigId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FilterChannelId", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FilterChannelId_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FilterChannelId_GuildConfigs_GuildConfigId1",
+                        column: x => x.GuildConfigId1,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FilteredWord",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    Word = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FilteredWord", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FilteredWord_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -526,6 +578,21 @@ namespace NadekoBot.Migrations
                 name: "IX_EightBallResponses_BotConfigId",
                 table: "EightBallResponses",
                 column: "BotConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FilterChannelId_GuildConfigId",
+                table: "FilterChannelId",
+                column: "GuildConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FilterChannelId_GuildConfigId1",
+                table: "FilterChannelId",
+                column: "GuildConfigId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FilteredWord_GuildConfigId",
+                table: "FilteredWord",
+                column: "GuildConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FollowedStream_GuildConfigId",
@@ -616,6 +683,12 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "EightBallResponses");
+
+            migrationBuilder.DropTable(
+                name: "FilterChannelId");
+
+            migrationBuilder.DropTable(
+                name: "FilteredWord");
 
             migrationBuilder.DropTable(
                 name: "FollowedStream");

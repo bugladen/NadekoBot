@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches
                 _log = LogManager.GetCurrentClassLogger();
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Anime(IUserMessage umsg, [Remainder] string query)
             {
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendMessageAsync(result.ToString() ?? "`No anime found.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Manga(IUserMessage umsg, [Remainder] string query)
             {

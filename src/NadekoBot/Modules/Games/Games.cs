@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Games
         {
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Choose(IUserMessage umsg, [Remainder] string list = null)
         {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Games
             await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task _8Ball(IUserMessage umsg, [Remainder] string question = null)
         {
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Rps(IUserMessage umsg, string input)
         {
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Games
             await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Linux(IUserMessage umsg, string guhnoo, string loonix)
         {

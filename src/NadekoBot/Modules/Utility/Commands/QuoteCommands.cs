@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ShowQuote(IUserMessage umsg, [Remainder] string keyword)
         {
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Utility
             await channel.SendMessageAsync("📣 " + quote.Text);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AddQuote(IUserMessage umsg, string keyword, [Remainder] string text)
         {
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
             }
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task DeleteQuote(IUserMessage umsg, [Remainder] string keyword)
         {
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Utility
             await channel.SendMessageAsync("`Deleted a random quote.`");
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task DelAllQuotes(IUserMessage umsg, string keyword)
         {

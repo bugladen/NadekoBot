@@ -8,8 +8,8 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20161004233637_HelpString")]
-    partial class HelpString
+    [Migration("20161005030440_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,8 @@ namespace NadekoBot.Migrations
                     b.Property<string>("CurrencyPluralName");
 
                     b.Property<string>("CurrencySign");
+
+                    b.Property<string>("DMHelpString");
 
                     b.Property<bool>("DontJoinServers");
 
@@ -361,8 +363,6 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("LogVoicePresence");
 
                     b.Property<bool>("MessageDeleted");
-
-                    b.Property<bool>("MessageReceived");
 
                     b.Property<bool>("MessageUpdated");
 

@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration
                 this._client = client;
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task Leave(IUserMessage umsg, [Remainder] string guildStr)

@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             public List<ConvertUnit> Units { get; set; }
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertList(IUserMessage msg)
             {
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 await msg.ReplyLong(sb.ToString(),  breakOn: new[] { "```xl\n", "\n" });
             }
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             public async Task Convert(IUserMessage msg, string origin, string target, decimal value)
             {
                 var originUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));

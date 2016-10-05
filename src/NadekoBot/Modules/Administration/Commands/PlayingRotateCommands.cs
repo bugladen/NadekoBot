@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Administration
                     {"%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()}
                 };
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task RotatePlaying(IUserMessage umsg)
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`Rotating playing status disabled.`");
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task AddPlaying(IUserMessage umsg, [Remainder] string status)
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("`Added.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task ListPlaying(IUserMessage umsg)
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task RemovePlaying(IUserMessage umsg, int index)

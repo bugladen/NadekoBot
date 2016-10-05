@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Administration
                 _log = LogManager.GetCurrentClassLogger();
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task MigrateData(IUserMessage umsg)
             {

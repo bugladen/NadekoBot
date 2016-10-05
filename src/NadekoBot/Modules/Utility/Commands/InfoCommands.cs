@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Utility
 {
     partial class Utility : DiscordModule
     {
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IUserMessage msg, string guild = null)
         {
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(sb.ToString()).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ChannelInfo(IUserMessage msg, ITextChannel channel = null)
         {
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UserInfo(IUserMessage msg, IGuildUser usr = null)
         {
