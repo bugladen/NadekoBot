@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 if (participants.TryAdd(msg.Author, vote))
                 {
-                    try { await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false); } catch { }
                 }
             });
             return Task.CompletedTask;
