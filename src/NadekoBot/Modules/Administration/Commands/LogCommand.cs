@@ -529,41 +529,41 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync($"`Logging will no longer ignore {channel.Name} ({channel.Id}) channel.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-            [RequireContext(ContextType.Guild)]
-            [OwnerOnly]
-            public async Task LogAdd(IUserMessage msg, [Remainder] string eventName)
-            {
-                var channel = (ITextChannel)msg.Channel;
-                //eventName = eventName?.Replace(" ","").ToLowerInvariant();
+            //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
+            //[RequireContext(ContextType.Guild)]
+            //[OwnerOnly]
+            //public async Task LogAdd(IUserMessage msg, [Remainder] string eventName)
+            //{
+            //    var channel = (ITextChannel)msg.Channel;
+            //    //eventName = eventName?.Replace(" ","").ToLowerInvariant();
 
-                switch (eventName.ToLowerInvariant())
-                {
-                    case "messagereceived":
-                    case "messageupdated":
-                    case "messagedeleted":
-                    case "userjoined":
-                    case "userleft":
-                    case "userbanned":
-                    case "userunbanned":
-                    case "channelcreated":
-                    case "channeldestroyed":
-                    case "channelupdated":
-                        using (var uow = DbHandler.UnitOfWork())
-                        {
-                            var logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
-                            GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
-                            var prop = logSetting.GetType().GetProperty(eventName);
-                            prop.SetValue(logSetting, true);
-                            await uow.CompleteAsync().ConfigureAwait(false);
-                        }
-                        await channel.SendMessageAsync($"`Now logging {eventName} event.`").ConfigureAwait(false);
-                        break;
-                    default:
-                        await channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
-                        break;
-                }
-            }
+            //    switch (eventName.ToLowerInvariant())
+            //    {
+            //        case "messagereceived":
+            //        case "messageupdated":
+            //        case "messagedeleted":
+            //        case "userjoined":
+            //        case "userleft":
+            //        case "userbanned":
+            //        case "userunbanned":
+            //        case "channelcreated":
+            //        case "channeldestroyed":
+            //        case "channelupdated":
+            //            using (var uow = DbHandler.UnitOfWork())
+            //            {
+            //                var logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
+            //                GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+            //                var prop = logSetting.GetType().GetProperty(eventName);
+            //                prop.SetValue(logSetting, true);
+            //                await uow.CompleteAsync().ConfigureAwait(false);
+            //            }
+            //            await channel.SendMessageAsync($"`Now logging {eventName} event.`").ConfigureAwait(false);
+            //            break;
+            //        default:
+            //            await channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
+            //            break;
+            //    }
+            //}
 
             //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]

@@ -141,7 +141,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a new quote with the specified name and message (no limit)..
+        ///    Looks up a localized string similar to Adds a new quote with the specified name and message..
         /// </summary>
         public static string addquote_desc {
             get {
@@ -150,7 +150,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.. abc sayhi Hi`.
+        ///    Looks up a localized string similar to `.. sayhi Hi`.
         /// </summary>
         public static string addquote_summary {
             get {
@@ -1032,60 +1032,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Checks if a certain user is streaming on the beam platform..
-        /// </summary>
-        public static string checkbeam_desc {
-            get {
-                return ResourceManager.GetString("checkbeam_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `~chbm SomeStreamer`.
-        /// </summary>
-        public static string checkbeam_summary {
-            get {
-                return ResourceManager.GetString("checkbeam_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to checkbeam chbm.
-        /// </summary>
-        public static string checkbeam_text {
-            get {
-                return ResourceManager.GetString("checkbeam_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Checks if a certain user is streaming on the hitbox platform..
-        /// </summary>
-        public static string checkhitbox_desc {
-            get {
-                return ResourceManager.GetString("checkhitbox_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `~chhb SomeStreamer`.
-        /// </summary>
-        public static string checkhitbox_summary {
-            get {
-                return ResourceManager.GetString("checkhitbox_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to checkhitbox chhb.
-        /// </summary>
-        public static string checkhitbox_text {
-            get {
-                return ResourceManager.GetString("checkhitbox_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Checks your userspecific permissions on this channel..
         /// </summary>
         public static string checkmyperms_desc {
@@ -1113,29 +1059,29 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Checks if a certain user is streaming on the twitch platform..
+        ///    Looks up a localized string similar to Checks if a user is online on a certain streaming platform..
         /// </summary>
-        public static string checktwitch_desc {
+        public static string checkstream_desc {
             get {
-                return ResourceManager.GetString("checktwitch_desc", resourceCulture);
+                return ResourceManager.GetString("checkstream_desc", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~chtw SomeStreamer`.
+        ///    Looks up a localized string similar to `~cs twitch MyFavStreamer`.
         /// </summary>
-        public static string checktwitch_summary {
+        public static string checkstream_summary {
             get {
-                return ResourceManager.GetString("checktwitch_summary", resourceCulture);
+                return ResourceManager.GetString("checkstream_summary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to checktwitch chtw.
+        ///    Looks up a localized string similar to checkstream cs.
         /// </summary>
-        public static string checktwitch_text {
+        public static string checkstream_text {
             get {
-                return ResourceManager.GetString("checktwitch_text", resourceCulture);
+                return ResourceManager.GetString("checkstream_text", resourceCulture);
             }
         }
         
@@ -3840,7 +3786,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles logging in this channel. Logs every message sent/deleted/edited on the server. **Bot Owner Only!**.
+        ///    Looks up a localized string similar to Logs server activity in this channel..
         /// </summary>
         public static string logserver_desc {
             get {
@@ -4470,7 +4416,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~osu top5 Name`.
+        ///    Looks up a localized string similar to `~osu5 Name`.
         /// </summary>
         public static string osu5_summary {
             get {
@@ -4497,7 +4443,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~osu b https://osu.ppy.sh/s/127712`.
+        ///    Looks up a localized string similar to `~osub https://osu.ppy.sh/s/127712`.
         /// </summary>
         public static string osub_summary {
             get {
@@ -6648,33 +6594,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question..
-        /// </summary>
-        public static string t_desc {
-            get {
-                return ResourceManager.GetString("t_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `&gt;t nohint` or `&gt;t 5 nohint`.
-        /// </summary>
-        public static string t_summary {
-            get {
-                return ResourceManager.GetString("t_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to trivia t.
-        /// </summary>
-        public static string t_text {
-            get {
-                return ResourceManager.GetString("t_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Takes a certain amount of flowers from someone. **Bot Owner Only!**.
         /// </summary>
         public static string take_desc {
@@ -6833,6 +6752,33 @@ namespace NadekoBot.Resources {
         public static string translate_text {
             get {
                 return ResourceManager.GetString("translate_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question..
+        /// </summary>
+        public static string trivia_desc {
+            get {
+                return ResourceManager.GetString("trivia_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `&gt;t nohint` or `&gt;t 5 nohint`.
+        /// </summary>
+        public static string trivia_summary {
+            get {
+                return ResourceManager.GetString("trivia_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to trivia t.
+        /// </summary>
+        public static string trivia_text {
+            get {
+                return ResourceManager.GetString("trivia_text", resourceCulture);
             }
         }
         
