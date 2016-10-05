@@ -42,6 +42,11 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
+            public Task UserBlacklist(IUserMessage imsg, AddRemove action, IUser usr)
+                => Blacklist(imsg, action, usr.Id, BlacklistType.User);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
             public Task ChannelBlacklist(IUserMessage imsg, AddRemove action, ulong id)
                 => Blacklist(imsg, action, id, BlacklistType.Channel);
 
@@ -49,6 +54,11 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
             public Task ServerBlacklist(IUserMessage imsg, AddRemove action, ulong id)
                 => Blacklist(imsg, action, id, BlacklistType.Server);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task ServerBlacklist(IUserMessage imsg, AddRemove action, IGuild guild)
+                => Blacklist(imsg, action, guild.Id, BlacklistType.Server);
 
             private async Task Blacklist(IUserMessage imsg, AddRemove action, ulong id, BlacklistType type)
             {

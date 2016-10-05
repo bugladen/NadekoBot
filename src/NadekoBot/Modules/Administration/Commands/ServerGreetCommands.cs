@@ -4,6 +4,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,16 +45,19 @@ namespace NadekoBot.Modules.Administration
                     var msg = conf.ChannelByeMessageText.Replace("%user%", "**" + user.Username + "**");
                     if (string.IsNullOrWhiteSpace(msg))
                         return;
-
-                    var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
-                    if (conf.AutoDeleteByeMessages)
+                    try
                     {
-                        var t = Task.Run(async () =>
+                        var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                        if (conf.AutoDeleteByeMessages)
                         {
-                            await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
-                            await toDelete.DeleteAsync().ConfigureAwait(false);
-                        });
+                            var t = Task.Run(async () =>
+                            {
+                                await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                                await toDelete.DeleteAsync().ConfigureAwait(false);
+                            });
+                        }
                     }
+                    catch (Exception ex) { _log.Warn(ex); }
                 });
                 return Task.CompletedTask;
             }
@@ -76,15 +80,19 @@ namespace NadekoBot.Modules.Administration
                             var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
                             if (!string.IsNullOrWhiteSpace(msg))
                             {
-                                var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
-                                if (conf.AutoDeleteGreetMessages)
+                                try
                                 {
-                                    var t = Task.Run(async () =>
+                                    var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                                    if (conf.AutoDeleteGreetMessages)
                                     {
-                                        await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                                        var t = Task.Run(async () =>
+                                        {
+                                            await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
                                         await toDelete.DeleteAsync().ConfigureAwait(false);
-                                    });
+                                        });
+                                    }
                                 }
+                                catch (Exception ex) { _log.Warn(ex); }
                             }
                         }
                     }

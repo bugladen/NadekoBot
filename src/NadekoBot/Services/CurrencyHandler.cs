@@ -33,7 +33,7 @@ namespace NadekoBot.Services
                 var success = uow.Currency.TryUpdateState(authorId, -amount);
                 if (!success)
                     return false;
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
             return true;
@@ -44,7 +44,7 @@ namespace NadekoBot.Services
             await AddCurrencyAsync(author.Id, reason, amount);
 
             if (sendMessage)
-                await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false);
+                try { await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
         }
 
         public static async Task AddCurrencyAsync(ulong receiverId, string reason, long amount)

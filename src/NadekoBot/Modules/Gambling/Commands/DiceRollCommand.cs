@@ -89,7 +89,6 @@ namespace NadekoBot.Modules.Gambling
                 if (num < 1 || num > 30)
                 {
                     await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
-                    num = 30;
                     return;
                 }
 
@@ -173,7 +172,7 @@ namespace NadekoBot.Modules.Gambling
                 if (num < 1 || num > 30)
                 {
                     await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
-                    num = 30;
+                    return;
                 }
 
                 var rng = new NadekoRandom();

@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Administration
                 var guild = channel.Guild;
                 if (!guild.GetCurrentUser().GuildPermissions.ManageChannels)
                 {
-                    await channel.SendMessageAsync("`I have insufficient permission to do that.`");
+                    await channel.SendMessageAsync("`I have insufficient permission to do that.`").ConfigureAwait(false);
                     return;
                 }
 
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendMessageAsync("`Done.`");
+                await channel.SendMessageAsync("`Done.`").ConfigureAwait(false);
             }
         }
     }

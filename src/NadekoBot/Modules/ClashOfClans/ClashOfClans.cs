@@ -45,9 +45,9 @@ namespace NadekoBot.Modules.ClashOfClans
                 if (Bases[i] == null) continue;
                 if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
-                    await war.Channel.SendMessageAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
                     Bases[i] = null;
-                }
+                    try { await war.Channel.SendMessageAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false); } catch { }
+            }
             }
         }
 

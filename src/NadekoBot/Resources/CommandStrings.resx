@@ -1201,52 +1201,34 @@
     <value>ubl</value>
   </data>
   <data name="userblacklist_desc" xml:space="preserve">
-    <value>Blacklists a mentioned user.  </value>
+    <value>Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist.</value>
   </data>
   <data name="userblacklist_usage" xml:space="preserve">
-    <value>`;ubl [user_mention]`</value>
-  </data>
-  <data name="uubl_cmd" xml:space="preserve">
-    <value>uubl</value>
-  </data>
-  <data name="uubl_desc" xml:space="preserve">
-    <value>Unblacklists a mentioned user.  </value>
-  </data>
-  <data name="uubl_usage" xml:space="preserve">
-    <value>`;uubl [user_mention]`</value>
+    <value>`;ubl add @SomeUser` or `;ubl rem 12312312313`</value>
   </data>
   <data name="channelblacklist_cmd" xml:space="preserve">
     <value>cbl</value>
   </data>
   <data name="channelblacklist_desc" xml:space="preserve">
-    <value>Blacklists a mentioned channel (#general for example).</value>
+    <value>Either [add]s or [rem]oves a channel specified by an ID from a blacklist.</value>
   </data>
   <data name="channelblacklist_usage" xml:space="preserve">
-    <value>`;cbl #some_channel`</value>
-  </data>
-  <data name="cubl_cmd" xml:space="preserve">
-    <value>cubl</value>
-  </data>
-  <data name="cubl_desc" xml:space="preserve">
-    <value>Unblacklists a mentioned channel (#general for example).</value>
-  </data>
-  <data name="cubl_usage" xml:space="preserve">
-    <value>`;cubl #some_channel`</value>
+    <value>`;cbl rem 12312312312`</value>
   </data>
   <data name="serverblacklist_cmd" xml:space="preserve">
     <value>sbl</value>
   </data>
   <data name="serverblacklist_desc" xml:space="preserve">
-    <value>Blacklists a server by a name or id (#general for example).</value>
+    <value>Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist.</value>
   </data>
   <data name="serverblacklist_usage" xml:space="preserve">
-    <value>`;sbl [servername/serverid]`</value>
+    <value>`;sbl add 12312321312` or `;sbl rem SomeTrashServer`</value>
   </data>
   <data name="cmdcooldown_cmd" xml:space="preserve">
     <value>cmdcooldown cmdcd</value>
   </data>
   <data name="cmdcooldown_desc" xml:space="preserve">
-    <value>Sets a cooldown per user for a command. Set 0 to clear.  </value>
+    <value>Sets a cooldown per user for a command. Set 0 to clear.</value>
   </data>
   <data name="cmdcooldown_usage" xml:space="preserve">
     <value>`;cmdcd "some cmd" 5`</value>

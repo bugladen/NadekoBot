@@ -47,8 +47,7 @@ namespace NadekoBot.Modules.Searches
                         var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false);
 
                         res.Position = 0;
-                        await channel.SendFileAsync(res, $"{usr}.png").ConfigureAwait(false);
-                        await channel.SendMessageAsync($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await channel.SendFileAsync(res, $"{usr}.png", $"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {

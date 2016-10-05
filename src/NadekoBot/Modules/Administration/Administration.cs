@@ -42,14 +42,14 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (shouldDelete)
-                    await e.Message.DeleteAsync();
+                    await e.Message.DeleteAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _log.Warn(ex, "Delmsgoncmd errored...");
             }
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
@@ -57,9 +57,10 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            await channel.SendMessageAsync("`Restarting in 2 seconds...`");
-            await Task.Delay(2000);
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo {
+            await channel.SendMessageAsync("`Restarting in 2 seconds...`").ConfigureAwait(false);
+            await Task.Delay(2000).ConfigureAwait(false);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
                 Arguments = "dotnet " + System.Reflection.Assembly.GetEntryAssembly().Location
             });
             Environment.Exit(0);
@@ -80,9 +81,9 @@ namespace NadekoBot.Modules.Administration
                 await uow.CompleteAsync();
             }
             if (conf.DeleteMessageOnCommand)
-                await channel.SendMessageAsync("❗`Now automatically deleting successfull command invokations.`");
+                await channel.SendMessageAsync("❗`Now automatically deleting successfull command invokations.`").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("❗`Stopped automatic deletion of successfull command invokations.`");
+                await channel.SendMessageAsync("❗`Stopped automatic deletion of successfull command invokations.`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -504,7 +505,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            await channel.SendMessageAsync("`Shutting down.`").ConfigureAwait(false);
+            try { await channel.SendMessageAsync("`Shutting down.`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             await Task.Delay(2000).ConfigureAwait(false);
             Environment.Exit(0);
         }
@@ -589,7 +590,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     return;
                 }
-                await ch.SendMessageAsync(msg);
+                await ch.SendMessageAsync(msg).ConfigureAwait(false);
             }
             else if (ids[1].ToUpperInvariant().StartsWith("U:"))
             {
@@ -599,11 +600,11 @@ namespace NadekoBot.Modules.Administration
                 {
                     return;
                 }
-                await user.SendMessageAsync(msg);
+                await user.SendMessageAsync(msg).ConfigureAwait(false);
             }
             else
             {
-                await channel.SendMessageAsync("`Invalid format.`");
+                await channel.SendMessageAsync("`Invalid format.`").ConfigureAwait(false);
             }
         }
 
@@ -618,7 +619,8 @@ namespace NadekoBot.Modules.Administration
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
 
-            await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"`Message from {umsg.Author} (Bot Owner):` " + message)));
+            await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"`Message from {umsg.Author} (Bot Owner):` " + message)))
+                    .ConfigureAwait(false);
 
             await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
         }

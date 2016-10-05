@@ -14,8 +14,9 @@ namespace NadekoBot.TypeReaders
         public override Task<TypeReaderResult> Read(IUserMessage context, string input)
         {
             input = input.Trim().ToLowerInvariant();
-            var guild = NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Id.ToString().Trim().ToLowerInvariant() == input) ?? //by id
-                NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Name.Trim().ToLowerInvariant() == input);//by name
+            var guilds = NadekoBot.Client.GetGuilds();
+            var guild = guilds.FirstOrDefault(g => g.Id.ToString().Trim().ToLowerInvariant() == input) ?? //by id
+                        guilds.FirstOrDefault(g => g.Name.Trim().ToLowerInvariant() == input); //by name
 
             if (guild != null)
                 return Task.FromResult(TypeReaderResult.FromSuccess(guild));

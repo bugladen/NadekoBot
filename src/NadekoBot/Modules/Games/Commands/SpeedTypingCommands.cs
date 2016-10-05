@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,9 +25,11 @@ namespace NadekoBot.Modules.Games
             public bool IsActive;
             private readonly Stopwatch sw;
             private readonly List<ulong> finishedUserIds;
+            private Logger _log { get; }
 
             public TypingGame(ITextChannel channel)
             {
+                _log = LogManager.GetCurrentClassLogger();
                 this.channel = channel;
                 IsActive = false;
                 sw = new Stopwatch();
@@ -43,41 +46,43 @@ namespace NadekoBot.Modules.Games
                 IsActive = false;
                 sw.Stop();
                 sw.Reset();
-                await channel.SendMessageAsync("Typing contest stopped").ConfigureAwait(false);
+                try { await channel.SendMessageAsync("Typing contest stopped").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 return true;
             }
 
             public async Task Start()
             {
-                while (true)
+                if (IsActive) return; // can't start running game
+                IsActive = true;
+                CurrentSentence = GetRandomSentence();
+                var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
+                await channel.SendMessageAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
+
+
+                var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
+                await Task.Delay(1000).ConfigureAwait(false);
+                try
                 {
-                    if (IsActive) return; // can't start running game
-                    IsActive = true;
-                    CurrentSentence = GetRandomSentence();
-                    var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
-                    await channel.SendMessageAsync($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
-
-
-                    var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
                     await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
                     await Task.Delay(1000).ConfigureAwait(false);
                     await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
                     await Task.Delay(1000).ConfigureAwait(false);
-                    await msg.ModifyAsync(m => m.Content = $":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
-                    sw.Start();
-                    HandleAnswers();
-
-                    while (i > 0)
-                    {
-                        await Task.Delay(1000).ConfigureAwait(false);
-                        i--;
-                        if (!IsActive)
-                            return;
-                    }
-
-                    await Stop().ConfigureAwait(false);
                 }
+                catch (Exception ex) { _log.Warn(ex); }
+
+                await msg.ModifyAsync(m => m.Content = $":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
+                sw.Start();
+                HandleAnswers();
+
+                while (i > 0)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    i--;
+                    if (!IsActive)
+                        return;
+                }
+
+                await Stop().ConfigureAwait(false);
             }
 
             public string GetRandomSentence()

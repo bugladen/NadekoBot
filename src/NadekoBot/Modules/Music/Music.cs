@@ -574,19 +574,19 @@ namespace NadekoBot.Modules.Music
                 await channel.SendMessageAsync("`Can't find playlist with that ID`").ConfigureAwait(false);
                 return;
             }
-
-            var msg = await channel.SendMessageAsync($"`Attempting to load {mpl.Songs.Count} songs...`").ConfigureAwait(false);
+            IUserMessage msg = null;
+            try { msg = await channel.SendMessageAsync($"`Attempting to load {mpl.Songs.Count} songs...`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
+                var usr = (IGuildUser)umsg.Author;
                 try
                 {
-                    var usr = (IGuildUser)umsg.Author;
                     await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
                 }
                 catch { break; }
             }
-
-            await msg.ModifyAsync(m => m.Content = $"`Done loading playlist {mpl.Name}.`").ConfigureAwait(false);
+            if (msg != null)
+                await msg.ModifyAsync(m => m.Content = $"`Done loading playlist {mpl.Name}.`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -769,16 +769,13 @@ namespace NadekoBot.Modules.Music
                                 await lastFinishedMessage.DeleteAsync().ConfigureAwait(false);
                             if (playingMessage != null)
                                 await playingMessage.DeleteAsync().ConfigureAwait(false);
-                            lastFinishedMessage = await textCh.SendMessageAsync($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false);
+                            try { lastFinishedMessage = await textCh.SendMessageAsync($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false); } catch { }
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
                                 await QueueSong(queuer.Guild.GetCurrentUser(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
                             }
                         }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
+                        catch { }
                     }
                 };
                 mp.OnStarted += async (s, song) =>
@@ -789,13 +786,8 @@ namespace NadekoBot.Modules.Music
                         if (sender == null)
                             return;
 
-                        try
-                        {
-
                             var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                            playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false);
-                        }
-                        catch { }
+                        try { playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false); } catch { }
                     }
                 };
                 return mp;
@@ -810,23 +802,25 @@ namespace NadekoBot.Modules.Music
             }
             catch (PlaylistFullException)
             {
-                await textCh.SendMessageAsync($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` ");
+                try { await textCh.SendMessageAsync($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` "); } catch { }
                 throw;
             }
             if (!silent)
             {
-                var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Task.Run(async () =>
+                try
                 {
-                    await Task.Delay(10000).ConfigureAwait(false);
-                    try
+                    var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
+                    var t = Task.Run(async () =>
                     {
-                        await queuedMessage.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch { }
-                }).ConfigureAwait(false);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        await Task.Delay(10000).ConfigureAwait(false);
+                        try
+                        {
+                            await queuedMessage.DeleteAsync().ConfigureAwait(false);
+                        }
+                        catch { }
+                    }).ConfigureAwait(false);
+                }
+                catch { } // if queued message sending fails, don't attempt to delete it
             }
         }
     }

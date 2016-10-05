@@ -68,9 +68,9 @@ namespace NadekoBot.Modules.Searches
                                         msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
                                     else if (stream.Type == FollowedStream.FollowedStreamType.Beam)
                                         msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
-                                    //else if (stream.Type == FollowedStream.FollowedStreamType.YoutubeGaming)
-                                    //    msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
-                                await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                                //else if (stream.Type == FollowedStream.FollowedStreamType.YoutubeGaming)
+                                //    msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
+                                try { await channel.SendMessageAsync(msg).ConfigureAwait(false); } catch { }
                             }
                         }
                         FirstPass = false;

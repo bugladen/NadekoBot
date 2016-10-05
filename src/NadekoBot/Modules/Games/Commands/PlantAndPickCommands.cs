@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -40,9 +41,11 @@ namespace NadekoBot.Modules.Games
 
             private float chance;
             private int cooldown;
+            private Logger _log { get; }
 
             public PlantPickCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
                 rng = new NadekoRandom();
 
@@ -121,14 +124,10 @@ namespace NadekoBot.Modules.Games
                 await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
                 var msg = await channel.SendMessageAsync($"**{imsg.Author.Username}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                 var t = Task.Run(async () =>
-                 {
-                     try
-                     {
-                         await Task.Delay(10000).ConfigureAwait(false);
-                         await msg.DeleteAsync().ConfigureAwait(false);
-                     }
-                     catch { }
-                 });
+                {
+                    await Task.Delay(10000).ConfigureAwait(false);
+                    try { await msg.DeleteAsync().ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                });
             }
 
             [NadekoCommand, Usage, Description, Aliases]
