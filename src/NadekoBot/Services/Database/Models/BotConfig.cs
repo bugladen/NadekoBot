@@ -33,6 +33,11 @@ namespace NadekoBot.Services.Database.Models
 
         public List<EightBallResponse> EightBallResponses { get; set; } = new List<EightBallResponse>();
         public List<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>();
+
+        public string DMHelpString { get; set; } 
+        public string HelpString { get; set; }
+
+        public int MigrationVersion { get; set; }
     }
 
     public class PlayingStatus :DbEntity

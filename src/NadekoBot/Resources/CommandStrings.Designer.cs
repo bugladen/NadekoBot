@@ -4083,6 +4083,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Migrate data from old bot configuration.
+        /// </summary>
+        public static string migratedata_desc {
+            get {
+                return ResourceManager.GetString("migratedata_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.migratedata`.
+        /// </summary>
+        public static string migratedata_summary {
+            get {
+                return ResourceManager.GetString("migratedata_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to migratedata.
+        /// </summary>
+        public static string migratedata_text {
+            get {
+                return ResourceManager.GetString("migratedata_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to List all bot modules..
         /// </summary>
         public static string modules_desc {
