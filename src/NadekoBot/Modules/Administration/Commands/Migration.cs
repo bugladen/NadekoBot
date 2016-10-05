@@ -11,6 +11,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
+using NadekoBot.Modules.Administration.Commands.Migration;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -46,7 +47,7 @@ namespace NadekoBot.Modules.Administration
                         switch (i)
                         {
                             case 0:
-                                Migrate0_9To1_0();
+                                await Migrate0_9To1_0();
                                 break;
                         }
                     }
@@ -54,11 +55,11 @@ namespace NadekoBot.Modules.Administration
                 }
                 catch (MigrationException)
                 {
-                    await umsg.Channel.SendMessageAsync("Error while migrating, check logs for more informations").ConfigureAwait(false);
+                    await umsg.Channel.SendMessageAsync(":warning: Error while migrating, check logs for more informations.").ConfigureAwait(false);
                 }
             }
 
-            private void Migrate0_9To1_0()
+            private async Task Migrate0_9To1_0()
             {
                 Config0_9 oldData;
                 try
@@ -67,13 +68,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 catch (FileNotFoundException)
                 {
-                    _log.Warn("config.json not found, assuming not needed");
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        var botConfig = uow.BotConfig.GetOrCreate();
-                        botConfig.MigrationVersion = 1;
-                        uow.CompleteAsync().ConfigureAwait(false);
-                    }
+                    _log.Warn("config.json not found");
                     return;
                 }
                 catch (Exception)
@@ -167,54 +162,9 @@ namespace NadekoBot.Modules.Administration
 
                     //NOW save it
                     botConfig.MigrationVersion = 1;
-                    uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
             }
-
-            private class MigrationException : Exception
-            {
-            }
-
-            protected class CommandPrefixes0_9
-            {
-                public string Administration { get; set; }
-                public string Searches { get; set; }
-                public string NSFW { get; set; }
-                public string Conversations { get; set; }
-                public string ClashOfClans { get; set; }
-                public string Help { get; set; }
-                public string Music { get; set; }
-                public string Trello { get; set; }
-                public string Games { get; set; }
-                public string Gambling { get; set; }
-                public string Permissions { get; set; }
-                public string Programming { get; set; }
-                public string Pokemon { get; set; }
-                public string Utility { get; set; }
-            }
-
-            protected class Config0_9
-            {
-                public bool DontJoinServers { get; set; }
-                public bool ForwardMessages { get; set; }
-                public bool ForwardToAllOwners { get; set; }
-                public bool IsRotatingStatus { get; set; }
-                public int BufferSize { get; set; }
-                public List<string> RaceAnimals { get; set; }
-                public string RemindMessageFormat { get; set; }
-                public Dictionary<string, List<string>> CustomReactions { get; set; }
-                public List<string> RotatingStatuses { get; set; }
-                public CommandPrefixes0_9 CommandPrefixes { get; set; }
-                public List<ulong> ServerBlacklist { get; set; }
-                public List<ulong> ChannelBlacklist { get; set; }
-                public List<ulong> UserBlacklist { get; set; }
-                public List<string> _8BallResponses { get; set; }
-                public string CurrencySign { get; set; }
-                public string CurrencyName { get; set; }
-                public string DMHelpString { get; set; }
-                public string HelpString { get; set; }
-            }
-
         }
     }
 }
