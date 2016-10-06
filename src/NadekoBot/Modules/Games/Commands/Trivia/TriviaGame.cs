@@ -106,6 +106,8 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private Task PotentialGuess(IMessage imsg)
         {
+            if (imsg.Author.IsBot)
+                return Task.CompletedTask;
             var umsg = imsg as IUserMessage;
             if (umsg == null)
                 return Task.CompletedTask;

@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Games
             private Task PotentialFlowerGeneration(IMessage imsg)
             {
                 var msg = imsg as IUserMessage;
-                if (msg == null || msg.IsAuthor())
+                if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
                     return Task.CompletedTask;
 
                 var channel = imsg.Channel as ITextChannel;

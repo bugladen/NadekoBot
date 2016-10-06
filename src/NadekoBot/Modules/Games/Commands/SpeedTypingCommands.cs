@@ -101,6 +101,8 @@ namespace NadekoBot.Modules.Games
 
             private Task AnswerReceived(IMessage imsg)
             {
+                if (imsg.Author.IsBot)
+                    return Task.CompletedTask;
                 var msg = imsg as IUserMessage;
                 if (msg == null)
                     return Task.CompletedTask;

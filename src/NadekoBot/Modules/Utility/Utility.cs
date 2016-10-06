@@ -144,12 +144,25 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Stats(IUserMessage umsg)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             await channel.SendMessageAsync(await NadekoBot.Stats.Print());
+        }
+
+        private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Showemojis(IUserMessage msg, [Remainder] string emojis)
+        {
+            var matches = emojiFinder.Matches(emojis);
+
+
+
+            var result = string.Join("\n", matches.Cast<Match>()
+                                                  .Select(m => $"`Name:` {m.Groups["name"]} `Link:` http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
+            
+            await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
     }
 }

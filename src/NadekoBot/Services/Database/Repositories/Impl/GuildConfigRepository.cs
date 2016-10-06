@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NadekoBot.Modules.Permissions;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
 {
@@ -88,5 +89,15 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             _set.Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
+
+        public void SetNewRootPermission(ulong guildId, Permission p)
+        {
+            var data = _set
+                        .Include(gc => gc.RootPermission)
+                        .FirstOrDefault(gc => gc.GuildId == guildId);
+
+            data.RootPermission.Prepend(p);
+            data.RootPermission = p;
+        }
     }
 }

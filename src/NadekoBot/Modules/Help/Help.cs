@@ -11,31 +11,40 @@ using System.Text;
 using Discord.WebSocket;
 using System.Collections;
 using System.Collections.Generic;
+using NadekoBot.Services.Database;
+using System.Threading;
 
 namespace NadekoBot.Modules.Help
 {
     [NadekoModule("Help", "-")]
     public partial class Help : DiscordModule
     {
-        public string HelpString {
-            get {
-                var str = @"To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>
-You can use `{1}modules` command to see a list of all modules.
-You can use `{1}commands ModuleName`
-(for example `{1}commands Administration`) to see a list of all of the commands in that module.
-For a specific command help, use `{1}h CommandName` (for example {1}h !!q)
+        private static string helpString { get; }
+        public static string HelpString => String.Format(helpString, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);
 
+        public static string DMHelpString { get; }
 
-**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
-<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
-
-
-Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
-                return String.Format(str, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);
+        static Help()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var config = uow.BotConfig.GetOrCreate();
+                helpString = config.HelpString;
+                DMHelpString = config.DMHelpString;
             }
         }
+
         public Help(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
+            client.MessageReceived += async (msg) =>
+            {
+                if (msg.Author.IsBot)
+                    return;
+                if (msg.Channel is IPrivateChannel)
+                {
+                    await msg.Channel.SendMessageAsync(DMHelpString).ConfigureAwait(false);
+                }
+            };
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -44,6 +53,30 @@ Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
 
             await umsg.Channel.SendMessageAsync("`List of modules:` ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` `Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
+
+            await RunWithTypingIntheBackgorund(async () =>
+            {
+                await Task.Delay(100000);
+            }, umsg);
+        }
+
+        private async Task RunWithTypingIntheBackgorund(Func<Task> someFUnc, IUserMessage ctx)
+        {
+            var cancelSource = new CancellationTokenSource();
+            var cancelToken = cancelSource.Token;
+            var t = Task.Run(async () => 
+            {
+                while (!cancelToken.IsCancellationRequested)
+                {
+                    await Task.Delay(10000);
+                    await ctx.Channel.TriggerTypingAsync();
+                }
+            }, cancelToken);
+            try
+            {
+                await someFUnc();
+            }
+            finally { cancelSource.Cancel(); }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

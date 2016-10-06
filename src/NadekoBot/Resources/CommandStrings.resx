@@ -2610,4 +2610,13 @@
   <data name="checkstream_cmd" xml:space="preserve">
     <value>checkstream cs</value>
   </data>
+  <data name="showemojis_cmd" xml:space="preserve">
+    <value>showemojis se</value>
+  </data>
+  <data name="showemojis_desc" xml:space="preserve">
+    <value>Shows a name and a link to every special emoji in the message.</value>
+  </data>
+  <data name="showemojis_usage" xml:space="preserve">
+    <value>`.se A message full of emojis`</value>
+  </data>
 </root>

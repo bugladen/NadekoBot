@@ -176,8 +176,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
@@ -199,8 +198,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module on this server.").ConfigureAwait(false);
@@ -222,8 +220,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
@@ -245,8 +242,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
@@ -268,8 +264,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
@@ -291,8 +286,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
@@ -315,8 +309,7 @@ namespace NadekoBot.Modules.Permissions
                         SecondaryTargetName = command.Text.ToLowerInvariant(),
                         State = action.Value,
                     };
-                    uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                    uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                    uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
             }
@@ -342,8 +335,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
@@ -365,8 +357,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
@@ -388,8 +379,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
@@ -411,8 +401,7 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
@@ -434,75 +423,10 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Prepend(newPerm);
-                uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = newPerm;
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);
         }
-
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task AllChnlCmds(IUserMessage imsg, Module module, PermissionAction action, ITextChannel chnl)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-
-        //    using (var uow = DbHandler.UnitOfWork())
-        //    {
-        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
-        //        {
-        //            PrimaryTarget = PrimaryPermissionType.Channel,
-        //            PrimaryTargetId = chnl.Id,
-        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
-        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
-        //            State = action.Value,
-        //        });
-        //        await uow.CompleteAsync().ConfigureAwait(false);
-        //    }
-        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
-        //}
-
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task AllRoleCmds(IUserMessage imsg, Module module, PermissionAction action, IRole role)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-
-        //    using (var uow = DbHandler.UnitOfWork())
-        //    {
-        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
-        //        {
-        //            PrimaryTarget = PrimaryPermissionType.Role,
-        //            PrimaryTargetId = role.Id,
-        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
-        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
-        //            State = action.Value,
-        //        });
-        //        await uow.CompleteAsync().ConfigureAwait(false);
-        //    }
-        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
-        //}
-
-        //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task AllUsrCmds(IUserMessage imsg, Module module, PermissionAction action, IUser user)
-        //{
-        //    var channel = (ITextChannel)imsg.Channel;
-
-        //    using (var uow = DbHandler.UnitOfWork())
-        //    {
-        //        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission.Add(new Permission
-        //        {
-        //            PrimaryTarget = PrimaryPermissionType.User,
-        //            PrimaryTargetId = user.Id,
-        //            SecondaryTarget = SecondaryPermissionType.AllCommands,
-        //            SecondaryTargetName = module.Name.ToLowerInvariant(),
-        //            State = action.Value,
-        //        });
-        //        await uow.CompleteAsync().ConfigureAwait(false);
-        //    }
-        //    await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL COMMANDS` from `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
-        //}
-
     }
 }

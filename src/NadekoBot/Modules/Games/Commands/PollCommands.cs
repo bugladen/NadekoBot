@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Games
         {
             // has to be a user message
             var msg = imsg as IUserMessage;
-            if (msg == null)
+            if (msg == null || msg.Author.IsBot)
                 return Task.CompletedTask;
             // channel must be private
             IPrivateChannel ch;

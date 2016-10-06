@@ -23,6 +23,9 @@ namespace NadekoBot.Modules.Administration
                 _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.MessageReceived += (imsg) =>
                 {
+                    if (imsg.Author.IsBot)
+                        return Task.CompletedTask;
+
                     var msg = imsg as IUserMessage;
                     if (msg == null)
                         return Task.CompletedTask;
