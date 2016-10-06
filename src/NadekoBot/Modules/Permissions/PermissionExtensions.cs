@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -89,7 +90,7 @@ namespace NadekoBot.Modules.Permissions
             return null;
         }
 
-        public static string GetCommand(this Permission perm)
+        public static string GetCommand(this Permission perm, IGuild guild = null)
         {
             var com = "";
             switch (perm.PrimaryTarget)
@@ -125,7 +126,10 @@ namespace NadekoBot.Modules.Permissions
             switch (perm.PrimaryTarget)
             {
                 case PrimaryPermissionType.User:
-                    com += $"<@{perm.PrimaryTargetId}>";
+                    if (guild == null)
+                        com += $"<@{perm.PrimaryTargetId}>";
+                    else
+                        com += guild.GetUser(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Channel:
                     com += $"<#{perm.PrimaryTargetId}>";

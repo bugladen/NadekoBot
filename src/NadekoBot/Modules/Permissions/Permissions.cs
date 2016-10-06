@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Permissions
                 var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
 
                 var i = 1;
-                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {p.GetCommand()}"));
+                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {p.GetCommand(channel.Guild)}"));
             }
 
             if (string.IsNullOrWhiteSpace(toSend))
