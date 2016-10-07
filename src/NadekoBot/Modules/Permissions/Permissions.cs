@@ -172,6 +172,12 @@ namespace NadekoBot.Modules.Permissions
                                 await channel.SendMessageAsync($"`Can't find permission at index `#{++from}`").ConfigureAwait(false);
                                 return;
                             }
+
+                            if (!toFound)
+                            {
+                                await channel.SendMessageAsync($"`Can't find permission at index `#{++to}`").ConfigureAwait(false);
+                                return;
+                            }
                         }
 
                         //Change chain for from indx
