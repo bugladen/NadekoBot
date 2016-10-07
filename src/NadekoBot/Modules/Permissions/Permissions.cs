@@ -91,7 +91,8 @@ namespace NadekoBot.Modules.Permissions
                 Permission p;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
+                    var config = uow.GuildConfigs.PermissionsFor(channel.Guild.Id);
+                    var perms = config.RootPermission;
                     if (index == perms.Count() - 1)
                     {
                         return;
@@ -99,7 +100,7 @@ namespace NadekoBot.Modules.Permissions
                     else if (index == 0)
                     {
                         p = perms;
-                        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = perms.Next;
+                        config.RootPermission = perms.Next;
                     }
                     else
                     {
@@ -114,7 +115,7 @@ namespace NadekoBot.Modules.Permissions
                     uow2._context.SaveChanges();
                 }
 
-                await channel.SendMessageAsync($"{imsg.Author.Mention} removed permission **{p.GetCommand()}** from position #{index + 1}.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{imsg.Author.Mention} removed permission **{p.GetCommand(channel.Guild)}** from position #{index + 1}.").ConfigureAwait(false);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -136,21 +137,29 @@ namespace NadekoBot.Modules.Permissions
                     Permission toInsert;
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
+                        var config = uow.GuildConfigs.PermissionsFor(channel.Guild.Id);
+                        var perms = config.RootPermission;
                         if (from == 0)
+                        {
                             toInsert = perms;
+                            perms = perms.Next;
+                            toInsert.Previous = null;
+                            toInsert.Next = null;
+                            perms.Previous = null;
+                        }
                         else
+                        {
                             toInsert = perms.RemoveAt(from);
-                        if (from < to)
-                            to -= 1;
-                        var last = perms.Count() - 1;
-                        if (from == last || to == last)
+                            toInsert.Previous = null;
+                        }
+                        var size = perms.Count();
+                        if (from == size || to == size)
                             throw new IndexOutOfRangeException();
                         perms.Insert(to, toInsert);
-                        uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission = perms.GetRoot();
+                        config.RootPermission = perms.GetRoot();
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendMessageAsync($"`Moved permission:` \"{toInsert.GetCommand()}\" `from #{from} to #{to}.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"`Moved permission:` \"{toInsert.GetCommand(channel.Guild)}\" `from #{from} to #{to}.`").ConfigureAwait(false);
                     return;
                 }
                 catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)

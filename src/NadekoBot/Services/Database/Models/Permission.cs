@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Database.Models
 {
+    [DebuggerDisplay("{global::NadekoBot.Modules.Permissions.PermissionExtensions.GetCommand(this)}", Target = typeof(Permission))]
     public class Permission : DbEntity
     {
         public Permission Previous { get; set; } = null;
@@ -49,6 +51,15 @@ namespace NadekoBot.Services.Database.Models
 
             return blockNsfw;
         }
+
+        public Permission Clone() => new Permission()
+        {
+            PrimaryTarget = PrimaryTarget,
+            SecondaryTarget = SecondaryTarget,
+            PrimaryTargetId = PrimaryTargetId,
+            SecondaryTargetName = SecondaryTargetName,
+            State = State,
+        };
     }
 
     public enum PrimaryPermissionType

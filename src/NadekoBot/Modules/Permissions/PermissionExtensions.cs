@@ -6,6 +6,7 @@ using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -159,8 +160,7 @@ namespace NadekoBot.Modules.Permissions
 
             if (index == 0)
             {
-                perm.Previous = toAdd;
-                toAdd.Next = perm;
+                perm.Prepend(toAdd);
                 return;
             }
 

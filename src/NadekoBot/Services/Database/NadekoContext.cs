@@ -186,8 +186,8 @@ namespace NadekoBot.Services.Database
             var permissionEntity = modelBuilder.Entity<Permission>();
             permissionEntity
                 .HasOne(p => p.Next)
-                .WithOne(p => p.Previous);
-
+                .WithOne(p => p.Previous)
+                .IsRequired(false);
             #endregion
 
             #region LogSettings
