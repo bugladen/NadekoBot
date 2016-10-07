@@ -69,9 +69,8 @@ namespace NadekoBot.Modules.Permissions
             using (var uow = DbHandler.UnitOfWork())
             {
                 var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
-
                 var i = 1;
-                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {p.GetCommand(channel.Guild)}"));
+                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand(channel.Guild) + " [uneditable]") : (p.GetCommand(channel.Guild)))}"));
             }
 
             if (string.IsNullOrWhiteSpace(toSend))
@@ -144,7 +143,6 @@ namespace NadekoBot.Modules.Permissions
                         var index = 0;
                         var fromFound = false;
                         var toFound = false;
-                        var isLast = true;
                         while ((!toFound || !fromFound) && perms != null)
                         {
                             if (index == from)
@@ -156,7 +154,6 @@ namespace NadekoBot.Modules.Permissions
                             {
                                 toPerm = perms;
                                 toFound = true;
-                                isLast = false;
                             }
                             if (!toFound)
                             {
@@ -185,38 +182,38 @@ namespace NadekoBot.Modules.Permissions
                         var pre = fromPerm.Previous;
                         if (pre != null)
                             pre.Next = next;
-                        if (next != null)
+                        if (fromPerm.Next == null || toPerm.Next == null)
                         {
-                            next.Previous = pre;
+                            throw new IndexOutOfRangeException();
                         }
+                        next.Previous = pre;
                         if (from == 0)
                         {
                             root = next;
                         }
                         await uow.CompleteAsync().ConfigureAwait(false);
                         //Inserting
-                        pre = toPerm.Previous;
-                        if (isLast)
+                        if (to > from)
                         {
-                            toPerm.Next = fromPerm;
                             fromPerm.Previous = toPerm;
-                            fromPerm.Next = null;
+                            fromPerm.Next = toPerm.Next;
+
+                            toPerm.Next.Previous = fromPerm;
+                            toPerm.Next = fromPerm;
                         }
                         else
                         {
+                            pre = toPerm.Previous;
+
                             fromPerm.Next = toPerm;
                             fromPerm.Previous = pre;
-                            if (pre != null)
-                            {
-                                pre.Next = fromPerm;
-                            }
-                            else
-                            {
-                                root = fromPerm;
-                            }
+
                             toPerm.Previous = fromPerm;
+                            if (pre != null)
+                                pre.Next = fromPerm;
                         }
-                        config.RootPermission = root;
+
+                        config.RootPermission = fromPerm.GetRoot();
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
                     await channel.SendMessageAsync($"`Moved permission:` \"{fromPerm.GetCommand(channel.Guild)}\" `from #{++from} to #{++to}.`").ConfigureAwait(false);
@@ -478,7 +475,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action, [Remainder] IUser user)
+        public async Task AllSrvrMdls(IUserMessage imsg, PermissionAction action)
         {
             var channel = (ITextChannel)imsg.Channel;
 
