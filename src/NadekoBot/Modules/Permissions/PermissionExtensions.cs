@@ -153,6 +153,7 @@ namespace NadekoBot.Modules.Permissions
             toAdd.Next = perm;
         }
 
+        /* /this can't work if index < 0 and perm isn't roo
         public static void Insert(this Permission perm, int index, Permission toAdd)
         {
             if (index < 0)
@@ -183,7 +184,7 @@ namespace NadekoBot.Modules.Permissions
             toAdd.Previous = previous;
             previous.Next = toAdd;
         }
-
+        */
         public static Permission RemoveAt(this Permission perm, int index)
         {
             if (index <= 0) //can't really remove at 0, that means deleting the element right now. Just use perm.Next if its 0

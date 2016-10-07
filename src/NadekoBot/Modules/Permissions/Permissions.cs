@@ -134,32 +134,86 @@ namespace NadekoBot.Modules.Permissions
             {
                 try
                 {
-                    Permission toInsert;
+                    Permission fromPerm = null;
+                    Permission toPerm = null;
                     using (var uow = DbHandler.UnitOfWork())
                     {
                         var config = uow.GuildConfigs.PermissionsFor(channel.Guild.Id);
                         var perms = config.RootPermission;
+                        var root = perms;
+                        var index = 0;
+                        var fromFound = false;
+                        var toFound = false;
+                        var isLast = true;
+                        while ((!toFound || !fromFound) && perms != null)
+                        {
+                            if (index == from)
+                            {
+                                fromPerm = perms;
+                                fromFound = true;
+                            }
+                            if (index == to)
+                            {
+                                toPerm = perms;
+                                toFound = true;
+                                isLast = false;
+                            }
+                            if (!toFound)
+                            {
+                                toPerm = perms; //In case of to > size
+                            }
+                            perms = perms.Next;
+                            index++;
+                        }
+                        if (perms == null)
+                        {
+                            if (!fromFound)
+                            {
+                                await channel.SendMessageAsync($"`Can't find permission at index `#{++from}`").ConfigureAwait(false);
+                                return;
+                            }
+                        }
+
+                        //Change chain for from indx
+                        var next = fromPerm.Next;
+                        var pre = fromPerm.Previous;
+                        if (pre != null)
+                            pre.Next = next;
+                        if (next != null)
+                        {
+                            next.Previous = pre;
+                        }
                         if (from == 0)
                         {
-                            toInsert = perms;
-                            perms = perms.Next;
-                            toInsert.Previous = null;
-                            toInsert.Next = null;
-                            perms.Previous = null;
+                            root = next;
+                        }
+                        await uow.CompleteAsync().ConfigureAwait(false);
+                        //Inserting
+                        pre = toPerm.Previous;
+                        if (isLast)
+                        {
+                            toPerm.Next = fromPerm;
+                            fromPerm.Previous = toPerm;
+                            fromPerm.Next = null;
                         }
                         else
                         {
-                            toInsert = perms.RemoveAt(from);
-                            toInsert.Previous = null;
+                            fromPerm.Next = toPerm;
+                            fromPerm.Previous = pre;
+                            if (pre != null)
+                            {
+                                pre.Next = fromPerm;
+                            }
+                            else
+                            {
+                                root = fromPerm;
+                            }
+                            toPerm.Previous = fromPerm;
                         }
-                        var size = perms.Count();
-                        if (from == size || to == size)
-                            throw new IndexOutOfRangeException();
-                        perms.Insert(to, toInsert);
-                        config.RootPermission = perms.GetRoot();
+                        config.RootPermission = root;
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendMessageAsync($"`Moved permission:` \"{toInsert.GetCommand(channel.Guild)}\" `from #{from} to #{to}.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"`Moved permission:` \"{fromPerm.GetCommand(channel.Guild)}\" `from #{++from} to #{++to}.`").ConfigureAwait(false);
                     return;
                 }
                 catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
