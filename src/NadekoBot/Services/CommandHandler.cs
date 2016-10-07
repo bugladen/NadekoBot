@@ -14,6 +14,8 @@ using NadekoBot.Modules.Permissions;
 using Microsoft.Data.Sqlite;
 using Discord.Net;
 using NadekoBot.Extensions;
+using static NadekoBot.Modules.Permissions.Permissions;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Services
 {
@@ -89,6 +91,8 @@ namespace NadekoBot.Services
                     return;
                 }
             }
+
+
 
             try
             {
@@ -234,6 +238,10 @@ namespace NadekoBot.Services
                         }
                     }
                 }
+
+
+                if (CmdCdsCommands.HasCooldown(cmd, guild, user))
+                    return new Tuple<Command, IResult>(cmd, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
 
                 return new Tuple<Command, IResult>(commands[i], await commands[i].Execute(message, parseResult));
             }

@@ -27,6 +27,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
                 .Include(gc => gc.FilteredWords)
+                .Include(gc => gc.CommandCooldowns)
                 .ToList();
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                             .Include(gc => gc.FilterInvitesChannelIds)
                             .Include(gc => gc.FilterWordsChannelIds)
                             .Include(gc => gc.FilteredWords)
+                            .Include(gc => gc.CommandCooldowns)
                             .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
