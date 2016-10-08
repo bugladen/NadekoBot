@@ -2175,7 +2175,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck..
+        ///    Looks up a localized string similar to Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck..
         /// </summary>
         public static string draw_desc {
             get {
@@ -2184,7 +2184,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `$draw [x]`.
+        ///    Looks up a localized string similar to `$draw` or `$draw 5`.
         /// </summary>
         public static string draw_usage {
             get {

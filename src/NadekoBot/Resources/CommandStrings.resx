@@ -1309,10 +1309,10 @@
     <value>draw</value>
   </data>
   <data name="draw_desc" xml:space="preserve">
-    <value>Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck.</value>
+    <value>Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.</value>
   </data>
   <data name="draw_usage" xml:space="preserve">
-    <value>`$draw [x]`</value>
+    <value>`$draw` or `$draw 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
     <value>shuffle sh</value>
