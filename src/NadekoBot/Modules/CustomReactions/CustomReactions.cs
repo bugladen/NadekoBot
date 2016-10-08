@@ -23,9 +23,9 @@ namespace NadekoBot.Modules.CustomReactions
         {
             using (var uow = DbHandler.UnitOfWork())
             {
-                var list = uow.CustomReactions.GetList();
-                AllReactions = new ConcurrentDictionary<ulong, HashSet<CustomReaction>>(list.Where(g => g.GuildId != null).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => new HashSet<CustomReaction>(g)));
-                GlobalReactions = new HashSet<CustomReaction>(list.Where(g => g.GuildId == null));
+                var items = uow.CustomReactions.GetAll();
+                AllReactions = new ConcurrentDictionary<ulong, HashSet<CustomReaction>>(items.Where(g => g.GuildId != null).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => new HashSet<CustomReaction>(g)));
+                GlobalReactions = new HashSet<CustomReaction>(items.Where(g => g.GuildId == null));
             }
         }
         public CustomReactions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)

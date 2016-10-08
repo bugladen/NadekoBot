@@ -37,8 +37,8 @@ namespace NadekoBot.Services.Database
 
         public NadekoContext()
         {
-            this.Database.Migrate();
-            EnsureSeedData();
+           // this.Database.Migrate();
+           //  EnsureSeedData();
         }
 
         public void EnsureSeedData()

@@ -13,10 +13,5 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public CustomReactionsRepository(DbContext context) : base(context)
         {
         }
-
-        public List<CustomReaction> GetList()
-        {
-            return _set.Include(x => x.Responses).ToList();
-        }
     }
 }

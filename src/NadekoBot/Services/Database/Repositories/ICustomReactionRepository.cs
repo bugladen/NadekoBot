@@ -9,6 +9,6 @@ namespace NadekoBot.Services.Database.Repositories
 {
     public interface ICustomReactionRepository : IRepository<CustomReaction>
     {
-        List<CustomReaction> GetList();
+
     }
 }
