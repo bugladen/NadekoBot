@@ -490,6 +490,17 @@ namespace NadekoBot.Modules.Permissions
                     State = action.Value,
                 };
                 uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+
+                var allowUser = new Permission
+                {
+                    PrimaryTarget = PrimaryPermissionType.User,
+                    PrimaryTargetId = imsg.Author.Id,
+                    SecondaryTarget = SecondaryPermissionType.AllModules,
+                    SecondaryTargetName = "*",
+                    State = true,
+                };
+
+                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, allowUser);
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);

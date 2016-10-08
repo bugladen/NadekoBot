@@ -46,8 +46,9 @@ namespace NadekoBot.Modules.Gambling
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
+        [Priority(1)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
             var channel = umsg.Channel;
@@ -63,7 +64,24 @@ namespace NadekoBot.Modules.Gambling
 
             await channel.SendMessageAsync($"{user.Username} has {amount} {config.CurrencySign}").ConfigureAwait(false);
         }
-        
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [Priority(0)]
+        public async Task Cash(IUserMessage umsg, ulong userId)
+        {
+            var channel = umsg.Channel;
+
+            long amount;
+            BotConfig config;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                amount = uow.Currency.GetUserCurrency(userId);
+                config = uow.BotConfig.GetOrCreate();
+            }
+
+            await channel.SendMessageAsync($"`{userId}` has {amount} {config.CurrencySign}").ConfigureAwait(false);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
@@ -111,9 +129,10 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount, true).ConfigureAwait(false);
-
-            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from {user}!").ConfigureAwait(false);
+            if(await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount, true).ConfigureAwait(false))
+                await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyPluralName} from {user}!").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync($"{umsg.Author.Mention} was unable to take {amount} {Gambling.CurrencyPluralName} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
 
@@ -126,9 +145,10 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false);
-
-            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
+            if(await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false))
+                await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync($"{umsg.Author.Mention} was unable to take {amount} {Gambling.CurrencyPluralName} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

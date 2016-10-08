@@ -44,7 +44,7 @@ namespace NadekoBot.Services.Database.Models
 
         //permissions
         public Permission RootPermission { get; set; }
-        public bool VerbosePermissions { get; set; }
+        public bool VerbosePermissions { get; set; } = true;
         public string PermissionRole { get; set; } = "Nadeko";
 
         public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new HashSet<CommandCooldown>();
