@@ -521,7 +521,7 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task NewAvatar(IUserMessage umsg, [Remainder] string img = null)
+        public async Task SetAvatar(IUserMessage umsg, [Remainder] string img = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 

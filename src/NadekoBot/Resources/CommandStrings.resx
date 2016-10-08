@@ -738,14 +738,14 @@
   <data name="setname_usage" xml:space="preserve">
     <value>`.newnm BotName`</value>
   </data>
-  <data name="newavatar_cmd" xml:space="preserve">
-    <value>newavatar setavatar</value>
+  <data name="setavatar_cmd" xml:space="preserve">
+    <value>setavatar setav</value>
   </data>
-  <data name="newavatar_desc" xml:space="preserve">
+  <data name="setavatar_desc" xml:space="preserve">
     <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  </value>
   </data>
-  <data name="newavatar_usage" xml:space="preserve">
-    <value>`.setavatar http://i.imgur.com/xTG3a1I.jpg`</value>
+  <data name="setavatar_usage" xml:space="preserve">
+    <value>`.setav http://i.imgur.com/xTG3a1I.jpg`</value>
   </data>
   <data name="setgame_cmd" xml:space="preserve">
     <value>setgame</value>
@@ -2044,7 +2044,7 @@
     <value>`~yt query`</value>
   </data>
   <data name="anime_cmd" xml:space="preserve">
-    <value>ani anime aq</value>
+    <value>anime ani aq</value>
   </data>
   <data name="anime_desc" xml:space="preserve">
     <value>Queries anilist for an anime and shows the first result.</value>

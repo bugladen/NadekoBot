@@ -303,7 +303,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to ani anime aq.
+        ///    Looks up a localized string similar to anime ani aq.
         /// </summary>
         public static string anime_cmd {
             get {
@@ -4218,33 +4218,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to newavatar setavatar.
-        /// </summary>
-        public static string newavatar_cmd {
-            get {
-                return ResourceManager.GetString("newavatar_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  .
-        /// </summary>
-        public static string newavatar_desc {
-            get {
-                return ResourceManager.GetString("newavatar_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.setavatar http://i.imgur.com/xTG3a1I.jpg`.
-        /// </summary>
-        public static string newavatar_usage {
-            get {
-                return ResourceManager.GetString("newavatar_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to next n.
         /// </summary>
         public static string next_cmd {
@@ -5915,6 +5888,33 @@ namespace NadekoBot.Resources {
         public static string serverinfo_usage {
             get {
                 return ResourceManager.GetString("serverinfo_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setavatar setav.
+        /// </summary>
+        public static string setavatar_cmd {
+            get {
+                return ResourceManager.GetString("setavatar_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  .
+        /// </summary>
+        public static string setavatar_desc {
+            get {
+                return ResourceManager.GetString("setavatar_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.setav http://i.imgur.com/xTG3a1I.jpg`.
+        /// </summary>
+        public static string setavatar_usage {
+            get {
+                return ResourceManager.GetString("setavatar_usage", resourceCulture);
             }
         }
         
