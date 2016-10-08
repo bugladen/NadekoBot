@@ -258,7 +258,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Ud(IUserMessage umsg, [Remainder] string query = null)
+        public async Task UrbanDict(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 
@@ -404,7 +404,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Clr(IUserMessage umsg, [Remainder] string color = null)
+        public async Task Color(IUserMessage umsg, [Remainder] string color = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 

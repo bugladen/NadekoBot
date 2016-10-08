@@ -208,35 +208,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Mute(IUserMessage umsg)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return Task.CompletedTask;
-            musicPlayer.SetVolume(0);
-            return Task.CompletedTask;
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public Task Max(IUserMessage umsg)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return Task.CompletedTask;
-            musicPlayer.SetVolume(100);
-            return Task.CompletedTask;
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Shuffle(IUserMessage umsg)
+        public async Task ShufflePlaylist(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;

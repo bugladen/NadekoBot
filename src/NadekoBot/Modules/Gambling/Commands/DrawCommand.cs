@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Shuffle(IUserMessage imsg)
+            public async Task ShuffleDeck(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
 

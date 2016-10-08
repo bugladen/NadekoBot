@@ -475,15 +475,9 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)msg.Channel;
             await (msg as IUserMessage).DeleteAsync();
-            while (count > 0)
-            {
-                int limit = (count < 100) ? count : 100;
-                var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
-                await msg.Channel.DeleteMessagesAsync(enumerable);
-                await Task.Delay(1000); // there is a 1 per second per guild ratelimit for deletemessages
-                if (enumerable.Count < limit) break;
-                count -= limit;
-            }
+            int limit = (count < 100) ? count : 100;
+            var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
+            await msg.Channel.DeleteMessagesAsync(enumerable);
         }
 
         //prune @user [x]

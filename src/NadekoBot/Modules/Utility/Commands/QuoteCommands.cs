@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task DelAllQuotes(IUserMessage umsg, string keyword)
+        public async Task DelAllQuotes(IUserMessage umsg, [Remainder] string keyword)
         {
             var channel = (ITextChannel)umsg.Channel;
 

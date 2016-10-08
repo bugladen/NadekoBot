@@ -198,7 +198,7 @@ namespace NadekoBot.Modules.Utility
                     uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("`New remind message set.`");
+                await channel.SendMessageAsync("`New remind template set.`");
             }
         }
     }

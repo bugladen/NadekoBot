@@ -613,13 +613,13 @@
     <value>`.k "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="mute_cmd" xml:space="preserve">
-    <value>mute min</value>
+    <value>mute</value>
   </data>
   <data name="mute_desc" xml:space="preserve">
-    <value>Sets the music volume to 0%</value>
+    <value>Mutes a mentioned user in a voice channel.</value>
   </data>
   <data name="mute_usage" xml:space="preserve">
-    <value>`!!min`</value>
+    <value>`.mute @Someone`</value>
   </data>
   <data name="unmute_cmd" xml:space="preserve">
     <value>unmute</value>
@@ -828,14 +828,14 @@
   <data name="remind_usage" xml:space="preserve">
     <value>`.remind me 1d5h Do something` or `.remind #general Start now!`</value>
   </data>
-  <data name="remindmsg_cmd" xml:space="preserve">
-    <value>remindmsg</value>
+  <data name="remindtemplate_cmd" xml:space="preserve">
+    <value>remindtemplate</value>
   </data>
-  <data name="remindmsg_desc" xml:space="preserve">
+  <data name="remindtemplate_desc" xml:space="preserve">
     <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.  </value>
   </data>
-  <data name="remindmsg_usage" xml:space="preserve">
-    <value>`.remindmsg do something else`</value>
+  <data name="remindtemplate_usage" xml:space="preserve">
+    <value>`.remindtemplate %user%, you gotta do %message%!`</value>
   </data>
   <data name="serverinfo_cmd" xml:space="preserve">
     <value>serverinfo sinfo</value>
@@ -1314,13 +1314,13 @@
   <data name="draw_usage" xml:space="preserve">
     <value>`$draw [x]`</value>
   </data>
-  <data name="shuffle_cmd" xml:space="preserve">
+  <data name="shuffleplaylist_cmd" xml:space="preserve">
     <value>shuffle sh</value>
   </data>
-  <data name="shuffle_desc" xml:space="preserve">
+  <data name="shuffleplaylist_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>
   </data>
-  <data name="shuffle_usage" xml:space="preserve">
+  <data name="shuffleplaylist_usage" xml:space="preserve">
     <value>`!!sh`</value>
   </data>
   <data name="flip_cmd" xml:space="preserve">
@@ -1942,7 +1942,7 @@
     <value>List of the convertable dimensions and currencies.</value>
   </data>
   <data name="convertlist_usage" xml:space="preserve">
-    <value />
+    <value>`~convertlist`</value>
   </data>
   <data name="wowjoke_cmd" xml:space="preserve">
     <value>wowjoke</value>
@@ -2043,13 +2043,13 @@
   <data name="youtube_usage" xml:space="preserve">
     <value>`~yt query`</value>
   </data>
-  <data name="ani_cmd" xml:space="preserve">
+  <data name="anime_cmd" xml:space="preserve">
     <value>ani anime aq</value>
   </data>
-  <data name="ani_desc" xml:space="preserve">
+  <data name="anime_desc" xml:space="preserve">
     <value>Queries anilist for an anime and shows the first result.</value>
   </data>
-  <data name="ani_usage" xml:space="preserve">
+  <data name="anime_usage" xml:space="preserve">
     <value>`~ani aquarion evol`</value>
   </data>
   <data name="imdb_cmd" xml:space="preserve">
@@ -2232,13 +2232,13 @@
   <data name="wiki_usage" xml:space="preserve">
     <value>`~wiki query`</value>
   </data>
-  <data name="clr_cmd" xml:space="preserve">
-    <value>clr prune</value>
+  <data name="color_cmd" xml:space="preserve">
+    <value>color clr</value>
   </data>
-  <data name="clr_desc" xml:space="preserve">
+  <data name="color_desc" xml:space="preserve">
     <value>Shows you what color corresponds to that hex.</value>
   </data>
-  <data name="clr_usage" xml:space="preserve">
+  <data name="color_usage" xml:space="preserve">
     <value>`~clr 00ff00`</value>
   </data>
   <data name="videocall_cmd" xml:space="preserve">
@@ -2473,7 +2473,7 @@
     <value>List the valid languages for translation.</value>
   </data>
   <data name="translangs_usage" xml:space="preserve">
-    <value>`~translangs` or `~translangs language`</value>
+    <value>`~translangs`</value>
   </data>
   <data name="bind_cmd" xml:space="preserve">
     <value>bind</value>
@@ -2524,7 +2524,7 @@
     <value>Shows all available operations in .calc command</value>
   </data>
   <data name="calcops_usage" xml:space="preserve">
-    <value>`.calcops`</value>
+    <value>`~calcops`</value>
   </data>
   <data name="calcops_cmd" xml:space="preserve">
     <value>calcops</value>
@@ -2533,7 +2533,7 @@
     <value>Deletes all quotes on a specified keyword.</value>
   </data>
   <data name="delallquotes_usage" xml:space="preserve">
-    <value>`.delallq`</value>
+    <value>`.delallq kek`</value>
   </data>
   <data name="delallquotes_cmd" xml:space="preserve">
     <value>delallq daq</value>
@@ -2614,9 +2614,18 @@
     <value>showemojis se</value>
   </data>
   <data name="showemojis_desc" xml:space="preserve">
-    <value>Shows a name and a link to every special emoji in the message.</value>
+    <value>Shows a name and a link to every SPECIAL emoji in the message.</value>
   </data>
   <data name="showemojis_usage" xml:space="preserve">
-    <value>`.se A message full of emojis`</value>
+    <value>`.se A message full of SPECIALemojis`</value>
+  </data>
+  <data name="shuffledeck_cmd" xml:space="preserve">
+    <value>shuffle sh</value>
+  </data>
+  <data name="shuffledeck_desc" xml:space="preserve">
+    <value>Reshuffles all cards back into the deck.</value>
+  </data>
+  <data name="shuffledeck_usage" xml:space="preserve">
+    <value>`$sh`</value>
   </data>
 </root>
