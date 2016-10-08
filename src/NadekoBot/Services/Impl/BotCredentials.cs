@@ -49,7 +49,11 @@ namespace NadekoBot.Services.Impl
                     Db = new DB(cm.Db.Type, cm.Db.ConnectionString);
             }
             else
-                _log.Fatal("credentials.json is missing. Failed to start.");
+            {
+                File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented));
+                _log.Fatal($"credentials.json is missing. Failed to start. Example written to {Path.GetFullPath("./credentials_example.json")}");
+                throw new FileNotFoundException();
+            }
         }
 
         private class CredentialsModel

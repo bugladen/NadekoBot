@@ -9,6 +9,8 @@ namespace NadekoBot.Services.Database
 {
     public interface IUnitOfWork : IDisposable
     {
+        NadekoContext _context { get; }
+
         IQuoteRepository Quotes { get; }
         IGuildConfigRepository GuildConfigs { get; }
         IDonatorsRepository Donators { get; }
@@ -18,6 +20,10 @@ namespace NadekoBot.Services.Database
         IBotConfigRepository BotConfig { get; }
         IRepeaterRepository Repeaters { get; }
         IUnitConverterRepository ConverterUnits { get; }
+        ICustomReactionRepository CustomReactions { get; }
+        ICurrencyRepository Currency { get; }
+        ITypingArticlesRepository TypingArticles { get; }
+        IMusicPlaylistRepository MusicPlaylists { get; }
 
         int Complete();
         Task<int> CompleteAsync();

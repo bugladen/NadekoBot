@@ -23,6 +23,7 @@ namespace NadekoBot.Services.Database
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
+        public DbSet<CustomReaction> CustomReactions { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -60,7 +61,8 @@ namespace NadekoBot.Services.Database
                     new ModulePrefix() { ModuleName = "Gambling", Prefix = "$" },
                     new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
                     new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
-                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." }
+                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
+                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." }
                 });
                 bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
                 {

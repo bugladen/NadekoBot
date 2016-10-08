@@ -53,30 +53,6 @@ namespace NadekoBot.Modules.Help
 
             await umsg.Channel.SendMessageAsync("`List of modules:` ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` `Type \"-commands module_name\" to get a list of commands in that module.`")
                                        .ConfigureAwait(false);
-
-            await RunWithTypingIntheBackgorund(async () =>
-            {
-                await Task.Delay(100000);
-            }, umsg);
-        }
-
-        private async Task RunWithTypingIntheBackgorund(Func<Task> someFUnc, IUserMessage ctx)
-        {
-            var cancelSource = new CancellationTokenSource();
-            var cancelToken = cancelSource.Token;
-            var t = Task.Run(async () => 
-            {
-                while (!cancelToken.IsCancellationRequested)
-                {
-                    await Task.Delay(10000);
-                    await ctx.Channel.TriggerTypingAsync();
-                }
-            }, cancelToken);
-            try
-            {
-                await someFUnc();
-            }
-            finally { cancelSource.Cancel(); }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
