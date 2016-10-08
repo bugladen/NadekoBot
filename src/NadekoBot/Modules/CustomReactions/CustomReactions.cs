@@ -49,8 +49,15 @@ namespace NadekoBot.Modules.CustomReactions
                         var reaction = reactions.Where(cr => cr.Trigger == umsg.Content).Shuffle().FirstOrDefault();
                         if (reaction != null)
                         {
-                            await channel.SendMessageAsync(reaction.Response).ConfigureAwait(false);
+                            try { await channel.SendMessageAsync(reaction.Response).ConfigureAwait(false); } catch { }
+                            return;
                         }
+                    }
+                    var greaction = GlobalReactions.Where(cr => cr.Trigger == umsg.Content).Shuffle().FirstOrDefault();
+                    if (greaction != null)
+                    {
+                        try { await channel.SendMessageAsync(greaction.Response).ConfigureAwait(false); } catch { }
+                        return;
                     }
                 });
                 return Task.CompletedTask;
