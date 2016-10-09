@@ -65,7 +65,6 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequirePermission(GuildPermission.Administrator)]
         public async Task AddCustReact(IUserMessage imsg, string key, [Remainder] string message)
         {
             var channel = imsg.Channel as ITextChannel;
@@ -120,9 +119,9 @@ namespace NadekoBot.Modules.CustomReactions
                 customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new HashSet<CustomReaction>());
 
             if (customReactions == null || !customReactions.Any())
-                await channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
             else
-                await channel.SendTableAsync(customReactions.OrderBy(cr => cr.Trigger).Skip((page - 1) * 10).Take(10), c => c.ToString())
+                await imsg.Channel.SendMessageAsync(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger).Skip((page - 1) * 10).Take(10)))
                              .ConfigureAwait(false);
         }
 

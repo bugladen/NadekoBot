@@ -2557,10 +2557,10 @@
     <value>cash $$</value>
   </data>
   <data name="listperms_desc" xml:space="preserve">
-    <value>Lists whole permission chain with their indexes.</value>
+    <value>Lists whole permission chain with their indexes. You can specify optional page number if there are a lot of permissions</value>
   </data>
   <data name="listperms_usage" xml:space="preserve">
-    <value>`;lp`</value>
+    <value>`;lp` or `;lp 3`</value>
   </data>
   <data name="listperms_cmd" xml:space="preserve">
     <value>listperms lp</value>

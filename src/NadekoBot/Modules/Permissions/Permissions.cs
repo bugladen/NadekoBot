@@ -61,16 +61,18 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ListPerms(IUserMessage msg)
+        public async Task ListPerms(IUserMessage msg, int page = 1)
         {
             var channel = (ITextChannel)msg.Channel;
 
+            if (page < 1 || page > 4)
+                return;
             string toSend = "";
             using (var uow = DbHandler.UnitOfWork())
             {
                 var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
                 var i = 1;
-                toSend = String.Join("\n", perms.AsEnumerable().Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand(channel.Guild) + " [uneditable]") : (p.GetCommand(channel.Guild)))}"));
+                toSend = Format.Code($"Permissions page {page}") + "\n\n" + String.Join("\n", perms.AsEnumerable().Skip((page - 1) * 20).Take(20).Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand(channel.Guild) + " [uneditable]") : (p.GetCommand(channel.Guild)))}"));
             }
 
             if (string.IsNullOrWhiteSpace(toSend))

@@ -3444,7 +3444,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists whole permission chain with their indexes..
+        ///    Looks up a localized string similar to Lists whole permission chain with their indexes. You can specify optional page number if there are a lot of permissions.
         /// </summary>
         public static string listperms_desc {
             get {
@@ -3453,7 +3453,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;lp`.
+        ///    Looks up a localized string similar to `;lp` or `;lp 3`.
         /// </summary>
         public static string listperms_usage {
             get {

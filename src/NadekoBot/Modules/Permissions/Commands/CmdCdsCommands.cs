@@ -92,6 +92,8 @@ namespace NadekoBot.Modules.Permissions
 
             public static bool HasCooldown(Command cmd, IGuild guild, IUser user)
             {
+                if (guild == null)
+                    return false;
                 var cmdcds = CmdCdsCommands.commandCooldowns.GetOrAdd(guild.Id, new HashSet<CommandCooldown>());
                 CommandCooldown cdRule;
                 if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == cmd.Text.ToLowerInvariant())) != null)
