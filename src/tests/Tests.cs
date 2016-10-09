@@ -60,25 +60,25 @@ namespace Tests
             Assert.Throws(typeof(IndexOutOfRangeException), () => { root.GetAt(10); });
         }
 
-        [Fact]
-        public void InsertTest() {
+        //[Fact]
+        //public void InsertTest() {
 
-            var root = GetRoot();
+        //    var root = GetRoot();
 
-            root.Insert(5, new Permission() { SecondaryTargetName = "in2" });
+        //    root.Insert(5, new Permission() { SecondaryTargetName = "in2" });
 
-            Assert.Equal(11, root.Count());
-            Assert.Equal("in2", root.GetAt(5).SecondaryTargetName);
+        //    Assert.Equal(11, root.Count());
+        //    Assert.Equal("in2", root.GetAt(5).SecondaryTargetName);
 
-            root.Insert(0, new Permission() { SecondaryTargetName = "Inserted" });
+        //    root.Insert(0, new Permission() { SecondaryTargetName = "Inserted" });
 
-            root = root.Previous;
-            Assert.Equal("Inserted", root.SecondaryTargetName);
-            Assert.Equal(12, root.Count());
-            Assert.Equal("Root", root.GetAt(1).SecondaryTargetName);
+        //    root = root.Previous;
+        //    Assert.Equal("Inserted", root.SecondaryTargetName);
+        //    Assert.Equal(12, root.Count());
+        //    Assert.Equal("Root", root.GetAt(1).SecondaryTargetName);
 
-            Assert.Throws(typeof(IndexOutOfRangeException), () => { root.GetAt(12); });
-        }
+        //    Assert.Throws(typeof(IndexOutOfRangeException), () => { root.GetAt(12); });
+        //}
 
         [Fact]
         public void RemoveAtTest()

@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Help
             }
             helpstr = helpstr.Replace(NadekoBot.Client.GetCurrentUser().Username , "@BotName");
 #if DEBUG
-            File.WriteAllText("../../docs/commandslist.md", helpstr.ToString());
+            File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
 #else
             File.WriteAllText("commandlist.md", helpstr.ToString());
 #endif
