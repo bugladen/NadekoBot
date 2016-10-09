@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.CustomReactions
 
             if ((channel == null && !NadekoBot.Credentials.IsOwner(imsg.Author)) || (channel != null && !((IGuildUser)imsg.Author).GuildPermissions.Administrator))
             {
-                try { await channel.SendMessageAsync("Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions."); } catch { }
+                try { await imsg.Channel.SendMessageAsync("Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions."); } catch { }
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.CustomReactions
                 reactions.Add(cr);
             }
 
-            await channel.SendMessageAsync($"`Added new custom reaction:`\n\t`Trigger:` {key}\n\t`Response:` {message}").ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync($"`Added new custom reaction:`\n\t`Trigger:` {key}\n\t`Response:` {message}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.CustomReactions
 
             if ((channel == null && !NadekoBot.Credentials.IsOwner(imsg.Author)) || (channel != null && !((IGuildUser)imsg.Author).GuildPermissions.Administrator))
             {
-                try { await channel.SendMessageAsync("Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions."); } catch { }
+                try { await imsg.Channel.SendMessageAsync("Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions."); } catch { }
                 return;
             }
 
@@ -147,11 +147,13 @@ namespace NadekoBot.Modules.CustomReactions
                 if (toDelete.GuildId == null && channel == null)
                 {
                     uow.CustomReactions.Remove(toDelete);
+                    
                     success = true;
                 }
-                else if (toDelete.GuildId != null && channel.Guild.Id == toDelete.GuildId)
+                else if (toDelete.GuildId != null && channel?.Guild.Id == toDelete.GuildId)
                 {
                     uow.CustomReactions.Remove(toDelete);
+                    GuildReactions.GetOrAdd(channel.Guild.Id, new HashSet<CustomReaction>()).RemoveWhere(cr => cr.Id == toDelete.Id);
                     success = true;
                 }
                 if(success)
@@ -159,9 +161,9 @@ namespace NadekoBot.Modules.CustomReactions
             }
 
             if (success)
-                await channel.SendMessageAsync("**Successfully deleted custom reaction** " + toDelete.ToString()).ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("**Successfully deleted custom reaction** " + toDelete.ToString()).ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("Failed to find that custom reaction.").ConfigureAwait(false);
+                await imsg.Channel.SendMessageAsync("`Failed to find that custom reaction.`").ConfigureAwait(false);
         }
     }
 }

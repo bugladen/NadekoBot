@@ -6,7 +6,9 @@ namespace NadekoBot.Services
 {
     public interface IBotCredentials
     {
-        string ClientId { get; }
+        ulong ClientId { get; }
+        ulong BotId { get; }
+
         string Token { get; }
         string GoogleApiKey { get; }
         ulong[] OwnerIds { get; }

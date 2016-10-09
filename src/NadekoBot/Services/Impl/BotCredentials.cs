@@ -12,7 +12,8 @@ namespace NadekoBot.Services.Impl
     {
         private Logger _log;
 
-        public string ClientId { get; }
+        public ulong ClientId { get; }
+        public ulong BotId { get; }
 
         public string GoogleApiKey { get; }
 
@@ -42,7 +43,8 @@ namespace NadekoBot.Services.Impl
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
                 TotalShards = cm.TotalShards < 1 ? 1 : cm.TotalShards;
-                SoundCloudClientId = cm.SoundCloudClientId;
+                BotId = cm.BotId ?? cm.ClientId;
+                ClientId = cm.ClientId;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
                 else
@@ -58,6 +60,8 @@ namespace NadekoBot.Services.Impl
 
         private class CredentialsModel
         {
+            public ulong ClientId { get; set; }
+            public ulong? BotId { get; set; }
             public string Token { get; set; }
             public ulong[] OwnerIds { get; set; }
             public string LoLApiKey { get; set; }
