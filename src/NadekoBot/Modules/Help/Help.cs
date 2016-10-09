@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Help
                     helpstr.AppendLine("----------------|--------------|-------");
                     lastModule = com.Module.Name;
                 }
-                helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Remarks} | {com.Summary}");
+                helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Remarks} | {com.Summary} {GetCommandRequirements(com)}");
             }
             helpstr = helpstr.Replace(NadekoBot.Client.GetCurrentUser().Username , "@BotName");
 #if DEBUG
