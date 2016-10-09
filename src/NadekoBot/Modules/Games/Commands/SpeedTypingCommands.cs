@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Games
                     }
                     catch (Exception ex) { _log.Warn(ex); }
 
-                    await msg.ModifyAsync(m => m.Content = $"**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**:book:").ConfigureAwait(false);
+                    await msg.ModifyAsync(m => m.Content = $"**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}").ConfigureAwait(false);
                     sw.Start();
                     HandleAnswers();
 
@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Games
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    return uow.TypingArticles.GetRandom()?.Text ?? $"No typing articles found. Use `{NadekoBot.ModulePrefixes[typeof(Games).Name]}typeadd` command to add a new article for typing.";
+                    return uow.TypingArticles.GetRandom()?.Text ?? $"No typing articles found. Use {NadekoBot.ModulePrefixes[typeof(Games).Name]}typeadd command to add a new article for typing.";
                 }
 
             }
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Games
                             await channel.SendMessageAsync($"{msg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
                             if (finishedUserIds.Count % 2 == 0)
                             {
-                                await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n:book:**{CurrentSentence}**:book:").ConfigureAwait(false);
+                                await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
                             }
                         }
                     }
