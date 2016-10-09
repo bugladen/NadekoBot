@@ -96,7 +96,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;.
+        ///    Looks up a localized string similar to Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;.
         /// </summary>
         public static string addcustreact_desc {
             get {

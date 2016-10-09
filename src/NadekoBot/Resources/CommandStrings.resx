@@ -436,7 +436,7 @@
     <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;</value>
+    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;</value>
   </data>
   <data name="addcustreact_usage" xml:space="preserve">
     <value>`.acr "hello" Hi there %user%`</value>
