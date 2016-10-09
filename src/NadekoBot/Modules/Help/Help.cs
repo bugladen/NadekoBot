@@ -36,15 +36,6 @@ namespace NadekoBot.Modules.Help
 
         public Help(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
-            client.MessageReceived += async (msg) =>
-            {
-                if (msg.Author.IsBot)
-                    return;
-                if (msg.Channel is IPrivateChannel)
-                {
-                    await msg.Channel.SendMessageAsync(DMHelpString).ConfigureAwait(false);
-                }
-            };
         }
 
         [NadekoCommand, Usage, Description, Aliases]

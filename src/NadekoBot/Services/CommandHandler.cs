@@ -16,6 +16,7 @@ using Discord.Net;
 using NadekoBot.Extensions;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
+using NadekoBot.Modules.Help;
 
 namespace NadekoBot.Services
 {
@@ -158,6 +159,13 @@ namespace NadekoBot.Services
                             {
                                 if (verbose)
                                     await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false);
+                            }
+                        }
+                        else
+                        {
+                            if (msg.Channel is IPrivateChannel)
+                            {
+                                await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
                             }
                         }
                     }
