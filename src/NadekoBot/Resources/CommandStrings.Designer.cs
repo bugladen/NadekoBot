@@ -1851,7 +1851,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes a custom reaction with given name (and index)..
+        ///    Looks up a localized string similar to Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction..
         /// </summary>
         public static string delcustreact_desc {
             get {
@@ -1860,7 +1860,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.dcr index`.
+        ///    Looks up a localized string similar to `.dcr 5`.
         /// </summary>
         public static string delcustreact_usage {
             get {
@@ -3390,7 +3390,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists custom reactions (paginated with 30 commands per page). Use &apos;all&apos; instead of page number to get all custom reactions DM-ed to you..
+        ///    Looks up a localized string similar to Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server&apos;s custom reactions..
         /// </summary>
         public static string listcustreact_desc {
             get {

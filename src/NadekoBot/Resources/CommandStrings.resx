@@ -445,7 +445,7 @@
     <value>listcustreact lcr</value>
   </data>
   <data name="listcustreact_desc" xml:space="preserve">
-    <value>Lists custom reactions (paginated with 30 commands per page). Use 'all' instead of page number to get all custom reactions DM-ed to you.</value>
+    <value>Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.</value>
   </data>
   <data name="listcustreact_usage" xml:space="preserve">
     <value>`.lcr 1`</value>
@@ -472,10 +472,10 @@
     <value>delcustreact dcr</value>
   </data>
   <data name="delcustreact_desc" xml:space="preserve">
-    <value>Deletes a custom reaction with given name (and index).</value>
+    <value>Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.</value>
   </data>
   <data name="delcustreact_usage" xml:space="preserve">
-    <value>`.dcr index`</value>
+    <value>`.dcr 5`</value>
   </data>
   <data name="autoassignrole_cmd" xml:space="preserve">
     <value>autoassignrole aar</value>
