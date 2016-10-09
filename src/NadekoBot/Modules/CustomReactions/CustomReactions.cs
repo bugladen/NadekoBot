@@ -13,7 +13,7 @@ using Discord;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.CustomReactions
-{
+{    
     [NadekoModule("CustomReactions",".")]
     public class CustomReactions : DiscordModule
     {
@@ -46,17 +46,17 @@ namespace NadekoBot.Modules.CustomReactions
                     GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
                     if (reactions != null && reactions.Any())
                     {
-                        var reaction = reactions.Where(cr => cr.Trigger == umsg.Content).Shuffle().FirstOrDefault();
+                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg) == umsg.Content).Shuffle().FirstOrDefault();
                         if (reaction != null)
                         {
-                            try { await channel.SendMessageAsync(reaction.Response).ConfigureAwait(false); } catch { }
+                            try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                             return;
                         }
                     }
-                    var greaction = GlobalReactions.Where(cr => cr.Trigger == umsg.Content).Shuffle().FirstOrDefault();
+                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg) == umsg.Content).Shuffle().FirstOrDefault();
                     if (greaction != null)
                     {
-                        try { await channel.SendMessageAsync(greaction.Response).ConfigureAwait(false); } catch { }
+                        try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                         return;
                     }
                 });

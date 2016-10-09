@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discord;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace NadekoBot.Services.Database.Models
         public string Response { get; set; }
         public string Trigger { get; set; }
         public bool IsRegex { get; set; }
+        public bool OwnerOnly { get; set; }
         public override string ToString() => $"`#{Id}`  `Trigger:` {Trigger}\n `Response:` {Response}";
     }
 
