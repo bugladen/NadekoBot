@@ -5802,7 +5802,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.send sid.
+        ///    Looks up a localized string similar to `.send sid`.
         /// </summary>
         public static string send_usage {
             get {

@@ -109,8 +109,23 @@ namespace NadekoBot.Modules.Help
             if (alias != null)
                 str += $" / `{ alias }`";
             if (com != null)
-                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {com.Summary}
+                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {com.Summary} {GetCommandRequirements(com)}
 **Usage:** {com.Remarks}").ConfigureAwait(false);
+        }
+
+        private string GetCommandRequirements(Command cmd)
+        {
+            return String.Join(" ", cmd.Source.CustomAttributes
+                      .Where(ca => ca.AttributeType == typeof(OwnerOnlyAttribute) || ca.AttributeType == typeof(RequirePermissionAttribute))
+                      .Select(ca =>
+                      {
+                          if (ca.AttributeType == typeof(OwnerOnlyAttribute))
+                              return "**Bot owner only.**";
+                          else if (ca.AttributeType == typeof(RequirePermissionAttribute))
+                              return $"**Requires {(GuildPermission)ca.ConstructorArguments.FirstOrDefault().Value} server permission.**".Replace("Guild", "Server");
+                          else
+                              return $"**Requires {(GuildPermission)ca.ConstructorArguments.FirstOrDefault().Value} channel permission.**".Replace("Guild", "Server");
+                      }));
         }
 
         [NadekoCommand, Usage, Description, Aliases]

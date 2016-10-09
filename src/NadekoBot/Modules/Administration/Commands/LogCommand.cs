@@ -484,6 +484,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task LogServer(IUserMessage msg)
             {
@@ -507,6 +508,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task LogIgnore(IUserMessage imsg)
             {
@@ -602,6 +604,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.Administrator)]
             public async Task UserPresence(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -624,6 +627,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.Administrator)]
             public async Task VoicePresence(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
