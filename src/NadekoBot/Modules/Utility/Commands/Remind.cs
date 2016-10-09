@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -47,7 +48,7 @@ namespace NadekoBot.Modules.Utility
 
                 foreach (var r in reminders)
                 {
-                    var t = StartReminder(r);
+                    try { var t = StartReminder(r); } catch (Exception ex) { _log.Warn(ex); }
                 }
             }
 
@@ -77,7 +78,8 @@ namespace NadekoBot.Modules.Utility
 
                     await ch.SendMessageAsync(
                         replacements.Aggregate(RemindMessageFormat,
-                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
+                            (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
+                            .SanitizeMentions()
                             ).ConfigureAwait(false); //it works trust me
                 }
                 catch (Exception ex) { _log.Warn(ex); }
@@ -179,7 +181,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                try { await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false); } catch { }
+                try { await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.SanitizeMentions()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false); } catch { }
                 await StartReminder(rem);
             }
 

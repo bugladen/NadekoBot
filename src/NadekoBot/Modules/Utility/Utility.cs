@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task InRole(IUserMessage umsg, [Remainder] string roles = null)
+        public async Task InRole(IUserMessage umsg, [Remainder] string roles)
         {
             if (string.IsNullOrWhiteSpace(roles))
                 return;
@@ -122,11 +122,11 @@ namespace NadekoBot.Modules.Utility
             var guild = channel.Guild;
             if (target != null)
             {
-                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)));
+                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
             }
             else
             {
-                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)));
+                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)).SanitizeMentions());
             }
         }
 

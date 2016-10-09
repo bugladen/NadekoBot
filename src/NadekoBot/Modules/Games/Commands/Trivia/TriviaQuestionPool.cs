@@ -1,4 +1,5 @@
-﻿using NadekoBot.Services;
+﻿using NadekoBot.Extensions;
+using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
             foreach (var item in arr)
             {
-                var tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());
+                var tq = new TriviaQuestion(item["Question"].ToString().SanitizeMentions(), item["Answer"].ToString().SanitizeMentions(), item["Category"]?.ToString());
                 pool.Add(tq);
             }
             var r = new NadekoRandom();

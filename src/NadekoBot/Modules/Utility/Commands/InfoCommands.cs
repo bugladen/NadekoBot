@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
             toReturn += $@"`Id:` **{user.Id}**
 `Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
 `Joined At:` **{user.JoinedAt}**
-`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**
+`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
 `AvatarUrl:` **{user.AvatarUrl}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }

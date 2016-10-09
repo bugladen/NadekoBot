@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -42,12 +43,12 @@ namespace NadekoBot.Modules.Administration
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;
 
-                    var msg = conf.ChannelByeMessageText.Replace("%user%", "**" + user.Username + "**");
+                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
                     if (string.IsNullOrWhiteSpace(msg))
                         return;
                     try
                     {
-                        var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessages)
                         {
                             var t = Task.Run(async () =>
@@ -82,7 +83,7 @@ namespace NadekoBot.Modules.Administration
                             {
                                 try
                                 {
-                                    var toDelete = await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                                    var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                                     if (conf.AutoDeleteGreetMessages)
                                     {
                                         var t = Task.Run(async () =>
@@ -172,7 +173,7 @@ namespace NadekoBot.Modules.Administration
                     conf = uow.GuildConfigs.For(channel.Guild.Id);
                     if (!string.IsNullOrWhiteSpace(text))
                     {
-                        conf.ChannelGreetMessageText = text;
+                        conf.ChannelGreetMessageText = text.SanitizeMentions();
                         uow.GuildConfigs.Update(conf);
                         await uow.CompleteAsync();
                     }
@@ -180,7 +181,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    await channel.SendMessageAsync("`Current greet message:` " + conf.ChannelGreetMessageText);
+                    await channel.SendMessageAsync("`Current greet message:` " + conf.ChannelGreetMessageText.SanitizeMentions());
                     return;
                 }
                 await channel.SendMessageAsync("New greet message set.").ConfigureAwait(false);
@@ -275,7 +276,7 @@ namespace NadekoBot.Modules.Administration
                     conf = uow.GuildConfigs.For(channel.Guild.Id);
                     if (!string.IsNullOrWhiteSpace(text))
                     {
-                        conf.ChannelByeMessageText = text;
+                        conf.ChannelByeMessageText = text.SanitizeMentions();
                         uow.GuildConfigs.Update(conf);
                         await uow.CompleteAsync();
                     }
@@ -283,7 +284,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    await channel.SendMessageAsync("`Current bye message:` " + conf.ChannelGreetMessageText);
+                    await channel.SendMessageAsync("`Current bye message:` " + conf.ChannelGreetMessageText.SanitizeMentions());
                     return;
                 }
                 await channel.SendMessageAsync("New bye message set.").ConfigureAwait(false);

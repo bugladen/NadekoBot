@@ -56,40 +56,47 @@ namespace NadekoBot.Modules.Games
                 IsActive = true;
                 CurrentSentence = GetRandomSentence();
                 var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
-                await channel.SendMessageAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
-
-
-                var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
-                await Task.Delay(1000).ConfigureAwait(false);
                 try
                 {
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
+                    await channel.SendMessageAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
+
+
+                    var msg = await channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
                     await Task.Delay(1000).ConfigureAwait(false);
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    try
+                    {
+                        await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
+                        await Task.Delay(1000).ConfigureAwait(false);
+                        await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
+                        await Task.Delay(1000).ConfigureAwait(false);
+                    }
+                    catch (Exception ex) { _log.Warn(ex); }
+
+                    await msg.ModifyAsync(m => m.Content = $"**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**:book:").ConfigureAwait(false);
+                    sw.Start();
+                    HandleAnswers();
+
+                    while (i > 0)
+                    {
+                        await Task.Delay(1000).ConfigureAwait(false);
+                        i--;
+                        if (!IsActive)
+                            return;
+                    }
+
                 }
-                catch (Exception ex) { _log.Warn(ex); }
-
-                await msg.ModifyAsync(m => m.Content = $":book:**{CurrentSentence.Replace(" ", " \x200B")}**:book:").ConfigureAwait(false);
-                sw.Start();
-                HandleAnswers();
-
-                while (i > 0)
+                catch { }
+                finally
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    i--;
-                    if (!IsActive)
-                        return;
+                    await Stop().ConfigureAwait(false);
                 }
-
-                await Stop().ConfigureAwait(false);
             }
 
             public string GetRandomSentence()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    return uow.TypingArticles.GetRandom()?.Text ?? "No typing articles found. Use `>typeadd` command to add a new article for typing.";
+                    return uow.TypingArticles.GetRandom()?.Text ?? $"No typing articles found. Use `{NadekoBot.ModulePrefixes[typeof(Games).Name]}typeadd` command to add a new article for typing.";
                 }
 
             }
@@ -194,7 +201,7 @@ namespace NadekoBot.Modules.Games
                     uow.TypingArticles.Add(new Services.Database.Models.TypingArticle
                     {
                         Author = imsg.Author.Username,
-                        Text = text
+                        Text = text.SanitizeMentions(),
                     });
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }

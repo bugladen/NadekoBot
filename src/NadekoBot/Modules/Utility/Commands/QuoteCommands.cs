@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -34,7 +35,7 @@ namespace NadekoBot.Modules.Utility
             if (quote == null)
                 return;
 
-            await channel.SendMessageAsync("📣 " + quote.Text);
+            await channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
