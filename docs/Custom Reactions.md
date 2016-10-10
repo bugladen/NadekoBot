@@ -1,7 +1,9 @@
 ##Custom Reactions
 ###Important
-*	For modifying **global** custom reactions, the ones which will work across all the servers your bot is connected to, you **must** be a Bot Owner.<br> You must also use the commands for adding, deleting and listing these reactions in a direct message with the bot.  
-*	For modifying **local** custom reactions, the ones which will only work on the server that they are added on, require you to have the **Administrator** permission.<br> You must also use the commands for adding, deleting and listing these reactions in the server you want the custom reactions to work on.  
+*	For modifying **global** custom reactions, the ones which will work across all the servers your bot is connected to, you **must** be a Bot Owner.  
+You must also use the commands for adding, deleting and listing these reactions in a direct message with the bot.  
+*	For modifying **local** custom reactions, the ones which will only work on the server that they are added on, require you to have the **Administrator** permission.  
+You must also use the commands for adding, deleting and listing these reactions in the server you want the custom reactions to work on.  
 
 ###Commands and Their Use
 | Command Name | Description | Example |
@@ -28,9 +30,9 @@ There are currently three different placeholders which we will look at, with mor
 | Placeholder | How the placeholder works | Example Usage | Input | Output |
 |:-----------:|---------------------------|---------------|-------|--------|
 |`%mention`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|`.acr "Hello %mention%" I, %mention%, also say hello!`|Hello @BotName|I, @BotName, also say hello!|
-|`%user%`|The `%user%` placeholder mentions the person who said the command|`.acr "Who am I?" You are %user%!`|Who am I?|You are, @Username|
+|`%user%`|The `%user%` placeholder mentions the person who said the command|`.acr "Who am I?" You are %user%!`|Who am I?|You are @Username!|
 |`%rng%`|The `%rng%` placeholder generates a random number between 0 and 10|`.acr "Random number" %rng%`|Random number|2|
 
-<!-- |`%target%`|The `%target%` placeholder is used to make Nadeko Mention another person or phrase|`.acr "Say this: " %target%|Say this: I, @BotName, am a parrot!|I, @BotName, am a parrot!| -->
+[//]: # (|`%target%`|The `%target%` placeholder is used to make Nadeko Mention another person or phrase|`.acr "Say this: " %target%|Say this: I, @BotName, am a parrot!|I, @BotName, am a parrot!|)
 		
- Thanks to Nekai for being creative. <3 <!-- and to fearnlj01, for making it less creative (sorry) -->
+ Thanks to Nekai for being creative. <3
