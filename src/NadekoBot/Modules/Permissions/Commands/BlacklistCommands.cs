@@ -76,9 +76,7 @@ namespace NadekoBot.Modules.Permissions
                     else
                     {
                         uow.BotConfig.GetOrCreate().Blacklist.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
-                        var toRemove = BlacklistedItems.FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
-                        if (toRemove != null)
-                            BlacklistedItems.TryRemove(toRemove);
+                        BlacklistedItems.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
                     }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }

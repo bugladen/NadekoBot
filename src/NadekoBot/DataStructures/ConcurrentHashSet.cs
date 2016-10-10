@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace System.Collections.Concurrent
@@ -670,6 +671,18 @@ namespace System.Collections.Concurrent
                 // Release all locks that we took earlier
                 ReleaseLocks(0, locksAcquired);
             }
+        }
+
+        public int RemoveWhere(Func<T, bool> predicate)
+        {
+            var elems = this.Where(predicate);
+            var removed = 0;
+            foreach (var elem in elems)
+            {
+                if (this.TryRemove(elem))
+                    removed++;
+            }
+            return removed;
         }
 
         private void AcquireAllLocks(ref int locksAcquired)

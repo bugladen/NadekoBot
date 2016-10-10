@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    InviteFilteringServers.Remove(channel.Guild.Id);
+                    InviteFilteringServers.TryRemove(channel.Guild.Id);
                     await channel.SendMessageAsync("`Invite filtering disabled on this server.`").ConfigureAwait(false);
                 }
             }
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    InviteFilteringChannels.Remove(channel.Id);
+                    InviteFilteringChannels.TryRemove(channel.Id);
                     await channel.SendMessageAsync("`Invite filtering disabled on this channel.`").ConfigureAwait(false);
                 }
             }
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    WordFilteringServers.Remove(channel.Guild.Id);
+                    WordFilteringServers.TryRemove(channel.Guild.Id);
                     await channel.SendMessageAsync("`Word filtering disabled on this server.`").ConfigureAwait(false);
                 }
             }
@@ -176,7 +176,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    WordFilteringChannels.Remove(channel.Id);
+                    WordFilteringChannels.TryRemove(channel.Id);
                     await channel.SendMessageAsync("`Word filtering disabled on this channel.`").ConfigureAwait(false);
                 }
             }
@@ -215,7 +215,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
-                    filteredWords.Remove(word);
+                    filteredWords.TryRemove(word);
                     await channel.SendMessageAsync($"Word `{word}` removed from the list of filtered words.")
                             .ConfigureAwait(false);
                 }

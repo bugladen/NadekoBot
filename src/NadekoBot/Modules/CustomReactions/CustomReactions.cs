@@ -150,16 +150,13 @@ namespace NadekoBot.Modules.CustomReactions
                 if (toDelete.GuildId == null && channel == null)
                 {
                     uow.CustomReactions.Remove(toDelete);
-                    var toRemove = GlobalReactions.FirstOrDefault(cr => cr.Id == toDelete.Id);
-                    GlobalReactions.TryRemove(toRemove);
+                    GlobalReactions.RemoveWhere(cr => cr.Id == toDelete.Id);
                     success = true;
                 }
                 else if (toDelete.GuildId != null && channel?.Guild.Id == toDelete.GuildId)
                 {
                     uow.CustomReactions.Remove(toDelete);
-                    var crs = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
-                    var toRemove = crs.FirstOrDefault(cr => cr.Id == toDelete.Id);
-
+                    GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>()).RemoveWhere(cr=>cr.Id == toDelete.Id);
                     success = true;
                 }
                 if(success)

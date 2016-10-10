@@ -195,7 +195,7 @@ namespace NadekoBot.Modules.Searches
                     toRemove = streams.Where(fs => fs.ChannelId == channel.Id && fs.Username.ToUpperInvariant() == username).FirstOrDefault();
                     if (toRemove != null)
                     {
-                        config.FollowedStreams = streams.Except(new[] { toRemove }).ToList();
+                        config.FollowedStreams = new HashSet<FollowedStream>(streams.Except(new[] { toRemove }));
                         await uow.CompleteAsync();
                     }
                 }
