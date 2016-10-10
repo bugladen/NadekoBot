@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                             res = value + 273.15m; //celcius!
                             break;
                         case "F":
-                            res = (value + 459.67m) * (5 / 9);
+                            res = (value + 459.67m) * (5m / 9m);
                             break;
                         default:
                             res = value;
@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Utility
                             res = value - 273.15m; //celcius!
                             break;
                         case "F":
-                            res = res * (9 / 5) - 458.67m;
+                            res = res * (9m / 5m) - 459.67m;
                             break;
                         default:
                             break;
