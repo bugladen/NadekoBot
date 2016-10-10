@@ -78,7 +78,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `&gt;8ball should i do something`.
+        ///    Looks up a localized string similar to `&gt;8ball should I do something`.
         /// </summary>
         public static string _8ball_usage {
             get {
@@ -96,7 +96,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;.
+        ///    Looks up a localized string similar to Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/&gt;.
         /// </summary>
         public static string addcustreact_desc {
             get {
@@ -501,7 +501,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Gives someone a certain amount of flowers.  .
+        ///    Looks up a localized string similar to Awards someone a certain amount of currency.  .
         /// </summary>
         public static string award_desc {
             get {
@@ -582,7 +582,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bet to guess will the result be heads or tails. Guessing award you double flowers you&apos;ve bet..
+        ///    Looks up a localized string similar to Bet to guess will the result be heads or tails. Guessing awards you double flowers you&apos;ve bet..
         /// </summary>
         public static string betflip_desc {
             get {
@@ -1122,7 +1122,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once..
+        ///    Looks up a localized string similar to Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting..
         /// </summary>
         public static string chnlfilterinv_desc {
             get {
@@ -1131,7 +1131,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;cfi enable #general-chat`.
+        ///    Looks up a localized string similar to `;cfi`.
         /// </summary>
         public static string chnlfilterinv_usage {
             get {
@@ -1149,7 +1149,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once..
+        ///    Looks up a localized string similar to Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting..
         /// </summary>
         public static string chnlfilterwords_desc {
             get {
@@ -1158,7 +1158,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;cfw enable #general-chat`.
+        ///    Looks up a localized string similar to `;cfw`.
         /// </summary>
         public static string chnlfilterwords_usage {
             get {
@@ -1329,7 +1329,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to claimfinish cf cf3 claimfinish3.
+        ///    Looks up a localized string similar to claimfinish cf.
         /// </summary>
         public static string claimfinish_cmd {
             get {
@@ -1338,7 +1338,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
         /// </summary>
         public static string claimfinish_desc {
             get {
@@ -1347,7 +1347,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf [war_number] [optional_other_name]`.
+        ///    Looks up a localized string similar to `,cf 1 Someone`.
         /// </summary>
         public static string claimfinish_usage {
             get {
@@ -1365,7 +1365,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
         /// </summary>
         public static string claimfinish1_desc {
             get {
@@ -1374,7 +1374,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf [war_number] [optional_other_name]`.
+        ///    Looks up a localized string similar to `,cf1 2 SomeGirl`.
         /// </summary>
         public static string claimfinish1_usage {
             get {
@@ -1392,7 +1392,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
         /// </summary>
         public static string claimfinish2_desc {
             get {
@@ -1401,7 +1401,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf [war_number] [optional_other_name]`.
+        ///    Looks up a localized string similar to `,cf2 1 SomeGuy`.
         /// </summary>
         public static string claimfinish2_usage {
             get {
@@ -1473,7 +1473,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a cooldown per user for a command. Set 0 to clear..
+        ///    Looks up a localized string similar to Sets a cooldown per user for a command. Set to 0 to remove the cooldown..
         /// </summary>
         public static string cmdcooldown_desc {
             get {
@@ -1527,7 +1527,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List all of the bot&apos;s commands from a certain module..
+        ///    Looks up a localized string similar to List all of the bot&apos;s commands from a certain module. You can either specify full, or only first few letters of the module name..
         /// </summary>
         public static string commands_desc {
             get {
@@ -1536,7 +1536,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `-commands` or `.commands`.
+        ///    Looks up a localized string similar to `-commands Administration` or `-cmds Admin`.
         /// </summary>
         public static string commands_usage {
             get {
@@ -1554,7 +1554,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Convert quantities from&gt;to..
+        ///    Looks up a localized string similar to Convert quantities. Use `~convertlist` to see supported dimensions and currencies..
         /// </summary>
         public static string convert_desc {
             get {
@@ -1563,7 +1563,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~convert m&gt;km 1000`.
+        ///    Looks up a localized string similar to `~convert m km 1000`.
         /// </summary>
         public static string convert_usage {
             get {
@@ -1581,7 +1581,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List of the convertable dimensions and currencies..
+        ///    Looks up a localized string similar to List of the convertible dimensions and currencies..
         /// </summary>
         public static string convertlist_desc {
             get {
@@ -1905,7 +1905,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it..
+        ///    Looks up a localized string similar to Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it..
         /// </summary>
         public static string deletequote_desc {
             get {
@@ -2094,7 +2094,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Instructions for helping the project!.
+        ///    Looks up a localized string similar to Instructions for helping the project financially..
         /// </summary>
         public static string donate_desc {
             get {
@@ -2103,7 +2103,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `-donate` or `~donate`.
+        ///    Looks up a localized string similar to `-donate`.
         /// </summary>
         public static string donate_usage {
             get {
@@ -2310,7 +2310,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds or removes (if it exists) a word from the list of filtered words.
+        ///    Looks up a localized string similar to Adds or removes (if it exists) a word from the list of filtered words..
         /// </summary>
         public static string filterword_desc {
             get {
@@ -2418,7 +2418,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission..
+        ///    Looks up a localized string similar to Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%).
         /// </summary>
         public static string gencurrency_desc {
             get {
@@ -2472,7 +2472,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Give someone a certain amount of NadekoFlowers.
+        ///    Looks up a localized string similar to Give someone a certain amount of currency..
         /// </summary>
         public static string give_desc {
             get {
@@ -2571,7 +2571,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to greetdel.
+        ///    Looks up a localized string similar to greetdel grdel.
         /// </summary>
         public static string greetdel_cmd {
             get {
@@ -2706,7 +2706,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to h help.
+        ///    Looks up a localized string similar to help h.
         /// </summary>
         public static string h_cmd {
             get {
@@ -2715,7 +2715,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Either shows a help for a single command, or PMs you help link if no arguments are specified..
+        ///    Looks up a localized string similar to Either shows a help for a single command, or DMs you help link if no arguments are specified..
         /// </summary>
         public static string h_desc {
             get {
@@ -2724,7 +2724,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `-h !m q` or just `-h`.
+        ///    Looks up a localized string similar to `-h !!q` or `-h`.
         /// </summary>
         public static string h_usage {
             get {
@@ -2877,7 +2877,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
         /// </summary>
         public static string hentai_desc {
             get {
@@ -2886,7 +2886,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~hentai yuri+kissing`.
+        ///    Looks up a localized string similar to `~hentai yuri`.
         /// </summary>
         public static string hentai_usage {
             get {
@@ -3156,7 +3156,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.jcsc`.
+        ///    Looks up a localized string similar to `.jcsc TokenHere`.
         /// </summary>
         public static string jcsc_usage {
             get {
@@ -3255,7 +3255,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Displays bot currency leaderboard.
+        ///    Looks up a localized string similar to Displays bot currency leaderboard..
         /// </summary>
         public static string leaderboard_desc {
             get {
@@ -3444,7 +3444,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists whole permission chain with their indexes. You can specify optional page number if there are a lot of permissions.
+        ///    Looks up a localized string similar to Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions..
         /// </summary>
         public static string listperms_desc {
             get {
@@ -3849,7 +3849,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a list of filtered words.
+        ///    Looks up a localized string similar to Shows a list of filtered words..
         /// </summary>
         public static string lstfilterwords_desc {
             get {
@@ -4065,7 +4065,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List all bot modules..
+        ///    Looks up a localized string similar to Lists all bot modules..
         /// </summary>
         public static string modules_desc {
             get {
@@ -4074,7 +4074,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `-modules` or `.modules`.
+        ///    Looks up a localized string similar to `-modules`.
         /// </summary>
         public static string modules_usage {
             get {
@@ -5001,7 +5001,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to removeplaying rmlp repl.
+        ///    Looks up a localized string similar to removeplaying rmpl repl.
         /// </summary>
         public static string removeplaying_cmd {
             get {
@@ -5091,7 +5091,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Renames a role. Roles you are renaming must be lower than bot&apos;s highest role. **Manage Roles Permissions.**.
+        ///    Looks up a localized string similar to Renames a role. Roles you are renaming must be lower than bot&apos;s highest role..
         /// </summary>
         public static string renamerole_desc {
             get {
@@ -5321,33 +5321,6 @@ namespace NadekoBot.Resources {
         public static string rip_usage {
             get {
                 return ResourceManager.GetString("rip_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to rmvfilterword rw.
-        /// </summary>
-        public static string rmvfilterword_cmd {
-            get {
-                return ResourceManager.GetString("rmvfilterword_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Removes the word from the list of filtered words.
-        /// </summary>
-        public static string rmvfilterword_desc {
-            get {
-                return ResourceManager.GetString("rmvfilterword_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `;rw poop`.
-        /// </summary>
-        public static string rmvfilterword_usage {
-            get {
-                return ResourceManager.GetString("rmvfilterword_usage", resourceCulture);
             }
         }
         
@@ -5793,7 +5766,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Send a message to someone on a different server through the bot.  .
+        ///    Looks up a localized string similar to Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with | and prepend channel id with `c:` and user id with `u:`..
         /// </summary>
         public static string send_desc {
             get {
@@ -5802,7 +5775,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.send sid`.
+        ///    Looks up a localized string similar to `.send serverid|c:channelid` or `.send serverid|u:userid`.
         /// </summary>
         public static string send_usage {
             get {
@@ -6414,7 +6387,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Enables or disables automatic deleting of invites on the server..
+        ///    Looks up a localized string similar to Toggles automatic deleting of invites posted in the server..
         /// </summary>
         public static string srvrfilterinv_desc {
             get {
@@ -6423,7 +6396,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;sfi disable`.
+        ///    Looks up a localized string similar to `;sfi`.
         /// </summary>
         public static string srvrfilterinv_usage {
             get {
@@ -6441,7 +6414,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Enables or disables automatic deleting of messages containing forbidden words on the server..
+        ///    Looks up a localized string similar to Toggles automatic deleting of messages containing forbidden words on the server..
         /// </summary>
         public static string srvrfilterwords_desc {
             get {
@@ -6450,7 +6423,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `;sfw disable`.
+        ///    Looks up a localized string similar to `;sfw`.
         /// </summary>
         public static string srvrfilterwords_usage {
             get {
@@ -6630,7 +6603,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to toggle whether the self-assigned roles should be exclusive.
+        ///    Looks up a localized string similar to Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles).
         /// </summary>
         public static string tesar_desc {
             get {
@@ -6711,7 +6684,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List the valid languages for translation..
+        ///    Looks up a localized string similar to Lists the valid languages for translation..
         /// </summary>
         public static string translangs_desc {
             get {
@@ -6738,7 +6711,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Translates from&gt;to text. From the given language to the destiation language..
+        ///    Looks up a localized string similar to Translates from&gt;to text. From the given language to the destination language..
         /// </summary>
         public static string translate_desc {
             get {
@@ -7395,7 +7368,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.voicerpresence`.
+        ///    Looks up a localized string similar to `.voicepresence`.
         /// </summary>
         public static string voicepresence_usage {
             get {
@@ -7458,7 +7431,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to whosplaying.
+        ///    Looks up a localized string similar to whosplaying whpl.
         /// </summary>
         public static string whosplaying_cmd {
             get {
@@ -7476,7 +7449,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.whoplays Overwatch`.
+        ///    Looks up a localized string similar to `.whpl Overwatch`.
         /// </summary>
         public static string whosplaying_usage {
             get {

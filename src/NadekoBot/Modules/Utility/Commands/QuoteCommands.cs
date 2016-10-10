@@ -73,17 +73,21 @@ namespace NadekoBot.Modules.Utility
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
 
+            var isAdmin = ((IGuildUser)umsg.Author).GuildPermissions.Administrator;
+
             keyword = keyword.ToUpperInvariant();
             string response;
             using (var uow = DbHandler.UnitOfWork())
             {
-                var q = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword).ConfigureAwait(false);
+                var qs = uow.Quotes.GetAllQuotesByKeyword(channel.Guild.Id, keyword);
 
-                if (q == null)
+                if (qs==null || !qs.Any())
                 {
                     response = "`No quotes found.`";
                     return;
                 }
+
+                var q = qs.Shuffle().FirstOrDefault(elem => isAdmin || elem.AuthorId == umsg.Author.Id);
 
                 uow.Quotes.Remove(q);
                 await uow.CompleteAsync().ConfigureAwait(false);
@@ -94,6 +98,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.Administrator)]
         public async Task DelAllQuotes(IUserMessage umsg, [Remainder] string keyword)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -105,7 +110,7 @@ namespace NadekoBot.Modules.Utility
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var quotes = uow.Quotes.GetAllQuotesByKeyword(keyword);
+                var quotes = uow.Quotes.GetAllQuotesByKeyword(channel.Guild.Id, keyword);
 
                 uow.Quotes.RemoveRange(quotes.ToArray());//wtf?!
 

@@ -9,7 +9,7 @@ namespace NadekoBot.Services.Database.Repositories
 {
     public interface IQuoteRepository : IRepository<Quote>
     {
-        IEnumerable<Quote> GetAllQuotesByKeyword(string keyword);
+        IEnumerable<Quote> GetAllQuotesByKeyword(ulong guildId, string keyword);
         Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword);
     }
 }

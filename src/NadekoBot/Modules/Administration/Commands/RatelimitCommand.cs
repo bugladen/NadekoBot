@@ -86,6 +86,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Slowmode(IUserMessage umsg, int msg = 1, int perSec = 5)
             {
                 var channel = (ITextChannel)umsg.Channel;

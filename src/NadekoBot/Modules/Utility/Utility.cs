@@ -116,19 +116,29 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Roles(IUserMessage msg, IGuildUser target = null)
+        public async Task Roles(IUserMessage msg, IGuildUser target, int page = 1)
         {
             var channel = (ITextChannel)msg.Channel;
             var guild = channel.Guild;
+
+            const int RolesPerPage = 20;
+
+            if (page < 1 || page > 100)
+                return;
             if (target != null)
             {
-                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
+                await msg.Reply($"`Page #{page} of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Skip((page-1) * RolesPerPage).Take(RolesPerPage).Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
             }
             else
             {
-                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)).SanitizeMentions());
+                await msg.Reply($"`Page #{page} of all roles on this server:` \n• " + string.Join("\n• ", guild.Roles.Skip((page - 1) * RolesPerPage).Take(RolesPerPage).Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
             }
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Roles(IUserMessage msg, int page = 1) =>
+            Roles(msg, null, page);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

@@ -15,13 +15,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Quote> GetAllQuotesByKeyword(string keyword) => 
-            _set.Where(q => q.Keyword == keyword);
+        public IEnumerable<Quote> GetAllQuotesByKeyword(ulong guildId, string keyword) => 
+            _set.Where(q => q.GuildId == guildId && q.Keyword == keyword);
 
         public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
         {
             var rng = new NadekoRandom();
-            return _set.Where(q => q.Keyword == keyword).OrderBy(q => rng.Next()).FirstOrDefaultAsync();
+            return _set.Where(q => q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rng.Next()).FirstOrDefaultAsync();
         }
     }
 }

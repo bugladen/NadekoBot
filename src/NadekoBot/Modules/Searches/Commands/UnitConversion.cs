@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Searches
                 await msg.ReplyLong(sb.ToString(),  breakOn: new[] { "```xl\n", "\n" });
             }
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Convert(IUserMessage msg, string origin, string target, decimal value)
+            public async Task Convert(IUserMessage msg, string origin, string target, double value)
             {
                 var originUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
                 var targetUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Searches
                     await msg.Reply(string.Format("Cannot convert {0} to {1}: types of unit are not equal", originUnit.Triggers.First(), targetUnit.Triggers.First()));
                     return;
                 }
-                decimal res;
+                double res;
                 if (originUnit.Triggers == targetUnit.Triggers) res = value;
                 else if (originUnit.UnitType == "temperature")
                 {
@@ -131,10 +131,10 @@ namespace NadekoBot.Modules.Searches
                     switch (originUnit.Triggers.First().ToUpperInvariant())
                     {
                         case "C":
-                            res = value + (decimal)273.15; //celcius!
+                            res = value + 273.15; //celcius!
                             break;
                         case "F":
-                            res = (value + (decimal)459.67) * ((decimal)5 / 9);
+                            res = (value + 459.67) * (5 / 9);
                             break;
                         default:
                             res = value;
@@ -144,10 +144,10 @@ namespace NadekoBot.Modules.Searches
                     switch (targetUnit.Triggers.First())
                     {
                         case "C":
-                            res = value - (decimal)273.15; //celcius!
+                            res = value - 273.15; //celcius!
                             break;
                         case "F":
-                            res = res * ((decimal)9 / 5) - (decimal)458.67;
+                            res = res * (9 / 5) - 458.67;
                             break;
                         default:
                             break;
@@ -157,13 +157,14 @@ namespace NadekoBot.Modules.Searches
                 {
                     if (originUnit.UnitType == "currency")
                     {
-                        res = (value * targetUnit.Modifier) / originUnit.Modifier;
+                        res = (value * (double)targetUnit.Modifier) / (double)originUnit.Modifier;
                     }
                     else
-                        res = (value * originUnit.Modifier) / targetUnit.Modifier;
+                        res = (value * (double)originUnit.Modifier) / (double)targetUnit.Modifier;
                 }
                 res = Math.Round(res, 2);
-                await msg.Reply(string.Format("{0} {1} is equal to {2} {3}", value, originUnit.Triggers.First(), res, targetUnit.Triggers.First()));
+
+                await msg.Reply(string.Format("{0} {1}s is equal to {2} {3}s", value, originUnit.Triggers.First().SnPl(value.IsInteger() ? (int)value : 2), res, targetUnit.Triggers.First().SnPl(res.IsInteger() ? (int)res : 2)));
             }
         }
 

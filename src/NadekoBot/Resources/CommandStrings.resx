@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="h_cmd" xml:space="preserve">
-    <value>h help</value>
+    <value>help h</value>
   </data>
   <data name="h_desc" xml:space="preserve">
-    <value>Either shows a help for a single command, or PMs you help link if no arguments are specified.</value>
+    <value>Either shows a help for a single command, or DMs you help link if no arguments are specified.</value>
   </data>
   <data name="h_usage" xml:space="preserve">
-    <value>`-h !m q` or just `-h`</value>
+    <value>`-h !!q` or `-h`</value>
   </data>
   <data name="hgit_cmd" xml:space="preserve">
     <value>hgit</value>
@@ -139,31 +139,31 @@
     <value>donate</value>
   </data>
   <data name="donate_desc" xml:space="preserve">
-    <value>Instructions for helping the project!</value>
+    <value>Instructions for helping the project financially.</value>
   </data>
   <data name="donate_usage" xml:space="preserve">
-    <value>`-donate` or `~donate`</value>
+    <value>`-donate`</value>
   </data>
   <data name="modules_cmd" xml:space="preserve">
     <value>modules mdls</value>
   </data>
   <data name="modules_desc" xml:space="preserve">
-    <value>List all bot modules.</value>
+    <value>Lists all bot modules.</value>
   </data>
   <data name="modules_usage" xml:space="preserve">
-    <value>`-modules` or `.modules`</value>
+    <value>`-modules`</value>
   </data>
   <data name="commands_cmd" xml:space="preserve">
     <value>commands cmds</value>
   </data>
   <data name="commands_desc" xml:space="preserve">
-    <value>List all of the bot's commands from a certain module.</value>
+    <value>List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name.</value>
   </data>
   <data name="commands_usage" xml:space="preserve">
-    <value>`-commands` or `.commands`</value>
+    <value>`-commands Administration` or `-cmds Admin`</value>
   </data>
   <data name="greetdel_cmd" xml:space="preserve">
-    <value>greetdel</value>
+    <value>greetdel grdel</value>
   </data>
   <data name="greetdel_desc" xml:space="preserve">
     <value>Toggles automatic deletion of greet messages. </value>
@@ -268,7 +268,7 @@
     <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. </value>
   </data>
   <data name="voicepresence_usage" xml:space="preserve">
-    <value>`.voicerpresence`</value>
+    <value>`.voicepresence`</value>
   </data>
   <data name="repeatinvoke_cmd" xml:space="preserve">
     <value>repeatinvoke repinv</value>
@@ -316,7 +316,7 @@
     <value>`.lipl`</value>
   </data>
   <data name="removeplaying_cmd" xml:space="preserve">
-    <value>removeplaying rmlp repl</value>
+    <value>removeplaying rmpl repl</value>
   </data>
   <data name="removeplaying_desc" xml:space="preserve">
     <value>Removes a playing string on a given number. </value>
@@ -367,7 +367,7 @@
     <value>Joins current channel to an instance of cross server channel using the token. </value>
   </data>
   <data name="jcsc_usage" xml:space="preserve">
-    <value>`.jcsc`</value>
+    <value>`.jcsc TokenHere`</value>
   </data>
   <data name="lcsc_cmd" xml:space="preserve">
     <value>lcsc</value>
@@ -409,7 +409,7 @@
     <value>togglexclsar tesar</value>
   </data>
   <data name="tesar_desc" xml:space="preserve">
-    <value>toggle whether the self-assigned roles should be exclusive</value>
+    <value>Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles)</value>
   </data>
   <data name="tesar_usage" xml:space="preserve">
     <value>`.tesar`</value>
@@ -436,7 +436,7 @@
     <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions&gt;</value>
+    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/&gt;</value>
   </data>
   <data name="addcustreact_usage" xml:space="preserve">
     <value>`.acr "hello" Hi there %user%`</value>
@@ -553,7 +553,7 @@
     <value>renamerole renr</value>
   </data>
   <data name="renamerole_desc" xml:space="preserve">
-    <value>Renames a role. Roles you are renaming must be lower than bot's highest role. **Manage Roles Permissions.**</value>
+    <value>Renames a role. Roles you are renaming must be lower than bot's highest role.</value>
   </data>
   <data name="renamerole_usage" xml:space="preserve">
     <value>`.renr "First role" SecondRole`</value>
@@ -760,10 +760,10 @@
     <value>send</value>
   </data>
   <data name="send_desc" xml:space="preserve">
-    <value>Send a message to someone on a different server through the bot.  </value>
+    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with | and prepend channel id with `c:` and user id with `u:`.</value>
   </data>
   <data name="send_usage" xml:space="preserve">
-    <value>`.send sid`</value>
+    <value>`.send serverid|c:channelid` or `.send serverid|u:userid`</value>
   </data>
   <data name="mentionrole_cmd" xml:space="preserve">
     <value>mentionrole menro</value>
@@ -865,13 +865,13 @@
     <value>`.uinfo @SomeUser`</value>
   </data>
   <data name="whosplaying_cmd" xml:space="preserve">
-    <value>whosplaying</value>
+    <value>whosplaying whpl</value>
   </data>
   <data name="whosplaying_desc" xml:space="preserve">
     <value>Shows a list of users who are playing the specified game.</value>
   </data>
   <data name="whosplaying_usage" xml:space="preserve">
-    <value>`.whoplays Overwatch`</value>
+    <value>`.whpl Overwatch`</value>
   </data>
   <data name="inrole_cmd" xml:space="preserve">
     <value>inrole</value>
@@ -958,52 +958,43 @@
     <value>chnlfilterinv cfi</value>
   </data>
   <data name="chnlfilterinv_desc" xml:space="preserve">
-    <value>Enables or disables automatic deleting of invites on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once.</value>
+    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting.</value>
   </data>
   <data name="chnlfilterinv_usage" xml:space="preserve">
-    <value>`;cfi enable #general-chat`</value>
+    <value>`;cfi`</value>
   </data>
   <data name="srvrfilterinv_cmd" xml:space="preserve">
     <value>srvrfilterinv sfi</value>
   </data>
   <data name="srvrfilterinv_desc" xml:space="preserve">
-    <value>Enables or disables automatic deleting of invites on the server.</value>
+    <value>Toggles automatic deleting of invites posted in the server.</value>
   </data>
   <data name="srvrfilterinv_usage" xml:space="preserve">
-    <value>`;sfi disable`</value>
+    <value>`;sfi`</value>
   </data>
   <data name="chnlfilterwords_cmd" xml:space="preserve">
     <value>chnlfilterwords cfw</value>
   </data>
   <data name="chnlfilterwords_desc" xml:space="preserve">
-    <value>Enables or disables automatic deleting of messages containing banned words on the channel.If no channel supplied, it will default to current one. Use ALL to apply to all existing channels at once.</value>
+    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting.</value>
   </data>
   <data name="chnlfilterwords_usage" xml:space="preserve">
-    <value>`;cfw enable #general-chat`</value>
+    <value>`;cfw`</value>
   </data>
   <data name="filterword_cmd" xml:space="preserve">
     <value>fw</value>
   </data>
   <data name="filterword_desc" xml:space="preserve">
-    <value>Adds or removes (if it exists) a word from the list of filtered words</value>
+    <value>Adds or removes (if it exists) a word from the list of filtered words.</value>
   </data>
   <data name="filterword_usage" xml:space="preserve">
     <value>`;fw poop`</value>
-  </data>
-  <data name="rmvfilterword_cmd" xml:space="preserve">
-    <value>rmvfilterword rw</value>
-  </data>
-  <data name="rmvfilterword_desc" xml:space="preserve">
-    <value>Removes the word from the list of filtered words</value>
-  </data>
-  <data name="rmvfilterword_usage" xml:space="preserve">
-    <value>`;rw poop`</value>
   </data>
   <data name="lstfilterwords_cmd" xml:space="preserve">
     <value>lstfilterwords lfw</value>
   </data>
   <data name="lstfilterwords_desc" xml:space="preserve">
-    <value>Shows a list of filtered words</value>
+    <value>Shows a list of filtered words.</value>
   </data>
   <data name="lstfilterwords_usage" xml:space="preserve">
     <value>`;lfw`</value>
@@ -1012,10 +1003,10 @@
     <value>srvrfilterwords sfw</value>
   </data>
   <data name="srvrfilterwords_desc" xml:space="preserve">
-    <value>Enables or disables automatic deleting of messages containing forbidden words on the server.</value>
+    <value>Toggles automatic deleting of messages containing forbidden words on the server.</value>
   </data>
   <data name="srvrfilterwords_usage" xml:space="preserve">
-    <value>`;sfw disable`</value>
+    <value>`;sfw`</value>
   </data>
   <data name="permrole_cmd" xml:space="preserve">
     <value>permrole pr</value>
@@ -1228,7 +1219,7 @@
     <value>cmdcooldown cmdcd</value>
   </data>
   <data name="cmdcooldown_desc" xml:space="preserve">
-    <value>Sets a cooldown per user for a command. Set 0 to clear.</value>
+    <value>Sets a cooldown per user for a command. Set to 0 to remove the cooldown.</value>
   </data>
   <data name="cmdcooldown_usage" xml:space="preserve">
     <value>`;cmdcd "some cmd" 5`</value>
@@ -1264,7 +1255,7 @@
     <value>deletequote delq</value>
   </data>
   <data name="deletequote_desc" xml:space="preserve">
-    <value>Deletes all quotes with the specified keyword. You have to either be bot owner or the creator of the quote to delete it.</value>
+    <value>Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.</value>
   </data>
   <data name="deletequote_usage" xml:space="preserve">
     <value>`.delq abc`</value>
@@ -1336,7 +1327,7 @@
     <value>betflip bf</value>
   </data>
   <data name="betflip_desc" xml:space="preserve">
-    <value>Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet.</value>
+    <value>Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet.</value>
   </data>
   <data name="betflip_usage" xml:space="preserve">
     <value>`$bf 5 heads` or `$bf 3 t`</value>
@@ -1399,7 +1390,7 @@
     <value>give</value>
   </data>
   <data name="give_desc" xml:space="preserve">
-    <value>Give someone a certain amount of NadekoFlowers</value>
+    <value>Give someone a certain amount of currency.</value>
   </data>
   <data name="give_usage" xml:space="preserve">
     <value>`$give 1 "@SomeGuy"`</value>
@@ -1408,7 +1399,7 @@
     <value>award</value>
   </data>
   <data name="award_desc" xml:space="preserve">
-    <value>Gives someone a certain amount of flowers.  </value>
+    <value>Awards someone a certain amount of currency.  </value>
   </data>
   <data name="award_usage" xml:space="preserve">
     <value>`$award 100 @person`</value>
@@ -1435,7 +1426,7 @@
     <value>leaderboard lb</value>
   </data>
   <data name="leaderboard_desc" xml:space="preserve">
-    <value>Displays bot currency leaderboard</value>
+    <value>Displays bot currency leaderboard.</value>
   </data>
   <data name="leaderboard_usage" xml:space="preserve">
     <value>`$lb`</value>
@@ -1534,7 +1525,7 @@
     <value>gencurrency gc</value>
   </data>
   <data name="gencurrency_desc" xml:space="preserve">
-    <value>Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a NadekoFlower. Requires Manage Messages permission.</value>
+    <value>Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%)</value>
   </data>
   <data name="gencurrency_usage" xml:space="preserve">
     <value>`&gt;gc`</value>
@@ -1564,7 +1555,7 @@
     <value>Ask the 8ball a yes/no question.</value>
   </data>
   <data name="_8ball_usage" xml:space="preserve">
-    <value>`&gt;8ball should i do something`</value>
+    <value>`&gt;8ball should I do something`</value>
   </data>
   <data name="rps_cmd" xml:space="preserve">
     <value>rps</value>
@@ -1930,16 +1921,16 @@
     <value>convert</value>
   </data>
   <data name="convert_desc" xml:space="preserve">
-    <value>Convert quantities from&gt;to.</value>
+    <value>Convert quantities. Use `~convertlist` to see supported dimensions and currencies.</value>
   </data>
   <data name="convert_usage" xml:space="preserve">
-    <value>`~convert m&gt;km 1000`</value>
+    <value>`~convert m km 1000`</value>
   </data>
   <data name="convertlist_cmd" xml:space="preserve">
     <value>convertlist</value>
   </data>
   <data name="convertlist_desc" xml:space="preserve">
-    <value>List of the convertable dimensions and currencies.</value>
+    <value>List of the convertible dimensions and currencies.</value>
   </data>
   <data name="convertlist_usage" xml:space="preserve">
     <value>`~convertlist`</value>
@@ -2263,10 +2254,10 @@
     <value>hentai</value>
   </data>
   <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)</value>
+    <value>Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
-    <value>`~hentai yuri+kissing`</value>
+    <value>`~hentai yuri`</value>
   </data>
   <data name="danbooru_cmd" xml:space="preserve">
     <value>danbooru</value>
@@ -2368,31 +2359,31 @@
     <value>`,call [war_number] [base_number] [optional_other_name]`</value>
   </data>
   <data name="claimfinish_cmd" xml:space="preserve">
-    <value>claimfinish cf cf3 claimfinish3</value>
+    <value>claimfinish cf</value>
   </data>
   <data name="claimfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
   </data>
   <data name="claimfinish_usage" xml:space="preserve">
-    <value>`,cf [war_number] [optional_other_name]`</value>
+    <value>`,cf 1 Someone`</value>
   </data>
   <data name="claimfinish2_cmd" xml:space="preserve">
     <value>claimfinish2 cf2</value>
   </data>
   <data name="claimfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
   </data>
   <data name="claimfinish2_usage" xml:space="preserve">
-    <value>`,cf [war_number] [optional_other_name]`</value>
+    <value>`,cf2 1 SomeGuy`</value>
   </data>
   <data name="claimfinish1_cmd" xml:space="preserve">
     <value>claimfinish1 cf1</value>
   </data>
   <data name="claimfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
   </data>
   <data name="claimfinish1_usage" xml:space="preserve">
-    <value>`,cf [war_number] [optional_other_name]`</value>
+    <value>`,cf1 2 SomeGirl`</value>
   </data>
   <data name="unclaim_cmd" xml:space="preserve">
     <value>unclaim ucall uc</value>
@@ -2461,7 +2452,7 @@
     <value>translate trans</value>
   </data>
   <data name="translate_desc" xml:space="preserve">
-    <value>Translates from&gt;to text. From the given language to the destiation language.</value>
+    <value>Translates from&gt;to text. From the given language to the destination language.</value>
   </data>
   <data name="translate_usage" xml:space="preserve">
     <value>`~trans en&gt;fr Hello`</value>
@@ -2470,7 +2461,7 @@
     <value>translangs</value>
   </data>
   <data name="translangs_desc" xml:space="preserve">
-    <value>List the valid languages for translation.</value>
+    <value>Lists the valid languages for translation.</value>
   </data>
   <data name="translangs_usage" xml:space="preserve">
     <value>`~translangs`</value>
@@ -2557,7 +2548,7 @@
     <value>cash $$</value>
   </data>
   <data name="listperms_desc" xml:space="preserve">
-    <value>Lists whole permission chain with their indexes. You can specify optional page number if there are a lot of permissions</value>
+    <value>Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.</value>
   </data>
   <data name="listperms_usage" xml:space="preserve">
     <value>`;lp` or `;lp 3`</value>

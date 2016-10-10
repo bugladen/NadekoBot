@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches
             country = city.Replace(" ", "");
             string response;
             using (var http = new HttpClient())
-                response = await http.GetStringAsync($"http://api.lawlypopzz.xyz/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
 
             var obj = JObject.Parse(response)["weather"];
 
