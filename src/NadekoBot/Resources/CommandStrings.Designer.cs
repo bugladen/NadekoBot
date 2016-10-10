@@ -807,7 +807,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~calcops`.
+        ///    Looks up a localized string similar to `.calcops`.
         /// </summary>
         public static string calcops_usage {
             get {
@@ -834,7 +834,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~calc 1+1`.
+        ///    Looks up a localized string similar to `.calc 1+1`.
         /// </summary>
         public static string calculate_usage {
             get {
@@ -1554,7 +1554,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Convert quantities. Use `~convertlist` to see supported dimensions and currencies..
+        ///    Looks up a localized string similar to Convert quantities. Use `.convertlist` to see supported dimensions and currencies..
         /// </summary>
         public static string convert_desc {
             get {
@@ -1563,7 +1563,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~convert m km 1000`.
+        ///    Looks up a localized string similar to `.convert m km 1000`.
         /// </summary>
         public static string convert_usage {
             get {
@@ -1590,7 +1590,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~convertlist`.
+        ///    Looks up a localized string similar to `.convertlist`.
         /// </summary>
         public static string convertlist_usage {
             get {

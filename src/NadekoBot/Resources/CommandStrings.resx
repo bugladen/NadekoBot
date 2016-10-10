@@ -1921,10 +1921,10 @@
     <value>convert</value>
   </data>
   <data name="convert_desc" xml:space="preserve">
-    <value>Convert quantities. Use `~convertlist` to see supported dimensions and currencies.</value>
+    <value>Convert quantities. Use `.convertlist` to see supported dimensions and currencies.</value>
   </data>
   <data name="convert_usage" xml:space="preserve">
-    <value>`~convert m km 1000`</value>
+    <value>`.convert m km 1000`</value>
   </data>
   <data name="convertlist_cmd" xml:space="preserve">
     <value>convertlist</value>
@@ -1933,7 +1933,7 @@
     <value>List of the convertible dimensions and currencies.</value>
   </data>
   <data name="convertlist_usage" xml:space="preserve">
-    <value>`~convertlist`</value>
+    <value>`.convertlist`</value>
   </data>
   <data name="wowjoke_cmd" xml:space="preserve">
     <value>wowjoke</value>
@@ -1951,7 +1951,7 @@
     <value>Evaluate a mathematical expression.</value>
   </data>
   <data name="calculate_usage" xml:space="preserve">
-    <value>`~calc 1+1`</value>
+    <value>`.calc 1+1`</value>
   </data>
   <data name="osu_cmd" xml:space="preserve">
     <value>osu</value>
@@ -2515,7 +2515,7 @@
     <value>Shows all available operations in .calc command</value>
   </data>
   <data name="calcops_usage" xml:space="preserve">
-    <value>`~calcops`</value>
+    <value>`.calcops`</value>
   </data>
   <data name="calcops_cmd" xml:space="preserve">
     <value>calcops</value>
