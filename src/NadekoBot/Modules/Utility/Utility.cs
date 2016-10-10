@@ -127,11 +127,11 @@ namespace NadekoBot.Modules.Utility
                 return;
             if (target != null)
             {
-                await msg.Reply($"`Page #{page} of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Skip((page-1) * RolesPerPage).Take(RolesPerPage).Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
+                await msg.Reply($"`Page #{page} of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions());
             }
             else
             {
-                await msg.Reply($"`Page #{page} of all roles on this server:` \n• " + string.Join("\n• ", guild.Roles.Skip((page - 1) * RolesPerPage).Take(RolesPerPage).Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)).SanitizeMentions());
+                await msg.Reply($"`Page #{page} of all roles on this server:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions());
             }
         }
 
