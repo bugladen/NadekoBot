@@ -88,6 +88,9 @@ namespace NadekoBot
             {
                 ModulePrefixes = new ReadOnlyDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
+            // start handling messages received in commandhandler
+            await CommandHandler.StartHandling();
+
             await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));

@@ -2382,6 +2382,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to fwmsgs.
+        /// </summary>
+        public static string forwardmessages_cmd {
+            get {
+                return ResourceManager.GetString("forwardmessages_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles forwarding of non-command messages sent to bot&apos;s DM to the bot owners.
+        /// </summary>
+        public static string forwardmessages_desc {
+            get {
+                return ResourceManager.GetString("forwardmessages_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.fwmsgs`.
+        /// </summary>
+        public static string forwardmessages_usage {
+            get {
+                return ResourceManager.GetString("forwardmessages_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to fwtoall.
+        /// </summary>
+        public static string forwardtoall_cmd {
+            get {
+                return ResourceManager.GetString("forwardtoall_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json.
+        /// </summary>
+        public static string forwardtoall_desc {
+            get {
+                return ResourceManager.GetString("forwardtoall_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.fwtoall`.
+        /// </summary>
+        public static string forwardtoall_usage {
+            get {
+                return ResourceManager.GetString("forwardtoall_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to gelbooru.
         /// </summary>
         public static string gelbooru_cmd {

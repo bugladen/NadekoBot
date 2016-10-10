@@ -2619,4 +2619,22 @@
   <data name="shuffledeck_usage" xml:space="preserve">
     <value>`$sh`</value>
   </data>
+  <data name="forwardmessages_cmd" xml:space="preserve">
+    <value>fwmsgs</value>
+  </data>
+  <data name="forwardmessages_desc" xml:space="preserve">
+    <value>Toggles forwarding of non-command messages sent to bot's DM to the bot owners</value>
+  </data>
+  <data name="forwardmessages_usage" xml:space="preserve">
+    <value>`.fwmsgs`</value>
+  </data>
+  <data name="forwardtoall_cmd" xml:space="preserve">
+    <value>fwtoall</value>
+  </data>
+  <data name="forwardtoall_desc" xml:space="preserve">
+    <value>Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json</value>
+  </data>
+  <data name="forwardtoall_usage" xml:space="preserve">
+    <value>`.fwtoall`</value>
+  </data>
 </root>

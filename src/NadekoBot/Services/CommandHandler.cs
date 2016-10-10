@@ -17,14 +17,29 @@ using NadekoBot.Extensions;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Help;
+using static NadekoBot.Modules.Administration.Administration;
 
 namespace NadekoBot.Services
 {
+    public class IGuildUserComparer : IEqualityComparer<IGuildUser>
+    {
+        public bool Equals(IGuildUser x, IGuildUser y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(IGuildUser obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
     public class CommandHandler
     {
-        private ShardedDiscordClient  _client;
+        private ShardedDiscordClient _client;
         private CommandService _commandService;
         private Logger _log;
+
+        private List<IDMChannel> ownerChannels { get; set; }
 
         public event EventHandler<CommandExecutedEventArgs> CommandExecuted = delegate { };
 
@@ -33,6 +48,20 @@ namespace NadekoBot.Services
             _client = client;
             _commandService = commandService;
             _log = LogManager.GetCurrentClassLogger();
+        }
+        public async Task StartHandling()
+        {
+            ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.GetUsers())
+                                  .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
+                                  .Distinct(new IGuildUserComparer())
+                                  .Select(async u => { try { return await u.CreateDMChannelAsync(); } catch { return null; } })))
+                                      .Where(ch => ch != null)
+                                      .ToList();
+
+            if (!ownerChannels.Any())
+                _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
+            else
+                _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
 
             _client.MessageReceived += MessageReceivedHandler;
         }
@@ -110,7 +139,7 @@ namespace NadekoBot.Services
                         permRole = config.PermissionRole.Trim().ToLowerInvariant();
                     }
 
-                    
+
                 }
 
                 var throwaway = Task.Run(async () =>
@@ -158,7 +187,7 @@ namespace NadekoBot.Services
                             if (guild != null && command != null && result.Error == CommandError.Exception)
                             {
                                 if (verbose)
-                                    await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false);
+                                    try { await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false); } catch { }
                             }
                         }
                         else
@@ -166,6 +195,8 @@ namespace NadekoBot.Services
                             if (msg.Channel is IPrivateChannel)
                             {
                                 await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
+
+                                await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
                             }
                         }
                     }
@@ -185,7 +216,7 @@ namespace NadekoBot.Services
             }
         }
 
-        public async Task<Tuple<Command,IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, Permission rootPerm, string permRole, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
+        public async Task<Tuple<Command, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, Permission rootPerm, string permRole, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
             var searchResult = _commandService.Search(message, input);
             if (!searchResult.IsSuccess)
                 return new Tuple<Command, IResult>(null, searchResult);
