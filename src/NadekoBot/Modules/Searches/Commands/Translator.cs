@@ -7,15 +7,10 @@ using System.Threading.Tasks;
 using NadekoBot.Services;
 using Discord.WebSocket;
 
-namespace NadekoBot.Modules.Translator
+namespace NadekoBot.Modules.Searches
 {
-    [NadekoModule("Translator", "~")]
-    public class Translator : DiscordModule
+    public partial class Searches
     {
-        public Translator(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
-        {
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)

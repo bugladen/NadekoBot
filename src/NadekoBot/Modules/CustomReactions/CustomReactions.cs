@@ -42,18 +42,19 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var t = Task.Run(async () =>
                 {
+                    var content = umsg.Content.ToLowerInvariant();
                     HashSet<CustomReaction> reactions;
                     GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
                     if (reactions != null && reactions.Any())
                     {
-                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg) == umsg.Content).Shuffle().FirstOrDefault();
+                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg) == content).Shuffle().FirstOrDefault();
                         if (reaction != null)
                         {
                             try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                             return;
                         }
                     }
-                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg) == umsg.Content).Shuffle().FirstOrDefault();
+                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg) == content).Shuffle().FirstOrDefault();
                     if (greaction != null)
                     {
                         try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
@@ -71,6 +72,8 @@ namespace NadekoBot.Modules.CustomReactions
             if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
                 return;
 
+            key = key.ToLowerInvariant();
+
             if ((channel == null && !NadekoBot.Credentials.IsOwner(imsg.Author)) || (channel != null && !((IGuildUser)imsg.Author).GuildPermissions.Administrator))
             {
                 try { await imsg.Channel.SendMessageAsync("Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions."); } catch { }
@@ -81,7 +84,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 GuildId = channel?.Guild.Id,
                 IsRegex = false,
-                Trigger = key.ToLowerInvariant(),
+                Trigger = key,
                 Response = message,
             };
 

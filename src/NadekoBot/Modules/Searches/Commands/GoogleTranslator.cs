@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Translator
+namespace NadekoBot.Modules.Searches
 {
     public class GoogleTranslator
     {
