@@ -42,9 +42,6 @@ namespace NadekoBot.Services.Database
         private IUnitConverterRepository _conUnits;
         public IUnitConverterRepository ConverterUnits => _conUnits ?? (_conUnits = new UnitConverterRepository(_context));
 
-        private ITypingArticlesRepository _typingArticles;
-        public ITypingArticlesRepository TypingArticles => _typingArticles ?? (_typingArticles = new TypingArticlesRepository(_context));
-
         private IMusicPlaylistRepository _musicPlaylists;
         public IMusicPlaylistRepository MusicPlaylists => _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
 

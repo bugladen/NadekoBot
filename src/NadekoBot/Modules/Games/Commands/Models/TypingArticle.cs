@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Modules.Games.Commands.Models
 {
-    public class TypingArticle : DbEntity
+    public class TypingArticle
     {
-        public string Author { get; set; }
+        public string Title { get; set; }
         public string Text { get; set; }
     }
 }

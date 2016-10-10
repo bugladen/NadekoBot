@@ -3,13 +3,17 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Games.Commands.Models;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,7 +76,7 @@ namespace NadekoBot.Modules.Games
                     }
                     catch (Exception ex) { _log.Warn(ex); }
 
-                    await msg.ModifyAsync(m => m.Content = $"**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}").ConfigureAwait(false);
+                    await msg.ModifyAsync(m => m.Content = Format.Bold(Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions())).ConfigureAwait(false);
                     sw.Start();
                     HandleAnswers();
 
@@ -94,10 +98,10 @@ namespace NadekoBot.Modules.Games
 
             public string GetRandomSentence()
             {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    return uow.TypingArticles.GetRandom()?.Text ?? $"No typing articles found. Use {NadekoBot.ModulePrefixes[typeof(Games).Name]}typeadd command to add a new article for typing.";
-                }
+                if (SpeedTypingCommands.TypingArticles.Any())
+                    return SpeedTypingCommands.TypingArticles[new NadekoRandom().Next(0, SpeedTypingCommands.TypingArticles.Count)].Text;
+                else
+                    return $"No typing articles found. Use {NadekoBot.ModulePrefixes[typeof(Games).Name]}typeadd command to add a new article for typing.";
 
             }
 
@@ -146,6 +150,14 @@ namespace NadekoBot.Modules.Games
         public class SpeedTypingCommands
         {
 
+            public static List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
+
+            const string typingArticlesPath = "data/typing_articles.json";
+
+            static SpeedTypingCommands()
+            {
+                try { TypingArticles = JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(typingArticlesPath)); } catch { }
+            }
             public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
             public SpeedTypingCommands()
@@ -195,16 +207,14 @@ namespace NadekoBot.Modules.Games
             public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
             {
                 var channel = (ITextChannel)imsg.Channel;
-
-                using (var uow = DbHandler.UnitOfWork())
+                
+                TypingArticles.Add(new TypingArticle
                 {
-                    uow.TypingArticles.Add(new Services.Database.Models.TypingArticle
-                    {
-                        Author = imsg.Author.Username,
-                        Text = text.SanitizeMentions(),
-                    });
-                    await uow.CompleteAsync().ConfigureAwait(false);
-                }
+                    Title = $"Text added on {DateTime.UtcNow} by {imsg.Author}",
+                    Text = text.SanitizeMentions(),
+                });
+
+                File.WriteAllText(typingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
 
                 await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
             }

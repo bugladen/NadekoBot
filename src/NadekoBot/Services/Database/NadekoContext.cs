@@ -22,7 +22,6 @@ namespace NadekoBot.Services.Database
         public DbSet<Repeater> Repeaters { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
-        public DbSet<TypingArticle> TypingArticles { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<CustomReaction> CustomReactions { get; set; }
 
@@ -106,10 +105,6 @@ namespace NadekoBot.Services.Database
                 BotConfig.Add(bc);
 
                 this.SaveChanges();
-            }
-            if (!TypingArticles.Any())
-            {
-                //todo load default typing articles
             }
         }
 

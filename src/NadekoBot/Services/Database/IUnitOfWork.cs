@@ -22,7 +22,6 @@ namespace NadekoBot.Services.Database
         IUnitConverterRepository ConverterUnits { get; }
         ICustomReactionRepository CustomReactions { get; }
         ICurrencyRepository Currency { get; }
-        ITypingArticlesRepository TypingArticles { get; }
         IMusicPlaylistRepository MusicPlaylists { get; }
 
         int Complete();
