@@ -150,7 +150,7 @@ namespace NadekoBot.Modules.CustomReactions
                 if (toDelete.GuildId == null && channel == null)
                 {
                     uow.CustomReactions.Remove(toDelete);
-                    
+                    GlobalReactions.RemoveWhere(cr => cr.Id == toDelete.Id);
                     success = true;
                 }
                 else if (toDelete.GuildId != null && channel?.Guild.Id == toDelete.GuildId)
