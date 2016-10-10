@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Searches
 {
     public partial class Searches
     {
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Memelist(IUserMessage umsg)
         {
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Memegen(IUserMessage umsg, string meme, string topText, string botText)
         {

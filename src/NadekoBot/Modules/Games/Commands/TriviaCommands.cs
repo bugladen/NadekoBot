@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Games
         {
             public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Trivia(IUserMessage umsg, params string[] args)
             {
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games
                     await channel.SendMessageAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Tl(IUserMessage umsg)
             {
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Games
                     await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Tq(IUserMessage umsg)
             {

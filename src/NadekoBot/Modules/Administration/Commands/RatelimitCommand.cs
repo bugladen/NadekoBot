@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
 
-            private DiscordSocketClient _client { get; }
+            private ShardedDiscordClient _client { get; }
 
             public class Ratelimiter
             {
@@ -84,8 +84,9 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Slowmode(IUserMessage umsg, int msg = 1, int perSec = 5)
             {
                 var channel = (ITextChannel)umsg.Channel;

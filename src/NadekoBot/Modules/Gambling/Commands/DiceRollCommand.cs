@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Gambling
         {
             private Regex dndRegex { get; } = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Roll(IUserMessage umsg)
             {
@@ -44,8 +44,9 @@ namespace NadekoBot.Modules.Gambling
                 await channel.SendFileAsync(imageStream, "dice.png", $"{umsg.Author.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
             }
             //todo merge into internallDndRoll and internalRoll
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [Priority(1)]
             public async Task Roll(IUserMessage umsg, string arg)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -69,13 +70,14 @@ namespace NadekoBot.Modules.Gambling
                             arr[i] = rng.Next(1, n2 + 1);
                         }
                         var elemCnt = 0;
-                        await channel.SendMessageAsync($"`{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [Priority(2)]
             public async Task Roll(IUserMessage umsg, int num)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -87,7 +89,6 @@ namespace NadekoBot.Modules.Gambling
                 if (num < 1 || num > 30)
                 {
                     await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
-                    num = 30;
                     return;
                 }
 
@@ -128,7 +129,7 @@ namespace NadekoBot.Modules.Gambling
                 await channel.SendFileAsync(ms, "dice.png", $"{umsg.Author.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Rolluo(IUserMessage umsg, string arg)
             {
@@ -158,7 +159,7 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Rolluo(IUserMessage umsg, int num)
             {
@@ -171,7 +172,7 @@ namespace NadekoBot.Modules.Gambling
                 if (num < 1 || num > 30)
                 {
                     await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
-                    num = 30;
+                    return;
                 }
 
                 var rng = new NadekoRandom();
@@ -211,7 +212,7 @@ namespace NadekoBot.Modules.Gambling
                 await channel.SendFileAsync(ms, "dice.png", $"{umsg.Author.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task NRoll(IUserMessage umsg, [Remainder] string range)
             {

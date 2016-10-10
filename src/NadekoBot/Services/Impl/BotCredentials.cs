@@ -12,7 +12,8 @@ namespace NadekoBot.Services.Impl
     {
         private Logger _log;
 
-        public string ClientId { get; }
+        public ulong ClientId { get; }
+        public ulong BotId { get; }
 
         public string GoogleApiKey { get; }
 
@@ -27,6 +28,7 @@ namespace NadekoBot.Services.Impl
         public string SoundCloudClientId { get; }
 
         public DB Db { get; }
+        public int TotalShards { get; }
 
         public BotCredentials()
         {
@@ -40,18 +42,26 @@ namespace NadekoBot.Services.Impl
                 GoogleApiKey = cm.GoogleApiKey;
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
-                SoundCloudClientId = cm.SoundCloudClientId;
+                TotalShards = cm.TotalShards < 1 ? 1 : cm.TotalShards;
+                BotId = cm.BotId ?? cm.ClientId;
+                ClientId = cm.ClientId;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
                 else
                     Db = new DB(cm.Db.Type, cm.Db.ConnectionString);
             }
             else
-                _log.Fatal("credentials.json is missing. Failed to start.");
+            {
+                File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented));
+                _log.Fatal($"credentials.json is missing. Failed to start. Example written to {Path.GetFullPath("./credentials_example.json")}");
+                throw new FileNotFoundException();
+            }
         }
 
         private class CredentialsModel
         {
+            public ulong ClientId { get; set; }
+            public ulong? BotId { get; set; }
             public string Token { get; set; }
             public ulong[] OwnerIds { get; set; }
             public string LoLApiKey { get; set; }
@@ -60,6 +70,7 @@ namespace NadekoBot.Services.Impl
             public string OsuApiKey { get; set; }
             public string SoundCloudClientId { get; set; }
             public DB Db { get; set; }
+            public int TotalShards { get; set; } = 1;
         }
 
         private class DbModel

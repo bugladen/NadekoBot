@@ -25,9 +25,9 @@ namespace NadekoBot.Modules.Searches
             {
                 _log = LogManager.GetCurrentClassLogger();
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Osu(IUserMessage umsg, string usr, string mode)
+            public async Task Osu(IUserMessage umsg, string usr, [Remainder] string mode = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
@@ -47,8 +47,7 @@ namespace NadekoBot.Modules.Searches
                         var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false);
 
                         res.Position = 0;
-                        await channel.SendFileAsync(res, $"{usr}.png").ConfigureAwait(false);
-                        await channel.SendMessageAsync($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await channel.SendFileAsync(res, $"{usr}.png", $"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -58,7 +57,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Osub(IUserMessage umsg, [Remainder] string map)
             {
@@ -95,7 +94,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Osu5(IUserMessage umsg, string user, [Remainder] string mode)
             {

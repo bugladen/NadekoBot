@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
 {
+    //todo make currency generation change and cooldown modifyable
+    //only by bot owner through commands
     public partial class Games
     {
         /// <summary>
@@ -38,9 +41,11 @@ namespace NadekoBot.Modules.Games
 
             private float chance;
             private int cooldown;
+            private Logger _log { get; }
 
             public PlantPickCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
                 rng = new NadekoRandom();
 
@@ -59,7 +64,7 @@ namespace NadekoBot.Modules.Games
             private Task PotentialFlowerGeneration(IMessage imsg)
             {
                 var msg = imsg as IUserMessage;
-                if (msg == null || msg.IsAuthor())
+                if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
                     return Task.CompletedTask;
 
                 var channel = imsg.Channel as ITextChannel;
@@ -86,7 +91,7 @@ namespace NadekoBot.Modules.Games
                         {
                             var sent = await channel.SendFileAsync(
                                 GetRandomCurrencyImagePath(), 
-                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes["Gambling"]}pick`")
+                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                     .ConfigureAwait(false);
                             plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
                         }
@@ -96,7 +101,7 @@ namespace NadekoBot.Modules.Games
                 });
                 return Task.CompletedTask;
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(IUserMessage imsg)
             {
@@ -119,17 +124,13 @@ namespace NadekoBot.Modules.Games
                 await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
                 var msg = await channel.SendMessageAsync($"**{imsg.Author.Username}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                 var t = Task.Run(async () =>
-                 {
-                     try
-                     {
-                         await Task.Delay(10000).ConfigureAwait(false);
-                         await msg.DeleteAsync().ConfigureAwait(false);
-                     }
-                     catch { }
-                 });
+                {
+                    await Task.Delay(10000).ConfigureAwait(false);
+                    try { await msg.DeleteAsync().ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                });
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Plant(IUserMessage imsg)
             {
@@ -148,7 +149,7 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
                 
-                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes["Games"]}pick";
+                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Gambling.Gambling).Name]}pick";
                 if (file == null)
                 {
                     msg = await channel.SendMessageAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
@@ -160,7 +161,7 @@ namespace NadekoBot.Modules.Games
                 plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
             
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Gencurrency(IUserMessage imsg)

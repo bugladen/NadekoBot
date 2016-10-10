@@ -22,6 +22,8 @@ namespace NadekoBot.Services.Database
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
+        public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
+        public DbSet<CustomReaction> CustomReactions { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -35,8 +37,8 @@ namespace NadekoBot.Services.Database
 
         public NadekoContext()
         {
-            this.Database.Migrate();
-            EnsureSeedData();
+           this.Database.Migrate();
+           EnsureSeedData();
         }
 
         public void EnsureSeedData()
@@ -45,7 +47,7 @@ namespace NadekoBot.Services.Database
             {
                 var bc = new BotConfig();
 
-                bc.ModulePrefixes.AddRange(new HashSet<ModulePrefix>()
+                bc.ModulePrefixes.AddRange(new ConcurrentHashSet<ModulePrefix>()
                 {
                     new ModulePrefix() { ModuleName = "Administration", Prefix = "." },
                     new ModulePrefix() { ModuleName = "Searches", Prefix = "~" },
@@ -59,9 +61,10 @@ namespace NadekoBot.Services.Database
                     new ModulePrefix() { ModuleName = "Gambling", Prefix = "$" },
                     new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
                     new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
-                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." }
+                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
+                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." }
                 });
-                bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
+                bc.RaceAnimals.AddRange(new ConcurrentHashSet<RaceAnimal>
                 {
                     new RaceAnimal { Icon = "🐼", Name = "Panda" },
                     new RaceAnimal { Icon = "🐻", Name = "Bear" },
@@ -72,7 +75,7 @@ namespace NadekoBot.Services.Database
                     new RaceAnimal { Icon = "🦀", Name = "Crab" },
                     new RaceAnimal { Icon = "🦄", Name = "Unicorn" }
                 });
-                bc.EightBallResponses.AddRange(new HashSet<EightBallResponse>
+                bc.EightBallResponses.AddRange(new ConcurrentHashSet<EightBallResponse>
                 {
                     new EightBallResponse() { Text = "Most definitely yes" },
                     new EightBallResponse() { Text = "For sure" },
@@ -181,6 +184,14 @@ namespace NadekoBot.Services.Database
                 .IsUnique();
             #endregion
 
+            #region Permission
+            var permissionEntity = modelBuilder.Entity<Permission>();
+            permissionEntity
+                .HasOne(p => p.Next)
+                .WithOne(p => p.Previous)
+                .IsRequired(false);
+            #endregion
+
             #region LogSettings
 
             //var logSettingEntity = modelBuilder.Entity<LogSetting>();
@@ -193,6 +204,17 @@ namespace NadekoBot.Services.Database
             //logSettingEntity
             //    .HasMany(ls => ls.IgnoredVoicePresenceChannelIds)
             //    .WithOne(ls => ls.LogSetting);
+            #endregion
+
+            #region MusicPlaylists
+            var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
+
+            musicPlaylistEntity
+                .HasMany(p => p.Songs)
+                .WithOne()
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+                
+
             #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);

@@ -18,12 +18,12 @@ namespace NadekoBot.Modules.Utility
     [NadekoModule("Utility", ".")]
     public partial class Utility : DiscordModule
     {
-        public Utility(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Utility(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
 
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task WhosPlaying(IUserMessage umsg, [Remainder] string game = null)
         {
@@ -43,9 +43,9 @@ namespace NadekoBot.Modules.Utility
                 await channel.SendMessageAsync("```xl\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task InRole(IUserMessage umsg, [Remainder] string roles = null)
+        public async Task InRole(IUserMessage umsg, [Remainder] string roles)
         {
             if (string.IsNullOrWhiteSpace(roles))
                 return;
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Utility
             await channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task CheckMyPerms(IUserMessage msg)
         {
@@ -93,44 +93,54 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(builder.ToString());
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UserId(IUserMessage msg, IGuildUser target = null)
         {
             var usr = target ?? msg.Author;
-            await msg.Reply($"Id of the user { usr.Username } is { usr.Id })").ConfigureAwait(false);
+            await msg.Reply($"Id of the user { usr.Username } is { usr.Id }").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task ChannelId(IUserMessage msg)
         {
             await msg.Reply($"This Channel's ID is {msg.Channel.Id}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerId(IUserMessage msg)
         {
             await msg.Reply($"This server's ID is {((ITextChannel)msg.Channel).Guild.Id}").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Roles(IUserMessage msg, IGuildUser target = null)
+        public async Task Roles(IUserMessage msg, IGuildUser target, int page = 1)
         {
             var channel = (ITextChannel)msg.Channel;
             var guild = channel.Guild;
+
+            const int RolesPerPage = 20;
+
+            if (page < 1 || page > 100)
+                return;
             if (target != null)
             {
-                await msg.Reply($"`List of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position)));
+                await msg.Reply($"`Page #{page} of roles for **{target.Username}**:` \n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions());
             }
             else
             {
-                await msg.Reply("`List of roles:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r=>r.Position)));
+                await msg.Reply($"`Page #{page} of all roles on this server:` \n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions());
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Roles(IUserMessage msg, int page = 1) =>
+            Roles(msg, null, page);
+
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ChannelTopic(IUserMessage umsg)
         {
@@ -143,13 +153,26 @@ namespace NadekoBot.Modules.Utility
                 await channel.SendMessageAsync("`Topic:` " + topic);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats(IUserMessage umsg)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             await channel.SendMessageAsync(await NadekoBot.Stats.Print());
+        }
+
+        private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Showemojis(IUserMessage msg, [Remainder] string emojis)
+        {
+            var matches = emojiFinder.Matches(emojis);
+
+
+
+            var result = string.Join("\n", matches.Cast<Match>()
+                                                  .Select(m => $"`Name:` {m.Groups["name"]} `Link:` http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
+            
+            await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
     }
 }

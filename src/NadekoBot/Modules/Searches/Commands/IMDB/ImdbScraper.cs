@@ -140,10 +140,7 @@ namespace NadekoBot.Modules.Searches.IMDB
             List<string> list = new List<string>();
             string recUrl = "http://www.imdb.com/widget/recommendations/_ajax/get_more_recs?specs=p13nsims%3A" + mov.Id;
             string json = await GetUrlDataAsync(recUrl);
-            list = MatchAll(@"title=\\""(.*?)\\""", json);
-            HashSet<String> set = new HashSet<string>();
-            foreach (String rec in list) set.Add(rec);
-            return new List<string>(set.ToList());
+            return MatchAll(@"title=\\""(.*?)\\""", json);
         }
         /*******************************[ Helper Methods ]********************************/
         //Match single instance

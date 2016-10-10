@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace NadekoBot.Modules.Administration
 
             public class RepeatRunner
             {
+                private Logger _log { get; }
+
                 private CancellationTokenSource source { get; set; }
                 private CancellationToken token { get; set; }
                 public Repeater Repeater { get; }
@@ -30,6 +33,7 @@ namespace NadekoBot.Modules.Administration
 
                 public RepeatRunner(Repeater repeater, ITextChannel channel = null)
                 {
+                    _log = LogManager.GetCurrentClassLogger();
                     this.Repeater = repeater;
                     this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
                     if (Channel == null)
@@ -47,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                         while (!token.IsCancellationRequested)
                         {
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
-                            await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false);
+                            try { await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                         }
                     }
                     catch (OperationCanceledException) { }
@@ -73,7 +77,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke(IUserMessage imsg)
@@ -90,7 +94,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Repeat(IUserMessage imsg)
             {
@@ -110,7 +114,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`No message is repeating.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {

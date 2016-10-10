@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Leet(IUserMessage umsg, int level, [Remainder] string text = null)
         {

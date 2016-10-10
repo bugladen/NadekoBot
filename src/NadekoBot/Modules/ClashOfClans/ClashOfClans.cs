@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.ClashOfClans
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
-        public ClashOfClans(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public ClashOfClans(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
             using (var uow = DbHandler.UnitOfWork())
             {
@@ -45,13 +45,13 @@ namespace NadekoBot.Modules.ClashOfClans
                 if (Bases[i] == null) continue;
                 if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
-                    await war.Channel.SendMessageAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
                     Bases[i] = null;
-                }
+                    try { await war.Channel.SendMessageAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false); } catch { }
+            }
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task CreateWar(IUserMessage umsg, int size, [Remainder] string enemyClan = null)
         {
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.ClashOfClans
             await channel.SendMessageAsync($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task StartWar(IUserMessage umsg, [Remainder] string number = null)
         {
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.ClashOfClans
             SaveWar(war);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListWar(IUserMessage umsg, [Remainder] string number = null)
         {
@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.ClashOfClans
             await channel.SendMessageAsync(warsInfo.Item1[warsInfo.Item2].ToPrettyString()).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Claim(IUserMessage umsg, int number, int baseNumber, [Remainder] string other_name = null)
         {
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.ClashOfClans
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ClaimFinish1(IUserMessage umsg, int number, int baseNumber, [Remainder] string other_name = null)
         {
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.ClashOfClans
             await FinishClaim(umsg, number, baseNumber, other_name, 1);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ClaimFinish2(IUserMessage umsg, int number, int baseNumber, [Remainder] string other_name = null)
         {
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.ClashOfClans
             await FinishClaim(umsg, number, baseNumber, other_name, 2);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ClaimFinish(IUserMessage umsg, int number, int baseNumber, [Remainder] string other_name = null)
         {
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.ClashOfClans
             await FinishClaim(umsg, number, baseNumber, other_name);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task EndWar(IUserMessage umsg, int number)
         {
@@ -228,7 +228,7 @@ namespace NadekoBot.Modules.ClashOfClans
             warsInfo.Item1.RemoveAt(warsInfo.Item2);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Unclaim(IUserMessage umsg, int number, [Remainder] string otherName = null)
         {

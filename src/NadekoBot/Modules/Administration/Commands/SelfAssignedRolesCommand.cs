@@ -6,6 +6,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace NadekoBot.Modules.Administration
         public class SelfAssignedRolesCommands
         {
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task Asar(IUserMessage umsg, [Remainder] IRole role)
@@ -49,7 +50,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync(msg.ToString()).ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task Rsar(IUserMessage umsg, [Remainder] IRole role)
@@ -70,13 +71,13 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync($":ok:**{role.Name}** has been removed from the list of self-assignable roles").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Lsar(IUserMessage umsg)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
-                var toRemove = new HashSet<SelfAssignedRole>();
+                var toRemove = new ConcurrentHashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
                 var msg = new StringBuilder();
                 using (var uow = DbHandler.UnitOfWork())
@@ -105,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync(msg.ToString() + "\n\n" + removeMsg.ToString()).ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task Tesar(IUserMessage umsg)
@@ -124,7 +125,7 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("Self assigned roles are now " + exl);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Iam(IUserMessage umsg, [Remainder] IRole role)
             {
@@ -182,7 +183,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Iamnot(IUserMessage umsg, [Remainder] IRole role)
             {

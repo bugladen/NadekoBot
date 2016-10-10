@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Searches
                     _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Yomama(IUserMessage umsg)
             {
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Randjoke(IUserMessage umsg)
             {
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChuckNorris(IUserMessage umsg)
             {
@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task WowJoke(IUserMessage umsg)
             {
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendMessageAsync(wowJokes[new NadekoRandom().Next(0, wowJokes.Count)].ToString());
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task MagicItem(IUserMessage umsg)
             {

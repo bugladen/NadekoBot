@@ -36,10 +36,10 @@ namespace NadekoBot.Services
         public NadekoContext GetDbContext() => 
             Activator.CreateInstance(dbType) as NadekoContext;
 
-        public UnitOfWork GetUnitOfWork() =>
+        public IUnitOfWork GetUnitOfWork() =>
             new UnitOfWork(GetDbContext());
 
-        public static UnitOfWork UnitOfWork() =>
+        public static IUnitOfWork UnitOfWork() =>
             DbHandler.Instance.GetUnitOfWork();
     }
 }

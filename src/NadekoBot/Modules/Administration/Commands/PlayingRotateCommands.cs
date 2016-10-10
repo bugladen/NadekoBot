@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo owner only
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
@@ -86,8 +85,9 @@ namespace NadekoBot.Modules.Administration
                     {"%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()}
                 };
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task RotatePlaying(IUserMessage umsg)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -106,8 +106,9 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync("`Rotating playing status disabled.`");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task AddPlaying(IUserMessage umsg, [Remainder] string status)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -122,8 +123,9 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("`Added.`").ConfigureAwait(false);
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task ListPlaying(IUserMessage umsg)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -144,8 +146,9 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task RemovePlaying(IUserMessage umsg, int index)
             {
                 var channel = (ITextChannel)umsg.Channel;

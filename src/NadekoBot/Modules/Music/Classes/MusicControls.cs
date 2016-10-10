@@ -252,7 +252,7 @@ namespace NadekoBot.Modules.Music.Classes
                 playlist.Clear();
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-                await audioClient.DisconnectAsync();
+              await audioClient.DisconnectAsync();
             });
         }
 
