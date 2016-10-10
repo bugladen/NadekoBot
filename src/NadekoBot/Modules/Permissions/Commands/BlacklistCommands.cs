@@ -6,6 +6,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,13 +26,13 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class BlacklistCommands
         {
-            public static HashSet<BlacklistItem> BlacklistedItems { get; set; } = new HashSet<BlacklistItem>();
+            public static ConcurrentHashSet<BlacklistItem> BlacklistedItems { get; set; } = new ConcurrentHashSet<BlacklistItem>();
 
             static BlacklistCommands()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    BlacklistedItems = uow.BotConfig.GetOrCreate().Blacklist;
+                    BlacklistedItems = new ConcurrentHashSet<BlacklistItem>(uow.BotConfig.GetOrCreate().Blacklist);
                 }
             }
 
@@ -75,7 +76,9 @@ namespace NadekoBot.Modules.Permissions
                     else
                     {
                         uow.BotConfig.GetOrCreate().Blacklist.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
-                        BlacklistedItems.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
+                        var toRemove = BlacklistedItems.FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
+                        if (toRemove != null)
+                            BlacklistedItems.TryRemove(toRemove);
                     }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }

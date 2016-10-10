@@ -47,7 +47,7 @@ namespace NadekoBot.Services.Database
             {
                 var bc = new BotConfig();
 
-                bc.ModulePrefixes.AddRange(new HashSet<ModulePrefix>()
+                bc.ModulePrefixes.AddRange(new ConcurrentHashSet<ModulePrefix>()
                 {
                     new ModulePrefix() { ModuleName = "Administration", Prefix = "." },
                     new ModulePrefix() { ModuleName = "Searches", Prefix = "~" },
@@ -64,7 +64,7 @@ namespace NadekoBot.Services.Database
                     new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
                     new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." }
                 });
-                bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
+                bc.RaceAnimals.AddRange(new ConcurrentHashSet<RaceAnimal>
                 {
                     new RaceAnimal { Icon = "🐼", Name = "Panda" },
                     new RaceAnimal { Icon = "🐻", Name = "Bear" },
@@ -75,7 +75,7 @@ namespace NadekoBot.Services.Database
                     new RaceAnimal { Icon = "🦀", Name = "Crab" },
                     new RaceAnimal { Icon = "🦄", Name = "Unicorn" }
                 });
-                bc.EightBallResponses.AddRange(new HashSet<EightBallResponse>
+                bc.EightBallResponses.AddRange(new ConcurrentHashSet<EightBallResponse>
                 {
                     new EightBallResponse() { Text = "Most definitely yes" },
                     new EightBallResponse() { Text = "For sure" },

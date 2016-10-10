@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace NadekoBot.Services.Database.Models
         public bool VoicePlusTextEnabled { get; set; }
 
         //stream notifications
-        public List<FollowedStream> FollowedStreams { get; set; } = new List<FollowedStream>();
+        public HashSet<FollowedStream> FollowedStreams { get; set; } = new HashSet<FollowedStream>();
 
         //currencyGeneration
         public ulong? GenerateCurrencyChannelId { get; set; }
@@ -51,11 +52,11 @@ namespace NadekoBot.Services.Database.Models
 
         //filtering
         public bool FilterInvites { get; set; }
-        public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; }
+        public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; } = new HashSet<FilterChannelId>();
 
         public bool FilterWords { get; set; }
-        public HashSet<FilteredWord> FilteredWords { get; set; }
-        public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; }
+        public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
+        public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new HashSet<FilterChannelId>();
     }
 
     public class FilterChannelId :DbEntity

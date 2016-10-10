@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NadekoBot.Services.Database.Models
     {
         public bool IsLogging { get; set; }
         public ulong ChannelId { get; set; }
-        public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
+        public ConcurrentHashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
 
         public bool MessageUpdated { get; set; } = true;
         public bool MessageDeleted { get; set; } = true;

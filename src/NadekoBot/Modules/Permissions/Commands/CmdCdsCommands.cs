@@ -26,15 +26,15 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class CmdCdsCommands
         {
-            public static ConcurrentDictionary<ulong, HashSet<CommandCooldown>> commandCooldowns { get; }
-            private static ConcurrentDictionary<ulong, HashSet<ActiveCooldown>> activeCooldowns = new ConcurrentDictionary<ulong, HashSet<ActiveCooldown>>();
+            public static ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> commandCooldowns { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> activeCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
 
             static CmdCdsCommands()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var configs = uow.GuildConfigs.GetAll();
-                    commandCooldowns = new ConcurrentDictionary<ulong, HashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => v.CommandCooldowns));
+                    commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => v.CommandCooldowns));
                 }
             }
             [NadekoCommand, Usage, Description, Aliases]
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Permissions
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.GuildConfigs.For(channel.Guild.Id);
-                    var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new HashSet<CommandCooldown>());
+                    var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                     config.CommandCooldowns.RemoveWhere(cc => cc.CommandName == command.Text.ToLowerInvariant());
                     localSet.RemoveWhere(cc => cc.CommandName == command.Text.ToLowerInvariant());
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 if (secs == 0)
                 {
-                    var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new HashSet<ActiveCooldown>());
+                    var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     activeCds.RemoveWhere(ac => ac.Command == command.Text.ToLowerInvariant());
                     await channel.SendMessageAsync($"Command **{command}** has no coooldown now and all existing cooldowns have been cleared.").ConfigureAwait(false);
                 }
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Permissions
             public async Task AllCmdCooldowns(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
-                var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new HashSet<CommandCooldown>());
+                var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 if (!localSet.Any())
                     await channel.SendMessageAsync("`No command cooldowns set.`").ConfigureAwait(false);
@@ -94,11 +94,11 @@ namespace NadekoBot.Modules.Permissions
             {
                 if (guild == null)
                     return false;
-                var cmdcds = CmdCdsCommands.commandCooldowns.GetOrAdd(guild.Id, new HashSet<CommandCooldown>());
+                var cmdcds = CmdCdsCommands.commandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
                 CommandCooldown cdRule;
                 if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == cmd.Text.ToLowerInvariant())) != null)
                 {
-                    var activeCdsForGuild = activeCooldowns.GetOrAdd(guild.Id, new HashSet<ActiveCooldown>());
+                    var activeCdsForGuild = activeCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == cmd.Text.ToLowerInvariant()) != null)
                     {
                         return true;

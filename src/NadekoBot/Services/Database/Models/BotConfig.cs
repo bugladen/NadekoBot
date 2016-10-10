@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ namespace NadekoBot.Services.Database.Models
         public float CurrencyGenerationChance { get; set; } = 0.02f;
         public int CurrencyGenerationCooldown { get; set; } = 10;
 
-        public List<ModulePrefix> ModulePrefixes { get; set; } = new List<ModulePrefix>();
+        public HashSet<ModulePrefix> ModulePrefixes { get; set; } = new HashSet<ModulePrefix>();
 
         public List<PlayingStatus> RotatingStatusMessages { get; set; } = new List<PlayingStatus>();
 
@@ -31,8 +32,8 @@ namespace NadekoBot.Services.Database.Models
         public string CurrencyName { get; set; } = "Nadeko Flower";
         public string CurrencyPluralName { get; set; } = "Nadeko Flowers";
 
-        public List<EightBallResponse> EightBallResponses { get; set; } = new List<EightBallResponse>();
-        public List<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>();
+        public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
+        public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();
 
         public string DMHelpString { get; set; } = "Type `-h` for help.";
         public string HelpString { get; set; } = @"To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>

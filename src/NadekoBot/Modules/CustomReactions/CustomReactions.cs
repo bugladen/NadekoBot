@@ -17,15 +17,15 @@ namespace NadekoBot.Modules.CustomReactions
     [NadekoModule("CustomReactions",".")]
     public class CustomReactions : DiscordModule
     {
-        public static HashSet<CustomReaction> GlobalReactions { get; } = new HashSet<CustomReaction>();
-        public static ConcurrentDictionary<ulong, HashSet<CustomReaction>> GuildReactions { get; } = new ConcurrentDictionary<ulong, HashSet<CustomReaction>>();
+        public static ConcurrentHashSet<CustomReaction> GlobalReactions { get; } = new ConcurrentHashSet<CustomReaction>();
+        public static ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>> GuildReactions { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>>();
         static CustomReactions()
         {
             using (var uow = DbHandler.UnitOfWork())
             {
                 var items = uow.CustomReactions.GetAll();
-                GuildReactions = new ConcurrentDictionary<ulong, HashSet<CustomReaction>>(items.Where(g => g.GuildId != null).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => new HashSet<CustomReaction>(g)));
-                GlobalReactions = new HashSet<CustomReaction>(items.Where(g => g.GuildId == null));
+                GuildReactions = new ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>>(items.Where(g => g.GuildId != null).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => new ConcurrentHashSet<CustomReaction>(g)));
+                GlobalReactions = new ConcurrentHashSet<CustomReaction>(items.Where(g => g.GuildId == null));
             }
         }
         public CustomReactions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.CustomReactions
                 var t = Task.Run(async () =>
                 {
                     var content = umsg.Content.ToLowerInvariant();
-                    HashSet<CustomReaction> reactions;
+                    ConcurrentHashSet<CustomReaction> reactions;
                     GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
                     if (reactions != null && reactions.Any())
                     {
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.CustomReactions
             }
             else
             {
-                var reactions = GuildReactions.GetOrAdd(channel.Guild.Id, new HashSet<CustomReaction>());
+                var reactions = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
                 reactions.Add(cr);
             }
 
@@ -115,11 +115,11 @@ namespace NadekoBot.Modules.CustomReactions
 
             if (page < 1 || page > 1000)
                 return;
-            HashSet<CustomReaction> customReactions;
+            ConcurrentHashSet<CustomReaction> customReactions;
             if (channel == null)
                 customReactions = GlobalReactions;
             else
-                customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new HashSet<CustomReaction>());
+                customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
 
             if (customReactions == null || !customReactions.Any())
                 await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
@@ -150,13 +150,16 @@ namespace NadekoBot.Modules.CustomReactions
                 if (toDelete.GuildId == null && channel == null)
                 {
                     uow.CustomReactions.Remove(toDelete);
-                    GlobalReactions.RemoveWhere(cr => cr.Id == toDelete.Id);
+                    var toRemove = GlobalReactions.FirstOrDefault(cr => cr.Id == toDelete.Id);
+                    GlobalReactions.TryRemove(toRemove);
                     success = true;
                 }
                 else if (toDelete.GuildId != null && channel?.Guild.Id == toDelete.GuildId)
                 {
                     uow.CustomReactions.Remove(toDelete);
-                    GuildReactions.GetOrAdd(channel.Guild.Id, new HashSet<CustomReaction>()).RemoveWhere(cr => cr.Id == toDelete.Id);
+                    var crs = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
+                    var toRemove = crs.FirstOrDefault(cr => cr.Id == toDelete.Id);
+
                     success = true;
                 }
                 if(success)

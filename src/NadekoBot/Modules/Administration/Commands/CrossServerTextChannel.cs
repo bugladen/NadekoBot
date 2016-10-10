@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
             private string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
                 $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content;
             
-            public static readonly ConcurrentDictionary<int, HashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, HashSet<ITextChannel>>();
+            public static readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
             private Logger _log { get; }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)msg.Channel;
                 var token = new NadekoRandom().Next();
-                var set = new HashSet<ITextChannel>();
+                var set = new ConcurrentHashSet<ITextChannel>();
                 if (Subscribers.TryAdd(token, set))
                 {
                     set.Add(channel);
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)imsg.Channel;
 
-                HashSet<ITextChannel> set;
+                ConcurrentHashSet<ITextChannel> set;
                 if (!Subscribers.TryGetValue(token, out set))
                     return;
                 set.Add(channel);
@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Administration
 
                 foreach (var subscriber in Subscribers)
                 {
-                    subscriber.Value.Remove(channel);
+                    subscriber.Value.TryRemove(channel);
                 }
                 await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
             }

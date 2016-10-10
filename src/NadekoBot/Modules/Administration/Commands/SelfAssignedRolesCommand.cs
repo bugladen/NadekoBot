@@ -6,6 +6,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +77,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)umsg.Channel;
 
-                var toRemove = new HashSet<SelfAssignedRole>();
+                var toRemove = new ConcurrentHashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
                 var msg = new StringBuilder();
                 using (var uow = DbHandler.UnitOfWork())

@@ -17,26 +17,26 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class FilterCommands
         {
-            public static HashSet<ulong> InviteFilteringChannels { get; set; }
-            public static HashSet<ulong> InviteFilteringServers { get; set; }
+            public static ConcurrentHashSet<ulong> InviteFilteringChannels { get; set; }
+            public static ConcurrentHashSet<ulong> InviteFilteringServers { get; set; }
 
             //serverid, filteredwords
-            private static ConcurrentDictionary<ulong, HashSet<string>> ServerFilteredWords { get; set; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<string>> ServerFilteredWords { get; set; }
 
-            public static HashSet<ulong> WordFilteringChannels { get; set; }
-            public static HashSet<ulong> WordFilteringServers { get; set; }
+            public static ConcurrentHashSet<ulong> WordFilteringChannels { get; set; }
+            public static ConcurrentHashSet<ulong> WordFilteringServers { get; set; }
 
-            public static HashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
+            public static ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
             {
-                HashSet<string> words = new HashSet<string>();
+                ConcurrentHashSet<string> words = new ConcurrentHashSet<string>();
                 if(WordFilteringChannels.Contains(channelId))
                     ServerFilteredWords.TryGetValue(guildId, out words);
                 return words;
             }
 
-            public static HashSet<string> FilteredWordsForServer(ulong guildId)
+            public static ConcurrentHashSet<string> FilteredWordsForServer(ulong guildId)
             {
-                var words = new HashSet<string>();
+                var words = new ConcurrentHashSet<string>();
                 if(WordFilteringServers.Contains(guildId))
                     ServerFilteredWords.TryGetValue(guildId, out words);
                 return words;
@@ -48,17 +48,17 @@ namespace NadekoBot.Modules.Permissions
                 {
                     var guildConfigs = uow.GuildConfigs.GetAll();
 
-                    InviteFilteringServers = new HashSet<ulong>(guildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
-                    InviteFilteringChannels = new HashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
+                    InviteFilteringServers = new ConcurrentHashSet<ulong>(guildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
+                    InviteFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
 
-                    var dict = guildConfigs.ToDictionary(gc => gc.GuildId, gc => new HashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
+                    var dict = guildConfigs.ToDictionary(gc => gc.GuildId, gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
 
-                    ServerFilteredWords = new ConcurrentDictionary<ulong, HashSet<string>>(dict);
+                    ServerFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
 
                     var serverFiltering = guildConfigs.Where(gc => gc.FilterWords);
-                    WordFilteringServers = new HashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
+                    WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
 
-                    WordFilteringChannels = new HashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
+                    WordFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
 
                 }
             }
@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Permissions
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var filteredWords = ServerFilteredWords.GetOrAdd(channel.Guild.Id, new HashSet<string>());
+                var filteredWords = ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
                 if (removed == 0)
                 {
@@ -227,7 +227,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 var channel = (ITextChannel)imsg.Channel;
 
-                HashSet<string> filteredWords;
+                ConcurrentHashSet<string> filteredWords;
                 ServerFilteredWords.TryGetValue(channel.Guild.Id, out filteredWords);
 
                 await channel.SendMessageAsync($"`List of banned words:`\n" + string.Join(",\n", filteredWords))

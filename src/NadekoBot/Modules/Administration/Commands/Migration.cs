@@ -12,6 +12,7 @@ using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
 using NadekoBot.Modules.Administration.Commands.Migration;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -99,12 +100,12 @@ namespace NadekoBot.Modules.Administration
                     botConfig.RotatingStatusMessages = messages;
 
                     //races
-                    var races = new List<RaceAnimal>();
+                    var races = new HashSet<RaceAnimal>();
                     oldData.RaceAnimals.ForEach(i => races.Add(new RaceAnimal() { Icon =  i, Name = i }));
                     botConfig.RaceAnimals = races;
 
                     //Prefix
-                    var prefix = new List<ModulePrefix>
+                    var prefix = new HashSet<ModulePrefix>
                     {
                         new ModulePrefix()
                         {
@@ -158,7 +159,7 @@ namespace NadekoBot.Modules.Administration
                     botConfig.Blacklist = new HashSet<BlacklistItem>(blacklist);
 
                     //Eightball
-                    botConfig.EightBallResponses = oldData._8BallResponses.Select(response => new EightBallResponse() {Text = response}).ToList();
+                    botConfig.EightBallResponses = new HashSet<EightBallResponse>(oldData._8BallResponses.Select(response => new EightBallResponse() {Text = response}));
 
                     //NOW save it
                     botConfig.MigrationVersion = 1;
