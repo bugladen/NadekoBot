@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Gencurrency(IUserMessage imsg)
+            public async Task GenCurrency(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Games
                     var guildConfig = uow.GuildConfigs.For(channel.Id);
 
                     var toAdd = new GCChannelId() { ChannelId = channel.Id };
-                    if (guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
+                    if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
                     {
                         guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
                         generationChannels.Add(channel.Id);

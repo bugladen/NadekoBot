@@ -224,7 +224,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 catch (Exception)
                 {
-                    _log.Error("Unknow error while deserializing file config.json, pls check its integrity, aborting migration");
+                    _log.Error("Unknown error while deserializing file config.json, pls check its integrity, aborting migration");
                     throw new MigrationException();
                 }
 
