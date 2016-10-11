@@ -203,14 +203,14 @@ namespace NadekoBot.Modules.Searches
             {
                 var channel = (ITextChannel)msg.Channel;
 
-                username = username.ToUpperInvariant().Trim();
+                username = username.ToLowerInvariant().Trim();
 
                 FollowedStream toRemove;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.GuildConfigs.For(channel.Guild.Id);
                     var streams = config.FollowedStreams;
-                    toRemove = streams.Where(fs => fs.ChannelId == channel.Id && fs.Username.ToUpperInvariant() == username).FirstOrDefault();
+                    toRemove = streams.Where(fs => fs.ChannelId == channel.Id && fs.Username.ToLowerInvariant() == username).FirstOrDefault();
                     if (toRemove != null)
                     {
                         config.FollowedStreams = new HashSet<FollowedStream>(streams.Except(new[] { toRemove }));
@@ -258,7 +258,7 @@ namespace NadekoBot.Modules.Searches
 
             private async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
-                username = username.ToUpperInvariant().Trim();
+                username = username.ToLowerInvariant().Trim();
                 var stream = new FollowedStream
                 {
                     GuildId = channel.Guild.Id,
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules.Searches
                 bool exists;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    exists = uow.GuildConfigs.For(channel.Guild.Id).FollowedStreams.Where(fs => fs.ChannelId == channel.Id && fs.Username.ToUpperInvariant().Trim()  == username).Any();
+                    exists = uow.GuildConfigs.For(channel.Guild.Id).FollowedStreams.Where(fs => fs.ChannelId == channel.Id && fs.Username.ToLowerInvariant().Trim()  == username).Any();
                 }
                 if (exists)
                 {

@@ -10,8 +10,11 @@
       "exclude": [ ],
     },
     "copyToOutput": {
-      "include": [ "data" ],
-      "exclude": [ "data/musicdata" ]
+      "include": [ "data" , "libs"],
+      "exclude": [ "data/musicdata" ],
+      "mappings": {
+        "./": "./libs"
+      }
     }
   },
   "dependencies": {

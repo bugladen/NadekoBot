@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Administration
 
             private void MigrateDb0_9(IUnitOfWork uow)
             {
-                var db = new SqliteConnection("Data Source=data/nadekobot.sqlite;Version=3;");
+                var db = new SqliteConnection("Data Source=data/nadekobot.sqlite");
                 db.Open();
 
                 var com = db.CreateCommand();
