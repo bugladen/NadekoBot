@@ -28,7 +28,7 @@ Command and aliases | Description | Usage
 `.setname` `.newnm` | Give the bot a new name.   | `.newnm BotName` **Bot owner only.**
 `.setavatar` `.setav` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.   | `.setav http://i.imgur.com/xTG3a1I.jpg` **Bot owner only.**
 `.setgame`  | Sets the bots game.   | `.setgame Playing with kwoth` **Bot owner only.**
-`.send`  | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with | and prepend channel id with `c:` and user id with `u:`. | `.send serverid\|c:channelid` or `.send serverid\|u:userid` **Bot owner only.**
+`.send`  | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with \| and prepend channel id with `c:` and user id with `u:`. | `.send serverid|c:channelid` or `.send serverid|u:userid` **Bot owner only.**
 `.announce`  | Sends a message to all servers' general channel bot is connected to. | `.announce Useless spam` **Bot owner only.**
 `.savechat`  | Saves a number of messages to a text file and sends it to you. | `.savechat 150` **Bot owner only.**
 `.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission. | `.menro RoleName` **Requires MentionEveryone server permission.**
@@ -90,26 +90,6 @@ Command and aliases | Description | Usage
 `$flip`  | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3` 
 `$betflip` `$bf` | Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t` 
 
-### Games  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`>choose`  | Chooses a thing from a list of things | `>choose Get up;Sleep;Sleep more` 
-`>8ball`  | Ask the 8ball a yes/no question. | `>8ball should I do something` 
-`>rps`  | Play a game of rocket paperclip scissors with Nadeko. | `>rps scissors` 
-`>linux`  | Prints a customizable Linux interjection | `>linux Spyware Windows` 
-`>leet`  | Converts a text to leetspeak with 6 (1-6) severity levels | `>leet 3 Hello` 
-`>poll`  | Creates a poll, only person who has manage server permission can do it. | `>poll Question?;Answer1;Answ 2;A_3` 
-`>pollend`  | Stops active poll on this server and prints the results in this channel. | `>pollend` 
-`>pick`  | Picks a flower planted in this channel. | `>pick` 
-`>plant`  | Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost) | `>plant` 
-`>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%) | `>gc` **Requires ManageMessages server permission.**
-`>typestart`  | Starts a typing contest. | `>typestart` 
-`>typestop`  | Stops a typing contest on the current channel. | `>typestop` 
-`>typeadd`  | Adds a new article to the typing contest. | `>typeadd wordswords` **Bot owner only.**
-`>trivia` `>t` | Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question. | `>t nohint` or `>t 5 nohint` 
-`>tl`  | Shows a current trivia leaderboard. | `>tl` 
-`>tq`  | Quits current trivia after current question. | `>tq` 
-
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -143,18 +123,22 @@ Command and aliases | Description | Usage
 `!!getlink` `!!gl` | Shows a link to the song in the queue by index, or the currently playing song by default. | `!!gl` 
 `!!autoplay` `!!ap` | Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty) | `!!ap` 
 
-### ClashOfClans  
+### CustomReactions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`,createwar` `,cw` | Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | `,cw 15 The Enemy Clan` 
-`,startwar` `,sw` | Starts a war with a given number. | `,sw 15` 
-`,listwar` `,lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified. | `,lw [war_number] or ,lw` 
-`,claim` `,call` `,c` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. | `,call [war_number] [base_number] [optional_other_name]` 
-`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf1 2 SomeGirl` 
-`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf2 1 SomeGuy` 
-`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf 1 Someone` 
-`,endwar` `,ew` | Ends the war with a given index. | `,ew [war_number]` 
-`,unclaim` `,ucall` `,uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim | `,uc [war_number] [optional_other_name]` 
+`.addcustreact` `.acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
+`.listcustreact` `.lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
+`.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
+
+### Help  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`-modules` `-mdls` | Lists all bot modules. | `-modules` 
+`-commands` `-cmds` | List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name. | `-commands Administration` or `-cmds Admin` 
+`-help` `-h` | Either shows a help for a single command, or DMs you help link if no arguments are specified. | `-h !!q` or `-h` 
+`-hgit`  | Generates the commandlist.md file. | `-hgit` **Bot owner only.**
+`-readme` `-guide` | Sends a readme and a guide links to the channel. | `-readme` or `-guide` 
+`-donate`  | Instructions for helping the project financially. | `-donate` 
 
 ### Utility  
 Command and aliases | Description | Usage
@@ -182,6 +166,38 @@ Command and aliases | Description | Usage
 `.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.   | `.remindtemplate %user%, you gotta do %message%!` **Bot owner only.**
 `.convertlist`  | List of the convertible dimensions and currencies. | `.convertlist` 
 `.convert`  | Convert quantities. Use `.convertlist` to see supported dimensions and currencies. | `.convert m km 1000` 
+
+### Permissions  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`;verbose` `;v` | Sets whether to show when a command/module is blocked. | `;verbose true` 
+`;permrole` `;pr` | Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'. | `;pr role` 
+`;listperms` `;lp` | Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions. | `;lp` or `;lp 3` 
+`;removeperm` `;rp` | Removes a permission from a given position | `;rp 1` 
+`;moveperm` `;mp` | Moves permission from one position to another. | `;mp 2 4` 
+`;srvrcmd` `;sc` | Sets a command's permission at the server level. | `;sc "command name" disable` 
+`;srvrmdl` `;sm` | Sets a module's permission at the server level. | `;sm "module name" enable` 
+`;usrcmd` `;uc` | Sets a command's permission at the user level. | `;uc "command name" enable SomeUsername` 
+`;usrmdl` `;um` | Sets a module's permission at the user level. | `;um "module name" enable SomeUsername` 
+`;rolecmd` `;rc` | Sets a command's permission at the role level. | `;rc "command name" disable MyRole` 
+`;rolemdl` `;rm` | Sets a module's permission at the role level. | `;rm "module name" enable MyRole` 
+`;chnlcmd` `;cc` | Sets a command's permission at the channel level. | `;cc "command name" enable SomeChannel` 
+`;chnlmdl` `;cm` | Sets a module's permission at the channel level. | `;cm "module name" enable SomeChannel` 
+`;allchnlmdls` `;acm` | Enable or disable all modules in a specified channel. | `;acm enable #SomeChannel` 
+`;allrolemdls` `;arm` | Enable or disable all modules for a specific role. | `;arm [enable/disable] MyRole` 
+`;allusrmdls` `;aum` | Enable or disable all modules for a specific user. | `;aum enable @someone` 
+`;allsrvrmdls` `;asm` | Enable or disable all modules for your server. | `;asm [enable/disable]` 
+`;ubl`  | Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist. | `;ubl add @SomeUser` or `;ubl rem 12312312313` **Bot owner only.**
+`;cbl`  | Either [add]s or [rem]oves a channel specified by an ID from a blacklist. | `;cbl rem 12312312312` **Bot owner only.**
+`;sbl`  | Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist. | `;sbl add 12312321312` or `;sbl rem SomeTrashServer` **Bot owner only.**
+`;cmdcooldown` `;cmdcd` | Sets a cooldown per user for a command. Set to 0 to remove the cooldown. | `;cmdcd "some cmd" 5` 
+`;allcmdcooldowns` `;acmdcds` | Shows a list of all commands and their respective cooldowns. | `;acmdcds` 
+`;srvrfilterinv` `;sfi` | Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner. | `;sfi` 
+`;chnlfilterinv` `;cfi` | Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting. Does not affect Bot Owner. | `;cfi` 
+`;srvrfilterwords` `;sfw` | Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner. | `;sfw` 
+`;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting. Does not affect bot owner. | `;cfw` 
+`;fw`  | Adds or removes (if it exists) a word from the list of filtered words. Use` ;sfw` or `;cfw` to toggle filtering. | `;fw poop` 
+`;lstfilterwords` `;lfw` | Shows a list of filtered words. | `;lfw` 
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -230,54 +246,25 @@ Command and aliases | Description | Usage
 `~removestream` `~rms` | Removes notifications of a certain streamer on this channel. | `~rms SomeGuy` **Requires ManageMessages server permission.**
 `~checkstream` `~cs` | Checks if a user is online on a certain streaming platform. | `~cs twitch MyFavStreamer` 
 
-### CustomReactions  
+### Games  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`.addcustreact` `.acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
-`.listcustreact` `.lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
-`.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
-
-### Permissions  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`;verbose` `;v` | Sets whether to show when a command/module is blocked. | `;verbose true` 
-`;permrole` `;pr` | Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'. | `;pr role` 
-`;listperms` `;lp` | Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions. | `;lp` or `;lp 3` 
-`;removeperm` `;rp` | Removes a permission from a given position | `;rp 1` 
-`;moveperm` `;mp` | Moves permission from one position to another. | `;mp 2 4` 
-`;srvrcmd` `;sc` | Sets a command's permission at the server level. | `;sc "command name" disable` 
-`;srvrmdl` `;sm` | Sets a module's permission at the server level. | `;sm "module name" enable` 
-`;usrcmd` `;uc` | Sets a command's permission at the user level. | `;uc "command name" enable SomeUsername` 
-`;usrmdl` `;um` | Sets a module's permission at the user level. | `;um "module name" enable SomeUsername` 
-`;rolecmd` `;rc` | Sets a command's permission at the role level. | `;rc "command name" disable MyRole` 
-`;rolemdl` `;rm` | Sets a module's permission at the role level. | `;rm "module name" enable MyRole` 
-`;chnlcmd` `;cc` | Sets a command's permission at the channel level. | `;cc "command name" enable SomeChannel` 
-`;chnlmdl` `;cm` | Sets a module's permission at the channel level. | `;cm "module name" enable SomeChannel` 
-`;allchnlmdls` `;acm` | Enable or disable all modules in a specified channel. | `;acm enable #SomeChannel` 
-`;allrolemdls` `;arm` | Enable or disable all modules for a specific role. | `;arm [enable/disable] MyRole` 
-`;allusrmdls` `;aum` | Enable or disable all modules for a specific user. | `;aum enable @someone` 
-`;allsrvrmdls` `;asm` | Enable or disable all modules for your server. | `;asm [enable/disable]` 
-`;ubl`  | Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist. | `;ubl add @SomeUser` or `;ubl rem 12312312313` **Bot owner only.**
-`;cbl`  | Either [add]s or [rem]oves a channel specified by an ID from a blacklist. | `;cbl rem 12312312312` **Bot owner only.**
-`;sbl`  | Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist. | `;sbl add 12312321312` or `;sbl rem SomeTrashServer` **Bot owner only.**
-`;cmdcooldown` `;cmdcd` | Sets a cooldown per user for a command. Set to 0 to remove the cooldown. | `;cmdcd "some cmd" 5` 
-`;allcmdcooldowns` `;acmdcds` | Shows a list of all commands and their respective cooldowns. | `;acmdcds` 
-`;srvrfilterinv` `;sfi` | Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner. | `;sfi` 
-`;chnlfilterinv` `;cfi` | Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting. Does not affect Bot Owner. | `;cfi` 
-`;srvrfilterwords` `;sfw` | Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner. | `;sfw` 
-`;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting. Does not affect bot owner. | `;cfw` 
-`;fw`  | Adds or removes (if it exists) a word from the list of filtered words. Use` ;sfw` or `;cfw` to toggle filtering. | `;fw poop` 
-`;lstfilterwords` `;lfw` | Shows a list of filtered words. | `;lfw` 
-
-### Help  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`-modules` `-mdls` | Lists all bot modules. | `-modules` 
-`-commands` `-cmds` | List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name. | `-commands Administration` or `-cmds Admin` 
-`-help` `-h` | Either shows a help for a single command, or DMs you help link if no arguments are specified. | `-h !!q` or `-h` 
-`-hgit`  | Generates the commandlist.md file. | `-hgit` **Bot owner only.**
-`-readme` `-guide` | Sends a readme and a guide links to the channel. | `-readme` or `-guide` 
-`-donate`  | Instructions for helping the project financially. | `-donate` 
+`>choose`  | Chooses a thing from a list of things | `>choose Get up;Sleep;Sleep more` 
+`>8ball`  | Ask the 8ball a yes/no question. | `>8ball should I do something` 
+`>rps`  | Play a game of rocket paperclip scissors with Nadeko. | `>rps scissors` 
+`>linux`  | Prints a customizable Linux interjection | `>linux Spyware Windows` 
+`>leet`  | Converts a text to leetspeak with 6 (1-6) severity levels | `>leet 3 Hello` 
+`>poll`  | Creates a poll, only person who has manage server permission can do it. | `>poll Question?;Answer1;Answ 2;A_3` 
+`>pollend`  | Stops active poll on this server and prints the results in this channel. | `>pollend` 
+`>pick`  | Picks a flower planted in this channel. | `>pick` 
+`>plant`  | Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost) | `>plant` 
+`>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%) | `>gc` **Requires ManageMessages server permission.**
+`>typestart`  | Starts a typing contest. | `>typestart` 
+`>typestop`  | Stops a typing contest on the current channel. | `>typestop` 
+`>typeadd`  | Adds a new article to the typing contest. | `>typeadd wordswords` **Bot owner only.**
+`>trivia` `>t` | Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question. | `>t nohint` or `>t 5 nohint` 
+`>tl`  | Shows a current trivia leaderboard. | `>tl` 
+`>tq`  | Quits current trivia after current question. | `>tq` 
 
 ### NSFW  
 Command and aliases | Description | Usage
@@ -290,3 +277,16 @@ Command and aliases | Description | Usage
 `~cp`  | We all know where this will lead you to. | `~cp` 
 `~boobs`  | Real adult content. | `~boobs` 
 `~butts` `~ass` `~butt` | Real adult content. | `~butts` or `~ass` 
+
+### ClashOfClans  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`,createwar` `,cw` | Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. | `,cw 15 The Enemy Clan` 
+`,startwar` `,sw` | Starts a war with a given number. | `,sw 15` 
+`,listwar` `,lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified. | `,lw [war_number] or ,lw` 
+`,claim` `,call` `,c` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. | `,call [war_number] [base_number] [optional_other_name]` 
+`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf1 2 SomeGirl` 
+`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf2 1 SomeGuy` 
+`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf 1 Someone` 
+`,endwar` `,ew` | Ends the war with a given index. | `,ew [war_number]` 
+`,unclaim` `,ucall` `,uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim | `,uc [war_number] [optional_other_name]` 
