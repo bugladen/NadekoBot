@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task MigrateData(IUserMessage umsg)
             {
-                var channel = (ITextChannel) umsg.Channel;
+                var channel = (ITextChannel)umsg.Channel;
 
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration
                 com.CommandText = "SELECT * FROM Announcement";
 
                 var reader = com.ExecuteReader();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     var gid = (ulong)reader["ServerId"];
                     var greet = (bool)reader["Greet"];
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Administration
                     var byeDM = (bool)reader["ByePM"];
                     var byeChannel = (ulong)reader["ByeChannelId"];
                     var byeMsg = (string)reader["ByeText"];
-                    bool grdel =  (bool)reader["DeleteGreetMessages"];
+                    bool grdel = (bool)reader["DeleteGreetMessages"];
                     var byedel = grdel;
                     var gc = uow.GuildConfigs.For(gid);
 
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 var com2 = db.CreateCommand();
-                com.CommandText = "SELECT * FROM Announcement";
+                com.CommandText = "SELECT * FROM CurrencyState";
 
                 var reader2 = com.ExecuteReader();
                 while (reader2.Read())
@@ -130,6 +130,7 @@ namespace NadekoBot.Modules.Administration
                     });
                 }
                 db.Close();
+                try { File.Move("data/nadekobot.sqlite", "data/DELETE_ME_nadekobot.sqlite"); } catch { }
             }
 
             private void MigrateServerSpecificConfigs0_9(IUnitOfWork uow)
