@@ -116,6 +116,8 @@ namespace NadekoBot.Modules.Administration
                     guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
                     uow.SelfAssignedRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildId, RoleId = r }).ToArray());
                     var logSetting = guildConfig.LogSetting;
+                    guildConfig.LogSetting.IsLogging = data.LogChannel != null;
+                    guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
                     guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
                     guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>
                     {
@@ -151,7 +153,8 @@ namespace NadekoBot.Modules.Administration
             private void MigratePermissions0_9(IUnitOfWork uow)
             {
                 var PermissionsDict = new ConcurrentDictionary<ulong, ServerPermissions0_9>();
-                Directory.CreateDirectory("data/permissions");
+                if (!Directory.Exists("data/permissions/"))
+                    throw new MigrationException();
                 foreach (var file in Directory.EnumerateFiles("data/permissions/"))
                 {
                     try
@@ -212,7 +215,7 @@ namespace NadekoBot.Modules.Administration
             private void MigrateConfig0_9(BotConfig botConfig)
             {
                 Config0_9 oldConfig;
-                const string configPath = "./data/config.json";
+                const string configPath = "data/config.json";
                 try
                 {
                     oldConfig = JsonConvert.DeserializeObject<Config0_9>(File.ReadAllText(configPath));
@@ -229,7 +232,6 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 //Basic
-                botConfig.DontJoinServers = oldConfig.DontJoinServers;
                 botConfig.ForwardMessages = oldConfig.ForwardMessages;
                 botConfig.ForwardToAllOwners = oldConfig.ForwardToAllOwners;
                 botConfig.BufferSize = (ulong)oldConfig.BufferSize;

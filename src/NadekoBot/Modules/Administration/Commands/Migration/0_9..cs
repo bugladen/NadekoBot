@@ -165,10 +165,10 @@ namespace NadekoBot.Modules.Administration.Commands.Migration
     internal class ServerSpecificConfig
     {
         public bool VoicePlusTextEnabled { get; set; }
-        private bool SendPrivateMessageOnMention { get; set; }
-        private ulong? LogChannel { get; set; } = null;
+        public bool SendPrivateMessageOnMention { get; set; }
+        public ulong? LogChannel { get; set; } = null;
+        public ulong? LogPresenceChannel = null;
         public HashSet<ulong> LogserverIgnoreChannels { get; set; }
-        private ulong? LogPresenceChannel = null;
         public ConcurrentDictionary<ulong, ulong> VoiceChannelLog { get; set; }
         public HashSet<ulong> ListOfSelfAssignableRoles { get; set; }
         public ulong AutoAssignedRole { get; set; }

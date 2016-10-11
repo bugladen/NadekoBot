@@ -13,7 +13,6 @@ namespace NadekoBot.Services.Database.Models
     {
         public HashSet<BlacklistItem> Blacklist { get; set; }
         public ulong BufferSize { get; set; } = 4000000;
-        public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool ForwardToAllOwners { get; set; } = true;
 
