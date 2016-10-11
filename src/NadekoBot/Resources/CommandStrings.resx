@@ -760,7 +760,7 @@
     <value>send</value>
   </data>
   <data name="send_desc" xml:space="preserve">
-    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with | and prepend channel id with `c:` and user id with `u:`.</value>
+    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`.</value>
   </data>
   <data name="send_usage" xml:space="preserve">
     <value>`.send serverid|c:channelid` or `.send serverid|u:userid`</value>
