@@ -52,8 +52,6 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("DMHelpString");
 
-                    b.Property<bool>("DontJoinServers");
-
                     b.Property<bool>("ForwardMessages");
 
                     b.Property<bool>("ForwardToAllOwners");
@@ -439,7 +437,7 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BotConfigId");
+                    b.Property<int?>("BotConfigId");
 
                     b.Property<string>("ModuleName");
 
@@ -722,10 +720,9 @@ namespace NadekoBot.Migrations
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
                 {
-                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig", "BotConfig")
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("ModulePrefixes")
-                        .HasForeignKey("BotConfigId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BotConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>

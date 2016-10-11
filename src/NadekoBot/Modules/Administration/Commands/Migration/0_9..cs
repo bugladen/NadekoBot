@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Administration.Commands.Migration
         public bool VoicePlusTextEnabled { get; set; }
         public bool SendPrivateMessageOnMention { get; set; }
         public ulong? LogChannel { get; set; } = null;
-        public ulong? LogPresenceChannel = null;
+        public ulong? LogPresenceChannel { get; set; } = null;
         public HashSet<ulong> LogserverIgnoreChannels { get; set; }
         public ConcurrentDictionary<ulong, ulong> VoiceChannelLog { get; set; }
         public HashSet<ulong> ListOfSelfAssignableRoles { get; set; }

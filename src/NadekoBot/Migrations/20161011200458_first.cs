@@ -21,7 +21,6 @@ namespace NadekoBot.Migrations
                     CurrencyPluralName = table.Column<string>(nullable: true),
                     CurrencySign = table.Column<string>(nullable: true),
                     DMHelpString = table.Column<string>(nullable: true),
-                    DontJoinServers = table.Column<bool>(nullable: false),
                     ForwardMessages = table.Column<bool>(nullable: false),
                     ForwardToAllOwners = table.Column<bool>(nullable: false),
                     HelpString = table.Column<string>(nullable: true),
@@ -292,7 +291,7 @@ namespace NadekoBot.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    BotConfigId = table.Column<int>(nullable: false),
+                    BotConfigId = table.Column<int>(nullable: true),
                     ModuleName = table.Column<string>(nullable: true),
                     Prefix = table.Column<string>(nullable: true)
                 },
@@ -304,7 +303,7 @@ namespace NadekoBot.Migrations
                         column: x => x.BotConfigId,
                         principalTable: "BotConfig",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

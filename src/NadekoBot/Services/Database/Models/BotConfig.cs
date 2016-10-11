@@ -111,9 +111,6 @@ Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
         public string ModuleName { get; set; }
         public string Prefix { get; set; }
 
-        public int BotConfigId { get; set; } = 1;
-        public BotConfig BotConfig { get; set; }
-
         public override int GetHashCode()
         {
             return ModuleName.GetHashCode();

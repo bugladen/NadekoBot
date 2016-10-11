@@ -15,6 +15,7 @@ using NadekoBot.Modules.Administration.Commands.Migration;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database;
+using Microsoft.Data.Sqlite;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -67,14 +68,68 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var botConfig = uow.BotConfig.GetOrCreate();
-                    MigrateConfig0_9(botConfig);
+                    MigrateConfig0_9(uow, botConfig);
                     MigratePermissions0_9(uow);
                     MigrateServerSpecificConfigs0_9(uow);
+                    MigrateDb0_9(uow);
 
                     //NOW save it
                     botConfig.MigrationVersion = 1;
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
+            }
+
+            private void MigrateDb0_9(IUnitOfWork uow)
+            {
+                var db = new SqliteConnection("Data Source=data/nadekobot.sqlite;Version=3;");
+                db.Open();
+
+                var com = db.CreateCommand();
+                com.CommandText = "SELECT * FROM Announcement";
+
+                var reader = com.ExecuteReader();
+                while(reader.Read())
+                {
+                    var gid = (ulong)reader["ServerId"];
+                    var greet = (bool)reader["Greet"];
+                    var greetDM = (bool)reader["GreetPM"];
+                    var greetChannel = (ulong)reader["GreetChannelId"];
+                    var greetMsg = (string)reader["GreetText"];
+                    var bye = (bool)reader["Bye"];
+                    var byeDM = (bool)reader["ByePM"];
+                    var byeChannel = (ulong)reader["ByeChannelId"];
+                    var byeMsg = (string)reader["ByeText"];
+                    bool grdel =  (bool)reader["DeleteGreetMessages"];
+                    var byedel = grdel;
+                    var gc = uow.GuildConfigs.For(gid);
+
+                    if (greetDM)
+                        gc.SendDmGreetMessage = greet;
+                    else
+                        gc.SendChannelGreetMessage = greet;
+                    gc.GreetMessageChannelId = greetChannel;
+                    gc.ChannelGreetMessageText = greetMsg;
+
+                    gc.SendChannelByeMessage = bye;
+                    gc.ByeMessageChannelId = byeChannel;
+                    gc.ChannelByeMessageText = byeMsg;
+
+                    gc.AutoDeleteByeMessages = gc.AutoDeleteGreetMessages = grdel;
+                }
+
+                var com2 = db.CreateCommand();
+                com.CommandText = "SELECT * FROM Announcement";
+
+                var reader2 = com.ExecuteReader();
+                while (reader2.Read())
+                {
+                    uow.Currency.Add(new Currency()
+                    {
+                        Amount = (long)reader2["Value"],
+                        UserId = (ulong)reader2["UserId"]
+                    });
+                }
+                db.Close();
             }
 
             private void MigrateServerSpecificConfigs0_9(IUnitOfWork uow)
@@ -119,6 +174,11 @@ namespace NadekoBot.Modules.Administration
                     guildConfig.LogSetting.IsLogging = data.LogChannel != null;
                     guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
                     guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
+
+                    guildConfig.LogSetting.LogUserPresence = data.LogPresenceChannel != null;
+                    guildConfig.LogSetting.UserPresenceChannelId = data.LogPresenceChannel ?? 0;
+                    
+
                     guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>
                     {
                         FollowedStream.FollowedStreamType type = FollowedStream.FollowedStreamType.Twitch;
@@ -212,7 +272,7 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            private void MigrateConfig0_9(BotConfig botConfig)
+            private void MigrateConfig0_9(IUnitOfWork uow, BotConfig botConfig)
             {
                 Config0_9 oldConfig;
                 const string configPath = "data/config.json";
@@ -255,52 +315,52 @@ namespace NadekoBot.Modules.Administration
                     botConfig.RaceAnimals = races;
 
                 //Prefix
-                var prefix = new HashSet<ModulePrefix>
+                botConfig.ModulePrefixes.Clear();
+                botConfig.ModulePrefixes.AddRange(new HashSet<ModulePrefix>
+                {
+                    new ModulePrefix()
                     {
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Administration",
-                            Prefix = oldConfig.CommandPrefixes.Administration
-                        },
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Searches",
-                            Prefix = oldConfig.CommandPrefixes.Searches
-                        },
-                        new ModulePrefix() {ModuleName = "NSFW", Prefix = oldConfig.CommandPrefixes.NSFW},
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Conversations",
-                            Prefix = oldConfig.CommandPrefixes.Conversations
-                        },
-                        new ModulePrefix()
-                        {
-                            ModuleName = "ClashOfClans",
-                            Prefix = oldConfig.CommandPrefixes.ClashOfClans
-                        },
-                        new ModulePrefix() {ModuleName = "Help", Prefix = oldConfig.CommandPrefixes.Help},
-                        new ModulePrefix() {ModuleName = "Music", Prefix = oldConfig.CommandPrefixes.Music},
-                        new ModulePrefix() {ModuleName = "Trello", Prefix = oldConfig.CommandPrefixes.Trello},
-                        new ModulePrefix() {ModuleName = "Games", Prefix = oldConfig.CommandPrefixes.Games},
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Gambling",
-                            Prefix = oldConfig.CommandPrefixes.Gambling
-                        },
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Permissions",
-                            Prefix = oldConfig.CommandPrefixes.Permissions
-                        },
-                        new ModulePrefix()
-                        {
-                            ModuleName = "Programming",
-                            Prefix = oldConfig.CommandPrefixes.Programming
-                        },
-                        new ModulePrefix() {ModuleName = "Pokemon", Prefix = oldConfig.CommandPrefixes.Pokemon},
-                        new ModulePrefix() {ModuleName = "Utility", Prefix = oldConfig.CommandPrefixes.Utility}
-                    };
-                botConfig.ModulePrefixes = prefix;
+                        ModuleName = "Administration",
+                        Prefix = oldConfig.CommandPrefixes.Administration
+                    },
+                    new ModulePrefix()
+                    {
+                        ModuleName = "Searches",
+                        Prefix = oldConfig.CommandPrefixes.Searches
+                    },
+                    new ModulePrefix() {ModuleName = "NSFW", Prefix = oldConfig.CommandPrefixes.NSFW},
+                    new ModulePrefix()
+                    {
+                        ModuleName = "Conversations",
+                        Prefix = oldConfig.CommandPrefixes.Conversations
+                    },
+                    new ModulePrefix()
+                    {
+                        ModuleName = "ClashOfClans",
+                        Prefix = oldConfig.CommandPrefixes.ClashOfClans
+                    },
+                    new ModulePrefix() {ModuleName = "Help", Prefix = oldConfig.CommandPrefixes.Help},
+                    new ModulePrefix() {ModuleName = "Music", Prefix = oldConfig.CommandPrefixes.Music},
+                    new ModulePrefix() {ModuleName = "Trello", Prefix = oldConfig.CommandPrefixes.Trello},
+                    new ModulePrefix() {ModuleName = "Games", Prefix = oldConfig.CommandPrefixes.Games},
+                    new ModulePrefix()
+                    {
+                        ModuleName = "Gambling",
+                        Prefix = oldConfig.CommandPrefixes.Gambling
+                    },
+                    new ModulePrefix()
+                    {
+                        ModuleName = "Permissions",
+                        Prefix = oldConfig.CommandPrefixes.Permissions
+                    },
+                    new ModulePrefix()
+                    {
+                        ModuleName = "Programming",
+                        Prefix = oldConfig.CommandPrefixes.Programming
+                    },
+                    new ModulePrefix() {ModuleName = "Pokemon", Prefix = oldConfig.CommandPrefixes.Pokemon},
+                    new ModulePrefix() {ModuleName = "Utility", Prefix = oldConfig.CommandPrefixes.Utility}
+                });
 
                 //Blacklist
                 var blacklist = new HashSet<BlacklistItem>(oldConfig.ServerBlacklist.Select(server => new BlacklistItem() { ItemId = server, Type = BlacklistItem.BlacklistType.Server }));
@@ -310,6 +370,19 @@ namespace NadekoBot.Modules.Administration
 
                 //Eightball
                 botConfig.EightBallResponses = new HashSet<EightBallResponse>(oldConfig._8BallResponses.Select(response => new EightBallResponse() { Text = response }));
+
+                //customreactions
+                uow.CustomReactions.AddRange(oldConfig.CustomReactions.SelectMany(cr =>
+                {
+                    return cr.Value.Select(res => new CustomReaction()
+                    {
+                        GuildId = 0,
+                        IsRegex = false,
+                        OwnerOnly = false,
+                        Response = res,
+                        Trigger = cr.Key,
+                    });
+                }).ToArray());
 
                 try { File.Move(configPath, "./data/DELETE_ME_config.json"); } catch { }
             }

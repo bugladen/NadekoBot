@@ -8,7 +8,7 @@ using NadekoBot.Services.Database.Impl;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoSqliteContext))]
-    [Migration("20161011031532_first")]
+    [Migration("20161011200458_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,8 +52,6 @@ namespace NadekoBot.Migrations
                     b.Property<string>("CurrencySign");
 
                     b.Property<string>("DMHelpString");
-
-                    b.Property<bool>("DontJoinServers");
 
                     b.Property<bool>("ForwardMessages");
 
@@ -440,7 +438,7 @@ namespace NadekoBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BotConfigId");
+                    b.Property<int?>("BotConfigId");
 
                     b.Property<string>("ModuleName");
 
@@ -723,10 +721,9 @@ namespace NadekoBot.Migrations
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ModulePrefix", b =>
                 {
-                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig", "BotConfig")
+                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("ModulePrefixes")
-                        .HasForeignKey("BotConfigId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BotConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
