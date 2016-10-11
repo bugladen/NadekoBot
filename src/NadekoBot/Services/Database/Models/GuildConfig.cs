@@ -41,7 +41,7 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<FollowedStream> FollowedStreams { get; set; } = new HashSet<FollowedStream>();
 
         //currencyGeneration
-        public ulong? GenerateCurrencyChannelId { get; set; }
+        public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new HashSet<GCChannelId>();
 
         //permissions
         public Permission RootPermission { get; set; }
@@ -64,8 +64,25 @@ namespace NadekoBot.Services.Database.Models
         public ulong ChannelId { get; set; }
     }
 
-    public class FilteredWord :DbEntity
+    public class FilteredWord : DbEntity
     {
         public string Word { get; set; }
+    }
+
+    public class GCChannelId : DbEntity
+    {
+        public ulong ChannelId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var gc = obj as GCChannelId;
+            if (gc == null)
+                return false;
+
+            return gc.ChannelId == this.ChannelId;
+        }
+
+        public override int GetHashCode() =>
+            this.ChannelId.GetHashCode();
     }
 }

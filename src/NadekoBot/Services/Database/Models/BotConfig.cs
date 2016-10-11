@@ -44,7 +44,7 @@ For a specific command help, use `{1}h CommandName` (for example {1}h !!q)
 
 
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
-<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
+<http://nadekobot.readthedocs.io/en/1.0/Commands%20List/>
 
 
 Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";

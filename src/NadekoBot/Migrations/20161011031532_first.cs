@@ -82,6 +82,23 @@ namespace NadekoBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomReactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    GuildId = table.Column<ulong>(nullable: true),
+                    IsRegex = table.Column<bool>(nullable: false),
+                    OwnerOnly = table.Column<bool>(nullable: false),
+                    Response = table.Column<string>(nullable: true),
+                    Trigger = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomReactions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Donators",
                 columns: table => new
                 {
@@ -226,20 +243,6 @@ namespace NadekoBot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SelfAssignableRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TypingArticles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    Author = table.Column<string>(nullable: true),
-                    Text = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TypingArticles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -452,7 +455,6 @@ namespace NadekoBot.Migrations
                     ExclusiveSelfAssignedRoles = table.Column<bool>(nullable: false),
                     FilterInvites = table.Column<bool>(nullable: false),
                     FilterWords = table.Column<bool>(nullable: false),
-                    GenerateCurrencyChannelId = table.Column<ulong>(nullable: true),
                     GreetMessageChannelId = table.Column<ulong>(nullable: false),
                     GuildId = table.Column<ulong>(nullable: false),
                     LogSettingId = table.Column<int>(nullable: true),
@@ -477,6 +479,27 @@ namespace NadekoBot.Migrations
                         name: "FK_GuildConfigs_Permission_RootPermissionId",
                         column: x => x.RootPermissionId,
                         principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommandCooldown",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    CommandName = table.Column<string>(nullable: true),
+                    GuildConfigId = table.Column<int>(nullable: true),
+                    Seconds = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommandCooldown", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommandCooldown_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -537,7 +560,6 @@ namespace NadekoBot.Migrations
                     ChannelId = table.Column<ulong>(nullable: false),
                     GuildConfigId = table.Column<int>(nullable: true),
                     GuildId = table.Column<ulong>(nullable: false),
-                    LastStatus = table.Column<bool>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Username = table.Column<string>(nullable: true)
                 },
@@ -546,6 +568,26 @@ namespace NadekoBot.Migrations
                     table.PrimaryKey("PK_FollowedStream", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FollowedStream_GuildConfigs_GuildConfigId",
+                        column: x => x.GuildConfigId,
+                        principalTable: "GuildConfigs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GCChannelId",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChannelId = table.Column<ulong>(nullable: false),
+                    GuildConfigId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GCChannelId", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GCChannelId_GuildConfigs_GuildConfigId",
                         column: x => x.GuildConfigId,
                         principalTable: "GuildConfigs",
                         principalColumn: "Id",
@@ -561,6 +603,11 @@ namespace NadekoBot.Migrations
                 name: "IX_ClashCallers_ClashWarId",
                 table: "ClashCallers",
                 column: "ClashWarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommandCooldown_GuildConfigId",
+                table: "CommandCooldown",
+                column: "GuildConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Currency_UserId",
@@ -597,6 +644,11 @@ namespace NadekoBot.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_FollowedStream_GuildConfigId",
                 table: "FollowedStream",
+                column: "GuildConfigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GCChannelId_GuildConfigId",
+                table: "GCChannelId",
                 column: "GuildConfigId");
 
             migrationBuilder.CreateIndex(
@@ -673,10 +725,16 @@ namespace NadekoBot.Migrations
                 name: "ClashCallers");
 
             migrationBuilder.DropTable(
+                name: "CommandCooldown");
+
+            migrationBuilder.DropTable(
                 name: "ConversionUnits");
 
             migrationBuilder.DropTable(
                 name: "Currency");
+
+            migrationBuilder.DropTable(
+                name: "CustomReactions");
 
             migrationBuilder.DropTable(
                 name: "Donators");
@@ -692,6 +750,9 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "FollowedStream");
+
+            migrationBuilder.DropTable(
+                name: "GCChannelId");
 
             migrationBuilder.DropTable(
                 name: "IgnoredLogChannels");
@@ -722,9 +783,6 @@ namespace NadekoBot.Migrations
 
             migrationBuilder.DropTable(
                 name: "SelfAssignableRoles");
-
-            migrationBuilder.DropTable(
-                name: "TypingArticles");
 
             migrationBuilder.DropTable(
                 name: "ClashOfClans");

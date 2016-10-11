@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.ClashOfClans
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
-        public ClashOfClans(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        static ClashOfClans()
         {
             using (var uow = DbHandler.UnitOfWork())
             {
@@ -35,6 +35,9 @@ namespace NadekoBot.Modules.ClashOfClans
                         .GroupBy(cw => cw.GuildId)
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }
+        }
+        public ClashOfClans(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        {
         }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)

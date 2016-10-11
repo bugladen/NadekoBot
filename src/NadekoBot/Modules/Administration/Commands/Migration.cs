@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using NLog;
 using NadekoBot.Modules.Administration.Commands.Migration;
 using System.Collections.Concurrent;
+using NadekoBot.Extensions;
+using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -62,10 +64,158 @@ namespace NadekoBot.Modules.Administration
 
             private async Task Migrate0_9To1_0()
             {
-                Config0_9 oldData;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var botConfig = uow.BotConfig.GetOrCreate();
+                    MigrateConfig0_9(botConfig);
+                    MigratePermissions0_9(uow);
+                    MigrateServerSpecificConfigs0_9(uow);
+
+                    //NOW save it
+                    botConfig.MigrationVersion = 1;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+            }
+
+            private void MigrateServerSpecificConfigs0_9(IUnitOfWork uow)
+            {
+                const string specificConfigsPath = "data/ServerSpecificConfigs.json";
+                var configs = new ConcurrentDictionary<ulong, ServerSpecificConfig>();
                 try
                 {
-                    oldData = JsonConvert.DeserializeObject<Config0_9>(File.ReadAllText("./data/config.json"));
+                    configs = JsonConvert
+                        .DeserializeObject<ConcurrentDictionary<ulong, ServerSpecificConfig>>(
+                            File.ReadAllText(specificConfigsPath), new JsonSerializerSettings()
+                            {
+                                Error = (s, e) =>
+                                {
+                                    if (e.ErrorContext.Member.ToString() == "GenerateCurrencyChannels")
+                                    {
+                                        e.ErrorContext.Handled = true;
+                                    }
+                                }
+                            });
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex, "ServerSpecificConfig deserialization failed");
+                    return;
+                }
+
+                foreach (var config in configs)
+                {
+                    var guildId = config.Key;
+                    var data = config.Value;
+
+                    var guildConfig = uow.GuildConfigs.For(guildId);
+
+                    guildConfig.AutoAssignRoleId = data.AutoAssignedRole;
+                    guildConfig.DeleteMessageOnCommand = data.AutoDeleteMessagesOnCommand;
+                    guildConfig.DefaultMusicVolume = data.DefaultMusicVolume;
+                    guildConfig.ExclusiveSelfAssignedRoles = data.ExclusiveSelfAssignedRoles;
+                    guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
+                    uow.SelfAssignedRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildId, RoleId = r }).ToArray());
+                    var logSetting = guildConfig.LogSetting;
+                    guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
+                    guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>
+                    {
+                        FollowedStream.FollowedStreamType type = FollowedStream.FollowedStreamType.Twitch;
+                        switch (x.Type)
+                        {
+                            case StreamNotificationConfig0_9.StreamType.Twitch:
+                                type = FollowedStream.FollowedStreamType.Twitch;
+                                break;
+                            case StreamNotificationConfig0_9.StreamType.Beam:
+                                type = FollowedStream.FollowedStreamType.Beam;
+                                break;
+                            case StreamNotificationConfig0_9.StreamType.Hitbox:
+                                type = FollowedStream.FollowedStreamType.Hitbox;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        return new FollowedStream()
+                        {
+                            ChannelId = x.ChannelId,
+                            GuildId = guildId,
+                            Username = x.Username.ToLowerInvariant(),
+                            Type = type
+                        };
+                    }));
+                    guildConfig.VoicePlusTextEnabled = data.VoicePlusTextEnabled;
+                }
+                try { File.Move("data/ServerSpecificConfigs.json", "data/DELETE_ME_ServerSpecificCOnfigs.json"); } catch { }
+            }
+
+            private void MigratePermissions0_9(IUnitOfWork uow)
+            {
+                var PermissionsDict = new ConcurrentDictionary<ulong, ServerPermissions0_9>();
+                Directory.CreateDirectory("data/permissions");
+                foreach (var file in Directory.EnumerateFiles("data/permissions/"))
+                {
+                    try
+                    {
+                        var strippedFileName = Path.GetFileNameWithoutExtension(file);
+                        if (string.IsNullOrWhiteSpace(strippedFileName)) continue;
+                        var id = ulong.Parse(strippedFileName);
+                        var data = JsonConvert.DeserializeObject<ServerPermissions0_9>(File.ReadAllText(file));
+                        PermissionsDict.TryAdd(id, data);
+                    }
+                    catch { }
+                }
+                foreach (var perms in PermissionsDict)
+                {
+                    var guildId = perms.Key;
+                    var data = perms.Value;
+
+                    _log.Info("Migrating data from permissions folder for {0}", guildId);
+
+                    var gconfig = uow.GuildConfigs.For(guildId);
+
+                    gconfig.PermissionRole = data.PermissionsControllerRole;
+                    gconfig.VerbosePermissions = data.Verbose;
+                    gconfig.FilteredWords = new HashSet<FilteredWord>(data.Words.Select(w => w.ToLowerInvariant())
+                                                                                .Distinct()
+                                                                                .Select(w => new FilteredWord() { Word = w }));
+                    gconfig.FilterWords = data.Permissions.FilterWords;
+                    gconfig.FilterInvites = data.Permissions.FilterInvites;
+
+                    gconfig.FilterInvitesChannelIds = new HashSet<FilterChannelId>();
+                    gconfig.FilterInvitesChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterInvites)
+                                                                                    .Select(cp => new FilterChannelId()
+                                                                                    {
+                                                                                        ChannelId = cp.Key
+                                                                                    }));
+
+                    gconfig.FilterWordsChannelIds = new HashSet<FilterChannelId>();
+                    gconfig.FilterWordsChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterWords)
+                                                                                    .Select(cp => new FilterChannelId()
+                                                                                    {
+                                                                                        ChannelId = cp.Key
+                                                                                    }));
+
+                    gconfig.CommandCooldowns = new HashSet<CommandCooldown>(data.CommandCooldowns
+                                                                                .Where(cc => !string.IsNullOrWhiteSpace(cc.Key) && cc.Value > 0)
+                                                                                .Select(cc => new CommandCooldown()
+                                                                                {
+                                                                                    CommandName = cc.Key,
+                                                                                    Seconds = cc.Value
+                                                                                }));
+                    var smodules = data.Permissions.Modules.Where(m => !m.Value);
+
+                    try { Directory.Move("data/permissions","data/DELETE_ME_permissions"); } catch { }
+                }
+
+            }
+
+            private void MigrateConfig0_9(BotConfig botConfig)
+            {
+                Config0_9 oldConfig;
+                const string configPath = "./data/config.json";
+                try
+                {
+                    oldConfig = JsonConvert.DeserializeObject<Config0_9>(File.ReadAllText(configPath));
                 }
                 catch (FileNotFoundException)
                 {
@@ -77,94 +227,89 @@ namespace NadekoBot.Modules.Administration
                     _log.Error("Unknow error while deserializing file config.json, pls check its integrity, aborting migration");
                     throw new MigrationException();
                 }
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var botConfig = uow.BotConfig.GetOrCreate();
 
-                    //Basic
-                    botConfig.DontJoinServers = oldData.DontJoinServers;
-                    botConfig.ForwardMessages = oldData.ForwardMessages;
-                    botConfig.ForwardToAllOwners = oldData.ForwardToAllOwners;
-                    botConfig.BufferSize = (ulong) oldData.BufferSize;
-                    botConfig.RemindMessageFormat = oldData.RemindMessageFormat;
-                    botConfig.CurrencySign = oldData.CurrencySign;
-                    botConfig.CurrencyName = oldData.CurrencyName;
-                    botConfig.DMHelpString = oldData.DMHelpString;
-                    botConfig.HelpString = oldData.HelpString;
+                //Basic
+                botConfig.DontJoinServers = oldConfig.DontJoinServers;
+                botConfig.ForwardMessages = oldConfig.ForwardMessages;
+                botConfig.ForwardToAllOwners = oldConfig.ForwardToAllOwners;
+                botConfig.BufferSize = (ulong)oldConfig.BufferSize;
+                botConfig.RemindMessageFormat = oldConfig.RemindMessageFormat;
+                botConfig.CurrencySign = oldConfig.CurrencySign;
+                botConfig.CurrencyName = oldConfig.CurrencyName;
+                botConfig.DMHelpString = oldConfig.DMHelpString;
+                botConfig.HelpString = oldConfig.HelpString;
 
-                    //messages
-                    botConfig.RotatingStatuses = oldData.IsRotatingStatus;
-                    var messages = new List<PlayingStatus>();
+                //messages
+                botConfig.RotatingStatuses = oldConfig.IsRotatingStatus;
+                var messages = new List<PlayingStatus>();
 
-                    oldData.RotatingStatuses.ForEach(i => messages.Add(new PlayingStatus { Status = i }));
-                    botConfig.RotatingStatusMessages = messages;
+                oldConfig.RotatingStatuses.ForEach(i => messages.Add(new PlayingStatus { Status = i }));
+                botConfig.RotatingStatusMessages = messages;
 
-                    //races
-                    var races = new HashSet<RaceAnimal>();
-                    oldData.RaceAnimals.ForEach(i => races.Add(new RaceAnimal() { Icon =  i, Name = i }));
+                //races
+                var races = new HashSet<RaceAnimal>();
+                oldConfig.RaceAnimals.ForEach(i => races.Add(new RaceAnimal() { Icon = i, Name = i }));
+                if (races.Any())
                     botConfig.RaceAnimals = races;
 
-                    //Prefix
-                    var prefix = new HashSet<ModulePrefix>
+                //Prefix
+                var prefix = new HashSet<ModulePrefix>
                     {
                         new ModulePrefix()
                         {
                             ModuleName = "Administration",
-                            Prefix = oldData.CommandPrefixes.Administration
+                            Prefix = oldConfig.CommandPrefixes.Administration
                         },
                         new ModulePrefix()
                         {
                             ModuleName = "Searches",
-                            Prefix = oldData.CommandPrefixes.Searches
+                            Prefix = oldConfig.CommandPrefixes.Searches
                         },
-                        new ModulePrefix() {ModuleName = "NSFW", Prefix = oldData.CommandPrefixes.NSFW},
+                        new ModulePrefix() {ModuleName = "NSFW", Prefix = oldConfig.CommandPrefixes.NSFW},
                         new ModulePrefix()
                         {
                             ModuleName = "Conversations",
-                            Prefix = oldData.CommandPrefixes.Conversations
+                            Prefix = oldConfig.CommandPrefixes.Conversations
                         },
                         new ModulePrefix()
                         {
                             ModuleName = "ClashOfClans",
-                            Prefix = oldData.CommandPrefixes.ClashOfClans
+                            Prefix = oldConfig.CommandPrefixes.ClashOfClans
                         },
-                        new ModulePrefix() {ModuleName = "Help", Prefix = oldData.CommandPrefixes.Help},
-                        new ModulePrefix() {ModuleName = "Music", Prefix = oldData.CommandPrefixes.Music},
-                        new ModulePrefix() {ModuleName = "Trello", Prefix = oldData.CommandPrefixes.Trello},
-                        new ModulePrefix() {ModuleName = "Games", Prefix = oldData.CommandPrefixes.Games},
+                        new ModulePrefix() {ModuleName = "Help", Prefix = oldConfig.CommandPrefixes.Help},
+                        new ModulePrefix() {ModuleName = "Music", Prefix = oldConfig.CommandPrefixes.Music},
+                        new ModulePrefix() {ModuleName = "Trello", Prefix = oldConfig.CommandPrefixes.Trello},
+                        new ModulePrefix() {ModuleName = "Games", Prefix = oldConfig.CommandPrefixes.Games},
                         new ModulePrefix()
                         {
                             ModuleName = "Gambling",
-                            Prefix = oldData.CommandPrefixes.Gambling
+                            Prefix = oldConfig.CommandPrefixes.Gambling
                         },
                         new ModulePrefix()
                         {
                             ModuleName = "Permissions",
-                            Prefix = oldData.CommandPrefixes.Permissions
+                            Prefix = oldConfig.CommandPrefixes.Permissions
                         },
                         new ModulePrefix()
                         {
                             ModuleName = "Programming",
-                            Prefix = oldData.CommandPrefixes.Programming
+                            Prefix = oldConfig.CommandPrefixes.Programming
                         },
-                        new ModulePrefix() {ModuleName = "Pokemon", Prefix = oldData.CommandPrefixes.Pokemon},
-                        new ModulePrefix() {ModuleName = "Utility", Prefix = oldData.CommandPrefixes.Utility}
+                        new ModulePrefix() {ModuleName = "Pokemon", Prefix = oldConfig.CommandPrefixes.Pokemon},
+                        new ModulePrefix() {ModuleName = "Utility", Prefix = oldConfig.CommandPrefixes.Utility}
                     };
-                    botConfig.ModulePrefixes = prefix;
+                botConfig.ModulePrefixes = prefix;
 
-                    //Blacklist
-                    var blacklist = oldData.ServerBlacklist.Select(server => new BlacklistItem() {ItemId = server, Type = BlacklistItem.BlacklistType.Server}).ToList();
-                    blacklist.AddRange(oldData.ChannelBlacklist.Select(channel => new BlacklistItem() {ItemId = channel, Type = BlacklistItem.BlacklistType.Channel}));
-                    blacklist.AddRange(oldData.UserBlacklist.Select(user => new BlacklistItem() {ItemId = user, Type = BlacklistItem.BlacklistType.User}));
-                    botConfig.Blacklist = new HashSet<BlacklistItem>(blacklist);
+                //Blacklist
+                var blacklist = new HashSet<BlacklistItem>(oldConfig.ServerBlacklist.Select(server => new BlacklistItem() { ItemId = server, Type = BlacklistItem.BlacklistType.Server }));
+                blacklist.AddRange(oldConfig.ChannelBlacklist.Select(channel => new BlacklistItem() { ItemId = channel, Type = BlacklistItem.BlacklistType.Channel }));
+                blacklist.AddRange(oldConfig.UserBlacklist.Select(user => new BlacklistItem() { ItemId = user, Type = BlacklistItem.BlacklistType.User }));
+                botConfig.Blacklist = blacklist;
 
-                    //Eightball
-                    botConfig.EightBallResponses = new HashSet<EightBallResponse>(oldData._8BallResponses.Select(response => new EightBallResponse() {Text = response}));
+                //Eightball
+                botConfig.EightBallResponses = new HashSet<EightBallResponse>(oldConfig._8BallResponses.Select(response => new EightBallResponse() { Text = response }));
 
-                    //NOW save it
-                    botConfig.MigrationVersion = 1;
-                    await uow.CompleteAsync().ConfigureAwait(false);
-                }
+                try { File.Move(configPath, "./data/DELETE_ME_config.json"); } catch { }
             }
         }
     }

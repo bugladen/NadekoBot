@@ -11,7 +11,7 @@ namespace NadekoBot.Services.Database.Models
     {
         public bool IsLogging { get; set; }
         public ulong ChannelId { get; set; }
-        public ConcurrentHashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
+        public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
 
         public bool MessageUpdated { get; set; } = true;
         public bool MessageDeleted { get; set; } = true;

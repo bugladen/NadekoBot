@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
+using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -33,7 +34,7 @@ namespace NadekoBot.Modules.Games
         {
             private Random rng;
 
-            private ConcurrentDictionary<ulong, bool> generationChannels = new ConcurrentDictionary<ulong, bool>();
+            private ConcurrentHashSet<ulong> generationChannels = new ConcurrentHashSet<ulong>();
             //channelid/message
             private ConcurrentDictionary<ulong, List<IUserMessage>> plantedFlowers = new ConcurrentDictionary<ulong, List<IUserMessage>>();
             //channelId/last generation
@@ -53,9 +54,8 @@ namespace NadekoBot.Modules.Games
                 {
                     var conf = uow.BotConfig.GetOrCreate();
                     var x =
-                    generationChannels = new ConcurrentDictionary<ulong, bool>(uow.GuildConfigs.GetAll()
-                        .Where(c => c.GenerateCurrencyChannelId != null)
-                        .ToDictionary(c => c.GenerateCurrencyChannelId.Value, c => true));
+                    generationChannels = new ConcurrentHashSet<ulong>(uow.GuildConfigs.GetAll()
+                        .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj=>obj.ChannelId)));
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;
                 }
@@ -71,8 +71,7 @@ namespace NadekoBot.Modules.Games
                 if (channel == null)
                     return Task.CompletedTask;
 
-                bool shouldGenerate;
-                if (!generationChannels.TryGetValue(channel.Id, out shouldGenerate) || !shouldGenerate)
+                if (!generationChannels.Contains(channel.Id))
                     return Task.CompletedTask;
 
                 var t = Task.Run(async () =>
@@ -135,8 +134,6 @@ namespace NadekoBot.Modules.Games
             public async Task Plant(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
-                if (channel == null)
-                    return;
 
                 var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, false).ConfigureAwait(false);
                 if (!removed)
@@ -167,25 +164,23 @@ namespace NadekoBot.Modules.Games
             public async Task Gencurrency(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
-                if (channel == null)
-                    return;
 
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var guildConfig = uow.GuildConfigs.For(channel.Id);
 
-                    if (guildConfig.GenerateCurrencyChannelId == null)
+                    var toAdd = new GCChannelId() { ChannelId = channel.Id };
+                    if (guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
                     {
-                        guildConfig.GenerateCurrencyChannelId = channel.Id;
-                        generationChannels.TryAdd(channel.Id, true);
+                        guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
+                        generationChannels.Add(channel.Id);
                         enabled = true;
                     }
                     else
                     {
-                        guildConfig.GenerateCurrencyChannelId = null;
-                        bool throwaway;
-                        generationChannels.TryRemove(channel.Id, out throwaway);
+                        guildConfig.GenerateCurrencyChannelIds.Remove(toAdd);
+                        generationChannels.TryRemove(channel.Id);
                         enabled = false;
                     }
                     await uow.CompleteAsync();

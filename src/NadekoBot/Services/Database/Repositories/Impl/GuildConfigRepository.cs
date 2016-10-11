@@ -24,6 +24,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .ThenInclude(gc => gc.Previous)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Next)
+                .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
                 .Include(gc => gc.FilteredWords)
@@ -45,6 +46,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                             .Include(gc => gc.FilterInvitesChannelIds)
                             .Include(gc => gc.FilterWordsChannelIds)
                             .Include(gc => gc.FilteredWords)
+                            .Include(gc => gc.GenerateCurrencyChannelIds)
                             .Include(gc => gc.CommandCooldowns)
                             .FirstOrDefault(c => c.GuildId == guildId);
 

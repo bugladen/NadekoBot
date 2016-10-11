@@ -154,8 +154,8 @@ namespace NadekoBot.Modules.Help
             var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync(
-@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
-**Hosting Guides and docs can be found here**: <http://nadekobot.rtfd.io>").ConfigureAwait(false);
+@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/1.0/Commands%20List/>
+**Hosting Guides and docs can be found here**: <http://nadekobot.readthedocs.io/en/1.0/>").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.Help
             var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync(
-$@"You can support the project on patreon. <https://patreon.com/nadekobot> or
+$@"You can support the NadekoBot project on patreon. <https://patreon.com/nadekobot> or
 You can send donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message.
 

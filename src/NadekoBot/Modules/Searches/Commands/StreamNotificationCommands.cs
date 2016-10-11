@@ -18,17 +18,32 @@ namespace NadekoBot.Modules.Searches
 {
     public partial class Searches
     {
+        public class StreamStatus
+        {
+            public StreamStatus(string link, bool isLive, string views)
+            {
+                Link = link;
+                IsLive = isLive;
+                Views = views;
+            }
+
+            public bool IsLive { get; set; }
+            public string Link { get; set; }
+            public string Views { get; set; }
+        }
         [Group]
         public class StreamNotificationCommands
         {
             private Timer checkTimer { get; }
-            private ConcurrentDictionary<string, Tuple<bool, string>> cachedStatuses = new ConcurrentDictionary<string, Tuple<bool, string>>();
+            private ConcurrentDictionary<string, StreamStatus> oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
+            private ConcurrentDictionary<string, StreamStatus> cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
             private bool FirstPass { get; set; } = true;
 
             public StreamNotificationCommands()
             {
                 checkTimer = new Timer(async (state) =>
                 {
+                    oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(cachedStatuses);
                     cachedStatuses.Clear();
                     try
                     {
@@ -39,19 +54,23 @@ namespace NadekoBot.Modules.Searches
                         }
                         foreach (var stream in streams)
                         {
-                            Tuple<bool, string> data;
+                            StreamStatus data;
                             try
                             {
                                 data = await GetStreamStatus(stream).ConfigureAwait(false);
+                                if (data == null)
+                                    return;
                             }
                             catch
                             {
                                 continue;
                             }
 
-                            if (data.Item1 != stream.LastStatus)
+                            StreamStatus oldData;
+                            oldCachedStatuses.TryGetValue(data.Link, out oldData);
+
+                            if (oldData == null || data.IsLive != oldData.IsLive)
                             {
-                                stream.LastStatus = data.Item1;
                                 if (FirstPass)
                                     continue;
                                 var server = NadekoBot.Client.GetGuild(stream.GuildId);
@@ -59,32 +78,30 @@ namespace NadekoBot.Modules.Searches
                                 if (channel == null)
                                     continue;
                                 var msg = $"`{stream.Username}`'s stream is now " +
-                                          $"**{(data.Item1 ? "ONLINE" : "OFFLINE")}** with " +
-                                          $"**{data.Item2}** viewers.";
-                                if (stream.LastStatus)
+                                          $"**{(data.IsLive ? "ONLINE" : "OFFLINE")}** with " +
+                                          $"**{data.Views}** viewers.";
+                                if (data.IsLive)
                                     if (stream.Type == FollowedStream.FollowedStreamType.Hitbox)
                                         msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                                     else if (stream.Type == FollowedStream.FollowedStreamType.Twitch)
                                         msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
                                     else if (stream.Type == FollowedStream.FollowedStreamType.Beam)
                                         msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
-                                //else if (stream.Type == FollowedStream.FollowedStreamType.YoutubeGaming)
-                                //    msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
                                 try { await channel.SendMessageAsync(msg).ConfigureAwait(false); } catch { }
                             }
                         }
                         FirstPass = false;
                     }
                     catch { }
-                }, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+                }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
             }
 
-            private async Task<Tuple<bool, string>> GetStreamStatus(FollowedStream stream, bool checkCache = true)
+            private async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)
             {
                 bool isLive;
                 string response;
                 JObject data;
-                Tuple<bool, string> result;
+                StreamStatus result;
                 switch (stream.Type)
                 {
                     case FollowedStream.FollowedStreamType.Hitbox:
@@ -97,7 +114,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         data = JObject.Parse(response);
                         isLive = data["media_is_live"].ToString() == "1";
-                        result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
+                        result = new StreamStatus(hitboxUrl, isLive, data["media_views"].ToString());
                         cachedStatuses.TryAdd(hitboxUrl, result);
                         return result;
                     case FollowedStream.FollowedStreamType.Twitch:
@@ -110,7 +127,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         data = JObject.Parse(response);
                         isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
-                        result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : stream.Username);
+                        result = new StreamStatus(twitchUrl, isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
                         cachedStatuses.TryAdd(twitchUrl, result);
                         return result;
                     case FollowedStream.FollowedStreamType.Beam:
@@ -123,13 +140,13 @@ namespace NadekoBot.Modules.Searches
                         }
                         data = JObject.Parse(response);
                         isLive = data["online"].ToObject<bool>() == true;
-                        result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
+                        result = new StreamStatus(beamUrl, isLive, data["viewersCurrent"].ToString());
                         cachedStatuses.TryAdd(beamUrl, result);
                         return result;
                     default:
                         break;
                 }
-                return new Tuple<bool, string>(false, "0");
+                return null;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -181,6 +198,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task RemoveStream(IUserMessage msg, [Remainder] string username)
             {
                 var channel = (ITextChannel)msg.Channel;
@@ -223,9 +241,9 @@ namespace NadekoBot.Modules.Searches
                         Username = stream,
                         Type = platform
                     }));
-                    if (streamStatus.Item1)
+                    if (streamStatus.IsLive)
                     {
-                        await channel.SendMessageAsync($"`Streamer {username} is online with {streamStatus.Item2}.`");
+                        await channel.SendMessageAsync($"`Streamer {username} is online with {streamStatus.Views} viewers.`");
                     }
                     else
                     {
@@ -258,7 +276,7 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendMessageAsync($":anger: I am already following `{username}` ({type}) stream on this channel.").ConfigureAwait(false);
                     return;
                 }
-                Tuple<bool, string> data;
+                StreamStatus data;
                 try
                 {
                     data = await GetStreamStatus(stream).ConfigureAwait(false);
@@ -268,17 +286,14 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendMessageAsync(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
-                var msg = $"Stream is currently **{(data.Item1 ? "ONLINE" : "OFFLINE")}** with **{data.Item2}** viewers";
-                if (data.Item1)
+                var msg = $"Stream is currently **{(data.IsLive ? "ONLINE" : "OFFLINE")}** with **{data.Views}** viewers";
+                if (data.IsLive)
                     if (type == FollowedStream.FollowedStreamType.Hitbox)
                         msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                     else if (type == FollowedStream.FollowedStreamType.Twitch)
                         msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
                     else if (type == FollowedStream.FollowedStreamType.Beam)
                         msg += $"\n`Here is the Link:`【 https://beam.pro/{stream.Username}/ 】";
-                //else if (type == FollowedStream.FollowedStreamType.YoutubeGaming)
-                //    msg += $"\n`Here is the Link:` not implemented yet - {stream.Username}";
-                stream.LastStatus = data.Item1;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     uow.GuildConfigs.For(channel.Guild.Id).FollowedStreams.Add(stream);
