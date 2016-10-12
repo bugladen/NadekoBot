@@ -245,11 +245,12 @@ namespace NadekoBot.Services
                 }
                 _log.Info("Permissions retrieved");
                 var cmd = commands[i];
+                bool resetCommand = cmd.Name == "ResetPermissions";
                 //check permissions
                 if (guild != null)
                 {
                     int index;
-                    if (!rootPerm.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
+                    if (!resetCommand && !rootPerm.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
                     {
                         var returnMsg = $"Permission number #{index + 1} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
                         return new Tuple<Command, bool, IResult>(cmd, verbose, SearchResult.FromError(CommandError.Exception, returnMsg));
