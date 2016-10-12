@@ -139,11 +139,7 @@ namespace NadekoBot.Modules.Help
                 helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {com.Summary} | {com.Remarks} {GetCommandRequirements(com)}");
             }
             helpstr = helpstr.Replace(NadekoBot.Client.GetCurrentUser().Username , "@BotName");
-#if DEBUG
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
-#else
-            File.WriteAllText("commandlist.md", helpstr.ToString());
-#endif
             return Task.CompletedTask;
         }
 

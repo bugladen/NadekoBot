@@ -24,76 +24,78 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class UnitConverterCommands
         {
-            private Logger _log;
+
+            public static List<ConvertUnit> Units { get; set; } = new List<ConvertUnit>();
+            private static Logger _log;
             private static Timer _timer;
-            public static TimeSpan Span = new TimeSpan(12, 0, 0);
-            public UnitConverterCommands()
+            private static TimeSpan updateInterval = new TimeSpan(12, 0, 0);
+
+            static UnitConverterCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
 
                 try
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    var data = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("data/units.json")).Select(u => new ConvertUnit()
                     {
-                        //need to do this the first time                 
+                        Modifier = u.Modifier,
+                        UnitType = u.UnitType,
+                        InternalTrigger = string.Join("|", u.Triggers)
+                    }).ToArray();
+
+                    using (var uow = DbHandler.UnitOfWork())
+                    {           
                         if (uow.ConverterUnits.Empty())
                         {
-                            var content = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("data/units.json")).Select(u => new ConvertUnit()
-                            {
-                                Modifier = u.Modifier,
-                                UnitType = u.UnitType,
-                                InternalTrigger = string.Join("|", u.Triggers)
-                            });
-
-                            uow.ConverterUnits.AddRange(content.ToArray());
+                            uow.ConverterUnits.AddRange(data);
                             uow.Complete();
                         }
-                        Units = uow.ConverterUnits.GetAll().ToList();
                     }
+                    Units = data.ToList();
                 }
                 catch (Exception e)
                 {
                     _log.Warn("Could not load units: " + e.Message);
                 }
-                
-                
-                
-                _timer = new Timer(new TimerCallback(UpdateCurrency), null, 0,(int)Span.TotalMilliseconds);
+            }
+
+            public UnitConverterCommands()
+            {
+                _timer = new Timer(async (obj) => await UpdateCurrency(), null, (int)updateInterval.TotalMilliseconds, (int)updateInterval.TotalMilliseconds);
 
             }
 
-            public void UpdateCurrency(object stateInfo)
+            public async Task UpdateCurrency()
             {
-                var currencyRates = UpdateCurrencyRates().Result;
+                var currencyRates = await UpdateCurrencyRates();
                 var unitTypeString = "currency";
+                var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
+                {
+                    InternalTrigger = u.Key,
+                    Modifier = u.Value,
+                    UnitType = unitTypeString
+                }).ToArray();
+                var baseType = new ConvertUnit()
+                {
+                    Triggers = new[] { currencyRates.Base },
+                    Modifier = decimal.One,
+                    UnitType = unitTypeString
+                };
+                var toRemove = Units.Where(u => u.UnitType == unitTypeString);
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var toRemove = Units.Where(u => u.UnitType == unitTypeString);
-                    Units.RemoveAll(u => u.UnitType == unitTypeString);
                     uow.ConverterUnits.RemoveRange(toRemove.ToArray());
-                    var baseType = new ConvertUnit()
-                    {
-                        Triggers = new[] { currencyRates.Base },
-                        Modifier = decimal.One,
-                        UnitType = unitTypeString
-                    };
                     uow.ConverterUnits.Add(baseType);
-                    Units.Add(baseType);
-                    var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
-                    {
-                        InternalTrigger = u.Key,
-                        Modifier = u.Value,
-                        UnitType = unitTypeString
-                    }).ToArray();
                     uow.ConverterUnits.AddRange(range);
-                    Units.AddRange(range);
 
-                    uow.Complete();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
+                Units.RemoveAll(u => u.UnitType == unitTypeString);
+                Units.Add(baseType);
+                Units.AddRange(range);
                 _log.Info("Updated Currency");
             }
-
-            public List<ConvertUnit> Units { get; set; }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ConvertList(IUserMessage msg)

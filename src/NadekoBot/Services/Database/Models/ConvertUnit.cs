@@ -33,6 +33,19 @@ namespace NadekoBot.Services.Database.Models
         public string InternalTrigger { get; set; }
         public string UnitType { get; set; }
         public decimal Modifier { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var cu = obj as ConvertUnit;
+            if (cu == null)
+                return false;
+            return cu.UnitType == this.UnitType;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.UnitType.GetHashCode();
+        }
     }
 
 }
