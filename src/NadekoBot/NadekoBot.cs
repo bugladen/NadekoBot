@@ -53,7 +53,7 @@ namespace NadekoBot
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
                 TotalShards = Credentials.TotalShards,
-                ConnectionTimeout = 60000
+                ConnectionTimeout = int.MaxValue
             });
 
             //initialize Services

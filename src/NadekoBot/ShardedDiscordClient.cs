@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using Discord.API;
 using Discord.Logging;
 using System.IO;
+using NLog;
 
 namespace NadekoBot
 {
     public class ShardedDiscordClient 
     {
         private DiscordSocketConfig discordSocketConfig;
+        private Logger _log { get; }
 
         public Func<IGuildUser, Task> UserJoined { get; internal set; } = delegate { return Task.CompletedTask; };
         public Func<IMessage, Task> MessageReceived { get; internal set; } = delegate { return Task.CompletedTask; };
@@ -34,6 +36,7 @@ namespace NadekoBot
 
         public ShardedDiscordClient (DiscordSocketConfig discordSocketConfig)
         {
+            _log = LogManager.GetCurrentClassLogger();
             this.discordSocketConfig = discordSocketConfig;
 
             var clientList = new List<DiscordSocketClient>();
@@ -54,6 +57,8 @@ namespace NadekoBot
                 client.ChannelCreated += async arg => await ChannelCreated(arg);
                 client.ChannelDestroyed += async arg => await ChannelDestroyed(arg);
                 client.ChannelUpdated += async (arg1, arg2) => await ChannelUpdated(arg1, arg2);
+
+                _log.Info($"Shard #{i} initialized.");
             }
 
             Clients = clientList.AsReadOnly();
@@ -72,12 +77,12 @@ namespace NadekoBot
             Clients.Select(async c => await c.GetDMChannelAsync(channelId).ConfigureAwait(false)).FirstOrDefault(c => c != null);
 
         internal Task LoginAsync(TokenType tokenType, string token) =>
-            Task.WhenAll(Clients.Select(c => c.LoginAsync(tokenType, token)));
+            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token); _log.Info($"Shard #{c.ShardId} logged in."); }));
 
         internal Task ConnectAsync() =>
-            Task.WhenAll(Clients.Select(c => c.ConnectAsync()));
+            Task.WhenAll(Clients.Select(async c => { await c.ConnectAsync(); _log.Info($"Shard #{c.ShardId} connected."); }));
 
         internal Task DownloadAllUsersAsync() =>
-            Task.WhenAll(Clients.Select(c => c.DownloadAllUsersAsync()));
+            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync(); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
     }
 }
