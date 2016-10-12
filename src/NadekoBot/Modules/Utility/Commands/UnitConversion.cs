@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Utility
                         //need to do this the first time                 
                         if (uow.ConverterUnits.Empty())
                         {
-                            var content = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("units.json")).Select(u => new ConvertUnit()
+                            var content = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("data/units.json")).Select(u => new ConvertUnit()
                             {
                                 Modifier = u.Modifier,
                                 UnitType = u.UnitType,

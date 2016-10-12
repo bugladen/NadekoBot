@@ -7,7 +7,7 @@
     "emitEntryPoint": true,
     "allowUnsafe": true,
     "compile": {
-      "exclude": [ ],
+      "exclude": [ "data" ]
     },
     "copyToOutput": {
       "include": [ "data", "libs" ],

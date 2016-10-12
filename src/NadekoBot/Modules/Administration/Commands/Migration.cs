@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                         switch (i)
                         {
                             case 0:
-                                await Migrate0_9To1_0();
+                                Migrate0_9To1_0();
                                 break;
                         }
                     }
@@ -64,19 +64,20 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            private async Task Migrate0_9To1_0()
+            private void Migrate0_9To1_0()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var botConfig = uow.BotConfig.GetOrCreate();
                     MigrateConfig0_9(uow, botConfig);
-                    MigratePermissions0_9(uow);
+                    //MigratePermissions0_9(uow);
                     MigrateServerSpecificConfigs0_9(uow);
-                    MigrateDb0_9(uow);
+                    //MigrateDb0_9(uow);
 
                     //NOW save it
                     botConfig.MigrationVersion = 1;
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    _log.Warn("Writing to disc");
+                    uow.Complete();
                 }
             }
 
@@ -95,6 +96,7 @@ namespace NadekoBot.Modules.Administration
                 com.CommandText = "SELECT * FROM Announcement";
 
                 var reader = com.ExecuteReader();
+                var i = 0;
                 while (reader.Read())
                 {
                     var gid = (ulong)(long)reader["ServerId"];
@@ -106,7 +108,7 @@ namespace NadekoBot.Modules.Administration
                     var byeDM = (long)reader["ByePM"] == 1;
                     var byeChannel = (ulong)(long)reader["ByeChannelId"];
                     var byeMsg = (string)reader["ByeText"];
-                    bool grdel = (long)reader["DeleteGreetMessages"] == 1;
+                    var grdel = false;
                     var byedel = grdel;
                     var gc = uow.GuildConfigs.For(gid);
 
@@ -122,14 +124,17 @@ namespace NadekoBot.Modules.Administration
                     gc.ChannelByeMessageText = byeMsg;
 
                     gc.AutoDeleteByeMessages = gc.AutoDeleteGreetMessages = grdel;
+                    _log.Info(++i);
                 }
 
                 var com2 = db.CreateCommand();
                 com.CommandText = "SELECT * FROM CurrencyState";
 
+                i = 0;
                 var reader2 = com.ExecuteReader();
                 while (reader2.Read())
                 {
+                    _log.Info(++i);
                     uow.Currency.Add(new Currency()
                     {
                         Amount = (long)reader2["Value"],
@@ -171,57 +176,68 @@ namespace NadekoBot.Modules.Administration
                     _log.Warn(ex, "ServerSpecificConfig deserialization failed");
                     return;
                 }
-
-                foreach (var config in configs)
-                {
-                    var guildId = config.Key;
-                    var data = config.Value;
-
-                    var guildConfig = uow.GuildConfigs.For(guildId);
-
-                    guildConfig.AutoAssignRoleId = data.AutoAssignedRole;
-                    guildConfig.DeleteMessageOnCommand = data.AutoDeleteMessagesOnCommand;
-                    guildConfig.DefaultMusicVolume = data.DefaultMusicVolume;
-                    guildConfig.ExclusiveSelfAssignedRoles = data.ExclusiveSelfAssignedRoles;
-                    guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
-                    uow.SelfAssignedRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildId, RoleId = r }).ToArray());
-                    var logSetting = guildConfig.LogSetting;
-                    guildConfig.LogSetting.IsLogging = data.LogChannel != null;
-                    guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
-                    guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
-
-                    guildConfig.LogSetting.LogUserPresence = data.LogPresenceChannel != null;
-                    guildConfig.LogSetting.UserPresenceChannelId = data.LogPresenceChannel ?? 0;
-                    
-
-                    guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>
+                var i = 0;
+                var selfAssRoles = new ConcurrentHashSet<SelfAssignedRole>();
+                configs
+                    .Select(p => new { data = p.Value, gconfig = uow.GuildConfigs.For(p.Key) })
+                    .AsParallel()
+                    .ForAll(config =>
                     {
-                        FollowedStream.FollowedStreamType type = FollowedStream.FollowedStreamType.Twitch;
-                        switch (x.Type)
+                        try
                         {
-                            case StreamNotificationConfig0_9.StreamType.Twitch:
-                                type = FollowedStream.FollowedStreamType.Twitch;
-                                break;
-                            case StreamNotificationConfig0_9.StreamType.Beam:
-                                type = FollowedStream.FollowedStreamType.Beam;
-                                break;
-                            case StreamNotificationConfig0_9.StreamType.Hitbox:
-                                type = FollowedStream.FollowedStreamType.Hitbox;
-                                break;
-                            default:
-                                break;
-                        }
+                            var guildConfig = config.gconfig;
+                            var data = config.data;
 
-                        return new FollowedStream()
+                            guildConfig.AutoAssignRoleId = data.AutoAssignedRole;
+                            guildConfig.DeleteMessageOnCommand = data.AutoDeleteMessagesOnCommand;
+                            guildConfig.DefaultMusicVolume = data.DefaultMusicVolume;
+                            guildConfig.ExclusiveSelfAssignedRoles = data.ExclusiveSelfAssignedRoles;
+                            guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
+                            selfAssRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildConfig.GuildId, RoleId = r }).ToArray());
+                            var logSetting = guildConfig.LogSetting;
+                            guildConfig.LogSetting.IsLogging = data.LogChannel != null;
+                            guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
+                            guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
+
+                            guildConfig.LogSetting.LogUserPresence = data.LogPresenceChannel != null;
+                            guildConfig.LogSetting.UserPresenceChannelId = data.LogPresenceChannel ?? 0;
+
+
+                            guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>
+                            {
+                                FollowedStream.FollowedStreamType type = FollowedStream.FollowedStreamType.Twitch;
+                                switch (x.Type)
+                                {
+                                    case StreamNotificationConfig0_9.StreamType.Twitch:
+                                        type = FollowedStream.FollowedStreamType.Twitch;
+                                        break;
+                                    case StreamNotificationConfig0_9.StreamType.Beam:
+                                        type = FollowedStream.FollowedStreamType.Beam;
+                                        break;
+                                    case StreamNotificationConfig0_9.StreamType.Hitbox:
+                                        type = FollowedStream.FollowedStreamType.Hitbox;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                return new FollowedStream()
+                                {
+                                    ChannelId = x.ChannelId,
+                                    GuildId = guildConfig.GuildId,
+                                    Username = x.Username.ToLowerInvariant(),
+                                    Type = type
+                                };
+                            }));
+                            guildConfig.VoicePlusTextEnabled = data.VoicePlusTextEnabled;
+                            _log.Info("Migrating SpecificConfig for {0} done ({1})", guildConfig.GuildId, ++i);
+                        }
+                        catch (Exception ex)
                         {
-                            ChannelId = x.ChannelId,
-                            GuildId = guildId,
-                            Username = x.Username.ToLowerInvariant(),
-                            Type = type
-                        };
-                    }));
-                    guildConfig.VoicePlusTextEnabled = data.VoicePlusTextEnabled;
-                }
+                            _log.Error(ex);
+                        }
+                    });
+                uow.SelfAssignedRoles.AddRange(selfAssRoles.ToArray());
                 try { File.Move("data/ServerSpecificConfigs.json", "data/DELETE_ME_ServerSpecificCOnfigs.json"); } catch { }
             }
 
@@ -245,48 +261,55 @@ namespace NadekoBot.Modules.Administration
                     }
                     catch { }
                 }
-                foreach (var perms in PermissionsDict)
-                {
-                    var guildId = perms.Key;
-                    var data = perms.Value;
+                var i = 0;
+                PermissionsDict
+                    .Select(p => new { data = p.Value, gconfig = uow.GuildConfigs.For(p.Key) })
+                    .AsParallel()
+                    .ForAll(perms =>
+                    {
+                        try
+                        {
+                            var data = perms.data;
+                            var gconfig = perms.gconfig;
 
-                    _log.Info("Migrating data from permissions folder for {0}", guildId);
+                            gconfig.PermissionRole = data.PermissionsControllerRole;
+                            gconfig.VerbosePermissions = data.Verbose;
+                            gconfig.FilteredWords = new HashSet<FilteredWord>(data.Words.Select(w => w.ToLowerInvariant())
+                                                                                        .Distinct()
+                                                                                        .Select(w => new FilteredWord() { Word = w }));
+                            gconfig.FilterWords = data.Permissions.FilterWords;
+                            gconfig.FilterInvites = data.Permissions.FilterInvites;
 
-                    var gconfig = uow.GuildConfigs.For(guildId);
+                            gconfig.FilterInvitesChannelIds = new HashSet<FilterChannelId>();
+                            gconfig.FilterInvitesChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterInvites)
+                                                                                            .Select(cp => new FilterChannelId()
+                                                                                            {
+                                                                                                ChannelId = cp.Key
+                                                                                            }));
 
-                    gconfig.PermissionRole = data.PermissionsControllerRole;
-                    gconfig.VerbosePermissions = data.Verbose;
-                    gconfig.FilteredWords = new HashSet<FilteredWord>(data.Words.Select(w => w.ToLowerInvariant())
-                                                                                .Distinct()
-                                                                                .Select(w => new FilteredWord() { Word = w }));
-                    gconfig.FilterWords = data.Permissions.FilterWords;
-                    gconfig.FilterInvites = data.Permissions.FilterInvites;
+                            gconfig.FilterWordsChannelIds = new HashSet<FilterChannelId>();
+                            gconfig.FilterWordsChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterWords)
+                                                                                            .Select(cp => new FilterChannelId()
+                                                                                            {
+                                                                                                ChannelId = cp.Key
+                                                                                            }));
 
-                    gconfig.FilterInvitesChannelIds = new HashSet<FilterChannelId>();
-                    gconfig.FilterInvitesChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterInvites)
-                                                                                    .Select(cp => new FilterChannelId()
-                                                                                    {
-                                                                                        ChannelId = cp.Key
-                                                                                    }));
+                            gconfig.CommandCooldowns = new HashSet<CommandCooldown>(data.CommandCooldowns
+                                                                                        .Where(cc => !string.IsNullOrWhiteSpace(cc.Key) && cc.Value > 0)
+                                                                                        .Select(cc => new CommandCooldown()
+                                                                                        {
+                                                                                            CommandName = cc.Key,
+                                                                                            Seconds = cc.Value
+                                                                                        }));
+                            _log.Info("Migrating data from permissions folder for {0} done ({1})", gconfig.GuildId, ++i);
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Error(ex);
+                        }
+                    });
 
-                    gconfig.FilterWordsChannelIds = new HashSet<FilterChannelId>();
-                    gconfig.FilterWordsChannelIds.AddRange(data.ChannelPermissions.Where(kvp => kvp.Value.FilterWords)
-                                                                                    .Select(cp => new FilterChannelId()
-                                                                                    {
-                                                                                        ChannelId = cp.Key
-                                                                                    }));
-
-                    gconfig.CommandCooldowns = new HashSet<CommandCooldown>(data.CommandCooldowns
-                                                                                .Where(cc => !string.IsNullOrWhiteSpace(cc.Key) && cc.Value > 0)
-                                                                                .Select(cc => new CommandCooldown()
-                                                                                {
-                                                                                    CommandName = cc.Key,
-                                                                                    Seconds = cc.Value
-                                                                                }));
-                    var smodules = data.Permissions.Modules.Where(m => !m.Value);
-
-                    try { Directory.Move("data/permissions","data/DELETE_ME_permissions"); } catch { }
-                }
+                try { Directory.Move("data/permissions", "data/DELETE_ME_permissions"); } catch { }
 
             }
 

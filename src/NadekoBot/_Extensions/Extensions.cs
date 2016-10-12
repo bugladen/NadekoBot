@@ -2,6 +2,7 @@
 using Discord.WebSocket;
 using ImageProcessorCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,14 @@ namespace NadekoBot.Extensions
         }
 
         public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> elements) where T : class
+        {
+            foreach (var item in elements)
+            {
+                target.Add(item);
+            }
+        }
+
+        public static void AddRange<T>(this ConcurrentHashSet<T> target, IEnumerable<T> elements) where T : class
         {
             foreach (var item in elements)
             {
