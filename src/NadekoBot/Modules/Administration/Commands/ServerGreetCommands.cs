@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetMsg(IUserMessage umsg, [Remainder] string text)
+            public async Task GreetMsg(IUserMessage umsg, [Remainder] string text = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
@@ -214,7 +214,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetDmMsg(IUserMessage umsg, [Remainder] string text)
+            public async Task GreetDmMsg(IUserMessage umsg, [Remainder] string text = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
@@ -266,7 +266,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task ByeMsg(IUserMessage umsg, [Remainder] string text)
+            public async Task ByeMsg(IUserMessage umsg, [Remainder] string text = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
