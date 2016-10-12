@@ -68,7 +68,6 @@ namespace NadekoBot.Services
 
         private async Task MessageReceivedHandler(IMessage msg)
         {
-            _log.Info("Message received.");
             var usrMsg = msg as IUserMessage;
             if (usrMsg == null)
                 return;
@@ -121,9 +120,6 @@ namespace NadekoBot.Services
                     return;
                 }
             }
-
-
-            _log.Info("Done checks.");
             var throwaway = Task.Run(async () =>
             {
                 var sw = new Stopwatch();
@@ -189,12 +185,7 @@ namespace NadekoBot.Services
                     if (ex.InnerException != null)
                         _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
                 }
-                finally
-                {
-                    _log.Info("Command handling done.");
-                }
             });
-            _log.Info("Command handling started.");
             return;
         }
 
