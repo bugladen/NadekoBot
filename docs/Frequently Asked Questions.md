@@ -62,12 +62,16 @@ The whole list of commands can be found [here](http://nadekobot.readthedocs.io/e
 
 Follow this Detailed [Guide](http://discord.kongslien.net/guide.html) if you do not understand.
 
-###Question 13:I'm building NadekoBot from source, but I get hundreds of (namespace) errors without changing anything!?
+###Question 13:  I'm building NadekoBot from source, but I get hundreds of (namespace) errors without changing anything!?
 -----
 **Answer:** Using Visual Studio, you can solve these errors by going to `Tools` -> `NuGet Package Manager` -> `Manage NuGet Packages for Solution`. Go to the Installed tab, select the Packages that were missing (usually `Newtonsoft.json` and `RestSharp`) and install them for all projects
 
 ###Question 14:  My bot has all permissions but it's still saying, "Failed to add roles. Bot has insufficient permissions.". How do I fix this?
 ----------
 **Answer:** Discord has added a few new features and roles now follow hierarchy. This means you need to place your bot's role above every-other role your server has. [Here's](https://support.discordapp.com/hc/en-us/articles/214836687-Role-Management-101) a link to Discords role management 101.
+
+###Question 15: I've broken permissions and am stuck, can I reset permissions?
+----------
+**Answer:** Yes, there is a way, in one easy command! Just run `.resetperms`  
 
 **Please Note:** *The bot can only set/add all roles below its own highest role. It can not assign it's "highest role" to anyone else.*
