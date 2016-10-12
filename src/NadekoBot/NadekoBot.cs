@@ -18,6 +18,7 @@ using NadekoBot.Modules.Permissions;
 using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
+using NadekoBot.Modules.Music;
 
 namespace NadekoBot
 {
@@ -93,7 +94,9 @@ namespace NadekoBot
             await CommandHandler.StartHandling();
 
             await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
-
+#if !GLOBAL_NADEKO
+            await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
+#endif
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 
             await Task.Delay(-1);

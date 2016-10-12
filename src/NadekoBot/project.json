@@ -10,12 +10,13 @@
       "exclude": [ ],
     },
     "copyToOutput": {
-      "include": [ "data" , "libs"],
+      "include": [ "data", "libs" ],
       "exclude": [ "data/musicdata" ],
       "mappings": {
         "./": "./libs"
       }
-    }
+    },
+    "define": []
   },
   "dependencies": {
     "Microsoft.NETCore.App": {
@@ -50,6 +51,11 @@
         "dnxcore50",
         "portable-net45+win8+wpa81"
       ]
+    }
+  },
+  "configurations": {
+    "GlobalNadeko": {
+      "buildOptions": {"define": ["GLOBAL_NADEKO"]}
     }
   }
 }

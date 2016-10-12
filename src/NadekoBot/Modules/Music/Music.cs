@@ -18,7 +18,7 @@ using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Music
 {
-    [NadekoModule("Music", "!!")]
+    [NadekoModule("Music", "!!", AutoLoad = false)]
     public partial class Music : DiscordModule
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers = new ConcurrentDictionary<ulong, MusicPlayer>();

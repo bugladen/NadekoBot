@@ -23,5 +23,8 @@
         "portable-net451+win8"
       ]
     }
+  },
+  "configurations": {
+    "GlobalNadeko": {}
   }
 }
