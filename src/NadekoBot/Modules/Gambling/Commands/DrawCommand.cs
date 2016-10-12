@@ -31,14 +31,13 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Draw(IUserMessage msg)
+            public async Task Draw(IUserMessage msg, int num = 1)
             {
                 var channel = (ITextChannel)msg.Channel;
                 var cards = AllDecks.GetOrAdd(channel.Guild, (s) => new Cards());
-
-                var num = 1;
                 var images = new List<Image>();
                 var cardObjects = new List<Cards.Card>();
+                if (num > 5) num = 5;
                 for (var i = 0; i < num; i++)
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
@@ -48,17 +47,18 @@ namespace NadekoBot.Modules.Gambling
                     }
                     var currentCard = cards.DrawACard();
                     cardObjects.Add(currentCard);
-                    using (var stream = File.OpenRead(Path.Combine(cardsPath, currentCard.GetName())))
+                    using (var stream = File.OpenRead(Path.Combine(cardsPath, currentCard.ToString().ToLowerInvariant()+ ".jpg").Replace(' ','_')))
                         images.Add(new Image(stream));
                 }
                 MemoryStream bitmapStream = new MemoryStream();
                 images.Merge().SaveAsPng(bitmapStream);
                 bitmapStream.Position = 0;
-                await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", $"{msg.Author.Mention} drew (TODO: CARD NAMES HERE)").ConfigureAwait(false);
+                //todo CARD NAMES?
+                var toSend = $"{msg.Author.Mention}";
                 if (cardObjects.Count == 5)
-                {
-                    await channel.SendMessageAsync($"{msg.Author.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
-                }
+                    toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
+
+                await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;
 
-                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
+                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Mention).Replace("%server%", user.Guild.Name);
                     if (string.IsNullOrWhiteSpace(msg))
                         return;
                     try
@@ -284,7 +284,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    await channel.SendMessageAsync("`Current bye message:` " + conf.ChannelGreetMessageText.SanitizeMentions());
+                    await channel.SendMessageAsync("`Current bye message:` " + conf.ChannelByeMessageText.SanitizeMentions());
                     return;
                 }
                 await channel.SendMessageAsync("New bye message set.").ConfigureAwait(false);
