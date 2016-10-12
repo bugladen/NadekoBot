@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using NadekoBot.Modules.Permissions;
 using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
+using System.Collections.Concurrent;
 
 namespace NadekoBot
 {
@@ -33,7 +34,7 @@ namespace NadekoBot
         public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
 
-        public static IReadOnlyDictionary<string, string> ModulePrefixes { get; private set; }
+        public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
@@ -86,7 +87,7 @@ namespace NadekoBot
             //load commands and prefixes
             using (var uow = DbHandler.UnitOfWork())
             {
-                ModulePrefixes = new ReadOnlyDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling();
