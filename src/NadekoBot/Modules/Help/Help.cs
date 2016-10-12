@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Help
             var helpstr = new StringBuilder();
 
             var lastModule = "";
-            foreach (var com in _commands.Commands.GroupBy(c=>c.Text).Select(g=>g.First()))
+            foreach (var com in _commands.Commands.OrderBy(com=>com.Module.Name).GroupBy(c=>c.Text).Select(g=>g.First()))
             {
                 if (com.Module.Name != lastModule)
                 {

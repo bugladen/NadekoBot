@@ -39,16 +39,16 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public GuildConfig For(ulong guildId)
         {
             var config = _set
-                            //.Include(gc => gc.FollowedStreams)
-                            // .Include(gc => gc.LogSetting)
-                            //    .ThenInclude(ls => ls.IgnoredChannels)
-                            //.Include(gc => gc.LogSetting)
-                            //    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
-                            //.Include(gc => gc.FilterInvitesChannelIds)
-                            //.Include(gc => gc.FilterWordsChannelIds)
-                            //.Include(gc => gc.FilteredWords)
-                            //.Include(gc => gc.GenerateCurrencyChannelIds)
-                            //.Include(gc => gc.CommandCooldowns)
+                            .Include(gc => gc.FollowedStreams)
+                             .Include(gc => gc.LogSetting)
+                                .ThenInclude(ls => ls.IgnoredChannels)
+                            .Include(gc => gc.LogSetting)
+                                .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                            .Include(gc => gc.FilterInvitesChannelIds)
+                            .Include(gc => gc.FilterWordsChannelIds)
+                            .Include(gc => gc.FilteredWords)
+                            .Include(gc => gc.GenerateCurrencyChannelIds)
+                            .Include(gc => gc.CommandCooldowns)
                             .FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)

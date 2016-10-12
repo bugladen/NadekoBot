@@ -70,9 +70,9 @@ namespace NadekoBot.Modules.Administration
                 {
                     var botConfig = uow.BotConfig.GetOrCreate();
                     MigrateConfig0_9(uow, botConfig);
-                    //MigratePermissions0_9(uow);
+                    MigratePermissions0_9(uow);
                     MigrateServerSpecificConfigs0_9(uow);
-                    //MigrateDb0_9(uow);
+                    MigrateDb0_9(uow);
 
                     //NOW save it
                     botConfig.MigrationVersion = 1;
