@@ -36,6 +36,7 @@ namespace NadekoBot
         public static StatsService Stats { get; private set; }
 
         public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
+        public static bool Ready { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
@@ -97,6 +98,7 @@ namespace NadekoBot
 #if !GLOBAL_NADEKO
             await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
 #endif
+            Ready = true;
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 
             await Task.Delay(-1);

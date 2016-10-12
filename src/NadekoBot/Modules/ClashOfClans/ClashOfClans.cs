@@ -25,13 +25,16 @@ namespace NadekoBot.Modules.ClashOfClans
             {
                 ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
                     uow.ClashOfClans
-                        .GetAll()
+                        .GetAllWars()
                         .Select(cw => {
+                            if (cw == null || cw.Bases == null)
+                                return null;
                             cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
                                                          ?.GetTextChannel(cw.ChannelId);
                             cw.Bases.Capacity = cw.Size;
                             return cw;
                         })
+                        .Where(cw => cw?.Channel != null)
                         .GroupBy(cw => cw.GuildId)
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }

@@ -72,7 +72,7 @@ namespace NadekoBot.Services
             if (usrMsg == null)
                 return;
 
-            if (usrMsg.Author.IsBot) //no bots
+            if (usrMsg.Author.IsBot || !NadekoBot.Ready) //no bots
                 return;
 
             var guild = (msg.Channel as ITextChannel)?.Guild;
