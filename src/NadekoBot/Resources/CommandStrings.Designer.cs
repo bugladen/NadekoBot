@@ -5271,6 +5271,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to resetperms.
+        /// </summary>
+        public static string resetpermissions_cmd {
+            get {
+                return ResourceManager.GetString("resetpermissions_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Resets BOT&apos;s permissions module on this server to the default value..
+        /// </summary>
+        public static string resetpermissions_desc {
+            get {
+                return ResourceManager.GetString("resetpermissions_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.resetperms`.
+        /// </summary>
+        public static string resetpermissions_usage {
+            get {
+                return ResourceManager.GetString("resetpermissions_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to restart.
         /// </summary>
         public static string restart_cmd {

@@ -2637,4 +2637,13 @@
   <data name="forwardtoall_usage" xml:space="preserve">
     <value>`.fwtoall`</value>
   </data>
+  <data name="resetpermissions_cmd" xml:space="preserve">
+    <value>resetperms</value>
+  </data>
+  <data name="resetpermissions_desc" xml:space="preserve">
+    <value>Resets BOT's permissions module on this server to the default value.</value>
+  </data>
+  <data name="resetpermissions_usage" xml:space="preserve">
+    <value>`.resetperms`</value>
+  </data>
 </root>

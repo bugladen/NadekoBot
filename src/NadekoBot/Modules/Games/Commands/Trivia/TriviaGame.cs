@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Net;
 using NadekoBot.Extensions;
 using NLog;
 using System;
@@ -61,7 +62,12 @@ namespace NadekoBot.Modules.Games.Trivia
                 }
                 oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
                                                    //sendquestion
-                try { await channel.SendMessageAsync($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                try { await channel.SendMessageAsync($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false); }
+                catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    break;
+                }
+                catch (Exception ex) { _log.Warn(ex); }
 
                 //receive messages
                 NadekoBot.Client.MessageReceived += PotentialGuess;
@@ -88,13 +94,15 @@ namespace NadekoBot.Modules.Games.Trivia
                 // load next question if game is still running
                 await Task.Delay(2000).ConfigureAwait(false);
             }
+            try { NadekoBot.Client.MessageReceived -= PotentialGuess; } catch { }
+            GameActive = false;
             await End().ConfigureAwait(false);
         }
 
         private async Task End()
         {
             ShouldStopGame = true;
-            await channel.SendMessageAsync("**Trivia game ended**\n" + GetLeaderboard()).ConfigureAwait(false);
+            try { await channel.SendMessageAsync("**Trivia game ended**\n" + GetLeaderboard()).ConfigureAwait(false); } catch { }
         }
 
         public async Task StopGame()
@@ -127,7 +135,7 @@ namespace NadekoBot.Modules.Games.Trivia
                     {
                         if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
                         {
-                            Users.AddOrUpdate(guildUser, 0, (gu, old) => old++);
+                            Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
                             guess = true;
                         }
                     }
@@ -152,7 +160,7 @@ namespace NadekoBot.Modules.Games.Trivia
             var sb = new StringBuilder();
             sb.Append("**Leaderboard:**\n-----------\n");
 
-            foreach (var kvp in Users.OrderBy(kvp => kvp.Value))
+            foreach (var kvp in Users.OrderByDescending(kvp => kvp.Value))
             {
                 sb.AppendLine($"**{kvp.Key.Username}** has {kvp.Value} points".ToString().SnPl(kvp.Value));
             }

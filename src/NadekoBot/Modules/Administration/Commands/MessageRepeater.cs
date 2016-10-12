@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                         while (!token.IsCancellationRequested)
                         {
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
-                            try { await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                            try { await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
                         }
                     }
                     catch (OperationCanceledException) { }

@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Searches
                 checkTimer = new Timer(async (state) =>
                 {
                     oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(cachedStatuses);
-                    cachedStatuses.Clear();
+                    cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
                     try
                     {
                         IEnumerable<FollowedStream> streams;

@@ -52,6 +52,23 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.Administrator)]
+        public async Task ResetPermissions(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var config = uow.GuildConfigs.PermissionsFor(channel.Guild.Id);
+                config.RootPermission = Permission.GetDefaultRoot();
+                await uow.CompleteAsync();
+            }
+
+            await channel.SendMessageAsync($"{imsg.Author.Mention} :ok: `Permissions for this server are reset`");
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Restart(IUserMessage umsg)
         {
