@@ -57,8 +57,9 @@ namespace NadekoBot.Modules.Administration
                     }
                     await umsg.Channel.SendMessageAsync("Migration done.").ConfigureAwait(false);
                 }
-                catch (MigrationException)
+                catch (Exception ex)
                 {
+                    _log.Error(ex);
                     await umsg.Channel.SendMessageAsync(":warning: Error while migrating, check logs for more informations.").ConfigureAwait(false);
                 }
             }
@@ -82,6 +83,12 @@ namespace NadekoBot.Modules.Administration
             private void MigrateDb0_9(IUnitOfWork uow)
             {
                 var db = new SqliteConnection("Data Source=data/nadekobot.sqlite");
+
+                if (!File.Exists("data/nadekobot.sqlite"))
+                {
+                    _log.Warn("No data from the old database will be migrated.");
+                    return;
+                }
                 db.Open();
 
                 var com = db.CreateCommand();
@@ -90,16 +97,16 @@ namespace NadekoBot.Modules.Administration
                 var reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    var gid = (ulong)reader["ServerId"];
-                    var greet = (bool)reader["Greet"];
-                    var greetDM = (bool)reader["GreetPM"];
-                    var greetChannel = (ulong)reader["GreetChannelId"];
+                    var gid = (ulong)(long)reader["ServerId"];
+                    var greet = (long)reader["Greet"] == 1;
+                    var greetDM = (long)reader["GreetPM"] == 1;
+                    var greetChannel = (ulong)(long)reader["GreetChannelId"];
                     var greetMsg = (string)reader["GreetText"];
-                    var bye = (bool)reader["Bye"];
-                    var byeDM = (bool)reader["ByePM"];
-                    var byeChannel = (ulong)reader["ByeChannelId"];
+                    var bye = (long)reader["Bye"] == 1;
+                    var byeDM = (long)reader["ByePM"] == 1;
+                    var byeChannel = (ulong)(long)reader["ByeChannelId"];
                     var byeMsg = (string)reader["ByeText"];
-                    bool grdel = (bool)reader["DeleteGreetMessages"];
+                    bool grdel = (long)reader["DeleteGreetMessages"] == 1;
                     var byedel = grdel;
                     var gc = uow.GuildConfigs.For(gid);
 
@@ -126,7 +133,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Currency.Add(new Currency()
                     {
                         Amount = (long)reader2["Value"],
-                        UserId = (ulong)reader2["UserId"]
+                        UserId = (ulong)(long)reader2["UserId"]
                     });
                 }
                 db.Close();
@@ -136,6 +143,13 @@ namespace NadekoBot.Modules.Administration
             private void MigrateServerSpecificConfigs0_9(IUnitOfWork uow)
             {
                 const string specificConfigsPath = "data/ServerSpecificConfigs.json";
+
+                if (!File.Exists(specificConfigsPath))
+                {
+                    _log.Warn($"No data from {specificConfigsPath} will be migrated.");
+                    return;
+                }
+
                 var configs = new ConcurrentDictionary<ulong, ServerSpecificConfig>();
                 try
                 {
@@ -215,7 +229,10 @@ namespace NadekoBot.Modules.Administration
             {
                 var PermissionsDict = new ConcurrentDictionary<ulong, ServerPermissions0_9>();
                 if (!Directory.Exists("data/permissions/"))
-                    throw new MigrationException();
+                {
+                    _log.Warn("No data from permissions will be migrated.");
+                    return;
+                }
                 foreach (var file in Directory.EnumerateFiles("data/permissions/"))
                 {
                     try
