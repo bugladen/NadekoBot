@@ -326,12 +326,6 @@ namespace NadekoBot.Modules.Administration
                 oldConfig.RotatingStatuses.ForEach(i => messages.Add(new PlayingStatus { Status = i }));
                 botConfig.RotatingStatusMessages = messages;
 
-                //races
-                var races = new HashSet<RaceAnimal>();
-                oldConfig.RaceAnimals.ForEach(i => races.Add(new RaceAnimal() { Icon = i, Name = i }));
-                if (races.Any())
-                    botConfig.RaceAnimals = races;
-
                 //Prefix
                 botConfig.ModulePrefixes.Clear();
                 botConfig.ModulePrefixes.AddRange(new HashSet<ModulePrefix>
