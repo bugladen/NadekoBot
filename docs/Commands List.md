@@ -2,6 +2,7 @@
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`.resetperms`  | Resets BOT's permissions module on this server to the default value. | `.resetperms` **Requires Administrator server permission.**
 `.restart`  | Restarts the bot. Might not work. | `.restart` **Bot owner only.**
 `.delmsgoncmd`  | Toggles the automatic deletion of user's successful command message to prevent chat flood. **Server Manager Only.** | `.delmsgoncmd` **Requires Administrator server permission.**
 `.setrole` `.sr` | Sets a role for a given user.   | `.sr @User Guest` **Requires ManageRoles server permission.**
@@ -86,29 +87,29 @@ Command and aliases | Description | Usage
 ### CustomReactions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`.addcustreact` `.acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
-`.listcustreact` `.lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
-`.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
+`#addcustreact` `#acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
+`#listcustreact` `#lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
+`#delcustreact` `#dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
 
 ### Gambling  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`$raffle`  | Prints a name and ID of a random user from the online list from the (optional) role. | `$raffle` or `$raffle RoleName` 
-`$cash` `$$$` | Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @SomeGuy` 
-`$give`  | Give someone a certain amount of currency. | `$give 1 "@SomeGuy"` 
-`$award`  | Awards someone a certain amount of currency.   | `$award 100 @person` **Bot owner only.**
-`$take`  | Takes a certain amount of flowers from someone.   | `$take 1 "@someguy"` **Bot owner only.**
-`$betroll` `$br` | Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `$br 5` 
-`$leaderboard` `$lb` | Displays bot currency leaderboard. | `$lb` 
-`$race`  | Starts a new animal race. | `$race` 
-`$joinrace` `$jr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5` 
-`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5` 
-`$rolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5` 
-`$nroll`  | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15` 
-`$draw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck. | `$draw` or `$draw 5` 
-`$shuffle` `$sh` | Reshuffles all cards back into the deck. | `$sh` 
-`$flip`  | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3` 
-`$betflip` `$bf` | Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t` 
+`xraffle`  | Prints a name and ID of a random user from the online list from the (optional) role. | `$raffle` or `$raffle RoleName` 
+`xcash` `x$$` | Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @SomeGuy` 
+`xgive`  | Give someone a certain amount of currency. | `$give 1 "@SomeGuy"` 
+`xaward`  | Awards someone a certain amount of currency.   | `$award 100 @person` **Bot owner only.**
+`xtake`  | Takes a certain amount of flowers from someone.   | `$take 1 "@someguy"` **Bot owner only.**
+`xbetroll` `xbr` | Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `$br 5` 
+`xleaderboard` `xlb` | Displays bot currency leaderboard. | `$lb` 
+`xrace`  | Starts a new animal race. | `$race` 
+`xjoinrace` `xjr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5` 
+`xroll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5` 
+`xrolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5` 
+`xnroll`  | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15` 
+`xdraw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck. | `$draw` or `$draw 5` 
+`xshuffle` `xsh` | Reshuffles all cards back into the deck. | `$sh` 
+`xflip`  | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3` 
+`xbetflip` `xbf` | Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t` 
 
 ### Games  
 Command and aliases | Description | Usage
