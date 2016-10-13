@@ -46,12 +46,15 @@ namespace NadekoBot.Modules.Administration
                 {
                     source = new CancellationTokenSource();
                     token = source.Token;
+                    IUserMessage oldMsg = null;
                     try
                     {
                         while (!token.IsCancellationRequested)
                         {
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
-                            try { await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
+                            if (oldMsg != null)
+                                try { await oldMsg.DeleteAsync(); } catch { }
+                            try { oldMsg = await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
                         }
                     }
                     catch (OperationCanceledException) { }

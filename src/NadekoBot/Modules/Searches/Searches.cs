@@ -81,9 +81,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 if (movie.Status) result = movie.ToString();
                 else result = "Failed to find that movie.";
             }
-            catch
+            catch (Exception ex)
             {
                 await channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
+                _log.Warn(ex);
                 return;
             }
 
