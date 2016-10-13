@@ -796,7 +796,7 @@
     <value>donadd</value>
   </data>
   <data name="donadd_desc" xml:space="preserve">
-    <value>Add a donator to the database. **Kwoth Only**</value>
+    <value>Add a donator to the database.</value>
   </data>
   <data name="donadd_usage" xml:space="preserve">
     <value>`.donadd Donate Amount`</value>

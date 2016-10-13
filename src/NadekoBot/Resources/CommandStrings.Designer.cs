@@ -2067,7 +2067,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a donator to the database. **Kwoth Only**.
+        ///    Looks up a localized string similar to Add a donator to the database..
         /// </summary>
         public static string donadd_desc {
             get {
