@@ -24,6 +24,15 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
 
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
+        {
+            foreach (var elem in elems)
+            {
+                exec(elem);
+            }
+            return elems;
+        }
+
         public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> elements) where T : class
         {
             foreach (var item in elements)

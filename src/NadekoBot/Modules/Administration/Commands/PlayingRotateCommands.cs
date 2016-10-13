@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -47,10 +48,13 @@ namespace NadekoBot.Modules.Administration
 
                                 if (!conf.RotatingStatusMessages.Any())
                                     continue;
-
+                                var status = conf.RotatingStatusMessages[index++].Status;
+                                if (string.IsNullOrWhiteSpace(status))
+                                    continue;
+                                PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
                                 await NadekoBot.Client
                                     .GetCurrentUser()
-                                    .ModifyStatusAsync(mpp => mpp.Game = new Game(conf.RotatingStatusMessages[index++].Status))
+                                    .ModifyStatusAsync(mpp => mpp.Game = new Game(status))
                                     .ConfigureAwait(false);
                             }
                         }

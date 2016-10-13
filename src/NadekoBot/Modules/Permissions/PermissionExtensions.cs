@@ -136,7 +136,10 @@ namespace NadekoBot.Modules.Permissions
                     com += $"<#{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Role:
-                    com += $"<@&{perm.PrimaryTargetId}>";
+                    if(guild == null)
+                        com += $"<@&{perm.PrimaryTargetId}>";
+                    else
+                        com += guild.GetRole(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Server:
                     break;
