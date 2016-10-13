@@ -75,4 +75,10 @@ Say you want to only enable NSFW commands in the #NSFW channel, just do the foll
 2.	`;cm NSFW enable #NSFW`
 	*	Enables the NSFW module for use in the #NSFW channel
 
+###I've broken permissions and am stuck, can I reset permissions?
+Yes, there is a way, in one easy command!  
+
+1.	`.resetperms`
+	*	This resets the permission chain back to default, with only NSFW disabled  
+
 _-- Thanks to @applemac for providing the template for this guide_
