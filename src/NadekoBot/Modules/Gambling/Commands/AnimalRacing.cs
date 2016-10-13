@@ -47,8 +47,11 @@ namespace NadekoBot.Modules.Gambling
                     amount = 0;
 
                 if (amount > 0)
-                    if(!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, "BetRace", amount, true).ConfigureAwait(false))
+                    if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, "BetRace", amount, true).ConfigureAwait(false))
+                    {
                         try { await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
+                        return;
+                    }
 
 
                 AnimalRace ar;

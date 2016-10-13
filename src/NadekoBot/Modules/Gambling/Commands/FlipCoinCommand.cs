@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 1)
                     return;
-
+                // todo update this
                 long userFlowers;
                 using (var uow = DbHandler.UnitOfWork())
                 {
