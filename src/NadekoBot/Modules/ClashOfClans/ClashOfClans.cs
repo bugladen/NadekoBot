@@ -21,23 +21,23 @@ namespace NadekoBot.Modules.ClashOfClans
 
         static ClashOfClans()
         {
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
-                    uow.ClashOfClans
-                        .GetAllWars()
-                        .Select(cw => {
-                            if (cw == null || cw.Bases == null)
-                                return null;
-                            cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
-                                                         ?.GetTextChannel(cw.ChannelId);
-                            cw.Bases.Capacity = cw.Size;
-                            return cw;
-                        })
-                        .Where(cw => cw?.Channel != null)
-                        .GroupBy(cw => cw.GuildId)
-                        .ToDictionary(g => g.Key, g => g.ToList()));
-            }
+            //using (var uow = DbHandler.UnitOfWork())
+            //{
+            //    ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
+            //        uow.ClashOfClans
+            //            .GetAllWars()
+            //            .Select(cw => {
+            //                if (cw == null || cw.Bases == null)
+            //                    return null;
+            //                cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
+            //                                             ?.GetTextChannel(cw.ChannelId);
+            //                cw.Bases.Capacity = cw.Size;
+            //                return cw;
+            //            })
+            //            .Where(cw => cw?.Channel != null)
+            //            .GroupBy(cw => cw.GuildId)
+            //            .ToDictionary(g => g.Key, g => g.ToList()));
+            //}
         }
         public ClashOfClans(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
