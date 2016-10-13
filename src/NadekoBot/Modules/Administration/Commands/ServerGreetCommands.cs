@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;
 
-                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Mention).Replace("%server%", user.Guild.Name);
+                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username + $" ({user.Id})").Replace("%server%", user.Guild.Name);
                     if (string.IsNullOrWhiteSpace(msg))
                         return;
                     try
@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Administration
                         var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
                         if (channel != null) //maybe warn the server owner that the channel is missing
                         {
-                            var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
+                            var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%server%", user.Guild.Name);
                             if (!string.IsNullOrWhiteSpace(msg))
                             {
                                 try

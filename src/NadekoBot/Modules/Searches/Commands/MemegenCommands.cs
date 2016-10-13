@@ -20,9 +20,23 @@ namespace NadekoBot.Modules.Searches
         public async Task Memelist(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
-            using (var http = new HttpClient())
+            HttpClientHandler handler = new HttpClientHandler();
+
+            handler.AllowAutoRedirect = false;
+
+            using (var http = new HttpClient(handler))
             {
-                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(await http.GetStringAsync("http://memegen.link/templates/"))
+                http.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                string rawJson = "";
+                try
+                {
+                    rawJson = await http.GetStringAsync("https://memegen.link/api/templates/").ConfigureAwait(false);                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                                           .Select(kvp => Path.GetFileName(kvp.Value));
 
                 await channel.SendTableAsync(data, x => $"{x,-17}", 3);
