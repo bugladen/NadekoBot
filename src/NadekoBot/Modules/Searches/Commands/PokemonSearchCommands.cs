@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Searches
                     _log.Warn(PokemonAbilitiesFile + " is missing. Pokemon abilities not loaded.");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pokemon(IUserMessage umsg, [Remainder] string pokemon = null)
             {
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendMessageAsync("`No pokemon found.`");
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task PokemonAbility(IUserMessage umsg, [Remainder] string ability = null)
             {

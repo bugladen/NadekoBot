@@ -1,92 +1,82 @@
-﻿//using Discord.Commands;
-//using NadekoBot.Classes;
-//using NadekoBot.Extensions;
-//using NadekoBot.Modules.Gambling.Helpers;
-//using System;
-//using System.Collections.Concurrent;
-//using System.Collections.Generic;
-//using System.Drawing;
-//using System.Threading.Tasks;
+﻿using Discord;
+using Discord.Commands;
+using ImageProcessorCore;
+using NadekoBot.Attributes;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Models;
+using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
-////todo drawing
-//namespace NadekoBot.Modules.Gambling
-//{
-//    public class DrawCommand : DiscordCommand
-//    {
-//        public DrawCommand(DiscordModule module) : base(module) { }
+namespace NadekoBot.Modules.Gambling
+{
+    public partial class Gambling
+    {
+        [Group]
+        public class DrawCommands
+        {
+            private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
-//        public override void Init(CommandGroupBuilder cgb)
-//        {
-//            cgb.CreateCommand(Module.Prefix + "draw")
-//                .Description($"Draws a card from the deck.If you supply number [x], she draws up to 5 cards from the deck. | `{Prefix}draw [x]`")
-//                .Parameter("count", ParameterType.Optional)
-//                .Do(DrawCardFunc());
 
-//            cgb.CreateCommand(Module.Prefix + "shuffle")
-//                .Alias(Module.Prefix + "sh")
-//                .Description($"Reshuffles all cards back into the deck.|`{Prefix}shuffle`")
-//                .Do(ReshuffleTask());
-//        }
+            public DrawCommands()
+            {
+                _log = LogManager.GetCurrentClassLogger();
+            }
 
-//        private static readonly ConcurrentDictionary<Discord.Server, Cards> AllDecks = new ConcurrentDictionary<Discord.Server, Cards>();
+            private const string cardsPath = "data/images/cards";
+            private Logger _log { get; }
 
-//        private static Func<CommandEventArgs, Task> ReshuffleTask()
-//        {
-//            return async e =>
-//            {
-//                AllDecks.AddOrUpdate(e.Server,
-//                    (s) => new Cards(),
-//                    (s, c) =>
-//                    {
-//                        c.Restart();
-//                        return c;
-//                    });
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task Draw(IUserMessage msg, int num = 1)
+            {
+                var channel = (ITextChannel)msg.Channel;
+                var cards = AllDecks.GetOrAdd(channel.Guild, (s) => new Cards());
+                var images = new List<Image>();
+                var cardObjects = new List<Cards.Card>();
+                if (num > 5) num = 5;
+                for (var i = 0; i < num; i++)
+                {
+                    if (cards.CardPool.Count == 0 && i != 0)
+                    {
+                        try { await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        break;
+                    }
+                    var currentCard = cards.DrawACard();
+                    cardObjects.Add(currentCard);
+                    using (var stream = File.OpenRead(Path.Combine(cardsPath, currentCard.ToString().ToLowerInvariant()+ ".jpg").Replace(' ','_')))
+                        images.Add(new Image(stream));
+                }
+                MemoryStream bitmapStream = new MemoryStream();
+                images.Merge().SaveAsPng(bitmapStream);
+                bitmapStream.Position = 0;
+                //todo CARD NAMES?
+                var toSend = $"{msg.Author.Mention}";
+                if (cardObjects.Count == 5)
+                    toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
 
-//                await channel.SendMessageAsync("Deck reshuffled.").ConfigureAwait(false);
-//            };
-//        }
+                await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
+            }
 
-//        private Func<CommandEventArgs, Task> DrawCardFunc() => async (e) =>
-//        {
-//            var cards = AllDecks.GetOrAdd(e.Server, (s) => new Cards());
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task ShuffleDeck(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
 
-//            try
-//            {
-//                var num = 1;
-//                var isParsed = int.TryParse(count, out num);
-//                if (!isParsed || num < 2)
-//                {
-//                    var c = cards.DrawACard();
-//                    await e.Channel.SendFile(c.Name + ".jpg", (Properties.Resources.ResourceManager.GetObject(c.Name) as Image).ToStream()).ConfigureAwait(false);
-//                    return;
-//                }
-//                if (num > 5)
-//                    num = 5;
+                AllDecks.AddOrUpdate(channel.Guild,
+                        (g) => new Cards(),
+                        (g, c) =>
+                        {
+                            c.Restart();
+                            return c;
+                        });
 
-//                var images = new List<Image>();
-//                var cardObjects = new List<Cards.Card>();
-//                for (var i = 0; i < num; i++)
-//                {
-//                    if (cards.CardPool.Count == 0 && i != 0)
-//                    {
-//                        await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false);
-//                        break;
-//                    }
-//                    var currentCard = cards.DrawACard();
-//                    cardObjects.Add(currentCard);
-//                    images.Add(Properties.Resources.ResourceManager.GetObject(currentCard.Name) as Image);
-//                }
-//                var bitmap = images.Merge();
-//                await e.Channel.SendFile(images.Count + " cards.jpg", bitmap.ToStream()).ConfigureAwait(false);
-//                if (cardObjects.Count == 5)
-//                {
-//                    await channel.SendMessageAsync($"{umsg.Author.Mention} `{Cards.GetHandValue(cardObjects)}`").ConfigureAwait(false);
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine("Error drawing (a) card(s) " + ex.ToString());
-//            }
-//        };
-//    }
-//}
+                await channel.SendMessageAsync("`Deck reshuffled.`").ConfigureAwait(false);
+            }
+        }
+    }
+}

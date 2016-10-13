@@ -1,5 +1,8 @@
 ﻿using Discord;
+using Discord.Net;
 using NadekoBot.Extensions;
+using NLog;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +15,10 @@ namespace NadekoBot.Modules.Games.Trivia
     public class TriviaGame
     {
         private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1, 1);
+        private Logger _log { get; }
 
-        private IGuild guild { get; }
-        private ITextChannel channel { get; }
+        public IGuild guild { get; }
+        public ITextChannel channel { get; }
 
         private int QuestionDurationMiliseconds { get; } = 30000;
         private int HintTimeoutMiliseconds { get; } = 6000;
@@ -33,6 +37,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
         public TriviaGame(IGuild guild, ITextChannel channel, bool showHints, int winReq = 10)
         {
+            _log = LogManager.GetCurrentClassLogger();
             ShowHints = showHints;
             this.guild = guild;
             this.channel = channel;
@@ -51,13 +56,18 @@ namespace NadekoBot.Modules.Games.Trivia
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
                 if (CurrentQuestion == null)
                 {
-                    await channel.SendMessageAsync($":exclamation: Failed loading a trivia question").ConfigureAwait(false);
+                    try { await channel.SendMessageAsync($":exclamation: Failed loading a trivia question").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                     await End().ConfigureAwait(false);
                     return;
                 }
                 oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
                                                    //sendquestion
-                await channel.SendMessageAsync($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false);
+                try { await channel.SendMessageAsync($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false); }
+                catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    break;
+                }
+                catch (Exception ex) { _log.Warn(ex); }
 
                 //receive messages
                 NadekoBot.Client.MessageReceived += PotentialGuess;
@@ -70,7 +80,7 @@ namespace NadekoBot.Modules.Games.Trivia
                     //hint
                     await Task.Delay(HintTimeoutMiliseconds, token).ConfigureAwait(false);
                     if (ShowHints)
-                        await channel.SendMessageAsync($":exclamation:**Hint:** {CurrentQuestion.GetHint()}").ConfigureAwait(false);
+                        try { await channel.SendMessageAsync($":exclamation:**Hint:** {CurrentQuestion.GetHint()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
 
                     //timeout
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token).ConfigureAwait(false);
@@ -79,29 +89,33 @@ namespace NadekoBot.Modules.Games.Trivia
                 catch (TaskCanceledException) { } //means someone guessed the answer
                 GameActive = false;
                 if (!triviaCancelSource.IsCancellationRequested)
-                    await channel.SendMessageAsync($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    try { await channel.SendMessageAsync($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 NadekoBot.Client.MessageReceived -= PotentialGuess;
                 // load next question if game is still running
                 await Task.Delay(2000).ConfigureAwait(false);
             }
+            try { NadekoBot.Client.MessageReceived -= PotentialGuess; } catch { }
+            GameActive = false;
             await End().ConfigureAwait(false);
         }
 
         private async Task End()
         {
             ShouldStopGame = true;
-            await channel.SendMessageAsync("**Trivia game ended**\n" + GetLeaderboard()).ConfigureAwait(false);
+            try { await channel.SendMessageAsync("**Trivia game ended**\n" + GetLeaderboard()).ConfigureAwait(false); } catch { }
         }
 
         public async Task StopGame()
         {
             if (!ShouldStopGame)
-                await channel.SendMessageAsync(":exclamation: Trivia will stop after this question.").ConfigureAwait(false);
+                try { await channel.SendMessageAsync(":exclamation: Trivia will stop after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             ShouldStopGame = true;
         }
 
         private Task PotentialGuess(IMessage imsg)
         {
+            if (imsg.Author.IsBot)
+                return Task.CompletedTask;
             var umsg = imsg as IUserMessage;
             if (umsg == null)
                 return Task.CompletedTask;
@@ -111,7 +125,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 {
                     if (!(umsg.Channel is IGuildChannel && umsg.Channel is ITextChannel)) return;
                     if ((umsg.Channel as ITextChannel).Guild != guild) return;
-                    if (umsg.Author.Id == (await NadekoBot.Client.GetCurrentUserAsync()).Id) return;
+                    if (umsg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
 
                     var guildUser = umsg.Author as IGuildUser;
 
@@ -121,20 +135,20 @@ namespace NadekoBot.Modules.Games.Trivia
                     {
                         if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
                         {
-                            Users.AddOrUpdate(guildUser, 0, (gu, old) => old++);
+                            Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
                             guess = true;
                         }
                     }
                     finally { _guessLock.Release(); }
                     if (!guess) return;
                     triviaCancelSource.Cancel();
-                    await channel.SendMessageAsync($"☑️ {guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    try { await channel.SendMessageAsync($"☑️ {guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                     if (Users[guildUser] != WinRequirement) return;
                     ShouldStopGame = true;
                     await channel.SendMessageAsync($":exclamation: We have a winner! It's {guildUser.Mention}.").ConfigureAwait(false);
                 }
-                catch { }
-            });
+                catch (Exception ex) { _log.Warn(ex); }
+        });
             return Task.CompletedTask;
         }
 
@@ -146,7 +160,7 @@ namespace NadekoBot.Modules.Games.Trivia
             var sb = new StringBuilder();
             sb.Append("**Leaderboard:**\n-----------\n");
 
-            foreach (var kvp in Users.OrderBy(kvp => kvp.Value))
+            foreach (var kvp in Users.OrderByDescending(kvp => kvp.Value))
             {
                 sb.AppendLine($"**{kvp.Key.Username}** has {kvp.Value} points".ToString().SnPl(kvp.Value));
             }

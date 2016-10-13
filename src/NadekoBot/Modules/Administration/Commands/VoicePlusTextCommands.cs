@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Administration
             private string GetChannelName(string voiceName) =>
                 channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             [RequirePermission(GuildPermission.ManageChannels)]
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageChannels)]
             [RequirePermission(GuildPermission.ManageRoles)]
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Administration
                 var guild = channel.Guild;
                 if (!guild.GetCurrentUser().GuildPermissions.ManageChannels)
                 {
-                    await channel.SendMessageAsync("`I have insufficient permission to do that.`");
+                    await channel.SendMessageAsync("`I have insufficient permission to do that.`").ConfigureAwait(false);
                     return;
                 }
 
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendMessageAsync("`Done.`");
+                await channel.SendMessageAsync("`Done.`").ConfigureAwait(false);
             }
         }
     }

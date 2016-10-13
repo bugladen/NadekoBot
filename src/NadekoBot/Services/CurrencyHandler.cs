@@ -14,25 +14,15 @@ namespace NadekoBot.Services
     {
         public static async Task<bool> RemoveCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
         {
-            if (amount < 0)
-                throw new ArgumentNullException(nameof(amount));
+            var success = await RemoveCurrencyAsync(author.Id, reason, amount);
 
-
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var success = uow.Currency.TryUpdateState(author.Id, -amount);
-                if (!success)
-                    return false;
-                await uow.CompleteAsync();
-            }
-
-            if (sendMessage)
+            if (success && sendMessage)
                 try { await author.SendMessageAsync($"`You lost:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
 
-            return true;
+            return success;
         }
 
-        public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task<bool> RemoveCurrencyAsync(ulong authorId, string reason, long amount)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
@@ -40,12 +30,34 @@ namespace NadekoBot.Services
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.Currency.TryUpdateState(author.Id, amount);
-                await uow.CompleteAsync();
+                var success = uow.Currency.TryUpdateState(authorId, -amount);
+                if (!success)
+                    return false;
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
+            return true;
+        }
+
+        public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        {
+            await AddCurrencyAsync(author.Id, reason, amount);
+
             if (sendMessage)
-                await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false);
+                try { await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+        }
+
+        public static async Task AddCurrencyAsync(ulong receiverId, string reason, long amount)
+        {
+            if (amount < 0)
+                throw new ArgumentNullException(nameof(amount));
+
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                uow.Currency.TryUpdateState(receiverId, amount);
+                await uow.CompleteAsync();
+            }
         }
     }
 }

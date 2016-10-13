@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using ImageProcessorCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +23,27 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
+
+        public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> elements) where T : class
+        {
+            foreach (var item in elements)
+            {
+                target.Add(item);
+            }
+        }
+
+        public static void AddRange<T>(this ConcurrentHashSet<T> target, IEnumerable<T> elements) where T : class
+        {
+            foreach (var item in elements)
+            {
+                target.Add(item);
+            }
+        }
+
+        public static bool IsInteger(this decimal number) => number == Math.Truncate(number);
+
+        public static string SanitizeMentions(this string str) => 
+            str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
@@ -266,5 +289,41 @@ namespace NadekoBot.Extensions
         public static ulong GB(this ulong value) => value.MB() * 1000;
 
         public static string Unmention(this string str) => str.Replace("@", "ම");
+
+        public static Image Merge(this IEnumerable<Image> images)
+        {
+            var imgList = images.ToList();
+
+            var canvas = new Image(imgList.Sum(img => img.Width), imgList.Max(img => img.Height));
+
+            var canvasPixels = canvas.Lock();
+            int offsetX = 0;
+            foreach (var img in imgList.Select(img=>img.Lock()))
+            {
+                for (int i = 0; i < img.Width; i++)
+                {
+                    for (int j = 0; j < img.Height; j++)
+                    {
+                        canvasPixels[i + offsetX, j] = img[i, j];
+                    }
+                }
+                offsetX += img.Width;                
+            }
+
+            return canvas;
+        }
+
+        public static Stream ToStream(this Image img)
+        {
+            var imageStream = new MemoryStream();
+            img.SaveAsPng(imageStream);
+            imageStream.Position = 0;
+            return imageStream;
+        }
+
+        private static readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public static bool IsDiscordInvite(this string str)
+            => filterRegex.IsMatch(str);
     }
 }

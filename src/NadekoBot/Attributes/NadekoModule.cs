@@ -30,22 +30,22 @@ namespace NadekoBot.Attributes
             }
         }
 
-        public NadekoModuleAttribute(string moduleName, string defaultPrefix) : base(GetModulePrefix(moduleName) ?? defaultPrefix)
+        public NadekoModuleAttribute(string moduleName, string defaultPrefix) : base(GetModulePrefix(moduleName, defaultPrefix))
         {
             AppendSpace = false;
         }
 
-        private static string GetModulePrefix(string moduleName)
+        private static string GetModulePrefix(string moduleName, string defaultPrefix)
         {
-            string prefix;
-            if (ModulePrefixes.TryGetValue(moduleName, out prefix))
+            string prefix = null;
+            if (!ModulePrefixes.TryGetValue(moduleName, out prefix))
             {
-                Console.WriteLine("Cache hit");
-                return prefix;
+                NadekoBot.ModulePrefixes.TryAdd(moduleName, defaultPrefix);
+                NLog.LogManager.GetCurrentClassLogger().Warn("Prefix not found for {0}. Will use default one: {1}", moduleName, defaultPrefix);
             }
+            
 
-            Console.WriteLine("Cache not hit for " + moduleName);
-            return null;
+            return prefix ?? defaultPrefix;
         }
     }
 }

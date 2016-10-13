@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Gambling
         public static string CurrencyPluralName { get; set; }
         public static string CurrencySign { get; set; }
         
-        public Gambling(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Gambling(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
             using (var uow = DbHandler.UnitOfWork())
             {
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Raffle(IUserMessage umsg, [Remainder] IRole role = null)
         {
@@ -46,12 +46,12 @@ namespace NadekoBot.Modules.Gambling
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
         }
-        
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [Priority(1)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             user = user ?? umsg.Author;
             long amount;
@@ -64,8 +64,25 @@ namespace NadekoBot.Modules.Gambling
 
             await channel.SendMessageAsync($"{user.Username} has {amount} {config.CurrencySign}").ConfigureAwait(false);
         }
-        
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [Priority(0)]
+        public async Task Cash(IUserMessage umsg, ulong userId)
+        {
+            var channel = umsg.Channel;
+
+            long amount;
+            BotConfig config;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                amount = uow.Currency.GetUserCurrency(userId);
+                config = uow.BotConfig.GetOrCreate();
+            }
+
+            await channel.SendMessageAsync($"`{userId}` has {amount} {config.CurrencySign}").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
         {
@@ -82,47 +99,59 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully sent {amount} {Gambling.CurrencyPluralName}s to {receiver.Mention}!").ConfigureAwait(false);
         }
 
-        ////todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
-        //    Award(umsg, amount, usr.Id);
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
+            Award(umsg, amount, usr.Id);
 
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        {
+            var channel = (ITextChannel)umsg.Channel;
 
-        //    if (amount <= 0)
-        //        return;
+            if (amount <= 0)
+                return;
 
-        //    await CurrencyHandler.AddFlowersAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
+            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
 
-        //    await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {Gambling.CurrencyName}s to <@{usrId}>!").ConfigureAwait(false);
-        //}
+            await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {Gambling.CurrencyName}s to <@{usrId}>!").ConfigureAwait(false);
+        }
+        
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (amount <= 0)
+                return;
 
-        ////todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user) =>
-        //    Take(umsg, amount, user.Id);
+            if(await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount, true).ConfigureAwait(false))
+                await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyPluralName} from {user}!").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync($"{umsg.Author.Mention} was unable to take {amount} {Gambling.CurrencyPluralName} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+        }
 
-        //todo owner only
-        //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
-        //{
-        //    var channel = (ITextChannel)umsg.Channel;
-        //    if (amount <= 0)
-        //        return;
 
-        //    await CurrencyHandler.RemoveFlowers(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (amount <= 0)
+                return;
 
-        //    await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
-        //}
+            if(await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false))
+                await channel.SendMessageAsync($"{umsg.Author.Mention} successfully took {amount} {Gambling.CurrencyName}s from <@{usrId}>!").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync($"{umsg.Author.Mention} was unable to take {amount} {Gambling.CurrencyPluralName} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+        }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task BetRoll(IUserMessage umsg, long amount)
         {
@@ -172,7 +201,7 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync(str).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Leaderboard(IUserMessage umsg)
         {
@@ -188,13 +217,12 @@ namespace NadekoBot.Modules.Gambling
             await channel.SendMessageAsync(
                 richest.Aggregate(new StringBuilder(
 $@"```xl
-        ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
-        ┃        Id           ┃  $$$  ┃
-        "),
-                (cur, cs) => cur.AppendLine(
-$@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━┫
-        ┃{(channel.Guild.GetUser(cs.UserId)?.Username.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs,5} ┃")
-                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+┃        Id           ┃  $$$   ┃
+"),
+                (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
+┃{(channel.Guild.GetUser(cs.UserId)?.Username.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
+                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Games
     {
         public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Poll(IUserMessage umsg, [Remainder] string arg = null)
         {
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Pollend(IUserMessage umsg)
         {
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Games
         {
             // has to be a user message
             var msg = imsg as IUserMessage;
-            if (msg == null)
+            if (msg == null || msg.Author.IsBot)
                 return Task.CompletedTask;
             // channel must be private
             IPrivateChannel ch;
@@ -124,17 +124,12 @@ namespace NadekoBot.Modules.Games
 
             var t = Task.Run(async () =>
             {
-                try
+                if (vote < 1 || vote > answers.Length)
+                    return;
+                if (participants.TryAdd(msg.Author, vote))
                 {
-                    
-                    if (vote < 1 || vote > answers.Length)
-                        return;
-                    if (participants.TryAdd(msg.Author, vote))
-                    {
-                        await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
-                    }
+                    try { await (ch as ITextChannel).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false); } catch { }
                 }
-                catch { }
             });
             return Task.CompletedTask;
         }

@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Searches
                                                 "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
 
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Lolban(IUserMessage umsg)
         {

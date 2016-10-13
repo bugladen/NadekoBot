@@ -23,11 +23,11 @@ namespace NadekoBot.Modules.Games
                 }
             }
         }
-        public Games(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public Games(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Choose(IUserMessage umsg, [Remainder] string list = null)
         {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Games
             await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task _8Ball(IUserMessage umsg, [Remainder] string question = null)
         {
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Rps(IUserMessage umsg, string input)
         {
@@ -97,14 +97,14 @@ namespace NadekoBot.Modules.Games
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
-                msg = $"{(await NadekoBot.Client.GetCurrentUserAsync()).Mention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
+                msg = $"{NadekoBot.Client.GetCurrentUser().Mention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
             else
                 msg = $"{umsg.Author.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
 
             await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Linux(IUserMessage umsg, string guhnoo, string loonix)
         {

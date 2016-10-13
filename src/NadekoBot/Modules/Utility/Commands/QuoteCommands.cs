@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -14,11 +15,11 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ShowQuote(IUserMessage umsg, string keyword)
+        public async Task ShowQuote(IUserMessage umsg, [Remainder] string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
@@ -34,14 +35,14 @@ namespace NadekoBot.Modules.Utility
             if (quote == null)
                 return;
 
-            await channel.SendMessageAsync("📣 " + quote.Text);
+            await channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AddQuote(IUserMessage umsg, string keyword, [Remainder] string text)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                 return;
@@ -59,42 +60,48 @@ namespace NadekoBot.Modules.Utility
                     Text = text,
                 });
                 await uow.CompleteAsync().ConfigureAwait(false);
-                await channel.SendMessageAsync("`Quote added.`").ConfigureAwait(false);
             }
+            await channel.SendMessageAsync("`Quote added.`").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task DeleteQuote(IUserMessage umsg, string keyword)
+        public async Task DeleteQuote(IUserMessage umsg, [Remainder] string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
 
-            keyword = keyword.ToUpperInvariant();
+            var isAdmin = ((IGuildUser)umsg.Author).GuildPermissions.Administrator;
 
+            keyword = keyword.ToUpperInvariant();
+            string response;
             using (var uow = DbHandler.UnitOfWork())
             {
-                var q = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword);
+                var qs = uow.Quotes.GetAllQuotesByKeyword(channel.Guild.Id, keyword);
 
-                if (q == null)
+                if (qs==null || !qs.Any())
                 {
-                    await channel.SendMessageAsync("`No quotes found.`");
+                    response = "`No quotes found.`";
                     return;
                 }
 
+                var q = qs.Shuffle().FirstOrDefault(elem => isAdmin || elem.AuthorId == umsg.Author.Id);
+
                 uow.Quotes.Remove(q);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
+                response = "`Deleted a random quote`";
             }
-            await channel.SendMessageAsync("`Deleted a random quote.`");
+            await channel.SendMessageAsync(response);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task DelAllQuotes(IUserMessage umsg, string keyword)
+        [RequirePermission(GuildPermission.Administrator)]
+        public async Task DelAllQuotes(IUserMessage umsg, [Remainder] string keyword)
         {
-            var channel = umsg.Channel as ITextChannel;
+            var channel = (ITextChannel)umsg.Channel;
 
             if (string.IsNullOrWhiteSpace(keyword))
                 return;
@@ -103,7 +110,7 @@ namespace NadekoBot.Modules.Utility
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var quotes = uow.Quotes.GetAllQuotesByKeyword(keyword);
+                var quotes = uow.Quotes.GetAllQuotesByKeyword(channel.Guild.Id, keyword);
 
                 uow.Quotes.RemoveRange(quotes.ToArray());//wtf?!
 

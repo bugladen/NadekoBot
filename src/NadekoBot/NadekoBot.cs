@@ -12,7 +12,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NLog.Fluent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using NadekoBot.Modules.Permissions;
+using Module = Discord.Commands.Module;
+using NadekoBot.TypeReaders;
+using System.Collections.Concurrent;
+using NadekoBot.Modules.Music;
 
 namespace NadekoBot
 {
@@ -20,14 +26,17 @@ namespace NadekoBot
     {
         private Logger _log;
 
-        public static CommandService Commands { get; private set; }
+        public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
-        public static DiscordSocketClient Client { get; private set; }
+        public static ShardedDiscordClient  Client { get; private set; }
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
         public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
+
+        public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
+        public static bool Ready { get; private set; }
 
         public async Task RunAsync(string[] args)
         {
@@ -36,34 +45,39 @@ namespace NadekoBot
 
             _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
+
+            Credentials = new BotCredentials();
+
             //create client
-            Client = new DiscordSocketClient(new DiscordSocketConfig
+            Client = new ShardedDiscordClient (new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
+                TotalShards = Credentials.TotalShards,
+                ConnectionTimeout = int.MaxValue
             });
 
             //initialize Services
-            Credentials = new BotCredentials();
-            Commands = new CommandService();
+            CommandService = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();
-            CommandHandler = new CommandHandler(Client, Commands);
+            CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
-
-            //init db
-            using (var context = DbHandler.Instance.GetDbContext())
-            {
-                context.EnsureSeedData();
-            }
 
             //setup DI
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
-            depMap.Add<DiscordSocketClient>(Client);
-            depMap.Add<CommandService>(Commands);
+            depMap.Add<ShardedDiscordClient >(Client);
+            depMap.Add<CommandService>(CommandService);
             depMap.Add<IGoogleApiService>(Google);
+
+
+            //setup typereaders
+            CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
+            CommandService.AddTypeReader<Command>(new CommandTypeReader());
+            CommandService.AddTypeReader<Module>(new ModuleTypeReader());
+            CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
@@ -72,9 +86,19 @@ namespace NadekoBot
 
             _log.Info("Connected");
 
-            //load commands
-            await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
+            //load commands and prefixes
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+            }
+            // start handling messages received in commandhandler
+            await CommandHandler.StartHandling();
 
+            await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
+#if !GLOBAL_NADEKO
+            await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
+#endif
+            Ready = true;
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));
 
             await Task.Delay(-1);

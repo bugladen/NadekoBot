@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Services.Database
 {
@@ -21,7 +22,8 @@ namespace NadekoBot.Services.Database
         public DbSet<Repeater> Repeaters { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
-        public DbSet<TypingArticle> TypingArticles { get; set; }
+        public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
+        public DbSet<CustomReaction> CustomReactions { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -32,6 +34,12 @@ namespace NadekoBot.Services.Database
         public DbSet<EightBallResponse> EightBallResponses { get; set; }
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<ModulePrefix> ModulePrefixes { get; set; }
+
+        public NadekoContext()
+        {
+           this.Database.Migrate();
+           EnsureSeedData();
+        }
 
         public void EnsureSeedData()
         {
@@ -53,7 +61,8 @@ namespace NadekoBot.Services.Database
                     new ModulePrefix() { ModuleName = "Gambling", Prefix = "$" },
                     new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
                     new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
-                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." }
+                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
+                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." }
                 });
                 bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
                 {
@@ -96,10 +105,6 @@ namespace NadekoBot.Services.Database
                 BotConfig.Add(bc);
 
                 this.SaveChanges();
-            }
-            if (!TypingArticles.Any())
-            {
-                //todo load default typing articles
             }
         }
 
@@ -175,6 +180,14 @@ namespace NadekoBot.Services.Database
                 .IsUnique();
             #endregion
 
+            #region Permission
+            var permissionEntity = modelBuilder.Entity<Permission>();
+            permissionEntity
+                .HasOne(p => p.Next)
+                .WithOne(p => p.Previous)
+                .IsRequired(false);
+            #endregion
+
             #region LogSettings
 
             //var logSettingEntity = modelBuilder.Entity<LogSetting>();
@@ -187,6 +200,17 @@ namespace NadekoBot.Services.Database
             //logSettingEntity
             //    .HasMany(ls => ls.IgnoredVoicePresenceChannelIds)
             //    .WithOne(ls => ls.LogSetting);
+            #endregion
+
+            #region MusicPlaylists
+            var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
+
+            musicPlaylistEntity
+                .HasMany(p => p.Songs)
+                .WithOne()
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+                
+
             #endregion
         }
         protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);

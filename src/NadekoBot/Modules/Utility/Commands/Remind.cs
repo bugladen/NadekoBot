@@ -2,9 +2,11 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +33,11 @@ namespace NadekoBot.Modules.Utility
                 { "%user%", (r) => $"<@!{r.UserId}>" },
                 { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
             };
+            private Logger _log { get; }
 
             public RemindCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
                 List<Reminder> reminders;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -44,7 +48,7 @@ namespace NadekoBot.Modules.Utility
 
                 foreach (var r in reminders)
                 {
-                    var t = StartReminder(r);
+                    try { var t = StartReminder(r); } catch (Exception ex) { _log.Warn(ex); }
                 }
             }
 
@@ -52,7 +56,7 @@ namespace NadekoBot.Modules.Utility
             {
                 var now = DateTime.Now;
                 var twoMins = new TimeSpan(0, 2, 0);
-                TimeSpan time = r.When - now; 
+                TimeSpan time = r.When - now;
 
                 if (time.TotalMilliseconds > int.MaxValue)
                     return;
@@ -74,14 +78,11 @@ namespace NadekoBot.Modules.Utility
 
                     await ch.SendMessageAsync(
                         replacements.Aggregate(RemindMessageFormat,
-                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
+                            (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
+                            .SanitizeMentions()
                             ).ConfigureAwait(false); //it works trust me
-
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Timer error! {ex}");
-                }
+                catch (Exception ex) { _log.Warn(ex); }
                 finally
                 {
                     using (var uow = DbHandler.UnitOfWork())
@@ -92,7 +93,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
             {
@@ -180,25 +181,27 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.ToString()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false);
+                try { await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.SanitizeMentions()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false); } catch { }
                 await StartReminder(rem);
             }
 
-            ////todo owner only
-            //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
-            //{
-            //    var channel = (ITextChannel)umsg.Channel;
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
+                if (string.IsNullOrWhiteSpace(arg))
+                    return;
 
-            //    arg = arg?.Trim();
-            //    if (string.IsNullOrWhiteSpace(arg))
-            //        return;
-
-            //    NadekoBot.Config.RemindMessageFormat = arg;
-            //    await channel.SendMessageAsync("`New remind message set.`");
-            //}
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+                await channel.SendMessageAsync("`New remind template set.`");
+            }
         }
     }
 }

@@ -18,11 +18,11 @@ namespace NadekoBot.Modules.NSFW
     [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
-        public NSFW(ILocalization loc, CommandService cmds, DiscordSocketClient client) : base(loc, cmds, client)
+        public NSFW(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Hentai(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.NSFW
             await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Danbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -55,23 +55,9 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
-
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
-        [RequireContext(ContextType.Guild)]
-        public async Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 
@@ -83,7 +69,21 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task E621(IUserMessage umsg, [Remainder] string tag = null)
         {
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Cp(IUserMessage umsg)
         {
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.NSFW
             await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Boobs(IUserMessage umsg)
         {
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Butts(IUserMessage umsg)
         {

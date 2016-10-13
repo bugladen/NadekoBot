@@ -12,11 +12,11 @@ namespace NadekoBot.Modules.Utility
 {
     partial class Utility : DiscordModule
     {
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IUserMessage msg, string guild = null)
         {
-            var channel = msg.Channel as ITextChannel;
+            var channel = (ITextChannel)msg.Channel;
             guild = guild?.ToUpperInvariant();
             IGuild server;
             if (guild == null)
@@ -47,11 +47,11 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(sb.ToString()).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ChannelInfo(IUserMessage msg, ITextChannel channel = null)
         {
-            var ch = channel ?? msg.Channel as ITextChannel;
+            var ch = channel ?? (ITextChannel)msg.Channel;
             if (ch == null)
                 return;
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
@@ -63,11 +63,11 @@ namespace NadekoBot.Modules.Utility
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
 
-        [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UserInfo(IUserMessage msg, IGuildUser usr = null)
         {
-            var channel = msg.Channel as ITextChannel;
+            var channel = (ITextChannel)msg.Channel;
             var user = usr ?? msg.Author as IGuildUser;
             if (user == null)
                 return;
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
             toReturn += $@"`Id:` **{user.Id}**
 `Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
 `Joined At:` **{user.JoinedAt}**
-`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name))}**
+`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
 `AvatarUrl:` **{user.AvatarUrl}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }

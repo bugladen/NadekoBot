@@ -1,6 +1,8 @@
-﻿using NadekoBot.Services;
+﻿using NadekoBot.Extensions;
+using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace NadekoBot.Modules.Games.Trivia
     public class TriviaQuestionPool
     {
         public static TriviaQuestionPool Instance { get; } = new TriviaQuestionPool();
-        public HashSet<TriviaQuestion> pool = new HashSet<TriviaQuestion>();
+        public ConcurrentHashSet<TriviaQuestion> pool = new ConcurrentHashSet<TriviaQuestion>();
 
         private Random rng { get; } = new NadekoRandom();
 
@@ -30,15 +32,15 @@ namespace NadekoBot.Modules.Games.Trivia
 
         public void Reload()
         {
-            var arr = JArray.Parse(File.ReadAllText("data/triviaquestions.json"));
+            var arr = JArray.Parse(File.ReadAllText("data/questions.json"));
 
             foreach (var item in arr)
             {
-                var tq = new TriviaQuestion(item["Question"].ToString(), item["Answer"].ToString(), item["Category"]?.ToString());
+                var tq = new TriviaQuestion(item["Question"].ToString().SanitizeMentions(), item["Answer"].ToString().SanitizeMentions(), item["Category"]?.ToString());
                 pool.Add(tq);
             }
             var r = new NadekoRandom();
-            pool = new HashSet<TriviaQuestion>(pool.OrderBy(x => r.Next()));
+            pool = new ConcurrentHashSet<TriviaQuestion>(pool.OrderBy(x => r.Next()));
         }
     }
 }

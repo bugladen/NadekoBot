@@ -11,6 +11,8 @@ namespace NadekoBot.Services.Database.Repositories
     public interface IGuildConfigRepository : IRepository<GuildConfig>
     {
         GuildConfig For(ulong guildId);
+        GuildConfig PermissionsFor(ulong guildId);
+        void SetNewRootPermission(ulong guildId, Permission p);
         IEnumerable<FollowedStream> GetAllFollowedStreams();
     }
 }

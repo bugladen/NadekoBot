@@ -13,5 +13,11 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public ClashOfClansRepository(DbContext context) : base(context)
         {
         }
+
+        public IEnumerable<ClashWar> GetAllWars()
+        {
+            return _set.Include(cw => cw.Bases)
+                        .ToList();
+        }
     }
 }

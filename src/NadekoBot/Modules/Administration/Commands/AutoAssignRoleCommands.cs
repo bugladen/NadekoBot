@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            [LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)

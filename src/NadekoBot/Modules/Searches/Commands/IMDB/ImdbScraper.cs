@@ -1,4 +1,5 @@
-﻿using NadekoBot.Modules.Searches.Models;
+﻿using NadekoBot.Extensions;
+using NadekoBot.Modules.Searches.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +72,7 @@ namespace NadekoBot.Modules.Searches.IMDB
                 mov.Status = true;
                 mov.Title = Match(@"<title>(IMDb \- )*(.*?) \(.*?</title>", html, 2);
                 mov.OriginalTitle = Match(@"title-extra"">(.*?)<", html);
-                mov.Year = Match(@"<title>.*?\(.*?(\d{4}).*?).*?</title>", Match(@"(<title>.*?</title>)", html));
+                mov.Year = Match(@"<title>.*?\(.*?(\d{4}).*?\).*?</title>", Match(@"(<title>.*?</title>)", html));
                 mov.Rating = Match(@"<b>(\d.\d)/10</b>", html);
                 mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", Match(@"Genre.?:(.*?)(</div>|See more)", html)).Cast<string>().ToList();
                 mov.Plot = Match(@"Plot:</h5>.*?<div class=""info-content"">(.*?)(<a|</div)", html);
@@ -140,16 +141,13 @@ namespace NadekoBot.Modules.Searches.IMDB
             List<string> list = new List<string>();
             string recUrl = "http://www.imdb.com/widget/recommendations/_ajax/get_more_recs?specs=p13nsims%3A" + mov.Id;
             string json = await GetUrlDataAsync(recUrl);
-            list = MatchAll(@"title=\\""(.*?)\\""", json);
-            HashSet<String> set = new HashSet<string>();
-            foreach (String rec in list) set.Add(rec);
-            return new List<string>(set.ToList());
+            return MatchAll(@"title=\\""(.*?)\\""", json);
         }
         /*******************************[ Helper Methods ]********************************/
         //Match single instance
         private static string Match(string regex, string html, int i = 1)
         {
-            return new Regex(regex, RegexOptions.Multiline).Match(html).Groups[i].Value.Trim();
+            return new Regex(regex, RegexOptions.Multiline | RegexOptions.IgnoreCase).Match(html).Groups[i].ToString().Trim();
         }
         //Match all instances and return as List<string>
         private static List<string> MatchAll(string regex, string html, int i = 1)
@@ -165,12 +163,12 @@ namespace NadekoBot.Modules.Searches.IMDB
             return Regex.Replace(inputString, @"<.*?>", string.Empty);
         }
         //Get URL Data
-        private static Task<string> GetUrlDataAsync(string url)
+        private static async Task<string> GetUrlDataAsync(string url)
         {
             using (var http = new HttpClient())
             {
-                http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-                return http.GetStringAsync(url);
+                http.AddFakeHeaders();
+                return await http.GetStringAsync(url);
             }
         }
     }
