@@ -129,7 +129,7 @@ namespace NadekoBot.Services
                 {
                     var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, MultiMatchHandling.Best);
                     var command = t.Item1;
-                    var verbose = t.Item2;
+                    var permCache = t.Item2;
                     var result = t.Item3;
                     sw.Stop();
                     var channel = (usrMsg.Channel as ITextChannel);
@@ -165,7 +165,7 @@ namespace NadekoBot.Services
                                     );
                         if (guild != null && command != null && result.Error == CommandError.Exception)
                         {
-                            if (verbose)
+                            if (permCache != null && permCache.Verbose)
                                 try { await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false); } catch { }
                         }
                     }
@@ -189,10 +189,10 @@ namespace NadekoBot.Services
             return;
         }
 
-        public async Task<Tuple<Command,bool, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
+        public async Task<Tuple<Command, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
             var searchResult = _commandService.Search(message, input);
             if (!searchResult.IsSuccess)
-                return new Tuple<Command, bool, IResult>(null, false, searchResult);
+                return new Tuple<Command, PermissionCache, IResult>(null, null, searchResult);
 
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
@@ -201,7 +201,7 @@ namespace NadekoBot.Services
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)
-                        return new Tuple<Command, bool, IResult>(null, false, searchResult);
+                        return new Tuple<Command, PermissionCache, IResult>(null, null, searchResult);
                     else
                         continue;
                 }
@@ -225,55 +225,55 @@ namespace NadekoBot.Services
                     if (!parseResult.IsSuccess)
                     {
                         if (commands.Count == 1)
-                            return new Tuple<Command, bool, IResult>(null, false, parseResult);
+                            return new Tuple<Command, PermissionCache, IResult>(null, null, parseResult);
                         else
                             continue;
                     }
                 }
-                bool verbose = false;
-                Permission rootPerm = null;
-                string permRole = "";
-                if (guild != null)
-                {
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        var config = uow.GuildConfigs.PermissionsFor(guild.Id);
-                        verbose = config.VerbosePermissions;
-                        rootPerm = config.RootPermission;
-                        permRole = config.PermissionRole.Trim().ToLowerInvariant();
-                    }
-                }
-                _log.Info("Permissions retrieved");
+
                 var cmd = commands[i];
                 bool resetCommand = cmd.Name == "ResetPermissions";
-                //check permissions
+                PermissionCache pc;
                 if (guild != null)
                 {
-                    int index;
-                    if (!resetCommand && !rootPerm.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
+                    pc = Permissions.Cache.GetOrAdd(guild.Id, (id) =>
                     {
-                        var returnMsg = $"Permission number #{index + 1} **{rootPerm.GetAt(index).GetCommand()}** is preventing this action.";
-                        return new Tuple<Command, bool, IResult>(cmd, verbose, SearchResult.FromError(CommandError.Exception, returnMsg));
+                        using (var uow = DbHandler.UnitOfWork())
+                        {
+                            var config = uow.GuildConfigs.PermissionsFor(guild.Id);
+                            return new PermissionCache()
+                            {
+                                Verbose = config.VerbosePermissions,
+                                RootPermission = config.RootPermission,
+                                PermRole = config.PermissionRole.Trim().ToLowerInvariant(),
+                            };
+                        }
+                    });
+                    int index;
+                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
+                    {
+                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand()}** is preventing this action.";
+                        return new Tuple<Command, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
 
                     if (cmd.Module.Source.Name == typeof(Permissions).Name) //permissions, you must have special role
                     {
-                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == permRole))
+                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                         {
-                            return new Tuple<Command, bool, IResult>(cmd, false, SearchResult.FromError(CommandError.Exception, $"You need the **{permRole}** role in order to use permission commands."));
+                            return new Tuple<Command, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
                     }
                 }
 
 
                 if (CmdCdsCommands.HasCooldown(cmd, guild, user))
-                    return new Tuple<Command, bool, IResult>(cmd, false, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
+                    return new Tuple<Command, PermissionCache, IResult>(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
 
-                return new Tuple<Command, bool, IResult>(commands[i], false, await commands[i].Execute(message, parseResult));
+                return new Tuple<Command, PermissionCache, IResult>(commands[i], null, await commands[i].Execute(message, parseResult));
             }
 
-            return new Tuple<Command, bool, IResult>(null, false, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
+            return new Tuple<Command, PermissionCache, IResult>(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
         }
     }
 
