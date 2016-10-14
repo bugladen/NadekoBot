@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.CustomReactions
             client.MessageReceived += (imsg) =>
             {
                 var umsg = imsg as IUserMessage;
-                if (umsg == null)
+                if (umsg == null || imsg.Author.IsBot)
                     return Task.CompletedTask;
 
                 var channel = umsg.Channel as ITextChannel;

@@ -33,6 +33,8 @@ namespace NadekoBot.Services.Impl
         public BotCredentials()
         {
             _log = LogManager.GetCurrentClassLogger();
+
+            try { File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented)); } catch { }
             if (File.Exists("./credentials.json"))
             {
                 var cm = JsonConvert.DeserializeObject<CredentialsModel>(File.ReadAllText("./credentials.json"));
@@ -52,23 +54,23 @@ namespace NadekoBot.Services.Impl
             }
             else
             {
-                File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented));
-                _log.Fatal($"credentials.json is missing. Failed to start. Example written to {Path.GetFullPath("./credentials_example.json")}");
+                _log.Fatal($"credentials.json is missing. Failed to start. Example is in {Path.GetFullPath("./credentials_example.json")}");
                 throw new FileNotFoundException();
             }
+            
         }
 
         private class CredentialsModel
         {
-            public ulong ClientId { get; set; }
+            public ulong ClientId { get; set; } = 123123123;
             public ulong? BotId { get; set; }
             public string Token { get; set; } = "";
             public ulong[] OwnerIds { get; set; } = new ulong[1];
-            public string LoLApiKey { get; set; }
-            public string GoogleApiKey { get; set; }
-            public string MashapeKey { get; set; }
-            public string OsuApiKey { get; set; }
-            public string SoundCloudClientId { get; set; }
+            public string LoLApiKey { get; set; } = "";
+            public string GoogleApiKey { get; set; } = "";
+            public string MashapeKey { get; set; } = "";
+            public string OsuApiKey { get; set; } = "";
+            public string SoundCloudClientId { get; set; } = "";
             public DB Db { get; set; }
             public int TotalShards { get; set; } = 1;
         }
