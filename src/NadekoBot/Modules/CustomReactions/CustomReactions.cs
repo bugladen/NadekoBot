@@ -124,8 +124,30 @@ namespace NadekoBot.Modules.CustomReactions
             if (customReactions == null || !customReactions.Any())
                 await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
             else
-                await imsg.Channel.SendMessageAsync(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger).Skip((page - 1) * 10).Take(10)))
+                await imsg.Channel.SendMessageAsync($"`Page {page} of custom reactions:`\n" + string.Join("\n", customReactions.OrderBy(cr => cr.Trigger).Skip((page - 1) * 15).Take(15).Select(cr => $"`#{cr.Id}`  `Trigger:` {cr.Trigger}")))
                              .ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task ShowCustReact(IUserMessage imsg, int id)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            ConcurrentHashSet<CustomReaction> customReactions;
+            if (channel == null)
+                customReactions = GlobalReactions;
+            else
+                customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
+
+            var found = customReactions.FirstOrDefault(cr => cr.Id == id);
+
+            if (found == null)
+                await imsg.Channel.SendMessageAsync("`No custom reaction found with that id.`").ConfigureAwait(false);
+            else
+            {
+                await imsg.Channel.SendMessageAsync($"`Custom reaction #{id}`\n`Trigger:` {found.Trigger}\n`Response:` {found.Response}")
+                             .ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

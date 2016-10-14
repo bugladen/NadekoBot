@@ -454,10 +454,10 @@
     <value>showcustreact scr</value>
   </data>
   <data name="showcustreact_desc" xml:space="preserve">
-    <value>Shows all possible responses from a single custom reaction.</value>
+    <value>Shows a custom reaction's response on a given ID.</value>
   </data>
   <data name="showcustreact_usage" xml:space="preserve">
-    <value>`.scr %mention% bb`</value>
+    <value>`.scr 1`</value>
   </data>
   <data name="editcustreact_cmd" xml:space="preserve">
     <value>editcustreact ecr</value>

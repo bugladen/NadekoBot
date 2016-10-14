@@ -6171,7 +6171,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows all possible responses from a single custom reaction..
+        ///    Looks up a localized string similar to Shows a custom reaction&apos;s response on a given ID..
         /// </summary>
         public static string showcustreact_desc {
             get {
@@ -6180,7 +6180,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.scr %mention% bb`.
+        ///    Looks up a localized string similar to `.scr 1`.
         /// </summary>
         public static string showcustreact_usage {
             get {
