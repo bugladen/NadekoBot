@@ -4641,7 +4641,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~pokeab &quot;water gun&quot;`.
+        ///    Looks up a localized string similar to `~pokeab overgrow`.
         /// </summary>
         public static string pokemonability_usage {
             get {

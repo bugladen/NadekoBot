@@ -1996,7 +1996,7 @@
     <value>Searches for a pokemon ability.</value>
   </data>
   <data name="pokemonability_usage" xml:space="preserve">
-    <value>`~pokeab "water gun"`</value>
+    <value>`~pokeab overgrow`</value>
   </data>
   <data name="memelist_cmd" xml:space="preserve">
     <value>memelist</value>
