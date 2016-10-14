@@ -531,7 +531,7 @@ namespace NadekoBot.Modules.Administration
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
-            await NadekoBot.Client.GetCurrentUser().ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+            await (await NadekoBot.Client.GetCurrentUserAsync()).ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
             await channel.SendMessageAsync($"Successfully changed name to {newName}").ConfigureAwait(false);
         }
@@ -554,7 +554,7 @@ namespace NadekoBot.Modules.Administration
                     await sr.CopyToAsync(imgStream);
                     imgStream.Position = 0;
 
-                    await NadekoBot.Client.GetCurrentUser().ModifyAsync(u => u.Avatar = imgStream).ConfigureAwait(false);
+                    await (await NadekoBot.Client.GetCurrentUserAsync().ConfigureAwait(false)).ModifyAsync(u => u.Avatar = imgStream).ConfigureAwait(false);
                 }
             }
 

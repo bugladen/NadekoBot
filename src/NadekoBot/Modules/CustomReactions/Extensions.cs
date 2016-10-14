@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public static Dictionary<string, Func<IUserMessage, string>> placeholders = new Dictionary<string, Func<IUserMessage, string>>()
         {
-            {"%mention%", (ctx) => { return $"<@{NadekoBot.Client.GetCurrentUser().Id}>"; } },
+            {"%mention%", (ctx) => { return $"<@{NadekoBot.Client.GetCurrentUserAsync().Id}>"; } },
             {"%user%", (ctx) => { return ctx.Author.Mention; } },
             {"%target%", (ctx) => { return ctx.MentionedUsers.Shuffle().FirstOrDefault()?.Mention ?? "Nobody"; } },
             {"%rng%", (ctx) => { return new NadekoRandom().Next(0,10).ToString(); } }

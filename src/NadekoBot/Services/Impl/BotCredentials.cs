@@ -62,8 +62,8 @@ namespace NadekoBot.Services.Impl
         {
             public ulong ClientId { get; set; }
             public ulong? BotId { get; set; }
-            public string Token { get; set; }
-            public ulong[] OwnerIds { get; set; }
+            public string Token { get; set; } = "";
+            public ulong[] OwnerIds { get; set; } = new ulong[1];
             public string LoLApiKey { get; set; }
             public string GoogleApiKey { get; set; }
             public string MashapeKey { get; set; }

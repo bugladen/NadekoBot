@@ -35,7 +35,7 @@ namespace NadekoBot.Services.Impl
         }
         public Task<string> Print()
         {
-            var curUser = client.GetCurrentUser();
+            var curUser = client.GetCurrentUserAsync();
             return Task.FromResult($@"`Author: Kwoth` `Library: Discord.Net`
 `Bot Version: {BotVersion}`
 `Bot id: {curUser.Id}`
