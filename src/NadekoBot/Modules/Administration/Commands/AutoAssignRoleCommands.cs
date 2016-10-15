@@ -28,7 +28,6 @@ namespace NadekoBot.Modules.Administration
                         {
                             conf = uow.GuildConfigs.For(user.Guild.Id);
                         }
-                        var aarType = conf.AutoAssignRoleId.GetType();
 
                         if (conf.AutoAssignRoleId == 0)
                             return;

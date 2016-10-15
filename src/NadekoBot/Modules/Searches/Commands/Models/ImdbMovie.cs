@@ -26,7 +26,7 @@ $@"`Title:` {WebUtility.HtmlDecode(Title)} {(string.IsNullOrEmpty(OriginalTitle)
 `Genre:` {GenresAsString}
 `Link:` <{ImdbURL}>
 `Plot:` {System.Net.WebUtility.HtmlDecode(Plot.TrimTo(500))}
-`img:` " + Poster;
+`Poster:` " + NadekoBot.Google.ShortenUrl(Poster).GetAwaiter().GetResult();
         public string GenresAsString =>
                 string.Join(", ", Genres);
     }

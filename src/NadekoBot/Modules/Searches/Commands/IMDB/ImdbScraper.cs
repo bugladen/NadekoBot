@@ -74,17 +74,9 @@ namespace NadekoBot.Modules.Searches.IMDB
                 mov.OriginalTitle = Match(@"title-extra"">(.*?)<", html);
                 mov.Year = Match(@"<title>.*?\(.*?(\d{4}).*?\).*?</title>", Match(@"(<title>.*?</title>)", html));
                 mov.Rating = Match(@"<b>(\d.\d)/10</b>", html);
-                mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", Match(@"Genre.?:(.*?)(</div>|See more)", html)).Cast<string>().ToList();
-                mov.Plot = Match(@"Plot:</h5>.*?<div class=""info-content"">(.*?)(<a|</div)", html);
-                mov.Poster = Match(@"<div class=""photo"">.*?<a name=""poster"".*?><img.*?src=""(.*?)"".*?</div>", html);
-                if (!string.IsNullOrEmpty(mov.Poster) && mov.Poster.IndexOf("media-imdb.com") > 0)
-                {
-                    mov.Poster = Regex.Replace(mov.Poster, @"_V1.*?.jpg", "_V1._SY200.jpg");
-                }
-                else
-                {
-                    mov.Poster = string.Empty;
-                }
+                mov.Genres = MatchAll(@"<a.*?>(.*?)</a>", Match(@"Genre.?:((.|\n)*?)(<\/div>|See more)", html)).Cast<string>().ToList();
+                mov.Plot = Match(@"Plot:</h5>\n<div class=""info-content"">\n((.|\n)*?)(<a|</div)", html);
+                mov.Poster = Match(@"<a name=""poster"".*src=""(.*)""", html);
                 mov.ImdbURL = "http://www.imdb.com/title/" + mov.Id + "/";
                 if (GetExtraInfo)
                 {
@@ -147,7 +139,8 @@ namespace NadekoBot.Modules.Searches.IMDB
         //Match single instance
         private static string Match(string regex, string html, int i = 1)
         {
-            return new Regex(regex, RegexOptions.Multiline | RegexOptions.IgnoreCase).Match(html).Groups[i].ToString().Trim();
+            var m = new Regex(regex, RegexOptions.Multiline).Match(html);
+            return m.Groups[i].Value.Trim();
         }
         //Match all instances and return as List<string>
         private static List<string> MatchAll(string regex, string html, int i = 1)

@@ -66,6 +66,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
+        //todo move to omdb 
+        //              |
+        //              v
+        //{"Title":"Shutter Island","Year":"2010","Rated":"R","Released":"19 Feb 2010","Runtime":"138 min","Genre":"Mystery, Thriller","Director":"Martin Scorsese","Writer":"Laeta Kalogridis (screenplay), Dennis Lehane (novel)","Actors":"Leonardo DiCaprio, Mark Ruffalo, Ben Kingsley, Max von Sydow","Plot":"In 1954, a U.S. marshal investigates the disappearance of a murderess who escaped from a hospital for the criminally insane.","Language":"English, German","Country":"USA","Awards":"8 wins & 59 nominations.","Poster":"https://images-na.ssl-images-amazon.com/images/M/MV5BMTMxMTIyNzMxMV5BMl5BanBnXkFtZTcwOTc4OTI3Mg@@._V1_SX300.jpg","Metascore":"63","imdbRating":"8.1","imdbVotes":"798,447","imdbID":"tt1130884","Type":"movie","Response":"True"}
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Imdb(IUserMessage umsg, [Remainder] string query = null)
