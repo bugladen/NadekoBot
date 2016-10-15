@@ -119,7 +119,7 @@ namespace NadekoBot.Services.Impl
                 count -= toGet;
 
                 var query = yt.PlaylistItems.List("contentDetails");
-                query.MaxResults = count;
+                query.MaxResults = toGet;
                 query.PlaylistId = playlistId;
                 query.PageToken = nextPageToken;
 
