@@ -366,7 +366,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles..
+        ///    Looks up a localized string similar to Adds a role to the list of self-assignable roles..
         /// </summary>
         public static string asar_desc {
             get {

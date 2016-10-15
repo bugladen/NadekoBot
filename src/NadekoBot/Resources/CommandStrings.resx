@@ -382,7 +382,7 @@
     <value>asar</value>
   </data>
   <data name="asar_desc" xml:space="preserve">
-    <value>Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles.</value>
+    <value>Adds a role to the list of self-assignable roles.</value>
   </data>
   <data name="asar_usage" xml:space="preserve">
     <value>`.asar Gamer`</value>
