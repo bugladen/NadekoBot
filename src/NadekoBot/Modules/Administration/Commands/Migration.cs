@@ -415,7 +415,7 @@ namespace NadekoBot.Modules.Administration
                         IsRegex = false,
                         OwnerOnly = false,
                         Response = res,
-                        Trigger = cr.Key,
+                        Trigger = cr.Key.ToLowerInvariant(),
                     });
                 }).ToArray());
 

@@ -42,19 +42,19 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var t = Task.Run(async () =>
                 {
-                    var content = umsg.Content.ToLowerInvariant();
+                    var content = umsg.Content.Trim().ToLowerInvariant();
                     ConcurrentHashSet<CustomReaction> reactions;
                     GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
                     if (reactions != null && reactions.Any())
                     {
-                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg) == content).Shuffle().FirstOrDefault();
+                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg).Trim().ToLowerInvariant() == content).Shuffle().FirstOrDefault();
                         if (reaction != null)
                         {
                             try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                             return;
                         }
                     }
-                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg) == content).Shuffle().FirstOrDefault();
+                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg).Trim().ToLowerInvariant() == content).Shuffle().FirstOrDefault();
                     if (greaction != null)
                     {
                         try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
