@@ -251,9 +251,10 @@ namespace NadekoBot.Modules.Music.Classes
                 RepeatSong = false;
                 Destroyed = true;
                 playlist.Clear();
+
+                try { await audioClient.DisconnectAsync(); } catch { }
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-              await audioClient.DisconnectAsync();
             });
         }
 

@@ -72,9 +72,10 @@ namespace NadekoBot.Modules.Music
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                musicPlayer.Destroy();
+                if(MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer))
+                    musicPlayer.Destroy();
             return Task.CompletedTask;
         }
 
