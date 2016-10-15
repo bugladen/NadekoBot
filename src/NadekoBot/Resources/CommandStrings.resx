@@ -940,10 +940,10 @@
     <value>roles</value>
   </data>
   <data name="roles_desc" xml:space="preserve">
-    <value>List all roles on this server or a single user if specified.</value>
+    <value>List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page.</value>
   </data>
   <data name="roles_usage" xml:space="preserve">
-    <value>`.roles`</value>
+    <value>`.roles 2` or `.roles @Someone`</value>
   </data>
   <data name="channeltopic_cmd" xml:space="preserve">
     <value>channeltopic ct</value>

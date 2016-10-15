@@ -5550,7 +5550,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List all roles on this server or a single user if specified..
+        ///    Looks up a localized string similar to List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page..
         /// </summary>
         public static string roles_desc {
             get {
@@ -5559,7 +5559,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.roles`.
+        ///    Looks up a localized string similar to `.roles 2` or `.roles @Someone`.
         /// </summary>
         public static string roles_usage {
             get {
