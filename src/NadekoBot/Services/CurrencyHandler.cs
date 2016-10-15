@@ -7,6 +7,7 @@ using Discord;
 using NadekoBot.Services.Database;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Services
 {
@@ -33,6 +34,12 @@ namespace NadekoBot.Services
                 var success = uow.Currency.TryUpdateState(authorId, -amount);
                 if (!success)
                     return false;
+                uow.CurrencyTransactions.Add(new CurrencyTransaction()
+                {
+                    UserId = authorId,
+                    Reason = reason,
+                    Amount = amount,
+                });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
 
@@ -56,6 +63,12 @@ namespace NadekoBot.Services
             using (var uow = DbHandler.UnitOfWork())
             {
                 uow.Currency.TryUpdateState(receiverId, amount);
+                uow.CurrencyTransactions.Add(new CurrencyTransaction()
+                {
+                    UserId = receiverId,
+                    Reason = reason,
+                    Amount = amount,
+                });
                 await uow.CompleteAsync();
             }
         }

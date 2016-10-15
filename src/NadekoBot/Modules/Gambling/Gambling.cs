@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Gambling
         public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
         {
             var channel = (ITextChannel)umsg.Channel;
-            if (amount <= 0)
+            if (amount <= 0 || umsg.Author.Id == receiver.Id)
                 return;
             var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
             if (!success)
