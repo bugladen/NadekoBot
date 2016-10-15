@@ -2044,10 +2044,10 @@
     <value>`~ani aquarion evol`</value>
   </data>
   <data name="imdb_cmd" xml:space="preserve">
-    <value>imdb</value>
+    <value>imdb omdb</value>
   </data>
   <data name="imdb_desc" xml:space="preserve">
-    <value>Queries imdb for movies or series, show first result.</value>
+    <value>Queries omdb for movies or series, show first result.</value>
   </data>
   <data name="imdb_usage" xml:space="preserve">
     <value>`~imdb Batman vs Superman`</value>

@@ -3111,7 +3111,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to imdb.
+        ///    Looks up a localized string similar to imdb omdb.
         /// </summary>
         public static string imdb_cmd {
             get {
@@ -3120,7 +3120,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Queries imdb for movies or series, show first result..
+        ///    Looks up a localized string similar to Queries omdb for movies or series, show first result..
         /// </summary>
         public static string imdb_desc {
             get {
