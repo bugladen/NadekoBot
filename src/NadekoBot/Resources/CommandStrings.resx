@@ -2362,28 +2362,28 @@
     <value>claimfinish cf</value>
   </data>
   <data name="claimfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish_usage" xml:space="preserve">
-    <value>`,cf 1 Someone`</value>
+    <value>`,cf 1` or `,cf 1 5`</value>
   </data>
   <data name="claimfinish2_cmd" xml:space="preserve">
     <value>claimfinish2 cf2</value>
   </data>
   <data name="claimfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish2_usage" xml:space="preserve">
-    <value>`,cf2 1 SomeGuy`</value>
+    <value>`,cf2 1` or `,cf2 1 5`</value>
   </data>
   <data name="claimfinish1_cmd" xml:space="preserve">
     <value>claimfinish1 cf1</value>
   </data>
   <data name="claimfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish1_usage" xml:space="preserve">
-    <value>`,cf1 2 SomeGirl`</value>
+    <value>`,cf1 1` or `,cf1 1 5`</value>
   </data>
   <data name="unclaim_cmd" xml:space="preserve">
     <value>unclaim ucall uc</value>

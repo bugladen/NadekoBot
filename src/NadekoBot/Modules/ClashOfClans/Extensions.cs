@@ -30,21 +30,20 @@ namespace NadekoBot.Modules.ClashOfClans
 
         public static void Call(this ClashWar cw, string u, int baseNumber)
         {
-            if (baseNumber < 0 || baseNumber >= cw.Bases.Capacity)
+            if (baseNumber < 0 || baseNumber >= cw.Bases.Count)
                 throw new ArgumentException("Invalid base number");
-            if (cw.Bases[baseNumber] != null)
+            if (cw.Bases[baseNumber].CallUser != null)
                 throw new ArgumentException("That base is already claimed.");
-            for (var i = 0; i < cw.Bases.Capacity; i++)
+            for (var i = 0; i < cw.Bases.Count; i++)
             {
                 if (cw.Bases[i]?.BaseDestroyed == false && cw.Bases[i]?.CallUser == u)
                     throw new ArgumentException($"@{u} You already claimed base #{i + 1}. You can't claim a new one.");
             }
 
-            cw.Bases[baseNumber] = new ClashCaller() {
-                CallUser = u.Trim(),
-                TimeAdded = DateTime.UtcNow,
-                BaseDestroyed = false
-            };
+            var cc = cw.Bases[baseNumber];
+            cc.CallUser = u.Trim();
+            cc.TimeAdded = DateTime.UtcNow;
+            cc.BaseDestroyed = false;
         }
 
         public static void Start(this ClashWar cw)
@@ -56,7 +55,7 @@ namespace NadekoBot.Modules.ClashOfClans
             //Started = true;
             cw.WarState = StateOfWar.Started;
             cw.StartedAt = DateTime.UtcNow;
-            foreach (var b in cw.Bases.Where(b => b != null))
+            foreach (var b in cw.Bases.Where(b => b.CallUser != null))
             {
                 b.ResetTime();
             }
@@ -65,10 +64,10 @@ namespace NadekoBot.Modules.ClashOfClans
         public static int Uncall(this ClashWar cw, string user)
         {
             user = user.Trim();
-            for (var i = 0; i < cw.Bases.Capacity; i++)
+            for (var i = 0; i < cw.Bases.Count; i++)
             {
                 if (cw.Bases[i]?.CallUser != user) continue;
-                cw.Bases[i] = null;
+                cw.Bases[i].CallUser = null;
                 return i;
             }
             throw new InvalidOperationException("You are not participating in that war.");
@@ -85,9 +84,9 @@ namespace NadekoBot.Modules.ClashOfClans
             if (cw.WarState == StateOfWar.Created)
                 sb.AppendLine("`not started`");
             var twoHours = new TimeSpan(2, 0, 0);
-            for (var i = 0; i < cw.Bases.Capacity; i++)
+            for (var i = 0; i < cw.Bases.Count; i++)
             {
-                if (cw.Bases[i] == null)
+                if (cw.Bases[i].CallUser == null)
                 {
                     sb.AppendLine($"`{i + 1}.` ❌*unclaimed*");
                 }
@@ -111,7 +110,7 @@ namespace NadekoBot.Modules.ClashOfClans
         public static int FinishClaim(this ClashWar cw, string user, int stars = 3)
         {
             user = user.Trim();
-            for (var i = 0; i < cw.Bases.Capacity; i++)
+            for (var i = 0; i < cw.Bases.Count; i++)
             {
                 if (cw.Bases[i]?.BaseDestroyed != false || cw.Bases[i]?.CallUser != user) continue;
                 cw.Bases[i].BaseDestroyed = true;
@@ -119,6 +118,17 @@ namespace NadekoBot.Modules.ClashOfClans
                 return i;
             }
             throw new InvalidOperationException($"@{user} You are either not participating in that war, or you already destroyed a base.");
+        }
+
+        public static void FinishClaim(this ClashWar cw, int index, int stars = 3)
+        {
+            if (index < 0 || index > cw.Bases.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            var toFinish = cw.Bases[index];
+            if (toFinish.BaseDestroyed != false) throw new InvalidOperationException("That base is already destroyed.");
+            if (toFinish.CallUser == null) throw new InvalidOperationException("That base is unclaimed.");
+            toFinish.BaseDestroyed = true;
+            toFinish.Stars = stars;
         }
     }
 }

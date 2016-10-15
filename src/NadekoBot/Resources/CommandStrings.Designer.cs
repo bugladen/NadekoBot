@@ -1338,7 +1338,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish_desc {
             get {
@@ -1347,7 +1347,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf 1 Someone`.
+        ///    Looks up a localized string similar to `,cf 1` or `,cf 1 5`.
         /// </summary>
         public static string claimfinish_usage {
             get {
@@ -1365,7 +1365,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish1_desc {
             get {
@@ -1374,7 +1374,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf1 2 SomeGirl`.
+        ///    Looks up a localized string similar to `,cf1 1` or `,cf1 1 5`.
         /// </summary>
         public static string claimfinish1_usage {
             get {
@@ -1392,7 +1392,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish2_desc {
             get {
@@ -1401,7 +1401,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf2 1 SomeGuy`.
+        ///    Looks up a localized string similar to `,cf2 1` or `,cf2 1 5`.
         /// </summary>
         public static string claimfinish2_usage {
             get {

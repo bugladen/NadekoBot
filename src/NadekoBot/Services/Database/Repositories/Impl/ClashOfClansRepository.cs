@@ -16,8 +16,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public IEnumerable<ClashWar> GetAllWars()
         {
-            return _set.Include(cw => cw.Bases)
+            var toReturn =  _set.Include(cw => cw.Bases)
                         .ToList();
+            toReturn.ForEach(cw => cw.Bases = cw.Bases.Where(w => w.SequenceNumber != null).OrderBy(w => w.SequenceNumber).ToList());
+            return toReturn;
         }
     }
 }
