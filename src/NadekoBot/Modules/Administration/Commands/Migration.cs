@@ -411,7 +411,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     return cr.Value.Select(res => new CustomReaction()
                     {
-                        GuildId = 0,
+                        GuildId = null,
                         IsRegex = false,
                         OwnerOnly = false,
                         Response = res,
