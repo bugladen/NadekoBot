@@ -382,7 +382,7 @@
     <value>asar</value>
   </data>
   <data name="asar_desc" xml:space="preserve">
-    <value>Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles.</value>
+    <value>Adds a role to the list of self-assignable roles.</value>
   </data>
   <data name="asar_usage" xml:space="preserve">
     <value>`.asar Gamer`</value>
@@ -454,10 +454,10 @@
     <value>showcustreact scr</value>
   </data>
   <data name="showcustreact_desc" xml:space="preserve">
-    <value>Shows all possible responses from a single custom reaction.</value>
+    <value>Shows a custom reaction's response on a given ID.</value>
   </data>
   <data name="showcustreact_usage" xml:space="preserve">
-    <value>`.scr %mention% bb`</value>
+    <value>`.scr 1`</value>
   </data>
   <data name="editcustreact_cmd" xml:space="preserve">
     <value>editcustreact ecr</value>
@@ -796,7 +796,7 @@
     <value>donadd</value>
   </data>
   <data name="donadd_desc" xml:space="preserve">
-    <value>Add a donator to the database. **Kwoth Only**</value>
+    <value>Add a donator to the database.</value>
   </data>
   <data name="donadd_usage" xml:space="preserve">
     <value>`.donadd Donate Amount`</value>
@@ -940,10 +940,10 @@
     <value>roles</value>
   </data>
   <data name="roles_desc" xml:space="preserve">
-    <value>List all roles on this server or a single user if specified.</value>
+    <value>List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page.</value>
   </data>
   <data name="roles_usage" xml:space="preserve">
-    <value>`.roles`</value>
+    <value>`.roles 2` or `.roles @Someone`</value>
   </data>
   <data name="channeltopic_cmd" xml:space="preserve">
     <value>channeltopic ct</value>
@@ -1996,7 +1996,7 @@
     <value>Searches for a pokemon ability.</value>
   </data>
   <data name="pokemonability_usage" xml:space="preserve">
-    <value>`~pokeab "water gun"`</value>
+    <value>`~pokeab overgrow`</value>
   </data>
   <data name="memelist_cmd" xml:space="preserve">
     <value>memelist</value>
@@ -2044,10 +2044,10 @@
     <value>`~ani aquarion evol`</value>
   </data>
   <data name="imdb_cmd" xml:space="preserve">
-    <value>imdb</value>
+    <value>imdb omdb</value>
   </data>
   <data name="imdb_desc" xml:space="preserve">
-    <value>Queries imdb for movies or series, show first result.</value>
+    <value>Queries omdb for movies or series, show first result.</value>
   </data>
   <data name="imdb_usage" xml:space="preserve">
     <value>`~imdb Batman vs Superman`</value>
@@ -2362,28 +2362,28 @@
     <value>claimfinish cf</value>
   </data>
   <data name="claimfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish_usage" xml:space="preserve">
-    <value>`,cf 1 Someone`</value>
+    <value>`,cf 1` or `,cf 1 5`</value>
   </data>
   <data name="claimfinish2_cmd" xml:space="preserve">
     <value>claimfinish2 cf2</value>
   </data>
   <data name="claimfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish2_usage" xml:space="preserve">
-    <value>`,cf2 1 SomeGuy`</value>
+    <value>`,cf2 1` or `,cf2 1 5`</value>
   </data>
   <data name="claimfinish1_cmd" xml:space="preserve">
     <value>claimfinish1 cf1</value>
   </data>
   <data name="claimfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else.</value>
+    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish1_usage" xml:space="preserve">
-    <value>`,cf1 2 SomeGirl`</value>
+    <value>`,cf1 1` or `,cf1 1 5`</value>
   </data>
   <data name="unclaim_cmd" xml:space="preserve">
     <value>unclaim ucall uc</value>

@@ -34,7 +34,7 @@ Command and aliases | Description | Usage
 `.savechat`  | Saves a number of messages to a text file and sends it to you. | `.savechat 150` **Bot owner only.**
 `.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission. | `.menro RoleName` **Requires MentionEveryone server permission.**
 `.donators`  | List of lovely people who donated to keep this project alive. | `.donators` 
-`.donadd`  | Add a donator to the database. **Kwoth Only** | `.donadd Donate Amount` **Bot owner only.**
+`.donadd`  | Add a donator to the database. | `.donadd Donate Amount` **Bot owner only.**
 `.autoassignrole` `.aar` | Automaticaly assigns a specified role to every user who joins the server.  | `.aar` to disable, `.aar Role Name` to enable **Requires ManageRoles server permission.**
 `.scsc`  | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. | `.scsc` **Bot owner only.**
 `.jcsc`  | Joins current channel to an instance of cross server channel using the token.  | `.jcsc TokenHere` **Requires ManageServer server permission.**
@@ -53,7 +53,7 @@ Command and aliases | Description | Usage
 `.listplaying` `.lipl` | Lists all playing statuses with their corresponding number. | `.lipl` **Bot owner only.**
 `.removeplaying` `.rmpl` `.repl` | Removes a playing string on a given number.  | `.rmpl` **Bot owner only.**
 `.slowmode`  | Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.   | `.slowmode` **Requires ManageMessages server permission.**
-`.asar`  | Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. | `.asar Gamer` **Requires ManageRoles server permission.**
+`.asar`  | Adds a role to the list of self-assignable roles. | `.asar Gamer` **Requires ManageRoles server permission.**
 `.rsar`  | Removes a specified role from the list of self-assignable roles. | `.rsar` **Requires ManageRoles server permission.**
 `.lsar`  | Lists all self-assignable roles. | `.lsar` 
 `.togglexclsar` `.tesar` | Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles) | `.tesar` **Requires ManageRoles server permission.**
@@ -78,38 +78,39 @@ Command and aliases | Description | Usage
 `,startwar` `,sw` | Starts a war with a given number. | `,sw 15` 
 `,listwar` `,lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified. | `,lw [war_number] or ,lw` 
 `,claim` `,call` `,c` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. | `,call [war_number] [base_number] [optional_other_name]` 
-`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf1 2 SomeGirl` 
-`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf2 1 SomeGuy` 
-`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf 1 Someone` 
+`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf1 1` or `,cf1 1 5` 
+`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf2 1` or `,cf2 1 5` 
+`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf 1` or `,cf 1 5` 
 `,endwar` `,ew` | Ends the war with a given index. | `,ew [war_number]` 
 `,unclaim` `,ucall` `,uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim | `,uc [war_number] [optional_other_name]` 
 
 ### CustomReactions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`#addcustreact` `#acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
-`#listcustreact` `#lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
-`#delcustreact` `#dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
+`.addcustreact` `.acr` | Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/> | `.acr "hello" Hi there %user%` 
+`.listcustreact` `.lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. | `.lcr 1` 
+`.showcustreact` `.scr` | Shows a custom reaction's response on a given ID. | `.scr 1` 
+`.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction. | `.dcr 5` 
 
 ### Gambling  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`xraffle`  | Prints a name and ID of a random user from the online list from the (optional) role. | `$raffle` or `$raffle RoleName` 
-`xcash` `x$$` | Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @SomeGuy` 
-`xgive`  | Give someone a certain amount of currency. | `$give 1 "@SomeGuy"` 
-`xaward`  | Awards someone a certain amount of currency.   | `$award 100 @person` **Bot owner only.**
-`xtake`  | Takes a certain amount of flowers from someone.   | `$take 1 "@someguy"` **Bot owner only.**
-`xbetroll` `xbr` | Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `$br 5` 
-`xleaderboard` `xlb` | Displays bot currency leaderboard. | `$lb` 
-`xrace`  | Starts a new animal race. | `$race` 
-`xjoinrace` `xjr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5` 
-`xroll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5` 
-`xrolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5` 
-`xnroll`  | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15` 
-`xdraw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck. | `$draw` or `$draw 5` 
-`xshuffle` `xsh` | Reshuffles all cards back into the deck. | `$sh` 
-`xflip`  | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3` 
-`xbetflip` `xbf` | Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t` 
+`$raffle`  | Prints a name and ID of a random user from the online list from the (optional) role. | `$raffle` or `$raffle RoleName` 
+`$cash` `$$$` | Check how much NadekoFlowers a person has. (Defaults to yourself) | `$$$` or `$$$ @SomeGuy` 
+`$give`  | Give someone a certain amount of currency. | `$give 1 "@SomeGuy"` 
+`$award`  | Awards someone a certain amount of currency.   | `$award 100 @person` **Bot owner only.**
+`$take`  | Takes a certain amount of flowers from someone.   | `$take 1 "@someguy"` **Bot owner only.**
+`$betroll` `$br` | Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `$br 5` 
+`$leaderboard` `$lb` | Displays bot currency leaderboard. | `$lb` 
+`$race`  | Starts a new animal race. | `$race` 
+`$joinrace` `$jr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5` 
+`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5` 
+`$rolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5` 
+`$nroll`  | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15` 
+`$draw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck. | `$draw` or `$draw 5` 
+`$shuffle` `$sh` | Reshuffles all cards back into the deck. | `$sh` 
+`$flip`  | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3` 
+`$betflip` `$bf` | Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t` 
 
 ### Games  
 Command and aliases | Description | Usage
@@ -223,7 +224,7 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~weather` `~we` | Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. | `~we Moscow RF` 
 `~youtube` `~yt` | Searches youtubes and shows the first result | `~yt query` 
-`~imdb`  | Queries imdb for movies or series, show first result. | `~imdb Batman vs Superman` 
+`~imdb` `~omdb` | Queries omdb for movies or series, show first result. | `~imdb Batman vs Superman` 
 `~randomcat` `~meow` | Shows a random cat image. | `~meow` 
 `~randomdog` `~woof` | Shows a random dog image. | `~woof` 
 `~img` `~i` | Pulls the first image found using a search parameter. Use ~ir for different results. | `~i cute kitten` 
@@ -257,7 +258,7 @@ Command and aliases | Description | Usage
 `~osub`  | Shows information about an osu beatmap. | `~osub https://osu.ppy.sh/s/127712` 
 `~osu5`  | Displays a user's top 5 plays. | `~osu5 Name` 
 `~pokemon` `~poke` | Searches for a pokemon. | `~poke Sylveon` 
-`~pokemonability` `~pokeab` | Searches for a pokemon ability. | `~pokeab "water gun"` 
+`~pokemonability` `~pokeab` | Searches for a pokemon ability. | `~pokeab overgrow` 
 `~hitbox` `~hb` | Notifies this channel when a certain user starts streaming. | `~hitbox SomeStreamer` **Requires ManageMessages server permission.**
 `~twitch` `~tw` | Notifies this channel when a certain user starts streaming. | `~twitch SomeStreamer` **Requires ManageMessages server permission.**
 `~beam` `~bm` | Notifies this channel when a certain user starts streaming. | `~beam SomeStreamer` **Requires ManageMessages server permission.**
@@ -274,7 +275,7 @@ Command and aliases | Description | Usage
 `.userid` `.uid` | Shows user ID. | `.uid` or `.uid "@SomeGuy"` 
 `.channelid` `.cid` | Shows current channel ID. | `.cid` 
 `.serverid` `.sid` | Shows current server ID. | `.sid` 
-`.roles`  | List all roles on this server or a single user if specified. | `.roles` 
+`.roles`  | List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page. | `.roles 2` or `.roles @Someone` 
 `.channeltopic` `.ct` | Sends current channel's topic as a message. | `.ct` 
 `.stats`  | Shows some basic stats for Nadeko. | `.stats` 
 `.showemojis` `.se` | Shows a name and a link to every SPECIAL emoji in the message. | `.se A message full of SPECIALemojis` 

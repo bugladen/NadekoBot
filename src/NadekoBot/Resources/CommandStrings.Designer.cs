@@ -366,7 +366,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles..
+        ///    Looks up a localized string similar to Adds a role to the list of self-assignable roles..
         /// </summary>
         public static string asar_desc {
             get {
@@ -1338,7 +1338,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish_desc {
             get {
@@ -1347,7 +1347,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf 1 Someone`.
+        ///    Looks up a localized string similar to `,cf 1` or `,cf 1 5`.
         /// </summary>
         public static string claimfinish_usage {
             get {
@@ -1365,7 +1365,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish1_desc {
             get {
@@ -1374,7 +1374,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf1 2 SomeGirl`.
+        ///    Looks up a localized string similar to `,cf1 1` or `,cf1 1 5`.
         /// </summary>
         public static string claimfinish1_usage {
             get {
@@ -1392,7 +1392,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else..
+        ///    Looks up a localized string similar to Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else..
         /// </summary>
         public static string claimfinish2_desc {
             get {
@@ -1401,7 +1401,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `,cf2 1 SomeGuy`.
+        ///    Looks up a localized string similar to `,cf2 1` or `,cf2 1 5`.
         /// </summary>
         public static string claimfinish2_usage {
             get {
@@ -2067,7 +2067,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a donator to the database. **Kwoth Only**.
+        ///    Looks up a localized string similar to Add a donator to the database..
         /// </summary>
         public static string donadd_desc {
             get {
@@ -3111,7 +3111,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to imdb.
+        ///    Looks up a localized string similar to imdb omdb.
         /// </summary>
         public static string imdb_cmd {
             get {
@@ -3120,7 +3120,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Queries imdb for movies or series, show first result..
+        ///    Looks up a localized string similar to Queries omdb for movies or series, show first result..
         /// </summary>
         public static string imdb_desc {
             get {
@@ -4641,7 +4641,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `~pokeab &quot;water gun&quot;`.
+        ///    Looks up a localized string similar to `~pokeab overgrow`.
         /// </summary>
         public static string pokemonability_usage {
             get {
@@ -5550,7 +5550,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List all roles on this server or a single user if specified..
+        ///    Looks up a localized string similar to List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page..
         /// </summary>
         public static string roles_desc {
             get {
@@ -5559,7 +5559,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.roles`.
+        ///    Looks up a localized string similar to `.roles 2` or `.roles @Someone`.
         /// </summary>
         public static string roles_usage {
             get {
@@ -6171,7 +6171,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows all possible responses from a single custom reaction..
+        ///    Looks up a localized string similar to Shows a custom reaction&apos;s response on a given ID..
         /// </summary>
         public static string showcustreact_desc {
             get {
@@ -6180,7 +6180,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.scr %mention% bb`.
+        ///    Looks up a localized string similar to `.scr 1`.
         /// </summary>
         public static string showcustreact_usage {
             get {

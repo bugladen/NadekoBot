@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Music.Classes
                             if (CurrentSong == null)
                                 continue;
 
-                            
+
                             OnStarted(this, CurrentSong);
                             await CurrentSong.Play(audioClient, cancelToken);
 
@@ -122,8 +122,9 @@ namespace NadekoBot.Modules.Music.Classes
 
                             if (RepeatSong)
                                 AddSong(CurrentSong, 0);
-                            
+
                         }
+                        catch (OperationCanceledException) { }
                         finally
                         {
                             if (!cancelToken.IsCancellationRequested)
@@ -250,9 +251,10 @@ namespace NadekoBot.Modules.Music.Classes
                 RepeatSong = false;
                 Destroyed = true;
                 playlist.Clear();
+
+                try { await audioClient.DisconnectAsync(); } catch { }
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-              await audioClient.DisconnectAsync();
             });
         }
 

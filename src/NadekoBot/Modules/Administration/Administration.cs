@@ -35,6 +35,7 @@ namespace NadekoBot.Modules.Administration
                 if (channel == null)
                     return;
 
+                //todo cache this
                 bool shouldDelete;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -531,7 +532,7 @@ namespace NadekoBot.Modules.Administration
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
-            await NadekoBot.Client.GetCurrentUser().ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+            await (await NadekoBot.Client.GetCurrentUserAsync()).ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
             await channel.SendMessageAsync($"Successfully changed name to {newName}").ConfigureAwait(false);
         }
@@ -554,7 +555,7 @@ namespace NadekoBot.Modules.Administration
                     await sr.CopyToAsync(imgStream);
                     imgStream.Position = 0;
 
-                    await NadekoBot.Client.GetCurrentUser().ModifyAsync(u => u.Avatar = imgStream).ConfigureAwait(false);
+                    await (await NadekoBot.Client.GetCurrentUserAsync().ConfigureAwait(false)).ModifyAsync(u => u.Avatar = imgStream).ConfigureAwait(false);
                 }
             }
 
@@ -695,12 +696,14 @@ namespace NadekoBot.Modules.Administration
             await channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
+        IGuild nadekoSupportServer;
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Donators(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
             IEnumerable<Donator> donatorsOrdered;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 donatorsOrdered = uow.Donators.GetDonatorsOrdered();
@@ -708,6 +711,18 @@ namespace NadekoBot.Modules.Administration
 
             string str = $"**Thanks to the people listed below for making this project happen!**\n";
             await channel.SendMessageAsync(str + string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
+            
+            nadekoSupportServer = nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
+
+            if (nadekoSupportServer == null)
+                return;
+
+            var patreonRole = nadekoSupportServer.GetRole(236667642088259585);
+            if (patreonRole == null)
+                return;
+
+            var usrs = nadekoSupportServer.GetUsers().Where(u => u.Roles.Contains(patreonRole));
+            await channel.SendMessageAsync("\n`Patreon supporters:`\n" + string.Join("⭐", usrs.Select(d => d.Username))).ConfigureAwait(false);
         }
 
 

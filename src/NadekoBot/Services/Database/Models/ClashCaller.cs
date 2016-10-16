@@ -9,6 +9,7 @@ namespace NadekoBot.Services.Database.Models
 {
     public class ClashCaller : DbEntity
     {
+        public int? SequenceNumber { get; set; } = null;
         public string CallUser { get; set; }
 
         public DateTime TimeAdded { get; set; }

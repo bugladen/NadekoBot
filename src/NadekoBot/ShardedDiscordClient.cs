@@ -64,8 +64,11 @@ namespace NadekoBot
             Clients = clientList.AsReadOnly();
         }
 
-        public ISelfUser GetCurrentUser() => 
-            Clients.Select(c => c.GetCurrentUser()).FirstOrDefault(u => u != null);
+        public ISelfUser GetCurrentUser() =>
+            Clients[0].GetCurrentUser();
+
+        public Task<ISelfUser> GetCurrentUserAsync() =>
+            Clients[0].GetCurrentUserAsync();
 
         public IReadOnlyCollection<IGuild> GetGuilds() =>
             Clients.SelectMany(c => c.GetGuilds()).ToArray();
@@ -74,7 +77,7 @@ namespace NadekoBot
             Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
 
         public Task<IDMChannel> GetDMChannelAsync(ulong channelId) =>
-            Clients.Select(async c => await c.GetDMChannelAsync(channelId).ConfigureAwait(false)).FirstOrDefault(c => c != null);
+            Clients[0].GetDMChannelAsync(channelId);
 
         internal Task LoginAsync(TokenType tokenType, string token) =>
             Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token); _log.Info($"Shard #{c.ShardId} logged in."); }));

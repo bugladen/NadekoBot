@@ -33,17 +33,17 @@ namespace NadekoBot.Services.Impl
 
             this.client.Disconnected += _ => Reset();
         }
-        public Task<string> Print()
+        public async Task<string> Print()
         {
-            var curUser = client.GetCurrentUser();
-            return Task.FromResult($@"`Author: Kwoth` `Library: Discord.Net`
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"`Author: Kwoth` `Library: Discord.Net`
 `Bot Version: {BotVersion}`
 `Bot id: {curUser.Id}`
 `Owners' Ids: {string.Join(", ", NadekoBot.Credentials.OwnerIds)}`
 `Uptime: {GetUptimeString()}`
 `Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}`
 `Commands Ran this session: {commandsRan}`
-`Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`");
+`Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`";
         }
 
         public Task Reset()

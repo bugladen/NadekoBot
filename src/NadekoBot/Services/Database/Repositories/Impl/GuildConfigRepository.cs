@@ -90,12 +90,28 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return config;
         }
 
+        public IEnumerable<GuildConfig> PermissionsForAll()
+        {
+            var query = _set.Include(gc => gc.RootPermission);
+
+            //todo this is possibly a disaster for performance
+            //What i could do instead is count the number of permissions in the permission table for this guild
+            // and make a for loop with those.
+            // or just select permissions for this guild and manually chain them
+            for (int i = 0; i < 60; i++)
+            {
+                query = query.ThenInclude(gc => gc.Next);
+            }
+
+            return query.ToList();
+        }
+
         public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
             _set.Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
 
-        public void SetNewRootPermission(ulong guildId, Permission p)
+        public GuildConfig SetNewRootPermission(ulong guildId, Permission p)
         {
             var data = _set
                         .Include(gc => gc.RootPermission)
@@ -103,6 +119,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
             data.RootPermission.Prepend(p);
             data.RootPermission = p;
+            return data;
         }
     }
 }

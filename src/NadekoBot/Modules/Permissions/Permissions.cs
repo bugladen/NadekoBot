@@ -11,12 +11,39 @@ using Discord;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using Discord.API;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Permissions
 {
     [NadekoModule("Permissions", ";")]
     public partial class Permissions : DiscordModule
     {
+        public class PermissionCache
+        {
+            public string PermRole { get; set; }
+            public bool Verbose { get; set; } = true;
+            public Permission RootPermission { get; set; }
+        }
+
+        //guildid, root permission
+        public static ConcurrentDictionary<ulong, PermissionCache> Cache;
+
+        static Permissions()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                Cache = new ConcurrentDictionary<ulong, PermissionCache>(uow.GuildConfigs
+                                                                       .PermissionsForAll()
+                                                                       .ToDictionary(k => k.GuildId,
+                                                                            v => new PermissionCache()
+                                                                            {
+                                                                                RootPermission = v.RootPermission,
+                                                                                Verbose = v.VerbosePermissions,
+                                                                                PermRole = v.PermissionRole
+                                                                            }));
+            }
+        }
+
         public Permissions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
         }
@@ -31,6 +58,12 @@ namespace NadekoBot.Modules.Permissions
             {
                 var config = uow.GuildConfigs.For(channel.Guild.Id);
                 config.VerbosePermissions = action.Value;
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = Permission.GetDefaultRoot(),
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.Verbose = config.VerbosePermissions; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
 
@@ -52,6 +85,12 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else {
                     config.PermissionRole = role.Name.Trim();
+                    Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                    {
+                        PermRole = config.PermissionRole,
+                        RootPermission = Permission.GetDefaultRoot(),
+                        Verbose = config.VerbosePermissions
+                    }, (id, old) => { old.PermRole = role.Name.Trim(); return old; });
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
             }
@@ -107,6 +146,12 @@ namespace NadekoBot.Modules.Permissions
                     {
                         p = perms.RemoveAt(index);
                     }
+                    Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                    {
+                        PermRole = config.PermissionRole,
+                        RootPermission = config.RootPermission,
+                        Verbose = config.VerbosePermissions
+                    }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
@@ -216,6 +261,12 @@ namespace NadekoBot.Modules.Permissions
                         }
 
                         config.RootPermission = fromPerm.GetRoot();
+                        Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                        {
+                            PermRole = config.PermissionRole,
+                            RootPermission = config.RootPermission,
+                            Verbose = config.VerbosePermissions
+                        }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
                     await channel.SendMessageAsync($"`Moved permission:` \"{fromPerm.GetCommand(channel.Guild)}\" `from #{++from} to #{++to}.`").ConfigureAwait(false);
@@ -244,7 +295,14 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
+
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
@@ -266,7 +324,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module on this server.").ConfigureAwait(false);
@@ -288,7 +352,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
@@ -310,7 +380,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
@@ -332,7 +408,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = command.Text.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
@@ -354,7 +436,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
@@ -377,7 +465,13 @@ namespace NadekoBot.Modules.Permissions
                         SecondaryTargetName = command.Text.ToLowerInvariant(),
                         State = action.Value,
                     };
-                    uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                    var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                    Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                    {
+                        PermRole = config.PermissionRole,
+                        RootPermission = config.RootPermission,
+                        Verbose = config.VerbosePermissions
+                    }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
             }
@@ -403,7 +497,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = module.Name.ToLowerInvariant(),
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
@@ -425,7 +525,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
@@ -447,7 +553,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
@@ -469,7 +581,13 @@ namespace NadekoBot.Modules.Permissions
                     SecondaryTargetName = "*",
                     State = action.Value,
                 };
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, newPerm);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
@@ -502,7 +620,13 @@ namespace NadekoBot.Modules.Permissions
                     State = true,
                 };
 
-                uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, allowUser);
+                var config = uow.GuildConfigs.SetNewRootPermission(channel.Guild.Id, allowUser);
+                Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
+                {
+                    PermRole = config.PermissionRole,
+                    RootPermission = config.RootPermission,
+                    Verbose = config.VerbosePermissions
+                }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
             await channel.SendMessageAsync($"{(action.Value ? "Allowed" : "Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);

@@ -66,35 +66,40 @@ namespace NadekoBot.Modules.Utility
             }
 
             public async Task UpdateCurrency()
-            {
-                var currencyRates = await UpdateCurrencyRates();
-                var unitTypeString = "currency";
-                var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
+            {try
                 {
-                    InternalTrigger = u.Key,
-                    Modifier = u.Value,
-                    UnitType = unitTypeString
-                }).ToArray();
-                var baseType = new ConvertUnit()
-                {
-                    Triggers = new[] { currencyRates.Base },
-                    Modifier = decimal.One,
-                    UnitType = unitTypeString
-                };
-                var toRemove = Units.Where(u => u.UnitType == unitTypeString);
+                    var currencyRates = await UpdateCurrencyRates();
+                    var unitTypeString = "currency";
+                    var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
+                    {
+                        InternalTrigger = u.Key,
+                        Modifier = u.Value,
+                        UnitType = unitTypeString
+                    }).ToArray();
+                    var baseType = new ConvertUnit()
+                    {
+                        Triggers = new[] { currencyRates.Base },
+                        Modifier = decimal.One,
+                        UnitType = unitTypeString
+                    };
+                    var toRemove = Units.Where(u => u.UnitType == unitTypeString);
 
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    uow.ConverterUnits.RemoveRange(toRemove.ToArray());
-                    uow.ConverterUnits.Add(baseType);
-                    uow.ConverterUnits.AddRange(range);
+                    using (var uow = DbHandler.UnitOfWork())
+                    {
+                        uow.ConverterUnits.RemoveRange(toRemove.ToArray());
+                        uow.ConverterUnits.Add(baseType);
+                        uow.ConverterUnits.AddRange(range);
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync().ConfigureAwait(false);
+                    }
+                    Units.RemoveAll(u => u.UnitType == unitTypeString);
+                    Units.Add(baseType);
+                    Units.AddRange(range);
+                    _log.Info("Updated Currency");
                 }
-                Units.RemoveAll(u => u.UnitType == unitTypeString);
-                Units.Add(baseType);
-                Units.AddRange(range);
-                _log.Info("Updated Currency");
+                catch {
+                    _log.Warn("Failed updating currency.");
+                }
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -143,10 +148,10 @@ namespace NadekoBot.Modules.Utility
                             break;
                     }
                     //from Kelvin to target
-                    switch (targetUnit.Triggers.First())
+                    switch (targetUnit.Triggers.First().ToUpperInvariant())
                     {
                         case "C":
-                            res = value - 273.15m; //celcius!
+                            res = res - 273.15m; //celcius!
                             break;
                         case "F":
                             res = res * (9m / 5m) - 459.67m;

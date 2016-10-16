@@ -12,11 +12,11 @@ using System.Text.RegularExpressions;
 using System.Net;
 using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
-using NadekoBot.Modules.Searches.IMDB;
 using System.Collections.Generic;
 using ImageProcessorCore;
 using NadekoBot.Extensions;
 using System.IO;
+using NadekoBot.Modules.Searches.Commands.OMDB;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -74,21 +74,14 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
             if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            string result;
-            try
-            {
-                var movie = await ImdbScraper.ImdbScrape(query, true);
-                if (movie.Status) result = movie.ToString();
-                else result = "Failed to find that movie.";
-            }
-            catch (Exception ex)
+
+            var movie = await OmdbProvider.FindMovie(query);
+            if (movie == null)
             {
                 await channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
-                _log.Warn(ex);
                 return;
             }
-
-            await channel.SendMessageAsync(result.ToString()).ConfigureAwait(false);
+            await channel.SendMessageAsync(movie.ToString()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

@@ -12,7 +12,8 @@ namespace NadekoBot.Services.Database.Repositories
     {
         GuildConfig For(ulong guildId);
         GuildConfig PermissionsFor(ulong guildId);
-        void SetNewRootPermission(ulong guildId, Permission p);
+        IEnumerable<GuildConfig> PermissionsForAll();
+        GuildConfig SetNewRootPermission(ulong guildId, Permission p);
         IEnumerable<FollowedStream> GetAllFollowedStreams();
     }
 }

@@ -7,6 +7,7 @@ using Google.Apis.Services;
 using System.Text.RegularExpressions;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
+using NLog;
 
 namespace NadekoBot.Services.Impl
 {
@@ -14,6 +15,7 @@ namespace NadekoBot.Services.Impl
     {
         private YouTubeService yt;
         private UrlshortenerService sh;
+        private Logger _log { get; }
 
         public GoogleApiService()
         {
@@ -22,6 +24,8 @@ namespace NadekoBot.Services.Impl
                 ApplicationName = "Nadeko Bot",
                 ApiKey = NadekoBot.Credentials.GoogleApiKey
             };
+
+            _log = LogManager.GetCurrentClassLogger();
 
             yt = new YouTubeService(bcs);
             sh = new UrlshortenerService(bcs);
@@ -85,9 +89,16 @@ namespace NadekoBot.Services.Impl
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-
-            var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync();
-            return response.Id;
+            try
+            {
+                var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync();
+                return response.Id;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+                return url;
+            }
         }
 
         public async Task<IEnumerable<string>> GetPlaylistTracksAsync(string playlistId, int count = 50)
@@ -108,7 +119,7 @@ namespace NadekoBot.Services.Impl
                 count -= toGet;
 
                 var query = yt.PlaylistItems.List("contentDetails");
-                query.MaxResults = count;
+                query.MaxResults = toGet;
                 query.PlaylistId = playlistId;
                 query.PageToken = nextPageToken;
 
