@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Music.Classes
         private Logger _log;
 
         public int SkipTo {
-            get { return SkipTo; }
+            get { return skipTo; }
             set {
                 skipTo = value;
                 bytesSent = (ulong)skipTo * 3840 * 50;
