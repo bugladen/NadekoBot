@@ -724,7 +724,7 @@
     <value>die</value>
   </data>
   <data name="die_desc" xml:space="preserve">
-    <value>Works only for the bot owner. Shuts the bot down.</value>
+    <value>Shuts the bot down.</value>
   </data>
   <data name="die_usage" xml:space="preserve">
     <value>`@NadekoBot die`</value>
