@@ -2,7 +2,7 @@
 ###Important
 *	For modifying **global** custom reactions, the ones which will work across all the servers your bot is connected to, you **must** be a Bot Owner.  
 You must also use the commands for adding, deleting and listing these reactions in a direct message with the bot.  
-*	For modifying **local** custom reactions, the ones which will only work on the server that they are added on, require you to have the **Administrator** permission.  
+*	For modifying **local** custom reactions, the ones which will only work on the server that they are added on, it is required to have the **Administrator** permission.  
 You must also use the commands for adding, deleting and listing these reactions in the server you want the custom reactions to work on.  
 
 ###Commands and Their Use
