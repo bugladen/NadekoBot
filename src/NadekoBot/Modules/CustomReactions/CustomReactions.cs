@@ -47,14 +47,24 @@ namespace NadekoBot.Modules.CustomReactions
                     GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
                     if (reactions != null && reactions.Any())
                     {
-                        var reaction = reactions.Where(cr => cr.TriggerWithContext(umsg).Trim().ToLowerInvariant() == content).Shuffle().FirstOrDefault();
+                        var reaction = reactions.Where(cr => {
+                            var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
+                            var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
+                            return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                        }).Shuffle().FirstOrDefault();
                         if (reaction != null)
                         {
                             try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                             return;
                         }
                     }
-                    var greaction = GlobalReactions.Where(cr => cr.TriggerWithContext(umsg).Trim().ToLowerInvariant() == content).Shuffle().FirstOrDefault();
+                    var greaction = GlobalReactions.Where(cr =>
+                    {
+                        var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
+                        var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
+                        return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                    }).Shuffle().FirstOrDefault();
+
                     if (greaction != null)
                     {
                         try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
