@@ -53,7 +53,7 @@ Command and aliases | Description | Usage
 `.listplaying` `.lipl` | Lists all playing statuses with their corresponding number. | `.lipl` **Bot owner only.**
 `.removeplaying` `.rmpl` `.repl` | Removes a playing string on a given number.  | `.rmpl` **Bot owner only.**
 `.slowmode`  | Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.   | `.slowmode` **Requires ManageMessages server permission.**
-`.asar`  | Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. | `.asar Gamer` **Requires ManageRoles server permission.**
+`.asar`  | Adds a role to the list of self-assignable roles. | `.asar Gamer` **Requires ManageRoles server permission.**
 `.rsar`  | Removes a specified role from the list of self-assignable roles. | `.rsar` **Requires ManageRoles server permission.**
 `.lsar`  | Lists all self-assignable roles. | `.lsar` 
 `.togglexclsar` `.tesar` | Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles) | `.tesar` **Requires ManageRoles server permission.**
@@ -78,9 +78,9 @@ Command and aliases | Description | Usage
 `,startwar` `,sw` | Starts a war with a given number. | `,sw 15` 
 `,listwar` `,lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified. | `,lw [war_number] or ,lw` 
 `,claim` `,call` `,c` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place. | `,call [war_number] [base_number] [optional_other_name]` 
-`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf1 2 SomeGirl` 
-`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf2 1 SomeGuy` 
-`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument finishes for someone else. | `,cf 1 Someone` 
+`,claimfinish1` `,cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf1 1` or `,cf1 1 5` 
+`,claimfinish2` `,cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf2 1` or `,cf2 1 5` 
+`,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else. | `,cf 1` or `,cf 1 5` 
 `,endwar` `,ew` | Ends the war with a given index. | `,ew [war_number]` 
 `,unclaim` `,ucall` `,uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim | `,uc [war_number] [optional_other_name]` 
 
@@ -224,7 +224,7 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~weather` `~we` | Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations. | `~we Moscow RF` 
 `~youtube` `~yt` | Searches youtubes and shows the first result | `~yt query` 
-`~imdb`  | Queries imdb for movies or series, show first result. | `~imdb Batman vs Superman` 
+`~imdb` `~omdb` | Queries omdb for movies or series, show first result. | `~imdb Batman vs Superman` 
 `~randomcat` `~meow` | Shows a random cat image. | `~meow` 
 `~randomdog` `~woof` | Shows a random dog image. | `~woof` 
 `~img` `~i` | Pulls the first image found using a search parameter. Use ~ir for different results. | `~i cute kitten` 
@@ -258,7 +258,7 @@ Command and aliases | Description | Usage
 `~osub`  | Shows information about an osu beatmap. | `~osub https://osu.ppy.sh/s/127712` 
 `~osu5`  | Displays a user's top 5 plays. | `~osu5 Name` 
 `~pokemon` `~poke` | Searches for a pokemon. | `~poke Sylveon` 
-`~pokemonability` `~pokeab` | Searches for a pokemon ability. | `~pokeab "water gun"` 
+`~pokemonability` `~pokeab` | Searches for a pokemon ability. | `~pokeab overgrow` 
 `~hitbox` `~hb` | Notifies this channel when a certain user starts streaming. | `~hitbox SomeStreamer` **Requires ManageMessages server permission.**
 `~twitch` `~tw` | Notifies this channel when a certain user starts streaming. | `~twitch SomeStreamer` **Requires ManageMessages server permission.**
 `~beam` `~bm` | Notifies this channel when a certain user starts streaming. | `~beam SomeStreamer` **Requires ManageMessages server permission.**
@@ -275,7 +275,7 @@ Command and aliases | Description | Usage
 `.userid` `.uid` | Shows user ID. | `.uid` or `.uid "@SomeGuy"` 
 `.channelid` `.cid` | Shows current channel ID. | `.cid` 
 `.serverid` `.sid` | Shows current server ID. | `.sid` 
-`.roles`  | List all roles on this server or a single user if specified. | `.roles` 
+`.roles`  | List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page. | `.roles 2` or `.roles @Someone` 
 `.channeltopic` `.ct` | Sends current channel's topic as a message. | `.ct` 
 `.stats`  | Shows some basic stats for Nadeko. | `.stats` 
 `.showemojis` `.se` | Shows a name and a link to every SPECIAL emoji in the message. | `.se A message full of SPECIALemojis` 
