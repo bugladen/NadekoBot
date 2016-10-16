@@ -589,7 +589,7 @@
     <value>ban b</value>
   </data>
   <data name="ban_desc" xml:space="preserve">
-    <value>Bans a user by id or name with an optional message.</value>
+    <value>Bans a user by ID or name with an optional message.</value>
   </data>
   <data name="ban_usage" xml:space="preserve">
     <value>`.b "@some Guy" Your behaviour is toxic.`</value>
@@ -598,7 +598,7 @@
     <value>softban sb</value>
   </data>
   <data name="softban_desc" xml:space="preserve">
-    <value>Bans and then unbans a user by id or name with an optional message.  </value>
+    <value>Bans and then unbans a user by ID or name with an optional message.  </value>
   </data>
   <data name="softban_usage" xml:space="preserve">
     <value>`.sb "@some Guy" Your behaviour is toxic.`</value>
@@ -697,7 +697,7 @@
     <value>setchanlname schn</value>
   </data>
   <data name="setchanlname_desc" xml:space="preserve">
-    <value>Changed the name of the current channel.  </value>
+    <value>Changes the name of the current channel.  </value>
   </data>
   <data name="setchanlname_usage" xml:space="preserve">
     <value>`.schn NewName`</value>
@@ -724,7 +724,7 @@
     <value>die</value>
   </data>
   <data name="die_desc" xml:space="preserve">
-    <value>Works only for the owner. Shuts the bot down.</value>
+    <value>Works only for the bot owner. Shuts the bot down.</value>
   </data>
   <data name="die_usage" xml:space="preserve">
     <value>`@NadekoBot die`</value>
@@ -733,7 +733,7 @@
     <value>setname newnm</value>
   </data>
   <data name="setname_desc" xml:space="preserve">
-    <value>Give the bot a new name.  </value>
+    <value>Gives the bot a new name.  </value>
   </data>
   <data name="setname_usage" xml:space="preserve">
     <value>`.newnm BotName`</value>
