@@ -7,9 +7,9 @@ permission commands correctly and even cover a few common questions! Every comma
 
 Why do we use the Permissions Commands?
 ------------------------------
-Permissions are very handy at setting who can use what commands in a server. By default, the NSFW module is blocked, but nothing else is. If something is a bot owner only command, it can only be ran by the bot owner, the person who is running the bot, or has their id in [`credentials.json`](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/ "Setting up your credentials"). 
+Permissions are very handy at setting who can use what commands in a server. By default, the NSFW module is blocked, but nothing else is. If something is a bot owner only command, it can only be ran by the bot owner, the person who is running the bot, or has their ID in [`credentials.json`](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/ "Setting up your credentials"). 
 
-The administration module still requires that you have the correct permissions on discord to be able to use these commands, so for users to be able to use commands like `.kick` and `.prune`, they need kick and mange messages permissions respectively.
+The Administration module still requires that you have the correct permissions on Discord to be able to use these commands, so for users to be able to use commands like `.kick` and `.prune`, they need kick and mange messages permissions respectively.
 
 With the permissions system it possible to restrict who can skip the current song, pick NadekoFlowers or use the NSFW module.
 
@@ -19,9 +19,9 @@ To change permissions you **must** meet the following requirement:
 
 **Have the role specified by `;permrole` (By default, this is Nadeko)**
 
-If you have an existing role called "Nadeko" but can't assign it to yourself, create a new role called "Nadeko" and assign that to yourself.
+If you have an existing role called `Nadeko` but can't assign it to yourself, create a new role called `Nadeko` and assign that to yourself.
 
-If you would like to set a different role, such as "Admins", to be the role required to edit permissions, do `;permrole Admins` (you must have the current permission role to be able to do this).
+If you would like to set a different role, such as `Admins`, to be the role required to edit permissions, do `;permrole Admins` (you must have the current permission role to be able to do this).
 
 Basics & Hierarchy
 -----
