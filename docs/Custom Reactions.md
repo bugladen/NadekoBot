@@ -35,7 +35,6 @@ There are currently three different placeholders which we will look at, with mor
 |`%mention`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|```.acr "Hello %mention%" I,  %mention%, also say hello!```|Input: "Hello @BotName" Output: "I, @BotName, also say hello!"|
 |`%user%`|The `%user%` placeholder mentions the person who said the command|`.acr "Who am I?" You are %user%!`|Input: "Who am I?" Output: "You are @Username!"|
 |`%rng%`|The `%rng%` placeholder generates a random number between 0 and 10|`.acr "Random number" %rng%`|Input: "Random number" Output: "2"|
-
-[//]: # (|`%target%`|The `%target%` placeholder is used to make Nadeko Mention another person or phrase|`.acr "Say this: " %target%|Input: "Say this: I, @BotName, am a parrot!". Output: "I, @BotName, am a parrot!".|)
+|`%target%`|The `%target%` placeholder is used to make Nadeko Mention another person or phrase, it is only supported as part of the response|`.acr "Say this: " %target%`|Input: "Say this: I, @BotName, am a parrot!". Output: "I, @BotName, am a parrot!".|
 		
  Thanks to Nekai for being creative. <3
