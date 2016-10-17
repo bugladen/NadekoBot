@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 else
                 {
-                    ch = channel.Guild.GetTextChannels().FirstOrDefault(c => c.Name == meorchStr || c.Id.ToString() == meorchStr);
+                    ch = channel.Guild.GetTextChannels().FirstOrDefault(c => c.Name.ToUpperInvariant() == meorchStr || c.Id.ToString() == meorchStr);
                 }
 
                 if (ch == null)
