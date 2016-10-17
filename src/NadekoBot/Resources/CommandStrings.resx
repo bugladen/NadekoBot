@@ -292,7 +292,7 @@
     <value>rotateplaying ropl</value>
   </data>
   <data name="rotateplaying_desc" xml:space="preserve">
-    <value>Toggles rotation of playing status of the dynamic strings you prevoiusly specified.</value>
+    <value>Toggles rotation of playing status of the dynamic strings you previously specified.</value>
   </data>
   <data name="rotateplaying_usage" xml:space="preserve">
     <value>`.ropl`</value>
