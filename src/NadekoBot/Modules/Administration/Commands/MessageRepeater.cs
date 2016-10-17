@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)imsg.Channel;
 
-                if (minutes < 1 || minutes > 1500)
+                if (minutes < 1 || minutes > 10080)
                     return;
 
                 if (string.IsNullOrWhiteSpace(message))
