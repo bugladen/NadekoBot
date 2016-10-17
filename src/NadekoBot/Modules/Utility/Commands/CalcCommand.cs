@@ -23,11 +23,11 @@ namespace NadekoBot.Modules.Utility
                 var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase);
                 expr.EvaluateParameter += Expr_EvaluateParameter;
                 var result = expr.Evaluate();
-                await msg.Reply(string.Format("Your expression evaluated to: {0}", expr.Error ?? result));
+                await msg.Reply(string.Format("⚙ `{0}`", expr.Error ?? result));
             }
             catch (Exception e)
             {
-                await msg.Reply($"Your expression failed to evaluate: {e.Message} ");
+                await msg.Reply($"Failed to evaluate: {e.Message} ");
             }
         }
 

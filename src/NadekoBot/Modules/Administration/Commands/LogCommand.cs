@@ -254,7 +254,7 @@ namespace NadekoBot.Modules.Administration
                 if (before.Status != after.Status)
                     str = $"`{prettyCurrentTime}`**{usr.Username}** is now **{after.Status}**.";
                 else
-                    str = $"`{prettyCurrentTime}`**{usr.Username}** is now playing **{after.Status}**.";
+                    str = $"`{prettyCurrentTime}`**{usr.Username}** is now playing **{after.Game}**.";
 
                 UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
 

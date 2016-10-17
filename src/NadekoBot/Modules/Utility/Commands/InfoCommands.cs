@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Utility
 `Id:` **{server.Id}**
 `Icon Url:` **{ server.IconUrl}**
 `TextChannels:` **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
-`Members:` **{users.Count}** `Online:` **{users.Count(u => u.Status == UserStatus.Online)}**
+`Members:` **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}:green_heart: {users.Count(u => u.Status == UserStatus.Idle)}:yellow_heart: {users.Count(u => u.Status == UserStatus.DoNotDisturb)}:heart: {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}:black_heart:
 `Roles:` **{server.Roles.Count()}**
 `Created At:` **{createdAt}**
 ");
