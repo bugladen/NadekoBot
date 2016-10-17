@@ -265,7 +265,7 @@
     <value>voicepresence</value>
   </data>
   <data name="voicepresence_desc" xml:space="preserve">
-    <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. </value>
+    <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. </value>
   </data>
   <data name="voicepresence_usage" xml:space="preserve">
     <value>`.voicepresence`</value>
@@ -292,7 +292,7 @@
     <value>rotateplaying ropl</value>
   </data>
   <data name="rotateplaying_desc" xml:space="preserve">
-    <value>Toggles rotation of playing status of the dynamic strings you specified earlier.</value>
+    <value>Toggles rotation of playing status of the dynamic strings you previously specified.</value>
   </data>
   <data name="rotateplaying_usage" xml:space="preserve">
     <value>`.ropl`</value>
@@ -337,7 +337,7 @@
     <value>cleanvplust cv+t</value>
   </data>
   <data name="cleanvplust_desc" xml:space="preserve">
-    <value>Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.**</value>
+    <value>Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk.</value>
   </data>
   <data name="cleanvplust_usage" xml:space="preserve">
     <value>`.cleanv+t`</value>
@@ -517,7 +517,7 @@
     <value>delmsgoncmd</value>
   </data>
   <data name="delmsgoncmd_desc" xml:space="preserve">
-    <value>Toggles the automatic deletion of user's successful command message to prevent chat flood. **Server Manager Only.**</value>
+    <value>Toggles the automatic deletion of user's successful command message to prevent chat flood.</value>
   </data>
   <data name="delmsgoncmd_usage" xml:space="preserve">
     <value>`.delmsgoncmd`</value>
