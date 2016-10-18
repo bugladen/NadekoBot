@@ -128,7 +128,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.ChannelUpdated)
+                    || !logSetting.ChannelUpdated
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -159,7 +160,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.ChannelDestroyed)
+                    || !logSetting.ChannelDestroyed
+                    || logSetting.IgnoredChannels.Any(ilc=>ilc.ChannelId == ch.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -212,8 +214,7 @@ namespace NadekoBot.Modules.Administration
 
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || !logSetting.LogVoicePresence
-                    || logSetting.IgnoredChannels.Any(ic => ic.ChannelId == after.VoiceChannel.Id))
+                    || !logSetting.LogVoicePresence)
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -354,7 +355,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.MessageDeleted)
+                    || !logSetting.MessageDeleted
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -390,7 +392,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.MessageUpdated)
+                    || !logSetting.MessageUpdated
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -545,7 +548,6 @@ namespace NadekoBot.Modules.Administration
 
             //    switch (eventName.ToLowerInvariant())
             //    {
-            //        case "messagereceived":
             //        case "messageupdated":
             //        case "messagedeleted":
             //        case "userjoined":
