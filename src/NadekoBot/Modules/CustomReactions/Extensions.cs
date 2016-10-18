@@ -37,12 +37,12 @@ namespace NadekoBot.Modules.CustomReactions
         {
             foreach (var ph in placeholders)
             {
-                str = str.ToLowerInvariant().Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx));
+                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx));
             }
 
             foreach (var ph in responsePlaceholders)
             {
-                str = str.ToLowerInvariant().Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, resolvedTrigger));
+                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, resolvedTrigger));
             }
             return str;
         }

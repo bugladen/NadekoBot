@@ -17,7 +17,7 @@ namespace NadekoBot.Services.Impl
         private DateTime started;
         private int commandsRan = 0;
 
-        public string BotVersion => "1.0-alpha";
+        public string BotVersion => "1.0-beta1";
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
 
