@@ -519,9 +519,13 @@ namespace NadekoBot.Modules.Administration
                     var config = uow.GuildConfigs.For(channel.Guild.Id);
                     LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
                     removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
+                    config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     if (removed == 0)
-                        logSetting.IgnoredChannels.Add(new IgnoredLogChannel { ChannelId = channel.Id });
-                    config.LogSetting = logSetting;
+                    {
+                        var toAdd = new IgnoredLogChannel { ChannelId = channel.Id };
+                        logSetting.IgnoredChannels.Add(toAdd);
+                        config.LogSetting.IgnoredChannels.Add(toAdd);
+                    }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
