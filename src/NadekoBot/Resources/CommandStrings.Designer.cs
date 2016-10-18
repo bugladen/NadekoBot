@@ -357,6 +357,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to antiraid.
+        /// </summary>
+        public static string antiraid_cmd {
+            get {
+                return ResourceManager.GetString("antiraid_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute).
+        /// </summary>
+        public static string antiraid_desc {
+            get {
+                return ResourceManager.GetString("antiraid_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.antiraid 5 20 Kick`.
+        /// </summary>
+        public static string antiraid_usage {
+            get {
+                return ResourceManager.GetString("antiraid_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to antispam.
+        /// </summary>
+        public static string antispam_cmd {
+            get {
+                return ResourceManager.GetString("antispam_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Stops people from repeating same message more than 2 times in a row. You can either specify to mute, kick or ban them if that happens..
+        /// </summary>
+        public static string antispam_desc {
+            get {
+                return ResourceManager.GetString("antispam_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.antispam Mute` or `.antispam Kick` or `.antispam Ban`.
+        /// </summary>
+        public static string antispam_usage {
+            get {
+                return ResourceManager.GetString("antispam_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to asar.
         /// </summary>
         public static string asar_cmd {
@@ -528,7 +582,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bans a user by id or name with an optional message..
+        ///    Looks up a localized string similar to Bans a user by ID or name with an optional message..
         /// </summary>
         public static string ban_desc {
             get {
@@ -1446,7 +1500,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.**.
+        ///    Looks up a localized string similar to Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk..
         /// </summary>
         public static string cleanvplust_desc {
             get {
@@ -1932,7 +1986,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles the automatic deletion of user&apos;s successful command message to prevent chat flood. **Server Manager Only.**.
+        ///    Looks up a localized string similar to Toggles the automatic deletion of user&apos;s successful command message to prevent chat flood..
         /// </summary>
         public static string delmsgoncmd_desc {
             get {
@@ -2040,7 +2094,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Works only for the owner. Shuts the bot down..
+        ///    Looks up a localized string similar to Shuts the bot down..
         /// </summary>
         public static string die_desc {
             get {
@@ -5631,7 +5685,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles rotation of playing status of the dynamic strings you specified earlier..
+        ///    Looks up a localized string similar to Toggles rotation of playing status of the dynamic strings you previously specified..
         /// </summary>
         public static string rotateplaying_desc {
             get {
@@ -5982,7 +6036,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Changed the name of the current channel.  .
+        ///    Looks up a localized string similar to Changes the name of the current channel.  .
         /// </summary>
         public static string setchanlname_desc {
             get {
@@ -6063,7 +6117,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Give the bot a new name.  .
+        ///    Looks up a localized string similar to Gives the bot a new name.  .
         /// </summary>
         public static string setname_desc {
             get {
@@ -6333,7 +6387,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bans and then unbans a user by id or name with an optional message.  .
+        ///    Looks up a localized string similar to Bans and then unbans a user by ID or name with an optional message.  .
         /// </summary>
         public static string softban_desc {
             get {
@@ -7440,7 +7494,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. .
+        ///    Looks up a localized string similar to Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. .
         /// </summary>
         public static string voicepresence_desc {
             get {

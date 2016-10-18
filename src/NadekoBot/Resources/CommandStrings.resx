@@ -2646,4 +2646,22 @@
   <data name="resetpermissions_usage" xml:space="preserve">
     <value>`.resetperms`</value>
   </data>
+  <data name="antiraid_cmd" xml:space="preserve">
+    <value>antiraid</value>
+  </data>
+  <data name="antiraid_desc" xml:space="preserve">
+    <value>Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute)</value>
+  </data>
+  <data name="antiraid_usage" xml:space="preserve">
+    <value>`.antiraid 5 20 Kick`</value>
+  </data>
+  <data name="antispam_cmd" xml:space="preserve">
+    <value>antispam</value>
+  </data>
+  <data name="antispam_desc" xml:space="preserve">
+    <value>Stops people from repeating same message more than 2 times in a row. You can either specify to mute, kick or ban them if that happens.</value>
+  </data>
+  <data name="antispam_usage" xml:space="preserve">
+    <value>`.antispam Mute` or `.antispam Kick` or `.antispam Ban`</value>
+  </data>
 </root>
