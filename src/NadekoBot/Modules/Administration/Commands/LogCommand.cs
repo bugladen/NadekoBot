@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Administration
                     }
                     else
                         return;
-                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -367,7 +367,7 @@ namespace NadekoBot.Modules.Administration
 👤`{msg.Author.Username}`: {msg.Resolve(userHandling:UserMentionHandling.NameAndDiscriminator)}";
                     if (msg.Attachments.Any())
                         str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;

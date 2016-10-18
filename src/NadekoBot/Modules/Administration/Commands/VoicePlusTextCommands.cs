@@ -54,6 +54,7 @@ namespace NadekoBot.Modules.Administration
                             {
                                 uow.GuildConfigs.For(before.Guild.Id).VoicePlusTextEnabled = false;
                                 voicePlusTextCache.TryUpdate(guild.Id, false, true);
+                                await uow.CompleteAsync().ConfigureAwait(false);
                             }
                             return;
                         }

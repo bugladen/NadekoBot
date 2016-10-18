@@ -16,6 +16,7 @@ using NadekoBot.Services.Database.Models;
 using System.Net.Http;
 using ImageProcessorCore;
 using System.IO;
+using static NadekoBot.Modules.Permissions.Permissions;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -62,6 +63,14 @@ namespace NadekoBot.Modules.Administration
             {
                 var config = uow.GuildConfigs.PermissionsFor(channel.Guild.Id);
                 config.RootPermission = Permission.GetDefaultRoot();
+                var toAdd = new PermissionCache()
+                {
+                    RootPermission = config.RootPermission,
+                    PermRole = config.PermissionRole,
+                    Verbose = config.VerbosePermissions,
+                };
+                Permissions.Permissions.Cache.AddOrUpdate(channel.Guild.Id, 
+                    toAdd, (id, old) => toAdd);
                 await uow.CompleteAsync();
             }
 

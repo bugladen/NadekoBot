@@ -31,34 +31,38 @@ namespace NadekoBot.Modules.Administration
             {
                 var leftTask = Task.Run(async () =>
                 {
-                    GuildConfig conf;
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        conf = uow.GuildConfigs.For(user.Guild.Id);
-                    }
-
-                    if (!conf.SendChannelByeMessage) return;
-                    var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
-
-                    if (channel == null) //maybe warn the server owner that the channel is missing
-                        return;
-
-                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                    if (string.IsNullOrWhiteSpace(msg))
-                        return;
                     try
                     {
-                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteByeMessages)
+                        GuildConfig conf;
+                        using (var uow = DbHandler.UnitOfWork())
                         {
-                            var t = Task.Run(async () =>
-                            {
-                                await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
-                                await toDelete.DeleteAsync().ConfigureAwait(false);
-                            });
+                            conf = uow.GuildConfigs.For(user.Guild.Id);
                         }
+
+                        if (!conf.SendChannelByeMessage) return;
+                        var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
+
+                        if (channel == null) //maybe warn the server owner that the channel is missing
+                            return;
+
+                        var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                        if (string.IsNullOrWhiteSpace(msg))
+                            return;
+                        try
+                        {
+                            var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                            if (conf.AutoDeleteByeMessages)
+                            {
+                                var t = Task.Run(async () =>
+                                {
+                                    await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                                    try { await toDelete.DeleteAsync().ConfigureAwait(false); } catch { }
+                                });
+                            }
+                        }
+                        catch (Exception ex) { _log.Warn(ex); }
                     }
-                    catch (Exception ex) { _log.Warn(ex); }
+                    catch { }
                 });
                 return Task.CompletedTask;
             }
@@ -67,50 +71,54 @@ namespace NadekoBot.Modules.Administration
             {
                 var joinedTask = Task.Run(async () =>
                 {
-                    GuildConfig conf;
-                    using (var uow = DbHandler.UnitOfWork())
+                    try
                     {
-                        conf = uow.GuildConfigs.For(user.Guild.Id);
-                    }
-
-                    if (conf.SendChannelGreetMessage)
-                    {
-                        var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
-                        if (channel != null) //maybe warn the server owner that the channel is missing
+                        GuildConfig conf;
+                        using (var uow = DbHandler.UnitOfWork())
                         {
-                            var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                            if (!string.IsNullOrWhiteSpace(msg))
+                            conf = uow.GuildConfigs.For(user.Guild.Id);
+                        }
+
+                        if (conf.SendChannelGreetMessage)
+                        {
+                            var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
+                            if (channel != null) //maybe warn the server owner that the channel is missing
                             {
-                                try
+                                var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                if (!string.IsNullOrWhiteSpace(msg))
                                 {
-                                    var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                                    if (conf.AutoDeleteGreetMessages)
+                                    try
                                     {
-                                        var t = Task.Run(async () =>
+                                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                                        if (conf.AutoDeleteGreetMessages)
                                         {
-                                            await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
-                                        await toDelete.DeleteAsync().ConfigureAwait(false);
-                                        });
+                                            var t = Task.Run(async () =>
+                                            {
+                                                await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                                                try { await toDelete.DeleteAsync().ConfigureAwait(false); } catch { }
+                                            });
+                                        }
                                     }
+                                    catch (Exception ex) { _log.Warn(ex); }
                                 }
-                                catch (Exception ex) { _log.Warn(ex); }
                             }
                         }
-                    }
 
-                    if (conf.SendDmGreetMessage)
-                    {
-                        var channel = await user.CreateDMChannelAsync();
-
-                        if (channel != null)
+                        if (conf.SendDmGreetMessage)
                         {
-                            var msg = conf.DmGreetMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
-                            if (!string.IsNullOrWhiteSpace(msg))
+                            var channel = await user.CreateDMChannelAsync();
+
+                            if (channel != null)
                             {
-                                await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                                var msg = conf.DmGreetMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
+                                if (!string.IsNullOrWhiteSpace(msg))
+                                {
+                                    await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                                }
                             }
                         }
                     }
+                    catch { }
                 });
                 return Task.CompletedTask;
             }

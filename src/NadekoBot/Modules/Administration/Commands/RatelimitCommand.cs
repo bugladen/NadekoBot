@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -16,6 +17,7 @@ namespace NadekoBot.Modules.Administration
         public class RatelimitCommand
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
+            private Logger _log { get; }
 
             private ShardedDiscordClient _client { get; }
 
@@ -63,6 +65,7 @@ namespace NadekoBot.Modules.Administration
             public RatelimitCommand()
             {
                 this._client = NadekoBot.Client;
+                this._log = LogManager.GetCurrentClassLogger();
 
                _client.MessageReceived += (umsg) =>
                 {
@@ -78,7 +81,7 @@ namespace NadekoBot.Modules.Administration
                             return;
 
                         if (limiter.CheckUserRatelimit(usrMsg.Author.Id))
-                            await usrMsg.DeleteAsync();
+                            try { await usrMsg.DeleteAsync(); } catch (Exception ex) { _log.Warn(ex); }
                     });
                     return Task.CompletedTask;
                 };
