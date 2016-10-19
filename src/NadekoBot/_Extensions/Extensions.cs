@@ -338,7 +338,7 @@ namespace NadekoBot.Extensions
             return imageStream;
         }
 
-        private static readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|.me|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public static bool IsDiscordInvite(this string str)
             => filterRegex.IsMatch(str);
