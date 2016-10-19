@@ -10,7 +10,8 @@
       "exclude": [ "data" ]
     },
     "copyToOutput": {
-      "include": [ "data", "libs" ],
+      "include": [ "data" ],
+      "includeFiles": ["libsodium.dll", "opus.dll"],
       "exclude": [ "data/musicdata" ],
       "mappings": {
         "./": "./libs"

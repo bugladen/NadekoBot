@@ -46,6 +46,7 @@ namespace NadekoBot.Services.Impl
             var query = yt.Search.List("snippet");
             query.MaxResults = count;
             query.Type = "playlist";
+            query.Q = keywords;
 
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
