@@ -141,6 +141,12 @@ namespace NadekoBot.Modules.Music
             var currentSong = musicPlayer.CurrentSong;
             if (currentSong == null)
                 return;
+
+            if (currentSong.TotalLength == TimeSpan.Zero)
+            {
+                await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
+            }
+
             var toSend = $"🎵`Now Playing` {currentSong.PrettyName} " + $"{currentSong.PrettyCurrentTime()}\n";
             if (musicPlayer.RepeatSong)
                 toSend += "🔂";
@@ -168,6 +174,11 @@ namespace NadekoBot.Modules.Music
             var currentSong = musicPlayer.CurrentSong;
             if (currentSong == null)
                 return;
+
+            if (currentSong.TotalLength == TimeSpan.Zero)
+            {
+                await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
+            }
             await channel.SendMessageAsync($"🎵`Now Playing` {currentSong.PrettyName} " +
                                         $"{currentSong.PrettyCurrentTime()}").ConfigureAwait(false);
         }

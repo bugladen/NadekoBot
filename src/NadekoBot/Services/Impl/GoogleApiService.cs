@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using NLog;
+using System.Collections;
 
 namespace NadekoBot.Services.Impl
 {
@@ -130,6 +131,35 @@ namespace NadekoBot.Services.Impl
                 nextPageToken = data.NextPageToken;
             }
             while (count > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
+
+            return toReturn;
+        }
+
+        public async Task<IReadOnlyDictionary<string,TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
+        {
+            var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
+
+            Dictionary<string, TimeSpan> toReturn = new Dictionary<string, TimeSpan>();
+
+            if (!videoIdsList.Any())
+                return toReturn;
+            var toGet = 0;
+            var remaining = videoIdsList.Count;
+
+            do
+            {
+                toGet = remaining > 50 ? 50 : remaining;
+                remaining -= toGet;
+
+                var q = yt.Videos.List("contentDetails");
+                q.Id = string.Join(",", videoIds);
+                var items = (await q.ExecuteAsync().ConfigureAwait(false)).Items;
+                foreach (var i in items)
+                {
+                    toReturn.Add(i.Id, System.Xml.XmlConvert.ToTimeSpan(i.ContentDetails.Duration));
+                }
+            }
+            while (remaining > 0);
 
             return toReturn;
         }

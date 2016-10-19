@@ -243,6 +243,31 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
+        internal async Task UpdateSongDurationsAsync()
+        {
+            var curSong = CurrentSong;
+            var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
+                                                          s.TotalLength == TimeSpan.Zero);
+            if (curSong != null)
+                toUpdate = toUpdate.Append(curSong);
+            var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
+                              .Distinct();
+
+            var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
+
+            toUpdate.ForEach(s =>
+            {
+                foreach (var kvp in durations)
+                {
+                    if (s.SongInfo.Query.EndsWith(kvp.Key))
+                    {
+                        s.TotalLength = kvp.Value;
+                        return;
+                    }
+                }
+            });
+        }
+
         public void Destroy()
         {
             actionQueue.Enqueue(async () =>

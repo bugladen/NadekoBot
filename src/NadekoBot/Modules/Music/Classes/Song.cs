@@ -38,7 +38,14 @@ namespace NadekoBot.Modules.Music.Classes
         public string PrettyCurrentTime()
         {
             var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
-            return $"【{(int)time.TotalMinutes}m {time.Seconds}s】";
+            var str = $"【{(int)time.TotalMinutes}m {time.Seconds}s】**/** ";
+            if (TotalLength == TimeSpan.Zero)
+                str += "**?**";
+            else if (TotalLength == TimeSpan.MaxValue)
+                str += "**∞**";
+            else
+                str += $"【{(int)TotalLength.TotalMinutes}m {TotalLength.Seconds}s】";
+            return str;
         }
 
         const int milliseconds = 20;
@@ -59,6 +66,8 @@ namespace NadekoBot.Modules.Music.Classes
                 bytesSent = (ulong)skipTo * 3840 * 50;
             }
         }
+
+        public TimeSpan TotalLength { get; set; } = TimeSpan.Zero;
 
         public Song(SongInfo songInfo)
         {
@@ -263,7 +272,8 @@ namespace NadekoBot.Modules.Music.Classes
                             Provider = "Radio Stream",
                             ProviderType = musicType,
                             Query = query
-                        });
+                        })
+                        { TotalLength = TimeSpan.MaxValue };
                 }
                 if (SoundCloud.Default.IsSoundCloudLink(query))
                 {
@@ -275,7 +285,8 @@ namespace NadekoBot.Modules.Music.Classes
                         Uri = svideo.StreamLink,
                         ProviderType = musicType,
                         Query = svideo.TrackLink,
-                    });
+                    })
+                    { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
 
                 if (musicType == MusicType.Soundcloud)
@@ -288,7 +299,8 @@ namespace NadekoBot.Modules.Music.Classes
                         Uri = svideo.StreamLink,
                         ProviderType = MusicType.Normal,
                         Query = svideo.TrackLink,
-                    });
+                    })
+                    { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
 
                 var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
