@@ -47,6 +47,7 @@ namespace NadekoBot.Services.Impl
                 TotalShards = cm.TotalShards < 1 ? 1 : cm.TotalShards;
                 BotId = cm.BotId ?? cm.ClientId;
                 ClientId = cm.ClientId;
+                SoundCloudClientId = cm.SoundCloudClientId;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
                 else
