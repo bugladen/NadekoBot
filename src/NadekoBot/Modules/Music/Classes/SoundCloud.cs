@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Music.Classes
             var response = "";
             using (var http = new HttpClient())
             {
-                await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false);
             }
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
@@ -70,6 +70,7 @@ namespace NadekoBot.Modules.Music.Classes
         [JsonIgnore]
         public string FullName => User.Name + " - " + Title;
         public bool Streamable { get; set; } = false;
+        public int Duration { get; set; }
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
         [JsonIgnore]
