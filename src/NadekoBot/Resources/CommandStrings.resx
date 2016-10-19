@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -124,7 +124,7 @@
     <value>Either shows a help for a single command, or DMs you help link if no arguments are specified.</value>
   </data>
   <data name="h_usage" xml:space="preserve">
-    <value>`-h !!q` or `-h`</value>
+    <value>`{0}h !!q` or `{0}h`</value>
   </data>
   <data name="hgit_cmd" xml:space="preserve">
     <value>hgit</value>
@@ -133,7 +133,7 @@
     <value>Generates the commandlist.md file.</value>
   </data>
   <data name="hgit_usage" xml:space="preserve">
-    <value>`-hgit`</value>
+    <value>`{0}hgit`</value>
   </data>
   <data name="donate_cmd" xml:space="preserve">
     <value>donate</value>
@@ -142,7 +142,7 @@
     <value>Instructions for helping the project financially.</value>
   </data>
   <data name="donate_usage" xml:space="preserve">
-    <value>`-donate`</value>
+    <value>`{0}donate`</value>
   </data>
   <data name="modules_cmd" xml:space="preserve">
     <value>modules mdls</value>
@@ -151,7 +151,7 @@
     <value>Lists all bot modules.</value>
   </data>
   <data name="modules_usage" xml:space="preserve">
-    <value>`-modules`</value>
+    <value>`{0}modules`</value>
   </data>
   <data name="commands_cmd" xml:space="preserve">
     <value>commands cmds</value>
@@ -160,7 +160,7 @@
     <value>List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name.</value>
   </data>
   <data name="commands_usage" xml:space="preserve">
-    <value>`-commands Administration` or `-cmds Admin`</value>
+    <value>`{0}commands Administration` or `{0}cmds Admin`</value>
   </data>
   <data name="greetdel_cmd" xml:space="preserve">
     <value>greetdel grdel</value>
@@ -169,7 +169,7 @@
     <value>Toggles automatic deletion of greet messages. </value>
   </data>
   <data name="greetdel_usage" xml:space="preserve">
-    <value>`.greetdel`</value>
+    <value>`{0}greetdel`</value>
   </data>
   <data name="greet_cmd" xml:space="preserve">
     <value>greet</value>
@@ -178,7 +178,7 @@
     <value>Toggles anouncements on the current channel when someone joins the server. </value>
   </data>
   <data name="greet_usage" xml:space="preserve">
-    <value>`.greet`</value>
+    <value>`{0}greet`</value>
   </data>
   <data name="greetmsg_cmd" xml:space="preserve">
     <value>greetmsg</value>
@@ -187,7 +187,7 @@
     <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. </value>
   </data>
   <data name="greetmsg_usage" xml:space="preserve">
-    <value>`.greetmsg Welcome, %user%.`</value>
+    <value>`{0}greetmsg Welcome, %user%.`</value>
   </data>
   <data name="bye_cmd" xml:space="preserve">
     <value>bye</value>
@@ -196,7 +196,7 @@
     <value>Toggles anouncements on the current channel when someone leaves the server.</value>
   </data>
   <data name="bye_usage" xml:space="preserve">
-    <value>`.bye`</value>
+    <value>`{0}bye`</value>
   </data>
   <data name="byemsg_cmd" xml:space="preserve">
     <value>byemsg</value>
@@ -205,7 +205,7 @@
     <value>Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. </value>
   </data>
   <data name="byemsg_usage" xml:space="preserve">
-    <value>`.byemsg %user% has left.`</value>
+    <value>`{0}byemsg %user% has left.`</value>
   </data>
   <data name="byedel_cmd" xml:space="preserve">
     <value>byedel</value>
@@ -214,7 +214,7 @@
     <value>Toggles automatic deletion of bye messages. </value>
   </data>
   <data name="byedel_usage" xml:space="preserve">
-    <value>`.byedel`</value>
+    <value>`{0}byedel`</value>
   </data>
   <data name="greetdm_cmd" xml:space="preserve">
     <value>greetdm</value>
@@ -223,16 +223,7 @@
     <value>Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). </value>
   </data>
   <data name="greetdm_usage" xml:space="preserve">
-    <value>`.greetdm`</value>
-  </data>
-  <data name="spmom_cmd" xml:space="preserve">
-    <value>spmom</value>
-  </data>
-  <data name="spmom_desc" xml:space="preserve">
-    <value>Toggles whether mentions of other offline users on your server will send a pm to them. </value>
-  </data>
-  <data name="spmom_usage" xml:space="preserve">
-    <value>`.spmom`</value>
+    <value>`{0}greetdm`</value>
   </data>
   <data name="logserver_cmd" xml:space="preserve">
     <value>logserver</value>
@@ -241,7 +232,7 @@
     <value>Logs server activity in this channel.</value>
   </data>
   <data name="logserver_usage" xml:space="preserve">
-    <value>`.logserver`</value>
+    <value>`{0}logserver`</value>
   </data>
   <data name="logignore_cmd" xml:space="preserve">
     <value>logignore</value>
@@ -250,7 +241,7 @@
     <value>Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.</value>
   </data>
   <data name="logignore_usage" xml:space="preserve">
-    <value>`.logignore`</value>
+    <value>`{0}logignore`</value>
   </data>
   <data name="userpresence_cmd" xml:space="preserve">
     <value>userpresence</value>
@@ -259,7 +250,7 @@
     <value>Starts logging to this channel when someone from the server goes online/offline/idle. </value>
   </data>
   <data name="userpresence_usage" xml:space="preserve">
-    <value>`.userpresence`</value>
+    <value>`{0}userpresence`</value>
   </data>
   <data name="voicepresence_cmd" xml:space="preserve">
     <value>voicepresence</value>
@@ -268,7 +259,7 @@
     <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. </value>
   </data>
   <data name="voicepresence_usage" xml:space="preserve">
-    <value>`.voicepresence`</value>
+    <value>`{0}voicepresence`</value>
   </data>
   <data name="repeatinvoke_cmd" xml:space="preserve">
     <value>repeatinvoke repinv</value>
@@ -277,7 +268,7 @@
     <value>Immediately shows the repeat message and restarts the timer.  </value>
   </data>
   <data name="repeatinvoke_usage" xml:space="preserve">
-    <value>`.repinv`</value>
+    <value>`{0}repinv`</value>
   </data>
   <data name="repeat_cmd" xml:space="preserve">
     <value>repeat</value>
@@ -286,7 +277,7 @@
     <value>Repeat a message every X minutes. If no parameters are specified, repeat is disabled.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
-    <value>`.repeat 5 Hello there`</value>
+    <value>`{0}repeat 5 Hello there`</value>
   </data>
   <data name="rotateplaying_cmd" xml:space="preserve">
     <value>rotateplaying ropl</value>
@@ -295,7 +286,7 @@
     <value>Toggles rotation of playing status of the dynamic strings you previously specified.</value>
   </data>
   <data name="rotateplaying_usage" xml:space="preserve">
-    <value>`.ropl`</value>
+    <value>`{0}ropl`</value>
   </data>
   <data name="addplaying_cmd" xml:space="preserve">
     <value>addplaying adpl</value>
@@ -304,7 +295,7 @@
     <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%</value>
   </data>
   <data name="addplaying_usage" xml:space="preserve">
-    <value>`.adpl`</value>
+    <value>`{0}adpl`</value>
   </data>
   <data name="listplaying_cmd" xml:space="preserve">
     <value>listplaying lipl</value>
@@ -313,7 +304,7 @@
     <value>Lists all playing statuses with their corresponding number.</value>
   </data>
   <data name="listplaying_usage" xml:space="preserve">
-    <value>`.lipl`</value>
+    <value>`{0}lipl`</value>
   </data>
   <data name="removeplaying_cmd" xml:space="preserve">
     <value>removeplaying rmpl repl</value>
@@ -322,7 +313,7 @@
     <value>Removes a playing string on a given number. </value>
   </data>
   <data name="removeplaying_usage" xml:space="preserve">
-    <value>`.rmpl`</value>
+    <value>`{0}rmpl`</value>
   </data>
   <data name="slowmode_cmd" xml:space="preserve">
     <value>slowmode</value>
@@ -331,7 +322,7 @@
     <value>Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds.</value>
   </data>
   <data name="slowmode_usage" xml:space="preserve">
-    <value>`.slowmode 1 5` or `.slowmode`</value>
+    <value>`{0}slowmode 1 5` or `{0}slowmode`</value>
   </data>
   <data name="cleanvplust_cmd" xml:space="preserve">
     <value>cleanvplust cv+t</value>
@@ -340,7 +331,7 @@
     <value>Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk.</value>
   </data>
   <data name="cleanvplust_usage" xml:space="preserve">
-    <value>`.cleanv+t`</value>
+    <value>`{0}cleanv+t`</value>
   </data>
   <data name="voiceplustext_cmd" xml:space="preserve">
     <value>voice+text v+t</value>
@@ -349,7 +340,7 @@
     <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.  </value>
   </data>
   <data name="voiceplustext_usage" xml:space="preserve">
-    <value>`.voice+text`</value>
+    <value>`{0}voice+text`</value>
   </data>
   <data name="scsc_cmd" xml:space="preserve">
     <value>scsc</value>
@@ -358,7 +349,7 @@
     <value>Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance.</value>
   </data>
   <data name="scsc_usage" xml:space="preserve">
-    <value>`.scsc`</value>
+    <value>`{0}scsc`</value>
   </data>
   <data name="jcsc_cmd" xml:space="preserve">
     <value>jcsc</value>
@@ -367,7 +358,7 @@
     <value>Joins current channel to an instance of cross server channel using the token. </value>
   </data>
   <data name="jcsc_usage" xml:space="preserve">
-    <value>`.jcsc TokenHere`</value>
+    <value>`{0}jcsc TokenHere`</value>
   </data>
   <data name="lcsc_cmd" xml:space="preserve">
     <value>lcsc</value>
@@ -376,7 +367,7 @@
     <value>Leaves Cross server channel instance from this channel. </value>
   </data>
   <data name="lcsc_usage" xml:space="preserve">
-    <value>`.lcsc`</value>
+    <value>`{0}lcsc`</value>
   </data>
   <data name="asar_cmd" xml:space="preserve">
     <value>asar</value>
@@ -385,7 +376,7 @@
     <value>Adds a role to the list of self-assignable roles.</value>
   </data>
   <data name="asar_usage" xml:space="preserve">
-    <value>`.asar Gamer`</value>
+    <value>`{0}asar Gamer`</value>
   </data>
   <data name="rsar_cmd" xml:space="preserve">
     <value>rsar</value>
@@ -394,7 +385,7 @@
     <value>Removes a specified role from the list of self-assignable roles.</value>
   </data>
   <data name="rsar_usage" xml:space="preserve">
-    <value>`.rsar`</value>
+    <value>`{0}rsar`</value>
   </data>
   <data name="lsar_cmd" xml:space="preserve">
     <value>lsar</value>
@@ -403,7 +394,7 @@
     <value>Lists all self-assignable roles.</value>
   </data>
   <data name="lsar_usage" xml:space="preserve">
-    <value>`.lsar`</value>
+    <value>`{0}lsar`</value>
   </data>
   <data name="tesar_cmd" xml:space="preserve">
     <value>togglexclsar tesar</value>
@@ -412,7 +403,7 @@
     <value>Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles)</value>
   </data>
   <data name="tesar_usage" xml:space="preserve">
-    <value>`.tesar`</value>
+    <value>`{0}tesar`</value>
   </data>
   <data name="iam_cmd" xml:space="preserve">
     <value>iam</value>
@@ -421,7 +412,7 @@
     <value>Adds a role to you that you choose. Role must be on a list of self-assignable roles.</value>
   </data>
   <data name="iam_usage" xml:space="preserve">
-    <value>`.iam Gamer`</value>
+    <value>`{0}iam Gamer`</value>
   </data>
   <data name="iamnot_cmd" xml:space="preserve">
     <value>iamnot iamn</value>
@@ -430,7 +421,7 @@
     <value>Removes a role to you that you choose. Role must be on a list of self-assignable roles.</value>
   </data>
   <data name="iamnot_usage" xml:space="preserve">
-    <value>`.iamn Gamer`</value>
+    <value>`{0}iamn Gamer`</value>
   </data>
   <data name="addcustreact_cmd" xml:space="preserve">
     <value>addcustreact acr</value>
@@ -439,7 +430,7 @@
     <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/&gt;</value>
   </data>
   <data name="addcustreact_usage" xml:space="preserve">
-    <value>`.acr "hello" Hi there %user%`</value>
+    <value>`{0}acr "hello" Hi there %user%`</value>
   </data>
   <data name="listcustreact_cmd" xml:space="preserve">
     <value>listcustreact lcr</value>
@@ -448,7 +439,7 @@
     <value>Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.</value>
   </data>
   <data name="listcustreact_usage" xml:space="preserve">
-    <value>`.lcr 1`</value>
+    <value>`{0}lcr 1`</value>
   </data>
   <data name="showcustreact_cmd" xml:space="preserve">
     <value>showcustreact scr</value>
@@ -457,16 +448,7 @@
     <value>Shows a custom reaction's response on a given ID.</value>
   </data>
   <data name="showcustreact_usage" xml:space="preserve">
-    <value>`.scr 1`</value>
-  </data>
-  <data name="editcustreact_cmd" xml:space="preserve">
-    <value>editcustreact ecr</value>
-  </data>
-  <data name="editcustreact_desc" xml:space="preserve">
-    <value>Edits a custom reaction, arguments are custom reactions name, index to change, and a (multiword) message.</value>
-  </data>
-  <data name="editcustreact_usage" xml:space="preserve">
-    <value>`.ecr "%mention% disguise" 2 Test 123`</value>
+    <value>`{0}scr 1`</value>
   </data>
   <data name="delcustreact_cmd" xml:space="preserve">
     <value>delcustreact dcr</value>
@@ -475,7 +457,7 @@
     <value>Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.</value>
   </data>
   <data name="delcustreact_usage" xml:space="preserve">
-    <value>`.dcr 5`</value>
+    <value>`{0}dcr 5`</value>
   </data>
   <data name="autoassignrole_cmd" xml:space="preserve">
     <value>autoassignrole aar</value>
@@ -484,7 +466,7 @@
     <value>Automaticaly assigns a specified role to every user who joins the server. </value>
   </data>
   <data name="autoassignrole_usage" xml:space="preserve">
-    <value>`.aar` to disable, `.aar Role Name` to enable</value>
+    <value>`{0}aar` to disable, `{0}aar Role Name` to enable</value>
   </data>
   <data name="leave_cmd" xml:space="preserve">
     <value>leave</value>
@@ -493,25 +475,7 @@
     <value>Makes Nadeko leave the server. Either name or id required.  </value>
   </data>
   <data name="leave_usage" xml:space="preserve">
-    <value>`.leave 123123123331`</value>
-  </data>
-  <data name="listincidents_cmd" xml:space="preserve">
-    <value>listincidents lin</value>
-  </data>
-  <data name="listincidents_desc" xml:space="preserve">
-    <value>List all UNREAD incidents and flags them as read. </value>
-  </data>
-  <data name="listincidents_usage" xml:space="preserve">
-    <value>`.lin`</value>
-  </data>
-  <data name="listallincidents_cmd" xml:space="preserve">
-    <value>listallincidents lain</value>
-  </data>
-  <data name="listallincidents_desc" xml:space="preserve">
-    <value>Sends you a file containing all incidents and flags them as read. </value>
-  </data>
-  <data name="listallincidents_usage" xml:space="preserve">
-    <value>`.lain`</value>
+    <value>`{0}leave 123123123331`</value>
   </data>
   <data name="delmsgoncmd_cmd" xml:space="preserve">
     <value>delmsgoncmd</value>
@@ -520,7 +484,7 @@
     <value>Toggles the automatic deletion of user's successful command message to prevent chat flood.</value>
   </data>
   <data name="delmsgoncmd_usage" xml:space="preserve">
-    <value>`.delmsgoncmd`</value>
+    <value>`{0}delmsgoncmd`</value>
   </data>
   <data name="restart_cmd" xml:space="preserve">
     <value>restart</value>
@@ -529,7 +493,7 @@
     <value>Restarts the bot. Might not work.</value>
   </data>
   <data name="restart_usage" xml:space="preserve">
-    <value>`.restart`</value>
+    <value>`{0}restart`</value>
   </data>
   <data name="setrole_cmd" xml:space="preserve">
     <value>setrole sr</value>
@@ -538,7 +502,7 @@
     <value>Sets a role for a given user.  </value>
   </data>
   <data name="setrole_usage" xml:space="preserve">
-    <value>`.sr @User Guest`</value>
+    <value>`{0}sr @User Guest`</value>
   </data>
   <data name="removerole_cmd" xml:space="preserve">
     <value>removerole rr</value>
@@ -547,7 +511,7 @@
     <value>Removes a role from a given user.  </value>
   </data>
   <data name="removerole_usage" xml:space="preserve">
-    <value>`.rr @User Admin`</value>
+    <value>`{0}rr @User Admin`</value>
   </data>
   <data name="renamerole_cmd" xml:space="preserve">
     <value>renamerole renr</value>
@@ -556,7 +520,7 @@
     <value>Renames a role. Roles you are renaming must be lower than bot's highest role.</value>
   </data>
   <data name="renamerole_usage" xml:space="preserve">
-    <value>`.renr "First role" SecondRole`</value>
+    <value>`{0}renr "First role" SecondRole`</value>
   </data>
   <data name="removeallroles_cmd" xml:space="preserve">
     <value>removeallroles rar</value>
@@ -565,7 +529,7 @@
     <value>Removes all roles from a mentioned user.  </value>
   </data>
   <data name="removeallroles_usage" xml:space="preserve">
-    <value>`.rar @User`</value>
+    <value>`{0}rar @User`</value>
   </data>
   <data name="createrole_cmd" xml:space="preserve">
     <value>createrole cr</value>
@@ -574,7 +538,7 @@
     <value>Creates a role with a given name.  </value>
   </data>
   <data name="createrole_usage" xml:space="preserve">
-    <value>`.cr Awesome Role`</value>
+    <value>`{0}cr Awesome Role`</value>
   </data>
   <data name="rolecolor_cmd" xml:space="preserve">
     <value>rolecolor rc</value>
@@ -583,7 +547,7 @@
     <value>Set a role's color to the hex or 0-255 rgb color value provided.  </value>
   </data>
   <data name="rolecolor_usage" xml:space="preserve">
-    <value>`.rc Admin 255 200 100` or `.rc Admin ffba55`</value>
+    <value>`{0}rc Admin 255 200 100` or `{0}rc Admin ffba55`</value>
   </data>
   <data name="ban_cmd" xml:space="preserve">
     <value>ban b</value>
@@ -592,7 +556,7 @@
     <value>Bans a user by ID or name with an optional message.</value>
   </data>
   <data name="ban_usage" xml:space="preserve">
-    <value>`.b "@some Guy" Your behaviour is toxic.`</value>
+    <value>`{0}b "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="softban_cmd" xml:space="preserve">
     <value>softban sb</value>
@@ -601,7 +565,7 @@
     <value>Bans and then unbans a user by ID or name with an optional message.  </value>
   </data>
   <data name="softban_usage" xml:space="preserve">
-    <value>`.sb "@some Guy" Your behaviour is toxic.`</value>
+    <value>`{0}sb "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="kick_cmd" xml:space="preserve">
     <value>kick k</value>
@@ -610,16 +574,16 @@
     <value>Kicks a mentioned user.  </value>
   </data>
   <data name="kick_usage" xml:space="preserve">
-    <value>`.k "@some Guy" Your behaviour is toxic.`</value>
+    <value>`{0}k "@some Guy" Your behaviour is toxic.`</value>
   </data>
   <data name="mute_cmd" xml:space="preserve">
     <value>mute</value>
   </data>
   <data name="mute_desc" xml:space="preserve">
-    <value>Mutes a mentioned user both fom speaking and chatting.</value>
+    <value>Mutes a mentioned user both from speaking and chatting.</value>
   </data>
   <data name="mute_usage" xml:space="preserve">
-    <value>`.mute @Someone`</value>
+    <value>`{0}mute @Someone`</value>
   </data>
   <data name="voiceunmute_cmd" xml:space="preserve">
     <value>voiceunmute</value>
@@ -628,7 +592,7 @@
     <value>Gives a previously voice-muted user a permission to speak. </value>
   </data>
   <data name="voiceunmute_usage" xml:space="preserve">
-    <value>`.unmute @Someguy`</value>
+    <value>`{0}voiceunmute @Someguy`</value>
   </data>
   <data name="deafen_cmd" xml:space="preserve">
     <value>deafen deaf</value>
@@ -637,7 +601,7 @@
     <value>Deafens mentioned user or users.  </value>
   </data>
   <data name="deafen_usage" xml:space="preserve">
-    <value>`.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`</value>
+    <value>`{0}deaf "@Someguy"` or `{0}deaf "@Someguy" "@Someguy"`</value>
   </data>
   <data name="undeafen_cmd" xml:space="preserve">
     <value>undeafen undef</value>
@@ -646,7 +610,7 @@
     <value>Undeafens mentioned user or users.  </value>
   </data>
   <data name="undeafen_usage" xml:space="preserve">
-    <value>`.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`</value>
+    <value>`{0}undef "@Someguy"` or `{0}undef "@Someguy" "@Someguy"`</value>
   </data>
   <data name="delvoichanl_cmd" xml:space="preserve">
     <value>delvoichanl dvch</value>
@@ -655,7 +619,7 @@
     <value>Deletes a voice channel with a given name.  </value>
   </data>
   <data name="delvoichanl_usage" xml:space="preserve">
-    <value>`.dvch VoiceChannelName`</value>
+    <value>`{0}dvch VoiceChannelName`</value>
   </data>
   <data name="creatvoichanl_cmd" xml:space="preserve">
     <value>creatvoichanl cvch</value>
@@ -664,7 +628,7 @@
     <value>Creates a new voice channel with a given name.  </value>
   </data>
   <data name="creatvoichanl_usage" xml:space="preserve">
-    <value>`.cvch VoiceChannelName`</value>
+    <value>`{0}cvch VoiceChannelName`</value>
   </data>
   <data name="deltxtchanl_cmd" xml:space="preserve">
     <value>deltxtchanl dtch</value>
@@ -673,7 +637,7 @@
     <value>Deletes a text channel with a given name.  </value>
   </data>
   <data name="deltxtchanl_usage" xml:space="preserve">
-    <value>`.dtch TextChannelName`</value>
+    <value>`{0}dtch TextChannelName`</value>
   </data>
   <data name="creatxtchanl_cmd" xml:space="preserve">
     <value>creatxtchanl ctch</value>
@@ -682,7 +646,7 @@
     <value>Creates a new text channel with a given name.  </value>
   </data>
   <data name="creatxtchanl_usage" xml:space="preserve">
-    <value>`.ctch TextChannelName`</value>
+    <value>`{0}ctch TextChannelName`</value>
   </data>
   <data name="settopic_cmd" xml:space="preserve">
     <value>settopic st</value>
@@ -691,7 +655,7 @@
     <value>Sets a topic on the current channel.  </value>
   </data>
   <data name="settopic_usage" xml:space="preserve">
-    <value>`.st My new topic`</value>
+    <value>`{0}st My new topic`</value>
   </data>
   <data name="setchanlname_cmd" xml:space="preserve">
     <value>setchanlname schn</value>
@@ -700,25 +664,16 @@
     <value>Changes the name of the current channel.  </value>
   </data>
   <data name="setchanlname_usage" xml:space="preserve">
-    <value>`.schn NewName`</value>
-  </data>
-  <data name="heap_cmd" xml:space="preserve">
-    <value>heap</value>
-  </data>
-  <data name="heap_desc" xml:space="preserve">
-    <value>Shows allocated memory -  </value>
-  </data>
-  <data name="heap_usage" xml:space="preserve">
-    <value>`.heap`</value>
+    <value>`{0}schn NewName`</value>
   </data>
   <data name="prune_cmd" xml:space="preserve">
     <value>prune clr</value>
   </data>
   <data name="prune_desc" xml:space="preserve">
-    <value>`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.  </value>
+    <value>`{0}prune` removes all nadeko's messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone's messages in the last 100 messages.`{0}prune @Someone X` removes last X 'Someone's' messages in the channel.  </value>
   </data>
   <data name="prune_usage" xml:space="preserve">
-    <value>`.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`</value>
+    <value>`{0}prune` or `{0}prune 5` or `{0}prune @Someone` or `{0}prune @Someone X`</value>
   </data>
   <data name="die_cmd" xml:space="preserve">
     <value>die</value>
@@ -727,7 +682,7 @@
     <value>Shuts the bot down.</value>
   </data>
   <data name="die_usage" xml:space="preserve">
-    <value>`@NadekoBot die`</value>
+    <value>`{0}die`</value>
   </data>
   <data name="setname_cmd" xml:space="preserve">
     <value>setname newnm</value>
@@ -736,7 +691,7 @@
     <value>Gives the bot a new name.  </value>
   </data>
   <data name="setname_usage" xml:space="preserve">
-    <value>`.newnm BotName`</value>
+    <value>`{0}newnm BotName`</value>
   </data>
   <data name="setavatar_cmd" xml:space="preserve">
     <value>setavatar setav</value>
@@ -745,7 +700,7 @@
     <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  </value>
   </data>
   <data name="setavatar_usage" xml:space="preserve">
-    <value>`.setav http://i.imgur.com/xTG3a1I.jpg`</value>
+    <value>`{0}setav http://i.imgur.com/xTG3a1I.jpg`</value>
   </data>
   <data name="setgame_cmd" xml:space="preserve">
     <value>setgame</value>
@@ -754,7 +709,7 @@
     <value>Sets the bots game.  </value>
   </data>
   <data name="setgame_usage" xml:space="preserve">
-    <value>`.setgame Playing with kwoth`</value>
+    <value>`{0}setgame with snakes`</value>
   </data>
   <data name="send_cmd" xml:space="preserve">
     <value>send</value>
@@ -763,7 +718,7 @@
     <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`.</value>
   </data>
   <data name="send_usage" xml:space="preserve">
-    <value>`.send serverid|c:channelid` or `.send serverid|u:userid`</value>
+    <value>`{0}send serverid|c:channelid` or `{0}send serverid|u:userid`</value>
   </data>
   <data name="mentionrole_cmd" xml:space="preserve">
     <value>mentionrole menro</value>
@@ -772,7 +727,7 @@
     <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.</value>
   </data>
   <data name="mentionrole_usage" xml:space="preserve">
-    <value>`.menro RoleName`</value>
+    <value>`{0}menro RoleName`</value>
   </data>
   <data name="unstuck_cmd" xml:space="preserve">
     <value>unstuck</value>
@@ -781,7 +736,7 @@
     <value>Clears the message queue.  </value>
   </data>
   <data name="unstuck_usage" xml:space="preserve">
-    <value>`.unstuck`</value>
+    <value>`{0}unstuck`</value>
   </data>
   <data name="donators_cmd" xml:space="preserve">
     <value>donators</value>
@@ -790,7 +745,7 @@
     <value>List of lovely people who donated to keep this project alive.</value>
   </data>
   <data name="donators_usage" xml:space="preserve">
-    <value>`.donators`</value>
+    <value>`{0}donators`</value>
   </data>
   <data name="donadd_cmd" xml:space="preserve">
     <value>donadd</value>
@@ -799,7 +754,7 @@
     <value>Add a donator to the database.</value>
   </data>
   <data name="donadd_usage" xml:space="preserve">
-    <value>`.donadd Donate Amount`</value>
+    <value>`{0}donadd Donate Amount`</value>
   </data>
   <data name="announce_cmd" xml:space="preserve">
     <value>announce</value>
@@ -808,7 +763,7 @@
     <value>Sends a message to all servers' general channel bot is connected to.</value>
   </data>
   <data name="announce_usage" xml:space="preserve">
-    <value>`.announce Useless spam`</value>
+    <value>`{0}announce Useless spam`</value>
   </data>
   <data name="savechat_cmd" xml:space="preserve">
     <value>savechat</value>
@@ -817,7 +772,7 @@
     <value>Saves a number of messages to a text file and sends it to you.</value>
   </data>
   <data name="savechat_usage" xml:space="preserve">
-    <value>`.savechat 150`</value>
+    <value>`{0}savechat 150`</value>
   </data>
   <data name="remind_cmd" xml:space="preserve">
     <value>remind</value>
@@ -826,7 +781,7 @@
     <value>Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword)message.</value>
   </data>
   <data name="remind_usage" xml:space="preserve">
-    <value>`.remind me 1d5h Do something` or `.remind #general Start now!`</value>
+    <value>`{0}remind me 1d5h Do something` or `{0}remind #general Start now!`</value>
   </data>
   <data name="remindtemplate_cmd" xml:space="preserve">
     <value>remindtemplate</value>
@@ -835,7 +790,7 @@
     <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.  </value>
   </data>
   <data name="remindtemplate_usage" xml:space="preserve">
-    <value>`.remindtemplate %user%, you gotta do %message%!`</value>
+    <value>`{0}remindtemplate %user%, you gotta do %message%!`</value>
   </data>
   <data name="serverinfo_cmd" xml:space="preserve">
     <value>serverinfo sinfo</value>
@@ -844,7 +799,7 @@
     <value>Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.</value>
   </data>
   <data name="serverinfo_usage" xml:space="preserve">
-    <value>`.sinfo Some Server`</value>
+    <value>`{0}sinfo Some Server`</value>
   </data>
   <data name="channelinfo_cmd" xml:space="preserve">
     <value>channelinfo cinfo</value>
@@ -853,7 +808,7 @@
     <value>Shows info about the channel. If no channel is supplied, it defaults to current one.</value>
   </data>
   <data name="channelinfo_usage" xml:space="preserve">
-    <value>`.cinfo #some-channel`</value>
+    <value>`{0}cinfo #some-channel`</value>
   </data>
   <data name="userinfo_cmd" xml:space="preserve">
     <value>userinfo uinfo</value>
@@ -862,7 +817,7 @@
     <value>Shows info about the user. If no user is supplied, it defaults a user running the command.</value>
   </data>
   <data name="userinfo_usage" xml:space="preserve">
-    <value>`.uinfo @SomeUser`</value>
+    <value>`{0}uinfo @SomeUser`</value>
   </data>
   <data name="whosplaying_cmd" xml:space="preserve">
     <value>whosplaying whpl</value>
@@ -871,7 +826,7 @@
     <value>Shows a list of users who are playing the specified game.</value>
   </data>
   <data name="whosplaying_usage" xml:space="preserve">
-    <value>`.whpl Overwatch`</value>
+    <value>`{0}whpl Overwatch`</value>
   </data>
   <data name="inrole_cmd" xml:space="preserve">
     <value>inrole</value>
@@ -880,16 +835,16 @@
     <value>Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.</value>
   </data>
   <data name="inrole_usage" xml:space="preserve">
-    <value>`.inrole Role`</value>
+    <value>`{0}inrole Role`</value>
   </data>
   <data name="checkmyperms_cmd" xml:space="preserve">
     <value>checkmyperms</value>
   </data>
   <data name="checkmyperms_desc" xml:space="preserve">
-    <value>Checks your userspecific permissions on this channel.</value>
+    <value>Checks your user-specific permissions on this channel.</value>
   </data>
   <data name="checkmyperms_usage" xml:space="preserve">
-    <value>`.checkmyperms`</value>
+    <value>`{0}checkmyperms`</value>
   </data>
   <data name="stats_cmd" xml:space="preserve">
     <value>stats</value>
@@ -898,16 +853,7 @@
     <value>Shows some basic stats for Nadeko.</value>
   </data>
   <data name="stats_usage" xml:space="preserve">
-    <value>`.stats`</value>
-  </data>
-  <data name="dysyd_cmd" xml:space="preserve">
-    <value>dysyd</value>
-  </data>
-  <data name="dysyd_desc" xml:space="preserve">
-    <value>Shows some basic stats for Nadeko.</value>
-  </data>
-  <data name="dysyd_usage" xml:space="preserve">
-    <value>`.dysyd`</value>
+    <value>`{0}stats`</value>
   </data>
   <data name="userid_cmd" xml:space="preserve">
     <value>userid uid</value>
@@ -916,7 +862,7 @@
     <value>Shows user ID.</value>
   </data>
   <data name="userid_usage" xml:space="preserve">
-    <value>`.uid` or `.uid "@SomeGuy"`</value>
+    <value>`{0}uid` or `{0}uid "@SomeGuy"`</value>
   </data>
   <data name="channelid_cmd" xml:space="preserve">
     <value>channelid cid</value>
@@ -925,7 +871,7 @@
     <value>Shows current channel ID.</value>
   </data>
   <data name="channelid_usage" xml:space="preserve">
-    <value>`.cid`</value>
+    <value>`{0}cid`</value>
   </data>
   <data name="serverid_cmd" xml:space="preserve">
     <value>serverid sid</value>
@@ -934,7 +880,7 @@
     <value>Shows current server ID.</value>
   </data>
   <data name="serverid_usage" xml:space="preserve">
-    <value>`.sid`</value>
+    <value>`{0}sid`</value>
   </data>
   <data name="roles_cmd" xml:space="preserve">
     <value>roles</value>
@@ -943,7 +889,7 @@
     <value>List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page.</value>
   </data>
   <data name="roles_usage" xml:space="preserve">
-    <value>`.roles 2` or `.roles @Someone`</value>
+    <value>`{0}roles 2` or `{0}roles @Someone`</value>
   </data>
   <data name="channeltopic_cmd" xml:space="preserve">
     <value>channeltopic ct</value>
@@ -952,16 +898,16 @@
     <value>Sends current channel's topic as a message.</value>
   </data>
   <data name="channeltopic_usage" xml:space="preserve">
-    <value>`.ct`</value>
+    <value>`{0}ct`</value>
   </data>
   <data name="chnlfilterinv_cmd" xml:space="preserve">
     <value>chnlfilterinv cfi</value>
   </data>
   <data name="chnlfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the ;srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
+    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the {0}srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
   </data>
   <data name="chnlfilterinv_usage" xml:space="preserve">
-    <value>`;cfi`</value>
+    <value>`{0}cfi`</value>
   </data>
   <data name="srvrfilterinv_cmd" xml:space="preserve">
     <value>srvrfilterinv sfi</value>
@@ -970,25 +916,25 @@
     <value>Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner.</value>
   </data>
   <data name="srvrfilterinv_usage" xml:space="preserve">
-    <value>`;sfi`</value>
+    <value>`{0}sfi`</value>
   </data>
   <data name="chnlfilterwords_cmd" xml:space="preserve">
     <value>chnlfilterwords cfw</value>
   </data>
   <data name="chnlfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.</value>
+    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the {0}srvrfilterwords enabled setting. Does not affect bot owner.</value>
   </data>
   <data name="chnlfilterwords_usage" xml:space="preserve">
-    <value>`;cfw`</value>
+    <value>`{0}cfw`</value>
   </data>
   <data name="filterword_cmd" xml:space="preserve">
     <value>fw</value>
   </data>
   <data name="filterword_desc" xml:space="preserve">
-    <value>Adds or removes (if it exists) a word from the list of filtered words. Use` ;sfw` or `;cfw` to toggle filtering.</value>
+    <value>Adds or removes (if it exists) a word from the list of filtered words. Use`{0}sfw` or `{0}cfw` to toggle filtering.</value>
   </data>
   <data name="filterword_usage" xml:space="preserve">
-    <value>`;fw poop`</value>
+    <value>`{0}fw poop`</value>
   </data>
   <data name="lstfilterwords_cmd" xml:space="preserve">
     <value>lstfilterwords lfw</value>
@@ -997,7 +943,7 @@
     <value>Shows a list of filtered words.</value>
   </data>
   <data name="lstfilterwords_usage" xml:space="preserve">
-    <value>`;lfw`</value>
+    <value>`{0}lfw`</value>
   </data>
   <data name="srvrfilterwords_cmd" xml:space="preserve">
     <value>srvrfilterwords sfw</value>
@@ -1006,7 +952,7 @@
     <value>Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner.</value>
   </data>
   <data name="srvrfilterwords_usage" xml:space="preserve">
-    <value>`;sfw`</value>
+    <value>`{0}sfw`</value>
   </data>
   <data name="permrole_cmd" xml:space="preserve">
     <value>permrole pr</value>
@@ -1015,34 +961,7 @@
     <value>Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.</value>
   </data>
   <data name="permrole_usage" xml:space="preserve">
-    <value>`;pr role`</value>
-  </data>
-  <data name="rolepermscopy_cmd" xml:space="preserve">
-    <value>rolepermscopy rpc</value>
-  </data>
-  <data name="rolepermscopy_desc" xml:space="preserve">
-    <value>Copies BOT PERMISSIONS (not discord permissions) from one role to another.</value>
-  </data>
-  <data name="rolepermscopy_usage" xml:space="preserve">
-    <value>`;rpc Some Role ~ Some other role`</value>
-  </data>
-  <data name="chnlpermscopy_cmd" xml:space="preserve">
-    <value>chnlpermscopy cpc</value>
-  </data>
-  <data name="chnlpermscopy_desc" xml:space="preserve">
-    <value>Copies BOT PERMISSIONS (not discord permissions) from one channel to another.</value>
-  </data>
-  <data name="chnlpermscopy_usage" xml:space="preserve">
-    <value>`;cpc Some Channel ~ Some other channel`</value>
-  </data>
-  <data name="usrpermscopy_cmd" xml:space="preserve">
-    <value>usrpermscopy upc</value>
-  </data>
-  <data name="usrpermscopy_desc" xml:space="preserve">
-    <value>Copies BOT PERMISSIONS (not discord permissions) from one role to another.</value>
-  </data>
-  <data name="usrpermscopy_usage" xml:space="preserve">
-    <value>`;upc @SomeUser ~ @SomeOtherUser`</value>
+    <value>`{0}pr role`</value>
   </data>
   <data name="verbose_cmd" xml:space="preserve">
     <value>verbose v</value>
@@ -1051,43 +970,7 @@
     <value>Sets whether to show when a command/module is blocked.</value>
   </data>
   <data name="verbose_usage" xml:space="preserve">
-    <value>`;verbose true`</value>
-  </data>
-  <data name="srvrperms_cmd" xml:space="preserve">
-    <value>srvrperms sp</value>
-  </data>
-  <data name="srvrperms_desc" xml:space="preserve">
-    <value>Shows banned permissions for this server.</value>
-  </data>
-  <data name="srvrperms_usage" xml:space="preserve">
-    <value>`;sp`</value>
-  </data>
-  <data name="roleperms_cmd" xml:space="preserve">
-    <value>roleperms rp</value>
-  </data>
-  <data name="roleperms_desc" xml:space="preserve">
-    <value>Shows banned permissions for a certain role. No argument means for everyone.</value>
-  </data>
-  <data name="roleperms_usage" xml:space="preserve">
-    <value>`;rp AwesomeRole`</value>
-  </data>
-  <data name="chnlperms_cmd" xml:space="preserve">
-    <value>chnlperms cp</value>
-  </data>
-  <data name="chnlperms_desc" xml:space="preserve">
-    <value>Shows banned permissions for a certain channel. No argument means for this channel.</value>
-  </data>
-  <data name="chnlperms_usage" xml:space="preserve">
-    <value>`;cp #dev`</value>
-  </data>
-  <data name="userperms_cmd" xml:space="preserve">
-    <value>userperms up</value>
-  </data>
-  <data name="userperms_desc" xml:space="preserve">
-    <value>Shows banned permissions for a certain user. No argument means for yourself.</value>
-  </data>
-  <data name="userperms_usage" xml:space="preserve">
-    <value>`;up Kwoth`</value>
+    <value>`{0}verbose true`</value>
   </data>
   <data name="srvrmdl_cmd" xml:space="preserve">
     <value>srvrmdl sm</value>
@@ -1096,7 +979,7 @@
     <value>Sets a module's permission at the server level.</value>
   </data>
   <data name="srvrmdl_usage" xml:space="preserve">
-    <value>`;sm "module name" enable`</value>
+    <value>`{0}sm "module name" enable`</value>
   </data>
   <data name="srvrcmd_cmd" xml:space="preserve">
     <value>srvrcmd sc</value>
@@ -1105,7 +988,7 @@
     <value>Sets a command's permission at the server level.</value>
   </data>
   <data name="srvrcmd_usage" xml:space="preserve">
-    <value>`;sc "command name" disable`</value>
+    <value>`{0}sc "command name" disable`</value>
   </data>
   <data name="rolemdl_cmd" xml:space="preserve">
     <value>rolemdl rm</value>
@@ -1114,7 +997,7 @@
     <value>Sets a module's permission at the role level.</value>
   </data>
   <data name="rolemdl_usage" xml:space="preserve">
-    <value>`;rm "module name" enable MyRole`</value>
+    <value>`{0}rm "module name" enable MyRole`</value>
   </data>
   <data name="rolecmd_cmd" xml:space="preserve">
     <value>rolecmd rc</value>
@@ -1123,7 +1006,7 @@
     <value>Sets a command's permission at the role level.</value>
   </data>
   <data name="rolecmd_usage" xml:space="preserve">
-    <value>`;rc "command name" disable MyRole`</value>
+    <value>`{0}rc "command name" disable MyRole`</value>
   </data>
   <data name="chnlmdl_cmd" xml:space="preserve">
     <value>chnlmdl cm</value>
@@ -1132,7 +1015,7 @@
     <value>Sets a module's permission at the channel level.</value>
   </data>
   <data name="chnlmdl_usage" xml:space="preserve">
-    <value>`;cm "module name" enable SomeChannel`</value>
+    <value>`{0}cm "module name" enable SomeChannel`</value>
   </data>
   <data name="chnlcmd_cmd" xml:space="preserve">
     <value>chnlcmd cc</value>
@@ -1141,7 +1024,7 @@
     <value>Sets a command's permission at the channel level.</value>
   </data>
   <data name="chnlcmd_usage" xml:space="preserve">
-    <value>`;cc "command name" enable SomeChannel`</value>
+    <value>`{0}cc "command name" enable SomeChannel`</value>
   </data>
   <data name="usrmdl_cmd" xml:space="preserve">
     <value>usrmdl um</value>
@@ -1150,7 +1033,7 @@
     <value>Sets a module's permission at the user level.</value>
   </data>
   <data name="usrmdl_usage" xml:space="preserve">
-    <value>`;um "module name" enable SomeUsername`</value>
+    <value>`{0}um "module name" enable SomeUsername`</value>
   </data>
   <data name="usrcmd_cmd" xml:space="preserve">
     <value>usrcmd uc</value>
@@ -1159,7 +1042,7 @@
     <value>Sets a command's permission at the user level.</value>
   </data>
   <data name="usrcmd_usage" xml:space="preserve">
-    <value>`;uc "command name" enable SomeUsername`</value>
+    <value>`{0}uc "command name" enable SomeUsername`</value>
   </data>
   <data name="allsrvrmdls_cmd" xml:space="preserve">
     <value>allsrvrmdls asm</value>
@@ -1168,7 +1051,7 @@
     <value>Enable or disable all modules for your server.</value>
   </data>
   <data name="allsrvrmdls_usage" xml:space="preserve">
-    <value>`;asm [enable/disable]`</value>
+    <value>`{0}asm [enable/disable]`</value>
   </data>
   <data name="allchnlmdls_cmd" xml:space="preserve">
     <value>allchnlmdls acm</value>
@@ -1177,7 +1060,7 @@
     <value>Enable or disable all modules in a specified channel.</value>
   </data>
   <data name="allchnlmdls_usage" xml:space="preserve">
-    <value>`;acm enable #SomeChannel`</value>
+    <value>`{0}acm enable #SomeChannel`</value>
   </data>
   <data name="allrolemdls_cmd" xml:space="preserve">
     <value>allrolemdls arm</value>
@@ -1186,7 +1069,7 @@
     <value>Enable or disable all modules for a specific role.</value>
   </data>
   <data name="allrolemdls_usage" xml:space="preserve">
-    <value>`;arm [enable/disable] MyRole`</value>
+    <value>`{0}arm [enable/disable] MyRole`</value>
   </data>
   <data name="userblacklist_cmd" xml:space="preserve">
     <value>ubl</value>
@@ -1195,7 +1078,7 @@
     <value>Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist.</value>
   </data>
   <data name="userblacklist_usage" xml:space="preserve">
-    <value>`;ubl add @SomeUser` or `;ubl rem 12312312313`</value>
+    <value>`{0}ubl add @SomeUser` or `{0}ubl rem 12312312313`</value>
   </data>
   <data name="channelblacklist_cmd" xml:space="preserve">
     <value>cbl</value>
@@ -1204,7 +1087,7 @@
     <value>Either [add]s or [rem]oves a channel specified by an ID from a blacklist.</value>
   </data>
   <data name="channelblacklist_usage" xml:space="preserve">
-    <value>`;cbl rem 12312312312`</value>
+    <value>`{0}cbl rem 12312312312`</value>
   </data>
   <data name="serverblacklist_cmd" xml:space="preserve">
     <value>sbl</value>
@@ -1213,7 +1096,7 @@
     <value>Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist.</value>
   </data>
   <data name="serverblacklist_usage" xml:space="preserve">
-    <value>`;sbl add 12312321312` or `;sbl rem SomeTrashServer`</value>
+    <value>`{0}sbl add 12312321312` or `{0}sbl rem SomeTrashServer`</value>
   </data>
   <data name="cmdcooldown_cmd" xml:space="preserve">
     <value>cmdcooldown cmdcd</value>
@@ -1222,7 +1105,7 @@
     <value>Sets a cooldown per user for a command. Set to 0 to remove the cooldown.</value>
   </data>
   <data name="cmdcooldown_usage" xml:space="preserve">
-    <value>`;cmdcd "some cmd" 5`</value>
+    <value>`{0}cmdcd "some cmd" 5`</value>
   </data>
   <data name="allcmdcooldowns_cmd" xml:space="preserve">
     <value>allcmdcooldowns acmdcds</value>
@@ -1231,7 +1114,7 @@
     <value>Shows a list of all commands and their respective cooldowns.</value>
   </data>
   <data name="allcmdcooldowns_usage" xml:space="preserve">
-    <value>`;acmdcds`</value>
+    <value>`{0}acmdcds`</value>
   </data>
   <data name="addquote_cmd" xml:space="preserve">
     <value>.</value>
@@ -1240,7 +1123,7 @@
     <value>Adds a new quote with the specified name and message.</value>
   </data>
   <data name="addquote_usage" xml:space="preserve">
-    <value>`.. sayhi Hi`</value>
+    <value>`{0}. sayhi Hi`</value>
   </data>
   <data name="showquote_cmd" xml:space="preserve">
     <value>..</value>
@@ -1249,7 +1132,7 @@
     <value>Shows a random quote with a specified name.</value>
   </data>
   <data name="showquote_usage" xml:space="preserve">
-    <value>`... abc`</value>
+    <value>`{0}.. abc`</value>
   </data>
   <data name="deletequote_cmd" xml:space="preserve">
     <value>deletequote delq</value>
@@ -1258,43 +1141,7 @@
     <value>Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.</value>
   </data>
   <data name="deletequote_usage" xml:space="preserve">
-    <value>`.delq abc`</value>
-  </data>
-  <data name="rip_cmd" xml:space="preserve">
-    <value>rip</value>
-  </data>
-  <data name="rip_desc" xml:space="preserve">
-    <value>Shows a grave image of someone with a start year</value>
-  </data>
-  <data name="rip_usage" xml:space="preserve">
-    <value>`@NadekoBot rip @Someone 2000`</value>
-  </data>
-  <data name="doyouloveme_cmd" xml:space="preserve">
-    <value>do you love me</value>
-  </data>
-  <data name="doyouloveme_desc" xml:space="preserve">
-    <value>Replies with positive answer only to the bot owner.</value>
-  </data>
-  <data name="doyouloveme_usage" xml:space="preserve">
-    <value>`@NadekoBot do you love me`</value>
-  </data>
-  <data name="howareyou_cmd" xml:space="preserve">
-    <value>how are you</value>
-  </data>
-  <data name="howareyou_desc" xml:space="preserve">
-    <value>Replies positive only if bot owner is online.</value>
-  </data>
-  <data name="howareyou_usage" xml:space="preserve">
-    <value>`@NadekoBot how are you`</value>
-  </data>
-  <data name="fire_cmd" xml:space="preserve">
-    <value>fire</value>
-  </data>
-  <data name="fire_desc" xml:space="preserve">
-    <value>Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire.</value>
-  </data>
-  <data name="fire_usage" xml:space="preserve">
-    <value>`@NadekoBot fire [x]`</value>
+    <value>`{0}delq abc`</value>
   </data>
   <data name="draw_cmd" xml:space="preserve">
     <value>draw</value>
@@ -1303,7 +1150,7 @@
     <value>Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.</value>
   </data>
   <data name="draw_usage" xml:space="preserve">
-    <value>`$draw` or `$draw 5`</value>
+    <value>`{0}draw` or `{0}draw 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
     <value>shuffle sh</value>
@@ -1312,7 +1159,7 @@
     <value>Shuffles the current playlist.</value>
   </data>
   <data name="shuffleplaylist_usage" xml:space="preserve">
-    <value>`!!sh`</value>
+    <value>`{0}sh`</value>
   </data>
   <data name="flip_cmd" xml:space="preserve">
     <value>flip</value>
@@ -1321,7 +1168,7 @@
     <value>Flips coin(s) - heads or tails, and shows an image.</value>
   </data>
   <data name="flip_usage" xml:space="preserve">
-    <value>`$flip` or `$flip 3`</value>
+    <value>`{0}flip` or `{0}flip 3`</value>
   </data>
   <data name="betflip_cmd" xml:space="preserve">
     <value>betflip bf</value>
@@ -1330,7 +1177,7 @@
     <value>Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet.</value>
   </data>
   <data name="betflip_usage" xml:space="preserve">
-    <value>`$bf 5 heads` or `$bf 3 t`</value>
+    <value>`{0}bf 5 heads` or `{0}bf 3 t`</value>
   </data>
   <data name="roll_cmd" xml:space="preserve">
     <value>roll</value>
@@ -1339,7 +1186,7 @@
     <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
   </data>
   <data name="roll_usage" xml:space="preserve">
-    <value>`$roll` or `$roll 7` or `$roll 3d5`</value>
+    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5`</value>
   </data>
   <data name="rolluo_cmd" xml:space="preserve">
     <value>rolluo</value>
@@ -1348,7 +1195,7 @@
     <value>Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
   </data>
   <data name="rolluo_usage" xml:space="preserve">
-    <value>`$rolluo` or `$rolluo 7` or `$rolluo 3d5`</value>
+    <value>`{0}rolluo` or `{0}rolluo 7` or `{0}rolluo 3d5`</value>
   </data>
   <data name="nroll_cmd" xml:space="preserve">
     <value>nroll</value>
@@ -1357,7 +1204,7 @@
     <value>Rolls in a given range.</value>
   </data>
   <data name="nroll_usage" xml:space="preserve">
-    <value>`$nroll 5` (rolls 0-5) or `$nroll 5-15`</value>
+    <value>`{0}nroll 5` (rolls 0-5) or `{0}nroll 5-15`</value>
   </data>
   <data name="race_cmd" xml:space="preserve">
     <value>race</value>
@@ -1366,7 +1213,7 @@
     <value>Starts a new animal race.</value>
   </data>
   <data name="race_usage" xml:space="preserve">
-    <value>`$race`</value>
+    <value>`{0}race`</value>
   </data>
   <data name="joinrace_cmd" xml:space="preserve">
     <value>joinrace jr</value>
@@ -1375,7 +1222,7 @@
     <value>Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win.</value>
   </data>
   <data name="joinrace_usage" xml:space="preserve">
-    <value>`$jr` or `$jr 5`</value>
+    <value>`{0}jr` or `{0}jr 5`</value>
   </data>
   <data name="raffle_cmd" xml:space="preserve">
     <value>raffle</value>
@@ -1384,7 +1231,7 @@
     <value>Prints a name and ID of a random user from the online list from the (optional) role.</value>
   </data>
   <data name="raffle_usage" xml:space="preserve">
-    <value>`$raffle` or `$raffle RoleName`</value>
+    <value>`{0}raffle` or `{0}raffle RoleName`</value>
   </data>
   <data name="give_cmd" xml:space="preserve">
     <value>give</value>
@@ -1393,7 +1240,7 @@
     <value>Give someone a certain amount of currency.</value>
   </data>
   <data name="give_usage" xml:space="preserve">
-    <value>`$give 1 "@SomeGuy"`</value>
+    <value>`{0}give 1 "@SomeGuy"`</value>
   </data>
   <data name="award_cmd" xml:space="preserve">
     <value>award</value>
@@ -1402,7 +1249,7 @@
     <value>Awards someone a certain amount of currency.  </value>
   </data>
   <data name="award_usage" xml:space="preserve">
-    <value>`$award 100 @person`</value>
+    <value>`{0}award 100 @person`</value>
   </data>
   <data name="take_cmd" xml:space="preserve">
     <value>take</value>
@@ -1411,7 +1258,7 @@
     <value>Takes a certain amount of flowers from someone.  </value>
   </data>
   <data name="take_usage" xml:space="preserve">
-    <value>`$take 1 "@someguy"`</value>
+    <value>`{0}take 1 "@someguy"`</value>
   </data>
   <data name="betroll_cmd" xml:space="preserve">
     <value>betroll br</value>
@@ -1420,7 +1267,7 @@
     <value>Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10.</value>
   </data>
   <data name="betroll_usage" xml:space="preserve">
-    <value>`$br 5`</value>
+    <value>`{0}br 5`</value>
   </data>
   <data name="leaderboard_cmd" xml:space="preserve">
     <value>leaderboard lb</value>
@@ -1429,7 +1276,7 @@
     <value>Displays bot currency leaderboard.</value>
   </data>
   <data name="leaderboard_usage" xml:space="preserve">
-    <value>`$lb`</value>
+    <value>`{0}lb`</value>
   </data>
   <data name="trivia_cmd" xml:space="preserve">
     <value>trivia t</value>
@@ -1438,7 +1285,7 @@
     <value>Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
   </data>
   <data name="trivia_usage" xml:space="preserve">
-    <value>`&gt;t nohint` or `&gt;t 5 nohint`</value>
+    <value>`{0}t` or `{0}t 5 nohint`</value>
   </data>
   <data name="tl_cmd" xml:space="preserve">
     <value>tl</value>
@@ -1447,7 +1294,7 @@
     <value>Shows a current trivia leaderboard.</value>
   </data>
   <data name="tl_usage" xml:space="preserve">
-    <value>`&gt;tl`</value>
+    <value>`{0}tl`</value>
   </data>
   <data name="tq_cmd" xml:space="preserve">
     <value>tq</value>
@@ -1456,7 +1303,7 @@
     <value>Quits current trivia after current question.</value>
   </data>
   <data name="tq_usage" xml:space="preserve">
-    <value>`&gt;tq`</value>
+    <value>`{0}tq`</value>
   </data>
   <data name="typestart_cmd" xml:space="preserve">
     <value>typestart</value>
@@ -1465,7 +1312,7 @@
     <value>Starts a typing contest.</value>
   </data>
   <data name="typestart_usage" xml:space="preserve">
-    <value>`&gt;typestart`</value>
+    <value>`{0}typestart`</value>
   </data>
   <data name="typestop_cmd" xml:space="preserve">
     <value>typestop</value>
@@ -1474,7 +1321,7 @@
     <value>Stops a typing contest on the current channel.</value>
   </data>
   <data name="typestop_usage" xml:space="preserve">
-    <value>`&gt;typestop`</value>
+    <value>`{0}typestop`</value>
   </data>
   <data name="typeadd_cmd" xml:space="preserve">
     <value>typeadd</value>
@@ -1483,7 +1330,7 @@
     <value>Adds a new article to the typing contest.</value>
   </data>
   <data name="typeadd_usage" xml:space="preserve">
-    <value>`&gt;typeadd wordswords`</value>
+    <value>`{0}typeadd wordswords`</value>
   </data>
   <data name="poll_cmd" xml:space="preserve">
     <value>poll</value>
@@ -1492,7 +1339,7 @@
     <value>Creates a poll, only person who has manage server permission can do it.</value>
   </data>
   <data name="poll_usage" xml:space="preserve">
-    <value>`&gt;poll Question?;Answer1;Answ 2;A_3`</value>
+    <value>`{0}poll Question?;Answer1;Answ 2;A_3`</value>
   </data>
   <data name="pollend_cmd" xml:space="preserve">
     <value>pollend</value>
@@ -1501,7 +1348,7 @@
     <value>Stops active poll on this server and prints the results in this channel.</value>
   </data>
   <data name="pollend_usage" xml:space="preserve">
-    <value>`&gt;pollend`</value>
+    <value>`{0}pollend`</value>
   </data>
   <data name="pick_cmd" xml:space="preserve">
     <value>pick</value>
@@ -1510,7 +1357,7 @@
     <value>Picks a flower planted in this channel.</value>
   </data>
   <data name="pick_usage" xml:space="preserve">
-    <value>`&gt;pick`</value>
+    <value>`{0}pick`</value>
   </data>
   <data name="plant_cmd" xml:space="preserve">
     <value>plant</value>
@@ -1519,7 +1366,7 @@
     <value>Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)</value>
   </data>
   <data name="plant_usage" xml:space="preserve">
-    <value>`&gt;plant`</value>
+    <value>`{0}plant`</value>
   </data>
   <data name="gencurrency_cmd" xml:space="preserve">
     <value>gencurrency gc</value>
@@ -1528,7 +1375,7 @@
     <value>Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%)</value>
   </data>
   <data name="gencurrency_usage" xml:space="preserve">
-    <value>`&gt;gc`</value>
+    <value>`{0}gc`</value>
   </data>
   <data name="leet_cmd" xml:space="preserve">
     <value>leet</value>
@@ -1537,7 +1384,7 @@
     <value>Converts a text to leetspeak with 6 (1-6) severity levels</value>
   </data>
   <data name="leet_usage" xml:space="preserve">
-    <value>`&gt;leet 3 Hello`</value>
+    <value>`{0}leet 3 Hello`</value>
   </data>
   <data name="choose_cmd" xml:space="preserve">
     <value>choose</value>
@@ -1546,7 +1393,7 @@
     <value>Chooses a thing from a list of things</value>
   </data>
   <data name="choose_usage" xml:space="preserve">
-    <value>`&gt;choose Get up;Sleep;Sleep more`</value>
+    <value>`{0}choose Get up;Sleep;Sleep more`</value>
   </data>
   <data name="_8ball_cmd" xml:space="preserve">
     <value>8ball</value>
@@ -1555,7 +1402,7 @@
     <value>Ask the 8ball a yes/no question.</value>
   </data>
   <data name="_8ball_usage" xml:space="preserve">
-    <value>`&gt;8ball should I do something`</value>
+    <value>`{0}8ball should I do something`</value>
   </data>
   <data name="rps_cmd" xml:space="preserve">
     <value>rps</value>
@@ -1564,7 +1411,7 @@
     <value>Play a game of rocket paperclip scissors with Nadeko.</value>
   </data>
   <data name="rps_usage" xml:space="preserve">
-    <value>`&gt;rps scissors`</value>
+    <value>`{0}rps scissors`</value>
   </data>
   <data name="linux_cmd" xml:space="preserve">
     <value>linux</value>
@@ -1573,7 +1420,7 @@
     <value>Prints a customizable Linux interjection</value>
   </data>
   <data name="linux_usage" xml:space="preserve">
-    <value>`&gt;linux Spyware Windows`</value>
+    <value>`{0}linux Spyware Windows`</value>
   </data>
   <data name="next_cmd" xml:space="preserve">
     <value>next n</value>
@@ -1582,7 +1429,7 @@
     <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot.</value>
   </data>
   <data name="next_usage" xml:space="preserve">
-    <value>`!!n`</value>
+    <value>`{0}n`</value>
   </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
@@ -1591,7 +1438,7 @@
     <value>Stops the music and clears the playlist. Stays in the channel.</value>
   </data>
   <data name="stop_usage" xml:space="preserve">
-    <value>`!!s`</value>
+    <value>`{0}s`</value>
   </data>
   <data name="destroy_cmd" xml:space="preserve">
     <value>destroy d</value>
@@ -1600,7 +1447,7 @@
     <value>Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)</value>
   </data>
   <data name="destroy_usage" xml:space="preserve">
-    <value>`!!d`</value>
+    <value>`{0}d`</value>
   </data>
   <data name="pause_cmd" xml:space="preserve">
     <value>pause p</value>
@@ -1609,7 +1456,7 @@
     <value>Pauses or Unpauses the song.</value>
   </data>
   <data name="pause_usage" xml:space="preserve">
-    <value>`!!p`</value>
+    <value>`{0}p`</value>
   </data>
   <data name="queue_cmd" xml:space="preserve">
     <value>queue q yq</value>
@@ -1618,7 +1465,7 @@
     <value>Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.</value>
   </data>
   <data name="queue_usage" xml:space="preserve">
-    <value>`!!q Dream Of Venice`</value>
+    <value>`{0}q Dream Of Venice`</value>
   </data>
   <data name="soundcloudqueue_cmd" xml:space="preserve">
     <value>soundcloudqueue sq</value>
@@ -1627,7 +1474,7 @@
     <value>Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.</value>
   </data>
   <data name="soundcloudqueue_usage" xml:space="preserve">
-    <value>`!!sq Dream Of Venice`</value>
+    <value>`{0}sq Dream Of Venice`</value>
   </data>
   <data name="listqueue_cmd" xml:space="preserve">
     <value>listqueue lq</value>
@@ -1636,7 +1483,7 @@
     <value>Lists 15 currently queued songs per page. Default page is 1.</value>
   </data>
   <data name="listqueue_usage" xml:space="preserve">
-    <value>`!!lq` or `!!lq 2`</value>
+    <value>`{0}lq` or `{0}lq 2`</value>
   </data>
   <data name="nowplaying_cmd" xml:space="preserve">
     <value>nowplaying np</value>
@@ -1645,7 +1492,7 @@
     <value>Shows the song currently playing.</value>
   </data>
   <data name="nowplaying_usage" xml:space="preserve">
-    <value>`!!np`</value>
+    <value>`{0}np`</value>
   </data>
   <data name="volume_cmd" xml:space="preserve">
     <value>volume vol</value>
@@ -1654,7 +1501,7 @@
     <value>Sets the music volume 0-100%</value>
   </data>
   <data name="volume_usage" xml:space="preserve">
-    <value>`!!vol 50`</value>
+    <value>`{0}vol 50`</value>
   </data>
   <data name="defvol_cmd" xml:space="preserve">
     <value>defvol dv</value>
@@ -1663,7 +1510,7 @@
     <value>Sets the default music volume when music playback is started (0-100). Persists through restarts.</value>
   </data>
   <data name="defvol_usage" xml:space="preserve">
-    <value>`!!dv 80`</value>
+    <value>`{0}dv 80`</value>
   </data>
   <data name="max_cmd" xml:space="preserve">
     <value>max</value>
@@ -1672,7 +1519,7 @@
     <value>Sets the music volume to 100%.</value>
   </data>
   <data name="max_usage" xml:space="preserve">
-    <value>`!!max`</value>
+    <value>`{0}max`</value>
   </data>
   <data name="half_cmd" xml:space="preserve">
     <value>half</value>
@@ -1681,7 +1528,7 @@
     <value>Sets the music volume to 50%.</value>
   </data>
   <data name="half_usage" xml:space="preserve">
-    <value>`!!half`</value>
+    <value>`{0}half`</value>
   </data>
   <data name="playlist_cmd" xml:space="preserve">
     <value>playlist pl</value>
@@ -1690,7 +1537,7 @@
     <value>Queues up to 500 songs from a youtube playlist specified by a link, or keywords.</value>
   </data>
   <data name="playlist_usage" xml:space="preserve">
-    <value>`!!pl playlist link or name`</value>
+    <value>`{0}pl playlist link or name`</value>
   </data>
   <data name="soundcloudpl_cmd" xml:space="preserve">
     <value>soundcloudpl scpl</value>
@@ -1699,7 +1546,7 @@
     <value>Queue a soundcloud playlist using a link.</value>
   </data>
   <data name="soundcloudpl_usage" xml:space="preserve">
-    <value>`!!scpl soundcloudseturl`</value>
+    <value>`{0}scpl soundcloudseturl`</value>
   </data>
   <data name="localpl_cmd" xml:space="preserve">
     <value>localplaylst lopl</value>
@@ -1708,7 +1555,7 @@
     <value>Queues all songs from a directory.</value>
   </data>
   <data name="localpl_usage" xml:space="preserve">
-    <value>`!!lopl C:/music/classical`</value>
+    <value>`{0}lopl C:/music/classical`</value>
   </data>
   <data name="radio_cmd" xml:space="preserve">
     <value>radio ra</value>
@@ -1717,7 +1564,7 @@
     <value>Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: &lt;https://streamable.com/al54&gt;)</value>
   </data>
   <data name="radio_usage" xml:space="preserve">
-    <value>`!!ra radio link here`</value>
+    <value>`{0}ra radio link here`</value>
   </data>
   <data name="local_cmd" xml:space="preserve">
     <value>local lo</value>
@@ -1726,7 +1573,7 @@
     <value>Queues a local file by specifying a full path.</value>
   </data>
   <data name="local_usage" xml:space="preserve">
-    <value>`!!lo C:/music/mysong.mp3`</value>
+    <value>`{0}lo C:/music/mysong.mp3`</value>
   </data>
   <data name="move_cmd" xml:space="preserve">
     <value>move mv</value>
@@ -1735,7 +1582,7 @@
     <value>Moves the bot to your voice channel. (works only if music is already playing)</value>
   </data>
   <data name="move_usage" xml:space="preserve">
-    <value>`!!mv`</value>
+    <value>`{0}mv`</value>
   </data>
   <data name="remove_cmd" xml:space="preserve">
     <value>remove rm</value>
@@ -1744,7 +1591,7 @@
     <value>Remove a song by its # in the queue, or 'all' to remove whole queue.</value>
   </data>
   <data name="remove_usage" xml:space="preserve">
-    <value>`!!rm 5`</value>
+    <value>`{0}rm 5`</value>
   </data>
   <data name="movesong_cmd" xml:space="preserve">
     <value>movesong ms</value>
@@ -1753,7 +1600,7 @@
     <value>Moves a song from one position to another.</value>
   </data>
   <data name="movesong_usage" xml:space="preserve">
-    <value>`!! ms 5&gt;3`</value>
+    <value>`{0}ms 5&gt;3`</value>
   </data>
   <data name="setmaxqueue_cmd" xml:space="preserve">
     <value>setmaxqueue smq</value>
@@ -1762,7 +1609,7 @@
     <value>Sets a maximum queue size. Supply 0 or no argument to have no limit.</value>
   </data>
   <data name="setmaxqueue_usage" xml:space="preserve">
-    <value>`!!smq 50` or `!!smq`</value>
+    <value>`{0}smq 50` or `{0}smq`</value>
   </data>
   <data name="cleanup_cmd" xml:space="preserve">
     <value>cleanup</value>
@@ -1771,7 +1618,7 @@
     <value>Cleans up hanging voice connections.  </value>
   </data>
   <data name="cleanup_usage" xml:space="preserve">
-    <value>`!!cleanup`</value>
+    <value>`{0}cleanup`</value>
   </data>
   <data name="reptcursong_cmd" xml:space="preserve">
     <value>reptcursong rcs</value>
@@ -1780,7 +1627,7 @@
     <value>Toggles repeat of current song.</value>
   </data>
   <data name="reptcursong_usage" xml:space="preserve">
-    <value>`!!rcs`</value>
+    <value>`{0}rcs`</value>
   </data>
   <data name="repeatpl_cmd" xml:space="preserve">
     <value>rpeatplaylst rpl</value>
@@ -1789,7 +1636,7 @@
     <value>Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).</value>
   </data>
   <data name="repeatpl_usage" xml:space="preserve">
-    <value>`!!rpl`</value>
+    <value>`{0}rpl`</value>
   </data>
   <data name="save_cmd" xml:space="preserve">
     <value>save</value>
@@ -1798,7 +1645,7 @@
     <value>Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.</value>
   </data>
   <data name="save_usage" xml:space="preserve">
-    <value>`!!save classical1`</value>
+    <value>`{0}save classical1`</value>
   </data>
   <data name="load_cmd" xml:space="preserve">
     <value>load</value>
@@ -1807,7 +1654,7 @@
     <value>Loads a playlist under a certain name.</value>
   </data>
   <data name="load_usage" xml:space="preserve">
-    <value>`!!load classical-1`</value>
+    <value>`{0}load classical-1`</value>
   </data>
   <data name="playlists_cmd" xml:space="preserve">
     <value>playlists pls</value>
@@ -1816,7 +1663,7 @@
     <value>Lists all playlists. Paginated. 20 per page. Default page is 0.</value>
   </data>
   <data name="playlists_usage" xml:space="preserve">
-    <value>`!!pls 1`</value>
+    <value>`{0}pls 1`</value>
   </data>
   <data name="deleteplaylist_cmd" xml:space="preserve">
     <value>deleteplaylist delpls</value>
@@ -1825,7 +1672,7 @@
     <value>Deletes a saved playlist. Only if you made it or if you are the bot owner.</value>
   </data>
   <data name="deleteplaylist_usage" xml:space="preserve">
-    <value>`!!delpls animu-5`</value>
+    <value>`{0}delpls animu-5`</value>
   </data>
   <data name="goto_cmd" xml:space="preserve">
     <value>goto</value>
@@ -1834,7 +1681,7 @@
     <value>Goes to a specific time in seconds in a song.</value>
   </data>
   <data name="goto_usage" xml:space="preserve">
-    <value>`!!goto 30`</value>
+    <value>`{0}goto 30`</value>
   </data>
   <data name="getlink_cmd" xml:space="preserve">
     <value>getlink gl</value>
@@ -1843,7 +1690,7 @@
     <value>Shows a link to the song in the queue by index, or the currently playing song by default.</value>
   </data>
   <data name="getlink_usage" xml:space="preserve">
-    <value>`!!gl`</value>
+    <value>`{0}gl`</value>
   </data>
   <data name="autoplay_cmd" xml:space="preserve">
     <value>autoplay ap</value>
@@ -1852,7 +1699,7 @@
     <value>Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)</value>
   </data>
   <data name="autoplay_usage" xml:space="preserve">
-    <value>`!!ap`</value>
+    <value>`{0}ap`</value>
   </data>
   <data name="lolchamp_cmd" xml:space="preserve">
     <value>lolchamp</value>
@@ -1861,7 +1708,7 @@
     <value>Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.</value>
   </data>
   <data name="lolchamp_usage" xml:space="preserve">
-    <value>`~lolchamp Riven` or `~lolchamp Annie sup`</value>
+    <value>`{0}lolchamp Riven` or `{0}lolchamp Annie sup`</value>
   </data>
   <data name="lolban_cmd" xml:space="preserve">
     <value>lolban</value>
@@ -1870,7 +1717,7 @@
     <value>Shows top banned champions ordered by ban rate.</value>
   </data>
   <data name="lolban_usage" xml:space="preserve">
-    <value>`~lolban`</value>
+    <value>`{0}lolban`</value>
   </data>
   <data name="hitbox_cmd" xml:space="preserve">
     <value>hitbox hb</value>
@@ -1879,7 +1726,7 @@
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
   <data name="hitbox_usage" xml:space="preserve">
-    <value>`~hitbox SomeStreamer`</value>
+    <value>`{0}hitbox SomeStreamer`</value>
   </data>
   <data name="twitch_cmd" xml:space="preserve">
     <value>twitch tw</value>
@@ -1888,7 +1735,7 @@
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
   <data name="twitch_usage" xml:space="preserve">
-    <value>`~twitch SomeStreamer`</value>
+    <value>`{0}twitch SomeStreamer`</value>
   </data>
   <data name="beam_cmd" xml:space="preserve">
     <value>beam bm</value>
@@ -1897,7 +1744,7 @@
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
   <data name="beam_usage" xml:space="preserve">
-    <value>`~beam SomeStreamer`</value>
+    <value>`{0}beam SomeStreamer`</value>
   </data>
   <data name="removestream_cmd" xml:space="preserve">
     <value>removestream rms</value>
@@ -1906,7 +1753,7 @@
     <value>Removes notifications of a certain streamer on this channel.</value>
   </data>
   <data name="removestream_usage" xml:space="preserve">
-    <value>`~rms SomeGuy`</value>
+    <value>`{0}rms SomeGuy`</value>
   </data>
   <data name="liststreams_cmd" xml:space="preserve">
     <value>liststreams ls</value>
@@ -1915,16 +1762,16 @@
     <value>Lists all streams you are following on this server.</value>
   </data>
   <data name="liststreams_usage" xml:space="preserve">
-    <value>`~ls`</value>
+    <value>`{0}ls`</value>
   </data>
   <data name="convert_cmd" xml:space="preserve">
     <value>convert</value>
   </data>
   <data name="convert_desc" xml:space="preserve">
-    <value>Convert quantities. Use `.convertlist` to see supported dimensions and currencies.</value>
+    <value>Convert quantities. Use `{0}convertlist` to see supported dimensions and currencies.</value>
   </data>
   <data name="convert_usage" xml:space="preserve">
-    <value>`.convert m km 1000`</value>
+    <value>`{0}convert m km 1000`</value>
   </data>
   <data name="convertlist_cmd" xml:space="preserve">
     <value>convertlist</value>
@@ -1933,7 +1780,7 @@
     <value>List of the convertible dimensions and currencies.</value>
   </data>
   <data name="convertlist_usage" xml:space="preserve">
-    <value>`.convertlist`</value>
+    <value>`{0}convertlist`</value>
   </data>
   <data name="wowjoke_cmd" xml:space="preserve">
     <value>wowjoke</value>
@@ -1942,7 +1789,7 @@
     <value>Get one of Kwoth's penultimate WoW jokes.</value>
   </data>
   <data name="wowjoke_usage" xml:space="preserve">
-    <value>`~wowjoke`</value>
+    <value>`{0}wowjoke`</value>
   </data>
   <data name="calculate_cmd" xml:space="preserve">
     <value>calculate calc</value>
@@ -1951,7 +1798,7 @@
     <value>Evaluate a mathematical expression.</value>
   </data>
   <data name="calculate_usage" xml:space="preserve">
-    <value>`.calc 1+1`</value>
+    <value>`{0}calc 1+1`</value>
   </data>
   <data name="osu_cmd" xml:space="preserve">
     <value>osu</value>
@@ -1960,7 +1807,7 @@
     <value>Shows osu stats for a player.</value>
   </data>
   <data name="osu_usage" xml:space="preserve">
-    <value>`~osu Name` or `~osu Name taiko`</value>
+    <value>`{0}osu Name` or `{0}osu Name taiko`</value>
   </data>
   <data name="osub_cmd" xml:space="preserve">
     <value>osub</value>
@@ -1969,7 +1816,7 @@
     <value>Shows information about an osu beatmap.</value>
   </data>
   <data name="osub_usage" xml:space="preserve">
-    <value>`~osub https://osu.ppy.sh/s/127712`</value>
+    <value>`{0}osub https://osu.ppy.sh/s/127712`</value>
   </data>
   <data name="osu5_cmd" xml:space="preserve">
     <value>osu5</value>
@@ -1978,7 +1825,7 @@
     <value>Displays a user's top 5 plays.</value>
   </data>
   <data name="osu5_usage" xml:space="preserve">
-    <value>`~osu5 Name`</value>
+    <value>`{0}osu5 Name`</value>
   </data>
   <data name="pokemon_cmd" xml:space="preserve">
     <value>pokemon poke</value>
@@ -1987,7 +1834,7 @@
     <value>Searches for a pokemon.</value>
   </data>
   <data name="pokemon_usage" xml:space="preserve">
-    <value>`~poke Sylveon`</value>
+    <value>`{0}poke Sylveon`</value>
   </data>
   <data name="pokemonability_cmd" xml:space="preserve">
     <value>pokemonability pokeab</value>
@@ -1996,16 +1843,16 @@
     <value>Searches for a pokemon ability.</value>
   </data>
   <data name="pokemonability_usage" xml:space="preserve">
-    <value>`~pokeab overgrow`</value>
+    <value>`{0}pokeab overgrow`</value>
   </data>
   <data name="memelist_cmd" xml:space="preserve">
     <value>memelist</value>
   </data>
   <data name="memelist_desc" xml:space="preserve">
-    <value>Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/</value>
+    <value>Pulls a list of memes you can use with `{0}memegen` from http://memegen.link/templates/</value>
   </data>
   <data name="memelist_usage" xml:space="preserve">
-    <value>`~memelist`</value>
+    <value>`{0}memelist`</value>
   </data>
   <data name="memegen_cmd" xml:space="preserve">
     <value>memegen</value>
@@ -2014,7 +1861,7 @@
     <value>Generates a meme from memelist with top and bottom text.</value>
   </data>
   <data name="memegen_usage" xml:space="preserve">
-    <value>`~memegen biw "gets iced coffee" "in the winter"`</value>
+    <value>`{0}memegen biw "gets iced coffee" "in the winter"`</value>
   </data>
   <data name="weather_cmd" xml:space="preserve">
     <value>weather we</value>
@@ -2023,7 +1870,7 @@
     <value>Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.</value>
   </data>
   <data name="weather_usage" xml:space="preserve">
-    <value>`~we Moscow RF`</value>
+    <value>`{0}we Moscow RF`</value>
   </data>
   <data name="youtube_cmd" xml:space="preserve">
     <value>youtube yt</value>
@@ -2032,7 +1879,7 @@
     <value>Searches youtubes and shows the first result</value>
   </data>
   <data name="youtube_usage" xml:space="preserve">
-    <value>`~yt query`</value>
+    <value>`{0}yt query`</value>
   </data>
   <data name="anime_cmd" xml:space="preserve">
     <value>anime ani aq</value>
@@ -2041,7 +1888,7 @@
     <value>Queries anilist for an anime and shows the first result.</value>
   </data>
   <data name="anime_usage" xml:space="preserve">
-    <value>`~ani aquarion evol`</value>
+    <value>`{0}ani aquarion evol`</value>
   </data>
   <data name="imdb_cmd" xml:space="preserve">
     <value>imdb omdb</value>
@@ -2050,7 +1897,7 @@
     <value>Queries omdb for movies or series, show first result.</value>
   </data>
   <data name="imdb_usage" xml:space="preserve">
-    <value>`~imdb Batman vs Superman`</value>
+    <value>`{0}imdb Batman vs Superman`</value>
   </data>
   <data name="manga_cmd" xml:space="preserve">
     <value>manga mang mq</value>
@@ -2059,7 +1906,7 @@
     <value>Queries anilist for a manga and shows the first result.</value>
   </data>
   <data name="manga_usage" xml:space="preserve">
-    <value>`~mq Shingeki no kyojin`</value>
+    <value>`{0}mq Shingeki no kyojin`</value>
   </data>
   <data name="randomcat_cmd" xml:space="preserve">
     <value>randomcat meow</value>
@@ -2068,7 +1915,7 @@
     <value>Shows a random cat image.</value>
   </data>
   <data name="randomcat_usage" xml:space="preserve">
-    <value>`~meow`</value>
+    <value>`{0}meow`</value>
   </data>
   <data name="randomdog_cmd" xml:space="preserve">
     <value>randomdog woof</value>
@@ -2077,16 +1924,16 @@
     <value>Shows a random dog image.</value>
   </data>
   <data name="randomdog_usage" xml:space="preserve">
-    <value>`~woof`</value>
+    <value>`{0}woof`</value>
   </data>
   <data name="i_cmd" xml:space="preserve">
     <value>img i</value>
   </data>
   <data name="i_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use ~ir for different results.</value>
+    <value>Pulls the first image found using a search parameter. Use {0}ir for different results.</value>
   </data>
   <data name="i_usage" xml:space="preserve">
-    <value>`~i cute kitten`</value>
+    <value>`{0}i cute kitten`</value>
   </data>
   <data name="ir_cmd" xml:space="preserve">
     <value>ir</value>
@@ -2095,7 +1942,7 @@
     <value>Pulls a random image using a search parameter.</value>
   </data>
   <data name="ir_usage" xml:space="preserve">
-    <value>`~ir cute kitten`</value>
+    <value>`{0}ir cute kitten`</value>
   </data>
   <data name="lmgtfy_cmd" xml:space="preserve">
     <value>lmgtfy</value>
@@ -2104,7 +1951,7 @@
     <value>Google something for an idiot.</value>
   </data>
   <data name="lmgtfy_usage" xml:space="preserve">
-    <value>`~lmgtfy query`</value>
+    <value>`{0}lmgtfy query`</value>
   </data>
   <data name="google_cmd" xml:space="preserve">
     <value>google g</value>
@@ -2113,7 +1960,7 @@
     <value>Get a google search link for some terms.</value>
   </data>
   <data name="google_usage" xml:space="preserve">
-    <value>`~google query`</value>
+    <value>`{0}google query`</value>
   </data>
   <data name="hearthstone_cmd" xml:space="preserve">
     <value>hearthstone hs</value>
@@ -2122,7 +1969,7 @@
     <value>Searches for a Hearthstone card and shows its image. Takes a while to complete.</value>
   </data>
   <data name="hearthstone_usage" xml:space="preserve">
-    <value>`~hs Ysera`</value>
+    <value>`{0}hs Ysera`</value>
   </data>
   <data name="urbandict_cmd" xml:space="preserve">
     <value>urbandict ud</value>
@@ -2131,7 +1978,7 @@
     <value>Searches Urban Dictionary for a word.</value>
   </data>
   <data name="urbandict_usage" xml:space="preserve">
-    <value>`~ud Pineapple`</value>
+    <value>`{0}ud Pineapple`</value>
   </data>
   <data name="hashtag_cmd" xml:space="preserve">
     <value>#</value>
@@ -2140,7 +1987,7 @@
     <value>Searches Tagdef.com for a hashtag.</value>
   </data>
   <data name="hashtag_usage" xml:space="preserve">
-    <value>`~# ff`</value>
+    <value>`{0}# ff`</value>
   </data>
   <data name="catfact_cmd" xml:space="preserve">
     <value>catfact</value>
@@ -2149,7 +1996,7 @@
     <value>Shows a random catfact from &lt;http://catfacts-api.appspot.com/api/facts&gt;</value>
   </data>
   <data name="catfact_usage" xml:space="preserve">
-    <value>`~catfact`</value>
+    <value>`{0}catfact`</value>
   </data>
   <data name="yomama_cmd" xml:space="preserve">
     <value>yomama ym</value>
@@ -2158,7 +2005,7 @@
     <value>Shows a random joke from &lt;http://api.yomomma.info/&gt;</value>
   </data>
   <data name="yomama_usage" xml:space="preserve">
-    <value>`~ym`</value>
+    <value>`{0}ym`</value>
   </data>
   <data name="randjoke_cmd" xml:space="preserve">
     <value>randjoke rj</value>
@@ -2167,7 +2014,7 @@
     <value>Shows a random joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
   </data>
   <data name="randjoke_usage" xml:space="preserve">
-    <value>`~rj`</value>
+    <value>`{0}rj`</value>
   </data>
   <data name="chucknorris_cmd" xml:space="preserve">
     <value>chucknorris cn</value>
@@ -2176,7 +2023,7 @@
     <value>Shows a random chucknorris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
   </data>
   <data name="chucknorris_usage" xml:space="preserve">
-    <value>`~cn`</value>
+    <value>`{0}cn`</value>
   </data>
   <data name="magicitem_cmd" xml:space="preserve">
     <value>magicitem mi</value>
@@ -2185,7 +2032,7 @@
     <value>Shows a random magicitem from &lt;https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items&gt;</value>
   </data>
   <data name="magicitem_usage" xml:space="preserve">
-    <value>`~mi`</value>
+    <value>`{0}mi`</value>
   </data>
   <data name="revav_cmd" xml:space="preserve">
     <value>revav</value>
@@ -2194,7 +2041,7 @@
     <value>Returns a google reverse image search for someone's avatar.</value>
   </data>
   <data name="revav_usage" xml:space="preserve">
-    <value>`~revav "@SomeGuy"`</value>
+    <value>`{0}revav "@SomeGuy"`</value>
   </data>
   <data name="revimg_cmd" xml:space="preserve">
     <value>revimg</value>
@@ -2203,7 +2050,7 @@
     <value>Returns a google reverse image search for an image from a link.</value>
   </data>
   <data name="revimg_usage" xml:space="preserve">
-    <value>`~revimg Image link`</value>
+    <value>`{0}revimg Image link`</value>
   </data>
   <data name="safebooru_cmd" xml:space="preserve">
     <value>safebooru</value>
@@ -2212,7 +2059,7 @@
     <value>Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="safebooru_usage" xml:space="preserve">
-    <value>`~safebooru yuri+kissing`</value>
+    <value>`{0}safebooru yuri+kissing`</value>
   </data>
   <data name="wiki_cmd" xml:space="preserve">
     <value>wikipedia wiki</value>
@@ -2221,7 +2068,7 @@
     <value>Gives you back a wikipedia link</value>
   </data>
   <data name="wiki_usage" xml:space="preserve">
-    <value>`~wiki query`</value>
+    <value>`{0}wiki query`</value>
   </data>
   <data name="color_cmd" xml:space="preserve">
     <value>color clr</value>
@@ -2230,7 +2077,7 @@
     <value>Shows you what color corresponds to that hex.</value>
   </data>
   <data name="color_usage" xml:space="preserve">
-    <value>`~clr 00ff00`</value>
+    <value>`{0}clr 00ff00`</value>
   </data>
   <data name="videocall_cmd" xml:space="preserve">
     <value>videocall</value>
@@ -2239,7 +2086,7 @@
     <value>Creates a private &lt;http://www.appear.in&gt; video call link for you and other mentioned people. The link is sent to mentioned people via a private message.</value>
   </data>
   <data name="videocall_usage" xml:space="preserve">
-    <value>`~videocall "@SomeGuy"`</value>
+    <value>`{0}videocall "@SomeGuy"`</value>
   </data>
   <data name="avatar_cmd" xml:space="preserve">
     <value>av avatar</value>
@@ -2248,7 +2095,7 @@
     <value>Shows a mentioned person's avatar.</value>
   </data>
   <data name="avatar_usage" xml:space="preserve">
-    <value>`~av "@SomeGuy"`</value>
+    <value>`{0}av "@SomeGuy"`</value>
   </data>
   <data name="hentai_cmd" xml:space="preserve">
     <value>hentai</value>
@@ -2257,7 +2104,7 @@
     <value>Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
-    <value>`~hentai yuri`</value>
+    <value>`{0}hentai yuri`</value>
   </data>
   <data name="danbooru_cmd" xml:space="preserve">
     <value>danbooru</value>
@@ -2266,7 +2113,7 @@
     <value>Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="danbooru_usage" xml:space="preserve">
-    <value>`~danbooru yuri+kissing`</value>
+    <value>`{0}danbooru yuri+kissing`</value>
   </data>
   <data name="gelbooru_cmd" xml:space="preserve">
     <value>gelbooru</value>
@@ -2275,7 +2122,7 @@
     <value>Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="gelbooru_usage" xml:space="preserve">
-    <value>`~gelbooru yuri+kissing`</value>
+    <value>`{0}gelbooru yuri+kissing`</value>
   </data>
   <data name="rule34_cmd" xml:space="preserve">
     <value>rule34</value>
@@ -2284,7 +2131,7 @@
     <value>Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="rule34_usage" xml:space="preserve">
-    <value>`~rule34 yuri+kissing`</value>
+    <value>`{0}rule34 yuri+kissing`</value>
   </data>
   <data name="e621_cmd" xml:space="preserve">
     <value>e621</value>
@@ -2293,7 +2140,7 @@
     <value>Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.</value>
   </data>
   <data name="e621_usage" xml:space="preserve">
-    <value>`~e621 yuri kissing`</value>
+    <value>`{0}e621 yuri kissing`</value>
   </data>
   <data name="cp_cmd" xml:space="preserve">
     <value>cp</value>
@@ -2302,7 +2149,7 @@
     <value>We all know where this will lead you to.</value>
   </data>
   <data name="cp_usage" xml:space="preserve">
-    <value>`~cp`</value>
+    <value>`{0}cp`</value>
   </data>
   <data name="boobs_cmd" xml:space="preserve">
     <value>boobs</value>
@@ -2311,7 +2158,7 @@
     <value>Real adult content.</value>
   </data>
   <data name="boobs_usage" xml:space="preserve">
-    <value>`~boobs`</value>
+    <value>`{0}boobs`</value>
   </data>
   <data name="butts_cmd" xml:space="preserve">
     <value>butts ass butt</value>
@@ -2320,7 +2167,7 @@
     <value>Real adult content.</value>
   </data>
   <data name="butts_usage" xml:space="preserve">
-    <value>`~butts` or `~ass`</value>
+    <value>`{0}butts` or `{0}ass`</value>
   </data>
   <data name="createwar_cmd" xml:space="preserve">
     <value>createwar cw</value>
@@ -2329,7 +2176,7 @@
     <value>Creates a new war by specifying a size (&gt;10 and multiple of 5) and enemy clan name.</value>
   </data>
   <data name="createwar_usage" xml:space="preserve">
-    <value>`,cw 15 The Enemy Clan`</value>
+    <value>`{0}cw 15 The Enemy Clan`</value>
   </data>
   <data name="startwar_cmd" xml:space="preserve">
     <value>startwar sw</value>
@@ -2338,7 +2185,7 @@
     <value>Starts a war with a given number.</value>
   </data>
   <data name="startwar_usage" xml:space="preserve">
-    <value>`,sw 15`</value>
+    <value>`{0}sw 15`</value>
   </data>
   <data name="listwar_cmd" xml:space="preserve">
     <value>listwar lw</value>
@@ -2347,7 +2194,7 @@
     <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
   </data>
   <data name="listwar_usage" xml:space="preserve">
-    <value>`,lw [war_number] or ,lw`</value>
+    <value>`{0}lw [war_number] or {0}lw`</value>
   </data>
   <data name="claim_cmd" xml:space="preserve">
     <value>claim call c</value>
@@ -2356,7 +2203,7 @@
     <value>Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.</value>
   </data>
   <data name="claim_usage" xml:space="preserve">
-    <value>`,call [war_number] [base_number] [optional_other_name]`</value>
+    <value>`{0}call [war_number] [base_number] [optional_other_name]`</value>
   </data>
   <data name="claimfinish_cmd" xml:space="preserve">
     <value>claimfinish cf</value>
@@ -2365,7 +2212,7 @@
     <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish_usage" xml:space="preserve">
-    <value>`,cf 1` or `,cf 1 5`</value>
+    <value>`{0}cf 1` or `{0}cf 1 5`</value>
   </data>
   <data name="claimfinish2_cmd" xml:space="preserve">
     <value>claimfinish2 cf2</value>
@@ -2374,7 +2221,7 @@
     <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish2_usage" xml:space="preserve">
-    <value>`,cf2 1` or `,cf2 1 5`</value>
+    <value>`{0}cf2 1` or `{0}cf2 1 5`</value>
   </data>
   <data name="claimfinish1_cmd" xml:space="preserve">
     <value>claimfinish1 cf1</value>
@@ -2383,7 +2230,7 @@
     <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
   </data>
   <data name="claimfinish1_usage" xml:space="preserve">
-    <value>`,cf1 1` or `,cf1 1 5`</value>
+    <value>`{0}cf1 1` or `{0}cf1 1 5`</value>
   </data>
   <data name="unclaim_cmd" xml:space="preserve">
     <value>unclaim ucall uc</value>
@@ -2392,7 +2239,7 @@
     <value>Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim</value>
   </data>
   <data name="unclaim_usage" xml:space="preserve">
-    <value>`,uc [war_number] [optional_other_name]`</value>
+    <value>`{0}uc [war_number] [optional_other_name]`</value>
   </data>
   <data name="endwar_cmd" xml:space="preserve">
     <value>endwar ew</value>
@@ -2401,52 +2248,7 @@
     <value>Ends the war with a given index.</value>
   </data>
   <data name="endwar_usage" xml:space="preserve">
-    <value>`,ew [war_number]`</value>
-  </data>
-  <data name="attack_cmd" xml:space="preserve">
-    <value>attack</value>
-  </data>
-  <data name="attack_desc" xml:space="preserve">
-    <value>Attacks a target with the given move. Use `&gt;movelist` to see a list of moves your type can use.</value>
-  </data>
-  <data name="attack_usage" xml:space="preserve">
-    <value>`&gt;attack "vine whip" @someguy`</value>
-  </data>
-  <data name="movelist_cmd" xml:space="preserve">
-    <value>movelist ml</value>
-  </data>
-  <data name="movelist_desc" xml:space="preserve">
-    <value>Lists the moves you are able to use</value>
-  </data>
-  <data name="movelist_usage" xml:space="preserve">
-    <value>`&gt;ml`</value>
-  </data>
-  <data name="heal_cmd" xml:space="preserve">
-    <value>heal</value>
-  </data>
-  <data name="heal_desc" xml:space="preserve">
-    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower</value>
-  </data>
-  <data name="heal_usage" xml:space="preserve">
-    <value>`&gt;heal @someone`</value>
-  </data>
-  <data name="type_cmd" xml:space="preserve">
-    <value>type</value>
-  </data>
-  <data name="type_desc" xml:space="preserve">
-    <value>Get the poketype of the target.</value>
-  </data>
-  <data name="type_usage" xml:space="preserve">
-    <value>`&gt;type @someone`</value>
-  </data>
-  <data name="settype_cmd" xml:space="preserve">
-    <value>settype</value>
-  </data>
-  <data name="settype_desc" xml:space="preserve">
-    <value>Set your poketype. Costs a NadekoFlower.</value>
-  </data>
-  <data name="settype_usage" xml:space="preserve">
-    <value>`&gt;settype fire`</value>
+    <value>`{0}ew [war_number]`</value>
   </data>
   <data name="translate_cmd" xml:space="preserve">
     <value>translate trans</value>
@@ -2455,7 +2257,7 @@
     <value>Translates from&gt;to text. From the given language to the destination language.</value>
   </data>
   <data name="translate_usage" xml:space="preserve">
-    <value>`~trans en&gt;fr Hello`</value>
+    <value>`{0}trans en&gt;fr Hello`</value>
   </data>
   <data name="translangs_cmd" xml:space="preserve">
     <value>translangs</value>
@@ -2464,49 +2266,13 @@
     <value>Lists the valid languages for translation.</value>
   </data>
   <data name="translangs_usage" xml:space="preserve">
-    <value>`~translangs`</value>
-  </data>
-  <data name="bind_cmd" xml:space="preserve">
-    <value>bind</value>
-  </data>
-  <data name="bind_desc" xml:space="preserve">
-    <value>Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited.</value>
-  </data>
-  <data name="bind_usage" xml:space="preserve">
-    <value>`trello bind [board_id]`</value>
-  </data>
-  <data name="unbind_cmd" xml:space="preserve">
-    <value>unbind</value>
-  </data>
-  <data name="unbind_desc" xml:space="preserve">
-    <value>Unbinds a bot from the channel and board.</value>
-  </data>
-  <data name="unbind_usage" xml:space="preserve">
-    <value>`trello unbind`</value>
-  </data>
-  <data name="lists_cmd" xml:space="preserve">
-    <value>lists list</value>
-  </data>
-  <data name="lists_desc" xml:space="preserve">
-    <value>Lists all lists, yo ;)</value>
-  </data>
-  <data name="lists_usage" xml:space="preserve">
-    <value>`trello list`</value>
-  </data>
-  <data name="cards_cmd" xml:space="preserve">
-    <value>cards</value>
-  </data>
-  <data name="cards_desc" xml:space="preserve">
-    <value>Lists all cards from the supplied list. You can supply either a name or an index.</value>
-  </data>
-  <data name="cards_usage" xml:space="preserve">
-    <value>`trello cards index`</value>
+    <value>`{0}translangs`</value>
   </data>
   <data name="guide_desc" xml:space="preserve">
     <value>Sends a readme and a guide links to the channel.</value>
   </data>
   <data name="guide_usage" xml:space="preserve">
-    <value>`-readme` or `-guide`</value>
+    <value>`{0}readme` or `{0}guide`</value>
   </data>
   <data name="guide_cmd" xml:space="preserve">
     <value>readme guide</value>
@@ -2515,7 +2281,7 @@
     <value>Shows all available operations in .calc command</value>
   </data>
   <data name="calcops_usage" xml:space="preserve">
-    <value>`.calcops`</value>
+    <value>`{0}calcops`</value>
   </data>
   <data name="calcops_cmd" xml:space="preserve">
     <value>calcops</value>
@@ -2524,7 +2290,7 @@
     <value>Deletes all quotes on a specified keyword.</value>
   </data>
   <data name="delallquotes_usage" xml:space="preserve">
-    <value>`.delallq kek`</value>
+    <value>`{0}delallq kek`</value>
   </data>
   <data name="delallquotes_cmd" xml:space="preserve">
     <value>delallq daq</value>
@@ -2533,7 +2299,7 @@
     <value>greetdmmsg</value>
   </data>
   <data name="greetdmmsg_usage" xml:space="preserve">
-    <value>`.greetdmmsg Welcome to the server, %user%`.</value>
+    <value>`{0}greetdmmsg Welcome to the server, %user%`.</value>
   </data>
   <data name="greetdmmsg_desc" xml:space="preserve">
     <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. </value>
@@ -2542,7 +2308,7 @@
     <value>Check how much NadekoFlowers a person has. (Defaults to yourself)</value>
   </data>
   <data name="cash_usage" xml:space="preserve">
-    <value>`$$$` or `$$$ @SomeGuy`</value>
+    <value>`{0}$$` or `{0}$$ @SomeGuy`</value>
   </data>
   <data name="cash_cmd" xml:space="preserve">
     <value>cash $$</value>
@@ -2551,7 +2317,7 @@
     <value>Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.</value>
   </data>
   <data name="listperms_usage" xml:space="preserve">
-    <value>`;lp` or `;lp 3`</value>
+    <value>`{0}lp` or `{0}lp 3`</value>
   </data>
   <data name="listperms_cmd" xml:space="preserve">
     <value>listperms lp</value>
@@ -2560,7 +2326,7 @@
     <value>Enable or disable all modules for a specific user.</value>
   </data>
   <data name="allusrmdls_usage" xml:space="preserve">
-    <value>`;aum enable @someone`</value>
+    <value>`{0}aum enable @someone`</value>
   </data>
   <data name="allusrmdls_cmd" xml:space="preserve">
     <value>allusrmdls aum</value>
@@ -2569,7 +2335,7 @@
     <value>Moves permission from one position to another.</value>
   </data>
   <data name="moveperm_usage" xml:space="preserve">
-    <value>`;mp 2 4`</value>
+    <value>`{0}mp 2 4`</value>
   </data>
   <data name="moveperm_cmd" xml:space="preserve">
     <value>moveperm mp</value>
@@ -2578,7 +2344,7 @@
     <value>Removes a permission from a given position</value>
   </data>
   <data name="removeperm_usage" xml:space="preserve">
-    <value>`;rp 1`</value>
+    <value>`{0}rp 1`</value>
   </data>
   <data name="removeperm_cmd" xml:space="preserve">
     <value>removeperm rp</value>
@@ -2587,7 +2353,7 @@
     <value>Migrate data from old bot configuration</value>
   </data>
   <data name="migratedata_usage" xml:space="preserve">
-    <value>`.migratedata`</value>
+    <value>`{0}migratedata`</value>
   </data>
   <data name="migratedata_cmd" xml:space="preserve">
     <value>migratedata</value>
@@ -2596,7 +2362,7 @@
     <value>Checks if a user is online on a certain streaming platform.</value>
   </data>
   <data name="checkstream_usage" xml:space="preserve">
-    <value>`~cs twitch MyFavStreamer`</value>
+    <value>`{0}cs twitch MyFavStreamer`</value>
   </data>
   <data name="checkstream_cmd" xml:space="preserve">
     <value>checkstream cs</value>
@@ -2608,7 +2374,7 @@
     <value>Shows a name and a link to every SPECIAL emoji in the message.</value>
   </data>
   <data name="showemojis_usage" xml:space="preserve">
-    <value>`.se A message full of SPECIALemojis`</value>
+    <value>`{0}se A message full of SPECIAL emojis`</value>
   </data>
   <data name="shuffledeck_cmd" xml:space="preserve">
     <value>shuffle sh</value>
@@ -2617,7 +2383,7 @@
     <value>Reshuffles all cards back into the deck.</value>
   </data>
   <data name="shuffledeck_usage" xml:space="preserve">
-    <value>`$sh`</value>
+    <value>`{0}sh`</value>
   </data>
   <data name="forwardmessages_cmd" xml:space="preserve">
     <value>fwmsgs</value>
@@ -2626,7 +2392,7 @@
     <value>Toggles forwarding of non-command messages sent to bot's DM to the bot owners</value>
   </data>
   <data name="forwardmessages_usage" xml:space="preserve">
-    <value>`.fwmsgs`</value>
+    <value>`{0}fwmsgs`</value>
   </data>
   <data name="forwardtoall_cmd" xml:space="preserve">
     <value>fwtoall</value>
@@ -2635,7 +2401,7 @@
     <value>Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json</value>
   </data>
   <data name="forwardtoall_usage" xml:space="preserve">
-    <value>`.fwtoall`</value>
+    <value>`{0}fwtoall`</value>
   </data>
   <data name="resetpermissions_cmd" xml:space="preserve">
     <value>resetperms</value>
@@ -2644,7 +2410,7 @@
     <value>Resets BOT's permissions module on this server to the default value.</value>
   </data>
   <data name="resetpermissions_usage" xml:space="preserve">
-    <value>`.resetperms`</value>
+    <value>`{0}resetperms`</value>
   </data>
   <data name="antiraid_cmd" xml:space="preserve">
     <value>antiraid</value>
@@ -2653,7 +2419,7 @@
     <value>Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute)</value>
   </data>
   <data name="antiraid_usage" xml:space="preserve">
-    <value>`.antiraid 5 20 Kick`</value>
+    <value>`{0}antiraid 5 20 Kick`</value>
   </data>
   <data name="antispam_cmd" xml:space="preserve">
     <value>antispam</value>
@@ -2662,7 +2428,7 @@
     <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders.</value>
   </data>
   <data name="antispam_usage" xml:space="preserve">
-    <value>`.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`</value>
+    <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
   </data>
   <data name="textmute_cmd" xml:space="preserve">
     <value>textmute</value>
@@ -2671,7 +2437,7 @@
     <value>Prevents a mentioned user from chatting in text channels.</value>
   </data>
   <data name="textmute_usage" xml:space="preserve">
-    <value>`.textmute @Someone`</value>
+    <value>`{0}textmute @Someone`</value>
   </data>
   <data name="voicemute_cmd" xml:space="preserve">
     <value>voicemute</value>
@@ -2680,7 +2446,7 @@
     <value>Prevents a mentioned user from speaking in voice channels.</value>
   </data>
   <data name="voicemute_usage" xml:space="preserve">
-    <value>`.voicemute @Someone`</value>
+    <value>`{0}voicemute @Someone`</value>
   </data>
   <data name="konachan_cmd" xml:space="preserve">
     <value>konachan</value>
@@ -2689,7 +2455,7 @@
     <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="konachan_usage" xml:space="preserve">
-    <value>`~konachan yuri`</value>
+    <value>`{0}konachan yuri`</value>
   </data>
   <data name="setmuterole_cmd" xml:space="preserve">
     <value>setmuterole</value>
@@ -2698,6 +2464,6 @@
     <value>Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment.</value>
   </data>
   <data name="setmuterole_usage" xml:space="preserve">
-    <value>`.setmuterole Silenced`</value>
+    <value>`{0}setmuterole Silenced`</value>
   </data>
 </root>
