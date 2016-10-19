@@ -2209,7 +2209,7 @@
     <value>safebooru</value>
   </data>
   <data name="safebooru_desc" xml:space="preserve">
-    <value>Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)</value>
+    <value>Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="safebooru_usage" xml:space="preserve">
     <value>`~safebooru yuri+kissing`</value>
@@ -2263,7 +2263,7 @@
     <value>danbooru</value>
   </data>
   <data name="danbooru_desc" xml:space="preserve">
-    <value>Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)</value>
+    <value>Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="danbooru_usage" xml:space="preserve">
     <value>`~danbooru yuri+kissing`</value>
@@ -2272,7 +2272,7 @@
     <value>gelbooru</value>
   </data>
   <data name="gelbooru_desc" xml:space="preserve">
-    <value>Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)</value>
+    <value>Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="gelbooru_usage" xml:space="preserve">
     <value>`~gelbooru yuri+kissing`</value>
@@ -2281,7 +2281,7 @@
     <value>rule34</value>
   </data>
   <data name="rule34_desc" xml:space="preserve">
-    <value>Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +)</value>
+    <value>Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
   </data>
   <data name="rule34_usage" xml:space="preserve">
     <value>`~rule34 yuri+kissing`</value>
@@ -2290,7 +2290,7 @@
     <value>e621</value>
   </data>
   <data name="e621_desc" xml:space="preserve">
-    <value>Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.</value>
+    <value>Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.</value>
   </data>
   <data name="e621_usage" xml:space="preserve">
     <value>`~e621 yuri kissing`</value>
@@ -2681,5 +2681,14 @@
   </data>
   <data name="voicemute_usage" xml:space="preserve">
     <value>`.voicemute @Someone`</value>
+  </data>
+  <data name="konachan_cmd" xml:space="preserve">
+    <value>konachan</value>
+  </data>
+  <data name="konachan_desc" xml:space="preserve">
+    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  </data>
+  <data name="konachan_usage" xml:space="preserve">
+    <value>`~konachan yuri`</value>
   </data>
 </root>

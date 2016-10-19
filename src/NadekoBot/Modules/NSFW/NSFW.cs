@@ -57,6 +57,20 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Konachan(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetKonachanImageLink(tag).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -144,6 +158,25 @@ namespace NadekoBot.Modules.NSFW
             catch (Exception ex)
             {
                 await channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
+            }
+        }
+
+        public static async Task<string> GetKonachanImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+
+            var link = $"http://konachan.com/post?" +
+                        $"page={rng.Next(0, 5)}";
+            if (!string.IsNullOrWhiteSpace(tag))
+                link += $"&tags={tag.Replace(" ", "_")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(link).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "<a class=\"directlink largeimg\" href=\"(?<ll>.*?)\">");
+
+                if (matches.Count == 0)
+                    return null;
+                return await NadekoBot.Google.ShortenUrl(matches[rng.Next(0, matches.Count)].Groups["ll"].Value).ConfigureAwait(false);
             }
         }
 

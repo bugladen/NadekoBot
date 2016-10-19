@@ -3327,6 +3327,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to konachan.
+        /// </summary>
+        public static string konachan_cmd {
+            get {
+                return ResourceManager.GetString("konachan_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        /// </summary>
+        public static string konachan_desc {
+            get {
+                return ResourceManager.GetString("konachan_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `~konachan yuri`.
+        /// </summary>
+        public static string konachan_usage {
+            get {
+                return ResourceManager.GetString("konachan_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to lcsc.
         /// </summary>
         public static string lcsc_cmd {
