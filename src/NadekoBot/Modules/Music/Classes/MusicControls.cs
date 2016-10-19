@@ -93,54 +93,54 @@ namespace NadekoBot.Modules.Music.Classes
 
             var t = new Thread(new ThreadStart(async () =>
             {
-                try
+                while (!Destroyed)
                 {
-                    while (!Destroyed)
+                    try
                     {
-                        try
+                        if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
-                            if (audioClient?.ConnectionState != ConnectionState.Connected)
-                            {
-                                audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                                continue;
-                            }
-
-                            CurrentSong = GetNextSong();
-                            RemoveSongAt(0);
-
-                            if (CurrentSong == null)
-                                continue;
-
-
-                            OnStarted(this, CurrentSong);
-                            await CurrentSong.Play(audioClient, cancelToken);
-
-                            OnCompleted(this, CurrentSong);
-
-                            if (RepeatPlaylist)
-                                AddSong(CurrentSong, CurrentSong.QueuerName);
-
-                            if (RepeatSong)
-                                AddSong(CurrentSong, 0);
-
+                            if (audioClient != null)
+                                try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+                            continue;
                         }
-                        catch (OperationCanceledException) { }
-                        finally
-                        {
-                            if (!cancelToken.IsCancellationRequested)
-                            {
-                                SongCancelSource.Cancel();
-                            }
-                            SongCancelSource = new CancellationTokenSource();
-                            cancelToken = SongCancelSource.Token;
-                            CurrentSong = null;
-                            await Task.Delay(300).ConfigureAwait(false);
-                        }
+
+                        CurrentSong = GetNextSong();
+                        RemoveSongAt(0);
+
+                        if (CurrentSong == null)
+                            continue;
+
+
+                        OnStarted(this, CurrentSong);
+                        await CurrentSong.Play(audioClient, cancelToken);
+
+                        OnCompleted(this, CurrentSong);
+
+                        if (RepeatPlaylist)
+                            AddSong(CurrentSong, CurrentSong.QueuerName);
+
+                        if (RepeatSong)
+                            AddSong(CurrentSong, 0);
+
                     }
-                }
-                catch (Exception ex) {
-                    Console.WriteLine("Music thread crashed.");
-                    Console.WriteLine(ex);
+                    catch (OperationCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Music thread almost crashed.");
+                        Console.WriteLine(ex);
+                    }
+                    finally
+                    {
+                        if (!cancelToken.IsCancellationRequested)
+                        {
+                            SongCancelSource.Cancel();
+                        }
+                        SongCancelSource = new CancellationTokenSource();
+                        cancelToken = SongCancelSource.Token;
+                        CurrentSong = null;
+                        await Task.Delay(300).ConfigureAwait(false);
+                    }
                 }
             }));
 
