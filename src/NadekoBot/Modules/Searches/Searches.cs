@@ -335,18 +335,12 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Revav(IUserMessage umsg, [Remainder] string arg = null)
+        public async Task Revav(IUserMessage umsg, [Remainder] IUser usr = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-            var usrStr = arg?.Trim().ToUpperInvariant();
 
-            if (string.IsNullOrWhiteSpace(usrStr))
-                return;
-
-            var usr = channel.Guild.GetUsers().Where(u => u.Username.ToUpperInvariant() == usrStr).FirstOrDefault();
-
-            if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
-                return;
+            if (usr == null)
+                usr = umsg.Author;
             await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
         }
 
