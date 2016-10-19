@@ -958,7 +958,7 @@
     <value>chnlfilterinv cfi</value>
   </data>
   <data name="chnlfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
+    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the ;srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
   </data>
   <data name="chnlfilterinv_usage" xml:space="preserve">
     <value>`;cfi`</value>
@@ -976,7 +976,7 @@
     <value>chnlfilterwords cfw</value>
   </data>
   <data name="chnlfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting. Does not affect bot owner.</value>
+    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.</value>
   </data>
   <data name="chnlfilterwords_usage" xml:space="preserve">
     <value>`;cfw`</value>

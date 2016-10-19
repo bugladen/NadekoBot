@@ -1176,7 +1176,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting. Does not affect Bot Owner..
+        ///    Looks up a localized string similar to Toggles automatic deleting of invites posted in the channel. Does not negate the ;srvrfilterinv enabled setting. Does not affect Bot Owner..
         /// </summary>
         public static string chnlfilterinv_desc {
             get {
@@ -1203,7 +1203,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting. Does not affect bot owner..
+        ///    Looks up a localized string similar to Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner..
         /// </summary>
         public static string chnlfilterwords_desc {
             get {
