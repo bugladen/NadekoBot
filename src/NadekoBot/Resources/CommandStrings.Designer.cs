@@ -4308,7 +4308,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Mutes a mentioned user in a voice channel..
+        ///    Looks up a localized string similar to Mutes a mentioned user both fom speaking and chatting..
         /// </summary>
         public static string mute_desc {
             get {
@@ -6756,6 +6756,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to textmute.
+        /// </summary>
+        public static string textmute_cmd {
+            get {
+                return ResourceManager.GetString("textmute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Prevents a mentioned user from chatting in text channels..
+        /// </summary>
+        public static string textmute_desc {
+            get {
+                return ResourceManager.GetString("textmute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.textmute @Someone`.
+        /// </summary>
+        public static string textmute_usage {
+            get {
+                return ResourceManager.GetString("textmute_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to tl.
         /// </summary>
         public static string tl_cmd {
@@ -7454,6 +7481,33 @@ namespace NadekoBot.Resources {
         public static string videocall_usage {
             get {
                 return ResourceManager.GetString("videocall_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to voicemute.
+        /// </summary>
+        public static string voicemute_cmd {
+            get {
+                return ResourceManager.GetString("voicemute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Prevents a mentioned user from speaking in voice channels..
+        /// </summary>
+        public static string voicemute_desc {
+            get {
+                return ResourceManager.GetString("voicemute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.voicemute @Someone`.
+        /// </summary>
+        public static string voicemute_usage {
+            get {
+                return ResourceManager.GetString("voicemute_usage", resourceCulture);
             }
         }
         

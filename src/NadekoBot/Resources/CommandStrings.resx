@@ -616,7 +616,7 @@
     <value>mute</value>
   </data>
   <data name="mute_desc" xml:space="preserve">
-    <value>Mutes a mentioned user in a voice channel.</value>
+    <value>Mutes a mentioned user both fom speaking and chatting.</value>
   </data>
   <data name="mute_usage" xml:space="preserve">
     <value>`.mute @Someone`</value>
@@ -2663,5 +2663,23 @@
   </data>
   <data name="antispam_usage" xml:space="preserve">
     <value>`.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`</value>
+  </data>
+  <data name="textmute_cmd" xml:space="preserve">
+    <value>textmute</value>
+  </data>
+  <data name="textmute_desc" xml:space="preserve">
+    <value>Prevents a mentioned user from chatting in text channels.</value>
+  </data>
+  <data name="textmute_usage" xml:space="preserve">
+    <value>`.textmute @Someone`</value>
+  </data>
+  <data name="voicemute_cmd" xml:space="preserve">
+    <value>voicemute</value>
+  </data>
+  <data name="voicemute_desc" xml:space="preserve">
+    <value>Prevents a mentioned user from speaking in voice channels.</value>
+  </data>
+  <data name="voicemute_usage" xml:space="preserve">
+    <value>`.voicemute @Someone`</value>
   </data>
 </root>

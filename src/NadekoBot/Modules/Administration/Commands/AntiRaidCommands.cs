@@ -252,19 +252,6 @@ namespace NadekoBot.Modules.Administration
                         .ConfigureAwait(false);
             }
 
-            private async Task<IRole> GetMuteRole(IGuild guild)
-            {
-                var muteRole = guild.Roles.FirstOrDefault(r => r.Name == "nadeko-mute") ??
-                                await guild.CreateRoleAsync("nadeko-mute", GuildPermissions.None).ConfigureAwait(false);
-                foreach (var toOverwrite in guild.GetTextChannels())
-                {
-                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
-                            .ConfigureAwait(false);
-                    await Task.Delay(200).ConfigureAwait(false);
-                }
-                return muteRole;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.Administrator)]
