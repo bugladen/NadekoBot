@@ -621,14 +621,14 @@
   <data name="mute_usage" xml:space="preserve">
     <value>`.mute @Someone`</value>
   </data>
-  <data name="unmute_cmd" xml:space="preserve">
-    <value>unmute</value>
+  <data name="voiceunmute_cmd" xml:space="preserve">
+    <value>voiceunmute</value>
   </data>
-  <data name="unmute_desc" xml:space="preserve">
-    <value>Unmutes mentioned user or users.  </value>
+  <data name="voiceunmute_desc" xml:space="preserve">
+    <value>Gives a previously voice-muted user a permission to speak. </value>
   </data>
-  <data name="unmute_usage" xml:space="preserve">
-    <value>`.unmute "@Someguy"` or `.unmute "@Someguy" "@Someguy"`</value>
+  <data name="voiceunmute_usage" xml:space="preserve">
+    <value>`.unmute @Someguy`</value>
   </data>
   <data name="deafen_cmd" xml:space="preserve">
     <value>deafen deaf</value>

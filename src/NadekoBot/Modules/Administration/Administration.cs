@@ -468,18 +468,12 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task Unmute(IUserMessage umsg, params IGuildUser[] users)
+        public async Task VoiceUnmute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
-
-            if (!users.Any())
-                return;
             try
             {
-                foreach (var u in users)
-                {
-                    await u.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                }
+                await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
                 await channel.SendMessageAsync("Unmute successful").ConfigureAwait(false);
             }
             catch

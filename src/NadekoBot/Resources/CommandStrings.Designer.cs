@@ -7188,33 +7188,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to unmute.
-        /// </summary>
-        public static string unmute_cmd {
-            get {
-                return ResourceManager.GetString("unmute_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Unmutes mentioned user or users.  .
-        /// </summary>
-        public static string unmute_desc {
-            get {
-                return ResourceManager.GetString("unmute_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `.unmute &quot;@Someguy&quot;` or `.unmute &quot;@Someguy&quot; &quot;@Someguy&quot;`.
-        /// </summary>
-        public static string unmute_usage {
-            get {
-                return ResourceManager.GetString("unmute_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to unstuck.
         /// </summary>
         public static string unstuck_cmd {
@@ -7616,6 +7589,33 @@ namespace NadekoBot.Resources {
         public static string voicepresence_usage {
             get {
                 return ResourceManager.GetString("voicepresence_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to voiceunmute.
+        /// </summary>
+        public static string voiceunmute_cmd {
+            get {
+                return ResourceManager.GetString("voiceunmute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gives a previously voice-muted user a permission to speak. .
+        /// </summary>
+        public static string voiceunmute_desc {
+            get {
+                return ResourceManager.GetString("voiceunmute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.unmute @Someguy`.
+        /// </summary>
+        public static string voiceunmute_usage {
+            get {
+                return ResourceManager.GetString("voiceunmute_usage", resourceCulture);
             }
         }
         
