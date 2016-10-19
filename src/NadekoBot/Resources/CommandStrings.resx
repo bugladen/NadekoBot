@@ -1174,7 +1174,7 @@
     <value>betflip bf</value>
   </data>
   <data name="betflip_desc" xml:space="preserve">
-    <value>Bet to guess will the result be heads or tails. Guessing awards you double flowers you've bet.</value>
+    <value>Bet to guess will the result be heads or tails. Guessing awards you double the currency you've bet.</value>
   </data>
   <data name="betflip_usage" xml:space="preserve">
     <value>`{0}bf 5 heads` or `{0}bf 3 t`</value>
@@ -1219,7 +1219,7 @@
     <value>joinrace jr</value>
   </data>
   <data name="joinrace_desc" xml:space="preserve">
-    <value>Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win.</value>
+    <value>Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.</value>
   </data>
   <data name="joinrace_usage" xml:space="preserve">
     <value>`{0}jr` or `{0}jr 5`</value>
@@ -1255,7 +1255,7 @@
     <value>take</value>
   </data>
   <data name="take_desc" xml:space="preserve">
-    <value>Takes a certain amount of flowers from someone.  </value>
+    <value>Takes a certain amount of currency from someone.  </value>
   </data>
   <data name="take_usage" xml:space="preserve">
     <value>`{0}take 1 "@someguy"`</value>
@@ -1264,7 +1264,7 @@
     <value>betroll br</value>
   </data>
   <data name="betroll_desc" xml:space="preserve">
-    <value>Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10.</value>
+    <value>Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x3 and 100 x10.</value>
   </data>
   <data name="betroll_usage" xml:space="preserve">
     <value>`{0}br 5`</value>
@@ -1354,7 +1354,7 @@
     <value>pick</value>
   </data>
   <data name="pick_desc" xml:space="preserve">
-    <value>Picks a flower planted in this channel.</value>
+    <value>Picks the currency planted in this channel.</value>
   </data>
   <data name="pick_usage" xml:space="preserve">
     <value>`{0}pick`</value>
@@ -1363,7 +1363,7 @@
     <value>plant</value>
   </data>
   <data name="plant_desc" xml:space="preserve">
-    <value>Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)</value>
+    <value>Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)</value>
   </data>
   <data name="plant_usage" xml:space="preserve">
     <value>`{0}plant`</value>
@@ -1372,7 +1372,7 @@
     <value>gencurrency gc</value>
   </data>
   <data name="gencurrency_desc" xml:space="preserve">
-    <value>Toggles currency generation on this channel. Every posted message will have chance to spawn a NadekoFlower. Chance is specified by the Bot Owner. (default is 2%)</value>
+    <value>Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%)</value>
   </data>
   <data name="gencurrency_usage" xml:space="preserve">
     <value>`{0}gc`</value>
@@ -2278,7 +2278,7 @@
     <value>readme guide</value>
   </data>
   <data name="calcops_desc" xml:space="preserve">
-    <value>Shows all available operations in .calc command</value>
+    <value>Shows all available operations in {0}calc command</value>
   </data>
   <data name="calcops_usage" xml:space="preserve">
     <value>`{0}calcops`</value>
@@ -2305,7 +2305,7 @@
     <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. </value>
   </data>
   <data name="cash_desc" xml:space="preserve">
-    <value>Check how much NadekoFlowers a person has. (Defaults to yourself)</value>
+    <value>Check how much currency a person has. (Defaults to yourself)</value>
   </data>
   <data name="cash_usage" xml:space="preserve">
     <value>`{0}$$` or `{0}$$ @SomeGuy`</value>
