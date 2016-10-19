@@ -382,6 +382,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(0)]
         public async Task Remove(IUserMessage umsg, int num)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -402,6 +403,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(1)]
         public async Task Remove(IUserMessage umsg, string all)
         {
             var channel = (ITextChannel)umsg.Channel;
