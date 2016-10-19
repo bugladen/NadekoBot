@@ -6414,7 +6414,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.  .
+        ///    Looks up a localized string similar to Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds..
         /// </summary>
         public static string slowmode_desc {
             get {
@@ -6423,7 +6423,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.slowmode`.
+        ///    Looks up a localized string similar to `.slowmode 1 5`.
         /// </summary>
         public static string slowmode_usage {
             get {
