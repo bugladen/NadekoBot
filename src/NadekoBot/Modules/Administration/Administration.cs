@@ -359,6 +359,17 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task SetMuteRole(IUserMessage imsg, [Remainder] string name)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            name = name.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Mute(IUserMessage umsg, IGuildUser user)
         {

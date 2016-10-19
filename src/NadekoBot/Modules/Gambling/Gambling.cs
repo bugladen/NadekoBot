@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
             var channel = umsg.Channel;
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task Cash(IUserMessage umsg, ulong userId)
         {
             var channel = umsg.Channel;
