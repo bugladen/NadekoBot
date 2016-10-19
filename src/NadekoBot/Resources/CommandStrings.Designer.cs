@@ -1797,7 +1797,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
         /// </summary>
         public static string danbooru_desc {
             get {
@@ -2283,7 +2283,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags..
+        ///    Looks up a localized string similar to Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags..
         /// </summary>
         public static string e621_desc {
             get {
@@ -2499,7 +2499,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
         /// </summary>
         public static string gelbooru_desc {
             get {
@@ -3336,7 +3336,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
         /// </summary>
         public static string konachan_desc {
             get {
@@ -5793,7 +5793,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
         /// </summary>
         public static string rule34_desc {
             get {
@@ -5820,7 +5820,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
         /// </summary>
         public static string safebooru_desc {
             get {
@@ -6131,6 +6131,33 @@ namespace NadekoBot.Resources {
         public static string setmaxqueue_usage {
             get {
                 return ResourceManager.GetString("setmaxqueue_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setmuterole.
+        /// </summary>
+        public static string setmuterole_cmd {
+            get {
+                return ResourceManager.GetString("setmuterole_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment..
+        /// </summary>
+        public static string setmuterole_desc {
+            get {
+                return ResourceManager.GetString("setmuterole_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `.setmuterole Silenced`.
+        /// </summary>
+        public static string setmuterole_usage {
+            get {
+                return ResourceManager.GetString("setmuterole_usage", resourceCulture);
             }
         }
         

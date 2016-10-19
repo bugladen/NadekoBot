@@ -17,15 +17,30 @@ using System.Net.Http;
 using ImageProcessorCore;
 using System.IO;
 using static NadekoBot.Modules.Permissions.Permissions;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Administration
 {
     [NadekoModule("Administration", ".")]
     public partial class Administration : DiscordModule
     {
+
+        private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
+
         public Administration(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
+        }
+
+        static Administration()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var configs = uow.GuildConfigs.GetAll();
+                GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
+                        .Where(c=>!string.IsNullOrWhiteSpace(c.MuteRoleName))
+                        .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
+            }
         }
 
         private async void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
@@ -54,10 +69,22 @@ namespace NadekoBot.Modules.Administration
 
         private static async Task<IRole> GetMuteRole(IGuild guild)
         {
-            var muteRole = guild.Roles.FirstOrDefault(r => r.Name == "nadeko-mute");
+            const string defaultMuteRoleName = "nadeko-mute";
+
+            var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
+
+            var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
             if (muteRole == null)
             {
-                muteRole = await guild.CreateRoleAsync("nadeko-mute", GuildPermissions.None).ConfigureAwait(false);
+
+                //if it doesn't exist, create it 
+                try { muteRole = await guild.CreateRoleAsync(muteRoleName, GuildPermissions.None).ConfigureAwait(false); }
+                catch
+                {
+                    //if creations fails,  maybe the name is not correct, find default one, if doesn't work, create default one
+                    muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
+                        await guild.CreateRoleAsync(defaultMuteRoleName, GuildPermissions.None).ConfigureAwait(false);
+                }
 
                 foreach (var toOverwrite in guild.GetTextChannels())
                 {
@@ -359,14 +386,29 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(1)]
         public async Task SetMuteRole(IUserMessage imsg, [Remainder] string name)
         {
             var channel = (ITextChannel)imsg.Channel;
             name = name.Trim();
             if (string.IsNullOrWhiteSpace(name))
                 return;
-
+            
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                config.MuteRoleName = name;
+                GuildMuteRoles.AddOrUpdate(channel.Guild.Id, name, (id, old) => name);
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+            await channel.SendMessageAsync("`New mute role set.`").ConfigureAwait(false);
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(0)]
+        public Task SetMuteRole(IUserMessage imsg, [Remainder] IRole role)
+            => SetMuteRole(imsg, role.Name);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

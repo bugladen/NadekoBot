@@ -57,6 +57,8 @@ namespace NadekoBot.Services.Database.Models
         public bool FilterWords { get; set; }
         public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
         public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new HashSet<FilterChannelId>();
+
+        public string MuteRoleName { get; set; }
     }
 
     public class FilterChannelId :DbEntity

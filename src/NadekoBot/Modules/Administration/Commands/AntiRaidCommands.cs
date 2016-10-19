@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Administration
                 client.MessageReceived += (imsg) =>
                 {
                     var msg = imsg as IUserMessage;
-                    if (msg == null)
+                    if (msg == null || msg.Author.IsBot)
                         return Task.CompletedTask;
 
                     var channel = msg.Channel as ITextChannel;

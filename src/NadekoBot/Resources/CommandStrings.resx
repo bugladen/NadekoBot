@@ -2691,4 +2691,13 @@
   <data name="konachan_usage" xml:space="preserve">
     <value>`~konachan yuri`</value>
   </data>
+  <data name="setmuterole_cmd" xml:space="preserve">
+    <value>setmuterole</value>
+  </data>
+  <data name="setmuterole_desc" xml:space="preserve">
+    <value>Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment.</value>
+  </data>
+  <data name="setmuterole_usage" xml:space="preserve">
+    <value>`.setmuterole Silenced`</value>
+  </data>
 </root>
