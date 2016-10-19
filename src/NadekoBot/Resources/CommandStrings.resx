@@ -331,7 +331,7 @@
     <value>Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds.</value>
   </data>
   <data name="slowmode_usage" xml:space="preserve">
-    <value>`.slowmode 1 5`</value>
+    <value>`.slowmode 1 5` or `.slowmode`</value>
   </data>
   <data name="cleanvplust_cmd" xml:space="preserve">
     <value>cleanvplust cv+t</value>

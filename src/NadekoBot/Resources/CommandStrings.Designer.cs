@@ -6423,7 +6423,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.slowmode 1 5`.
+        ///    Looks up a localized string similar to `.slowmode 1 5` or `.slowmode`.
         /// </summary>
         public static string slowmode_usage {
             get {
