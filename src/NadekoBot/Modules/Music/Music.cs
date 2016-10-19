@@ -317,7 +317,8 @@ namespace NadekoBot.Modules.Music
                 return;
             try
             {
-                var fileEnum = new DirectoryInfo(arg).GetFiles()
+                var dir = new DirectoryInfo(arg);
+                var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
                                     .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
                 foreach (var file in fileEnum)
                 {
