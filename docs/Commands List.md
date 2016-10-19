@@ -4,7 +4,7 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `.resetperms`  | Resets BOT's permissions module on this server to the default value. **Requires Administrator server permission.** | `.resetperms`
 `.restart`  | Restarts the bot. Might not work. **Bot owner only.** | `.restart`
-`.delmsgoncmd`  | Toggles the automatic deletion of user's successful command message to prevent chat flood. **Server Manager Only.** **Requires Administrator server permission.** | `.delmsgoncmd`
+`.delmsgoncmd`  | Toggles the automatic deletion of user's successful command message to prevent chat flood. **Requires Administrator server permission.** | `.delmsgoncmd`
 `.setrole` `.sr` | Sets a role for a given user.   **Requires ManageRoles server permission.** | `.sr @User Guest`
 `.removerole` `.rr` | Removes a role from a given user.   **Requires ManageRoles server permission.** | `.rr @User Admin`
 `.renamerole` `.renr` | Renames a role. Roles you are renaming must be lower than bot's highest role. **Requires ManageRoles server permission.** | `.renr "First role" SecondRole`
@@ -14,8 +14,11 @@ Command and aliases | Description | Usage
 `.ban` `.b` | Bans a user by ID or name with an optional message. **Requires BanMembers server permission.** | `.b "@some Guy" Your behaviour is toxic.`
 `.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message.   **Requires BanMembers server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
 `.kick` `.k` | Kicks a mentioned user.   **Requires KickMembers server permission.** | `.k "@some Guy" Your behaviour is toxic.`
-`.mute`  | Mutes a mentioned user in a voice channel. **Requires MuteMembers server permission.** | `.mute @Someone`
-`.unmute`  | Unmutes mentioned user or users.   **Requires MuteMembers server permission.** | `.unmute "@Someguy"` or `.unmute "@Someguy" "@Someguy"`
+`.setmuterole`  | Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment.  | `.setmuterole Silenced`
+`.mute`  | Mutes a mentioned user both fom speaking and chatting. **Requires MuteMembers server permission.** | `.mute @Someone`
+`.textmute`  | Prevents a mentioned user from chatting in text channels. **Requires MuteMembers server permission.** | `.textmute @Someone`
+`.voicemute`  | Prevents a mentioned user from speaking in voice channels. **Requires MuteMembers server permission.** | `.voicemute @Someone`
+`.voiceunmute`  | Gives a previously voice-muted user a permission to speak.  **Requires MuteMembers server permission.** | `.unmute @Someguy`
 `.deafen` `.deaf` | Deafens mentioned user or users.   **Requires DeafenMembers server permission.** | `.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`
 `.undeafen` `.undef` | Undeafens mentioned user or users.   **Requires DeafenMembers server permission.** | `.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`
 `.delvoichanl` `.dvch` | Deletes a voice channel with a given name.   **Requires ManageChannels server permission.** | `.dvch VoiceChannelName`
@@ -35,8 +38,8 @@ Command and aliases | Description | Usage
 `.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission. **Requires MentionEveryone server permission.** | `.menro RoleName`
 `.donators`  | List of lovely people who donated to keep this project alive.  | `.donators`
 `.donadd`  | Add a donator to the database. **Bot owner only.** | `.donadd Donate Amount`
-`.antiraid_cmd`  | antiraid_desc **Requires Administrator server permission.** | antiraid_usage
-`.antispam_cmd`  | antispam_desc **Requires Administrator server permission.** | antispam_usage
+`.antiraid`  | Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute) **Requires Administrator server permission.** | `.antiraid 5 20 Kick`
+`.antispam`  | Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. **Requires Administrator server permission.** | `.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`
 `.autoassignrole` `.aar` | Automaticaly assigns a specified role to every user who joins the server.  **Requires ManageRoles server permission.** | `.aar` to disable, `.aar Role Name` to enable
 `.scsc`  | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot owner only.** | `.scsc`
 `.jcsc`  | Joins current channel to an instance of cross server channel using the token.  **Requires ManageServer server permission.** | `.jcsc TokenHere`
@@ -46,15 +49,15 @@ Command and aliases | Description | Usage
 `.logserver`  | Logs server activity in this channel. **Requires Administrator server permission.** **Bot owner only.** | `.logserver`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot owner only.** | `.logignore`
 `.userpresence`  | Starts logging to this channel when someone from the server goes online/offline/idle.  **Requires Administrator server permission.** | `.userpresence`
-`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now.  **Requires Administrator server permission.** | `.voicepresence`
+`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in.  **Requires Administrator server permission.** | `.voicepresence`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer.   **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled.  | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot owner only.** | `.migratedata`
-`.rotateplaying` `.ropl` | Toggles rotation of playing status of the dynamic strings you specified earlier. **Bot owner only.** | `.ropl`
+`.rotateplaying` `.ropl` | Toggles rotation of playing status of the dynamic strings you previously specified. **Bot owner only.** | `.ropl`
 `.addplaying` `.adpl` | Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued% **Bot owner only.** | `.adpl`
 `.listplaying` `.lipl` | Lists all playing statuses with their corresponding number. **Bot owner only.** | `.lipl`
 `.removeplaying` `.rmpl` `.repl` | Removes a playing string on a given number.  **Bot owner only.** | `.rmpl`
-`.slowmode`  | Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds.   **Requires ManageMessages server permission.** | `.slowmode`
+`.slowmode`  | Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds. **Requires ManageMessages server permission.** | `.slowmode 1 5` or `.slowmode`
 `.asar`  | Adds a role to the list of self-assignable roles. **Requires ManageRoles server permission.** | `.asar Gamer`
 `.rsar`  | Removes a specified role from the list of self-assignable roles. **Requires ManageRoles server permission.** | `.rsar`
 `.lsar`  | Lists all self-assignable roles.  | `.lsar`
@@ -71,7 +74,7 @@ Command and aliases | Description | Usage
 `.byemsg`  | Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.  **Requires ManageServer server permission.** | `.byemsg %user% has left.`
 `.byedel`  | Toggles automatic deletion of bye messages.  **Requires ManageServer server permission.** | `.byedel`
 `.voice+text` `.v+t` | Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.   **Requires ManageRoles server permission.** **Requires ManageChannels server permission.** | `.voice+text`
-`.cleanvplust` `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.** **Requires ManageChannels server permission.** **Requires ManageRoles server permission.** | `.cleanv+t`
+`.cleanvplust` `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk. **Requires ManageChannels server permission.** **Requires ManageRoles server permission.** | `.cleanv+t`
 
 ### ClashOfClans  
 Command and aliases | Description | Usage
@@ -181,10 +184,11 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~hentai`  | Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
-`~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
-`~gelbooru`  | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
-`~rule34`  | Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
-`~e621`  | Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.  | `~e621 yuri kissing`
+`~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
+`~konachan`  | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~konachan yuri`
+`~gelbooru`  | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
+`~rule34`  | Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
+`~e621`  | Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.  | `~e621 yuri kissing`
 `~cp`  | We all know where this will lead you to.  | `~cp`
 `~boobs`  | Real adult content.  | `~boobs`
 `~butts` `~ass` `~butt` | Real adult content.  | `~butts` or `~ass`
@@ -215,9 +219,9 @@ Command and aliases | Description | Usage
 `;cmdcooldown` `;cmdcd` | Sets a cooldown per user for a command. Set to 0 to remove the cooldown.  | `;cmdcd "some cmd" 5`
 `;allcmdcooldowns` `;acmdcds` | Shows a list of all commands and their respective cooldowns.  | `;acmdcds`
 `;srvrfilterinv` `;sfi` | Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner.  | `;sfi`
-`;chnlfilterinv` `;cfi` | Toggles automatic deleting of invites posted in the channel. Does not negate the .srvrfilterinv enabled setting. Does not affect Bot Owner.  | `;cfi`
+`;chnlfilterinv` `;cfi` | Toggles automatic deleting of invites posted in the channel. Does not negate the ;srvrfilterinv enabled setting. Does not affect Bot Owner.  | `;cfi`
 `;srvrfilterwords` `;sfw` | Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner.  | `;sfw`
-`;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the .srvrfilterwords enabled setting. Does not affect bot owner.  | `;cfw`
+`;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.  | `;cfw`
 `;fw`  | Adds or removes (if it exists) a word from the list of filtered words. Use` ;sfw` or `;cfw` to toggle filtering.  | `;fw poop`
 `;lstfilterwords` `;lfw` | Shows a list of filtered words.  | `;lfw`
 
@@ -239,7 +243,7 @@ Command and aliases | Description | Usage
 `~catfact`  | Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>  | `~catfact`
 `~revav`  | Returns a google reverse image search for someone's avatar.  | `~revav "@SomeGuy"`
 `~revimg`  | Returns a google reverse image search for an image from a link.  | `~revimg Image link`
-`~safebooru`  | Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)  | `~safebooru yuri+kissing`
+`~safebooru`  | Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~safebooru yuri+kissing`
 `~wikipedia` `~wiki` | Gives you back a wikipedia link  | `~wiki query`
 `~color` `~clr` | Shows you what color corresponds to that hex.  | `~clr 00ff00`
 `~videocall`  | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `~videocall "@SomeGuy"`
