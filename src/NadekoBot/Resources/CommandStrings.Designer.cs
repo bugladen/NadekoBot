@@ -393,7 +393,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Stops people from repeating same message more than 2 times in a row. You can either specify to mute, kick or ban them if that happens..
+        ///    Looks up a localized string similar to Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders..
         /// </summary>
         public static string antispam_desc {
             get {
@@ -402,7 +402,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `.antispam Mute` or `.antispam Kick` or `.antispam Ban`.
+        ///    Looks up a localized string similar to `.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`.
         /// </summary>
         public static string antispam_usage {
             get {

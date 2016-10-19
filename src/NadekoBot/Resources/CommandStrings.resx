@@ -2659,9 +2659,9 @@
     <value>antispam</value>
   </data>
   <data name="antispam_desc" xml:space="preserve">
-    <value>Stops people from repeating same message more than 2 times in a row. You can either specify to mute, kick or ban them if that happens.</value>
+    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders.</value>
   </data>
   <data name="antispam_usage" xml:space="preserve">
-    <value>`.antispam Mute` or `.antispam Kick` or `.antispam Ban`</value>
+    <value>`.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`</value>
   </data>
 </root>
