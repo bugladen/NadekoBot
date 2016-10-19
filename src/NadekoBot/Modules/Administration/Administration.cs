@@ -250,18 +250,16 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.BanMembers)]
-        public async Task Ban(IUserMessage umsg, IGuildUser user)
+        public async Task Ban(IUserMessage umsg, IGuildUser user, [Remainder] string msg = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-
-            var msg = "";
-
-            if (!string.IsNullOrWhiteSpace(msg))
+            if (string.IsNullOrWhiteSpace(msg))
             {
-                await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
-                                        $"Reason: {msg}").ConfigureAwait(false);
-                await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
+                msg = "No reason provided.";
             }
+            await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
+                                    $"Reason: {msg}").ConfigureAwait(false);
+            await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
             try
             {
                 await channel.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
@@ -280,13 +278,13 @@ namespace NadekoBot.Modules.Administration
         public async Task Softban(IUserMessage umsg, IGuildUser user, [Remainder] string msg = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-
-            if (!string.IsNullOrWhiteSpace(msg))
+            if (string.IsNullOrWhiteSpace(msg))
             {
-                await user.SendMessageAsync($"**You have been SOFT-BANNED from `{channel.Guild.Name}` server.**\n" +
-                    $"Reason: {msg}").ConfigureAwait(false);
-                await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
+                msg = "No reason provided.";
             }
+            await user.SendMessageAsync($"**You have been SOFT-BANNED from `{channel.Guild.Name}` server.**\n" +
+                $"Reason: {msg}").ConfigureAwait(false);
+            await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
             try
             {
                 await channel.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
