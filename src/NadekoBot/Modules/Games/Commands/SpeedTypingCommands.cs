@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Games
                 {
                     try
                     {
-                        if (channel == null || channel.Id != channel.Id || msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                        if (channel == null || channel.Id != channel.Id) return;
 
                         var guess = msg.Content;
 
@@ -131,7 +131,7 @@ namespace NadekoBot.Modules.Games
                         {
                             finishedUserIds.Add(msg.Author.Id);
                             await channel.SendMessageAsync($"{msg.Author.Mention} finished in **{sw.Elapsed.Seconds}** seconds with { distance } errors, **{ CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60 }** WPM!").ConfigureAwait(false);
-                            if (finishedUserIds.Count % 2 == 0)
+                            if (finishedUserIds.Count % 4 == 0)
                             {
                                 await channel.SendMessageAsync($":exclamation: `A lot of people finished, here is the text for those still typing:`\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
                             }
