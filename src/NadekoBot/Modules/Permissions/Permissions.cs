@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Permissions
             using (var uow = DbHandler.UnitOfWork())
             {
                 var perms = uow.GuildConfigs.PermissionsFor(channel.Guild.Id).RootPermission;
-                var i = 1;
+                var i = 1 + 20 * (page - 1);
                 toSend = Format.Code($"Permissions page {page}") + "\n\n" + String.Join("\n", perms.AsEnumerable().Skip((page - 1) * 20).Take(20).Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand(channel.Guild) + " [uneditable]") : (p.GetCommand(channel.Guild)))}"));
             }
 
