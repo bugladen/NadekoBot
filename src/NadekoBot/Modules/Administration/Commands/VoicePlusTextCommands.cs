@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration
         public class VoicePlusTextCommands
         {
             Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
-            //guildid/voiceplustextenabled
+            
             private ConcurrentHashSet<ulong> voicePlusTextCache;
             public VoicePlusTextCommands()
             {

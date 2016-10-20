@@ -1174,7 +1174,7 @@
     <value>betflip bf</value>
   </data>
   <data name="betflip_desc" xml:space="preserve">
-    <value>Bet to guess will the result be heads or tails. Guessing awards you double the currency you've bet.</value>
+    <value>Bet to guess will the result be heads or tails. Guessing awards you 1.8x the currency you've bet.</value>
   </data>
   <data name="betflip_usage" xml:space="preserve">
     <value>`{0}bf 5 heads` or `{0}bf 3 t`</value>
