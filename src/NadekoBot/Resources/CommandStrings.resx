@@ -2466,4 +2466,13 @@
   <data name="setmuterole_usage" xml:space="preserve">
     <value>`{0}setmuterole Silenced`</value>
   </data>
+  <data name="adsarm_cmd" xml:space="preserve">
+    <value>adsarm</value>
+  </data>
+  <data name="adsarm_desc" xml:space="preserve">
+    <value>Toggles the automatic deletion of confirmations for {0}iam and {0}iamn commands.</value>
+  </data>
+  <data name="adsarm_usage" xml:space="preserve">
+    <value>`{0}adsarm`</value>
+  </data>
 </root>

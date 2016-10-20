@@ -22,6 +22,24 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
+            public async Task AdSarm(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                bool newval;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var config = uow.GuildConfigs.For(channel.Guild.Id);
+                    newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+
+                await channel.SendMessageAsync($"Automatic deleting of `iam` and `iamn` confirmations has been {(newval ? "enabled" : "disabled")}.")
+                             .ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             public async Task Asar(IUserMessage umsg, [Remainder] IRole role)
             {
