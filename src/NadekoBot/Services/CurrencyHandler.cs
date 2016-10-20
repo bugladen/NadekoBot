@@ -38,7 +38,7 @@ namespace NadekoBot.Services
                 {
                     UserId = authorId,
                     Reason = reason,
-                    Amount = amount,
+                    Amount = -amount,
                 });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }

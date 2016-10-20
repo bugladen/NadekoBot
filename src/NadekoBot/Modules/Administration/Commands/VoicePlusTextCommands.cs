@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageRoles)]
             [RequirePermission(GuildPermission.ManageChannels)]
-            public async Task VoicePlusText(IUserMessage msg, [Remainder] string arg)
+            public async Task VoicePlusText(IUserMessage msg)
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
@@ -120,6 +120,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         var conf = uow.GuildConfigs.For(guild.Id);
                         isEnabled = conf.VoicePlusTextEnabled = !conf.VoicePlusTextEnabled;
+                        await uow.CompleteAsync().ConfigureAwait(false);
                     }
                     voicePlusTextCache.AddOrUpdate(guild.Id, isEnabled, (id, val) => isEnabled);
                     if (isEnabled)
@@ -143,7 +144,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageChannels)]
             [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task CleanVPlusT(IUserMessage msg, [Remainder] string arg)
+            public async Task CleanVPlusT(IUserMessage msg)
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
