@@ -689,7 +689,21 @@ namespace NadekoBot.Modules.Administration
 
             await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(game)).ConfigureAwait(false);
 
-            await channel.SendMessageAsync("New game set.").ConfigureAwait(false);
+            await channel.SendMessageAsync("`New game set.`").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task SetStream(IUserMessage umsg, string url, [Remainder] string name = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            name = name ?? "";
+
+            await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(name, url, StreamType.Twitch)).ConfigureAwait(false);
+
+            await channel.SendMessageAsync("`New stream set.`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
