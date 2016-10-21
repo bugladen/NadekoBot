@@ -301,6 +301,16 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "No reason provided.";
             }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r=>r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
+            }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
+            }
             try
             {
                 await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
@@ -329,6 +339,11 @@ namespace NadekoBot.Modules.Administration
             if (string.IsNullOrWhiteSpace(msg))
             {
                 msg = "No reason provided.";
+            }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
             }
             try
             {
@@ -361,6 +376,12 @@ namespace NadekoBot.Modules.Administration
             if (user == null)
             {
                 await channel.SendMessageAsync("User not found.").ConfigureAwait(false);
+                return;
+            }
+
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
             }
             if (!string.IsNullOrWhiteSpace(msg))

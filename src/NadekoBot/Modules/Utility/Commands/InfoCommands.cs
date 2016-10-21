@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Utility
 `Joined Server:` **{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}** 
 `Joined Discord:` **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
 `Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
-`AvatarUrl:` **{user.AvatarUrl}**";
+`AvatarUrl:` **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
     }
