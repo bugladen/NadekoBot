@@ -4,27 +4,26 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 **This is how the unedited credentials look:**
 ```json
 {
+  "ClientId": 123123123,
+  "BotId": null,
   "Token": "",
-  "ClientId": "116275390695079945",
-  "BotId": 1231231231231,
   "OwnerIds": [
-  123123123123,
-  5675675679845
+    0
   ],
-  "GoogleAPIKey": "",
-  "SoundCloudClientID": "",
+  "LoLApiKey": "",
+  "GoogleApiKey": "",
   "MashapeKey": "",
-  "LOLAPIKEY": "",
-  "TrelloAPPKey": "",
-  "OsuAPIKey": "",
-  "CarbonKey": "",
+  "OsuApiKey": "",
+  "SoundCloudClientId": "",
+  "Db": null,
+  "TotalShards": 1
 }
 ```
 ####Required Parts
 + **Token** - Required to log in. Refer to this [guide](http://discord.kongslien.net/guide.html)
 + **OwnerIds** - Required for the **Owner-Only** commands. Seperate multiple Id's with a comma.
-+ **BotId** - Required for custom reactions and conversation commands to work.  
-  + **Important : Bot ID and Client ID are the same in newer bot accounts due to recent Discord API changes.** 
++ **BotId** - Required for custom reactions to work.  
+  + **Important : Bot ID and Client ID will be the same in newer bot accounts due to recent changes by Discord.** 
 
 _BotId and the OwnerIds are **NOT** the names of the owner and the bot. If you do not know the id of your bot, keep the two random numbers in those fields and 
 run the bot then do  `.uid @MyBotName` - this will give you your bot_id.
@@ -44,12 +43,16 @@ Setting up your API keys
     + Copy the key and paste it into `credentials.json`
 + **LOLAPIKey** - Required for all League of Legends commands. 
   + You can get this key [here](http://api.champion.gg/)
-+ **TrelloAppKey** - Required for the trello commands.
-  + You can get this key [here](https://trello.com/app-key) **Be sure you are logged into Trello first**
 + **OsuAPIKey** - Required for Osu commands
   + You can get this key [here](https://osu.ppy.sh/p/api) **You will need to log in and like the soundcloud it may take a few tries**
-+ **CarbonKey** -This key is for Carobnitex.net stats. 
-  + Most likely unnecessary **Needed only if your bot is listed on Carbonitex.net**
+  
+Additional options
+==================== 
++ **TotalShards** - Required if the bot will be connected to more than 2500 servers 
+  + Most likely unnecessary to change until your bot is added to more than 2000 servers  
+[//]: # (+ **Db** - Allows for advanced database configuration  )
+[//]: # (  + Leave this with the `null` value for standard operation - change this to `examples` to [This is only a comment so doesn't need proper detail])
+  
 
 Config.json
 ===========
