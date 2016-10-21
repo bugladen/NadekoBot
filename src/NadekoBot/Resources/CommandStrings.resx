@@ -2332,7 +2332,7 @@
     <value>allusrmdls aum</value>
   </data>
   <data name="moveperm_desc" xml:space="preserve">
-    <value>Moves permission from one position to another.</value>
+    <value>Moves permission from one position to another in Permissions list.</value>
   </data>
   <data name="moveperm_usage" xml:space="preserve">
     <value>`{0}mp 2 4`</value>
@@ -2341,7 +2341,7 @@
     <value>moveperm mp</value>
   </data>
   <data name="removeperm_desc" xml:space="preserve">
-    <value>Removes a permission from a given position</value>
+    <value>Removes a permission from a given position in Permissions list.</value>
   </data>
   <data name="removeperm_usage" xml:space="preserve">
     <value>`{0}rp 1`</value>
