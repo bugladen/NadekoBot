@@ -11,7 +11,7 @@
     },
     "copyToOutput": {
       "include": [ "data" ],
-      "includeFiles": ["libsodium.dll", "opus.dll"],
+      "includeFiles": [ "libsodium.dll", "opus.dll", "libsodium.so", "libopus.so" ],
       "exclude": [ "data/musicdata" ]
     },
     "define": []
