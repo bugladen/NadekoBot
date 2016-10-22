@@ -9,6 +9,11 @@
     "compile": {
       "exclude": [ "data" ]
     },
+    "copyToOutput": {
+      "include": [ "data" ],
+      "includeFiles": ["libsodium.dll", "opus.dll"],
+      "exclude": [ "data/musicdata" ]
+    },
     "define": []
   },
   "dependencies": {
