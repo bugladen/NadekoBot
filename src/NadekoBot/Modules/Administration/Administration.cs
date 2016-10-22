@@ -301,6 +301,16 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "No reason provided.";
             }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r=>r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
+            }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
+            }
             try
             {
                 await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
@@ -329,6 +339,11 @@ namespace NadekoBot.Modules.Administration
             if (string.IsNullOrWhiteSpace(msg))
             {
                 msg = "No reason provided.";
+            }
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
+                return;
             }
             try
             {
@@ -361,6 +376,12 @@ namespace NadekoBot.Modules.Administration
             if (user == null)
             {
                 await channel.SendMessageAsync("User not found.").ConfigureAwait(false);
+                return;
+            }
+
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
+            {
+                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
             }
             if (!string.IsNullOrWhiteSpace(msg))
@@ -412,6 +433,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Mute(IUserMessage umsg, IGuildUser user)
         {
@@ -421,7 +443,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text and voice muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was muted from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -431,15 +453,53 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task TextMute(IUserMessage umsg, IGuildUser user)
+        public async Task Unmute(IUserMessage umsg, IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            try
+            {
+                await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
+                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was unmuted from text and voice chat successfully.").ConfigureAwait(false);
+            }
+            catch
+            {
+                await channel.SendMessageAsync("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
+        public async Task ChatMute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             try
             {
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was muted from chatting successfully.").ConfigureAwait(false);
+            }
+            catch
+            {
+                await channel.SendMessageAsync("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
+        public async Task ChatUnmute(IUserMessage umsg, IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            try
+            {
+                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was unmuted from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -474,7 +534,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await channel.SendMessageAsync("Unmute successful").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was voice unmuted successfully.").ConfigureAwait(false);
             }
             catch
             {

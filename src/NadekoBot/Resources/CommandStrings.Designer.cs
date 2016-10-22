@@ -1032,6 +1032,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to chatmute.
+        /// </summary>
+        public static string chatmute_cmd {
+            get {
+                return ResourceManager.GetString("chatmute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Prevents a mentioned user from chatting in text channels..
+        /// </summary>
+        public static string chatmute_desc {
+            get {
+                return ResourceManager.GetString("chatmute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}chatmute @Someone`.
+        /// </summary>
+        public static string chatmute_usage {
+            get {
+                return ResourceManager.GetString("chatmute_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to chatunmute.
+        /// </summary>
+        public static string chatunmute_cmd {
+            get {
+                return ResourceManager.GetString("chatunmute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a mute role previously set on a mentioned user with `{0}chatmute` which prevented him from chatting in text channels..
+        /// </summary>
+        public static string chatunmute_desc {
+            get {
+                return ResourceManager.GetString("chatunmute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}chatunmute @Someone`.
+        /// </summary>
+        public static string chatunmute_usage {
+            get {
+                return ResourceManager.GetString("chatunmute_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to checkmyperms.
         /// </summary>
         public static string checkmyperms_cmd {
@@ -3876,7 +3930,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Moves permission from one position to another..
+        ///    Looks up a localized string similar to Moves permission from one position to another in Permissions list..
         /// </summary>
         public static string moveperm_desc {
             get {
@@ -4713,7 +4767,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Removes a permission from a given position.
+        ///    Looks up a localized string similar to Removes a permission from a given position in Permissions list..
         /// </summary>
         public static string removeperm_desc {
             get {
@@ -6270,33 +6324,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to textmute.
-        /// </summary>
-        public static string textmute_cmd {
-            get {
-                return ResourceManager.GetString("textmute_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Prevents a mentioned user from chatting in text channels..
-        /// </summary>
-        public static string textmute_desc {
-            get {
-                return ResourceManager.GetString("textmute_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}textmute @Someone`.
-        /// </summary>
-        public static string textmute_usage {
-            get {
-                return ResourceManager.GetString("textmute_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to tl.
         /// </summary>
         public static string tl_cmd {
@@ -6590,6 +6617,33 @@ namespace NadekoBot.Resources {
         public static string undeafen_usage {
             get {
                 return ResourceManager.GetString("undeafen_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to unmute.
+        /// </summary>
+        public static string unmute_cmd {
+            get {
+                return ResourceManager.GetString("unmute_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unmutes a mentioned user previously muted with `{0}mute` command..
+        /// </summary>
+        public static string unmute_desc {
+            get {
+                return ResourceManager.GetString("unmute_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}unmute @Someone`.
+        /// </summary>
+        public static string unmute_usage {
+            get {
+                return ResourceManager.GetString("unmute_usage", resourceCulture);
             }
         }
         
