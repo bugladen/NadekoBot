@@ -433,6 +433,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Mute(IUserMessage umsg, IGuildUser user)
         {
@@ -452,6 +453,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [RequirePermission(GuildPermission.MuteMembers)]
         public async Task Unmute(IUserMessage umsg, IGuildUser user)
         {
@@ -471,7 +473,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.MuteMembers)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         public async Task TextMute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -489,7 +491,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.MuteMembers)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         public async Task TextUnmute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
