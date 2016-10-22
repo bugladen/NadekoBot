@@ -92,7 +92,7 @@ namespace NadekoBot
                 ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
             // start handling messages received in commandhandler
-            await CommandHandler.StartHandling();
+            await CommandHandler.StartHandling().ConfigureAwait(false);
 
             await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
