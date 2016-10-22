@@ -12,10 +12,7 @@
     "copyToOutput": {
       "include": [ "data" ],
       "includeFiles": ["libsodium.dll", "opus.dll"],
-      "exclude": [ "data/musicdata" ],
-      "mappings": {
-        "./": "./libs"
-      }
+      "exclude": [ "data/musicdata" ]
     },
     "define": []
   },
