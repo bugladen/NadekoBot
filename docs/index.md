@@ -19,8 +19,8 @@ If you want to contribute, be sure to PR on the **[1.0][1.0]** branch.
 	- [Windows Guide](guides/Windows Guide.md)
 	- [Linux Guide](guides/Linux Guide.md)
 	- [OSX Guide](guides/OSX Guide.md)
-	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
+	- [Upgrading Guide](guides/Upgrading Guide.md)
 - Commands
 	- [Readme](Readme.md)
 	- [Commands List](Commands List.md)
