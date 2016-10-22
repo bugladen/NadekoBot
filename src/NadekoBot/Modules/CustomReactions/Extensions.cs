@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public static Dictionary<string, Func<IUserMessage, string, string>> responsePlaceholders = new Dictionary<string, Func<IUserMessage, string, string>>()
         {
-            {"%target%", (ctx, trigger) => { return ctx.Content.Substring(trigger.Length); } }
+            {"%target%", (ctx, trigger) => { return ctx.Content.Substring(trigger.Length).Trim(); } }
         };
 
         public static Dictionary<string, Func<IUserMessage, string>> placeholders = new Dictionary<string, Func<IUserMessage, string>>()
