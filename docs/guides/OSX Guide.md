@@ -9,7 +9,8 @@
 
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-Run `brew update` to fetch the latest package data.
+Run `brew update` to fetch the latest package data.  
+
 ####Installing dependencies
 ```
 brew install git
@@ -28,7 +29,7 @@ brew install tmux
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
 - Download the .NET Core SDK, found [here.](https://go.microsoft.com/fwlink/?LinkID=827526)
-- Open the `.pkg` and install it.
+- Open the `.pkg` file you downloaded and install it.
 
 ####Check your `FFMPEG`
 
@@ -51,14 +52,10 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 ####Downloading and building Nadeko
 - `cd ~`
 - `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
-- `cd /NadekoBot/discord.net/src/Discord.Net`
-- `dotnet restore && dotnet build --configuration Release`
-- `cd ../Discord.Net.Commands/`
-- `dotnet restore && dotnet build --configuration Release`
-- `cd ../../../src/NadekoBot/`
-- `dotnet restore && dotnet build --configuration Release`
-- `dotnet run --configuration Release`
-- The above step **will** crash, giving you an error, which will say that `credentials_example.json` has been generated, we'll use this soon
+- `cd ~/NadekoBot/`
+- `dotnet restore`
+- `cd ~/NadekoBot/src/NadekoBot/`
+- `dotnet build --configuration Release`
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page.][DiscordApp]
@@ -71,14 +68,18 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
  
 ####Setting up Credentials.json file
 - Open up the `NadekoBot` folder, which should be in your home directory, then the `src` folder and then the additonal `NadekoBot` folder.
-- In our `NadekoBot` folder you should have `.json` file named `credentials_example.json`. (Note: If you do not see a **.json** after `credentials_example.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
-- Rename `credentials_example.json` to `credentials.json`.
+- In our `NadekoBot` folder you should have `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
+- If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with your Text editor.
 - In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token.
 - Copy your bot's token, and on the `"Token"` line of your `credentials.json`, replace `null` with your bot token and put quotation marks before and after the token, like so `"Example.Token"`
 - Copy the `Client ID` on the page and replace the null part of the `ClientId` line with it, and put quotation marks before and after, like earlier.
 - Again, copy the same `Client ID` and replace the null part of the `BotId` line with it, and do **not** put quotation marks before and after the ID.
-- Save your `credentials.json` but keep it open. We need to add your `User ID` as one of the `OwnerIds` shortly.
+- Go to a server on discord and attempt to mention yourself, but put a backslash at the start as shown below
+- So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
+- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
+- Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
+- If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
  
 ####Running NadekoBot
  
@@ -113,16 +114,7 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will dit
 - Your edited link should look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID**&scope=bot&permissions=66186303`.
 - Go to newly created link and pick the server we created, and click `Authorize`.
 - Bot should be added to your server.
- 
-####Setting up OwnerIds
-- In the server where your bot is, in a text channel, type `.uid`
-- Your `User ID` should show, copy it.
-- Stop NadekoBot from running by presing `Ctrl + C` in the terminal that the bot is running in 
-- Replace the `null` section on the `OwnerIds` line with your user ID shown earlier and put a square bracket around each end of the ID like so, `[105635576866156544]`
-- Run Nadeko again, as guided above.
-- If done correctly, you are now the bot owner.
-- You can add multiple owner IDs by seperating them with a comma within the square brackets.
-
+  
 ####Setting NadekoBot Music
 
 For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/).
