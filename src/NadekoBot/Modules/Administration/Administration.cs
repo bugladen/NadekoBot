@@ -443,7 +443,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text and voice muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was muted from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -463,7 +463,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text and voice muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was unmuted from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -474,14 +474,14 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageRoles)]
-        public async Task TextMute(IUserMessage umsg, IGuildUser user)
+        public async Task ChatMute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             try
             {
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was muted from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -492,14 +492,14 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageRoles)]
-        public async Task TextUnmute(IUserMessage umsg, IGuildUser user)
+        public async Task ChatUnmute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             try
             {
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"**{user}** was text muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was unmuted from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -534,7 +534,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await channel.SendMessageAsync("Unmute successful").ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was voice unmuted successfully.").ConfigureAwait(false);
             }
             catch
             {

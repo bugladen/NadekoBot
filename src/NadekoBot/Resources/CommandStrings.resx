@@ -2430,14 +2430,14 @@
   <data name="antispam_usage" xml:space="preserve">
     <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
   </data>
-  <data name="textmute_cmd" xml:space="preserve">
-    <value>textmute</value>
+  <data name="chatmute_cmd" xml:space="preserve">
+    <value>chatmute</value>
   </data>
-  <data name="textmute_desc" xml:space="preserve">
+  <data name="chatmute_desc" xml:space="preserve">
     <value>Prevents a mentioned user from chatting in text channels.</value>
   </data>
-  <data name="textmute_usage" xml:space="preserve">
-    <value>`{0}textmute @Someone`</value>
+  <data name="chatmute_usage" xml:space="preserve">
+    <value>`{0}chatmute @Someone`</value>
   </data>
   <data name="voicemute_cmd" xml:space="preserve">
     <value>voicemute</value>
@@ -2484,14 +2484,14 @@
   <data name="setstream_usage" xml:space="preserve">
     <value>`{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`</value>
   </data>
-  <data name="textunmute_cmd" xml:space="preserve">
-    <value>textunmute</value>
+  <data name="chatunmute_cmd" xml:space="preserve">
+    <value>chatunmute</value>
   </data>
-  <data name="textunmute_desc" xml:space="preserve">
-    <value>Removes a mute role previously set on a mentioned user with `{0}textmute` which prevented him from chatting in text channels.</value>
+  <data name="chatunmute_desc" xml:space="preserve">
+    <value>Removes a mute role previously set on a mentioned user with `{0}chatmute` which prevented him from chatting in text channels.</value>
   </data>
-  <data name="textunmute_usage" xml:space="preserve">
-    <value>`{0}textunmute @Someone`</value>
+  <data name="chatunmute_usage" xml:space="preserve">
+    <value>`{0}chatunmute @Someone`</value>
   </data>
   <data name="unmute_cmd" xml:space="preserve">
     <value>unmute</value>
