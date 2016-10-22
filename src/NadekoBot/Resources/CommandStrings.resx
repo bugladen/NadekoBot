@@ -2502,4 +2502,13 @@
   <data name="unmute_usage" xml:space="preserve">
     <value>`{0}unmute @Someone`</value>
   </data>
+  <data name="xkcd_cmd" xml:space="preserve">
+    <value>xkcd</value>
+  </data>
+  <data name="xkcd_desc" xml:space="preserve">
+    <value>Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and "latest" will get the latest one.</value>
+  </data>
+  <data name="xkcd_usage" xml:space="preserve">
+    <value>`{0}xkcd` or `{0}xkcd 1400` or `{0}xkcd latest`</value>
+  </data>
 </root>

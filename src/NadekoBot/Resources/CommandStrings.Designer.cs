@@ -7161,6 +7161,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to xkcd.
+        /// </summary>
+        public static string xkcd_cmd {
+            get {
+                return ResourceManager.GetString("xkcd_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and &quot;latest&quot; will get the latest one..
+        /// </summary>
+        public static string xkcd_desc {
+            get {
+                return ResourceManager.GetString("xkcd_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}xkcd` or `{0}xkcd 1400` or `{0}xkcd latest`.
+        /// </summary>
+        public static string xkcd_usage {
+            get {
+                return ResourceManager.GetString("xkcd_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to yomama ym.
         /// </summary>
         public static string yomama_cmd {

@@ -56,7 +56,8 @@
   },
   "configurations": {
     "GlobalNadeko": {
-      "buildOptions": {"define": ["GLOBAL_NADEKO"]}
+      "buildOptions": { "define": [ "GLOBAL_NADEKO" ] },
+      "compilationOptions": { "optimize": true }
     }
   }
 }
