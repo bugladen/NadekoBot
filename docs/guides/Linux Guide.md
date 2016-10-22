@@ -97,17 +97,12 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 ####Getting NadekoBot
 
 **10)**
-`git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
+`cd ~ && git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
 
 ####Building NadekoBot
-**11)** `cd /NadekoBot/discord.net/src/Discord.Net`  
-`dotnet restore && dotnet build --configuration Release`
 
-**12)**
-`cd ../Discord.Net.Commands/ && dotnet restore && dotnet build --configuration Release`
-
-**13)**
-`cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`
+**11)**
+`cd ~/NadekoBot/ && dotnet restore && cd ~/NadekoBot/src/NadekoBot/ && dotnet build --configuration Release`
 
 ####Setting up NadekoBot 
 
@@ -120,29 +115,28 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 - In **Password:** type `the new root password (you changed at the start)`
 - Click on **Connect**
 - It should show you the NadekoBot folder which was created by git earlier
-- Open that folder, then open the `src` folder, followed by another `NadekoBot` folder and you should see `credentials_example.json` here
+- Open that folder, then open the `src` folder, followed by another `NadekoBot` folder and you should see `credentials.json` here
 
-####Renaming Credentials.json
+####Setting up credentials.json
 
-- Copy the `credentials_example.json` to desktop
-- EDIT it as it is guided here: [Setting up Credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#creating-discordbot-application)
-- Rename it to `credentials.json` and paste/put it back in the folder. `(Yes, using CyberDuck)`
-- You should see two files `credentials_example.json` and `credentials.json`
-- Also if you already have nadeko setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
+- Copy the `credentials.json` to desktop
+- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
+- Read here how to [create a DiscordBot application.](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#creating-discordbot-application)
+- Paste/put it back in the folder once done. `(Yes, using CyberDuck)`
+- If you already have nadeko setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
 
 ####Running NadekoBot
 
 Go back to **PuTTY**, `(hope its still running xD)`
 
-**14)**
+**12)**
 Type/ Copy and hit **Enter**.
 
 `tmux new -s nadeko`  
 `cd NadekoBot/src/NadekoBot/`  
 **^this will create a new session named “nadeko”** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep running PuTTY in the background.
 
-**15)**
+**13)**
 `dotnet run --configuration Release`
 
 **CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING**
@@ -171,7 +165,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 - Make sure the bot is **not** running
 - Connect to the terminal
-- `cd NadekoBot`
+- `cd ~\NadekoBot\`
 - `git init && git pull`
 - Run the bot again as normal, and you've updated!
 

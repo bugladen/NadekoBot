@@ -16,10 +16,10 @@ ________________________________________________________________________________
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a folder somewhere and name it `Nadeko`.
-- Head to the [Windows Installer releases page][WinInstaller] and download the latest source code zip.
+- Head to the [Windows Installer releases page][WinInstaller] and download the latest release zip.
 - Extract the contents of the zip you just downloaded to the `Nadeko` folder that we created earlier.
-- You will see a few files, most importantly, `NadekoInstaller.bat ` after extraction (You may not see the `.bat` part of the filename).
-- Run/Launch/Open `NadekoInstaller.bat ` and you will see it running in the command prompt.
+- You will see two files, most importantly, `NadekoInstaller.bat` after extraction (You may not see the `.bat` part of the filename).
+- Run/Launch/Open `NadekoInstaller.bat` and you will see it running in the command prompt.
 - Wait a while for the file to finish installing, it'll say when it's done in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
 - You can safely delete the `NadekoInstall_Temp` folder if you so choose.
@@ -33,16 +33,20 @@ ________________________________________________________________________________
 - Click on `Create a Bot User` and confirm that you do want to add a bot to this app.
 - Keep this window open for now.
 
-####Setting up Credentials.json file
-- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials_example.json`. (Note: If you do not see a **.json** after `credentials_example.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
-- Rename `credentials_example.json` to `credentials.json`.
+####Setting up credentials.json file
+- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
+- If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with [Notepad++][Notepad++].
 - In there you will see fields such as `Token`, `ClientId`, `BotId` and `OwnerIDs`.
 - In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token.
 - Copy your bot's token, and on the `"Token"` line of your `credentials.json`, paste your bot token between the quotation marks.
 - Copy the `Client ID` on the page and replace the `12312123` part of the `ClientId` line with it.
 - Again, copy the same `Client ID` and replace the `null` part of the `BotId` line with it.
-- Save your `credentials.json` but keep it open. We need to add your `User ID` as one of the `OwnerIds` shortly.
+- Go to a server on discord and attempt to mention yourself, but put a backslash at the start like shown below
+- So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
+- Copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
+- Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
+- If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
 
 ####Inviting your bot to your server 
 - [Invite Guide][Invite Guide]
@@ -58,15 +62,11 @@ ________________________________________________________________________________
 - Your bot should now be online in the server we added her to.
 - Note: Your bot will be offline in case you close the `NadekoBot` command prompt window.
 
-####Setting up OwnerIds
-- In the server where your bot is, in a text channel, type `.uid`
-- Your `User ID` should show, copy it.
-- Close `NadekoBot`
-- Replace the `0` on the `OwnerIds` section with your user ID shown earlier.
-- Run `NadekoRun.bat` again.
-- If done correctly, you are now the bot owner.
-- You can add multiple owner IDs by seperating them with a comma within the square brackets.
-
+####Updating NadekoBot
+- Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
+- Run `NadekoInstaller.bat` again and wait for it to finish.
+- Run `NadekoRun.bat`.
+- You've updated, easy as that!
 ________________________________________________________________________________
 
 #### Setting Up NadekoBot For Music
