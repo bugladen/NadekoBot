@@ -2484,4 +2484,22 @@
   <data name="setstream_usage" xml:space="preserve">
     <value>`{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`</value>
   </data>
+  <data name="textunmute_cmd" xml:space="preserve">
+    <value>textunmute</value>
+  </data>
+  <data name="textunmute_desc" xml:space="preserve">
+    <value>Removes a mute role previously set on a mentioned user with `{0}textmute` which prevented him from chatting in text channels.</value>
+  </data>
+  <data name="textunmute_usage" xml:space="preserve">
+    <value>`{0}textunmute @Someone`</value>
+  </data>
+  <data name="unmute_cmd" xml:space="preserve">
+    <value>unmute</value>
+  </data>
+  <data name="unmute_desc" xml:space="preserve">
+    <value>Unmutes a mentioned user previously muted with `{0}mute` command.</value>
+  </data>
+  <data name="unmute_usage" xml:space="preserve">
+    <value>`{0}unmute @Someone`</value>
+  </data>
 </root>

@@ -453,6 +453,25 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.MuteMembers)]
+        public async Task Unmute(IUserMessage umsg, IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            try
+            {
+                await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
+                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was text and voice muted successfully.").ConfigureAwait(false);
+            }
+            catch
+            {
+                await channel.SendMessageAsync("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.MuteMembers)]
         public async Task TextMute(IUserMessage umsg, IGuildUser user)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -460,6 +479,24 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync($"**{user}** was text muted successfully.").ConfigureAwait(false);
+            }
+            catch
+            {
+                await channel.SendMessageAsync("I most likely don't have the permission necessary for that.").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.MuteMembers)]
+        public async Task TextUnmute(IUserMessage umsg, IGuildUser user)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            try
+            {
+                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                 await channel.SendMessageAsync($"**{user}** was text muted successfully.").ConfigureAwait(false);
             }
             catch
