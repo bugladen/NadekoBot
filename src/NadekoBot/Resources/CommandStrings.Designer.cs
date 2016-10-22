@@ -5730,6 +5730,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setstream.
+        /// </summary>
+        public static string setstream_cmd {
+            get {
+                return ResourceManager.GetString("setstream_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the bots stream. First argument is the twitch link, second argument is stream name..
+        /// </summary>
+        public static string setstream_desc {
+            get {
+                return ResourceManager.GetString("setstream_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`.
+        /// </summary>
+        public static string setstream_usage {
+            get {
+                return ResourceManager.GetString("setstream_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to settopic st.
         /// </summary>
         public static string settopic_cmd {

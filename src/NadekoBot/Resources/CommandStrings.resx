@@ -2475,4 +2475,13 @@
   <data name="adsarm_usage" xml:space="preserve">
     <value>`{0}adsarm`</value>
   </data>
+  <data name="setstream_cmd" xml:space="preserve">
+    <value>setstream</value>
+  </data>
+  <data name="setstream_desc" xml:space="preserve">
+    <value>Sets the bots stream. First argument is the twitch link, second argument is stream name.</value>
+  </data>
+  <data name="setstream_usage" xml:space="preserve">
+    <value>`{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`</value>
+  </data>
 </root>
