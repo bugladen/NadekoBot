@@ -77,7 +77,7 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - Again, copy the same `Client ID` and replace the null part of the `BotId` line with it, and do **not** put quotation marks before and after the ID.
 - Go to a server on discord and attempt to mention yourself, but put a backslash at the start as shown below
 - So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
-- Copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
+- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
 - Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
  
