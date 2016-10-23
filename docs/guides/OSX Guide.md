@@ -88,14 +88,14 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
  
 ####Running NadekoBot
 
--Using tmux
+- Using tmux
 
 `tmux new -s nadeko`
 
 ^this will create a new session named “nadeko”  
 `(you can replace “nadeko” with anything you prefer and remember its your session name)`.
 
--Using Screen
+- Using Screen
 
 If you want to use Screen, run:
 
