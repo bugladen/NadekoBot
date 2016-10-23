@@ -7,7 +7,7 @@
 
 ####Installing Homebrew
 
-`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
 
 Run `brew update` to fetch the latest package data.  
 
@@ -26,14 +26,17 @@ brew install tmux
 ```
 
 ####Installing .NET Core SDK
+
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
 - Download the .NET Core SDK, found [here.](https://go.microsoft.com/fwlink/?LinkID=827526)
 - Open the `.pkg` file you downloaded and install it.
+- `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
+- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
 
 ####Check your `FFMPEG`
 
-**In case your `FFMPEG` wasnt installed properly**
+**In case your `FFMPEG` wasnt installed properly (Optional)**
 
 - `brew options ffmpeg`
 - `brew install ffmpeg --with-x --with-y --with-z` etc.
@@ -43,6 +46,7 @@ brew install tmux
 - Then try `brew install ffmpeg` again.
 
 ####Installing xcode-select
+
 Xcode command line tools. You will do this in Terminal.app by running the following command line:
 
 `xcode-select --install`
@@ -52,9 +56,10 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 ####Downloading and building Nadeko
 - `cd ~`
 - `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
-- `cd ~/NadekoBot/`
+- `cd ~/NadekoBot/discord.net`
 - `dotnet restore`
 - `cd ~/NadekoBot/src/NadekoBot/`
+- `dotnet restore` 
 - `dotnet build --configuration Release`
 
 ####Creating DiscordBot application
@@ -82,23 +87,27 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
  
 ####Running NadekoBot
- 
+
+-Using tmux
+
 `tmux new -s nadeko`
 
 ^this will create a new session named “nadeko”  
 `(you can replace “nadeko” with anything you prefer and remember its your session name)`.
 
-or if you want to use Screen, run:
+-Using Screen
+
+If you want to use Screen, run:
 
 `screen -S nadeko`
 
 ^this will create a new screen named “nadeko”  
 `(you can replace “nadeko” with anything you prefer and remember its your screen name)`.
 
+- Start Nadeko using dotnet:
+
 `cd ~/NadekoBot/src/NadekoBot/`
 
-- Start Nadeko using dotnet:
- 
 `dotnet run --configuration Release`
 
 CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING
