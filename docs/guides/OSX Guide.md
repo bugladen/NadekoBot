@@ -72,7 +72,7 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - Keep this window open for now.
  
 ####Setting up Credentials.json file
-- Open up the `NadekoBot` folder, which should be in your home directory, then the `src` folder and then the additonal `NadekoBot` folder.
+- Open up the `NadekoBot` folder, which should be in your home directory, then `NadekoBot` folder then `src` folder and then the additonal `NadekoBot` folder.
 - In our `NadekoBot` folder you should have `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with your Text editor.
@@ -121,7 +121,7 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will dit
 - Copy your `Client ID` from your [Discord bot applications page.][DiscordApp]
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
 - Your edited link should look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID**&scope=bot&permissions=66186303`.
-- Go to newly created link and pick the server we created, and click `Authorize`.
+- Go to newly created link and pick the server, and click `Authorize`.
 - Bot should be added to your server.
   
 ####Setting NadekoBot Music
