@@ -32,7 +32,6 @@ brew install tmux
 - Download the .NET Core SDK, found [here.](https://go.microsoft.com/fwlink/?LinkID=827526)
 - Open the `.pkg` file you downloaded and install it.
 - `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
-- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
 
 ####Check your `FFMPEG`
 
@@ -57,6 +56,7 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - `cd ~`
 - `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
 - `cd ~/NadekoBot/discord.net`
+- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
 - `dotnet restore`
 - `cd ~/NadekoBot/src/NadekoBot/`
 - `dotnet restore` 
