@@ -128,9 +128,9 @@ namespace NadekoBot.Modules.Administration
                         isEnabled = conf.VoicePlusTextEnabled = !conf.VoicePlusTextEnabled;
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    voicePlusTextCache.Add(guild.Id);
                     if (!isEnabled)
                     {
+                        voicePlusTextCache.TryRemove(guild.Id);
                         foreach (var textChannel in guild.GetTextChannels().Where(c => c.Name.EndsWith("-voice")))
                         {
                             try { await textChannel.DeleteAsync().ConfigureAwait(false); } catch { }
@@ -138,6 +138,7 @@ namespace NadekoBot.Modules.Administration
                         await channel.SendMessageAsync("Successfuly removed voice + text feature.").ConfigureAwait(false);
                         return;
                     }
+                    voicePlusTextCache.Add(guild.Id);
                     await channel.SendMessageAsync("Successfuly enabled voice + text feature.").ConfigureAwait(false);
 
                 }
