@@ -53,6 +53,14 @@ Xcode command line tools. You will do this in Terminal.app by running the follow
 A dialog box will open asking if you want to install `xcode-select`. Select install and finish the installation.
 
 ####Downloading and building Nadeko
+
+**METHOD I**
+- `cd ~`
+- `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+
+*If you fail to run the bot with* `METHOD I` *try:*
+
+**METHOD II**
 - `cd ~`
 - `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
 - `cd ~/NadekoBot/discord.net`
@@ -112,7 +120,7 @@ If you want to use Screen, run:
 
 CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING
 
-Now time to move bot to background and to do that, press CTRL+B+D (this will ditach the nadeko session using TMUX)
+Now time to move bot to background and to do that, press CTRL+B+D (this will detach the nadeko session using TMUX)
 
 *If you used Screen press CTRL+A+D (this will detach the nadeko screen)*
 
