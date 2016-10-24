@@ -18,8 +18,8 @@ ________________________________________________________________________________
 - Create a folder somewhere and name it `Nadeko`.
 - Head to the [Windows Installer releases page][WinInstaller] and save the zip as prompted.
 - Extract the contents of the zip you just downloaded to the `Nadeko` folder that we created earlier.
-- You should see another folder in the `Nadeko` folder, something along the lines of `NadekoBotInstallerWin-master` copy the contents of this folder, to the `Nadeko` folder
-- You shoudl now see three files, most importantly, `NadekoInstaller.bat` after moving the contents of the folder mentioned above to the `Nadeko` folder (You may not see the `.bat` part of the filename).
+- You should see another folder in the `Nadeko` folder, something along the lines of `NadekoBotInstallerWin-master` copy the contents of this folder, to the `Nadeko` folder, then (optionally) remove the empty, `NadekoBotInstallerWin-master` folder
+- You should now see three files, most importantly, `NadekoInstaller.bat` after moving the contents of the folder mentioned above to the `Nadeko` folder (You may not see the `.bat` part of the filename).
 - Run/Launch/Open `NadekoInstaller.bat` and you will see it running in the command prompt.
 - Wait a while for the file to finish installing, it'll display it's progress in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
