@@ -55,12 +55,14 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 ####Downloading and building Nadeko
 
 **METHOD I**
+
 - `cd ~`
 - `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
 
 *If you fail to run the bot with* `METHOD I` *try:*
 
 **METHOD II**
+
 - `cd ~`
 - `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
 - `cd ~/NadekoBot/discord.net`
