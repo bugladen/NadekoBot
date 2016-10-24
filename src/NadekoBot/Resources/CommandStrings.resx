@@ -1246,10 +1246,10 @@
     <value>award</value>
   </data>
   <data name="award_desc" xml:space="preserve">
-    <value>Awards someone a certain amount of currency.  </value>
+    <value>Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role.</value>
   </data>
   <data name="award_usage" xml:space="preserve">
-    <value>`{0}award 100 @person`</value>
+    <value>`{0}award 100 @person` or `{0}award 5 Role Of Gamblers`</value>
   </data>
   <data name="take_cmd" xml:space="preserve">
     <value>take</value>

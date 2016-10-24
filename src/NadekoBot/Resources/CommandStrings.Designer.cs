@@ -555,7 +555,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Awards someone a certain amount of currency.  .
+        ///    Looks up a localized string similar to Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role..
         /// </summary>
         public static string award_desc {
             get {
@@ -564,7 +564,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}award 100 @person`.
+        ///    Looks up a localized string similar to `{0}award 100 @person` or `{0}award 5 Role Of Gamblers`.
         /// </summary>
         public static string award_usage {
             get {
