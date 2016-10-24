@@ -43,7 +43,7 @@ namespace NadekoBot
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
 
-            _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
+            _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
 
 
             Credentials = new BotCredentials();
