@@ -4443,7 +4443,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Creates a poll, only person who has manage server permission can do it..
+        ///    Looks up a localized string similar to Creates a poll which requires users to send the number of the voting option to the bot..
         /// </summary>
         public static string poll_desc {
             get {
@@ -4511,6 +4511,33 @@ namespace NadekoBot.Resources {
         public static string prune_usage {
             get {
                 return ResourceManager.GetString("prune_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to publicpoll ppoll.
+        /// </summary>
+        public static string publicpoll_cmd {
+            get {
+                return ResourceManager.GetString("publicpoll_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Creates a public poll which requires users to type a number of the voting option in the channel command is ran in..
+        /// </summary>
+        public static string publicpoll_desc {
+            get {
+                return ResourceManager.GetString("publicpoll_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}ppoll Question?;Answer1;Answ 2;A_3`.
+        /// </summary>
+        public static string publicpoll_usage {
+            get {
+                return ResourceManager.GetString("publicpoll_usage", resourceCulture);
             }
         }
         
