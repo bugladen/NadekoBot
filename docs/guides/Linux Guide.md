@@ -97,8 +97,8 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 ####Getting NadekoBot
 
 **10)**
-`cd ~`
-`curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+```cd ~
+curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh```
 *Skip steps 10.5-11.5 and continue to run the bot, if you see errors while running, do the below steps again.*
 
 **10.5)**
@@ -111,12 +111,12 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 *if you see error, try:*
 
 **11.5)**
-`cd ~/NadekoBot/discord.net`
-`dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
-`dotnet restore`
-`cd ~/NadekoBot/src/NadekoBot/`
-`dotnet restore` 
-`dotnet build --configuration Release`
+```cd ~/NadekoBot/discord.net
+dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
+dotnet restore
+cd ~/NadekoBot/src/NadekoBot/
+dotnet restore
+dotnet build --configuration Release```
 
 ####Setting up NadekoBot 
 
