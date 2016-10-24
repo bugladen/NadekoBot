@@ -389,7 +389,6 @@ namespace NadekoBot.Modules.Administration
 
             private Task _client_MessageUpdated(Optional<IMessage> optmsg, IMessage imsg2)
             {
-                throw new ArgumentException();
                 var after = imsg2 as IUserMessage;
                 if (after == null || after.IsAuthor())
                     return Task.CompletedTask;
