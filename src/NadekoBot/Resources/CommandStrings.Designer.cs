@@ -6351,6 +6351,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to togethertube totube.
+        /// </summary>
+        public static string togethertube_cmd {
+            get {
+                return ResourceManager.GetString("togethertube_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Creates a new room on &lt;https://togethertube.com&gt; and shows the link in the chat..
+        /// </summary>
+        public static string togethertube_desc {
+            get {
+                return ResourceManager.GetString("togethertube_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}totube`.
+        /// </summary>
+        public static string togethertube_usage {
+            get {
+                return ResourceManager.GetString("togethertube_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to tq.
         /// </summary>
         public static string tq_cmd {

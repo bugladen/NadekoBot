@@ -2511,4 +2511,13 @@
   <data name="xkcd_usage" xml:space="preserve">
     <value>`{0}xkcd` or `{0}xkcd 1400` or `{0}xkcd latest`</value>
   </data>
+  <data name="togethertube_cmd" xml:space="preserve">
+    <value>togethertube totube</value>
+  </data>
+  <data name="togethertube_desc" xml:space="preserve">
+    <value>Creates a new room on &lt;https://togethertube.com&gt; and shows the link in the chat.</value>
+  </data>
+  <data name="togethertube_usage" xml:space="preserve">
+    <value>`{0}totube`</value>
+  </data>
 </root>
