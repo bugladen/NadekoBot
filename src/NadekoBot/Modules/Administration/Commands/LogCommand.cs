@@ -90,29 +90,33 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    string str = $"🕔`{prettyCurrentTime}`";
-                    if (before.Username != after.Username)
-                        str += $"**Name Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
-                    else if (before.Nickname != after.Nickname)
-                        str += $"**Nickname Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
-                    else if (before.AvatarUrl != after.AvatarUrl)
-                        str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
-                    else if (!before.Roles.SequenceEqual(after.Roles))
+                    try
                     {
-                        if (before.Roles.Count() < after.Roles.Count())
+                        string str = $"🕔`{prettyCurrentTime}`";
+                        if (before.Username != after.Username)
+                            str += $"**Name Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
+                        else if (before.Nickname != after.Nickname)
+                            str += $"**Nickname Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
+                        else if (before.AvatarUrl != after.AvatarUrl)
+                            str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
+                        else if (!before.Roles.SequenceEqual(after.Roles))
                         {
-                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                            str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                            if (before.Roles.Count() < after.Roles.Count())
+                            {
+                                var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                                str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                            }
+                            else if (before.Roles.Count() > after.Roles.Count())
+                            {
+                                var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                                str += $"**User's Roles changed ⚔➖**👤`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                            }
                         }
-                        else if (before.Roles.Count() > after.Roles.Count())
-                        {
-                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                            str += $"**User's Roles changed ⚔➖**👤`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
-                        }
+                        else
+                            return;
+                        try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                     }
-                    else
-                        return;
-                    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    catch { }
                 });
 
                 return Task.CompletedTask;
@@ -138,14 +142,18 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    if (before.Name != after.Name)
-                        await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
+                    try
+                    {
+                        if (before.Name != after.Name)
+                            await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
     `Old:` {before.Name}
     `New:` {after.Name}").ConfigureAwait(false);
-                    else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
-                        await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
+                        else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
+                            await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
     `Old:` {((ITextChannel)before).Topic}
     `New:` {((ITextChannel)after).Topic}").ConfigureAwait(false);
+                    }
+                    catch { }
                 });
 
                 return Task.CompletedTask;
@@ -365,11 +373,15 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
-👤`{msg.Author.Username}`: {msg.Resolve(userHandling:UserMentionHandling.NameAndDiscriminator)}";
-                    if (msg.Attachments.Any())
-                        str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try
+                    {
+                        var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
+👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+                        if (msg.Attachments.Any())
+                            str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
+                        await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    }
+                    catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -377,6 +389,7 @@ namespace NadekoBot.Modules.Administration
 
             private Task _client_MessageUpdated(Optional<IMessage> optmsg, IMessage imsg2)
             {
+                throw new ArgumentException();
                 var after = imsg2 as IUserMessage;
                 if (after == null || after.IsAuthor())
                     return Task.CompletedTask;

@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Music.Classes
                 var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Run(async () => await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false)).ConfigureAwait(false);
+                var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
                     .Where(v => v.AudioBitrate < 192)

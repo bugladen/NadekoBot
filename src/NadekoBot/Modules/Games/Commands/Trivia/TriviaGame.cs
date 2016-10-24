@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Games.Trivia
             this.guild = guild;
             this.channel = channel;
             WinRequirement = winReq;
-            Task.Run(StartGame);
+            Task.Run(async () => { try { await StartGame().ConfigureAwait(false); } catch { } });
         }
 
         private async Task StartGame()

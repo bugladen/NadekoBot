@@ -36,17 +36,17 @@ namespace NadekoBot.Modules.Administration
 
                     Task.Run(async () =>
                     {
-                            if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
-                            foreach (var subscriber in Subscribers)
+                        if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                        foreach (var subscriber in Subscribers)
+                        {
+                            var set = subscriber.Value;
+                            if (!set.Contains(msg.Channel))
+                                continue;
+                            foreach (var chan in set.Except(new[] { channel }))
                             {
-                                var set = subscriber.Value;
-                                if (!set.Contains(msg.Channel))
-                                    continue;
-                                foreach (var chan in set.Except(new[] { channel }))
-                                {
-                                    try { await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)msg.Author, msg)).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                                }
+                                try { await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)msg.Author, msg)).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                             }
+                        }
                     });
                     return Task.CompletedTask;
                 };

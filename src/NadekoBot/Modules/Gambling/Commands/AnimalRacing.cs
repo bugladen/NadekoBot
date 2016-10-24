@@ -186,6 +186,7 @@ namespace NadekoBot.Modules.Gambling
                             await Task.Delay(2500);
                         }
                     }
+                    catch { }
                     finally
                     {
                         NadekoBot.Client.MessageReceived -= Client_MessageReceived;

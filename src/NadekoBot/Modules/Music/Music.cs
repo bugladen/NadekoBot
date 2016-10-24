@@ -799,9 +799,10 @@ namespace NadekoBot.Modules.Music
                     var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var t = Task.Run(async () =>
                     {
-                        await Task.Delay(10000).ConfigureAwait(false);
                         try
                         {
+                            await Task.Delay(10000).ConfigureAwait(false);
+                        
                             await queuedMessage.DeleteAsync().ConfigureAwait(false);
                         }
                         catch { }

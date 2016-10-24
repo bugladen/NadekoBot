@@ -749,7 +749,7 @@ namespace NadekoBot.Modules.Administration
 
             game = game ?? "";
 
-            await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(game)).ConfigureAwait(false);
+            await NadekoBot.Client.SetGame(game).ConfigureAwait(false);
 
             await channel.SendMessageAsync("`New game set.`").ConfigureAwait(false);
         }
@@ -763,7 +763,7 @@ namespace NadekoBot.Modules.Administration
 
             name = name ?? "";
 
-            await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(name, url, StreamType.Twitch)).ConfigureAwait(false);
+            await NadekoBot.Client.SetStream(name, url).ConfigureAwait(false);
 
             await channel.SendMessageAsync("`New stream set.`").ConfigureAwait(false);
         }
