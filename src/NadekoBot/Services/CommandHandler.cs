@@ -173,6 +173,10 @@ namespace NadekoBot.Services
                     {
                         if (msg.Channel is IPrivateChannel)
                         {
+                            //rofl, gotta do this to prevent this message from occuring on polls
+                            int vote;
+                            if (int.TryParse(msg.Content, out vote)) return; 
+
                             await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
                             await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
