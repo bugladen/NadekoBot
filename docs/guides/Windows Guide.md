@@ -16,13 +16,13 @@ ________________________________________________________________________________
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a folder somewhere and name it `Nadeko`.
-- Head to the [Windows Installer releases page][WinInstaller] and download the latest release zip.
+- Head to the [Windows Installer releases page][WinInstaller] and save the zip as prompted.
 - Extract the contents of the zip you just downloaded to the `Nadeko` folder that we created earlier.
-- You will see two files, most importantly, `NadekoInstaller.bat` after extraction (You may not see the `.bat` part of the filename).
+- You should see another folder in the `Nadeko` folder, something along the lines of `NadekoBotInstallerWin-master` copy the contents of this folder, to the `Nadeko` folder
+- You shoudl now see three files, most importantly, `NadekoInstaller.bat` after moving the contents of the folder mentioned above to the `Nadeko` folder (You may not see the `.bat` part of the filename).
 - Run/Launch/Open `NadekoInstaller.bat` and you will see it running in the command prompt.
-- Wait a while for the file to finish installing, it'll say when it's done in the command prompt.
+- Wait a while for the file to finish installing, it'll display it's progress in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
-- You can safely delete the `NadekoInstall_Temp` folder if you so choose.
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page][DiscordApp].
@@ -66,7 +66,7 @@ ________________________________________________________________________________
 - Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
 - Run `NadekoInstaller.bat` again and wait for it to finish.
 - Run `NadekoRun.bat`.
-- You've updated, easy as that!
+- You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
 #### Setting Up NadekoBot For Music
@@ -102,7 +102,7 @@ ________________________________________________________________________________
 
 [.NET Core SDK]: https://go.microsoft.com/fwlink/?LinkID=827524
 [Git]: https://git-scm.com/download/win
-[WinInstaller]: https://github.com/fearnlj01/NadekoBotInstallerWin/releases
+[WinInstaller]: https://github.com/Kwoth/NadekoBotInstallerWin/archive/master.zip
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me
