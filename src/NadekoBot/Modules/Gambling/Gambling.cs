@@ -102,22 +102,44 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public Task Award(IUserMessage umsg, long amount, [Remainder] IGuildUser usr) =>
+        [Priority(2)]
+        public Task Award(IUserMessage umsg, int amount, [Remainder] IGuildUser usr) =>
             Award(umsg, amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Award(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        [Priority(1)]
+        public async Task Award(IUserMessage umsg, int amount, ulong usrId)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             if (amount <= 0)
                 return;
 
-            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", (int)amount).ConfigureAwait(false);
+            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false);
 
             await channel.SendMessageAsync($"{umsg.Author.Mention} successfully awarded {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to <@{usrId}>!").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        [Priority(0)]
+        public async Task Award(IUserMessage umsg, int amount, [Remainder] IRole role)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var users = channel.Guild.GetUsers()
+                               .Where(u => u.Roles.Contains(role))
+                               .ToList();
+            await Task.WhenAll(users.Select(u => CurrencyHandler.AddCurrencyAsync(u.Id,
+                                                      $"Awarded by bot owner to **{role.Name}** role. ({umsg.Author.Username}/{umsg.Author.Id})",
+                                                      amount)))
+                         .ConfigureAwait(false);
+
+            await channel.SendMessageAsync($"Awarded `{amount}` {Gambling.CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
+                         .ConfigureAwait(false);
+
         }
         
         [NadekoCommand, Usage, Description, Aliases]

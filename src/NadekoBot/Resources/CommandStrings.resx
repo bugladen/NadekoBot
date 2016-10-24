@@ -1246,10 +1246,10 @@
     <value>award</value>
   </data>
   <data name="award_desc" xml:space="preserve">
-    <value>Awards someone a certain amount of currency.  </value>
+    <value>Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role.</value>
   </data>
   <data name="award_usage" xml:space="preserve">
-    <value>`{0}award 100 @person`</value>
+    <value>`{0}award 100 @person` or `{0}award 5 Role Of Gamblers`</value>
   </data>
   <data name="take_cmd" xml:space="preserve">
     <value>take</value>
@@ -2510,5 +2510,32 @@
   </data>
   <data name="xkcd_usage" xml:space="preserve">
     <value>`{0}xkcd` or `{0}xkcd 1400` or `{0}xkcd latest`</value>
+  </data>
+  <data name="placelist_cmd" xml:space="preserve">
+    <value>placelist</value>
+  </data>
+  <data name="placelist_desc" xml:space="preserve">
+    <value>Shows the list of available tags for the `{0}place` command.</value>
+  </data>
+  <data name="placelist_usage" xml:space="preserve">
+    <value>`{0}placelist`</value>
+  </data>
+  <data name="place_cmd" xml:space="preserve">
+    <value>place</value>
+  </data>
+  <data name="place_desc" xml:space="preserve">
+    <value>Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.</value>
+  </data>
+  <data name="place_usage" xml:space="preserve">
+    <value>`{0}place Cage` or `{0}place steven 500 400`</value>
+  </data>
+  <data name="togethertube_cmd" xml:space="preserve">
+    <value>togethertube totube</value>
+  </data>
+  <data name="togethertube_desc" xml:space="preserve">
+    <value>Creates a new room on &lt;https://togethertube.com&gt; and shows the link in the chat.</value>
+  </data>
+  <data name="togethertube_usage" xml:space="preserve">
+    <value>`{0}totube`</value>
   </data>
 </root>

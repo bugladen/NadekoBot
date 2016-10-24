@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,23 @@ namespace NadekoBot.Modules.Utility
 {
     partial class Utility : DiscordModule
     {
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task TogetherTube(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            Uri target;
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
+                target = res.RequestMessage.RequestUri;
+            }
+
+            await channel.SendMessageAsync($"{imsg.Author.Mention}, `Here is the link:` {target}")
+                         .ConfigureAwait(false);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IUserMessage msg, string guild = null)

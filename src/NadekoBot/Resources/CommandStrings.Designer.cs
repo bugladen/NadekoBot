@@ -555,7 +555,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Awards someone a certain amount of currency.  .
+        ///    Looks up a localized string similar to Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role..
         /// </summary>
         public static string award_desc {
             get {
@@ -564,7 +564,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}award 100 @person`.
+        ///    Looks up a localized string similar to `{0}award 100 @person` or `{0}award 5 Role Of Gamblers`.
         /// </summary>
         public static string award_usage {
             get {
@@ -4245,6 +4245,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to place.
+        /// </summary>
+        public static string place_cmd {
+            get {
+                return ResourceManager.GetString("place_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments..
+        /// </summary>
+        public static string place_desc {
+            get {
+                return ResourceManager.GetString("place_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}place Cage` or `{0}place steven 500 400`.
+        /// </summary>
+        public static string place_usage {
+            get {
+                return ResourceManager.GetString("place_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to placelist.
+        /// </summary>
+        public static string placelist_cmd {
+            get {
+                return ResourceManager.GetString("placelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows the list of available tags for the `{0}place` command..
+        /// </summary>
+        public static string placelist_desc {
+            get {
+                return ResourceManager.GetString("placelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}placelist`.
+        /// </summary>
+        public static string placelist_usage {
+            get {
+                return ResourceManager.GetString("placelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to plant.
         /// </summary>
         public static string plant_cmd {
@@ -6347,6 +6401,33 @@ namespace NadekoBot.Resources {
         public static string tl_usage {
             get {
                 return ResourceManager.GetString("tl_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to togethertube totube.
+        /// </summary>
+        public static string togethertube_cmd {
+            get {
+                return ResourceManager.GetString("togethertube_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Creates a new room on &lt;https://togethertube.com&gt; and shows the link in the chat..
+        /// </summary>
+        public static string togethertube_desc {
+            get {
+                return ResourceManager.GetString("togethertube_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}totube`.
+        /// </summary>
+        public static string togethertube_usage {
+            get {
+                return ResourceManager.GetString("togethertube_usage", resourceCulture);
             }
         }
         

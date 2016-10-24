@@ -93,28 +93,36 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
+            public enum MeOrHere
+            {
+                Me,Here
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Remind(IUserMessage umsg, string meorchannel, string timeStr, [Remainder] string message)
+            [Priority(1)]
+            public async Task Remind(IUserMessage umsg, MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
-                var meorchStr = meorchannel.ToUpperInvariant();
-                IMessageChannel ch;
-                bool isPrivate = false;
-                if (meorchStr == "ME")
+                IMessageChannel target;
+                if (meorhere == MeOrHere.Me)
                 {
-                    isPrivate = true;
-                    ch = await ((IGuildUser)umsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
-                }
-                else if (meorchStr == "HERE")
-                {
-                    ch = channel;
+                    target = await ((IGuildUser)umsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
                 }
                 else
                 {
-                    ch = channel.Guild.GetTextChannels().FirstOrDefault(c => c.Name.ToUpperInvariant() == meorchStr || c.Id.ToString() == meorchStr);
+                    target = channel;
                 }
+                await Remind(umsg, target, timeStr, message).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task Remind(IUserMessage umsg, IMessageChannel ch, string timeStr, [Remainder] string message)
+            {
+                var channel = (ITextChannel)umsg.Channel;
 
                 if (ch == null)
                 {
@@ -168,7 +176,7 @@ namespace NadekoBot.Modules.Utility
                 var rem = new Reminder
                 {
                     ChannelId = ch.Id,
-                    IsPrivate = isPrivate,
+                    IsPrivate = ch is IDMChannel,
                     When = time,
                     Message = message,
                     UserId = umsg.Author.Id,
@@ -184,7 +192,7 @@ namespace NadekoBot.Modules.Utility
                 try { await channel.SendMessageAsync($"⏰ I will remind \"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\" to \"{message.SanitizeMentions()}\" in {output}. ({time:d.M.yyyy.} at {time:HH:mm})").ConfigureAwait(false); } catch { }
                 await StartReminder(rem);
             }
-
+            
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
