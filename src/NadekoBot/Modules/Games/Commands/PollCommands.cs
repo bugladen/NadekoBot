@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using System;
 using System.Collections.Concurrent;
@@ -52,8 +53,9 @@ namespace NadekoBot.Modules.Games
     public class Poll
     {
         private readonly IUserMessage umsg;
+        private readonly IGuild guild;
         private readonly string[] answers;
-        private ConcurrentDictionary<IUser, int> participants = new ConcurrentDictionary<IUser, int>();
+        private ConcurrentDictionary<ulong, int> participants = new ConcurrentDictionary<ulong, int>();
         private readonly string question;
         private DateTime started;
         private CancellationTokenSource pollCancellationSource = new CancellationTokenSource();
@@ -61,6 +63,7 @@ namespace NadekoBot.Modules.Games
         public Poll(IUserMessage umsg, string question, IEnumerable<string> enumerable)
         {
             this.umsg = umsg;
+            this.guild = ((ITextChannel)umsg.Channel).Guild;
             this.question = question;
             this.answers = enumerable as string[] ?? enumerable.ToArray();
         }
@@ -69,9 +72,7 @@ namespace NadekoBot.Modules.Games
         {
             started = DateTime.Now;
             NadekoBot.Client.MessageReceived += Vote;
-            var msgToSend = $@"📃**{umsg.Author.Username}** has created a poll which requires your attention:
-
-**{question}**\n";
+            var msgToSend = $"📃**{umsg.Author.Username}** has created a poll which requires your attention:\n\n**{question}**\n";
             var num = 1;
             msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
             msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
@@ -107,31 +108,30 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        private Task Vote(IMessage imsg)
+        private async Task Vote(IMessage imsg)
         {
             // has to be a user message
             var msg = imsg as IUserMessage;
             if (msg == null || msg.Author.IsBot)
-                return Task.CompletedTask;
+                return;
             // channel must be private
             IPrivateChannel ch;
             if ((ch = msg.Channel as IPrivateChannel) == null)
-                return Task.CompletedTask;
+                return;
+            var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
+            if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
+                return;
 
             // has to be an integer
             int vote;
-            if (!int.TryParse(msg.Content, out vote)) return Task.CompletedTask;
-
-            var t = Task.Run(async () =>
+            if (!int.TryParse(msg.Content, out vote)) return;
+            if (vote < 1 || vote > answers.Length)
+                return;
+            if (participants.TryAdd(msg.Author.Id, vote))
             {
-                if (vote < 1 || vote > answers.Length)
-                    return;
-                if (participants.TryAdd(msg.Author, vote))
-                {
-                    try { await ((IMessageChannel)ch).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false); } catch { }
-                }
-            });
-            return Task.CompletedTask;
+                try { await ((IMessageChannel)ch).SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false); } catch { }
+            }
+            return;
         }
     }
 }

@@ -87,11 +87,6 @@ namespace NadekoBot.Modules.Searches
 
                 url += $"/{width}/{height}";
 
-                //using (var http = new HttpClient())
-                //{
-                //    var res = await http.GetStreamAsync(url).ConfigureAwait(false);
-                //    await channel.SendFileAsync()
-                //}
                 await channel.SendMessageAsync(url).ConfigureAwait(false);
             }
         }
