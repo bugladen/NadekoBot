@@ -144,7 +144,6 @@ dotnet build --configuration Release```
 Go back to **PuTTY**, `(hope its still running xD)`
 
 **12)**
-(Type or Copy and hit **Enter**)
 `tmux new -s nadeko`  
 `cd NadekoBot/src/NadekoBot/`  
 **^this will create a new session named “nadeko”** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep running PuTTY in the background.
