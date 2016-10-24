@@ -27,7 +27,6 @@ namespace NadekoBot.Modules.Searches
                 Cage, //http://www.placecage.com
                 Steven, //http://www.stevensegallery.com
                 Beard, //http://placebeard.it
-                Img, //https://placeimg.com doesn't embed
                 Fill, //http://www.fillmurray.com
                 Bear, //https://www.placebear.com
                 Kitten, //http://placekitten.com
