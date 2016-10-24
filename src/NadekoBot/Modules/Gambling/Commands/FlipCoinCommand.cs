@@ -58,8 +58,12 @@ namespace NadekoBot.Modules.Gambling
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
                     return;
 
-                if (amount < 1)
+                if (amount < 3)
+                {
+                    await channel.SendMessageAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                                 .ConfigureAwait(false);
                     return;
+                }
                 // todo update this
                 long userFlowers;
                 using (var uow = DbHandler.UnitOfWork())
