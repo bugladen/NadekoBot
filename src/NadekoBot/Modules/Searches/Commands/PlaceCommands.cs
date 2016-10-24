@@ -62,9 +62,6 @@ namespace NadekoBot.Modules.Searches
                     case PlaceType.Beard:
                         url = "http://placebeard.it";
                         break;
-                    case PlaceType.Img:
-                        url = "https://placeimg.com";
-                        break;
                     case PlaceType.Fill:
                         url = "http://www.fillmurray.com";
                         break;
