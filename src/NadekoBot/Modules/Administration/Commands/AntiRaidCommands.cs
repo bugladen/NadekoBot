@@ -101,23 +101,25 @@ namespace NadekoBot.Modules.Administration
 
                     var t = Task.Run(async () =>
                     {
-                        AntiSpamSetting spamSettings;
-                        if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
-                            return;
-
-                        var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
-                            (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
-
-                        if (stats.Count >= spamSettings.MessageThreshold)
+                        try
                         {
-                            if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
-                            {
-                                var log = await PunishUser((IGuildUser)msg.Author, spamSettings.Action, spamSettings.MuteRole, ProtectionType.Spamming)
-                                    .ConfigureAwait(false);
-                                try { await channel.Guild.SendMessageToOwnerAsync(log).ConfigureAwait(false); } catch { }
-                            }
-                        }                       
+                            AntiSpamSetting spamSettings;
+                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
+                                return;
 
+                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
+                                (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
+
+                            if (stats.Count >= spamSettings.MessageThreshold)
+                            {
+                                if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
+                                {
+                                    var log = await PunishUser((IGuildUser)msg.Author, spamSettings.Action, spamSettings.MuteRole, ProtectionType.Spamming)
+                                        .ConfigureAwait(false);
+                                    await channel.Guild.SendMessageToOwnerAsync(log).ConfigureAwait(false); } 
+                            }
+                        }
+                        catch { }
                     });
                     return Task.CompletedTask;
                 };

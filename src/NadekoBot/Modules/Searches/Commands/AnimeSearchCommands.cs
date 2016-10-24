@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Searches
                         var smallObj = JArray.Parse(res)[0];
                         var aniData = await http.GetStringAsync("http://anilist.co/api/anime/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
 
-                        return await Task.Run(() => JsonConvert.DeserializeObject<AnimeResult>(aniData)).ConfigureAwait(false);
+                        return await Task.Run(() => { try { return JsonConvert.DeserializeObject<AnimeResult>(aniData); } catch { return null; } }).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex) {
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Searches
                         var smallObj = JArray.Parse(res)[0];
                         var aniData = await http.GetStringAsync("http://anilist.co/api/manga/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
 
-                        return await Task.Run(() => JsonConvert.DeserializeObject<MangaResult>(aniData)).ConfigureAwait(false);
+                        return await Task.Run(() => { try { return JsonConvert.DeserializeObject<MangaResult>(aniData); } catch { return null; } }).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)

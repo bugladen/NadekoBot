@@ -112,8 +112,12 @@ namespace NadekoBot.Modules.Permissions
                         });
                         var t = Task.Run(async () =>
                         {
-                            await Task.Delay(cdRule.Seconds * 1000);
-                            activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Text.ToLowerInvariant() && ac.UserId == user.Id);
+                            try
+                            {
+                                await Task.Delay(cdRule.Seconds * 1000);
+                                activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Text.ToLowerInvariant() && ac.UserId == user.Id);
+                            }
+                            catch { }
                         });
                     }
                 }

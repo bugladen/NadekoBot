@@ -35,10 +35,14 @@ namespace NadekoBot.Modules.Gambling
                 var num2 = gen % 10;
                 var imageStream = await Task.Run(() =>
                 {
-                    var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
-                    ms.Position = 0;
-                    return ms;
+                    try
+                    {
+                        var ms = new MemoryStream();
+                        new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
+                        ms.Position = 0;
+                        return ms;
+                    }
+                    catch { return new MemoryStream(); }
                 });
 
                 await channel.SendFileAsync(imageStream, "dice.png", $"{umsg.Author.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
