@@ -48,15 +48,21 @@ namespace NadekoBot.Modules.Administration
 
                 t = new Timer(async (state) =>
                 {
-                    var keys = UserPresenceUpdates.Keys.ToList();
-
-                    await Task.WhenAll(keys.Select(key =>
+                    try
                     {
-                        List<string> messages;
-                        if (UserPresenceUpdates.TryRemove(key, out messages))
-                            try { return key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { } //502/403
-                        return Task.CompletedTask;
-                    }));
+                        var keys = UserPresenceUpdates.Keys.ToList();
+
+                        await Task.WhenAll(keys.Select(async key =>
+                        {
+                            List<string> messages;
+                            if (UserPresenceUpdates.TryRemove(key, out messages))
+                                try { await key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { }
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
                 
 
