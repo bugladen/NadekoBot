@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                         await channel.SendMessageAsync(":warning: `You are enabling this feature and I do not have ADMINISTRATOR permissions, " +
                       "this may cause some issues, and you will have to clean up text channels yourself afterwards.`");
                     }
-                    catch { ]}
+                    catch { }
                 }
                 try
                 {
