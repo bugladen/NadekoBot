@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Games
             {
                 var results = participants.GroupBy(kvp => kvp.Value)
                                 .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
-                                .OrderBy(kvp => kvp.Value);
+                                .OrderByDescending(kvp => kvp.Value);
 
                 var totalVotesCast = results.Sum(kvp => kvp.Value);
                 if (totalVotesCast == 0)
