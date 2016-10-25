@@ -123,22 +123,6 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task Restart(IUserMessage umsg)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            await channel.SendMessageAsync("`Restarting in 2 seconds...`").ConfigureAwait(false);
-            await Task.Delay(2000).ConfigureAwait(false);
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                Arguments = "dotnet " + System.Reflection.Assembly.GetEntryAssembly().Location
-            });
-            Environment.Exit(0);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.Administrator)]
         public async Task Delmsgoncmd(IUserMessage umsg)
         {
