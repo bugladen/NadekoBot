@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Impl
@@ -21,6 +23,8 @@ namespace NadekoBot.Services.Impl
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
 
+        Timer carbonitexTimer { get; }
+
 
         public StatsService(ShardedDiscordClient  client, CommandHandler cmdHandler)
         {
@@ -32,6 +36,29 @@ namespace NadekoBot.Services.Impl
             cmdHandler.CommandExecuted += (_, e) => commandsRan++;
 
             this.client.Disconnected += _ => Reset();
+
+            this.carbonitexTimer = new Timer(async (state) =>
+            {
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.CarbonKey))
+                return;
+                try
+                {
+                    using (var http = new HttpClient())
+                    {
+                        using (var content = new FormUrlEncodedContent(
+                            new Dictionary<string, string> {
+                                { "servercount", this.client.GetGuilds().Count.ToString() },
+                                { "key", NadekoBot.Credentials.CarbonKey }}))
+                        {
+                            content.Headers.Clear();
+                            content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+                            var res = await http.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
+                        }
+                    };
+                }
+                catch { }
+            }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
         public async Task<string> Print()
         {

@@ -123,22 +123,6 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task Restart(IUserMessage umsg)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            await channel.SendMessageAsync("`Restarting in 2 seconds...`").ConfigureAwait(false);
-            await Task.Delay(2000).ConfigureAwait(false);
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                Arguments = "dotnet " + System.Reflection.Assembly.GetEntryAssembly().Location
-            });
-            Environment.Exit(0);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.Administrator)]
         public async Task Delmsgoncmd(IUserMessage umsg)
         {
@@ -306,11 +290,6 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
             }
-            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
-            {
-                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
-                return;
-            }
             try
             {
                 await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
@@ -340,7 +319,7 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "No reason provided.";
             }
-            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
             {
                 await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;

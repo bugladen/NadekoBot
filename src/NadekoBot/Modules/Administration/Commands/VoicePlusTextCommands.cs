@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
                         var beforeVch = before.VoiceChannel;
                         if (beforeVch != null)
                         {
-                            var textChannel = guild.GetTextChannels().Where(t => t.Name == GetChannelName(beforeVch.Name)).FirstOrDefault();
+                            var textChannel = guild.GetTextChannels().Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
                             if (textChannel != null)
                                 await textChannel.AddPermissionOverwriteAsync(user,
                                     new OverwritePermissions(readMessages: PermValue.Deny,
@@ -80,11 +80,11 @@ namespace NadekoBot.Modules.Administration
                         if (afterVch != null && guild.AFKChannelId != afterVch.Id)
                         {
                             var textChannel = guild.GetTextChannels()
-                                                        .Where(t => t.Name ==  GetChannelName(afterVch.Name))
+                                                        .Where(t => t.Name ==  GetChannelName(afterVch.Name).ToLowerInvariant())
                                                         .FirstOrDefault();
                             if (textChannel == null)
                             {
-                                textChannel = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name)).ConfigureAwait(false));
+                                textChannel = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name).ToLowerInvariant()).ConfigureAwait(false));
                                 await textChannel.AddPermissionOverwriteAsync(guild.EveryoneRole,
                                     new OverwritePermissions(readMessages: PermValue.Deny,
                                                        sendMessages: PermValue.Deny)).ConfigureAwait(false);
@@ -117,8 +117,18 @@ namespace NadekoBot.Modules.Administration
                 var botUser = guild.GetCurrentUser();
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
-                    await channel.SendMessageAsync(":anger: `I require manage roles and manage channels permissions to enable this feature.`");
+                    await channel.SendMessageAsync(":anger: `I require atleast manage roles and manage channels permissions to enable this feature (preffered Administration permission).`");
                     return;
+                }
+
+                if (!botUser.GuildPermissions.Administrator)
+                {
+                    try
+                    {
+                        await channel.SendMessageAsync(":warning: `You are enabling this feature and I do not have ADMINISTRATOR permissions, " +
+                      "this may cause some issues, and you will have to clean up text channels yourself afterwards.`");
+                    }
+                    catch { }
                 }
                 try
                 {
@@ -156,14 +166,14 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
-                if (!guild.GetCurrentUser().GuildPermissions.ManageChannels)
+                if (!guild.GetCurrentUser().GuildPermissions.Administrator)
                 {
-                    await channel.SendMessageAsync("`I have insufficient permission to do that.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("`I need Administrator permission to do that.`").ConfigureAwait(false);
                     return;
                 }
 
                 var allTxtChannels = guild.GetTextChannels().Where(c => c.Name.EndsWith("-voice"));
-                var validTxtChannelNames = guild.GetVoiceChannels().Select(c => GetChannelName(c.Name));
+                var validTxtChannelNames = guild.GetVoiceChannels().Select(c => GetChannelName(c.Name).ToLowerInvariant());
 
                 var invalidTxtChannels = allTxtChannels.Where(c => !validTxtChannelNames.Contains(c.Name));
 

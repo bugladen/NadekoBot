@@ -188,7 +188,9 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(() =>
             {
-                playlist.Shuffle();
+                var oldPlaylist = playlist.ToArray();
+                playlist.Clear();
+                playlist.AddRange(oldPlaylist.Shuffle());
             });
         }
 
