@@ -72,55 +72,25 @@ echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sou
 sudo apt-get update && sudo apt-get install ffmpeg -y`
 ```
 
-####Uncomplicated Firewall UFW
-
-**5)**
-`apt-get install ufw`
-
-**It is likely to have been pre-installed so if you see that it is installed, check it works with the following command, and/or enable it**
-
-**6)**
-`ufw status`
-
-**7)**
-`ufw enable`
-
-**Type** `y` ** and hit Enter**
-
-**8)**
-`sudo ufw allow ssh`
-
 ####Installing TMUX
-**9)**
+**5)**
 `sudo apt-get install tmux -y`
 
 ####Getting NadekoBot
 
-**10)**
-
+**6)**  
 - `cd ~`
 - `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
-*Skip steps 10.5-11.5 and continue to run the bot, if you see errors while running, do the steps (10.5-11.5) below:*
-
-**10.5)**
-
-- `cd ~ && git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
-
-####Building NadekoBot
-
-**11)**
-
-- `cd ~/NadekoBot/ && dotnet restore && cd ~/NadekoBot/src/NadekoBot/ && dotnet build --configuration Release`
-*if you see error, try:*
-
-**11.5)**
-
-- `cd ~/NadekoBot/discord.net`
-- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
-- `dotnet restore`
-- `cd ~/NadekoBot/src/NadekoBot/`
-- `dotnet restore` 
-- `dotnet build --configuration Release`
+**If you do not get any errors using the above steps move to the next section, Setting up NadekoBot otherwise, if you get errors follow step 6.1**
+  
+**6.1)**  
+- `cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git`
+- `cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`
+  
+**If you still get some errors using the above steps, follow step 6.2**
+**6.2)**  
+- `cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore`
+- `cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`
 
 ####Setting up NadekoBot 
 
@@ -143,16 +113,24 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 - Paste/put it back in the folder once done. `(Yes, using CyberDuck)`
 - If you already have nadeko setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
 
+####Inviting your bot to your server 
+- [Invite Guide](http://discord.kongslien.net/guide.html)
+- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
+- Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
+- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
+- Go to the newly created link and pick the server we created, and click `Authorize`.
+- The bot should have been added to your server.
+
 ####Running NadekoBot
 
-Go back to **PuTTY**, `(hope its still running xD)`
+Go back to **PuTTY**
 
-**12)**
+**7)**
 `tmux new -s nadeko`  
   
 **^this will create a new session named “nadeko”** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep running PuTTY in the background.
 
-**13)**
+**8)**
 
 - `cd NadekoBot/src/NadekoBot/`
 - `dotnet run --configuration Release`
@@ -164,9 +142,6 @@ Go back to **PuTTY**, `(hope its still running xD)`
 For how to set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 
 Now time to **move bot to background** and to do that, press **CTRL+B+D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
-
-Copy your CLIENT ID (In the same Developer page where you got your token!) and replace `12345678` in this link: `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with it.
-  Go to that link and you will be able to add your bot to your server.
 
 **NOW YOU HAVE YOUR OWN NADEKO BOT** `Thanks to Kwoth <3`
 
