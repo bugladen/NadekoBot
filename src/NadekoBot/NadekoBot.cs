@@ -19,6 +19,7 @@ using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot
 {
@@ -37,6 +38,16 @@ namespace NadekoBot
 
         public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
         public static bool Ready { get; private set; }
+
+        public static IEnumerable<GuildConfig> AllGuildConfigs { get; }
+
+        static NadekoBot()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                AllGuildConfigs = uow.GuildConfigs.GetAll();
+            }
+        }
 
         public async Task RunAsync(string[] args)
         {

@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
         {
             using (var uow = DbHandler.UnitOfWork())
             {
-                var configs = uow.GuildConfigs.GetAll();
+                var configs = NadekoBot.AllGuildConfigs;
                 GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
                         .Where(c=>!string.IsNullOrWhiteSpace(c.MuteRoleName))
                         .ToDictionary(c => c.GuildId, c => c.MuteRoleName));

@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    voicePlusTextCache = new ConcurrentHashSet<ulong>(uow.GuildConfigs.GetAll().Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
+                    voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
                 }
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
             }

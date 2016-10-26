@@ -41,8 +41,7 @@ namespace NadekoBot.Modules.Administration
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(uow.GuildConfigs
-                                                                                      .GetAll()
+                    GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
                                                                                       .ToDictionary(g => g.GuildId, g => g.LogSetting));
                 }
 

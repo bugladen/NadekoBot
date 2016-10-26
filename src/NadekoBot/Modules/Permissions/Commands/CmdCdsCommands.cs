@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var configs = uow.GuildConfigs.GetAll();
+                    var configs = NadekoBot.AllGuildConfigs;
                     commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
                 }
             }
