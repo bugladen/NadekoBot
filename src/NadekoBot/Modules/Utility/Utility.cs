@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Reflection;
 using Discord.WebSocket;
+using System.Net.Http;
+using System.IO;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -174,6 +176,37 @@ namespace NadekoBot.Modules.Utility
             
             await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
+
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task TextToImage(IUserMessage msg, [Remainder] string arg)
+        //{
+        //    var channel = (ITextChannel)msg.Channel;
+
+        //    const string bgName = "xbiy3";
+
+        //    if (string.IsNullOrWhiteSpace(arg))
+        //        return;
+
+        //    using (var http = new HttpClient())
+        //    {
+        //        http.AddFakeHeaders();
+
+        //        http.DefaultRequestHeaders.Add("Host", "www.tagsmaker.com");
+        //        http.DefaultRequestHeaders.Add("Referer", "http://www.tagsmaker.com/");
+        //        http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        //        http.DefaultRequestHeaders.Add("Alt-Used", "www.tagsmaker.com:443");
+
+        //        var res = await http.GetAsync($"http://www.tagsmaker.com/tagsmaker.php?background_name=0011&tag_text={arg}&font_name=applejuiced&text_color=white&text_size=48&text_alignment=middle").ConfigureAwait(false);
+
+        //        var img = res.RequestMessage.RequestUri.Segments[1].Replace("image-", "").Replace("tag-", "");
+        //        var imgStream = await http.GetStreamAsync($"http://www.tagsmaker.com/upload/www.tagsmaker.com_{ img.ToString() }.png");
+        //        var ms = new MemoryStream();
+        //        await imgStream.CopyToAsync(ms).ConfigureAwait(false);
+        //        ms.Position = 0;
+        //        await channel.SendFileAsync(ms, arg+".png", "Provided by www.tagsmaker.com").ConfigureAwait(false);
+        //    }
+        //}
     }
 }
 
