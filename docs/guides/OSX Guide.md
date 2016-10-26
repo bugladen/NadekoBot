@@ -1,9 +1,9 @@
 ### Setting Up NadekoBot on OSX
 #### Prerequisites 
-- 1) [Homebrew][Homebrew]
-- 2) Google Account
-- 3) Soundcloud Account (if you want soundcloud support)
-- 4) Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom][Atom]
+- [Homebrew][Homebrew]
+- Google Account
+- Soundcloud Account (if you want soundcloud support)
+- Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom][Atom]
 
 ####Installing Homebrew
 
@@ -59,19 +59,6 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - `cd ~`
 - `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
 
-*If you fail to run the bot with* `METHOD I` *try:*
-
-**METHOD II**
-
-- `cd ~`
-- `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
-- `cd ~/NadekoBot/discord.net`
-- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
-- `dotnet restore`
-- `cd ~/NadekoBot/src/NadekoBot/`
-- `dotnet restore` 
-- `dotnet build --configuration Release`
-
 ####Creating DiscordBot application
 - Go to [the Discord developer application page.][DiscordApp]
 - Log in with your Discord account.
@@ -107,14 +94,12 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 
 - Using Screen
 
-If you want to use Screen, run:
-
 `screen -S nadeko`
 
 ^this will create a new screen named “nadeko”  
 `(you can replace “nadeko” with anything you prefer and remember its your screen name)`.
 
-- Start Nadeko using dotnet:
+- Start Nadeko using .NET Core:
 
 `cd ~/NadekoBot/src/NadekoBot/`
 
@@ -126,13 +111,13 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will det
 
 *If you used Screen press CTRL+A+D (this will detach the nadeko screen)*
 
-####Inviting your bot to your server - [Invite Guide][Invite Guide]
-- Create a new server in Discord.
-- Copy your `Client ID` from your [Discord bot applications page.][DiscordApp]
+####Inviting your bot to your server 
+- [Invite Guide](http://discord.kongslien.net/guide.html)
+- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
-- Your edited link should look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID**&scope=bot&permissions=66186303`.
-- Go to newly created link and pick the server, and click `Authorize`.
-- Bot should be added to your server.
+- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
+- Go to the newly created link and pick the server we created, and click `Authorize`.
+- The bot should have been added to your server.  
   
 ####Setting NadekoBot Music
 
@@ -144,16 +129,33 @@ Nadeko is really easy to update as of version 1.0! just copy and paste the comma
 
 `cd ~/NadekoBot/ && git init && git pull`
 
-####Some more Info - TMUX
+####Alternative Method to Install Nadeko
+
+*If you fail to install the bot using [METHOD I](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#downloading-and-building-nadeko) try:*
+
+**METHOD II**
+
+- `cd ~`
+- `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
+- `cd ~/NadekoBot/discord.net`
+- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
+- `dotnet restore`
+- `cd ~/NadekoBot/src/NadekoBot/`
+- `dotnet restore` 
+- `dotnet build --configuration Release`
+
+####Some more Info
+
+**TMUX**
 
 - If you want to see the sessions after logging back again, type `tmux ls`, and that will give you the list of sessions running. 
-- If you want to switch to/ see that session, type `tmux a -t nadeko` (nadeko is the name of the session we created before so, replace `“nadeko”` with the session name you created.)
+- If you want to switch to/ see that session, type `tmux a -t nadeko` (nadeko is the name of the session we created before so, replace `nadeko` with the session name you created.)
 - If you want to kill NadekoBot session, type `tmux kill-session -t nadeko`
 
-####Some more Info - Screen
+**Screen**
 
 - If you want to see the sessions after logging back again, type `screen -ls`, and that will give you the list of screens. 
-- If you want to switch to/ see that screen, type `screen -r nadeko` (nadeko is the name of the screen we created before so, replace `“nadeko”` with the screen name you created.)
+- If you want to switch to/ see that screen, type `screen -r nadeko` (nadeko is the name of the screen we created before so, replace `nadeko` with the screen name you created.)
 - If you want to kill the NadekoBot screen, type `screen -X -S nadeko quit`
 
 [Homebrew]: http://brew.sh/

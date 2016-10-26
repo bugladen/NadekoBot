@@ -50,12 +50,11 @@ ________________________________________________________________________________
 
 ####Inviting your bot to your server 
 - [Invite Guide][Invite Guide]
-- Create a new server in Discord.
 - Copy your `Client ID` from your [applications page][DiscordApp].
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
-- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID**&scope=bot&permissions=66186303`.
+- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
 - Go to the newly created link and pick the server we created, and click `Authorize`.
-- The bot should have been added to your new server.
+- The bot should have been added to your server.
 
 ####Starting the bot
 - Go to the folder which you extracted the zip to earlier, and run the `NadekoRun.bat` file
