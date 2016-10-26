@@ -126,13 +126,13 @@ Now time to move bot to background and to do that, press CTRL+B+D (this will det
 
 *If you used Screen press CTRL+A+D (this will detach the nadeko screen)*
 
-####Inviting your bot to your server - [Invite Guide][Invite Guide]
-- Create a new server in Discord.
-- Copy your `Client ID` from your [Discord bot applications page.][DiscordApp]
+####Inviting your bot to your server 
+- [Invite Guide](http://discord.kongslien.net/guide.html)
+- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
-- Your edited link should look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID**&scope=bot&permissions=66186303`.
-- Go to newly created link and pick the server, and click `Authorize`.
-- Bot should be added to your server.
+- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
+- Go to the newly created link and pick the server we created, and click `Authorize`.
+- The bot should have been added to your server.  
   
 ####Setting NadekoBot Music
 
