@@ -519,7 +519,61 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to av avatar.
+        ///    Looks up a localized string similar to autotranslang atl.
+        /// </summary>
+        public static string autotranslang_cmd {
+            get {
+                return ResourceManager.GetString("autotranslang_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
+        /// </summary>
+        public static string autotranslang_desc {
+            get {
+                return ResourceManager.GetString("autotranslang_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
+        /// </summary>
+        public static string autotranslang_usage {
+            get {
+                return ResourceManager.GetString("autotranslang_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to autotrans at.
+        /// </summary>
+        public static string autotranslate_cmd {
+            get {
+                return ResourceManager.GetString("autotranslate_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set &quot;del&quot; argument to automatically delete all translated user messages..
+        /// </summary>
+        public static string autotranslate_desc {
+            get {
+                return ResourceManager.GetString("autotranslate_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}at` or `{0}at del`.
+        /// </summary>
+        public static string autotranslate_usage {
+            get {
+                return ResourceManager.GetString("autotranslate_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to avatar av.
         /// </summary>
         public static string avatar_cmd {
             get {

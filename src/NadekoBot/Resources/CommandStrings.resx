@@ -2089,7 +2089,7 @@
     <value>`{0}videocall "@SomeGuy"`</value>
   </data>
   <data name="avatar_cmd" xml:space="preserve">
-    <value>av avatar</value>
+    <value>avatar av</value>
   </data>
   <data name="avatar_desc" xml:space="preserve">
     <value>Shows a mentioned person's avatar.</value>
@@ -2546,5 +2546,23 @@
   </data>
   <data name="publicpoll_usage" xml:space="preserve">
     <value>`{0}ppoll Question?;Answer1;Answ 2;A_3`</value>
+  </data>
+  <data name="autotranslang_cmd" xml:space="preserve">
+    <value>autotranslang atl</value>
+  </data>
+  <data name="autotranslang_desc" xml:space="preserve">
+    <value>`{0}atl en&gt;fr`</value>
+  </data>
+  <data name="autotranslang_usage" xml:space="preserve">
+    <value>Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value.</value>
+  </data>
+  <data name="autotranslate_cmd" xml:space="preserve">
+    <value>autotrans at</value>
+  </data>
+  <data name="autotranslate_desc" xml:space="preserve">
+    <value>Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set "del" argument to automatically delete all translated user messages.</value>
+  </data>
+  <data name="autotranslate_usage" xml:space="preserve">
+    <value>`{0}at` or `{0}at del`</value>
   </data>
 </root>
