@@ -108,7 +108,7 @@ ________________________________________________________________________________
 - Restart your computer.
 
 [NET Framework]: https://www.microsoft.com/en-us/download/details.aspx?id=48130
-[FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Installer
+[FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [Updater]: https://github.com/Kwoth/NadekoUpdater/releases
 [Releases]: https://github.com/Kwoth/NadekoBot/releases
