@@ -3408,6 +3408,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to listquotes liqu.
+        /// </summary>
+        public static string listquotes_cmd {
+            get {
+                return ResourceManager.GetString("listquotes_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}liqu` or `{0}liqu 3`.
+        /// </summary>
+        public static string listquotes_desc {
+            get {
+                return ResourceManager.GetString("listquotes_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists all quotes on the server ordered alphabetically. 15 Per page..
+        /// </summary>
+        public static string listquotes_usage {
+            get {
+                return ResourceManager.GetString("listquotes_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to liststreams ls.
         /// </summary>
         public static string liststreams_cmd {

@@ -2565,4 +2565,13 @@
   <data name="autotranslate_usage" xml:space="preserve">
     <value>`{0}at` or `{0}at del`</value>
   </data>
+  <data name="listquotes_cmd" xml:space="preserve">
+    <value>listquotes liqu</value>
+  </data>
+  <data name="listquotes_desc" xml:space="preserve">
+    <value>`{0}liqu` or `{0}liqu 3`</value>
+  </data>
+  <data name="listquotes_usage" xml:space="preserve">
+    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
+  </data>
 </root>
