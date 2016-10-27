@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         finally
                         {
-                            await Task.Delay(15000);
+                            await Task.Delay(TimeSpan.FromMinutes(1));
                         }
                     } while (true);
                 });
