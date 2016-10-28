@@ -1,19 +1,18 @@
 ######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
 ######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
 ##Table Of Contents
-- [Permissions](#Permissions)
-- [Games](#Games)
-- [NSFW](#NSFW)
-- [Searches](#Searches)
-- [ClashOfClans](#ClashOfClans)
-- [Music](#Music)
-- [Utility](#Utility)
-- [Gambling](#Gambling)
-- [CustomReactions](#CustomReactions)
-- [Help](#Help)
-- [Administration](#Administration)
+- [Music](#music)
+- [Gambling](#gambling)
+- [Permissions](#permissions)
+- [Administration](#administration)
+- [ClashOfClans](#clashofclans)
+- [Utility](#utility)
+- [Games](#games)
+- [Help](#help)
+- [NSFW](#nsfw)
+- [CustomReactions](#customreactions)
+- [Searches](#searches)
 
-###### [Back to TOC](#table-of-contents)
 
 ### Administration  
 Command and aliases | Description | Usage
