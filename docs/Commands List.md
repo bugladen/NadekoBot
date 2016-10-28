@@ -1,17 +1,17 @@
-######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
+For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
 ##Table Of Contents
-- [CustomReactions](#customreactions)
-- [ClashOfClans](#clashofclans)
 - [Searches](#searches)
-- [Utility](#utility)
-- [Permissions](#permissions)
-- [Help](#help)
-- [Administration](#administration)
-- [NSFW](#nsfw)
 - [Games](#games)
+- [Permissions](#permissions)
+- [Utility](#utility)
 - [Gambling](#gambling)
+- [CustomReactions](#customreactions)
 - [Music](#music)
+- [ClashOfClans](#clashofclans)
+- [NSFW](#nsfw)
+- [Administration](#administration)
+- [Help](#help)
 
 
 ### Administration  
@@ -285,6 +285,9 @@ Command and aliases | Description | Usage
 `~color` `~clr` | Shows you what color corresponds to that hex.  | `~clr 00ff00`
 `~videocall`  | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `~videocall "@SomeGuy"`
 `~avatar` `~av` | Shows a mentioned person's avatar.  | `~av "@SomeGuy"`
+`~minecraftping` `~mcping` | Pings a minecraft server.  | `~mcping 127.0.0.1:1337`
+`~minecraftquery` `~mcquery` | Finds information about a minecraft server.  | `~mcquery server:ip`
+`~minecraftuser` `~mcuser` | Finds information about a minecraft user.  | `~mcuser username or uuid`
 `~lolban`  | Shows top banned champions ordered by ban rate.  | `~lolban`
 `~memelist`  | Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/  | `~memelist`
 `~memegen`  | Generates a meme from memelist with top and bottom text.  | `~memegen biw "gets iced coffee" "in the winter"`
