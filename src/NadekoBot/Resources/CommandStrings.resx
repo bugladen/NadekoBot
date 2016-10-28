@@ -2574,4 +2574,22 @@
   <data name="listquotes_usage" xml:space="preserve">
     <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
   </data>
+  <data name="typedel_cmd" xml:space="preserve">
+    <value>typedel</value>
+  </data>
+  <data name="typedel_desc" xml:space="preserve">
+    <value>Deletes a typing article given the ID.</value>
+  </data>
+  <data name="typedel_usage" xml:space="preserve">
+    <value>`{0}typedel 3`</value>
+  </data>
+  <data name="typelist_cmd" xml:space="preserve">
+    <value>typelist</value>
+  </data>
+  <data name="typelist_desc" xml:space="preserve">
+    <value>Lists added typing articles with their IDs. 15 per page.</value>
+  </data>
+  <data name="typelist_usage" xml:space="preserve">
+    <value>`{0}typelist` or `{0}typelist 3`</value>
+  </data>
 </root>

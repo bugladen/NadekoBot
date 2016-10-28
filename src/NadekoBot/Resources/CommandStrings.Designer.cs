@@ -6702,6 +6702,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to typedel.
+        /// </summary>
+        public static string typedel_cmd {
+            get {
+                return ResourceManager.GetString("typedel_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deletes a typing article given the ID..
+        /// </summary>
+        public static string typedel_desc {
+            get {
+                return ResourceManager.GetString("typedel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typedel 3`.
+        /// </summary>
+        public static string typedel_usage {
+            get {
+                return ResourceManager.GetString("typedel_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to typelist.
+        /// </summary>
+        public static string typelist_cmd {
+            get {
+                return ResourceManager.GetString("typelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists added typing articles with their IDs. 15 per page..
+        /// </summary>
+        public static string typelist_desc {
+            get {
+                return ResourceManager.GetString("typelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typelist` or `{0}typelist 3`.
+        /// </summary>
+        public static string typelist_usage {
+            get {
+                return ResourceManager.GetString("typelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to typestart.
         /// </summary>
         public static string typestart_cmd {
