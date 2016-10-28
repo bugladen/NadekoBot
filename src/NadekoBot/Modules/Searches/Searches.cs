@@ -225,7 +225,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
                     {
-                        using (var sr =await http.GetStreamAsync(item["img"].ToString()))
+                        using (var sr = await http.GetStreamAsync(item["img"].ToString()))
                         {
                             var imgStream = new MemoryStream();
                             await sr.CopyToAsync(imgStream);
@@ -461,6 +461,143 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     return null;
                 var match = matches[rng.Next(0, matches.Count)];
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MCPing(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a ip:port.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                string ip = arg.Split(':')[0];
+                string port = arg.Split(':')[1];
+                var res = await http.GetStringAsync($"https://api.minetools.eu/ping/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
+                try
+                {
+                    var items = JObject.Parse(res);
+                    var sb = new System.Text.StringBuilder();
+                    int ping = (int)Math.Ceiling(Double.Parse(items["latency"].ToString()));
+                    sb.AppendLine($"`Server:` {arg}");
+                    sb.AppendLine($"`Version:` {items["version"]["name"].ToString()} / Protocol {items["version"]["protocol"].ToString()}");
+                    sb.AppendLine($"`Description:` {items["description"].ToString()}");
+                    sb.AppendLine($"`Online Players:` {items["players"]["online"].ToString()}/{items["players"]["max"].ToString()}");
+                    sb.Append($"`Latency:` {ping}");
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 [MINECRAFT] Failed finding {arg}.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MCQuery(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a ip:port.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                try
+                {
+                    string ip = arg.Split(':')[0];
+                    string port = arg.Split(':')[1];
+                    var res = await http.GetStringAsync($"https://api.minetools.eu/query/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
+                    var items = JObject.Parse(res);
+                    var sb = new System.Text.StringBuilder();
+                    sb.AppendLine($"`Server:` {arg.ToString()} 〘Status: {items["status"]}〙");
+                    sb.AppendLine($"`Player List:`");
+                    for (int i=0;i < items["Playerlist"].Count();i++)
+                    {
+                        if (i == 5)
+                        {
+                            break;
+                        } else
+                        {
+                            sb.AppendLine($"〔{i+1}. {items["Playerlist"][i]}〕");
+                        }
+                    }
+                    sb.AppendLine($"`Online Players:` {items["Players"]} / {items["MaxPlayers"]}");
+                    sb.AppendLine($"`Plugins:` {items["Plugins"]}");
+                    sb.Append($"`Version:` {items["Version"]}");
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 [MINECRAFT] Failed finding server: `{arg}`.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MCUser(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a name or uuid.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                var res = await http.GetStringAsync($"https://api.minetools.eu/uuid/{Uri.EscapeUriString(arg)}").ConfigureAwait(false);
+                try
+                {
+                    var items = JObject.Parse(res);
+                    var sb = new System.Text.StringBuilder();
+                    if (items["uuid"].ToString() == "null")
+                    {
+                        sb.Append($"💢 [MINECRAFT] Failed finding a name/uuid going by {Uri.EscapeUriString(arg)}, bugger off!");
+                    }
+                    else
+                    {
+                        using (var httpkek = new HttpClient())
+                        {
+                            httpkek.DefaultRequestHeaders.Clear();
+                            var uuid = items["uuid"].ToString();
+                            var reskek = await http.GetStringAsync($"https://api.minetools.eu/profile/{Uri.EscapeUriString(uuid)}").ConfigureAwait(false);
+                            try
+                            {
+                                var itemskek = JObject.Parse(reskek);
+                                sb.AppendLine($"`Profile ID:` {itemskek["decoded"]["profileId"].ToString()}");
+                                sb.AppendLine($"`Profile Name:` {itemskek["decoded"]["profileName"].ToString()}");
+                                sb.AppendLine($"`Textures (CAPE):` {await _google.ShortenUrl(itemskek["decoded"]["textures"]["CAPE"]["url"].ToString()).ConfigureAwait(false)}");
+                                sb.AppendLine($"`Textures (SKIN):` {await _google.ShortenUrl(itemskek["decoded"]["textures"]["SKIN"]["url"].ToString()).ConfigureAwait(false)}");
+                                sb.Append($"`Timestamp:` {Convert.ToDateTime(itemskek["decoded"]["timestamp"].ToString())}");
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync("💢 [MINECRAFT] Failed finding user.").ConfigureAwait(false);
+                }
             }
         }
 
