@@ -1,17 +1,17 @@
-######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
+For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
 ##Table Of Contents
+- [Help](#help)
+- [Music](#music)
 - [CustomReactions](#customreactions)
 - [ClashOfClans](#clashofclans)
-- [Searches](#searches)
-- [Utility](#utility)
-- [Permissions](#permissions)
-- [Help](#help)
-- [Administration](#administration)
-- [NSFW](#nsfw)
-- [Games](#games)
 - [Gambling](#gambling)
-- [Music](#music)
+- [Administration](#administration)
+- [Games](#games)
+- [Searches](#searches)
+- [Permissions](#permissions)
+- [Utility](#utility)
+- [NSFW](#nsfw)
 
 
 ### Administration  

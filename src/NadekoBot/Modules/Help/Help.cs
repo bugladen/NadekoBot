@@ -125,8 +125,8 @@ namespace NadekoBot.Modules.Help
         public Task Hgit(IUserMessage umsg)
         {
             var helpstr = new StringBuilder();
-            helpstr.AppendLine(@"######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`");
+            helpstr.AppendLine(@"For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`");
             helpstr.AppendLine("##Table Of Contents");
             helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Select(m => $"- [{m.Name}](#{m.Name.ToLowerInvariant()})")));
             helpstr.AppendLine();
