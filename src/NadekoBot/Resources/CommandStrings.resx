@@ -2592,4 +2592,13 @@
   <data name="typelist_usage" xml:space="preserve">
     <value>`{0}typelist` or `{0}typelist 3`</value>
   </data>
+  <data name="listservers_cmd" xml:space="preserve">
+    <value>listservers</value>
+  </data>
+  <data name="listservers_desc" xml:space="preserve">
+    <value>Lists servers the bot is on with some basic info. 15 per page.</value>
+  </data>
+  <data name="listservers_usage" xml:space="preserve">
+    <value>`{0}listservers 3`</value>
+  </data>
 </root>

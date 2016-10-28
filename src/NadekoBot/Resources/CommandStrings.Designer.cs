@@ -3435,6 +3435,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to listservers.
+        /// </summary>
+        public static string listservers_cmd {
+            get {
+                return ResourceManager.GetString("listservers_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists servers the bot is on with some basic info. 15 per page..
+        /// </summary>
+        public static string listservers_desc {
+            get {
+                return ResourceManager.GetString("listservers_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}listservers 3`.
+        /// </summary>
+        public static string listservers_usage {
+            get {
+                return ResourceManager.GetString("listservers_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to liststreams ls.
         /// </summary>
         public static string liststreams_cmd {
