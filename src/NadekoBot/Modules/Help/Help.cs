@@ -136,7 +136,10 @@ namespace NadekoBot.Modules.Help
                 if (com.Module.Name != lastModule)
                 {
                     if (lastModule != null)
+                    {
+                        helpstr.AppendLine();
                         helpstr.AppendLine("###### [Back to TOC](#table-of-contents)");
+                    }
                     helpstr.AppendLine();
                     helpstr.AppendLine("### " + com.Module.Name + "  ");
                     helpstr.AppendLine("Command and aliases | Description | Usage");
