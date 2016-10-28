@@ -1,9 +1,24 @@
+######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
+##Table Of Contents
+- [Permissions](#Permissions)
+- [Games](#Games)
+- [NSFW](#NSFW)
+- [Searches](#Searches)
+- [ClashOfClans](#ClashOfClans)
+- [Music](#Music)
+- [Utility](#Utility)
+- [Gambling](#Gambling)
+- [CustomReactions](#CustomReactions)
+- [Help](#Help)
+- [Administration](#Administration)
+
+###### [Back to TOC](#table-of-contents)
 
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `.resetperms`  | Resets BOT's permissions module on this server to the default value. **Requires Administrator server permission.** | `.resetperms`
-`.restart`  | Restarts the bot. Might not work. **Bot owner only.** | `.restart`
 `.delmsgoncmd`  | Toggles the automatic deletion of user's successful command message to prevent chat flood. **Requires Administrator server permission.** | `.delmsgoncmd`
 `.setrole` `.sr` | Sets a role for a given user.   **Requires ManageRoles server permission.** | `.sr @User Guest`
 `.removerole` `.rr` | Removes a role from a given user.   **Requires ManageRoles server permission.** | `.rr @User Admin`
@@ -79,6 +94,7 @@ Command and aliases | Description | Usage
 `.byedel`  | Toggles automatic deletion of bye messages.  **Requires ManageServer server permission.** | `.byedel`
 `.voice+text` `.v+t` | Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.   **Requires ManageRoles server permission.** **Requires ManageChannels server permission.** | `.voice+text`
 `.cleanvplust` `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk. **Requires ManageChannels server permission.** **Requires ManageRoles server permission.** | `.cleanv+t`
+###### [Back to TOC](#table-of-contents)
 
 ### ClashOfClans  
 Command and aliases | Description | Usage
@@ -92,6 +108,7 @@ Command and aliases | Description | Usage
 `,claimfinish` `,cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `,cf 1` or `,cf 1 5`
 `,endwar` `,ew` | Ends the war with a given index.  | `,ew [war_number]`
 `,unclaim` `,ucall` `,uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim  | `,uc [war_number] [optional_other_name]`
+###### [Back to TOC](#table-of-contents)
 
 ### CustomReactions  
 Command and aliases | Description | Usage
@@ -100,6 +117,7 @@ Command and aliases | Description | Usage
 `.listcustreact` `.lcr` | Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.  | `.lcr 1`
 `.showcustreact` `.scr` | Shows a custom reaction's response on a given ID.  | `.scr 1`
 `.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.  | `.dcr 5`
+###### [Back to TOC](#table-of-contents)
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -120,6 +138,7 @@ Command and aliases | Description | Usage
 `$shuffle` `$sh` | Reshuffles all cards back into the deck.  | `$sh`
 `$flip`  | Flips coin(s) - heads or tails, and shows an image.  | `$flip` or `$flip 3`
 `$betflip` `$bf` | Bet to guess will the result be heads or tails. Guessing awards you 1.8x the currency you've bet.  | `$bf 5 heads` or `$bf 3 t`
+###### [Back to TOC](#table-of-contents)
 
 ### Games  
 Command and aliases | Description | Usage
@@ -141,6 +160,7 @@ Command and aliases | Description | Usage
 `>trivia` `>t` | Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.  | `>t` or `>t 5 nohint`
 `>tl`  | Shows a current trivia leaderboard.  | `>tl`
 `>tq`  | Quits current trivia after current question.  | `>tq`
+###### [Back to TOC](#table-of-contents)
 
 ### Help  
 Command and aliases | Description | Usage
@@ -151,6 +171,7 @@ Command and aliases | Description | Usage
 `-hgit`  | Generates the commandlist.md file. **Bot owner only.** | `-hgit`
 `-readme` `-guide` | Sends a readme and a guide links to the channel.  | `-readme` or `-guide`
 `-donate`  | Instructions for helping the project financially.  | `-donate`
+###### [Back to TOC](#table-of-contents)
 
 ### Music  
 Command and aliases | Description | Usage
@@ -184,6 +205,7 @@ Command and aliases | Description | Usage
 `!!goto`  | Goes to a specific time in seconds in a song.  | `!!goto 30`
 `!!getlink` `!!gl` | Shows a link to the song in the queue by index, or the currently playing song by default.  | `!!gl`
 `!!autoplay` `!!ap` | Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)  | `!!ap`
+###### [Back to TOC](#table-of-contents)
 
 ### NSFW  
 Command and aliases | Description | Usage
@@ -197,6 +219,7 @@ Command and aliases | Description | Usage
 `~cp`  | We all know where this will lead you to.  | `~cp`
 `~boobs`  | Real adult content.  | `~boobs`
 `~butts` `~ass` `~butt` | Real adult content.  | `~butts` or `~ass`
+###### [Back to TOC](#table-of-contents)
 
 ### Permissions  
 Command and aliases | Description | Usage
@@ -229,6 +252,7 @@ Command and aliases | Description | Usage
 `;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.  | `;cfw`
 `;fw`  | Adds or removes (if it exists) a word from the list of filtered words. Use`;sfw` or `;cfw` to toggle filtering.  | `;fw poop`
 `;lstfilterwords` `;lfw` | Shows a list of filtered words.  | `;lfw`
+###### [Back to TOC](#table-of-contents)
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -252,12 +276,10 @@ Command and aliases | Description | Usage
 `~wikipedia` `~wiki` | Gives you back a wikipedia link  | `~wiki query`
 `~color` `~clr` | Shows you what color corresponds to that hex.  | `~clr 00ff00`
 `~videocall`  | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `~videocall "@SomeGuy"`
-`~av` `~avatar` | Shows a mentioned person's avatar.  | `~av "@SomeGuy"`
+`~avatar` `~av` | Shows a mentioned person's avatar.  | `~av "@SomeGuy"`
 `~lolban`  | Shows top banned champions ordered by ban rate.  | `~lolban`
 `~memelist`  | Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/  | `~memelist`
 `~memegen`  | Generates a meme from memelist with top and bottom text.  | `~memegen biw "gets iced coffee" "in the winter"`
-`~translate` `~trans` | Translates from>to text. From the given language to the destination language.  | `~trans en>fr Hello`
-`~translangs`  | Lists the valid languages for translation.  | `~translangs`
 `~anime` `~ani` `~aq` | Queries anilist for an anime and shows the first result.  | `~ani aquarion evol`
 `~manga` `~mang` `~mq` | Queries anilist for a manga and shows the first result.  | `~mq Shingeki no kyojin`
 `~yomama` `~ym` | Shows a random joke from <http://api.yomomma.info/>  | `~ym`
@@ -278,7 +300,12 @@ Command and aliases | Description | Usage
 `~liststreams` `~ls` | Lists all streams you are following on this server.  | `~ls`
 `~removestream` `~rms` | Removes notifications of a certain streamer on this channel. **Requires ManageMessages server permission.** | `~rms SomeGuy`
 `~checkstream` `~cs` | Checks if a user is online on a certain streaming platform.  | `~cs twitch MyFavStreamer`
+`~translate` `~trans` | Translates from>to text. From the given language to the destination language.  | `~trans en>fr Hello`
+`~autotrans` `~at` | Starts automatic translation of all messages by users who set their `~atl` in this channel. You can set "del" argument to automatically delete all translated user messages. **Requires Administrator server permission.** **Bot owner only.** | `~at` or `~at del`
+`~autotranslang` `~atl` | `~atl en>fr`  | Sets your source and target language to be used with `~at`. Specify no arguments to remove previously set value.
+`~translangs`  | Lists the valid languages for translation.  | `~translangs`
 `~xkcd`  | Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and "latest" will get the latest one.  | `~xkcd` or `~xkcd 1400` or `~xkcd latest`
+###### [Back to TOC](#table-of-contents)
 
 ### Utility  
 Command and aliases | Description | Usage
@@ -299,6 +326,7 @@ Command and aliases | Description | Usage
 `.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`
+`.listquotes` `.liqu` | `.liqu` or `.liqu 3`  | Lists all quotes on the server ordered alphabetically. 15 Per page.
 `...`  | Shows a random quote with a specified name.  | `... abc`
 `..`  | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
 `.deletequote` `.delq` | Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.  | `.delq abc`
