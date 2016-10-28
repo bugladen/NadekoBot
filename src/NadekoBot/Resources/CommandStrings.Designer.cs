@@ -4119,7 +4119,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot..
+        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled..
         /// </summary>
         public static string next_desc {
             get {
@@ -4128,7 +4128,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}n`.
+        ///    Looks up a localized string similar to `{0}n` or `{0}n 5`.
         /// </summary>
         public static string next_usage {
             get {

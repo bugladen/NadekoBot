@@ -1426,10 +1426,10 @@
     <value>next n</value>
   </data>
   <data name="next_desc" xml:space="preserve">
-    <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot.</value>
+    <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled.</value>
   </data>
   <data name="next_usage" xml:space="preserve">
-    <value>`{0}n`</value>
+    <value>`{0}n` or `{0}n 5`</value>
   </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
