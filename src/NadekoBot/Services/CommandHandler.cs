@@ -110,16 +110,17 @@ namespace NadekoBot.Services
                         _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
                     }
                 }
-
-                BlacklistItem blacklistedItem;
-                if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
-                     (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
-                {
-                    return;
-                }
             }
+
+            BlacklistItem blacklistedItem;
+            if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
+                 (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
+            {
+                return;
+            }
+
             var throwaway = Task.Run(async () =>
             {
                 var sw = new Stopwatch();
