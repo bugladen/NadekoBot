@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Searches
             }
             catch (Exception)
             {
-                await channel.SendMessageAsync($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
+                await channel.SendMessageAsync($":anger: `Something went wrong.`").ConfigureAwait(false);
             }
         }
     }
