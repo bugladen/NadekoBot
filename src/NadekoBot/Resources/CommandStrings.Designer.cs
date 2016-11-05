@@ -465,6 +465,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to atfbooru atf.
+        /// </summary>
+        public static string atfbooru_cmd {
+            get {
+                return ResourceManager.GetString("atfbooru_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred..
+        /// </summary>
+        public static string atfbooru_desc {
+            get {
+                return ResourceManager.GetString("atfbooru_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}atfbooru yuri+kissing`.
+        /// </summary>
+        public static string atfbooru_usage {
+            get {
+                return ResourceManager.GetString("atfbooru_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to autoassignrole aar.
         /// </summary>
         public static string autoassignrole_cmd {
@@ -2823,7 +2850,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
+        ///    Looks up a localized string similar to Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
         /// </summary>
         public static string hentai_desc {
             get {
@@ -2837,6 +2864,33 @@ namespace NadekoBot.Resources {
         public static string hentai_usage {
             get {
                 return ResourceManager.GetString("hentai_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to hentaibomb.
+        /// </summary>
+        public static string hentaibomb_cmd {
+            get {
+                return ResourceManager.GetString("hentaibomb_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred..
+        /// </summary>
+        public static string hentaibomb_desc {
+            get {
+                return ResourceManager.GetString("hentaibomb_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}hentaibomb yuri`.
+        /// </summary>
+        public static string hentaibomb_usage {
+            get {
+                return ResourceManager.GetString("hentaibomb_usage", resourceCulture);
             }
         }
         
@@ -3147,7 +3201,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred..
         /// </summary>
         public static string konachan_desc {
             get {

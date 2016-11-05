@@ -30,11 +30,51 @@ namespace NadekoBot.Modules.NSFW
 
             tag = tag?.Trim() ?? "";
 
-            var links = await Task.WhenAll(GetGelbooruImageLink("rating%3Aexplicit+" + tag), GetDanbooruImageLink("rating%3Aexplicit+" + tag)).ConfigureAwait(false);
+            tag = "rating%3Aexplicit+" + tag;
+
+            var rng = new NadekoRandom();
+            Task<string> provider = Task.FromResult("");
+            switch (rng.Next(0,4))
+            {
+                case 0:
+                    provider = GetDanbooruImageLink(tag);
+                    break;
+                case 1:
+                    provider = GetGelbooruImageLink(tag);
+                    break;
+                case 2:
+                    provider = GetATFbooruImageLink(tag);
+                    break;
+                case 3:
+                    provider = GetKonachanImageLink(tag);
+                    break;
+                default:
+                    break;
+            }
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task HentaiBomb(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            tag = "rating%3Aexplicit+" + tag;
+
+            var links = await Task.WhenAll(GetGelbooruImageLink(tag), 
+                                           GetDanbooruImageLink(tag),
+                                           GetKonachanImageLink(tag),
+                                           GetATFbooruImageLink(tag)).ConfigureAwait(false);
 
             if (links.All(l => l == null))
             {
-                await channel.SendMessageAsync("`No results.`");
+                await channel.SendMessageAsync("`No results.`").ConfigureAwait(false);
                 return;
             }
 
@@ -50,7 +90,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetATFbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -64,7 +104,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetDanbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -78,7 +118,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetKonachanImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -92,7 +132,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -106,7 +146,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -120,7 +160,7 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             var link = await GetE621ImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(");
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
@@ -190,7 +230,7 @@ namespace NadekoBot.Modules.NSFW
 
                 if (matches.Count == 0)
                     return null;
-                return await NadekoBot.Google.ShortenUrl(matches[rng.Next(0, matches.Count)].Groups["ll"].Value).ConfigureAwait(false);
+                return matches[rng.Next(0, matches.Count)].Groups["ll"].Value;
             }
         }
 

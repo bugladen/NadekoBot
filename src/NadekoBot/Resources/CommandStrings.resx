@@ -2101,7 +2101,7 @@
     <value>hentai</value>
   </data>
   <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
+    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
     <value>`{0}hentai yuri`</value>
@@ -2115,7 +2115,7 @@
   <data name="danbooru_usage" xml:space="preserve">
     <value>`{0}danbooru yuri+kissing`</value>
   </data>
-    <data name="atfbooru_cmd" xml:space="preserve">
+  <data name="atfbooru_cmd" xml:space="preserve">
     <value>atfbooru atf</value>
   </data>
   <data name="atfbooru_desc" xml:space="preserve">
@@ -2123,7 +2123,7 @@
   </data>
   <data name="atfbooru_usage" xml:space="preserve">
     <value>`{0}atfbooru yuri+kissing`</value>
-</data>
+  </data>
   <data name="gelbooru_cmd" xml:space="preserve">
     <value>gelbooru</value>
   </data>
@@ -2461,7 +2461,7 @@
     <value>konachan</value>
   </data>
   <data name="konachan_desc" xml:space="preserve">
-    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.</value>
   </data>
   <data name="konachan_usage" xml:space="preserve">
     <value>`{0}konachan yuri`</value>
@@ -2609,5 +2609,14 @@
   </data>
   <data name="listservers_usage" xml:space="preserve">
     <value>`{0}listservers 3`</value>
+  </data>
+  <data name="hentaibomb_cmd" xml:space="preserve">
+    <value>hentaibomb</value>
+  </data>
+  <data name="hentaibomb_desc" xml:space="preserve">
+    <value>Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred.</value>
+  </data>
+  <data name="hentaibomb_usage" xml:space="preserve">
+    <value>`{0}hentaibomb yuri`</value>
   </data>
 </root>
