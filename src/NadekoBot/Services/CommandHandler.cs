@@ -18,6 +18,7 @@ using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Help;
 using static NadekoBot.Modules.Administration.Administration;
+using NadekoBot.Modules.CustomReactions;
 
 namespace NadekoBot.Services
 {
@@ -120,6 +121,17 @@ namespace NadekoBot.Services
             {
                 return;
             }
+
+            try
+            {
+                // maybe this message is a custom reaction
+                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+
+                //if it was, don't execute the command
+                if (crExecuted)
+                    return;
+            }
+            catch { }
 
             var throwaway = Task.Run(async () =>
             {
