@@ -43,6 +43,20 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task ATFbooru(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetATFbooruImageLink(tag).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Danbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -253,6 +267,26 @@ namespace NadekoBot.Modules.NSFW
             {
                 Console.WriteLine("Error in e621 search: \n" + ex);
                 return "Error, do you have too many tags?";
+            }
+        }
+
+        public static async Task<string> GetATFbooruImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+
+            var link = $"https://atfbooru.ninja/posts?" +
+                        $"limit=100";
+            if (!string.IsNullOrWhiteSpace(tag))
+                link += $"&tags={tag.Replace(" ", "+")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(link).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "data-file-url=\"(?<id>.*?)\"");
+
+                if (matches.Count == 0)
+                    return null;
+                return $"https://atfbooru.ninja" +
+                       $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
             }
         }
     }

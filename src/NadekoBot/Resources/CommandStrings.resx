@@ -2115,6 +2115,15 @@
   <data name="danbooru_usage" xml:space="preserve">
     <value>`{0}danbooru yuri+kissing`</value>
   </data>
+    <data name="atfbooru_cmd" xml:space="preserve">
+    <value>atfbooru atf</value>
+  </data>
+  <data name="atfbooru_desc" xml:space="preserve">
+    <value>Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.</value>
+  </data>
+  <data name="atfbooru_usage" xml:space="preserve">
+    <value>`{0}atfbooru yuri+kissing`</value>
+</data>
   <data name="gelbooru_cmd" xml:space="preserve">
     <value>gelbooru</value>
   </data>
