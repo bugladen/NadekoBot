@@ -2619,4 +2619,22 @@
   <data name="hentaibomb_usage" xml:space="preserve">
     <value>`{0}hentaibomb yuri`</value>
   </data>
+  <data name="mcping_cmd" xml:space="preserve">
+    <value>minecraftping mcping</value>
+  </data>
+  <data name="mcping_desc" xml:space="preserve">
+    <value>Pings a minecraft server.</value>
+  </data>
+  <data name="mcping_usage" xml:space="preserve">
+    <value>`{0}mcping 127.0.0.1:25565`</value>
+  </data>
+  <data name="mcq_cmd" xml:space="preserve">
+    <value>minecraftquery mcq</value>
+  </data>
+  <data name="mcq_desc" xml:space="preserve">
+    <value>Finds information about a minecraft server.</value>
+  </data>
+  <data name="mcq_usage" xml:space="preserve">
+    <value>`{0}mcq server:ip`</value>
+  </data>
 </root>

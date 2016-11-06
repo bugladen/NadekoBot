@@ -3937,6 +3937,60 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("memegen_desc", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftping mcping.
+        /// </summary>
+        public static string mcping_cmd {
+            get {
+                return ResourceManager.GetString("mcping_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pings a minecraft server..
+        /// </summary>
+        public static string mcping_desc {
+            get {
+                return ResourceManager.GetString("mcping_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcping 127.0.0.1:1337`.
+        /// </summary>
+        public static string mcping_usage {
+            get {
+                return ResourceManager.GetString("mcping_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftquery mcq.
+        /// </summary>
+        public static string mcq_cmd {
+            get {
+                return ResourceManager.GetString("mcq_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds information about a minecraft server..
+        /// </summary>
+        public static string mcq_desc {
+            get {
+                return ResourceManager.GetString("mcq_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcq server:ip`.
+        /// </summary>
+        public static string mcq_usage {
+            get {
+                return ResourceManager.GetString("mcq_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to `{0}memegen biw &quot;gets iced coffee&quot; &quot;in the winter&quot;`.
