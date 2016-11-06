@@ -169,8 +169,6 @@ namespace NadekoBot.Modules.Utility
         {
             var matches = emojiFinder.Matches(emojis);
 
-
-
             var result = string.Join("\n", matches.Cast<Match>()
                                                   .Select(m => $"`Name:` {m.Groups["name"]} `Link:` http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
             
