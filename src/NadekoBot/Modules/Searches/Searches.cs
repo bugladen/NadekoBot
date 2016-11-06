@@ -524,18 +524,12 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var res = await http.GetStringAsync($"https://api.minetools.eu/query/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
                     var items = JObject.Parse(res);
                     var sb = new StringBuilder();
+                    int i = 0;
                     sb.AppendLine($"`Server:` {arg.ToString()} 〘Status: {items["status"]}〙");
-                    sb.AppendLine($"`Player List:`");
-                    for (int i = 0; i < items["Playerlist"].Count(); i++)
+                    sb.AppendLine($"`Player List (First 5):`");
+                    foreach (var item in items["Playerlist"].Take(5))
                     {
-                        if (i == 5)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            sb.AppendLine($"〔{i + 1}. {items["Playerlist"][i]}〕");
-                        }
+                        sb.AppendLine($"〔:rosette: {item}〕");
                     }
                     sb.AppendLine($"`Online Players:` {items["Players"]} / {items["MaxPlayers"]}");
                     sb.AppendLine($"`Plugins:` {items["Plugins"]}");
