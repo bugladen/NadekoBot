@@ -7510,6 +7510,33 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("wiki_usage", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to wikia.
+        /// </summary>
+        public static string wikia_cmd {
+            get {
+                return ResourceManager.GetString("wikia_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gives you back a wikia link.
+        /// </summary>
+        public static string wikia_desc {
+            get {
+                return ResourceManager.GetString("wikia_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wikia target query`.
+        /// </summary>
+        public static string wikia_usage {
+            get {
+                return ResourceManager.GetString("wikia_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to wowjoke.

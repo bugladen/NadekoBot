@@ -2637,4 +2637,13 @@
   <data name="mcq_usage" xml:space="preserve">
     <value>`{0}mcq server:ip`</value>
   </data>
+  <data name="wikia_cmd" xml:space="preserve">
+    <value>wikia</value>
+  </data>
+  <data name="wikia_desc" xml:space="preserve">
+    <value>Gives you back a wikia link</value>
+  </data>
+  <data name="wikia_usage" xml:space="preserve">
+    <value>`{0}wikia target query`</value>
+  </data>
 </root>

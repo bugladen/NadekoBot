@@ -464,6 +464,41 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
+		
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Wikia(IUserMessage umsg, string targ, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter `target query`.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                string target = targ;
+                string search = arg;
+				try
+                {
+					var res = await http.GetStringAsync($"http://www.{Uri.EscapeUriString(target)}.wikia.com/api/v1/Search/List?query={Uri.EscapeUriString(search)}&limit=25&minArticleQuality=10&batch=1&namespaces=0%2C14").ConfigureAwait(false);
+                    var items = JObject.Parse(res);
+                    var sb = new StringBuilder();
+                    sb.AppendLine($"`Found:` {items["items"][0]["title"].ToString()}");
+                    sb.AppendLine($"`Total Found:` {items["total"].ToString()}");
+                    sb.AppendLine($"`Batch:` {items["currentBatch"].ToString()}/{items["batches"].ToString()}");
+                    sb.Append($"`URL:` <{await _google.ShortenUrl(items["items"][0]["url"].ToString()).ConfigureAwait(false)}> / `Quality`: {items["items"][0]["quality"].ToString()}");
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Failed finding `{arg}`.").ConfigureAwait(false);
+                }
+            }
+        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
