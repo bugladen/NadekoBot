@@ -1,17 +1,17 @@
 For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
 You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
 ##Table Of Contents
-- [Help](#help)
+- [Searches](#searches)
+- [NSFW](#nsfw)
 - [Music](#music)
-- [CustomReactions](#customreactions)
-- [ClashOfClans](#clashofclans)
+- [Help](#help)
+- [Permissions](#permissions)
 - [Gambling](#gambling)
 - [Administration](#administration)
-- [Games](#games)
-- [Searches](#searches)
-- [Permissions](#permissions)
 - [Utility](#utility)
-- [NSFW](#nsfw)
+- [ClashOfClans](#clashofclans)
+- [CustomReactions](#customreactions)
+- [Games](#games)
 
 
 ### Administration  
@@ -26,7 +26,7 @@ Command and aliases | Description | Usage
 `.createrole` `.cr` | Creates a role with a given name.   **Requires ManageRoles server permission.** | `.cr Awesome Role`
 `.rolecolor` `.rc` | Set a role's color to the hex or 0-255 rgb color value provided.   **Requires ManageRoles server permission.** | `.rc Admin 255 200 100` or `.rc Admin ffba55`
 `.ban` `.b` | Bans a user by ID or name with an optional message. **Requires BanMembers server permission.** | `.b "@some Guy" Your behaviour is toxic.`
-`.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message.   **Requires BanMembers server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
+`.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message.   **Requires KickMembers server permission.** **Requires ManageMessages server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
 `.kick` `.k` | Kicks a mentioned user.   **Requires KickMembers server permission.** | `.k "@some Guy" Your behaviour is toxic.`
 `.setmuterole`  | Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment. **Requires ManageRoles server permission.** | `.setmuterole Silenced`
 `.mute`  | Mutes a mentioned user both from speaking and chatting. **Requires ManageRoles server permission.** **Requires MuteMembers server permission.** | `.mute @Someone`
@@ -154,12 +154,15 @@ Command and aliases | Description | Usage
 `>poll`  | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `>poll Question?;Answer1;Answ 2;A_3`
 `>publicpoll` `>ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `>ppoll Question?;Answer1;Answ 2;A_3`
 `>pollend`  | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `>pollend`
+`>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the channel this command is ran in. You can specify "all" parameter to enable it in the whole server. Custom reactions starting with %mention% won't work if cleverbot is enabled.'  **Requires ManageMessages server permission.** | `>cleverbot`
 `>pick`  | Picks the currency planted in this channel.  | `>pick`
 `>plant`  | Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)  | `>plant`
 `>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `>gc`
 `>typestart`  | Starts a typing contest.  | `>typestart`
 `>typestop`  | Stops a typing contest on the current channel.  | `>typestop`
 `>typeadd`  | Adds a new article to the typing contest. **Bot owner only.** | `>typeadd wordswords`
+`>typelist`  | Lists added typing articles with their IDs. 15 per page.  | `>typelist` or `>typelist 3`
+`>typedel`  | Deletes a typing article given the ID. **Bot owner only.** | `>typedel 3`
 `>trivia` `>t` | Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.  | `>t` or `>t 5 nohint`
 `>tl`  | Shows a current trivia leaderboard.  | `>tl`
 `>tq`  | Quits current trivia after current question.  | `>tq`
@@ -181,7 +184,7 @@ Command and aliases | Description | Usage
 ### Music  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`!!next` `!!n` | Goes to the next song in the queue. You have to be in the same voice channel as the bot.  | `!!n`
+`!!next` `!!n` | Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if !!rcs or !!rpl is enabled.  | `!!n` or `!!n 5`
 `!!stop` `!!s` | Stops the music and clears the playlist. Stays in the channel.  | `!!s`
 `!!destroy` `!!d` | Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)  | `!!d`
 `!!pause` `!!p` | Pauses or Unpauses the song.  | `!!p`
@@ -216,9 +219,11 @@ Command and aliases | Description | Usage
 ### NSFW  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~hentai`  | Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
+`~hentai`  | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
+`~hentaibomb`  | Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred.  | `~hentaibomb yuri`
+`~atfbooru` `~atf` | Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.  | `~atfbooru yuri+kissing`
 `~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
-`~konachan`  | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~konachan yuri`
+`~konachan`  | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.  | `~konachan yuri`
 `~gelbooru`  | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
 `~rule34`  | Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
 `~e621`  | Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.  | `~e621 yuri kissing`
@@ -329,6 +334,7 @@ Command and aliases | Description | Usage
 `.channeltopic` `.ct` | Sends current channel's topic as a message.  | `.ct`
 `.stats`  | Shows some basic stats for Nadeko.  | `.stats`
 `.showemojis` `.se` | Shows a name and a link to every SPECIAL emoji in the message.  | `.se A message full of SPECIAL emojis`
+`.listservers`  | Lists servers the bot is on with some basic info. 15 per page. **Bot owner only.** | `.listservers 3`
 `.calculate` `.calc` | Evaluate a mathematical expression.  | `.calc 1+1`
 `.calcops`  | Shows all available operations in .calc command  | `.calcops`
 `.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
