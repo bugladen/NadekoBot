@@ -17,7 +17,9 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "SoundCloudClientId": "",
   "CarbonKey": "",
   "Db": null,
-  "TotalShards": 1
+  "TotalShards": 1,
+  "CleverbotApiUser": null,
+  "CleverbotApiKey": null
 }
 ```
 ####Required Parts
@@ -48,6 +50,7 @@ Setting up your API keys
   - You can get this key [here](https://osu.ppy.sh/p/api) **You will need to log in and like the soundcloud it may take a few tries**
 - **CarbonKey** -This key is for Carobnitex.net stats. 
   - Most likely unnecessary **Needed only if your bot is listed on Carbonitex.net**
+- **CleverbotApiUser and CleverbotApiKey** - API Keys for CleverBot feature, you can get your keys here: [CleverBot APIs][CleverBot APIs]
   
 Additional options
 ==================== 
@@ -63,3 +66,5 @@ In the folder where `NadekoBot.exe` is located you should also see a `Data` fold
 `config.json` contains user specific commands, such as: if DM's sent to the bot are forwarded to you, Blacklisted Ids, Servers, and channels...etc.
 
 **If you do not see** `config.json` **you need to rename** `config_example.json` **to** `config.json`
+
+[CleverBot APIs]: https://cleverbot.io/keys
