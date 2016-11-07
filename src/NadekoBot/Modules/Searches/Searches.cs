@@ -471,7 +471,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = (ITextChannel)umsg.Channel;
             var arg = query;
-            if (string.IsNullOrWhiteSpace(arg))
+            if (string.IsNullOrWhiteSpace(targ) || string.IsNullOrWhiteSpace(arg))
             {
                 await channel.SendMessageAsync("💢 Please enter `target query`.").ConfigureAwait(false);
                 return;
