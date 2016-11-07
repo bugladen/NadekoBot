@@ -2619,4 +2619,13 @@
   <data name="hentaibomb_usage" xml:space="preserve">
     <value>`{0}hentaibomb yuri`</value>
   </data>
+  <data name="cleverbot_cmd" xml:space="preserve">
+    <value>cleverbot</value>
+  </data>
+  <data name="cleverbot_desc" xml:space="preserve">
+    <value>Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the channel this command is ran in. You can specify "all" parameter to enable it in the whole server. Custom reactions starting with %mention% won't work if cleverbot is enabled.' </value>
+  </data>
+  <data name="cleverbot_usage" xml:space="preserve">
+    <value>`{0}cleverbot`</value>
+  </data>
 </root>

@@ -19,6 +19,7 @@ using System.Collections.Concurrent;
 using NadekoBot.Modules.Help;
 using static NadekoBot.Modules.Administration.Administration;
 using NadekoBot.Modules.CustomReactions;
+using NadekoBot.Modules.Games;
 
 namespace NadekoBot.Services
 {
@@ -121,6 +122,15 @@ namespace NadekoBot.Services
             {
                 return;
             }
+
+            try
+            {
+                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
+
+                if (cleverbotExecuted)
+                    return;
+            }
+            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
 
             try
             {
