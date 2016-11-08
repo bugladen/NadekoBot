@@ -166,7 +166,7 @@
     <value>greetdel grdel</value>
   </data>
   <data name="greetdel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of greet messages. </value>
+    <value>Toggles automatic deletion of greet messages.</value>
   </data>
   <data name="greetdel_usage" xml:space="preserve">
     <value>`{0}greetdel`</value>
@@ -175,7 +175,7 @@
     <value>greet</value>
   </data>
   <data name="greet_desc" xml:space="preserve">
-    <value>Toggles anouncements on the current channel when someone joins the server. </value>
+    <value>Toggles anouncements on the current channel when someone joins the server.</value>
   </data>
   <data name="greet_usage" xml:space="preserve">
     <value>`{0}greet`</value>
@@ -184,7 +184,7 @@
     <value>greetmsg</value>
   </data>
   <data name="greetmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. </value>
+    <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message.</value>
   </data>
   <data name="greetmsg_usage" xml:space="preserve">
     <value>`{0}greetmsg Welcome, %user%.`</value>
@@ -202,7 +202,7 @@
     <value>byemsg</value>
   </data>
   <data name="byemsg_desc" xml:space="preserve">
-    <value>Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. </value>
+    <value>Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.</value>
   </data>
   <data name="byemsg_usage" xml:space="preserve">
     <value>`{0}byemsg %user% has left.`</value>
@@ -211,7 +211,7 @@
     <value>byedel</value>
   </data>
   <data name="byedel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of bye messages. </value>
+    <value>Toggles automatic deletion of bye messages.</value>
   </data>
   <data name="byedel_usage" xml:space="preserve">
     <value>`{0}byedel`</value>
@@ -220,7 +220,7 @@
     <value>greetdm</value>
   </data>
   <data name="greetdm_desc" xml:space="preserve">
-    <value>Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). </value>
+    <value>Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled).</value>
   </data>
   <data name="greetdm_usage" xml:space="preserve">
     <value>`{0}greetdm`</value>
@@ -247,7 +247,7 @@
     <value>userpresence</value>
   </data>
   <data name="userpresence_desc" xml:space="preserve">
-    <value>Starts logging to this channel when someone from the server goes online/offline/idle. </value>
+    <value>Starts logging to this channel when someone from the server goes online/offline/idle.</value>
   </data>
   <data name="userpresence_usage" xml:space="preserve">
     <value>`{0}userpresence`</value>
@@ -256,7 +256,7 @@
     <value>voicepresence</value>
   </data>
   <data name="voicepresence_desc" xml:space="preserve">
-    <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. </value>
+    <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in.</value>
   </data>
   <data name="voicepresence_usage" xml:space="preserve">
     <value>`{0}voicepresence`</value>
@@ -265,7 +265,7 @@
     <value>repeatinvoke repinv</value>
   </data>
   <data name="repeatinvoke_desc" xml:space="preserve">
-    <value>Immediately shows the repeat message and restarts the timer.  </value>
+    <value>Immediately shows the repeat message and restarts the timer.</value>
   </data>
   <data name="repeatinvoke_usage" xml:space="preserve">
     <value>`{0}repinv`</value>
@@ -310,7 +310,7 @@
     <value>removeplaying rmpl repl</value>
   </data>
   <data name="removeplaying_desc" xml:space="preserve">
-    <value>Removes a playing string on a given number. </value>
+    <value>Removes a playing string on a given number.</value>
   </data>
   <data name="removeplaying_usage" xml:space="preserve">
     <value>`{0}rmpl`</value>
@@ -337,7 +337,7 @@
     <value>voice+text v+t</value>
   </data>
   <data name="voiceplustext_desc" xml:space="preserve">
-    <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.  </value>
+    <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.</value>
   </data>
   <data name="voiceplustext_usage" xml:space="preserve">
     <value>`{0}voice+text`</value>
@@ -355,7 +355,7 @@
     <value>jcsc</value>
   </data>
   <data name="jcsc_desc" xml:space="preserve">
-    <value>Joins current channel to an instance of cross server channel using the token. </value>
+    <value>Joins current channel to an instance of cross server channel using the token.</value>
   </data>
   <data name="jcsc_usage" xml:space="preserve">
     <value>`{0}jcsc TokenHere`</value>
@@ -364,7 +364,7 @@
     <value>lcsc</value>
   </data>
   <data name="lcsc_desc" xml:space="preserve">
-    <value>Leaves Cross server channel instance from this channel. </value>
+    <value>Leaves Cross server channel instance from this channel.</value>
   </data>
   <data name="lcsc_usage" xml:space="preserve">
     <value>`{0}lcsc`</value>
@@ -463,7 +463,7 @@
     <value>autoassignrole aar</value>
   </data>
   <data name="autoassignrole_desc" xml:space="preserve">
-    <value>Automaticaly assigns a specified role to every user who joins the server. </value>
+    <value>Automaticaly assigns a specified role to every user who joins the server.</value>
   </data>
   <data name="autoassignrole_usage" xml:space="preserve">
     <value>`{0}aar` to disable, `{0}aar Role Name` to enable</value>
@@ -472,7 +472,7 @@
     <value>leave</value>
   </data>
   <data name="leave_desc" xml:space="preserve">
-    <value>Makes Nadeko leave the server. Either name or id required.  </value>
+    <value>Makes Nadeko leave the server. Either name or id required.</value>
   </data>
   <data name="leave_usage" xml:space="preserve">
     <value>`{0}leave 123123123331`</value>
@@ -499,7 +499,7 @@
     <value>setrole sr</value>
   </data>
   <data name="setrole_desc" xml:space="preserve">
-    <value>Sets a role for a given user.  </value>
+    <value>Sets a role for a given user.</value>
   </data>
   <data name="setrole_usage" xml:space="preserve">
     <value>`{0}sr @User Guest`</value>
@@ -508,7 +508,7 @@
     <value>removerole rr</value>
   </data>
   <data name="removerole_desc" xml:space="preserve">
-    <value>Removes a role from a given user.  </value>
+    <value>Removes a role from a given user.</value>
   </data>
   <data name="removerole_usage" xml:space="preserve">
     <value>`{0}rr @User Admin`</value>
@@ -526,7 +526,7 @@
     <value>removeallroles rar</value>
   </data>
   <data name="removeallroles_desc" xml:space="preserve">
-    <value>Removes all roles from a mentioned user.  </value>
+    <value>Removes all roles from a mentioned user.</value>
   </data>
   <data name="removeallroles_usage" xml:space="preserve">
     <value>`{0}rar @User`</value>
@@ -535,7 +535,7 @@
     <value>createrole cr</value>
   </data>
   <data name="createrole_desc" xml:space="preserve">
-    <value>Creates a role with a given name.  </value>
+    <value>Creates a role with a given name.</value>
   </data>
   <data name="createrole_usage" xml:space="preserve">
     <value>`{0}cr Awesome Role`</value>
@@ -544,7 +544,7 @@
     <value>rolecolor rc</value>
   </data>
   <data name="rolecolor_desc" xml:space="preserve">
-    <value>Set a role's color to the hex or 0-255 rgb color value provided.  </value>
+    <value>Set a role's color to the hex or 0-255 rgb color value provided.</value>
   </data>
   <data name="rolecolor_usage" xml:space="preserve">
     <value>`{0}rc Admin 255 200 100` or `{0}rc Admin ffba55`</value>
@@ -562,7 +562,7 @@
     <value>softban sb</value>
   </data>
   <data name="softban_desc" xml:space="preserve">
-    <value>Bans and then unbans a user by ID or name with an optional message.  </value>
+    <value>Bans and then unbans a user by ID or name with an optional message.</value>
   </data>
   <data name="softban_usage" xml:space="preserve">
     <value>`{0}sb "@some Guy" Your behaviour is toxic.`</value>
@@ -571,7 +571,7 @@
     <value>kick k</value>
   </data>
   <data name="kick_desc" xml:space="preserve">
-    <value>Kicks a mentioned user.  </value>
+    <value>Kicks a mentioned user.</value>
   </data>
   <data name="kick_usage" xml:space="preserve">
     <value>`{0}k "@some Guy" Your behaviour is toxic.`</value>
@@ -589,7 +589,7 @@
     <value>voiceunmute</value>
   </data>
   <data name="voiceunmute_desc" xml:space="preserve">
-    <value>Gives a previously voice-muted user a permission to speak. </value>
+    <value>Gives a previously voice-muted user a permission to speak.</value>
   </data>
   <data name="voiceunmute_usage" xml:space="preserve">
     <value>`{0}voiceunmute @Someguy`</value>
@@ -598,7 +598,7 @@
     <value>deafen deaf</value>
   </data>
   <data name="deafen_desc" xml:space="preserve">
-    <value>Deafens mentioned user or users.  </value>
+    <value>Deafens mentioned user or users.</value>
   </data>
   <data name="deafen_usage" xml:space="preserve">
     <value>`{0}deaf "@Someguy"` or `{0}deaf "@Someguy" "@Someguy"`</value>
@@ -607,7 +607,7 @@
     <value>undeafen undef</value>
   </data>
   <data name="undeafen_desc" xml:space="preserve">
-    <value>Undeafens mentioned user or users.  </value>
+    <value>Undeafens mentioned user or users.</value>
   </data>
   <data name="undeafen_usage" xml:space="preserve">
     <value>`{0}undef "@Someguy"` or `{0}undef "@Someguy" "@Someguy"`</value>
@@ -616,7 +616,7 @@
     <value>delvoichanl dvch</value>
   </data>
   <data name="delvoichanl_desc" xml:space="preserve">
-    <value>Deletes a voice channel with a given name.  </value>
+    <value>Deletes a voice channel with a given name.</value>
   </data>
   <data name="delvoichanl_usage" xml:space="preserve">
     <value>`{0}dvch VoiceChannelName`</value>
@@ -625,7 +625,7 @@
     <value>creatvoichanl cvch</value>
   </data>
   <data name="creatvoichanl_desc" xml:space="preserve">
-    <value>Creates a new voice channel with a given name.  </value>
+    <value>Creates a new voice channel with a given name.</value>
   </data>
   <data name="creatvoichanl_usage" xml:space="preserve">
     <value>`{0}cvch VoiceChannelName`</value>
@@ -634,7 +634,7 @@
     <value>deltxtchanl dtch</value>
   </data>
   <data name="deltxtchanl_desc" xml:space="preserve">
-    <value>Deletes a text channel with a given name.  </value>
+    <value>Deletes a text channel with a given name.</value>
   </data>
   <data name="deltxtchanl_usage" xml:space="preserve">
     <value>`{0}dtch TextChannelName`</value>
@@ -643,7 +643,7 @@
     <value>creatxtchanl ctch</value>
   </data>
   <data name="creatxtchanl_desc" xml:space="preserve">
-    <value>Creates a new text channel with a given name.  </value>
+    <value>Creates a new text channel with a given name.</value>
   </data>
   <data name="creatxtchanl_usage" xml:space="preserve">
     <value>`{0}ctch TextChannelName`</value>
@@ -652,7 +652,7 @@
     <value>settopic st</value>
   </data>
   <data name="settopic_desc" xml:space="preserve">
-    <value>Sets a topic on the current channel.  </value>
+    <value>Sets a topic on the current channel.</value>
   </data>
   <data name="settopic_usage" xml:space="preserve">
     <value>`{0}st My new topic`</value>
@@ -661,7 +661,7 @@
     <value>setchanlname schn</value>
   </data>
   <data name="setchanlname_desc" xml:space="preserve">
-    <value>Changes the name of the current channel.  </value>
+    <value>Changes the name of the current channel.</value>
   </data>
   <data name="setchanlname_usage" xml:space="preserve">
     <value>`{0}schn NewName`</value>
@@ -670,7 +670,7 @@
     <value>prune clr</value>
   </data>
   <data name="prune_desc" xml:space="preserve">
-    <value>`{0}prune` removes all nadeko's messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone's messages in the last 100 messages.`{0}prune @Someone X` removes last X 'Someone's' messages in the channel.  </value>
+    <value>`{0}prune` removes all nadeko's messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone's messages in the last 100 messages.`{0}prune @Someone X` removes last X 'Someone's' messages in the channel.</value>
   </data>
   <data name="prune_usage" xml:space="preserve">
     <value>`{0}prune` or `{0}prune 5` or `{0}prune @Someone` or `{0}prune @Someone X`</value>
@@ -688,7 +688,7 @@
     <value>setname newnm</value>
   </data>
   <data name="setname_desc" xml:space="preserve">
-    <value>Gives the bot a new name.  </value>
+    <value>Gives the bot a new name.</value>
   </data>
   <data name="setname_usage" xml:space="preserve">
     <value>`{0}newnm BotName`</value>
@@ -697,7 +697,7 @@
     <value>setavatar setav</value>
   </data>
   <data name="setavatar_desc" xml:space="preserve">
-    <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  </value>
+    <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.</value>
   </data>
   <data name="setavatar_usage" xml:space="preserve">
     <value>`{0}setav http://i.imgur.com/xTG3a1I.jpg`</value>
@@ -706,7 +706,7 @@
     <value>setgame</value>
   </data>
   <data name="setgame_desc" xml:space="preserve">
-    <value>Sets the bots game.  </value>
+    <value>Sets the bots game.</value>
   </data>
   <data name="setgame_usage" xml:space="preserve">
     <value>`{0}setgame with snakes`</value>
@@ -733,7 +733,7 @@
     <value>unstuck</value>
   </data>
   <data name="unstuck_desc" xml:space="preserve">
-    <value>Clears the message queue.  </value>
+    <value>Clears the message queue.</value>
   </data>
   <data name="unstuck_usage" xml:space="preserve">
     <value>`{0}unstuck`</value>
@@ -787,7 +787,7 @@
     <value>remindtemplate</value>
   </data>
   <data name="remindtemplate_desc" xml:space="preserve">
-    <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.  </value>
+    <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.</value>
   </data>
   <data name="remindtemplate_usage" xml:space="preserve">
     <value>`{0}remindtemplate %user%, you gotta do %message%!`</value>
@@ -1255,7 +1255,7 @@
     <value>take</value>
   </data>
   <data name="take_desc" xml:space="preserve">
-    <value>Takes a certain amount of currency from someone.  </value>
+    <value>Takes a certain amount of currency from someone.</value>
   </data>
   <data name="take_usage" xml:space="preserve">
     <value>`{0}take 1 "@someguy"`</value>
@@ -1615,7 +1615,7 @@
     <value>cleanup</value>
   </data>
   <data name="cleanup_desc" xml:space="preserve">
-    <value>Cleans up hanging voice connections.  </value>
+    <value>Cleans up hanging voice connections.</value>
   </data>
   <data name="cleanup_usage" xml:space="preserve">
     <value>`{0}cleanup`</value>
@@ -2311,7 +2311,7 @@
     <value>`{0}greetdmmsg Welcome to the server, %user%`.</value>
   </data>
   <data name="greetdmmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. </value>
+    <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message.</value>
   </data>
   <data name="cash_desc" xml:space="preserve">
     <value>Check how much currency a person has. (Defaults to yourself)</value>
@@ -2623,7 +2623,7 @@
     <value>cleverbot</value>
   </data>
   <data name="cleverbot_desc" xml:space="preserve">
-    <value>Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the channel this command is ran in. You can specify "all" parameter to enable it in the whole server. Custom reactions starting with %mention% won't work if cleverbot is enabled.' </value>
+    <value>Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled.</value>
   </data>
   <data name="cleverbot_usage" xml:space="preserve">
     <value>`{0}cleverbot`</value>

@@ -26,8 +26,6 @@ namespace NadekoBot.Services.Impl
         public string LoLApiKey { get; }
         public string OsuApiKey { get; }
         public string SoundCloudClientId { get; }
-        public string CleverbotApiUser { get; }
-        public string CleverbotApiKey { get; }
 
         public DB Db { get; }
         public int TotalShards { get; }
@@ -52,8 +50,6 @@ namespace NadekoBot.Services.Impl
                 ClientId = cm.ClientId;
                 SoundCloudClientId = cm.SoundCloudClientId;
                 CarbonKey = cm.CarbonKey;
-                CleverbotApiKey = cm.CleverbotApiKey;
-                CleverbotApiUser = cm.CleverbotApiUser;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
                 else
@@ -81,8 +77,6 @@ namespace NadekoBot.Services.Impl
             public string CarbonKey { get; set; } = "";
             public DB Db { get; set; }
             public int TotalShards { get; set; } = 1;
-            public string CleverbotApiUser { get; set; }
-            public string CleverbotApiKey { get; set; }
         }
 
         private class DbModel
