@@ -18,8 +18,8 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "CarbonKey": "",
   "Db": null,
   "TotalShards": 1,
-  "CleverbotApiUser": null,
-  "CleverbotApiKey": null
+  "CleverbotApiUser": "",
+  "CleverbotApiKey": ""
 }
 ```
 ####Required Parts
