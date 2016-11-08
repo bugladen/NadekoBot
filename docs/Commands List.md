@@ -1,17 +1,17 @@
 For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
 You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
 ##Table Of Contents
-- [Searches](#searches)
-- [NSFW](#nsfw)
-- [Music](#music)
 - [Help](#help)
-- [Permissions](#permissions)
-- [Gambling](#gambling)
 - [Administration](#administration)
-- [Utility](#utility)
 - [ClashOfClans](#clashofclans)
 - [CustomReactions](#customreactions)
+- [Gambling](#gambling)
 - [Games](#games)
+- [Music](#music)
+- [NSFW](#nsfw)
+- [Permissions](#permissions)
+- [Searches](#searches)
+- [Utility](#utility)
 
 
 ### Administration  
@@ -19,35 +19,35 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `.resetperms`  | Resets BOT's permissions module on this server to the default value. **Requires Administrator server permission.** | `.resetperms`
 `.delmsgoncmd`  | Toggles the automatic deletion of user's successful command message to prevent chat flood. **Requires Administrator server permission.** | `.delmsgoncmd`
-`.setrole` `.sr` | Sets a role for a given user.   **Requires ManageRoles server permission.** | `.sr @User Guest`
-`.removerole` `.rr` | Removes a role from a given user.   **Requires ManageRoles server permission.** | `.rr @User Admin`
+`.setrole` `.sr` | Sets a role for a given user. **Requires ManageRoles server permission.** | `.sr @User Guest`
+`.removerole` `.rr` | Removes a role from a given user. **Requires ManageRoles server permission.** | `.rr @User Admin`
 `.renamerole` `.renr` | Renames a role. Roles you are renaming must be lower than bot's highest role. **Requires ManageRoles server permission.** | `.renr "First role" SecondRole`
-`.removeallroles` `.rar` | Removes all roles from a mentioned user.   **Requires ManageRoles server permission.** | `.rar @User`
-`.createrole` `.cr` | Creates a role with a given name.   **Requires ManageRoles server permission.** | `.cr Awesome Role`
-`.rolecolor` `.rc` | Set a role's color to the hex or 0-255 rgb color value provided.   **Requires ManageRoles server permission.** | `.rc Admin 255 200 100` or `.rc Admin ffba55`
+`.removeallroles` `.rar` | Removes all roles from a mentioned user. **Requires ManageRoles server permission.** | `.rar @User`
+`.createrole` `.cr` | Creates a role with a given name. **Requires ManageRoles server permission.** | `.cr Awesome Role`
+`.rolecolor` `.rc` | Set a role's color to the hex or 0-255 rgb color value provided. **Requires ManageRoles server permission.** | `.rc Admin 255 200 100` or `.rc Admin ffba55`
 `.ban` `.b` | Bans a user by ID or name with an optional message. **Requires BanMembers server permission.** | `.b "@some Guy" Your behaviour is toxic.`
-`.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message.   **Requires KickMembers server permission.** **Requires ManageMessages server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
-`.kick` `.k` | Kicks a mentioned user.   **Requires KickMembers server permission.** | `.k "@some Guy" Your behaviour is toxic.`
+`.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message. **Requires KickMembers server permission.** **Requires ManageMessages server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
+`.kick` `.k` | Kicks a mentioned user. **Requires KickMembers server permission.** | `.k "@some Guy" Your behaviour is toxic.`
 `.setmuterole`  | Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment. **Requires ManageRoles server permission.** | `.setmuterole Silenced`
 `.mute`  | Mutes a mentioned user both from speaking and chatting. **Requires ManageRoles server permission.** **Requires MuteMembers server permission.** | `.mute @Someone`
 `.unmute`  | Unmutes a mentioned user previously muted with `.mute` command. **Requires ManageRoles server permission.** **Requires MuteMembers server permission.** | `.unmute @Someone`
 `.chatmute`  | Prevents a mentioned user from chatting in text channels. **Requires ManageRoles server permission.** | `.chatmute @Someone`
 `.chatunmute`  | Removes a mute role previously set on a mentioned user with `.chatmute` which prevented him from chatting in text channels. **Requires ManageRoles server permission.** | `.chatunmute @Someone`
 `.voicemute`  | Prevents a mentioned user from speaking in voice channels. **Requires MuteMembers server permission.** | `.voicemute @Someone`
-`.voiceunmute`  | Gives a previously voice-muted user a permission to speak.  **Requires MuteMembers server permission.** | `.voiceunmute @Someguy`
-`.deafen` `.deaf` | Deafens mentioned user or users.   **Requires DeafenMembers server permission.** | `.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`
-`.undeafen` `.undef` | Undeafens mentioned user or users.   **Requires DeafenMembers server permission.** | `.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`
-`.delvoichanl` `.dvch` | Deletes a voice channel with a given name.   **Requires ManageChannels server permission.** | `.dvch VoiceChannelName`
-`.creatvoichanl` `.cvch` | Creates a new voice channel with a given name.   **Requires ManageChannels server permission.** | `.cvch VoiceChannelName`
-`.deltxtchanl` `.dtch` | Deletes a text channel with a given name.   **Requires ManageChannels server permission.** | `.dtch TextChannelName`
-`.creatxtchanl` `.ctch` | Creates a new text channel with a given name.   **Requires ManageChannels server permission.** | `.ctch TextChannelName`
-`.settopic` `.st` | Sets a topic on the current channel.   **Requires ManageChannels server permission.** | `.st My new topic`
-`.setchanlname` `.schn` | Changes the name of the current channel.   **Requires ManageChannels server permission.** | `.schn NewName`
-`.prune` `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.    | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
+`.voiceunmute`  | Gives a previously voice-muted user a permission to speak. **Requires MuteMembers server permission.** | `.voiceunmute @Someguy`
+`.deafen` `.deaf` | Deafens mentioned user or users. **Requires DeafenMembers server permission.** | `.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`
+`.undeafen` `.undef` | Undeafens mentioned user or users. **Requires DeafenMembers server permission.** | `.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`
+`.delvoichanl` `.dvch` | Deletes a voice channel with a given name. **Requires ManageChannels server permission.** | `.dvch VoiceChannelName`
+`.creatvoichanl` `.cvch` | Creates a new voice channel with a given name. **Requires ManageChannels server permission.** | `.cvch VoiceChannelName`
+`.deltxtchanl` `.dtch` | Deletes a text channel with a given name. **Requires ManageChannels server permission.** | `.dtch TextChannelName`
+`.creatxtchanl` `.ctch` | Creates a new text channel with a given name. **Requires ManageChannels server permission.** | `.ctch TextChannelName`
+`.settopic` `.st` | Sets a topic on the current channel. **Requires ManageChannels server permission.** | `.st My new topic`
+`.setchanlname` `.schn` | Changes the name of the current channel. **Requires ManageChannels server permission.** | `.schn NewName`
+`.prune` `.clr` | `.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.die`  | Shuts the bot down. **Bot owner only.** | `.die`
-`.setname` `.newnm` | Gives the bot a new name.   **Bot owner only.** | `.newnm BotName`
-`.setavatar` `.setav` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.   **Bot owner only.** | `.setav http://i.imgur.com/xTG3a1I.jpg`
-`.setgame`  | Sets the bots game.   **Bot owner only.** | `.setgame with snakes`
+`.setname` `.newnm` | Gives the bot a new name. **Bot owner only.** | `.newnm BotName`
+`.setavatar` `.setav` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot owner only.** | `.setav http://i.imgur.com/xTG3a1I.jpg`
+`.setgame`  | Sets the bots game. **Bot owner only.** | `.setgame with snakes`
 `.setstream`  | Sets the bots stream. First argument is the twitch link, second argument is stream name. **Bot owner only.** | `.setstream https://www.twitch.tv/masterkwoth Developing Nakedo`
 `.send`  | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`. **Bot owner only.** | `.send serverid|c:channelid` or `.send serverid|u:userid`
 `.announce`  | Sends a message to all servers' general channel bot is connected to. **Bot owner only.** | `.announce Useless spam`
@@ -57,23 +57,23 @@ Command and aliases | Description | Usage
 `.donadd`  | Add a donator to the database. **Bot owner only.** | `.donadd Donate Amount`
 `.antiraid`  | Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute) **Requires Administrator server permission.** | `.antiraid 5 20 Kick`
 `.antispam`  | Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. **Requires Administrator server permission.** | `.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`
-`.autoassignrole` `.aar` | Automaticaly assigns a specified role to every user who joins the server.  **Requires ManageRoles server permission.** | `.aar` to disable, `.aar Role Name` to enable
+`.autoassignrole` `.aar` | Automaticaly assigns a specified role to every user who joins the server. **Requires ManageRoles server permission.** | `.aar` to disable, `.aar Role Name` to enable
 `.scsc`  | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot owner only.** | `.scsc`
-`.jcsc`  | Joins current channel to an instance of cross server channel using the token.  **Requires ManageServer server permission.** | `.jcsc TokenHere`
-`.lcsc`  | Leaves Cross server channel instance from this channel.  **Requires ManageServer server permission.** | `.lcsc`
+`.jcsc`  | Joins current channel to an instance of cross server channel using the token. **Requires ManageServer server permission.** | `.jcsc TokenHere`
+`.lcsc`  | Leaves Cross server channel instance from this channel. **Requires ManageServer server permission.** | `.lcsc`
 `.fwmsgs`  | Toggles forwarding of non-command messages sent to bot's DM to the bot owners **Bot owner only.** | `.fwmsgs`
 `.fwtoall`  | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json **Bot owner only.** | `.fwtoall`
 `.logserver`  | Logs server activity in this channel. **Requires Administrator server permission.** **Bot owner only.** | `.logserver`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot owner only.** | `.logignore`
-`.userpresence`  | Starts logging to this channel when someone from the server goes online/offline/idle.  **Requires Administrator server permission.** | `.userpresence`
-`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in.  **Requires Administrator server permission.** | `.voicepresence`
-`.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer.   **Requires ManageMessages server permission.** | `.repinv`
+`.userpresence`  | Starts logging to this channel when someone from the server goes online/offline/idle. **Requires Administrator server permission.** | `.userpresence`
+`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. **Requires Administrator server permission.** | `.voicepresence`
+`.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer. **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled.  | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot owner only.** | `.migratedata`
 `.rotateplaying` `.ropl` | Toggles rotation of playing status of the dynamic strings you previously specified. **Bot owner only.** | `.ropl`
 `.addplaying` `.adpl` | Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued% **Bot owner only.** | `.adpl`
 `.listplaying` `.lipl` | Lists all playing statuses with their corresponding number. **Bot owner only.** | `.lipl`
-`.removeplaying` `.rmpl` `.repl` | Removes a playing string on a given number.  **Bot owner only.** | `.rmpl`
+`.removeplaying` `.rmpl` `.repl` | Removes a playing string on a given number. **Bot owner only.** | `.rmpl`
 `.slowmode`  | Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds. **Requires ManageMessages server permission.** | `.slowmode 1 5` or `.slowmode`
 `.adsarm`  | Toggles the automatic deletion of confirmations for .iam and .iamn commands. **Requires ManageMessages server permission.** | `.adsarm`
 `.asar`  | Adds a role to the list of self-assignable roles. **Requires ManageRoles server permission.** | `.asar Gamer`
@@ -82,16 +82,16 @@ Command and aliases | Description | Usage
 `.togglexclsar` `.tesar` | Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles) **Requires ManageRoles server permission.** | `.tesar`
 `.iam`  | Adds a role to you that you choose. Role must be on a list of self-assignable roles.  | `.iam Gamer`
 `.iamnot` `.iamn` | Removes a role to you that you choose. Role must be on a list of self-assignable roles.  | `.iamn Gamer`
-`.leave`  | Makes Nadeko leave the server. Either name or id required.   **Bot owner only.** | `.leave 123123123331`
-`.greetdel` `.grdel` | Toggles automatic deletion of greet messages.  **Requires ManageServer server permission.** | `.greetdel`
-`.greet`  | Toggles anouncements on the current channel when someone joins the server.  **Requires ManageServer server permission.** | `.greet`
-`.greetmsg`  | Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message.  **Requires ManageServer server permission.** | `.greetmsg Welcome, %user%.`
-`.greetdm`  | Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled).  **Requires ManageServer server permission.** | `.greetdm`
-`.greetdmmsg`  | Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message.  **Requires ManageServer server permission.** | `.greetdmmsg Welcome to the server, %user%`.
+`.leave`  | Makes Nadeko leave the server. Either name or id required. **Bot owner only.** | `.leave 123123123331`
+`.greetdel` `.grdel` | Toggles automatic deletion of greet messages. **Requires ManageServer server permission.** | `.greetdel`
+`.greet`  | Toggles anouncements on the current channel when someone joins the server. **Requires ManageServer server permission.** | `.greet`
+`.greetmsg`  | Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. **Requires ManageServer server permission.** | `.greetmsg Welcome, %user%.`
+`.greetdm`  | Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). **Requires ManageServer server permission.** | `.greetdm`
+`.greetdmmsg`  | Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. **Requires ManageServer server permission.** | `.greetdmmsg Welcome to the server, %user%`.
 `.bye`  | Toggles anouncements on the current channel when someone leaves the server. **Requires ManageServer server permission.** | `.bye`
-`.byemsg`  | Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.  **Requires ManageServer server permission.** | `.byemsg %user% has left.`
-`.byedel`  | Toggles automatic deletion of bye messages.  **Requires ManageServer server permission.** | `.byedel`
-`.voice+text` `.v+t` | Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.   **Requires ManageRoles server permission.** **Requires ManageChannels server permission.** | `.voice+text`
+`.byemsg`  | Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. **Requires ManageServer server permission.** | `.byemsg %user% has left.`
+`.byedel`  | Toggles automatic deletion of bye messages. **Requires ManageServer server permission.** | `.byedel`
+`.voice+text` `.v+t` | Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless. **Requires ManageRoles server permission.** **Requires ManageChannels server permission.** | `.voice+text`
 `.cleanvplust` `.cv+t` | Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk. **Requires ManageChannels server permission.** **Requires ManageRoles server permission.** | `.cleanv+t`
 
 ###### [Back to TOC](#table-of-contents)
@@ -128,7 +128,7 @@ Command and aliases | Description | Usage
 `$cash` `$$$` | Check how much currency a person has. (Defaults to yourself)  | `$$$` or `$$$ @SomeGuy`
 `$give`  | Give someone a certain amount of currency.  | `$give 1 "@SomeGuy"`
 `$award`  | Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role. **Bot owner only.** | `$award 100 @person` or `$award 5 Role Of Gamblers`
-`$take`  | Takes a certain amount of currency from someone.   **Bot owner only.** | `$take 1 "@someguy"`
+`$take`  | Takes a certain amount of currency from someone. **Bot owner only.** | `$take 1 "@someguy"`
 `$betroll` `$br` | Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x3 and 100 x10.  | `$br 5`
 `$leaderboard` `$lb` | Displays bot currency leaderboard.  | `$lb`
 `$race`  | Starts a new animal race.  | `$race`
@@ -154,7 +154,7 @@ Command and aliases | Description | Usage
 `>poll`  | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `>poll Question?;Answer1;Answ 2;A_3`
 `>publicpoll` `>ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `>ppoll Question?;Answer1;Answ 2;A_3`
 `>pollend`  | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `>pollend`
-`>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the channel this command is ran in. You can specify "all" parameter to enable it in the whole server. Custom reactions starting with %mention% won't work if cleverbot is enabled.'  **Requires ManageMessages server permission.** | `>cleverbot`
+`>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `>cleverbot`
 `>pick`  | Picks the currency planted in this channel.  | `>pick`
 `>plant`  | Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)  | `>plant`
 `>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `>gc`
@@ -347,6 +347,6 @@ Command and aliases | Description | Usage
 `.deletequote` `.delq` | Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.  | `.delq abc`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `.remind`  | Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  | `.remind me 1d5h Do something` or `.remind #general Start now!`
-`.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.   **Bot owner only.** | `.remindtemplate %user%, you gotta do %message%!`
+`.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot owner only.** | `.remindtemplate %user%, you gotta do %message%!`
 `.convertlist`  | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert`  | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
