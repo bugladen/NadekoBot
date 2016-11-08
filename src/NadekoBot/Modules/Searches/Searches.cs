@@ -206,9 +206,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string response = "";
             using (var http = new HttpClient())
@@ -256,10 +263,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = (ITextChannel)umsg.Channel;
 
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -293,9 +306,15 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
                 return;
             }
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string res = "";
             using (var http = new HttpClient())
