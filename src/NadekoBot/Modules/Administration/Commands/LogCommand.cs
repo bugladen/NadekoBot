@@ -22,21 +22,20 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LogCommands
         {
-            private ShardedDiscordClient _client { get; }
-            private Logger _log { get; }
+            private static ShardedDiscordClient _client { get; }
+            private static Logger _log { get; }
 
-            private string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
+            private static string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
 
-            public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
+            public static ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
-            private ConcurrentDictionary<ITextChannel, List<string>> UserPresenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
-            private Timer t;
+            private static ConcurrentDictionary<ITextChannel, List<string>> UserPresenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
+            private static Timer timerReference { get; }
             private IGoogleApiService _google { get; }
 
-            public LogCommands(ShardedDiscordClient client, IGoogleApiService google)
+            static LogCommands()
             {
-                _client = client;
-                _google = google;
+                _client = NadekoBot.Client;
                 _log = LogManager.GetCurrentClassLogger();
 
                 using (var uow = DbHandler.UnitOfWork())
@@ -45,7 +44,7 @@ namespace NadekoBot.Modules.Administration
                                                                                       .ToDictionary(g => g.GuildId, g => g.LogSetting));
                 }
 
-                t = new Timer(async (state) =>
+                timerReference = new Timer(async (state) =>
                 {
                     try
                     {
@@ -63,8 +62,10 @@ namespace NadekoBot.Modules.Administration
                         _log.Warn(ex);
                     }
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
-                
+            }
 
+            public LogCommands(ShardedDiscordClient client)
+            {
                 //_client.MessageReceived += _client_MessageReceived;
                 _client.MessageUpdated += _client_MessageUpdated;
                 _client.MessageDeleted += _client_MessageDeleted;
@@ -79,6 +80,36 @@ namespace NadekoBot.Modules.Administration
                 _client.ChannelCreated += _client_ChannelCreated;
                 _client.ChannelDestroyed += _client_ChannelDestroyed;
                 _client.ChannelUpdated += _client_ChannelUpdated;
+            }
+
+            public static async Task TriggeredAntiProtection(IGuildUser[] users, PunishmentAction action, ProtectionType protection)
+            {
+                if (users.Length == 0)
+                    return;
+
+                LogSetting logSetting;
+                if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out logSetting)
+                    || !logSetting.IsLogging)
+                    return;
+                ITextChannel logChannel;
+                if ((logChannel = TryGetLogChannel(users.First().Guild, logSetting)) == null)
+                    return;
+
+                var punishment = "";
+                if (action == PunishmentAction.Mute)
+                {
+                    punishment = "MUTED";
+                }
+                else if (action == PunishmentAction.Kick)
+                {
+                    punishment = "KICKED";
+                }
+                else if (action == PunishmentAction.Ban)
+                {
+                    punishment = "BANNED";
+                }
+                await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"{Format.Bold(user.ToString())} was **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
+                                .ConfigureAwait(false);
             }
 
             private Task _client_UserUpdated(IGuildUser before, IGuildUser after)
@@ -461,7 +492,7 @@ namespace NadekoBot.Modules.Administration
 //            }
 
             private enum LogChannelType { Text, Voice, UserPresence };
-            private ITextChannel TryGetLogChannel(IGuild guild, LogSetting logSetting, LogChannelType logChannelType = LogChannelType.Text)
+            private static ITextChannel TryGetLogChannel(IGuild guild, LogSetting logSetting, LogChannelType logChannelType = LogChannelType.Text)
             {
                 ulong id = 0;
                 switch (logChannelType)

@@ -88,8 +88,12 @@ namespace NadekoBot.Modules.Administration
 
                 foreach (var toOverwrite in guild.GetTextChannels())
                 {
-                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
-                            .ConfigureAwait(false);
+                    try
+                    {
+                        await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
+                                .ConfigureAwait(false);
+                    }
+                    catch { }
                     await Task.Delay(200).ConfigureAwait(false);
                 }
             }

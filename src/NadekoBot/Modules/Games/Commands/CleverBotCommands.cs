@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Games
                 catch (Exception ex)
                 {
                     _log.Warn(ex, "Eror sending response");
-                    await msg.Channel.SendMessageAsync(response).ConfigureAwait(false); // try twice :\
+                    await msg.Channel.SendMessageAsync(msg.Author.Mention+" "+response).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }
