@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Searches
                                                 .ConfigureAwait(false);
                             if (autoDelete)
                                 try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                            await umsg.Channel.SendMessageAsync($"{umsg.Author.Mention} `said:` "+text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
+                            await umsg.Channel.SendMessageAsync($"{umsg.Author.Mention} `:` "+text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
                         }
                         catch { }
 
@@ -161,6 +161,7 @@ namespace NadekoBot.Modules.Searches
                 if (!GoogleTranslator.Instance.Languages.Contains(from) || !GoogleTranslator.Instance.Languages.Contains(to))
                 {
                     try { await channel.SendMessageAsync("`Invalid source and/or target Language.`").ConfigureAwait(false); } catch { }
+                    return;
                 }
 
                 UserLanguages.AddOrUpdate(ucp, langs, (key, val) => langs);
