@@ -114,9 +114,9 @@ namespace NadekoBot.Modules.Administration
                             {
                                 if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                                 {
-                                    var log = await PunishUser((IGuildUser)msg.Author, spamSettings.Action, spamSettings.MuteRole, ProtectionType.Spamming)
+                                    await PunishUsers(spamSettings.Action, spamSettings.MuteRole, ProtectionType.Spamming, (IGuildUser)msg.Author)
                                         .ConfigureAwait(false);
-                                    await channel.Guild.SendMessageToOwnerAsync(log).ConfigureAwait(false); } 
+                                }
                             }
                         }
                         catch { }
@@ -142,16 +142,11 @@ namespace NadekoBot.Modules.Administration
 
                         if (settings.UsersCount >= settings.UserThreshold)
                         {
-                            var users = settings.RaidUsers.ToList();
+                            var users = settings.RaidUsers.ToArray();
                             settings.RaidUsers.Clear();
-                            string msg = "";
-                            foreach (var gu in users)
-                            {
-                                msg += await PunishUser(gu, settings.Action, settings.MuteRole, ProtectionType.Raiding).ConfigureAwait(false);
-                            }
-                            try { await usr.Guild.SendMessageToOwnerAsync(msg).ConfigureAwait(false); } catch { }
-                        }
 
+                            await PunishUsers(settings.Action, settings.MuteRole, ProtectionType.Raiding, users).ConfigureAwait(false);
+                        }
                         await Task.Delay(1000 * settings.Seconds).ConfigureAwait(false);
 
                         settings.RaidUsers.TryRemove(usr);
@@ -161,50 +156,49 @@ namespace NadekoBot.Modules.Administration
                     return Task.CompletedTask;
                 };
             }
-            
-            private async Task<string> PunishUser(IGuildUser gu, PunishmentAction action, IRole muteRole, ProtectionType pt)
+
+            private async Task PunishUsers(PunishmentAction action, IRole muteRole, ProtectionType pt, params IGuildUser[] gus)
             {
-                switch (action)
+                foreach (var gu in gus)
                 {
-                    case PunishmentAction.Mute:
-                        try
-                        {
-                            await gu.AddRolesAsync(muteRole);
-                            return $"{Format.Bold(gu.ToString())} was **MUTED** due to `{pt}` protection on **{gu.Guild.Name}** server.\n";
-                        }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
-                        break;
-                    case PunishmentAction.Kick:
-                        try
-                        {
-                            await gu.Guild.AddBanAsync(gu, 7);
+                    switch (action)
+                    {
+                        case PunishmentAction.Mute:
                             try
                             {
-                                await gu.Guild.RemoveBanAsync(gu);
+                                await gu.AddRolesAsync(muteRole);
                             }
-                            catch
+                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
+                            break;
+                        case PunishmentAction.Kick:
+                            try
                             {
-                                await gu.Guild.RemoveBanAsync(gu);
-                                // try it twice, really don't want to ban user if 
-                                // only kick has been specified as the punishement
+                                await gu.Guild.AddBanAsync(gu, 7);
+                                try
+                                {
+                                    await gu.Guild.RemoveBanAsync(gu);
+                                }
+                                catch
+                                {
+                                    await gu.Guild.RemoveBanAsync(gu);
+                                    // try it twice, really don't want to ban user if 
+                                    // only kick has been specified as the punishement
+                                }
                             }
-                            return $"{Format.Bold(gu.ToString())} was **KICKED** due to `{pt}` protection on **{gu.Guild.Name}** server.\n";
-
-                        }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
-                        break;
-                    case PunishmentAction.Ban:
-                        try
-                        {
-                            await gu.Guild.AddBanAsync(gu, 7);
-                            return $"{Format.Bold(gu.ToString())} was **BANNED** due to `{pt}` protection on **{gu.Guild.Name}** server.\n";
-                        }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
-                        break;
-                    default:
-                        break;
+                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
+                            break;
+                        case PunishmentAction.Ban:
+                            try
+                            {
+                                await gu.Guild.AddBanAsync(gu, 7);
+                            }
+                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                return String.Empty;
+                await LogCommands.TriggeredAntiProtection(gus, action, pt).ConfigureAwait(false);
             }
 
 
