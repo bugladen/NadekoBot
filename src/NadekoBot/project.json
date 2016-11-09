@@ -7,7 +7,7 @@
     "emitEntryPoint": true,
     "allowUnsafe": true,
     "compile": {
-      "exclude": [ "data" ]
+      "exclude": [ "data", "credentials.json", "credentials_example.json" ]
     },
     "copyToOutput": {
       "include": [ "data" ],

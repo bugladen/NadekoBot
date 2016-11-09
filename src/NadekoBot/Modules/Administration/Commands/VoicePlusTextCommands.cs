@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
 
-                var botUser = guild.GetCurrentUser();
+                var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
                     await channel.SendMessageAsync(":anger: `I require atleast manage roles and manage channels permissions to enable this feature (preffered Administration permission).`");
@@ -166,7 +166,8 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
-                if (!guild.GetCurrentUser().GuildPermissions.Administrator)
+                var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
+                if (!botUser.GuildPermissions.Administrator)
                 {
                     await channel.SendMessageAsync("`I need Administrator permission to do that.`").ConfigureAwait(false);
                     return;

@@ -465,6 +465,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to atfbooru atf.
+        /// </summary>
+        public static string atfbooru_cmd {
+            get {
+                return ResourceManager.GetString("atfbooru_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred..
+        /// </summary>
+        public static string atfbooru_desc {
+            get {
+                return ResourceManager.GetString("atfbooru_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}atfbooru yuri+kissing`.
+        /// </summary>
+        public static string atfbooru_usage {
+            get {
+                return ResourceManager.GetString("atfbooru_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to autoassignrole aar.
         /// </summary>
         public static string autoassignrole_cmd {
@@ -2823,7 +2850,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
+        ///    Looks up a localized string similar to Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
         /// </summary>
         public static string hentai_desc {
             get {
@@ -2837,6 +2864,33 @@ namespace NadekoBot.Resources {
         public static string hentai_usage {
             get {
                 return ResourceManager.GetString("hentai_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to hentaibomb.
+        /// </summary>
+        public static string hentaibomb_cmd {
+            get {
+                return ResourceManager.GetString("hentaibomb_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred..
+        /// </summary>
+        public static string hentaibomb_desc {
+            get {
+                return ResourceManager.GetString("hentaibomb_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}hentaibomb yuri`.
+        /// </summary>
+        public static string hentaibomb_usage {
+            get {
+                return ResourceManager.GetString("hentaibomb_usage", resourceCulture);
             }
         }
         
@@ -3147,7 +3201,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred..
         /// </summary>
         public static string konachan_desc {
             get {
@@ -3431,6 +3485,33 @@ namespace NadekoBot.Resources {
         public static string listquotes_usage {
             get {
                 return ResourceManager.GetString("listquotes_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listservers.
+        /// </summary>
+        public static string listservers_cmd {
+            get {
+                return ResourceManager.GetString("listservers_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists servers the bot is on with some basic info. 15 per page..
+        /// </summary>
+        public static string listservers_desc {
+            get {
+                return ResourceManager.GetString("listservers_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}listservers 3`.
+        /// </summary>
+        public static string listservers_usage {
+            get {
+                return ResourceManager.GetString("listservers_usage", resourceCulture);
             }
         }
         
@@ -3856,6 +3937,60 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("memegen_desc", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftping mcping.
+        /// </summary>
+        public static string mcping_cmd {
+            get {
+                return ResourceManager.GetString("mcping_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pings a minecraft server..
+        /// </summary>
+        public static string mcping_desc {
+            get {
+                return ResourceManager.GetString("mcping_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcping 127.0.0.1:1337`.
+        /// </summary>
+        public static string mcping_usage {
+            get {
+                return ResourceManager.GetString("mcping_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftquery mcq.
+        /// </summary>
+        public static string mcq_cmd {
+            get {
+                return ResourceManager.GetString("mcq_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds information about a minecraft server..
+        /// </summary>
+        public static string mcq_desc {
+            get {
+                return ResourceManager.GetString("mcq_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcq server:ip`.
+        /// </summary>
+        public static string mcq_usage {
+            get {
+                return ResourceManager.GetString("mcq_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to `{0}memegen biw &quot;gets iced coffee&quot; &quot;in the winter&quot;`.
@@ -4092,7 +4227,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot..
+        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled..
         /// </summary>
         public static string next_desc {
             get {
@@ -4101,7 +4236,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}n`.
+        ///    Looks up a localized string similar to `{0}n` or `{0}n 5`.
         /// </summary>
         public static string next_usage {
             get {
@@ -6702,6 +6837,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to typedel.
+        /// </summary>
+        public static string typedel_cmd {
+            get {
+                return ResourceManager.GetString("typedel_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deletes a typing article given the ID..
+        /// </summary>
+        public static string typedel_desc {
+            get {
+                return ResourceManager.GetString("typedel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typedel 3`.
+        /// </summary>
+        public static string typedel_usage {
+            get {
+                return ResourceManager.GetString("typedel_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to typelist.
+        /// </summary>
+        public static string typelist_cmd {
+            get {
+                return ResourceManager.GetString("typelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists added typing articles with their IDs. 15 per page..
+        /// </summary>
+        public static string typelist_desc {
+            get {
+                return ResourceManager.GetString("typelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typelist` or `{0}typelist 3`.
+        /// </summary>
+        public static string typelist_usage {
+            get {
+                return ResourceManager.GetString("typelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to typestart.
         /// </summary>
         public static string typestart_cmd {
@@ -7319,6 +7508,33 @@ namespace NadekoBot.Resources {
         public static string wiki_usage {
             get {
                 return ResourceManager.GetString("wiki_usage", resourceCulture);
+            }
+        }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to wikia.
+        /// </summary>
+        public static string wikia_cmd {
+            get {
+                return ResourceManager.GetString("wikia_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gives you back a wikia link.
+        /// </summary>
+        public static string wikia_desc {
+            get {
+                return ResourceManager.GetString("wikia_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wikia target query`.
+        /// </summary>
+        public static string wikia_usage {
+            get {
+                return ResourceManager.GetString("wikia_usage", resourceCulture);
             }
         }
         

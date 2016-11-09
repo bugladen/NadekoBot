@@ -218,6 +218,47 @@ namespace NadekoBot.Modules.Games
 
                 await channel.SendMessageAsync("Added new article for typing game.").ConfigureAwait(false);
             }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task Typelist(IUserMessage imsg, int page = 1)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                if (page < 1)
+                    return;
+
+                var articles = TypingArticles.Skip((page - 1) * 15).Take(15);
+
+                if (!articles.Any())
+                {
+                    await channel.SendMessageAsync($"{imsg.Author.Mention} `No articles found on that page.`").ConfigureAwait(false);
+                    return;
+                }
+                var i = (page - 1) * 15;
+                await channel.SendMessageAsync(String.Join("\n", articles.Select(a => $"`#{++i}` - {a.Text.TrimTo(50)}")))
+                             .ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task Typedel(IUserMessage imsg, int index)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+
+                index -= 1;
+                if (index < 0 || index >= TypingArticles.Count)
+                    return;
+
+                var removed = TypingArticles[index];
+                TypingArticles.RemoveAt(index);
+
+                File.WriteAllText(typingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
+
+                await channel.SendMessageAsync($"`Removed typing article:` #{index + 1} - {removed.Text.TrimTo(50)}")
+                             .ConfigureAwait(false);
+            }
         }
     }
 }

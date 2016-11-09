@@ -91,6 +91,10 @@ namespace NadekoBot.Services.Impl
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleApiKey))
+                return url;
+
             try
             {
                 var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync();

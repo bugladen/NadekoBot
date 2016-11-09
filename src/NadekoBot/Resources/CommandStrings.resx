@@ -1426,10 +1426,10 @@
     <value>next n</value>
   </data>
   <data name="next_desc" xml:space="preserve">
-    <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot.</value>
+    <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled.</value>
   </data>
   <data name="next_usage" xml:space="preserve">
-    <value>`{0}n`</value>
+    <value>`{0}n` or `{0}n 5`</value>
   </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
@@ -2101,7 +2101,7 @@
     <value>hentai</value>
   </data>
   <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
+    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
     <value>`{0}hentai yuri`</value>
@@ -2114,6 +2114,15 @@
   </data>
   <data name="danbooru_usage" xml:space="preserve">
     <value>`{0}danbooru yuri+kissing`</value>
+  </data>
+  <data name="atfbooru_cmd" xml:space="preserve">
+    <value>atfbooru atf</value>
+  </data>
+  <data name="atfbooru_desc" xml:space="preserve">
+    <value>Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.</value>
+  </data>
+  <data name="atfbooru_usage" xml:space="preserve">
+    <value>`{0}atfbooru yuri+kissing`</value>
   </data>
   <data name="gelbooru_cmd" xml:space="preserve">
     <value>gelbooru</value>
@@ -2452,7 +2461,7 @@
     <value>konachan</value>
   </data>
   <data name="konachan_desc" xml:space="preserve">
-    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.</value>
   </data>
   <data name="konachan_usage" xml:space="preserve">
     <value>`{0}konachan yuri`</value>
@@ -2574,31 +2583,67 @@
   <data name="listquotes_usage" xml:space="preserve">
     <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
   </data>
+  <data name="typedel_cmd" xml:space="preserve">
+    <value>typedel</value>
+  </data>
+  <data name="typedel_desc" xml:space="preserve">
+    <value>Deletes a typing article given the ID.</value>
+  </data>
+  <data name="typedel_usage" xml:space="preserve">
+    <value>`{0}typedel 3`</value>
+  </data>
+  <data name="typelist_cmd" xml:space="preserve">
+    <value>typelist</value>
+  </data>
+  <data name="typelist_desc" xml:space="preserve">
+    <value>Lists added typing articles with their IDs. 15 per page.</value>
+  </data>
+  <data name="typelist_usage" xml:space="preserve">
+    <value>`{0}typelist` or `{0}typelist 3`</value>
+  </data>
+  <data name="listservers_cmd" xml:space="preserve">
+    <value>listservers</value>
+  </data>
+  <data name="listservers_desc" xml:space="preserve">
+    <value>Lists servers the bot is on with some basic info. 15 per page.</value>
+  </data>
+  <data name="listservers_usage" xml:space="preserve">
+    <value>`{0}listservers 3`</value>
+  </data>
+  <data name="hentaibomb_cmd" xml:space="preserve">
+    <value>hentaibomb</value>
+  </data>
+  <data name="hentaibomb_desc" xml:space="preserve">
+    <value>Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred.</value>
+  </data>
+  <data name="hentaibomb_usage" xml:space="preserve">
+    <value>`{0}hentaibomb yuri`</value>
+  </data>
   <data name="mcping_cmd" xml:space="preserve">
-	<value>minecraftping mcping</value>
-	</data>
+    <value>minecraftping mcping</value>
+  </data>
   <data name="mcping_desc" xml:space="preserve">
-	<value>Pings a minecraft server.</value>
+    <value>Pings a minecraft server.</value>
   </data>
   <data name="mcping_usage" xml:space="preserve">
-	<value>`{0}mcping 127.0.0.1:1337`</value>
+    <value>`{0}mcping 127.0.0.1:25565`</value>
   </data>
-  <data name="mcuser_cmd" xml:space="preserve">
-	<value>minecraftuser mcuser</value>
+  <data name="mcq_cmd" xml:space="preserve">
+    <value>minecraftquery mcq</value>
   </data>
-  <data name="mcuser_desc" xml:space="preserve">
-	<value>Finds information about a minecraft user.</value>
+  <data name="mcq_desc" xml:space="preserve">
+    <value>Finds information about a minecraft server.</value>
   </data>
-  <data name="mcuser_usage" xml:space="preserve">
-	<value>`{0}mcuser username or uuid`</value>
+  <data name="mcq_usage" xml:space="preserve">
+    <value>`{0}mcq server:ip`</value>
   </data>
-  <data name="mcquery_cmd" xml:space="preserve">
-	<value>minecraftquery mcquery</value>
+  <data name="wikia_cmd" xml:space="preserve">
+    <value>wikia</value>
   </data>
-  <data name="mcquery_desc" xml:space="preserve">
-	<value>Finds information about a minecraft server.</value>
+  <data name="wikia_desc" xml:space="preserve">
+    <value>Gives you back a wikia link</value>
   </data>
-  <data name="mcquery_usage" xml:space="preserve">
-	<value>`{0}mcquery server:ip`</value>
+  <data name="wikia_usage" xml:space="preserve">
+    <value>`{0}wikia target query`</value>
   </data>
 </root>

@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         var firstOwnerChannel = ownerChannels.First();
                         if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-                            try { await firstOwnerChannel.SendMessageAsync(msg.Content).ConfigureAwait(false); } catch { }
+                            try { await firstOwnerChannel.SendMessageAsync(toSend).ConfigureAwait(false); } catch { }
                     }
                 }
             }

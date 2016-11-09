@@ -169,12 +169,33 @@ namespace NadekoBot.Modules.Utility
         {
             var matches = emojiFinder.Matches(emojis);
 
-
-
             var result = string.Join("\n", matches.Cast<Match>()
                                                   .Select(m => $"`Name:` {m.Groups["name"]} `Link:` http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
             
             await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task ListServers(IUserMessage imsg, int page = 1)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            page -= 1;
+
+            if (page < 0)
+                return;
+
+            var guilds = NadekoBot.Client.GetGuilds().OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15);
+
+            if (!guilds.Any())
+            {
+                await channel.SendMessageAsync("`No servers found on that page.`").ConfigureAwait(false);
+                return;
+            }
+
+            await channel.SendMessageAsync(String.Join("\n", guilds.Select(g => $"`Name:` {g.Name} `Id:` {g.Id} `Members:` {g.GetUsers().Count} `OwnerId:`{g.OwnerId}"))).ConfigureAwait(false);
         }
 
         //[NadekoCommand, Usage, Description, Aliases]

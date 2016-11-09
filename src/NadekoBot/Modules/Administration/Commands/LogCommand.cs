@@ -384,7 +384,7 @@ namespace NadekoBot.Modules.Administration
 👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
                         if (msg.Attachments.Any())
                             str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                        await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                        await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
                     }
                     catch (Exception ex) { _log.Warn(ex); }
                 });
@@ -421,8 +421,8 @@ namespace NadekoBot.Modules.Administration
                 {
                     try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}` **Message** 📝 `#{channel.Name}`
 👤`{before.Author.Username}`
-        `Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}
-        `New:` {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+        `Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
+        `New:` {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;

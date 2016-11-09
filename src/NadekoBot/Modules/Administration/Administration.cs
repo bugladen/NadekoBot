@@ -311,7 +311,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.BanMembers)]
+        [RequirePermission(GuildPermission.KickMembers)]
+        [RequirePermission(GuildPermission.ManageMessages)]
         public async Task Softban(IUserMessage umsg, IGuildUser user, [Remainder] string msg = null)
         {
             var channel = (ITextChannel)umsg.Channel;
