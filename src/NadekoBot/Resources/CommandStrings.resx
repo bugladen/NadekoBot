@@ -2637,4 +2637,31 @@
   <data name="shorten_usage" xml:space="preserve">
     <value>`{0}shorten https://google.com`</value>
   </data>
+  <data name="mcping_cmd" xml:space="preserve">
+    <value>minecraftping mcping</value>
+  </data>
+  <data name="mcping_desc" xml:space="preserve">
+    <value>Pings a minecraft server.</value>
+  </data>
+  <data name="mcping_usage" xml:space="preserve">
+    <value>`{0}mcping 127.0.0.1:25565`</value>
+  </data>
+  <data name="mcq_cmd" xml:space="preserve">
+    <value>minecraftquery mcq</value>
+  </data>
+  <data name="mcq_desc" xml:space="preserve">
+    <value>Finds information about a minecraft server.</value>
+  </data>
+  <data name="mcq_usage" xml:space="preserve">
+    <value>`{0}mcq server:ip`</value>
+  </data>
+  <data name="wikia_cmd" xml:space="preserve">
+    <value>wikia</value>
+  </data>
+  <data name="wikia_desc" xml:space="preserve">
+    <value>Gives you back a wikia link</value>
+  </data>
+  <data name="wikia_usage" xml:space="preserve">
+    <value>`{0}wikia target query`</value>
+  </data>
 </root>
