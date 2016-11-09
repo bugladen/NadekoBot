@@ -52,7 +52,7 @@ Setting up your API keys
 Additional options
 ==================== 
 - **TotalShards** - Required if the bot will be connected to more than 2500 servers 
-  - Most likely unnecessary to change until your bot is added to more than 2000 servers  
+  Most likely unnecessary to change until your bot is added to more than 2000 servers  
 [//]: # (- **Db** - Allows for advanced database configuration  )
 [//]: # (  - Leave this with the `null` value for standard operation - change this to `examples` to [This is only a comment so doesn't need proper detail])
   
