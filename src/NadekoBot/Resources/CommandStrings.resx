@@ -790,7 +790,7 @@
     <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.</value>
   </data>
   <data name="remindtemplate_usage" xml:space="preserve">
-    <value>`{0}remindtemplate %user%, you gotta do %message%!`</value>
+    <value>`{0}remindtemplate %user%, do %message%!`</value>
   </data>
   <data name="serverinfo_cmd" xml:space="preserve">
     <value>serverinfo sinfo</value>
@@ -2491,7 +2491,7 @@
     <value>Sets the bots stream. First argument is the twitch link, second argument is stream name.</value>
   </data>
   <data name="setstream_usage" xml:space="preserve">
-    <value>`{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`</value>
+    <value>`{0}setstream TWITCHLINK Hello`</value>
   </data>
   <data name="chatunmute_cmd" xml:space="preserve">
     <value>chatunmute</value>
@@ -2627,5 +2627,14 @@
   </data>
   <data name="cleverbot_usage" xml:space="preserve">
     <value>`{0}cleverbot`</value>
+  </data>
+  <data name="shorten_cmd" xml:space="preserve">
+    <value>shorten</value>
+  </data>
+  <data name="shorten_desc" xml:space="preserve">
+    <value>Attempts to shorten an URL, if it fails, returns the input URL.</value>
+  </data>
+  <data name="shorten_usage" xml:space="preserve">
+    <value>`{0}shorten https://google.com`</value>
   </data>
 </root>

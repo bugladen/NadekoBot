@@ -186,6 +186,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Shorten(IUserMessage msg, [Remainder] string arg)
+        {
+            if (string.IsNullOrWhiteSpace(arg))
+                return;
+
+            await msg.Channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(arg).ConfigureAwait(false));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
             var channel = (ITextChannel)umsg.Channel;

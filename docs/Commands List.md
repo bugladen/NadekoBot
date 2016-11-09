@@ -28,7 +28,7 @@ Command and aliases | Description | Usage
 `.ban` `.b` | Bans a user by ID or name with an optional message. **Requires BanMembers server permission.** | `.b "@some Guy" Your behaviour is toxic.`
 `.softban` `.sb` | Bans and then unbans a user by ID or name with an optional message. **Requires KickMembers server permission.** **Requires ManageMessages server permission.** | `.sb "@some Guy" Your behaviour is toxic.`
 `.kick` `.k` | Kicks a mentioned user. **Requires KickMembers server permission.** | `.k "@some Guy" Your behaviour is toxic.`
-`.setmuterole`  | Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment. **Requires ManageRoles server permission.** | `.setmuterole Silenced`
+`.setmuterole`  | Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. **Requires ManageRoles server permission.** | `.setmuterole Silenced`
 `.mute`  | Mutes a mentioned user both from speaking and chatting. **Requires ManageRoles server permission.** **Requires MuteMembers server permission.** | `.mute @Someone`
 `.unmute`  | Unmutes a mentioned user previously muted with `.mute` command. **Requires ManageRoles server permission.** **Requires MuteMembers server permission.** | `.unmute @Someone`
 `.chatmute`  | Prevents a mentioned user from chatting in text channels. **Requires ManageRoles server permission.** | `.chatmute @Someone`
@@ -48,7 +48,7 @@ Command and aliases | Description | Usage
 `.setname` `.newnm` | Gives the bot a new name. **Bot owner only.** | `.newnm BotName`
 `.setavatar` `.setav` | Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot owner only.** | `.setav http://i.imgur.com/xTG3a1I.jpg`
 `.setgame`  | Sets the bots game. **Bot owner only.** | `.setgame with snakes`
-`.setstream`  | Sets the bots stream. First argument is the twitch link, second argument is stream name. **Bot owner only.** | `.setstream https://www.twitch.tv/masterkwoth Developing Nakedo`
+`.setstream`  | Sets the bots stream. First argument is the twitch link, second argument is stream name. **Bot owner only.** | `.setstream TWITCHLINK Hello`
 `.send`  | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`. **Bot owner only.** | `.send serverid|c:channelid` or `.send serverid|u:userid`
 `.announce`  | Sends a message to all servers' general channel bot is connected to. **Bot owner only.** | `.announce Useless spam`
 `.savechat`  | Saves a number of messages to a text file and sends it to you. **Bot owner only.** | `.savechat 150`
@@ -278,6 +278,7 @@ Command and aliases | Description | Usage
 `~img` `~i` | Pulls the first image found using a search parameter. Use ~ir for different results.  | `~i cute kitten`
 `~ir`  | Pulls a random image using a search parameter.  | `~ir cute kitten`
 `~lmgtfy`  | Google something for an idiot.  | `~lmgtfy query`
+`~shorten`  | Attempts to shorten an URL, if it fails, returns the input URL.  | `~shorten https://google.com`
 `~google` `~g` | Get a google search link for some terms.  | `~google query`
 `~hearthstone` `~hs` | Searches for a Hearthstone card and shows its image. Takes a while to complete.  | `~hs Ysera`
 `~urbandict` `~ud` | Searches Urban Dictionary for a word.  | `~ud Pineapple`
@@ -347,6 +348,6 @@ Command and aliases | Description | Usage
 `.deletequote` `.delq` | Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.  | `.delq abc`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `.remind`  | Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  | `.remind me 1d5h Do something` or `.remind #general Start now!`
-`.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot owner only.** | `.remindtemplate %user%, you gotta do %message%!`
+`.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot owner only.** | `.remindtemplate %user%, do %message%!`
 `.convertlist`  | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert`  | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
