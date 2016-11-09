@@ -34,25 +34,25 @@ Setting up your API keys
 ====================
 ####This part is completely optional, **However it is necessary for music to work properly**
 - **GoogleAPIKey** - Required for Youtube Song Search, Playlist queuing, and URL Shortener. `~i` and `~img`. 
-  - You can get this api Key [here](https://console.developers.google.com/apis)
+  You can get this api Key [here](https://console.developers.google.com/apis)
 - **SoundCloudClientID** - Required to queue soundloud songs from sc links.
-  - You will need to create a new app [here](http://soundcloud.com/you/apps). **Please note you must be logged into SoundCloud**
+  You will need to create a new app [here](http://soundcloud.com/you/apps). **Please note you must be logged into SoundCloud**
     - Simply click Register a new application and enter a name.
     - Copy the Client ID and click "save app" then paste the Client Id it into your `credentials.json` 
 - **MashapeKey** - Required for Urban Disctionary, Hashtag search, and Hearthstone cards.
-  - You need to create an account on their [api marketplace](https://market.mashape.com/), after that go to `market.mashape.com/YOURNAMEHERE/applications/default-application` and press **Get the keys** in the top right corner.
+  You need to create an account on their [api marketplace](https://market.mashape.com/), after that go to `market.mashape.com/YOURNAMEHERE/applications/default-application` and press **Get the keys** in the top right corner.
     - Copy the key and paste it into `credentials.json`
 - **LOLAPIKey** - Required for all League of Legends commands. 
-  - You can get this key [here](http://api.champion.gg/)
+  You can get this key [here](http://api.champion.gg/)
 - **OsuAPIKey** - Required for Osu commands
-  - You can get this key [here](https://osu.ppy.sh/p/api) **You will need to log in and like the soundcloud it may take a few tries**
+  You can get this key [here](https://osu.ppy.sh/p/api) **You will need to log in and like the soundcloud it may take a few tries**
 - **CarbonKey** -This key is for Carobnitex.net stats. 
-  - Most likely unnecessary **Needed only if your bot is listed on Carbonitex.net**
+  Most likely unnecessary **Needed only if your bot is listed on Carbonitex.net**
   
 Additional options
 ==================== 
 - **TotalShards** - Required if the bot will be connected to more than 2500 servers 
-  - Most likely unnecessary to change until your bot is added to more than 2000 servers  
+  Most likely unnecessary to change until your bot is added to more than 2000 servers  
 [//]: # (- **Db** - Allows for advanced database configuration  )
 [//]: # (  - Leave this with the `null` value for standard operation - change this to `examples` to [This is only a comment so doesn't need proper detail])
   
