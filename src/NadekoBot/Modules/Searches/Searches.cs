@@ -493,7 +493,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
-		
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)
@@ -501,21 +501,21 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var channel = (ITextChannel)umsg.Channel;
             if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
             {
-                await channel.SendMessageAsync("💢 Please enter `target query`.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 Please enter a target wikia, followed by search query.").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-				try
+                try
                 {
-					var res = await http.GetStringAsync($"http://www.{Uri.EscapeUriString(target)}.wikia.com/api/v1/Search/List?query={Uri.EscapeUriString(query)}&limit=25&minArticleQuality=10&batch=1&namespaces=0%2C14").ConfigureAwait(false);
+                    var res = await http.GetStringAsync($"http://www.{Uri.EscapeUriString(target)}.wikia.com/api/v1/Search/List?query={Uri.EscapeUriString(query)}&limit=25&minArticleQuality=10&batch=1&namespaces=0%2C14").ConfigureAwait(false);
                     var items = JObject.Parse(res);
-                    var response = $@"`Found:` {items["items"][0]["title"].ToString()}
-`Total Found:` {items["total"].ToString()}
-`Batch:` {items["currentBatch"].ToString()}/{items["batches"].ToString()}
-`URL:` <{await _google.ShortenUrl(items["items"][0]["url"].ToString()).ConfigureAwait(false)}> / `Quality`: {items["items"][0]["quality"].ToString()}";
+                    var found = items["items"][0];
+                    var response = $@"`Title:` {found["title"].ToString()}
+`Quality:` {found["quality"]}
+`URL:` {await NadekoBot.Google.ShortenUrl(found["url"].ToString()).ConfigureAwait(false)}";
                     await channel.SendMessageAsync(response);
                 }
                 catch

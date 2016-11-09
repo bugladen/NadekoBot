@@ -2662,6 +2662,6 @@
     <value>Gives you back a wikia link</value>
   </data>
   <data name="wikia_usage" xml:space="preserve">
-    <value>`{0}wikia target query`</value>
+    <value>`{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`</value>
   </data>
 </root>

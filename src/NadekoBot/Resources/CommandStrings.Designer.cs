@@ -7584,7 +7584,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}wikia target query`.
+        ///    Looks up a localized string similar to `{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`.
         /// </summary>
         public static string wikia_usage {
             get {
