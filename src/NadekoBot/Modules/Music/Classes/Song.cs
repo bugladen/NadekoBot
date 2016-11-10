@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private async Task CheckPrebufferingAsync(SongBuffer inStream, CancellationToken cancelToken, long size)
         {
-            while (/*!inStream.BufferingCompleted && */inStream.Length < size)
+            while (!inStream.BufferingCompleted && inStream.Length < size)
             {
                 await Task.Delay(100, cancelToken);
             }
