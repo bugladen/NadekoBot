@@ -38,14 +38,23 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Next(IUserMessage umsg)
+        public Task Next(IUserMessage umsg, int skipCount = 1)
         {
             var channel = (ITextChannel)umsg.Channel;
+
+            if (skipCount < 1)
+                return Task.CompletedTask;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)umsg.Author).VoiceChannel)
+            {
+                while (--skipCount > 0)
+                {
+                    musicPlayer.RemoveSongAt(0);
+                }
                 musicPlayer.Next();
+            }
             return Task.CompletedTask;
         }
 

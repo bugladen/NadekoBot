@@ -465,6 +465,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to atfbooru atf.
+        /// </summary>
+        public static string atfbooru_cmd {
+            get {
+                return ResourceManager.GetString("atfbooru_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred..
+        /// </summary>
+        public static string atfbooru_desc {
+            get {
+                return ResourceManager.GetString("atfbooru_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}atfbooru yuri+kissing`.
+        /// </summary>
+        public static string atfbooru_usage {
+            get {
+                return ResourceManager.GetString("atfbooru_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to autoassignrole aar.
         /// </summary>
         public static string autoassignrole_cmd {
@@ -474,7 +501,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Automaticaly assigns a specified role to every user who joins the server. .
+        ///    Looks up a localized string similar to Automaticaly assigns a specified role to every user who joins the server..
         /// </summary>
         public static string autoassignrole_desc {
             get {
@@ -519,7 +546,61 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to av avatar.
+        ///    Looks up a localized string similar to autotranslang atl.
+        /// </summary>
+        public static string autotranslang_cmd {
+            get {
+                return ResourceManager.GetString("autotranslang_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
+        /// </summary>
+        public static string autotranslang_desc {
+            get {
+                return ResourceManager.GetString("autotranslang_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
+        /// </summary>
+        public static string autotranslang_usage {
+            get {
+                return ResourceManager.GetString("autotranslang_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to autotrans at.
+        /// </summary>
+        public static string autotranslate_cmd {
+            get {
+                return ResourceManager.GetString("autotranslate_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set &quot;del&quot; argument to automatically delete all translated user messages..
+        /// </summary>
+        public static string autotranslate_desc {
+            get {
+                return ResourceManager.GetString("autotranslate_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}at` or `{0}at del`.
+        /// </summary>
+        public static string autotranslate_usage {
+            get {
+                return ResourceManager.GetString("autotranslate_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to avatar av.
         /// </summary>
         public static string avatar_cmd {
             get {
@@ -771,7 +852,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deletion of bye messages. .
+        ///    Looks up a localized string similar to Toggles automatic deletion of bye messages..
         /// </summary>
         public static string byedel_desc {
             get {
@@ -798,7 +879,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message. .
+        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message..
         /// </summary>
         public static string byemsg_desc {
             get {
@@ -1419,7 +1500,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Cleans up hanging voice connections.  .
+        ///    Looks up a localized string similar to Cleans up hanging voice connections..
         /// </summary>
         public static string cleanup_desc {
             get {
@@ -1460,6 +1541,33 @@ namespace NadekoBot.Resources {
         public static string cleanvplust_usage {
             get {
                 return ResourceManager.GetString("cleanvplust_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to cleverbot.
+        /// </summary>
+        public static string cleverbot_cmd {
+            get {
+                return ResourceManager.GetString("cleverbot_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won&apos;t work if cleverbot is enabled..
+        /// </summary>
+        public static string cleverbot_desc {
+            get {
+                return ResourceManager.GetString("cleverbot_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}cleverbot`.
+        /// </summary>
+        public static string cleverbot_usage {
+            get {
+                return ResourceManager.GetString("cleverbot_usage", resourceCulture);
             }
         }
         
@@ -1635,7 +1743,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Creates a role with a given name.  .
+        ///    Looks up a localized string similar to Creates a role with a given name..
         /// </summary>
         public static string createrole_desc {
             get {
@@ -1689,7 +1797,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Creates a new voice channel with a given name.  .
+        ///    Looks up a localized string similar to Creates a new voice channel with a given name..
         /// </summary>
         public static string creatvoichanl_desc {
             get {
@@ -1716,7 +1824,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Creates a new text channel with a given name.  .
+        ///    Looks up a localized string similar to Creates a new text channel with a given name..
         /// </summary>
         public static string creatxtchanl_desc {
             get {
@@ -1770,7 +1878,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deafens mentioned user or users.  .
+        ///    Looks up a localized string similar to Deafens mentioned user or users..
         /// </summary>
         public static string deafen_desc {
             get {
@@ -1959,7 +2067,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes a text channel with a given name.  .
+        ///    Looks up a localized string similar to Deletes a text channel with a given name..
         /// </summary>
         public static string deltxtchanl_desc {
             get {
@@ -1986,7 +2094,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes a voice channel with a given name.  .
+        ///    Looks up a localized string similar to Deletes a voice channel with a given name..
         /// </summary>
         public static string delvoichanl_desc {
             get {
@@ -2499,7 +2607,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles anouncements on the current channel when someone joins the server. .
+        ///    Looks up a localized string similar to Toggles anouncements on the current channel when someone joins the server..
         /// </summary>
         public static string greet_desc {
             get {
@@ -2526,7 +2634,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deletion of greet messages. .
+        ///    Looks up a localized string similar to Toggles automatic deletion of greet messages..
         /// </summary>
         public static string greetdel_desc {
             get {
@@ -2553,7 +2661,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). .
+        ///    Looks up a localized string similar to Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled)..
         /// </summary>
         public static string greetdm_desc {
             get {
@@ -2580,7 +2688,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. .
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message..
         /// </summary>
         public static string greetdmmsg_desc {
             get {
@@ -2607,7 +2715,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. .
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message..
         /// </summary>
         public static string greetmsg_desc {
             get {
@@ -2769,7 +2877,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a 2 random images (from gelbooru and danbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
+        ///    Looks up a localized string similar to Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
         /// </summary>
         public static string hentai_desc {
             get {
@@ -2783,6 +2891,33 @@ namespace NadekoBot.Resources {
         public static string hentai_usage {
             get {
                 return ResourceManager.GetString("hentai_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to hentaibomb.
+        /// </summary>
+        public static string hentaibomb_cmd {
+            get {
+                return ResourceManager.GetString("hentaibomb_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred..
+        /// </summary>
+        public static string hentaibomb_desc {
+            get {
+                return ResourceManager.GetString("hentaibomb_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}hentaibomb yuri`.
+        /// </summary>
+        public static string hentaibomb_usage {
+            get {
+                return ResourceManager.GetString("hentaibomb_usage", resourceCulture);
             }
         }
         
@@ -3012,7 +3147,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Joins current channel to an instance of cross server channel using the token. .
+        ///    Looks up a localized string similar to Joins current channel to an instance of cross server channel using the token..
         /// </summary>
         public static string jcsc_desc {
             get {
@@ -3066,7 +3201,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Kicks a mentioned user.  .
+        ///    Looks up a localized string similar to Kicks a mentioned user..
         /// </summary>
         public static string kick_desc {
             get {
@@ -3093,7 +3228,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        ///    Looks up a localized string similar to Shows a random hentai image from konachan with a given tag. Tag is optional but preferred..
         /// </summary>
         public static string konachan_desc {
             get {
@@ -3120,7 +3255,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Leaves Cross server channel instance from this channel. .
+        ///    Looks up a localized string similar to Leaves Cross server channel instance from this channel..
         /// </summary>
         public static string lcsc_desc {
             get {
@@ -3174,7 +3309,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Makes Nadeko leave the server. Either name or id required.  .
+        ///    Looks up a localized string similar to Makes Nadeko leave the server. Either name or id required..
         /// </summary>
         public static string leave_desc {
             get {
@@ -3350,6 +3485,60 @@ namespace NadekoBot.Resources {
         public static string listqueue_usage {
             get {
                 return ResourceManager.GetString("listqueue_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listquotes liqu.
+        /// </summary>
+        public static string listquotes_cmd {
+            get {
+                return ResourceManager.GetString("listquotes_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}liqu` or `{0}liqu 3`.
+        /// </summary>
+        public static string listquotes_desc {
+            get {
+                return ResourceManager.GetString("listquotes_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists all quotes on the server ordered alphabetically. 15 Per page..
+        /// </summary>
+        public static string listquotes_usage {
+            get {
+                return ResourceManager.GetString("listquotes_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listservers.
+        /// </summary>
+        public static string listservers_cmd {
+            get {
+                return ResourceManager.GetString("listservers_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists servers the bot is on with some basic info. 15 per page..
+        /// </summary>
+        public static string listservers_desc {
+            get {
+                return ResourceManager.GetString("listservers_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}listservers 3`.
+        /// </summary>
+        public static string listservers_usage {
+            get {
+                return ResourceManager.GetString("listservers_usage", resourceCulture);
             }
         }
         
@@ -3759,6 +3948,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to minecraftping mcping.
+        /// </summary>
+        public static string mcping_cmd {
+            get {
+                return ResourceManager.GetString("mcping_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pings a minecraft server..
+        /// </summary>
+        public static string mcping_desc {
+            get {
+                return ResourceManager.GetString("mcping_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcping 127.0.0.1:25565`.
+        /// </summary>
+        public static string mcping_usage {
+            get {
+                return ResourceManager.GetString("mcping_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftquery mcq.
+        /// </summary>
+        public static string mcq_cmd {
+            get {
+                return ResourceManager.GetString("mcq_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds information about a minecraft server..
+        /// </summary>
+        public static string mcq_desc {
+            get {
+                return ResourceManager.GetString("mcq_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcq server:ip`.
+        /// </summary>
+        public static string mcq_usage {
+            get {
+                return ResourceManager.GetString("mcq_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to memegen.
         /// </summary>
         public static string memegen_cmd {
@@ -4011,7 +4254,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot..
+        ///    Looks up a localized string similar to Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled..
         /// </summary>
         public static string next_desc {
             get {
@@ -4020,7 +4263,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}n`.
+        ///    Looks up a localized string similar to `{0}n` or `{0}n 5`.
         /// </summary>
         public static string next_usage {
             get {
@@ -4497,7 +4740,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}prune` removes all nadeko&apos;s messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone&apos;s messages in the last 100 messages.`{0}prune @Someone X` removes last X &apos;Someone&apos;s&apos; messages in the channel.  .
+        ///    Looks up a localized string similar to `{0}prune` removes all nadeko&apos;s messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone&apos;s messages in the last 100 messages.`{0}prune @Someone X` removes last X &apos;Someone&apos;s&apos; messages in the channel..
         /// </summary>
         public static string prune_desc {
             get {
@@ -4767,7 +5010,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.  .
+        ///    Looks up a localized string similar to Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind..
         /// </summary>
         public static string remindtemplate_desc {
             get {
@@ -4776,7 +5019,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}remindtemplate %user%, you gotta do %message%!`.
+        ///    Looks up a localized string similar to `{0}remindtemplate %user%, do %message%!`.
         /// </summary>
         public static string remindtemplate_usage {
             get {
@@ -4821,7 +5064,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Removes all roles from a mentioned user.  .
+        ///    Looks up a localized string similar to Removes all roles from a mentioned user..
         /// </summary>
         public static string removeallroles_desc {
             get {
@@ -4875,7 +5118,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Removes a playing string on a given number. .
+        ///    Looks up a localized string similar to Removes a playing string on a given number..
         /// </summary>
         public static string removeplaying_desc {
             get {
@@ -4902,7 +5145,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Removes a role from a given user.  .
+        ///    Looks up a localized string similar to Removes a role from a given user..
         /// </summary>
         public static string removerole_desc {
             get {
@@ -5010,7 +5253,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Immediately shows the repeat message and restarts the timer.  .
+        ///    Looks up a localized string similar to Immediately shows the repeat message and restarts the timer..
         /// </summary>
         public static string repeatinvoke_desc {
             get {
@@ -5226,7 +5469,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Set a role&apos;s color to the hex or 0-255 rgb color value provided.  .
+        ///    Looks up a localized string similar to Set a role&apos;s color to the hex or 0-255 rgb color value provided..
         /// </summary>
         public static string rolecolor_desc {
             get {
@@ -5685,7 +5928,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.  .
+        ///    Looks up a localized string similar to Sets a new avatar image for the NadekoBot. Argument is a direct link to an image..
         /// </summary>
         public static string setavatar_desc {
             get {
@@ -5712,7 +5955,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Changes the name of the current channel.  .
+        ///    Looks up a localized string similar to Changes the name of the current channel..
         /// </summary>
         public static string setchanlname_desc {
             get {
@@ -5739,7 +5982,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets the bots game.  .
+        ///    Looks up a localized string similar to Sets the bots game..
         /// </summary>
         public static string setgame_desc {
             get {
@@ -5793,7 +6036,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute. After specifying this role, restart commands which use mute as punishment..
+        ///    Looks up a localized string similar to Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute..
         /// </summary>
         public static string setmuterole_desc {
             get {
@@ -5820,7 +6063,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Gives the bot a new name.  .
+        ///    Looks up a localized string similar to Gives the bot a new name..
         /// </summary>
         public static string setname_desc {
             get {
@@ -5847,7 +6090,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a role for a given user.  .
+        ///    Looks up a localized string similar to Sets a role for a given user..
         /// </summary>
         public static string setrole_desc {
             get {
@@ -5883,7 +6126,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}setstream https://www.twitch.tv/masterkwoth Developing Nakedo`.
+        ///    Looks up a localized string similar to `{0}setstream TWITCHLINK Hello`.
         /// </summary>
         public static string setstream_usage {
             get {
@@ -5901,7 +6144,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a topic on the current channel.  .
+        ///    Looks up a localized string similar to Sets a topic on the current channel..
         /// </summary>
         public static string settopic_desc {
             get {
@@ -5915,6 +6158,33 @@ namespace NadekoBot.Resources {
         public static string settopic_usage {
             get {
                 return ResourceManager.GetString("settopic_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to shorten.
+        /// </summary>
+        public static string shorten_cmd {
+            get {
+                return ResourceManager.GetString("shorten_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Attempts to shorten an URL, if it fails, returns the input URL..
+        /// </summary>
+        public static string shorten_desc {
+            get {
+                return ResourceManager.GetString("shorten_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shorten https://google.com`.
+        /// </summary>
+        public static string shorten_usage {
+            get {
+                return ResourceManager.GetString("shorten_usage", resourceCulture);
             }
         }
         
@@ -6090,7 +6360,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bans and then unbans a user by ID or name with an optional message.  .
+        ///    Looks up a localized string similar to Bans and then unbans a user by ID or name with an optional message..
         /// </summary>
         public static string softban_desc {
             get {
@@ -6360,7 +6630,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Takes a certain amount of currency from someone.  .
+        ///    Looks up a localized string similar to Takes a certain amount of currency from someone..
         /// </summary>
         public static string take_desc {
             get {
@@ -6621,6 +6891,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to typedel.
+        /// </summary>
+        public static string typedel_cmd {
+            get {
+                return ResourceManager.GetString("typedel_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deletes a typing article given the ID..
+        /// </summary>
+        public static string typedel_desc {
+            get {
+                return ResourceManager.GetString("typedel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typedel 3`.
+        /// </summary>
+        public static string typedel_usage {
+            get {
+                return ResourceManager.GetString("typedel_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to typelist.
+        /// </summary>
+        public static string typelist_cmd {
+            get {
+                return ResourceManager.GetString("typelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists added typing articles with their IDs. 15 per page..
+        /// </summary>
+        public static string typelist_desc {
+            get {
+                return ResourceManager.GetString("typelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}typelist` or `{0}typelist 3`.
+        /// </summary>
+        public static string typelist_usage {
+            get {
+                return ResourceManager.GetString("typelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to typestart.
         /// </summary>
         public static string typestart_cmd {
@@ -6711,7 +7035,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Undeafens mentioned user or users.  .
+        ///    Looks up a localized string similar to Undeafens mentioned user or users..
         /// </summary>
         public static string undeafen_desc {
             get {
@@ -6765,7 +7089,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Clears the message queue.  .
+        ///    Looks up a localized string similar to Clears the message queue..
         /// </summary>
         public static string unstuck_desc {
             get {
@@ -6900,7 +7224,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Starts logging to this channel when someone from the server goes online/offline/idle. .
+        ///    Looks up a localized string similar to Starts logging to this channel when someone from the server goes online/offline/idle..
         /// </summary>
         public static string userpresence_desc {
             get {
@@ -7062,7 +7386,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.  .
+        ///    Looks up a localized string similar to Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless..
         /// </summary>
         public static string voiceplustext_desc {
             get {
@@ -7089,7 +7413,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. .
+        ///    Looks up a localized string similar to Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in..
         /// </summary>
         public static string voicepresence_desc {
             get {
@@ -7116,7 +7440,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Gives a previously voice-muted user a permission to speak. .
+        ///    Looks up a localized string similar to Gives a previously voice-muted user a permission to speak..
         /// </summary>
         public static string voiceunmute_desc {
             get {
@@ -7238,6 +7562,33 @@ namespace NadekoBot.Resources {
         public static string wiki_usage {
             get {
                 return ResourceManager.GetString("wiki_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wikia.
+        /// </summary>
+        public static string wikia_cmd {
+            get {
+                return ResourceManager.GetString("wikia_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gives you back a wikia link.
+        /// </summary>
+        public static string wikia_desc {
+            get {
+                return ResourceManager.GetString("wikia_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`.
+        /// </summary>
+        public static string wikia_usage {
+            get {
+                return ResourceManager.GetString("wikia_usage", resourceCulture);
             }
         }
         

@@ -2,7 +2,7 @@
 
 src/NadekoBot/credentials.json
 src/NadekoBot/data/NadekoBot.db
-src/NadekoBot/musicdata
+src/NadekoBot/data/musicdata
 
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,windows,linux,macos
 

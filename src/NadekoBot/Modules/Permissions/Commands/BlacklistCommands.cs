@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Permissions
                     }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                if (action == AddRemove.Rem)
+                if (action == AddRemove.Add)
                 {
                     TriviaGame tg;
                     switch (type)

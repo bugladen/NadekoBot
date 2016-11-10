@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
                 {
                     var conf = uow.BotConfig.GetOrCreate();
                     var x =
-                    generationChannels = new ConcurrentHashSet<ulong>(uow.GuildConfigs.GetAll()
+                    generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
                         .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj=>obj.ChannelId)));
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;

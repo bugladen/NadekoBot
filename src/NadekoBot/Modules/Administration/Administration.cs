@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
         {
             using (var uow = DbHandler.UnitOfWork())
             {
-                var configs = uow.GuildConfigs.GetAll();
+                var configs = NadekoBot.AllGuildConfigs;
                 GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
                         .Where(c=>!string.IsNullOrWhiteSpace(c.MuteRoleName))
                         .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
@@ -88,8 +88,12 @@ namespace NadekoBot.Modules.Administration
 
                 foreach (var toOverwrite in guild.GetTextChannels())
                 {
-                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
-                            .ConfigureAwait(false);
+                    try
+                    {
+                        await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
+                                .ConfigureAwait(false);
+                    }
+                    catch { }
                     await Task.Delay(200).ConfigureAwait(false);
                 }
             }
@@ -311,7 +315,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.BanMembers)]
+        [RequirePermission(GuildPermission.KickMembers)]
+        [RequirePermission(GuildPermission.ManageMessages)]
         public async Task Softban(IUserMessage umsg, IGuildUser user, [Remainder] string msg = null)
         {
             var channel = (ITextChannel)umsg.Channel;

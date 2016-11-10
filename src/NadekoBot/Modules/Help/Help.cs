@@ -125,13 +125,23 @@ namespace NadekoBot.Modules.Help
         public Task Hgit(IUserMessage umsg)
         {
             var helpstr = new StringBuilder();
-
-            var lastModule = "";
+            helpstr.AppendLine(@"For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
+You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`");
+            helpstr.AppendLine("##Table Of Contents");
+            helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Where(m => m.Name.ToLowerInvariant() != "help").OrderBy(m => m.Name).Prepend(NadekoBot.CommandService.Modules.FirstOrDefault(m=>m.Name.ToLowerInvariant()=="help")).Select(m => $"- [{m.Name}](#{m.Name.ToLowerInvariant()})")));
+            helpstr.AppendLine();
+            string lastModule = null;
             foreach (var com in _commands.Commands.OrderBy(com=>com.Module.Name).GroupBy(c=>c.Text).Select(g=>g.First()))
             {
                 if (com.Module.Name != lastModule)
                 {
-                    helpstr.AppendLine("\n### " + com.Module.Name + "  ");
+                    if (lastModule != null)
+                    {
+                        helpstr.AppendLine();
+                        helpstr.AppendLine("###### [Back to TOC](#table-of-contents)");
+                    }
+                    helpstr.AppendLine();
+                    helpstr.AppendLine("### " + com.Module.Name + "  ");
                     helpstr.AppendLine("Command and aliases | Description | Usage");
                     helpstr.AppendLine("----------------|--------------|-------");
                     lastModule = com.Module.Name;

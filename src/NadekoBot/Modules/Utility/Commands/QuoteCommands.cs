@@ -17,6 +17,30 @@ namespace NadekoBot.Modules.Utility
     {
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task ListQuotes(IUserMessage imsg, int page = 1)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            page -= 1;
+
+            if (page < 0)
+                return;
+
+            IEnumerable<Quote> quotes;
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                quotes = uow.Quotes.GetGroup(page * 16, 16);
+            }
+
+            if (quotes.Any())
+                await channel.SendMessageAsync($"`Page {page + 1} of quotes:`\n```xl\n" + String.Join("\n", quotes.Select((q) => $"{q.Keyword,-20} by {q.AuthorName}")) + "\n```")
+                             .ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync("`No quotes on this page.`").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task ShowQuote(IUserMessage umsg, [Remainder] string keyword)
         {
             var channel = (ITextChannel)umsg.Channel;

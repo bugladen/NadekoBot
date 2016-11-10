@@ -19,18 +19,19 @@ namespace NadekoBot.Services
         static DbHandler() { }
 
         private DbHandler() {
-            switch (NadekoBot.Credentials.Db.Type.ToUpperInvariant())
-            {
-                case "SQLITE":
-                    dbType = typeof(NadekoSqliteContext);
-                    break;
-                //case "SQLSERVER":
-                //    dbType = typeof(NadekoSqlServerContext);
-                //    break;
-                default:
-                    break;
+            dbType = typeof(NadekoSqliteContext);
+            //switch (NadekoBot.Credentials.Db.Type.ToUpperInvariant())
+            //{
+            //    case "SQLITE":
+            //        dbType = typeof(NadekoSqliteContext);
+            //        break;
+            //    //case "SQLSERVER":
+            //    //    dbType = typeof(NadekoSqlServerContext);
+            //    //    break;
+            //    default:
+            //        break;
 
-            }
+            //}
         }
 
         public NadekoContext GetDbContext() => 

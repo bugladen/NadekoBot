@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    voicePlusTextCache = new ConcurrentHashSet<ulong>(uow.GuildConfigs.GetAll().Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
+                    voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
                 }
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
             }
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
 
-                var botUser = guild.GetCurrentUser();
+                var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
                     await channel.SendMessageAsync(":anger: `I require atleast manage roles and manage channels permissions to enable this feature (preffered Administration permission).`");
@@ -166,7 +166,8 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)msg.Channel;
                 var guild = channel.Guild;
-                if (!guild.GetCurrentUser().GuildPermissions.Administrator)
+                var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
+                if (!botUser.GuildPermissions.Administrator)
                 {
                     await channel.SendMessageAsync("`I need Administrator permission to do that.`").ConfigureAwait(false);
                     return;

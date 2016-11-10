@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
+using System.Text;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
@@ -186,6 +187,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Shorten(IUserMessage msg, [Remainder] string arg)
+        {
+            if (string.IsNullOrWhiteSpace(arg))
+                return;
+
+            await msg.Channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(arg).ConfigureAwait(false));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -206,9 +217,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a card name to search for.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string response = "";
             using (var http = new HttpClient())
@@ -225,7 +243,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
                     {
-                        using (var sr =await http.GetStreamAsync(item["img"].ToString()))
+                        using (var sr = await http.GetStreamAsync(item["img"].ToString()))
                         {
                             var imgStream = new MemoryStream();
                             await sr.CopyToAsync(imgStream);
@@ -256,10 +274,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
         {
             var channel = (ITextChannel)umsg.Channel;
 
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -271,7 +295,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 try
                 {
                     var items = JObject.Parse(res);
-                    var sb = new System.Text.StringBuilder();
+                    var sb = new StringBuilder();
                     sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                     sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
                     sb.Append($"`Link:` <{await _google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
@@ -293,9 +317,15 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a search term.").ConfigureAwait(false);
+                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
                 return;
             }
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string res = "";
             using (var http = new HttpClient())
@@ -461,6 +491,114 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     return null;
                 var match = matches[rng.Next(0, matches.Count)];
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
+        }
+        
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
+            {
+                await channel.SendMessageAsync("💢 Please enter a target wikia, followed by search query.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                try
+                {
+                    var res = await http.GetStringAsync($"http://www.{Uri.EscapeUriString(target)}.wikia.com/api/v1/Search/List?query={Uri.EscapeUriString(query)}&limit=25&minArticleQuality=10&batch=1&namespaces=0%2C14").ConfigureAwait(false);
+                    var items = JObject.Parse(res);
+                    var found = items["items"][0];
+                    var response = $@"`Title:` {found["title"].ToString()}
+`Quality:` {found["quality"]}
+`URL:` {await NadekoBot.Google.ShortenUrl(found["url"].ToString()).ConfigureAwait(false)}";
+                    await channel.SendMessageAsync(response);
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Failed finding `{query}`.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MCPing(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                string ip = arg.Split(':')[0];
+                string port = arg.Split(':')[1];
+                var res = await http.GetStringAsync($"https://api.minetools.eu/ping/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
+                try
+                {
+                    var items = JObject.Parse(res);
+                    var sb = new StringBuilder();
+                    int ping = (int)Math.Ceiling(Double.Parse(items["latency"].ToString()));
+                    sb.AppendLine($"`Server:` {arg}");
+                    sb.AppendLine($"`Version:` {items["version"]["name"].ToString()} / Protocol {items["version"]["protocol"].ToString()}");
+                    sb.AppendLine($"`Description:` {items["description"].ToString()}");
+                    sb.AppendLine($"`Online Players:` {items["players"]["online"].ToString()}/{items["players"]["max"].ToString()}");
+                    sb.Append($"`Latency:` {ping}");
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Failed finding `{arg}`.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MCQ(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                try
+                {
+                    string ip = arg.Split(':')[0];
+                    string port = arg.Split(':')[1];
+                    var res = await http.GetStringAsync($"https://api.minetools.eu/query/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
+                    var items = JObject.Parse(res);
+                    var sb = new StringBuilder();
+                    sb.AppendLine($"`Server:` {arg.ToString()} 〘Status: {items["status"]}〙");
+                    sb.AppendLine($"`Player List (First 5):`");
+                    foreach (var item in items["Playerlist"].Take(5))
+                    {
+                        sb.AppendLine($"〔:rosette: {item}〕");
+                    }
+                    sb.AppendLine($"`Online Players:` {items["Players"]} / {items["MaxPlayers"]}");
+                    sb.AppendLine($"`Plugins:` {items["Plugins"]}");
+                    sb.Append($"`Version:` {items["Version"]}");
+                    await channel.SendMessageAsync(sb.ToString());
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Failed finding server `{arg}`.").ConfigureAwait(false);
+                }
             }
         }
 

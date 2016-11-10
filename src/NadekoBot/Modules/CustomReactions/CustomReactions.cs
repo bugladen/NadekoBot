@@ -19,6 +19,7 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public static ConcurrentHashSet<CustomReaction> GlobalReactions { get; } = new ConcurrentHashSet<CustomReaction>();
         public static ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>> GuildReactions { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>>();
+        
         static CustomReactions()
         {
             using (var uow = DbHandler.UnitOfWork())
@@ -30,49 +31,43 @@ namespace NadekoBot.Modules.CustomReactions
         }
         public CustomReactions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
         {
-            client.MessageReceived += (imsg) =>
+        }
+
+        public static async Task<bool> TryExecuteCustomReaction(IUserMessage umsg)
+        {
+            var channel = umsg.Channel as ITextChannel;
+            if (channel == null)
+                return false;
+
+            var content = umsg.Content.Trim().ToLowerInvariant();
+            ConcurrentHashSet<CustomReaction> reactions;
+            GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
+            if (reactions != null && reactions.Any())
             {
-                var umsg = imsg as IUserMessage;
-                if (umsg == null || imsg.Author.IsBot)
-                    return Task.CompletedTask;
-
-                var channel = umsg.Channel as ITextChannel;
-                if (channel == null)
-                    return Task.CompletedTask;
-
-                var t = Task.Run(async () =>
+                var reaction = reactions.Where(cr => {
+                    var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
+                    var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
+                    return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                }).Shuffle().FirstOrDefault();
+                if (reaction != null)
                 {
-                    var content = umsg.Content.Trim().ToLowerInvariant();
-                    ConcurrentHashSet<CustomReaction> reactions;
-                    GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
-                    if (reactions != null && reactions.Any())
-                    {
-                        var reaction = reactions.Where(cr => {
-                            var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
-                            var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
-                            return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
-                        }).Shuffle().FirstOrDefault();
-                        if (reaction != null)
-                        {
-                            try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                            return;
-                        }
-                    }
-                    var greaction = GlobalReactions.Where(cr =>
-                    {
-                        var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
-                        var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
-                        return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
-                    }).Shuffle().FirstOrDefault();
+                    try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                    return true;
+                }
+            }
+            var greaction = GlobalReactions.Where(cr =>
+            {
+                var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
+                var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
+                return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+            }).Shuffle().FirstOrDefault();
 
-                    if (greaction != null)
-                    {
-                        try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                        return;
-                    }
-                });
-                return Task.CompletedTask;
-            };
+            if (greaction != null)
+            {
+                try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                return true;
+            }
+            return false;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -115,7 +110,7 @@ namespace NadekoBot.Modules.CustomReactions
                 reactions.Add(cr);
             }
 
-            await imsg.Channel.SendMessageAsync($"`Added new custom reaction:`\n\t`Trigger:` {key}\n\t`Response:` {message}").ConfigureAwait(false);
+            await imsg.Channel.SendMessageAsync($"`Added new custom reaction {cr.Id}:`\n\t`Trigger:` {key}\n\t`Response:` {message}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

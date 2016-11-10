@@ -75,9 +75,9 @@ namespace NadekoBot.Modules.Administration
                     MigrateDb0_9(uow);
 
                     //NOW save it
-                    botConfig.MigrationVersion = 1;
                     _log.Warn("Writing to disc");
                     uow.Complete();
+                    botConfig.MigrationVersion = 1;
                 }
             }
 
@@ -128,18 +128,19 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 var com2 = db.CreateCommand();
-                com.CommandText = "SELECT * FROM CurrencyState";
+                com.CommandText = "SELECT * FROM CurrencyState GROUP BY UserId";
 
                 i = 0;
                 var reader2 = com.ExecuteReader();
                 while (reader2.Read())
                 {
                     _log.Info(++i);
-                    uow.Currency.Add(new Currency()
+                    var curr = new Currency()
                     {
                         Amount = (long)reader2["Value"],
                         UserId = (ulong)(long)reader2["UserId"]
-                    });
+                    };
+                    uow.Currency.Add(curr);
                 }
                 db.Close();
                 try { File.Move("data/nadekobot.sqlite", "data/DELETE_ME_nadekobot.sqlite"); } catch { }
