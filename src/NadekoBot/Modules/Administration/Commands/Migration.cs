@@ -75,9 +75,9 @@ namespace NadekoBot.Modules.Administration
                     MigrateDb0_9(uow);
 
                     //NOW save it
-                    botConfig.MigrationVersion = 1;
                     _log.Warn("Writing to disc");
                     uow.Complete();
+                    botConfig.MigrationVersion = 1;
                 }
             }
 
