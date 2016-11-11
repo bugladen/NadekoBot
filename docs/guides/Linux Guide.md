@@ -124,7 +124,7 @@ curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installe
 - If you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
 - If you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/1.0/guides/Upgrading%20Guide/)
 
-####Setting up Nadeko Music
+####Setting up Music
 
 To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 
