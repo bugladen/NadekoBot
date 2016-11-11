@@ -35,11 +35,11 @@ Make sure that you're on the correct page for your distribution of linux as the 
 
 We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 16/10/2016
 
-```sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-
+```
+sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-
-sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2-003131 -y```
+sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2-003131 -y
+```
 
 **NOTE:** 
 
