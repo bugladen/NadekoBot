@@ -74,8 +74,8 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with your Text editor.
 - In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token.
-- Copy your bot's token, and on the `"Token"` line of your `credentials.json`, replace `null` with your bot token and put quotation marks before and after the token, like so `"Example.Token"`
-- Copy the `Client ID` on the page and replace the null part of the `ClientId` line with it, and put quotation marks before and after, like earlier.
+- Copy your bot's token, and on the `"Token"` line of your `credentials.json`, paste your bot token inbetween the quotation marks before and after the token, like so `"Example.Token"`
+- Copy the `Client ID` on the page and replace the `123123123` part of the `ClientId` line with it, and put quotation marks before and after, like earlier.
 - Again, copy the same `Client ID` and replace the null part of the `BotId` line with it, and do **not** put quotation marks before and after the ID.
 - Go to a server on discord and attempt to mention yourself, but put a backslash at the start as shown below
 - So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
