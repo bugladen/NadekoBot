@@ -102,19 +102,42 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 var attempt = 0;             
 
-                var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken);
+                var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken, 1.MiB()); //Fast connection can do this easy
+                var finished = false;
+                var count = 0;
                 var sw = new Stopwatch();
+                var slowconnection = false;
                 sw.Start();
-                var t = await Task.WhenAny(prebufferingTask, Task.Delay(5000, cancelToken));
-                if (t != prebufferingTask)
+                while (!finished)
                 {
-                    _log.Debug("Prebuffering timed out or canceled. Cannot get any data from the stream.");
-                    return;
-                }
-                else if(prebufferingTask.IsCanceled)
-                {
-                    _log.Debug("Prebuffering timed out. Cannot get any data from the stream.");
-                    return;
+                    var t = await Task.WhenAny(prebufferingTask, Task.Delay(2000, cancelToken));
+                    if (t != prebufferingTask)
+                    {
+                        count++;
+                        if (count == 10)
+                        {
+                            slowconnection = true;
+                            prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken, 20.MiB());
+                            _log.Warn("Slow connection buffering more to ensure no disruption, consider hosting in cloud");
+                            continue;
+                        }
+                        
+                        if (inStream.BufferingCompleted && count == 1)
+                        {
+                            _log.Debug("Prebuffering canceled. Cannot get any data from the stream.");
+                            return;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                     }
+                    else if (prebufferingTask.IsCanceled)
+                    {
+                        _log.Debug("Prebuffering canceled. Cannot get any data from the stream.");
+                        return;
+                    }
+                    finished = true;
                 }
                 sw.Stop();
                 _log.Debug("Prebuffering successfully completed in "+ sw.Elapsed);
@@ -146,8 +169,13 @@ namespace NadekoBot.Modules.Music.Classes
                                 MusicPlayer.SongCancelSource.Cancel();
                                 break;
                             }
+                            if (slowconnection)
+                            {
+                                _log.Warn("Slow connection has disrupted music, waiting a bit for buffer");
+                                await Task.Delay(1000, cancelToken).ConfigureAwait(false);
+                            }
                             else
-                                await Task.Delay(100, cancelToken).ConfigureAwait(false);                         
+                                await Task.Delay(100, cancelToken).ConfigureAwait(false);
                         }
                         else
                             attempt = 0;
@@ -176,9 +204,9 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        private async Task CheckPrebufferingAsync(SongBuffer inStream, CancellationToken cancelToken)
+        private async Task CheckPrebufferingAsync(SongBuffer inStream, CancellationToken cancelToken, long size)
         {
-            while (!inStream.BufferingCompleted && inStream.Length < 10.MiB())
+            while (!inStream.BufferingCompleted && inStream.Length < size)
             {
                 await Task.Delay(100, cancelToken);
             }
