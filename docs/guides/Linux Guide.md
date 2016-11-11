@@ -63,9 +63,11 @@ If you are running Ubuntu 16.10, follow these before installing .NET CORE:
 
 **NOTE:** If you are running **UBUNTU 14.04**, you must run these first:
 
-```sudo add-apt-repository ppa:mc3man/trusty-media
+```
+sudo add-apt-repository ppa:mc3man/trusty-media
 sudo apt-get update
-sudo apt-get dist-upgrade```
+sudo apt-get dist-upgrade
+```
 
 **Before executing:** `sudo apt-get install ffmpeg`
 
@@ -76,9 +78,11 @@ sudo apt-get dist-upgrade```
 
 In case you are not able to install it with **installer**, follow these steps:
 
-```sudo apt-get update
+```
+sudo apt-get update
 echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list
-sudo apt-get update && sudo apt-get install ffmpeg -y```
+sudo apt-get update && sudo apt-get install ffmpeg -y
+```
 
 ####Installing TMUX
 
@@ -86,8 +90,8 @@ sudo apt-get update && sudo apt-get install ffmpeg -y```
 
 ####Getting NadekoBot
 
-```cd ~
-curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh```  
+`cd ~
+curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
 
 ####Setting up and Inviting bot
 
@@ -135,7 +139,7 @@ Once done, go back to **PuTTY**
 - `cd NadekoBot/src/NadekoBot/`
 - `dotnet run --configuration Release`
 
-**Now check your Discord, the bot should be online **
+**Now check your Discord, the bot should be online**
 
 Now time to **move the bot to background** and to do that, press **CTRL+B+D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
 
@@ -160,10 +164,14 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 - If [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows errors, try manual installing:
 
-```cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git  
-cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release```
+```
+cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
+cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
+```
   
 - If you still get some errors using the above steps:
 
-```cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore  
-cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release```
+```
+cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
+cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
+```
