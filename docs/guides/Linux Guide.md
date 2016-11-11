@@ -17,7 +17,7 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 - Now for **login as:**, type `root` and hit enter.
 - It should then, ask for password, type the `root password` you have received in your **email address registered with Digital Ocean**, then hit Enter.
 
-*(as you are running it for the first time, it will most likely to ask you to change your root password, for that, type the "password you received through email", hit Enter, enter a "new password", hit Enter and confirm that "new password" again.*
+*as you are running it for the first time, it will most likely to ask you to change your root password, for that, type the "password you received through email", hit Enter, enter a "new password", hit Enter and confirm that "new password" again.*
 **SAVE that new password somewhere safe, not just in your mind**. After you've done that, you are ready to write commands.
 
 **NOTE:** Copy the commands, and just paste them using **mouse single right-click.**
