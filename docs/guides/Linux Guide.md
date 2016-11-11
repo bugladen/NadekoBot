@@ -33,7 +33,7 @@ Make sure that you're on the correct page for your distribution of linux as the 
 
 We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 16/10/2016
 
-**2)**
+**2)**  
 ```
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 
@@ -43,11 +43,11 @@ sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2-003131 -y
 ```
 
 ####Installing Opus Voice Codec and libsodium
-**3)**
+**3)**  
 `sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y`
 
 ####FFMPEG
-**4)**
+**4)**  
 `apt-get install ffmpeg -y`
 
 NOTE: if its "not installing" then, follow the guide here: [FFMPEG Help Guide](http://www.faqforge.com/linux/how-to-install-ffmpeg-on-ubuntu-14-04/)
@@ -79,18 +79,24 @@ sudo apt-get update && sudo apt-get install ffmpeg -y`
 ####Getting NadekoBot
 
 **6)**  
-- `cd ~`
-- `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+```
+cd ~
+curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh
+```
 **If you do not get any errors using the above steps move to the next section, Setting up NadekoBot otherwise, if you get errors follow step 6.1**
   
 **6.1)**  
-- `cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git`
-- `cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`
+```
+cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git  
+cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`  
+```
   
-**If you still get some errors using the above steps, follow step 6.2**
+**If you still get some errors using the above steps, follow step 6.2**  
 **6.2)**  
-- `cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore`
-- `cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release`
+```
+cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore  
+cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
+```  
 
 ####Setting up NadekoBot 
 

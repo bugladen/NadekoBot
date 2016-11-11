@@ -80,7 +80,7 @@ ________________________________________________________________________________
     - On the left tab, access `Credentials`. Click `Create Credentials` button. Click on `API Key`. A new window will appear with your `Google API key`. 
     - Copy the key.
     - Open up `credentials.json`. 
-    - For `"GoogleAPIKey"`, replace `null` with the new key we copied and put quotation marks before and after the API key, like how the `Token` and `ClientId` should be set up.
+    - For `"GoogleAPIKey"`, paste your API key inbetween the quotation marks, like how the `Token` and `ClientId` should be set up.
 - Follow these steps on how to setup Soundcloud API key:
     - Go to [Soundcloud][Soundcloud]. 
     - Enter a name for the app and create it. 
