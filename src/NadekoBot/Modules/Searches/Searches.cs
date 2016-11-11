@@ -493,6 +493,157 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task BFO(IUserMessage umsg, [Remainder] string game = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(game))
+            {
+                await channel.SendMessageAsync("💢 Please enter a game `(bf3, bf4)`").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                try
+                {
+                    if (game.Equals("bf3", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf3stats.com/global/onlinestats/").ConfigureAwait(false);
+                        var items = JObject.Parse(res);
+                        var sb = new StringBuilder();
+                        var status = items["status"];
+                        var x360 = items["360"];
+                        var ps3 = items["ps3"];
+                        var pc = items["pc"];
+
+                        sb.AppendLine("```css");
+                        sb.AppendLine($"[☕ BF3 Status: {status.ToString().ToUpper()}]");
+                        sb.AppendLine($"XBOX360: [{x360.ToString()}]");
+                        sb.AppendLine($"PS3: [{ps3.ToString()}]");
+                        sb.Append($"PC: [{pc.ToString()}]```");
+                        await channel.SendMessageAsync(sb.ToString());
+                    }
+                    else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf4stats.com/api/onlinePlayers?output=json").ConfigureAwait(false);
+                        var items = JObject.Parse(res);
+                        var sb = new StringBuilder();
+                        var status = !string.IsNullOrEmpty(items.ToString()) ? "OK" : "BAD";
+                        var pc = items["pc"];
+                        var ps3 = items["ps3"];
+                        var ps4 = items["ps4"];
+                        var xbox = items["xbox"];
+                        var xone = items["xone"];
+
+                        sb.AppendLine("```css");
+                        sb.AppendLine($"[☕ BF4 Status: {status}]");
+
+                        foreach (var i in items) {
+                            var plat = items[i.Key];
+                            sb.AppendLine($"{plat["label"]}: ✔[{plat["count"]}] / ↑[{plat["peak24"]}]");
+                        }
+
+                        sb.Append("```");
+                        await channel.SendMessageAsync(sb.ToString());
+                    }
+                } catch
+                {
+                    await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {game}.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task BFU(IUserMessage umsg, string platform, string game, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(platform) || string.IsNullOrWhiteSpace(game) || string.IsNullOrWhiteSpace(query))
+            {
+                await channel.SendMessageAsync("💢 Please enter a platform `(pc, xbox, ps3, xone, ps4)`, game `(bf3, bf4)`, followed by a search query.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                try
+                {
+                    if (game.Equals("bf3", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf3stats.com/{Uri.EscapeUriString(platform)}/playerlist/players={Uri.EscapeUriString(query)}?output=json").ConfigureAwait(false);
+                        var items = JObject.Parse(res);
+                        var sb = new StringBuilder();
+                        var playerName = items["list"][query];
+                        var playerTag = playerName["tag"];
+                        var playerCountryName = playerName["country_name"];
+                        var playerStats = playerName["stats"];
+                        var playerRank = playerStats["rank"];
+                        var playerRank_name = playerRank["name"];
+                        var playerGlobal_Kills = playerStats["global"]["kills"];
+                        var playerGlobal_Deaths = playerStats["global"]["deaths"];
+                        var playerGlobal_KD = Math.Round(Double.Parse(playerGlobal_Kills.ToString()) / Double.Parse(playerGlobal_Deaths.ToString()), 2);
+                        var playerGlobal_Wins = playerStats["global"]["wins"];
+                        var playerGlobal_Losses = playerStats["global"]["losses"];
+                        var playerGlobal_WL = Math.Round(Double.Parse(playerGlobal_Wins.ToString()) / Double.Parse(playerGlobal_Losses.ToString()), 2);
+                        var playerGlobal_Shots = playerStats["global"]["shots"];
+                        var playerGlobal_Hits = playerStats["global"]["hits"];
+                        var playerGlobal_Accuracy = Math.Round(Double.Parse(playerGlobal_Hits.ToString()) / Double.Parse(playerGlobal_Shots.ToString()), 2);
+                        var playerGlobal_ELO = playerStats["global"]["elo"];
+
+                        sb.AppendLine("```css");
+                        sb.AppendLine($"[☕ BF3 Player: {query}]");
+                        sb.AppendLine($"Platform: [{platform.ToUpper()}]");
+                        sb.AppendLine($"Tag: [{playerTag.ToString()}]");
+                        sb.AppendLine($"K/D: [{playerGlobal_KD.ToString()}]");
+                        sb.AppendLine($"W/L: [{playerGlobal_WL.ToString()}]");
+                        sb.AppendLine($"Accuracy: %[{playerGlobal_Accuracy.ToString()}]");
+                        sb.Append($"ELO: [{playerGlobal_ELO.ToString()}]```");
+                        await channel.SendMessageAsync(sb.ToString());
+                    } else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
+                        var items = JObject.Parse(res);
+                        var sb = new StringBuilder();
+
+                        var player = items["player"];
+                        var playerStats = items["stats"];
+
+                        var playerName = player["name"];
+                        var playerTag = player["tag"];
+                        var playerPlatform = player["plat"];
+                        var playerKills = playerStats["kills"];
+                        var playerDeaths = playerStats["deaths"];
+                        var player_KD = Math.Round(Double.Parse(playerKills.ToString()) / Double.Parse(playerDeaths.ToString()), 2);
+                        var playerWins = playerStats["numWins"];
+                        var playerRounds = playerStats["numRounds"];
+                        var player_WL = Math.Round(Double.Parse(playerWins.ToString()) / Double.Parse(playerRounds.ToString()), 2);
+                        var shotsFired = playerStats["shotsFired"];
+                        var shotsHit = playerStats["shotsHit"];
+                        var accuracy = Math.Round(Double.Parse(shotsHit.ToString()) / Double.Parse(shotsFired.ToString()), 2);
+                        var playerELO = playerStats["elo"];
+
+                        sb.AppendLine("```css");
+                        sb.AppendLine($"[☕ BF4 Player: {playerName.ToString()}]");
+                        sb.AppendLine($"Platform: [{playerPlatform.ToString().ToUpper()}]");
+                        sb.AppendLine($"Tag: [{playerTag.ToString()}]");
+                        sb.AppendLine($"K/D: [{player_KD.ToString()}]");
+                        sb.AppendLine($"W/L: [{player_WL.ToString()}]");
+                        sb.AppendLine($"Accuracy: %[{accuracy.ToString()}]");
+                        sb.Append($"ELO: [{playerELO.ToString()}]```");
+                        await channel.SendMessageAsync(sb.ToString());
+                    }
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {query}.").ConfigureAwait(false);
+                }
+            }
+        }
         
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
