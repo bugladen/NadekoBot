@@ -718,7 +718,7 @@
     <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`.</value>
   </data>
   <data name="send_usage" xml:space="preserve">
-    <value>`{0}send serverid|c:channelid` or `{0}send serverid|u:userid`</value>
+    <value>`{0}send serverid|c:channelid message` or `{0}send serverid|u:userid message`</value>
   </data>
   <data name="mentionrole_cmd" xml:space="preserve">
     <value>mentionrole menro</value>
