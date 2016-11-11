@@ -43,15 +43,15 @@ sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2-003131 -y
 
 **NOTE:** 
 
-.NET CORE SDK only supports 64-bit Linux OS
+.NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
 
-If you are running Ubuntu 16.10, follow these before installing .NET CORE:
+If you are running Ubuntu 16.10, follow these instructions before installing .NET Core:
 
 - Go to [Download Page for libicu55_55.1-7_amd64.deb](http://packages.ubuntu.com/en/xenial/amd64/libicu55/download)
-- Copy any link working for you
+- Copy the link with a download option closest to you
 - `wget <copied link>` (make sure it is downloaded) *e.g.* `wget http://mirrors.kernel.org/ubuntu/pool/main/i/icu/libicu55_55.1-7_amd64.deb`
 - Install with: `dpkg –i libicu55_55.1-7_amd64.deb`
-- Now go back and install the .NET CORE
+- Now go back and install the .NET Core
 
 ####Installing Opus Voice Codec and libsodium
 
@@ -90,8 +90,7 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 
 ####Getting NadekoBot
 
-`cd ~
-curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+`cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
 
 ####Setting up and Inviting bot
 
@@ -120,7 +119,7 @@ curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installe
 
 - Copy the `credentials.json` to desktop
 - EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- Paste/put it back in the folder once done. `(Yes, using CyberDuck)`
+- Paste/put it back in the folder once done. `(Using CyberDuck/WinSCP)`
 - If you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
 - If you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/1.0/guides/Upgrading%20Guide/)
 
@@ -156,20 +155,19 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 - Make sure the bot is **not** running
 - Connect to the terminal
-- `cd ~\NadekoBot\`
-- `git init && git pull`
+- `cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh` (The same command used to install earlier)
 - Run the bot again as normal.
 
 ####Alternative way to Install
 
-- If [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows errors, try manual installing:
+- If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows errors, try manually installing with the following steps:
 
 ```
 cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
 cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
 ```
   
-- If you still get some errors using the above steps:
+- If you are still getting errors using the above steps:
 
 ```
 cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
