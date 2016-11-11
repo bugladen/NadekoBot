@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Gambling
 
             role = role ?? channel.Guild.EveryoneRole;
 
-            var members = role.Members().Where(u => u.Status == UserStatus.Online);
+            var members = role.Members().Where(u => u.Status != UserStatus.Offline && u.Status != UserStatus.Unknown);
             var membersArray = members as IUser[] ?? members.ToArray();
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
