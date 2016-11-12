@@ -520,12 +520,13 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var ps3 = items["ps3"];
                         var pc = items["pc"];
 
-                        sb.AppendLine("```css");
-                        sb.AppendLine($"[☕ BF3 Status: {status.ToString().ToUpper()}]");
-                        sb.AppendLine($"XBOX360: [{x360.ToString()}]");
-                        sb.AppendLine($"PS3: [{ps3.ToString()}]");
-                        sb.Append($"PC: [{pc.ToString()}]```");
-                        await channel.SendMessageAsync(sb.ToString());
+                        var response = $@"```css
+[☕ BF3 Status: {status.ToString().ToUpper()}]
+XBOX360: ✔[{x360.ToString()}]
+PS3: ✔[{ps3.ToString()}]
+PC: ✔[{pc.ToString()}]
+```";
+                        await channel.SendMessageAsync(response);
                     }
                     else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
                     {
@@ -595,15 +596,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var playerGlobal_Accuracy = Math.Round(Double.Parse(playerGlobal_Hits.ToString()) / Double.Parse(playerGlobal_Shots.ToString()), 2);
                         var playerGlobal_ELO = playerStats["global"]["elo"];
 
-                        sb.AppendLine("```css");
-                        sb.AppendLine($"[☕ BF3 Player: {query}]");
-                        sb.AppendLine($"Platform: [{platform.ToUpper()}]");
-                        sb.AppendLine($"Tag: [{playerTag.ToString()}]");
-                        sb.AppendLine($"K/D: [{playerGlobal_KD.ToString()}]");
-                        sb.AppendLine($"W/L: [{playerGlobal_WL.ToString()}]");
-                        sb.AppendLine($"Accuracy: %[{playerGlobal_Accuracy.ToString()}]");
-                        sb.Append($"ELO: [{playerGlobal_ELO.ToString()}]```");
-                        await channel.SendMessageAsync(sb.ToString());
+                        var response = $@"```css
+[☕ BF3 Player: {query}]
+Platform: [{platform.ToUpper()}]
+Tag: [{playerTag.ToString()}]
+K/D: [{playerGlobal_KD.ToString()}]
+W/L: [{playerGlobal_WL.ToString()}]
+Accuracy: %[{playerGlobal_Accuracy.ToString()}]
+ELO: [{playerGlobal_ELO.ToString()}]
+```";
+                        await channel.SendMessageAsync(response);
                     } else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
                     {
                         var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
@@ -627,15 +629,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         var accuracy = Math.Round(Double.Parse(shotsHit.ToString()) / Double.Parse(shotsFired.ToString()), 2);
                         var playerELO = playerStats["elo"];
 
-                        sb.AppendLine("```css");
-                        sb.AppendLine($"[☕ BF4 Player: {playerName.ToString()}]");
-                        sb.AppendLine($"Platform: [{playerPlatform.ToString().ToUpper()}]");
-                        sb.AppendLine($"Tag: [{playerTag.ToString()}]");
-                        sb.AppendLine($"K/D: [{player_KD.ToString()}]");
-                        sb.AppendLine($"W/L: [{player_WL.ToString()}]");
-                        sb.AppendLine($"Accuracy: %[{accuracy.ToString()}]");
-                        sb.Append($"ELO: [{playerELO.ToString()}]```");
-                        await channel.SendMessageAsync(sb.ToString());
+                        var response = $@"```css
+[☕ BF4 Player: {playerName.ToString()}]
+Platform: [{playerPlatform.ToString().ToUpper()}]
+Tag: [{playerTag.ToString()}]
+K/D: [{player_KD.ToString()}]
+W/L: [{player_WL.ToString()}]
+Accuracy: %[{accuracy.ToString()}]
+ELO: [{playerELO.ToString()}]
+```";
+                        await channel.SendMessageAsync(response);
                     }
                 }
                 catch
