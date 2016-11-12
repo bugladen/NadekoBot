@@ -436,10 +436,19 @@
     <value>listcustreact lcr</value>
   </data>
   <data name="listcustreact_desc" xml:space="preserve">
-    <value>Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.</value>
+    <value>Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` argument instead of the number will DM you a text file with a list of all custom reactions.</value>
   </data>
   <data name="listcustreact_usage" xml:space="preserve">
-    <value>`{0}lcr 1`</value>
+    <value>`{0}lcr 1` or `{0}lcr all`</value>
+  </data>
+  <data name="listcustreactg_cmd" xml:space="preserve">
+    <value>listcustreactg lcrg</value>
+  </data>
+  <data name="listcustreactg_desc" xml:space="preserve">
+    <value>Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.</value>
+  </data>
+  <data name="listcustreactg_usage" xml:space="preserve">
+    <value>`{0}lcrg 1`</value>
   </data>
   <data name="showcustreact_cmd" xml:space="preserve">
     <value>showcustreact scr</value>
