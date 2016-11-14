@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace Services.CleverBotApi
 {
-    internal class Pandorabots : ChatterBot
+    public class Pandorabots : ChatterBot
     {
         private readonly string botid;
 
@@ -37,7 +37,7 @@ namespace Services.CleverBotApi
         }
     }
 
-    internal class PandorabotsSession : ChatterBotSession
+    public class PandorabotsSession : ChatterBotSession
     {
         private readonly IDictionary<string, string> vars;
 

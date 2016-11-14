@@ -162,7 +162,7 @@ namespace NadekoBot.Modules.Administration.Commands.Migration
         }
     }
 
-    internal class ServerSpecificConfig
+    public class ServerSpecificConfig
     {
         public bool VoicePlusTextEnabled { get; set; }
         public bool SendPrivateMessageOnMention { get; set; }

@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace Services.CleverBotApi
 {
-    internal class Cleverbot : ChatterBot
+    public class Cleverbot : ChatterBot
     {
         private readonly int endIndex;
         private readonly string baseUrl;
@@ -41,7 +41,7 @@ namespace Services.CleverBotApi
         }
     }
 
-    internal class CleverbotSession : ChatterBotSession
+    public class CleverbotSession : ChatterBotSession
     {
         private readonly int endIndex;
         private readonly string url;
