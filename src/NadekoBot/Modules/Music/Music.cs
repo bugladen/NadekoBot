@@ -282,9 +282,8 @@ namespace NadekoBot.Modules.Music
                 {
                     await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, true).ConfigureAwait(false);
                 }
-                catch (PlaylistFullException)
-                { break; }
-                catch { }
+                catch (SongNotFoundException) { }
+                catch { break; }
             }
             await msg.ModifyAsync(m => m.Content = "🎵 `Playlist queue complete.`").ConfigureAwait(false);
         }
@@ -579,6 +578,7 @@ namespace NadekoBot.Modules.Music
                 {
                     await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
                 }
+                catch (SongNotFoundException) { }
                 catch { break; }
             }
             if (msg != null)
@@ -793,6 +793,9 @@ namespace NadekoBot.Modules.Music
             {
                 musicPlayer.ThrowIfQueueFull();
                 resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
+
+                if (resolvedSong == null)
+                    throw new SongNotFoundException();
 
                 musicPlayer.AddSong(resolvedSong, queuer.Username);
             }
