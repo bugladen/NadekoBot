@@ -385,6 +385,20 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return;
             await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
         }
+		
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetYandereImageLink(tag).ConfigureAwait(false);
+            if (link == null)
+                await channel.SendMessageAsync("`No results.`");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -476,6 +490,22 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return;
             }
             await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+        }
+		
+        public static async Task<string> GetYandereImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+            var url =
+            $"https://yande.re/post.xml?limit=100&tags={tag.Replace(" ", "_")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                var match = matches[rng.Next(0, matches.Count)];
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

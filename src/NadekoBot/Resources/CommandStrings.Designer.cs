@@ -7753,5 +7753,32 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("youtube_usage", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to yandere.
+        /// </summary>
+        public static string yandere_cmd {
+            get {
+                return ResourceManager.GetString("yandere_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        /// </summary>
+        public static string yandere_desc {
+            get {
+                return ResourceManager.GetString("yandere_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}yandere tag1+tag2`.
+        /// </summary>
+        public static string yandere_usage {
+            get {
+                return ResourceManager.GetString("yandere_usage", resourceCulture);
+            }
+        }
     }
 }

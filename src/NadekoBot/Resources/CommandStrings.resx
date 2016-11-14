@@ -2682,4 +2682,13 @@
   <data name="bfu_usage" xml:space="preserve">
     <value>`{0}bfu platform game user`</value>
   </data>
+  <data name="yandere_cmd" xml:space="preserve">
+    <value>yandere</value>
+  </data>
+  <data name="yandere_desc" xml:space="preserve">
+    <value>Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  </data>
+  <data name="yandere_usage" xml:space="preserve">
+    <value>`{0}yandere tag1+tag2`</value>
+  </data>
 </root>
