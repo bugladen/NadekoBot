@@ -7,7 +7,7 @@
     "emitEntryPoint": true,
     "allowUnsafe": true,
     "compile": {
-      "exclude": [ "data", "credentials.json", "credentials_example.json" ]
+      "exclude": [ "data", "credentials.json", "credentials_example.json", "Modules/Music/Classes/PlaylistFullException.cs" ]
     },
     "copyToOutput": {
       "include": [ "data" ],
