@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
-        internal async Task UpdateSongDurationsAsync()
+        public async Task UpdateSongDurationsAsync()
         {
             var curSong = CurrentSong;
             var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&

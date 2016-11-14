@@ -28,7 +28,7 @@ using System.Xml.XPath;
 
 namespace Services.CleverBotApi
 {
-    internal static class Utils
+    public static class Utils
     {
         public static string ParametersToWWWFormURLEncoded(IDictionary<string, string> parameters)
         {

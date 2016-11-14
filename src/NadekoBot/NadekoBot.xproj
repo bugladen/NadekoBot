@@ -18,5 +18,8 @@
   <ItemGroup>
     <DnxInvisibleFolder Include="data\permissions\" />
   </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="data\questions.json" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
