@@ -11,6 +11,7 @@ using System.Collections.Concurrent;
 using NadekoBot.Services.Database.Models;
 using Discord;
 using NadekoBot.Extensions;
+using System.IO;
 
 namespace NadekoBot.Modules.CustomReactions
 {    
@@ -114,7 +115,8 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task ListCustReact(IUserMessage imsg,int page = 1)
+        [Priority(0)]
+        public async Task ListCustReact(IUserMessage imsg, int page = 1)
         {
             var channel = imsg.Channel as ITextChannel;
 
@@ -129,7 +131,72 @@ namespace NadekoBot.Modules.CustomReactions
             if (customReactions == null || !customReactions.Any())
                 await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
             else
-                await imsg.Channel.SendMessageAsync($"`Page {page} of custom reactions:`\n" + string.Join("\n", customReactions.OrderBy(cr => cr.Trigger).Skip((page - 1) * 15).Take(15).Select(cr => $"`#{cr.Id}`  `Trigger:` {cr.Trigger}")))
+                await imsg.Channel.SendMessageAsync(
+                    $"`Page {page} of custom reactions:`\n" + 
+                        string.Join("\n", customReactions
+                                                .OrderBy(cr => cr.Trigger)
+                                                .Skip((page - 1) * 20)
+                                                .Take(20)
+                                                .Select(cr => $"`#{cr.Id}`  `Trigger:` {cr.Trigger}")))
+                             .ConfigureAwait(false);
+        }
+
+        public enum All
+        {
+            All
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [Priority(1)]
+        public async Task ListCustReact(IUserMessage imsg, All x)
+        {
+            var channel = imsg.Channel as ITextChannel;
+
+            ConcurrentHashSet<CustomReaction> customReactions;
+            if (channel == null)
+                customReactions = GlobalReactions;
+            else
+                customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
+
+            if (customReactions == null || !customReactions.Any())
+                await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
+            else
+            {
+                var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
+                                                          .OrderBy(cr => cr.Key)
+                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Count() })
+                                                          .ToJson()
+                                                          .ToStream()
+                                                          .ConfigureAwait(false);
+                if (channel == null) // its a private one, just send back
+                    await imsg.Channel.SendFileAsync(txtStream, "customreactions.txt", "List of all custom reactions").ConfigureAwait(false);
+                else
+                    await ((IGuildUser)imsg.Author).SendFileAsync(txtStream, "customreactions.txt", "List of all custom reactions").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task ListCustReactG(IUserMessage imsg, int page = 1)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+            if (page < 1 || page > 10000)
+                return;
+            ConcurrentHashSet<CustomReaction> customReactions;
+            if (channel == null)
+                customReactions = GlobalReactions;
+            else
+                customReactions = GuildReactions.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CustomReaction>());
+
+            if (customReactions == null || !customReactions.Any())
+                await imsg.Channel.SendMessageAsync("`No custom reactions found`").ConfigureAwait(false);
+            else
+                await imsg.Channel.SendMessageAsync($"{imsg.Author.Mention}\n`Page {page} of custom reactions (grouped):`\n" + 
+                                    string.Join("\r\n", customReactions
+                                                        .GroupBy(cr=>cr.Trigger)
+                                                        .OrderBy(cr => cr.Key)
+                                                        .Skip((page - 1) * 20)
+                                                        .Take(20)
+                                                        .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`")))
                              .ConfigureAwait(false);
         }
 

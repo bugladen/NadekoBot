@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using ImageProcessorCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -286,6 +288,9 @@ namespace NadekoBot.Extensions
             return ms;
 
         }
+
+        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) => 
+            JsonConvert.SerializeObject(any, formatting);
 
         public static int KiB(this int value) => value * 1024;
         public static int KB(this int value) => value * 1000;

@@ -337,7 +337,7 @@ namespace NadekoBot.Modules.Music.Classes
                 var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
-                    .Where(v => v.AudioBitrate < 192)
+                    .Where(v => v.AudioBitrate < 256)
                     .OrderByDescending(v => v.AudioBitrate)
                     .FirstOrDefault();
 
