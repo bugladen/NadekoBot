@@ -6673,33 +6673,6 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("stop_usage", resourceCulture);
             }
         }
-		
-        /// <summary>
-        ///    Looks up a localized string similar to safeyandere sy.
-        /// </summary>
-        public static string safeyandere_cmd {
-            get {
-                return ResourceManager.GetString("sy_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Shows a safe random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
-        /// </summary>
-        public static string safeyandere_desc {
-            get {
-                return ResourceManager.GetString("sy_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}sy tag1+tag2` or `{0}safeyandere tag1+tag2`.
-        /// </summary>
-        public static string safeyandere_usage {
-            get {
-                return ResourceManager.GetString("sy_usage", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///    Looks up a localized string similar to take.

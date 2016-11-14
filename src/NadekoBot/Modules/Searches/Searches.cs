@@ -385,20 +385,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return;
             await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
         }
-		
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Safeyandere(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetSafeYandereImageLink(tag).ConfigureAwait(false);
-            if (link == null)
-                await channel.SendMessageAsync("`No results.`");
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -490,32 +476,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return;
             }
             await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
-        }
-		
-        public static async Task<string> GetSafeYandereImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-            var url =
-            $"https://yande.re/post.xml?" +
-            $"limit=25" +
-            $"&page={rng.Next(0, 15)}" +
-            $"&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                if (string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "s") || string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "q"))
-                {
-                    return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-                }
-                else
-                {
-                    return null;
-                }
-            }
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

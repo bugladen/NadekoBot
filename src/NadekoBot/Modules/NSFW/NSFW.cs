@@ -111,17 +111,10 @@ namespace NadekoBot.Modules.NSFW
             {
                 var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
                 var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
+                //var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
                 if (matches.Count == 0)
                     return null;
-                if (string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "e") || string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "q"))
-                {
-                    return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-                }
-                else
-                {
-                    return null;
-                }
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
 		
