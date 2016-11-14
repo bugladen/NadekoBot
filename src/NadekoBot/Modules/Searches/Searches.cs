@@ -388,12 +388,12 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 		
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
+        public async Task Safeyandere(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             tag = tag?.Trim() ?? "";
-            var link = await GetYandereImageLink(tag).ConfigureAwait(false);
+            var link = await GetSafeYandereImageLink(tag).ConfigureAwait(false);
             if (link == null)
                 await channel.SendMessageAsync("`No results.`");
             else
@@ -492,19 +492,29 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
         }
 		
-        public static async Task<string> GetYandereImageLink(string tag)
+        public static async Task<string> GetSafeYandereImageLink(string tag)
         {
             var rng = new NadekoRandom();
             var url =
-            $"https://yande.re/post.xml?limit=100&tags={tag.Replace(" ", "_")}";
+            $"https://yande.re/post.xml?" +
+            $"limit=25" +
+            $"&page={rng.Next(0, 15)}" +
+            $"&tags={tag.Replace(" ", "_")}";
             using (var http = new HttpClient())
             {
                 var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
                 var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
                 if (matches.Count == 0)
                     return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                if (string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "s") || string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "q"))
+                {
+                    return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

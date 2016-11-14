@@ -2931,7 +2931,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
+        ///    Looks up a localized string similar to Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed..
         /// </summary>
         public static string hentai_desc {
             get {
@@ -2958,7 +2958,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred..
+        ///    Looks up a localized string similar to Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred..
         /// </summary>
         public static string hentaibomb_desc {
             get {
@@ -6673,6 +6673,33 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("stop_usage", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to safeyandere sy.
+        /// </summary>
+        public static string safeyandere_cmd {
+            get {
+                return ResourceManager.GetString("sy_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a safe random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        /// </summary>
+        public static string safeyandere_desc {
+            get {
+                return ResourceManager.GetString("sy_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}sy tag1+tag2` or `{0}safeyandere tag1+tag2`.
+        /// </summary>
+        public static string safeyandere_usage {
+            get {
+                return ResourceManager.GetString("sy_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to take.
@@ -7699,6 +7726,33 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("xkcd_usage", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to yandere.
+        /// </summary>
+        public static string yandere_cmd {
+            get {
+                return ResourceManager.GetString("yandere_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
+        /// </summary>
+        public static string yandere_desc {
+            get {
+                return ResourceManager.GetString("yandere_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}yandere tag1+tag2`.
+        /// </summary>
+        public static string yandere_usage {
+            get {
+                return ResourceManager.GetString("yandere_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to yomama ym.
@@ -7751,33 +7805,6 @@ namespace NadekoBot.Resources {
         public static string youtube_usage {
             get {
                 return ResourceManager.GetString("youtube_usage", resourceCulture);
-            }
-        }
-		
-        /// <summary>
-        ///    Looks up a localized string similar to yandere.
-        /// </summary>
-        public static string yandere_cmd {
-            get {
-                return ResourceManager.GetString("yandere_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +).
-        /// </summary>
-        public static string yandere_desc {
-            get {
-                return ResourceManager.GetString("yandere_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}yandere tag1+tag2`.
-        /// </summary>
-        public static string yandere_usage {
-            get {
-                return ResourceManager.GetString("yandere_usage", resourceCulture);
             }
         }
     }
