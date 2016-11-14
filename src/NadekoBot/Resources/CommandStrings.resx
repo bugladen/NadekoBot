@@ -2110,7 +2110,7 @@
     <value>hentai</value>
   </data>
   <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
+    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
     <value>`{0}hentai yuri`</value>
@@ -2623,7 +2623,7 @@
     <value>hentaibomb</value>
   </data>
   <data name="hentaibomb_desc" xml:space="preserve">
-    <value>Shows a total 4 images (from gelbooru, danbooru, konachan and atfbooru). Tag is optional but preferred.</value>
+    <value>Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.</value>
   </data>
   <data name="hentaibomb_usage" xml:space="preserve">
     <value>`{0}hentaibomb yuri`</value>
@@ -2690,5 +2690,14 @@
   </data>
   <data name="bfu_usage" xml:space="preserve">
     <value>`{0}bfu platform game user`</value>
+  </data>
+  <data name="yandere_cmd" xml:space="preserve">
+    <value>yandere</value>
+  </data>
+  <data name="yandere_desc" xml:space="preserve">
+    <value>Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  </data>
+  <data name="yandere_usage" xml:space="preserve">
+    <value>`{0}yandere tag1+tag2`</value>
   </data>
 </root>

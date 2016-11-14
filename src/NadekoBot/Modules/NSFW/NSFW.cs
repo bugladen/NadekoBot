@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.NSFW
 
             var rng = new NadekoRandom();
             Task<string> provider = Task.FromResult("");
-            switch (rng.Next(0,4))
+            switch (rng.Next(0,5))
             {
                 case 0:
                     provider = GetDanbooruImageLink(tag);
@@ -47,6 +47,9 @@ namespace NadekoBot.Modules.NSFW
                     break;
                 case 3:
                     provider = GetKonachanImageLink(tag);
+                    break;
+                case 4:
+                    provider = GetYandereImageLink(tag);
                     break;
                 default:
                     break;
@@ -70,6 +73,7 @@ namespace NadekoBot.Modules.NSFW
             var links = await Task.WhenAll(GetGelbooruImageLink(tag), 
                                            GetDanbooruImageLink(tag),
                                            GetKonachanImageLink(tag),
+										   GetYandereImageLink(tag),
                                            GetATFbooruImageLink(tag)).ConfigureAwait(false);
 
             if (links.All(l => l == null))
@@ -89,6 +93,39 @@ namespace NadekoBot.Modules.NSFW
 
             tag = tag?.Trim() ?? "";
             var link = await GetATFbooruImageLink(tag).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+		
+        public static async Task<string> GetYandereImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+            var url =
+            $"https://yande.re/post.xml?" +
+            $"limit=25" +
+            $"&page={rng.Next(0, 15)}" +
+            $"&tags={tag.Replace(" ", "_")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                //var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+            }
+        }
+		
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetYandereImageLink(tag).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
