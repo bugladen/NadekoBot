@@ -2110,7 +2110,7 @@
     <value>hentai</value>
   </data>
   <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
+    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
   </data>
   <data name="hentai_usage" xml:space="preserve">
     <value>`{0}hentai yuri`</value>
