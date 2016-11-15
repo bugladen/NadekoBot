@@ -45,7 +45,7 @@ namespace NadekoBot.Services.Impl
             {
                 var configBuilder = new ConfigurationBuilder();
                 configBuilder.AddJsonFile(credsFileName)
-                    .AddEnvironmentVariables("NadekoBot:");
+                    .AddEnvironmentVariables("NadekoBot_");
 
                 var data = configBuilder.Build();
 
