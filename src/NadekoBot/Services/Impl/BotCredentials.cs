@@ -40,7 +40,7 @@ namespace NadekoBot.Services.Impl
 
             try { File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented)); } catch { }
             if(!File.Exists(credsFileName))
-                _log.Warn($"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'NadekoBot:'. Example is in {Path.GetFullPath("./credentials_example.json")}");
+                _log.Warn($"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'NadekoBot_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
             try
             {
                 var configBuilder = new ConfigurationBuilder();
