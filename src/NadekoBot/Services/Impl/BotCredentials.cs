@@ -63,7 +63,7 @@ namespace NadekoBot.Services.Impl
 
                 ulong clId = 0;
                 ulong.TryParse(data[nameof(ClientId)], out clId);
-                ClientId = ulong.Parse(data[nameof(ClientId)]);
+                ClientId = clId;
 
                 SoundCloudClientId = data[nameof(SoundCloudClientId)];
                 CarbonKey = data[nameof(CarbonKey)];
