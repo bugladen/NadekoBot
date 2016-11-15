@@ -112,8 +112,8 @@ namespace NadekoBot.Modules.Gambling
                                 try { await raceChannel.SendMessageAsync("🏁`Race failed to start since there was not enough participants.`"); } catch (Exception ex) { _log.Warn(ex); }
                                 var p = participants.FirstOrDefault();
 
-                                if (p != null)
-                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                                if (p != null && p.AmountBet > 0)
+                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
                                 End();
                                 return;
                             }
