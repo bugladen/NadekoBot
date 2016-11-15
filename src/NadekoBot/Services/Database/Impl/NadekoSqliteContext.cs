@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Database.Impl
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
+            optionsBuilder.UseSqlite(NadekoBot.Credentials.Db.ConnectionString);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace NadekoBot.Services.Impl
         public string OsuApiKey { get; }
         public string SoundCloudClientId { get; }
 
-        public DB Db { get; }
+        public DBConfig Db { get; }
         public int TotalShards { get; }
         public string CarbonKey { get; }
 
@@ -69,7 +69,7 @@ namespace NadekoBot.Services.Impl
                 SoundCloudClientId = data[nameof(SoundCloudClientId)];
                 CarbonKey = data[nameof(CarbonKey)];
                 var dbSection = data.GetSection("db");
-                Db = new DB(string.IsNullOrWhiteSpace(dbSection["Type"]) 
+                Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"]) 
                                 ? "sqlite" 
                                 : dbSection["Type"], 
                             string.IsNullOrWhiteSpace(dbSection["ConnectionString"]) 
@@ -95,7 +95,7 @@ namespace NadekoBot.Services.Impl
             public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";
             public string CarbonKey { get; set; } = "";
-            public DB Db { get; set; } = new DB("sqlite", "Filename=./data/NadekoBot.db");
+            public DBConfig Db { get; set; } = new DBConfig("sqlite", "Filename=./data/NadekoBot.db");
             public int TotalShards { get; set; } = 1;
         }
 

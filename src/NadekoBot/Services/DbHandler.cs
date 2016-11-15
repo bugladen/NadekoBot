@@ -14,12 +14,14 @@ namespace NadekoBot.Services
 
         private static DbHandler _instance = null;
         public static DbHandler Instance = _instance ?? (_instance = new DbHandler());
-        
+
+        private string connectionString { get; }
 
         static DbHandler() { }
 
         private DbHandler() {
             dbType = typeof(NadekoSqliteContext);
+            connectionString = NadekoBot.Credentials.Db.ConnectionString;
             //switch (NadekoBot.Credentials.Db.Type.ToUpperInvariant())
             //{
             //    case "SQLITE":
@@ -34,8 +36,8 @@ namespace NadekoBot.Services
             //}
         }
 
-        public NadekoContext GetDbContext() => 
-            Activator.CreateInstance(dbType) as NadekoContext;
+        public NadekoContext GetDbContext() =>
+            new NadekoSqliteContext();
 
         public IUnitOfWork GetUnitOfWork() =>
             new UnitOfWork(GetDbContext());

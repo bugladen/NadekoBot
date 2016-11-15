@@ -44,6 +44,9 @@ namespace NadekoBot
 
         static NadekoBot()
         {
+            SetupLogger();
+            Credentials = new BotCredentials();
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 AllGuildConfigs = uow.GuildConfigs.GetAll();
@@ -52,15 +55,9 @@ namespace NadekoBot
 
         public async Task RunAsync(params string[] args)
         {
-            
-
-            SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
 
             _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
-
-
-            Credentials = new BotCredentials();
 
             //create client
             Client = new ShardedDiscordClient(new DiscordSocketConfig
@@ -122,7 +119,7 @@ namespace NadekoBot
             await Task.Delay(-1).ConfigureAwait(false);
         }
 
-        private void SetupLogger()
+        private static void SetupLogger()
         {
             try
             {
