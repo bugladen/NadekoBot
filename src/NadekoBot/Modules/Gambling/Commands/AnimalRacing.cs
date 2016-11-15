@@ -3,7 +3,6 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NLog;
 using System;
 using System.Collections.Concurrent;

@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using NLog;
-using System.Collections;
 
 namespace NadekoBot.Services.Impl
 {

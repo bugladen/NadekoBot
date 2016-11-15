@@ -1,9 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Net;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Concurrent;

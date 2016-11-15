@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using JetBrains.Annotations;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Services.Database
 {
-    public abstract class NadekoContext : DbContext
+    public class NadekoContext : DbContext
     {
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Donator> Donators { get; set; }
@@ -39,7 +36,12 @@ namespace NadekoBot.Services.Database
         public NadekoContext()
         {
            this.Database.Migrate();
-           EnsureSeedData();
+        }
+
+        public NadekoContext(DbContextOptions options) : base(options)
+        {
+            this.Database.Migrate();
+            EnsureSeedData();
         }
 
         public void EnsureSeedData()
@@ -214,6 +216,5 @@ namespace NadekoBot.Services.Database
 
             #endregion
         }
-        protected abstract override void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
     }
 }

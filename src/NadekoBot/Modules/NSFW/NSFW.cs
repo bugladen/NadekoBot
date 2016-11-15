@@ -9,8 +9,6 @@ using NadekoBot.Services;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.Net;
-using Discord.WebSocket;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.NSFW

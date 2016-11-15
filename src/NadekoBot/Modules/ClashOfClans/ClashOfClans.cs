@@ -10,7 +10,6 @@ using NadekoBot.Attributes;
 using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System.Linq;
-using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.ClashOfClans
 {

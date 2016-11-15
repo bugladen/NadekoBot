@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using NadekoBot.Services;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace NadekoBot.Attributes

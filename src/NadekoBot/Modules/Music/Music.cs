@@ -13,7 +13,6 @@ using NadekoBot.Extensions;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Music

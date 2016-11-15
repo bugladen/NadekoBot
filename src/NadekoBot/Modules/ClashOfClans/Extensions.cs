@@ -1,11 +1,7 @@
-﻿using Discord;
-using Discord.WebSocket;
-using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Services.Database.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static NadekoBot.Services.Database.Models.ClashWar;
 
 namespace NadekoBot.Modules.ClashOfClans

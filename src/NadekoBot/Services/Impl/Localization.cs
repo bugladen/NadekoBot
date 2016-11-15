@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NadekoBot.Services
+﻿namespace NadekoBot.Services
 {
     public class Localization : ILocalization
     {

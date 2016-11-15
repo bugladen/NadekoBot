@@ -2,13 +2,11 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using Discord.WebSocket;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 

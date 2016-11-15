@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Services;
 using NadekoBot.Attributes;
-using NadekoBot.Services.Database;
 using System.Collections.Concurrent;
 using NadekoBot.Services.Database.Models;
 using Discord;
 using NadekoBot.Extensions;
-using System.IO;
 
 namespace NadekoBot.Modules.CustomReactions
-{    
+{
     [NadekoModule("CustomReactions",".")]
     public class CustomReactions : DiscordModule
     {

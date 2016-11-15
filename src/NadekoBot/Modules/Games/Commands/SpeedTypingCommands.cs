@@ -1,12 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands.Models;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
-using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
 using System;

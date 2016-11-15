@@ -8,11 +8,7 @@ using NadekoBot.Attributes;
 using System;
 using System.IO;
 using System.Text;
-using Discord.WebSocket;
-using System.Collections;
 using System.Collections.Generic;
-using NadekoBot.Services.Database;
-using System.Threading;
 
 namespace NadekoBot.Modules.Help
 {

@@ -1,16 +1,11 @@
 ﻿using NadekoBot.Attributes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Services;
 using Discord;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
-using Discord.API;
 using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Permissions

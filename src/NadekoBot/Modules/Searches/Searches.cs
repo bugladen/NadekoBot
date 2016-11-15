@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
 using System.Net;
-using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
 using ImageProcessorCore;

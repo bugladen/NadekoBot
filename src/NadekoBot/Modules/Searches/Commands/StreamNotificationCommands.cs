@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Services;
 using System.Threading;
-using NadekoBot.Services.Database;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Net.Http;

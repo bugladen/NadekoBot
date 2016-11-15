@@ -4,9 +4,6 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Threading.Tasks;
-using NadekoBot.Services;
-using Discord.WebSocket;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 

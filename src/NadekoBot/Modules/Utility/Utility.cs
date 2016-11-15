@@ -8,11 +8,8 @@ using NadekoBot.Services;
 using System.Text;
 using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Reflection;
 using Discord.WebSocket;
-using System.Net.Http;
-using System.IO;
 
 namespace NadekoBot.Modules.Utility
 {

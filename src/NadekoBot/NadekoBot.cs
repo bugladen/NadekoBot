@@ -2,25 +2,21 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Impl;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using NadekoBot.Modules.Permissions;
 using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace NadekoBot
 {

@@ -6,7 +6,6 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Discord;
-using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Net.Http;

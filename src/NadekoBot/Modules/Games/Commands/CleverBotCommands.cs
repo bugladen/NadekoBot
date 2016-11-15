@@ -2,17 +2,11 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
-using Newtonsoft.Json;
 using NLog;
 using Services.CleverBotApi;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games

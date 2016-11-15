@@ -7,8 +7,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using NadekoBot.Extensions;
-using Discord.WebSocket;
-using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Games
 {
