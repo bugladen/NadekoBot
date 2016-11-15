@@ -20,6 +20,7 @@ using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace NadekoBot
 {
@@ -51,6 +52,8 @@ namespace NadekoBot
 
         public async Task RunAsync(params string[] args)
         {
+            
+
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
 
