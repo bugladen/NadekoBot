@@ -3,6 +3,6 @@
     public class Program
     {
         public static void Main(string[] args) => 
-            new NadekoBot().RunAsync(args).GetAwaiter().GetResult();
+            new NadekoBot().RunAndBlockAsync(args).GetAwaiter().GetResult();
     }
 }
