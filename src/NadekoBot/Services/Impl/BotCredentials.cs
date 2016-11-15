@@ -44,7 +44,7 @@ namespace NadekoBot.Services.Impl
             try
             {
                 var configBuilder = new ConfigurationBuilder();
-                configBuilder.AddJsonFile(credsFileName)
+                configBuilder.AddJsonFile(credsFileName, true)
                     .AddEnvironmentVariables("NadekoBot_");
 
                 var data = configBuilder.Build();
@@ -78,7 +78,8 @@ namespace NadekoBot.Services.Impl
             }
             catch (Exception ex)
             {
-                _log.Warn(ex);
+                _log.Fatal(ex.Message);
+                _log.Fatal(ex);
                 throw;
             }
             
