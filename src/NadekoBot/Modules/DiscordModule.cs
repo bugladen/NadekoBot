@@ -10,7 +10,7 @@ namespace NadekoBot.Modules
         protected CommandService _commands { get; }
         protected ShardedDiscordClient  _client { get; }
         protected Logger _log { get; }
-        private string _prefix { get; }
+        protected string _prefix { get; }
 
         public DiscordModule(ILocalization loc, CommandService cmds, ShardedDiscordClient client)
         {
