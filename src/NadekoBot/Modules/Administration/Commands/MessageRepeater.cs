@@ -97,6 +97,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -117,6 +118,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
                 var channel = (ITextChannel)imsg.Channel;
