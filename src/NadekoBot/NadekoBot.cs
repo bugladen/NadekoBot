@@ -101,7 +101,7 @@ namespace NadekoBot
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
-            await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
+            await CommandService.LoadAssembly(this.GetType().GetTypeInfo().Assembly, depMap).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
             await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
 #endif
