@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.NSFW
 
             var rng = new NadekoRandom();
             Task<string> provider = Task.FromResult("");
-            switch (rng.Next(0,5))
+            switch (rng.Next(0,4))
             {
                 case 0:
                     provider = GetDanbooruImageLink(tag);
@@ -41,12 +41,9 @@ namespace NadekoBot.Modules.NSFW
                     provider = GetGelbooruImageLink(tag);
                     break;
                 case 2:
-                    provider = GetATFbooruImageLink(tag);
-                    break;
-                case 3:
                     provider = GetKonachanImageLink(tag);
                     break;
-                case 4:
+                case 3:
                     provider = GetYandereImageLink(tag);
                     break;
                 default:
@@ -81,20 +78,6 @@ namespace NadekoBot.Modules.NSFW
             }
 
             await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task ATFbooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetATFbooruImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
 		
         public static async Task<string> GetYandereImageLink(string tag)
