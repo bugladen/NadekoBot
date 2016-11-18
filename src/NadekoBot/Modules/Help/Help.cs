@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Help
 
             if (com == null)
             {
-                await channel.SendMessageAsync(":mag: **I can't find that command.**");
+                await channel.SendMessageAsync(🔍 **I can't find that command.**");
                 return;
             }
             var str = $"**__Help for:__ `{com.Text}`**";
