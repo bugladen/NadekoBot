@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Help
             var cmdsArray = cmds as Command[] ?? cmds.ToArray();
             if (!cmdsArray.Any())
             {
-                await channel.SendMessageAsync("⚠️ **That module does not exist.**").ConfigureAwait(false);
+                await channel.SendMessageAsync("🚫 **That module does not exist.**").ConfigureAwait(false);
                 return;
             }
             if (module != "customreactions" && module != "conversations")
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Help
             }
             else
             {
-                await channel.SendMessageAsync("📄 **List Of Commands:**\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                await channel.SendMessageAsync("📃 **List Of Commands:**\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
             }
             await channel.SendMessageAsync($"ℹ️ **Type** `\"{NadekoBot.ModulePrefixes[typeof(Help).Name]}h CommandName\"` **to see the help for that specified command.** ***e.g.*** `-h >8ball`").ConfigureAwait(false);
         }
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Help
 
             if (com == null)
             {
-                await channel.SendMessageAsync(🔍 **I can't find that command.**");
+                await channel.SendMessageAsync("🔍 **I can't find that command.**");
                 return;
             }
             var str = $"**__Help for:__ `{com.Text}`**";
