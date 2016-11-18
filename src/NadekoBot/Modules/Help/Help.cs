@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Help
         public async Task Modules(IUserMessage umsg)
         {
 
-            await umsg.Channel.SendMessageAsync(":scroll: **List of modules:** ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` :information_source: **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
+            await umsg.Channel.SendMessageAsync("📜 **List of modules:** ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
                                        .ConfigureAwait(false);
         }
 
@@ -58,18 +58,18 @@ namespace NadekoBot.Modules.Help
             var cmdsArray = cmds as Command[] ?? cmds.ToArray();
             if (!cmdsArray.Any())
             {
-                await channel.SendMessageAsync(":no_entry_sign: **That module does not exist.**").ConfigureAwait(false);
+                await channel.SendMessageAsync("⚠️ **That module does not exist.**").ConfigureAwait(false);
                 return;
             }
             if (module != "customreactions" && module != "conversations")
             {
-                await channel.SendTableAsync(":page_with_curl: **List Of Commands:**\n", cmdsArray, el => $"{el.Text,-15} {"["+el.Aliases.Skip(1).FirstOrDefault()+"]",-8}").ConfigureAwait(false);
+                await channel.SendTableAsync("📃 **List Of Commands:**\n", cmdsArray, el => $"{el.Text,-15} {"["+el.Aliases.Skip(1).FirstOrDefault()+"]",-8}").ConfigureAwait(false);
             }
             else
             {
-                await channel.SendMessageAsync(":page_with_curl: **List Of Commands:**\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
+                await channel.SendMessageAsync("📄 **List Of Commands:**\n• " + string.Join("\n• ", cmdsArray.Select(c => $"{c.Text}")));
             }
-            await channel.SendMessageAsync($":information_source: **Type** `\"{NadekoBot.ModulePrefixes[typeof(Help).Name]}h CommandName\"` **to see the help for that specified command.** ***e.g.*** `-h >8ball`").ConfigureAwait(false);
+            await channel.SendMessageAsync($"ℹ️ **Type** `\"{NadekoBot.ModulePrefixes[typeof(Help).Name]}h CommandName\"` **to see the help for that specified command.** ***e.g.*** `-h >8ball`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
