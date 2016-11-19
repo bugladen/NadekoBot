@@ -65,7 +65,7 @@ namespace NadekoBot.Services.Impl
 Author: [Kwoth#2560] | Library: [Discord.Net]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
-Owners ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
+Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
 Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}
 Commands Ran this session: {commandsRan}
