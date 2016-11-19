@@ -3444,7 +3444,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists global or server custom reactions (15 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server&apos;s custom reactions..
+        ///    Looks up a localized string similar to Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server&apos;s custom reactions. Specifying `all` argument instead of the number will DM you a text file with a list of all custom reactions..
         /// </summary>
         public static string listcustreact_desc {
             get {
@@ -3453,11 +3453,38 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}lcr 1`.
+        ///    Looks up a localized string similar to `{0}lcr 1` or `{0}lcr all`.
         /// </summary>
         public static string listcustreact_usage {
             get {
                 return ResourceManager.GetString("listcustreact_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listcustreactg lcrg.
+        /// </summary>
+        public static string listcustreactg_cmd {
+            get {
+                return ResourceManager.GetString("listcustreactg_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server&apos;s custom reactions..
+        /// </summary>
+        public static string listcustreactg_desc {
+            get {
+                return ResourceManager.GetString("listcustreactg_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}lcrg 1`.
+        /// </summary>
+        public static string listcustreactg_usage {
+            get {
+                return ResourceManager.GetString("listcustreactg_usage", resourceCulture);
             }
         }
         
@@ -7699,7 +7726,7 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("xkcd_usage", resourceCulture);
             }
         }
-		
+        
         /// <summary>
         ///    Looks up a localized string similar to yandere.
         /// </summary>
