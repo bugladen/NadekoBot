@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Administration
             }
             catch (Exception ex)
             {
-                await channel.SendMessageAsync("⚠️ Failed to add roles. **Bot has insufficient permissions.**\n").ConfigureAwait(false);
+                await channel.SendMessageAsync("⚠️ Failed to add role. **Bot has insufficient permissions.**\n").ConfigureAwait(false);
                 Console.WriteLine(ex.ToString());
             }
         }
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.Administration
             }
             catch
             {
-                await channel.SendMessageAsync("⚠️ Failed to remove roles. Most likely reason: **Insufficient permissions.**").ConfigureAwait(false);
+                await channel.SendMessageAsync("⚠️ Failed to remove role. Most likely reason: **Insufficient permissions.**").ConfigureAwait(false);
             }
         }
 
