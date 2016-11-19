@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Help
         public async Task Modules(IUserMessage umsg)
         {
 
-            await umsg.Channel.SendMessageAsync("📜 **List of modules:** ```xl\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
+            await umsg.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ", _commands.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
                                        .ConfigureAwait(false);
         }
 
