@@ -446,7 +446,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔉**{user}** was unmuted from text and voice chat successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔉 **{user}** was unmuted from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
