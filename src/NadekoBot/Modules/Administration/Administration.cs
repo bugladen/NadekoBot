@@ -587,7 +587,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
             var ch = await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"✅ Created voice channel **{ch.Name}**, id `{ch.Id}`.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"✅ Created voice channel **{ch.Name}**, ID `{ch.Id}`.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -596,7 +596,7 @@ namespace NadekoBot.Modules.Administration
         public async Task DelTxtChanl(IUserMessage umsg, [Remainder] ITextChannel channel)
         {
             await channel.DeleteAsync().ConfigureAwait(false);
-            await channel.SendMessageAsync($"❗️Removed text channel **{channel.Name}**, id `{channel.Id}`.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"❗️Removed text channel **{channel.Name}**, ID `{channel.Id}`.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -606,7 +606,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
             var txtCh = await channel.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"✅ Added text channel **{txtCh.Name}**, id `{txtCh.Id}`.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"✅ Added text channel **{txtCh.Name}**, ID `{txtCh.Id}`.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
