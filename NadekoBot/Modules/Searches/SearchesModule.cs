@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Searches
                     {
                         var city = e.GetArg("city").Replace(" ", "");
                         var country = e.GetArg("country").Replace(" ", "");
-                        var response = await SearchHelper.GetResponseStringAsync($"http://api.lawlypopzz.xyz/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
+                        var response = await SearchHelper.GetResponseStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
 
                         var obj = JObject.Parse(response)["weather"];
 
