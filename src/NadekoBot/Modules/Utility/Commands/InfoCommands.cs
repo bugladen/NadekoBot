@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -46,21 +46,21 @@ namespace NadekoBot.Modules.Utility
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(server.Id >> 22);
             var sb = new StringBuilder();
             var users = await server.GetUsersAsync();
-            sb.AppendLine($@"`Name:` **{server.Name}**
-`Owner:` **{await server.GetUserAsync(server.OwnerId)}**
-`Id:` **{server.Id}**
-`Icon Url:` **{ server.IconUrl}**
-`TextChannels:` **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
-`Members:` **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}:green_heart: {users.Count(u => u.Status == UserStatus.Idle)}:yellow_heart: {users.Count(u => u.Status == UserStatus.DoNotDisturb)}:heart: {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}:black_heart:
-`Roles:` **{server.Roles.Count()}**
-`Created At:` **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
+            sb.AppendLine($@"__`Name:`__ **{server.Name}**
+__`Owner:`__ **{await server.GetUserAsync(server.OwnerId)}**
+__`ID:`__ **{server.Id}**
+__`Icon URL:`__ { server.IconUrl}
+__`TextChannels:`__ **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
+__`Members:`__ **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}:green_heart: {users.Count(u => u.Status == UserStatus.Idle)}:yellow_heart: {users.Count(u => u.Status == UserStatus.DoNotDisturb)}:heart: {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}:black_heart:
+__`Roles:`__ **{server.Roles.Count()}**
+__`Created At:`__ **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
 ");
             if (server.Emojis.Count() > 0)
-                sb.AppendLine($"`Custom Emojis:` **{string.Join(", ", server.Emojis)}**");
+                sb.AppendLine($"__`Custom Emojis:`__ *{string.Join(", ", server.Emojis)}*");
             if (server.Features.Count() > 0)
-                sb.AppendLine($"`Features:` **{string.Join(", ", server.Features)}**");
+                sb.AppendLine($"__`Features:`__ **{string.Join(", ", server.Features)}**");
             if (!string.IsNullOrWhiteSpace(server.SplashUrl))
-                sb.AppendLine($"`Region:` **{server.VoiceRegionId}**");
+                sb.AppendLine($"__`Region:`__ **{server.VoiceRegionId}**");
             await msg.Reply(sb.ToString()).ConfigureAwait(false);
         }
 
@@ -72,11 +72,11 @@ namespace NadekoBot.Modules.Utility
             if (ch == null)
                 return;
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
-            var toReturn = $@"`Name:` **#{ch.Name}**
-`Id:` **{ch.Id}**
-`Created At:` **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
-`Topic:` **{ch.Topic}**
-`Users:` **{(await ch.GetUsersAsync()).Count()}**";
+            var toReturn = $@"__`Name:`__ **#{ch.Name}**
+__`ID:`__ **{ch.Id}**
+__`Created At:`__ **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
+__`Topic:`__ {ch.Topic}
+__`Users:`__ **{(await ch.GetUsersAsync()).Count()}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
 
@@ -88,15 +88,15 @@ namespace NadekoBot.Modules.Utility
             var user = usr ?? msg.Author as IGuildUser;
             if (user == null)
                 return;
-            var toReturn = $"`Name#Discrim:` **#{user.Username}#{user.Discriminator}**\n";
+            var toReturn = $"__`Name:`__ **{user.Username}#{user.Discriminator}**\n";
             if (!string.IsNullOrWhiteSpace(user.Nickname))
-                toReturn += $"`Nickname:` **{user.Nickname}**";
-            toReturn += $@"`Id:` **{user.Id}**
-`Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
-`Joined Server:` **{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}** 
-`Joined Discord:` **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
-`Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
-`AvatarUrl:` **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
+                toReturn += $"__`Nickname:`__ **{user.Nickname}** ";
+            toReturn += $@"__`ID:`__ **{user.Id}**
+__`Current Game:`__ **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
+__`Joined Server:`__ **{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}** 
+__`Joined Discord:`__ **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
+__`Roles:`__ **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
+__`Avatar URL:`__ **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
     }
