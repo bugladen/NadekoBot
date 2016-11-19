@@ -62,7 +62,7 @@ namespace NadekoBot.Services.Impl
         {
             var curUser = await client.GetCurrentUserAsync();
             return $@"```css
-Author: [Kwoth] | Library: [Discord.Net]
+Author: [Kwoth#2560] | Library: [Discord.Net]
 Bot Version: [{BotVersion}]
 Bot id: {curUser.Id}
 Owners Ids: {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
