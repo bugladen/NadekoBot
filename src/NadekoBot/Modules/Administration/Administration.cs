@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await channel.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
 
-                await channel.SendMessageAsync("⛔️ **Banned** user " + user.Username + " Id: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("⛔️ **Banned** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
             }
             catch
             {
@@ -339,7 +339,7 @@ namespace NadekoBot.Modules.Administration
                 try { await channel.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
                 catch { await channel.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
 
-                await channel.SendMessageAsync("☣ **Soft-Banned** user " + user.Username + " Id: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("☣ **Soft-Banned** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
             }
             catch
             {
@@ -378,7 +378,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.KickAsync().ConfigureAwait(false);
-                await channel.SendMessageAsync("‼️**Kicked user** " + user.Username + " Id: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("‼️**Kicked** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
             }
             catch
             {
