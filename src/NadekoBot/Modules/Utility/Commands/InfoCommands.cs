@@ -51,7 +51,7 @@ __`Owner:`__ **{await server.GetUserAsync(server.OwnerId)}**
 __`ID:`__ **{server.Id}**
 __`Icon URL:`__ { server.IconUrl}
 __`TextChannels:`__ **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
-__`Members:`__ **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}:green_heart: {users.Count(u => u.Status == UserStatus.Idle)}:yellow_heart: {users.Count(u => u.Status == UserStatus.DoNotDisturb)}:heart: {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}:black_heart:
+__`Members:`__ **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}💚 {users.Count(u => u.Status == UserStatus.Idle)}🔶 {users.Count(u => u.Status == UserStatus.DoNotDisturb)}🔴 {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}⬛️
 __`Roles:`__ **{server.Roles.Count()}**
 __`Created At:`__ **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
 ");
