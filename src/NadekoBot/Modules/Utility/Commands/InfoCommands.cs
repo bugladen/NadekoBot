@@ -94,7 +94,7 @@ __`Users:`__ **{(await ch.GetUsersAsync()).Count()}**";
             toReturn += $@"🏷 __`ID:`__ **{user.Id}**
 🎮 __`Current Game:`__ **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
 📅 __`Joined Server:`__ **{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}** 
-📆 __`Joined Discord:`__ **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
+🗓 __`Joined Discord:`__ **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
 ⚔ __`Roles:`__ **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
 📷 __`Avatar URL:`__ **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
