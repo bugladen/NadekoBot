@@ -540,7 +540,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     await u.ModifyAsync(usr=>usr.Deaf = true).ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("🔇 **Deafen** successful").ConfigureAwait(false);
+                await channel.SendMessageAsync("🔇 **Deafen** successful.").ConfigureAwait(false);
             }
             catch
             {
@@ -563,7 +563,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     await u.ModifyAsync(usr=> usr.Deaf = false).ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("🔊 **Undeafen** successful").ConfigureAwait(false);
+                await channel.SendMessageAsync("🔊 **Undeafen** successful.").ConfigureAwait(false);
             }
             catch
             {
@@ -577,7 +577,7 @@ namespace NadekoBot.Modules.Administration
         public async Task DelVoiChanl(IUserMessage umsg, [Remainder] IVoiceChannel voiceChannel)
         {
             await voiceChannel.DeleteAsync().ConfigureAwait(false);
-            await umsg.Channel.SendMessageAsync($"❗️Removed channel **{voiceChannel.Name}**.").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync($"❗️Removed voice channel **{voiceChannel.Name}** successfully.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
