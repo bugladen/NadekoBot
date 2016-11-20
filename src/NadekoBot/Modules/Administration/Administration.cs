@@ -464,7 +464,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔇 **{user}** has been **muted** from chatting successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"✏️🚫 **{user}** has been **muted** from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -482,7 +482,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔉 **{user}** has been **unmuted** from chatting successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"✏️✅ **{user}** has been **unmuted** from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -500,7 +500,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔇 **{user}** has been **voice muted** successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🎙🚫 **{user}** has been **voice muted** successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -517,7 +517,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🎙 **{user}** has been **voice unmuted** successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🎙✅ **{user}** has been **voice unmuted** successfully.").ConfigureAwait(false);
             }
             catch
             {
