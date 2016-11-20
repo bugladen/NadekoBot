@@ -426,7 +426,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔇 **{user}** was muted from text and voice chat successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔇 **{user}** has been **muted** from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -446,7 +446,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔉 **{user}** was unmuted from text and voice chat successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔉 **{user}** has been **unmuted** from text and voice chat successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -464,7 +464,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔇 **{user}** was muted from chatting successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔇 **{user}** has been **muted** from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -482,7 +482,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔉 **{user}** was unmuted from chatting successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔉 **{user}** has been **unmuted** from chatting successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -500,7 +500,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🔇 **{user}** was voice muted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔇 **{user}** has been **voice muted** successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -517,7 +517,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await channel.SendMessageAsync($"🎙 **{user}** was voice unmuted successfully.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🎙 **{user}** has been **voice unmuted** successfully.").ConfigureAwait(false);
             }
             catch
             {
@@ -540,7 +540,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     await u.ModifyAsync(usr=>usr.Deaf = true).ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("🔇 Deafen successful").ConfigureAwait(false);
+                await channel.SendMessageAsync("🔇 **Deafen** successful").ConfigureAwait(false);
             }
             catch
             {
@@ -563,7 +563,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     await u.ModifyAsync(usr=> usr.Deaf = false).ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("🔊 Undeafen successful").ConfigureAwait(false);
+                await channel.SendMessageAsync("🔊 **Undeafen** successful").ConfigureAwait(false);
             }
             catch
             {
