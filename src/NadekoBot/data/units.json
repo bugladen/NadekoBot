@@ -977,5 +977,12 @@
     ],
     "UnitType": "currency",
     "Modifier": 1.0
+  },
+  {
+    "Triggers": [
+      "SKK"
+    ],
+    "UnitType": "currency",
+    "Modifier": 30.13
   }
 ]
