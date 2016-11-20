@@ -64,8 +64,8 @@ namespace NadekoBot.Services.Impl
             return $@"```css
 Author: [Kwoth#2560] | Library: [Discord.Net]
 Bot Version: [{BotVersion}]
-Bot id: {curUser.Id}
-Owners Ids: {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
+Bot ID: {curUser.Id}
+Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
 Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}
 Commands Ran this session: {commandsRan}
