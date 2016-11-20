@@ -593,10 +593,10 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.ManageChannels)]
-        public async Task DelTxtChanl(IUserMessage umsg, [Remainder] ITextChannel channel)
+        public async Task DelTxtChanl(IUserMessage umsg, [Remainder] ITextChannel toDelete)
         {
-            await channel.DeleteAsync().ConfigureAwait(false);
-            await channel.SendMessageAsync($"❗️Removed text channel **{channel.Name}**, ID `{channel.Id}`.").ConfigureAwait(false);
+            await toDelete.DeleteAsync().ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync($"❗️Removed text channel **{toDelete.Name}**, ID `{toDelete.Id}`.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
