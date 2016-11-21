@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Administration
                     return old;
                 });
 
-                await channel.SendMessageAsync($"🔁 Repeating **\"{rep.Repeater.Message}\"** every `{rep.Repeater.Interval.Days} days, {rep.Repeater.Interval.Hours} hours and {rep.Repeater.Interval.Minutes} minutes`.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🔁 Repeating **\"{rep.Repeater.Message}\"** every `{rep.Repeater.Interval.Days} day(s), {rep.Repeater.Interval.Hours} hour(s) and {rep.Repeater.Interval.Minutes} minute(s)`.").ConfigureAwait(false);
             }
         }
     }
