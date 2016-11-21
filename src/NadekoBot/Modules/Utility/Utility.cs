@@ -55,8 +55,9 @@ namespace NadekoBot.Modules.Utility
             {
                 var role = channel.Guild.Roles.Where(r => r.Name.ToUpperInvariant() == roleStr).FirstOrDefault();
                 if (role == null) continue;
-                send += $"```css\n \n[{role.Name}]\n";
-                send += string.Join(", \n```", channel.Guild.GetUsers().Where(u => u.Roles.Contains(role)).Select(u => u.ToString()));
+                send += $"```css\n[{role.Name}]\n";
+                send += string.Join(", ", channel.Guild.GetUsers().Where(u => u.Roles.Contains(role)).Select(u => u.ToString()));
+                send += $"\n```";
             }
             var usr = umsg.Author as IGuildUser;
             while (send.Length > 2000)
