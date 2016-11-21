@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.Utility
                 return;
             }
 
-            await channel.SendMessageAsync(String.Join("```css\n", guilds.Select(g => $"Name: {g.Name} ID: {g.Id} Members: #{g.GetUsers().Count} OwnerID:{g.OwnerId}")) + "\n```").ConfigureAwait(false);
+            await channel.SendMessageAsync(String.Join("\n", guilds.Select(g => $"```css\n Name: {g.Name} ID: {g.Id} Members: #{g.GetUsers().Count} OwnerID:{g.OwnerId} ```"))).ConfigureAwait(false);
         }
 
         //[NadekoCommand, Usage, Description, Aliases]
