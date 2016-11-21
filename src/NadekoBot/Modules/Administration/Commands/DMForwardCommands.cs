@@ -39,9 +39,9 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMs)
-                    await channel.SendMessageAsync("`I will forward DMs from now on.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("`I will stop forwarding DMs.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -57,9 +57,9 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMsToAllOwners)
-                    await channel.SendMessageAsync("`I will forward DMs to all owners.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("`I will forward DMs only to the first owner.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
 
             }
 
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
             {
                 if (ForwardDMs && ownerChannels.Any())
                 {
-                    var toSend = $"`I received a message from {msg.Author} ({msg.Author.Id})`: {msg.Content}";
+                    var toSend = $"```markdown\n I received a message from [{msg.Author}]({msg.Author.Id}): {msg.Content}```";
                     if (ForwardDMsToAllOwners)
                     {
                         var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)

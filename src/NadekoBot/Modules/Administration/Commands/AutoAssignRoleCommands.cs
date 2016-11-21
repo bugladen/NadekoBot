@@ -69,11 +69,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    await channel.SendMessageAsync("`Auto assign role on user join is now disabled.`").ConfigureAwait(false);
+                    await channel.SendMessageAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendMessageAsync("`Auto assigned role is set.`").ConfigureAwait(false);
+                await channel.SendMessageAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
             }
         }
     }
