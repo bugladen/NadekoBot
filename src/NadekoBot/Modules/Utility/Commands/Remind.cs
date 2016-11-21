@@ -151,11 +151,11 @@ namespace NadekoBot.Modules.Utility
                         continue;
                     }
                     else if (value < 1 ||
-                        (groupName == "month(s)" && value > 1) ||
-                        (groupName == "week(s)" && value > 4) ||
-                        (groupName == "day(s)" && value >= 7) ||
-                        (groupName == "hour(s)" && value > 23) ||
-                        (groupName == "minute(s)" && value > 59))
+                        (groupName == "months" && value > 1) ||
+                        (groupName == "weeks" && value > 4) ||
+                        (groupName == "days" && value >= 7) ||
+                        (groupName == "hours" && value > 23) ||
+                        (groupName == "minutes" && value > 59))
                     {
                         await channel.SendMessageAsync($"⚠️ Invalid {groupName} value.").ConfigureAwait(false);
                         return;
@@ -164,11 +164,11 @@ namespace NadekoBot.Modules.Utility
                         namesAndValues[groupName] = value;
                     output += m.Groups[groupName].Value + " " + groupName + " ";
                 }
-                var time = DateTime.Now + new TimeSpan(30 * namesAndValues["month(s)"] +
-                                                        7 * namesAndValues["week(s)"] +
-                                                        namesAndValues["day(s)"],
-                                                        namesAndValues["hour(s)"],
-                                                        namesAndValues["minute(s)"],
+                var time = DateTime.Now + new TimeSpan(30 * namesAndValues["months"] +
+                                                        7 * namesAndValues["weeks"] +
+                                                        namesAndValues["days"],
+                                                        namesAndValues["hours"],
+                                                        namesAndValues["minutes"],
                                                         0);
 
                 var rem = new Reminder
