@@ -49,11 +49,10 @@ namespace NadekoBot.Modules.Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote quote;
-            using (var uow = DbHandler.Instance.GetUnitOfWork())
-            {
+//            using (var uow = DbHandler.Instance.GetUnitOfWork())
+//            {
 //                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword).ConfigureAwait(false);
-                quote = await Quotes.GetRandomQuoteByKeywordAsync(keyword).ConfigureAwait(false);
-            }
+//            }
 
             if (quote == null)
                 return;
