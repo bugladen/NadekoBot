@@ -96,17 +96,17 @@ namespace NadekoBot.Modules.Administration
                 var punishment = "";
                 if (action == PunishmentAction.Mute)
                 {
-                    punishment = "MUTED";
+                    punishment = "🔇 MUTED";
                 }
                 else if (action == PunishmentAction.Kick)
                 {
-                    punishment = "KICKED";
+                    punishment = "☣ KICKED";
                 }
                 else if (action == PunishmentAction.Ban)
                 {
-                    punishment = "BANNED";
+                    punishment = "⛔️ BANNED";
                 }
-                await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
+                await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to __**{protection}**__ protection on **{user.Guild.Name}** server.")))
                                 .ConfigureAwait(false);
             }
 
