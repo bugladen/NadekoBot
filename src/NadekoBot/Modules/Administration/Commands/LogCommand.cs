@@ -410,9 +410,9 @@ namespace NadekoBot.Modules.Administration
                     try
                     {
                         var str = $@"🕔`{prettyCurrentTime}`👤`{msg.Author.Username}#{msg.Author.Discriminator}` **Deleted Message** #⃣ `{channel.Name}`
-🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+🗑 `{msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}`";
                         if (msg.Attachments.Any())
-                            str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
+                            str += $"{Environment.NewLine}📎 {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
                         await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
                     }
                     catch (Exception ex) { _log.Warn(ex); }
