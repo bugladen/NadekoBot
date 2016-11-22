@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
+//        [RequireContext(ContextType.Guild)]
         public async Task ShowQuote(IUserMessage umsg, [Remainder] string keyword)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Utility
             using (var uow = DbHandler.Instance.GetUnitOfWork())
             {
 //                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword).ConfigureAwait(false);
-                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(keyword).ConfigureAwait(false);
+                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync.ConfigureAwait(false);
             }
 
             if (quote == null)
