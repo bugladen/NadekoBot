@@ -166,10 +166,10 @@
     <value>greetdel grdel</value>
   </data>
   <data name="greetdel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of greet messages.</value>
+    <value>Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
   </data>
   <data name="greetdel_usage" xml:space="preserve">
-    <value>`{0}greetdel`</value>
+    <value>`{0}greetdel 0` or `{0}greetdel 30`</value>
   </data>
   <data name="greet_cmd" xml:space="preserve">
     <value>greet</value>
@@ -211,10 +211,10 @@
     <value>byedel</value>
   </data>
   <data name="byedel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of bye messages.</value>
+    <value>Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
   </data>
   <data name="byedel_usage" xml:space="preserve">
-    <value>`{0}byedel`</value>
+    <value>`{0}byedel 0` or `{0}byedel 30`</value>
   </data>
   <data name="greetdm_cmd" xml:space="preserve">
     <value>greetdm</value>

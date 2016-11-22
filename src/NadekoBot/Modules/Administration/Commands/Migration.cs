@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration
                     gc.ByeMessageChannelId = byeChannel;
                     gc.ChannelByeMessageText = byeMsg;
 
-                    gc.AutoDeleteByeMessages = gc.AutoDeleteGreetMessages = grdel;
+                    gc.AutoDeleteGreetMessagesTimer = gc.AutoDeleteByeMessagesTimer = grdel ? 30 : 0;
                     _log.Info(++i);
                 }
 

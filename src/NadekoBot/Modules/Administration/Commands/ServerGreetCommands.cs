@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                            if (conf.AutoDeleteByeMessages)
+                            if (conf.AutoDeleteByeMessagesTimer > 0)
                             {
                                 var t = Task.Run(async () =>
                                 {
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Administration
                                     try
                                     {
                                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                                        if (conf.AutoDeleteGreetMessages)
+                                        if (conf.AutoDeleteByeMessagesTimer > 0)
                                         {
                                             var t = Task.Run(async () =>
                                             {
@@ -126,29 +126,32 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task GreetDel(IUserMessage umsg)
+            public async Task GreetDel(IUserMessage umsg, int timer = 30)
             {
                 var channel = (ITextChannel)umsg.Channel;
+                if (timer < 0 || timer > 600)
+                    return;
 
-                var enabled = await ServerGreetCommands.SetGreetDel(channel.Guild.Id).ConfigureAwait(false);
+                await ServerGreetCommands.SetGreetDel(channel.Guild.Id, timer).ConfigureAwait(false);
 
-                if (enabled)
-                    await channel.SendMessageAsync("`Automatic deletion of greet messages has been enabled.`").ConfigureAwait(false);
+                if (timer > 0)
+                    await channel.SendMessageAsync($"`Greet messages will be deleted after {timer} seconds.`").ConfigureAwait(false);
                 else
                     await channel.SendMessageAsync("`Automatic deletion of greet messages has been disabled.`").ConfigureAwait(false);
             }
 
-            private static async Task<bool> SetGreetDel(ulong id, bool? value = null)
+            private static async Task SetGreetDel(ulong id, int timer)
             {
-                bool enabled;
+                if (timer < 0 || timer > 600)
+                    return;
+                
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.GuildConfigs.For(id);
-                    enabled = conf.AutoDeleteGreetMessages = value ?? !conf.AutoDeleteGreetMessages;
+                    conf.AutoDeleteGreetMessagesTimer = timer;
                     uow.GuildConfigs.Update(conf);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                return enabled;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -375,29 +378,30 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task ByeDel(IUserMessage umsg)
+            public async Task ByeDel(IUserMessage umsg, int timer = 30)
             {
                 var channel = (ITextChannel)umsg.Channel;
 
-                var enabled = await ServerGreetCommands.SetByeDel(channel.Guild.Id).ConfigureAwait(false);
+                await ServerGreetCommands.SetByeDel(channel.Guild.Id, timer).ConfigureAwait(false);
 
-                if (enabled)
-                    await channel.SendMessageAsync("`Automatic deletion of bye messages has been enabled.`").ConfigureAwait(false);
+                if (timer > 0)
+                    await channel.SendMessageAsync($"`Bye messages will be deleted after {timer} seconds.`").ConfigureAwait(false);
                 else
                     await channel.SendMessageAsync("`Automatic deletion of bye messages has been disabled.`").ConfigureAwait(false);
             }
 
-            private static async Task<bool> SetByeDel(ulong id, bool? value = null)
+            private static async Task SetByeDel(ulong id, int timer)
             {
-                bool enabled;
+                if (timer < 0 || timer > 600)
+                    return;
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.GuildConfigs.For(id);
-                    enabled = conf.AutoDeleteByeMessages = value ?? !conf.AutoDeleteByeMessages;
+                    conf.AutoDeleteByeMessagesTimer = timer;
                     uow.GuildConfigs.Update(conf);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                return enabled;
             }
 
         }
