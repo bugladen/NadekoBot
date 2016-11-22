@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 else if (action == PunishmentAction.Kick)
                 {
-                    punishment = "☣ KICKED";
+                    punishment = "☣ SOFT-BANNED (KICKED)";
                 }
                 else if (action == PunishmentAction.Ban)
                 {
