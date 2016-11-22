@@ -318,7 +318,7 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    try { await logChannel.SendMessageAsync($"`{prettyCurrentTime}`❗`User left:` **{usr.Username}** ({usr.Id})").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await logChannel.SendMessageAsync($"❗️🕛`{prettyCurrentTime}`👤`{usr.Username}#{usr.Discriminator}`❌ **USER LEFT** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -338,7 +338,7 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    try { await logChannel.SendMessageAsync($"`{prettyCurrentTime}`❗`User joined:` **{usr.Username}** ({usr.Id})").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await logChannel.SendMessageAsync($"❕🕓`{prettyCurrentTime}`👤`{usr.Username}#{usr.Discriminator}`✅ **USER JOINED** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -358,7 +358,7 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                   try { await logChannel.SendMessageAsync($"`{prettyCurrentTime}`♻`User unbanned:` **{usr.Username}** ({usr.Id})").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                   try { await logChannel.SendMessageAsync($"❕🕘`{prettyCurrentTime}`👤`{usr.Username}#{usr.Discriminator}`♻️ **USER UN-BANNED** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -378,7 +378,7 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    try { await logChannel.SendMessageAsync($"❗`{prettyCurrentTime}`❌`User banned:` **{usr.Username}** ({usr.Id})").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤`{usr.Username}#{usr.Discriminator}`🚫 **USER BANNED** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
