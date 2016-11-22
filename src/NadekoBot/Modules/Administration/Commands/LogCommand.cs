@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     punishment = "BANNED";
                 }
-                await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"{Format.Bold(user.ToString())} was **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
+                await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
                                 .ConfigureAwait(false);
             }
 
@@ -410,7 +410,7 @@ namespace NadekoBot.Modules.Administration
                     try
                     {
                         var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
-👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+👤`{msg.Author.Username}{msg.Author.Discriminator}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
                         if (msg.Attachments.Any())
                             str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
                         await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
