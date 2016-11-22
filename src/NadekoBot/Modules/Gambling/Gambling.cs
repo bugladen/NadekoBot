@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
             var members = role.Members().Where(u => u.Status != UserStatus.Offline && u.Status != UserStatus.Unknown);
             var membersArray = members as IUser[] ?? members.ToArray();
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
-            await channel.SendMessageAsync($"🎟 Raffled user: **{usr.Username}** ID: `{usr.Id}`").ConfigureAwait(false);
+            await channel.SendMessageAsync($"🎟 Raffled user: **{usr.Username}#{usr.Discriminator}** ID: `{usr.Id}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
