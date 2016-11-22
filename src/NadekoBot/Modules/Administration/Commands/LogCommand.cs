@@ -409,8 +409,8 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
-👤`{msg.Author.Username}{msg.Author.Discriminator}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+                        var str = $@"🕔`{prettyCurrentTime}`👤`{msg.Author.Username}#{msg.Author.Discriminator}`**Message DELETED** #⃣ `{channel.Name}`
+🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
                         if (msg.Attachments.Any())
                             str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
                         await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
