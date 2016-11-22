@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Utility
             using (var uow = DbHandler.Instance.GetUnitOfWork())
             {
 //                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(channel.Guild.Id, keyword).ConfigureAwait(false);
-                quote = await uow.Quotes.GetRandomQuoteByKeyword.ConfigureAwait(false);
+                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(null, keyword).ConfigureAwait(false);
             }
 
             if (quote == null)
