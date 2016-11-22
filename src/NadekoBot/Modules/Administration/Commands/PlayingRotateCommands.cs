@@ -104,9 +104,9 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
                 if (RotatingStatuses)
-                    await channel.SendMessageAsync("`Rotating playing status enabled.`");
+                    await channel.SendMessageAsync("🆗 **Rotating playing status enabled.**");
                 else
-                    await channel.SendMessageAsync("`Rotating playing status disabled.`");
+                    await channel.SendMessageAsync("ℹ️ **Rotating playing status disabled.**");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                await channel.SendMessageAsync("`Added.`").ConfigureAwait(false);
+                await channel.SendMessageAsync("✅ **Added.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -137,11 +137,11 @@ namespace NadekoBot.Modules.Administration
                 
 
                 if (!RotatingStatusMessages.Any())
-                    await channel.SendMessageAsync("`No rotating playing statuses set.`");
+                    await channel.SendMessageAsync("❎ **No rotating playing statuses set.**");
                 else
                 {
                     var i = 1;
-                    await channel.SendMessageAsync($"{umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
+                    await channel.SendMessageAsync($"ℹ️ {umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
                 }
 
             }
@@ -166,7 +166,7 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatusMessages.RemoveAt(index);
                     await uow.CompleteAsync();
                 }
-                await channel.SendMessageAsync($"`Removed the the playing message:` {msg}").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
             }
         }
     }
