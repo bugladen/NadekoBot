@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendMessageAsync("`Done.`").ConfigureAwait(false);
+                await channel.SendMessageAsync("✅ Done.").ConfigureAwait(false);
             }
         }
     }
