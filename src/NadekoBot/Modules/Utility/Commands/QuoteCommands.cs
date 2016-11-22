@@ -31,10 +31,10 @@ namespace NadekoBot.Modules.Utility
             }
 
             if (quotes.Any())
-                await channel.SendMessageAsync($"💬 **Page {page + 1}** of **quotes:**\n```xl\n" + String.Join("\n", quotes.Select((q) => $"{q.Keyword,-20} by {q.AuthorName}")) + "\n```")
+                await channel.SendMessageAsync($"💬 **Page {page + 1} of quotes:**\n```xl\n" + String.Join("\n", quotes.Select((q) => $"{q.Keyword,-20} by {q.AuthorName}")) + "\n```")
                              .ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("ℹ️ **No quotes** on this page.").ConfigureAwait(false);
+                await channel.SendMessageAsync("ℹ️ **No quotes on this page.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Utility
             if (quote == null)
                 return;
 
-            await channel.SendMessageAsync("🖊 " + quote.Text.SanitizeMentions());
+            await channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
