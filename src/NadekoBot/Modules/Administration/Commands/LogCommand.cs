@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Administration
                             else if (before.Roles.Count() > after.Roles.Count())
                             {
                                 var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                                str += $"**User's Roles changed ⚔➖**👤`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                                str += $"👤`{before.ToString()}` **User's Roles Removed** 🆔 {before.Id}\n⚔➖{string.Join(", ", diffRoles)}";
                             }
                         }
                         else
