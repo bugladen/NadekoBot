@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         string str = $"🕔`{prettyCurrentTime}`";
                         if (before.Username != after.Username)
-                            str += $"**Name Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
+                            str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Name Changed |**\n\t\t`New:`**{after.Username}#{before.Discriminator}**";
                         else if (before.Nickname != after.Nickname)
                             str += $"**Nickname Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
                         else if (before.AvatarUrl != after.AvatarUrl)
