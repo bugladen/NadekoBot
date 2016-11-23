@@ -306,9 +306,9 @@ namespace NadekoBot.Modules.Administration
                     return Task.CompletedTask;
                 string str;
                 if (before.Status != after.Status)
-                    str = $"⚪️`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
+                    str = $"🔵`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
                 else
-                    str = $"◻️`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
+                    str = $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
 
                 UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
 
