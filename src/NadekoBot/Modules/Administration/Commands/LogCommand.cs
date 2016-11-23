@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Administration
                             else if (before.Roles.Count() > after.Roles.Count())
                             {
                                 var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                                str += $"👤`{before.ToString()}` **User's Role Removed** 🆔 `{before.Id}`\n⚔⏬ {string.Join(", ", diffRoles)}, **Remaining:** `{string.Join(", ", before.Roles.Select(r => r.Name)).SanitizeMentions()}`";
+                                str += $"👤`{before.ToString()}` **User's Role Removed** 🆔 `{before.Id}`\n⚔⏬ {string.Join(", ", diffRoles)}, **Remaining:** `{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`";
                             }
                         }
                         else
