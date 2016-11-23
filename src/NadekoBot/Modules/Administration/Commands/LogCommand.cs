@@ -461,7 +461,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     //try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}` **Message** 📝 `#{channel.Name}`
 //👤`{before.Author.Username}`
-                    try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{msg.Author.Username}#{msg.Author.Discriminator}**__ **| Edited Message |** 🆔 `{msg.Author.Id}` #⃣ `{channel.Name}`
+                    try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{before.Author.Username}#{before.Author.Discriminator}**__ **| Edited Message |** 🆔 `{before.Author.Id}` #⃣ `{channel.Name}`
         📄`Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
         📝**`New:`** {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
