@@ -191,12 +191,12 @@ namespace NadekoBot.Modules.Administration
                             //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
                             await logChannel.SendMessageAsync($@"🕓`{prettyCurrentTime}`ℹ️ **| Channel Name Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {before.Name}
-    **`New:` {after.Name}**").ConfigureAwait(false);
+    **`New:`** {after.Name}").ConfigureAwait(false);
                         else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
                             //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
                             await logChannel.SendMessageAsync($@"🕘`{prettyCurrentTime}`ℹ️ **| Channel Topic Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {((ITextChannel)before).Topic}
-    **`New:` {((ITextChannel)after).Topic}**").ConfigureAwait(false);
+    **`New:`** {((ITextChannel)after).Topic}").ConfigureAwait(false);
                     }
                     catch { }
                 });
@@ -306,9 +306,9 @@ namespace NadekoBot.Modules.Administration
                     return Task.CompletedTask;
                 string str;
                 if (before.Status != after.Status)
-                    str = $"🔵`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
+                    str = $"⚪️`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
                 else
-                    str = $"🔷`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
+                    str = $"◻️`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
 
                 UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
 
@@ -461,9 +461,9 @@ namespace NadekoBot.Modules.Administration
                 {
                     //try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}` **Message** 📝 `#{channel.Name}`
 //👤`{before.Author.Username}`
-                    try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{before.Author.Username}#{before.Author.Discriminator}**__ **| Edited Message |** 🆔 `{before.Author.Id}` #⃣ `{channel.Name}`
-        📄`Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
-        📝**`New:`** {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{before.Author.Username}#{before.Author.Discriminator}**__ **| 📝 Edited Message |** 🆔 `{before.Author.Id}` #⃣ `{channel.Name}`
+        `Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
+        **`New:`** {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
