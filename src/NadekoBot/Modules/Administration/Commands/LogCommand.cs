@@ -139,12 +139,12 @@ namespace NadekoBot.Modules.Administration
                             {
                                 var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
                                 //str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
-                                str += $"👤`{before.ToString()}` **User's Role Added** 🆔 `{before.Id}`\n✅ {string.Join(", ", diffRoles)} ⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
+                                str += $"👤__**{before.ToString()}**__ **| User's Role Added |** 🆔 `{before.Id}`\n\t✅ {string.Join(", ", diffRoles)}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
                             }
                             else if (before.Roles.Count() > after.Roles.Count())
                             {
                                 var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
-                                str += $"👤`{before.ToString()}` **User's Role Removed** 🆔 `{before.Id}`\n🚮 {string.Join(", ", diffRoles)} ⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
+                                str += $"👤__**{before.ToString()}**__ **| User's Role Removed |** 🆔 `{before.Id}`\n\t🚮 {string.Join(", ", diffRoles)}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
                             }
                         }
                         else
