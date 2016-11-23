@@ -409,7 +409,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        var str = $@"🕔`{prettyCurrentTime}`👤`{msg.Author.Username}#{msg.Author.Discriminator}` **Deleted Message** #⃣ `{channel.Name}`
+                        var str = $@"🕔`{prettyCurrentTime}`👤`{msg.Author.Username}#{msg.Author.Discriminator}` **Deleted Message** 🆔 `{usr.Id}` #⃣ `{channel.Name}`
 🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
                         if (msg.Attachments.Any())
                             str += $"{Environment.NewLine}📎 {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
