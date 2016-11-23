@@ -43,10 +43,10 @@ namespace NadekoBot.Services.Database
             this.Database.Migrate();
             EnsureSeedData();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
+        //}
 
         public void EnsureSeedData()
         {
