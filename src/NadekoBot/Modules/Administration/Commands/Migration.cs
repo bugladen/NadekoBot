@@ -54,12 +54,12 @@ namespace NadekoBot.Modules.Administration
                                 break;
                         }
                     }
-                    await umsg.Channel.SendMessageAsync("Migration done.").ConfigureAwait(false);
+                    await umsg.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    await umsg.Channel.SendMessageAsync(":warning: Error while migrating, check logs for more informations.").ConfigureAwait(false);
+                    await umsg.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
                 }
             }
 
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration
                     gc.ByeMessageChannelId = byeChannel;
                     gc.ChannelByeMessageText = byeMsg;
 
-                    gc.AutoDeleteByeMessages = gc.AutoDeleteGreetMessages = grdel;
+                    gc.AutoDeleteGreetMessagesTimer = gc.AutoDeleteByeMessagesTimer = grdel ? 30 : 0;
                     _log.Info(++i);
                 }
 

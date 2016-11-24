@@ -31,10 +31,10 @@ namespace NadekoBot.Modules.Utility
             }
 
             if (quotes.Any())
-                await channel.SendMessageAsync($"`Page {page + 1} of quotes:`\n```xl\n" + String.Join("\n", quotes.Select((q) => $"{q.Keyword,-20} by {q.AuthorName}")) + "\n```")
+                await channel.SendMessageAsync($"💬 **Page {page + 1} of quotes:**\n```xl\n" + String.Join("\n", quotes.Select((q) => $"{q.Keyword,-20} by {q.AuthorName}")) + "\n```")
                              .ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("`No quotes on this page.`").ConfigureAwait(false);
+                await channel.SendMessageAsync("ℹ️ **No quotes on this page.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Utility
                 });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync("`Quote added.`").ConfigureAwait(false);
+            await channel.SendMessageAsync("✅ **Quote added.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (qs==null || !qs.Any())
                 {
-                    response = "`No quotes found.`";
+                    response = "ℹ️ **No quotes found.**";
                     return;
                 }
 
@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Utility
 
                 uow.Quotes.Remove(q);
                 await uow.CompleteAsync().ConfigureAwait(false);
-                response = "`Deleted a random quote`";
+                response = "🗑 **Deleted a random quote.**";
             }
             await channel.SendMessageAsync(response);
         }
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Utility
                 await uow.CompleteAsync();
             }
 
-            await channel.SendMessageAsync($"`Deleted all quotes with '{keyword}' keyword`");
+            await channel.SendMessageAsync($"🗑 **Deleted all quotes** with **{keyword}** keyword.");
         }
     }
 }

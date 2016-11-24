@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Utility
                 target = res.RequestMessage.RequestUri;
             }
 
-            await channel.SendMessageAsync($"{imsg.Author.Mention}, `Here is the link:` {target}")
+            await channel.SendMessageAsync($"🎞 {imsg.Author.Mention}, **Your new video room created. Join and invite to watch videos together with friends:** {target}")
                          .ConfigureAwait(false);
         }
 

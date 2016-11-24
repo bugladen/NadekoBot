@@ -8,9 +8,10 @@ namespace NadekoBot.Services.Database.Models
         public bool DeleteMessageOnCommand { get; set; }
         public ulong AutoAssignRoleId { get; set; }
         //greet stuff
-        public bool AutoDeleteGreetMessages { get; set; }
-        public bool AutoDeleteByeMessages { get; set; }
+        public bool AutoDeleteGreetMessages { get; set; } //unused
+        public bool AutoDeleteByeMessages { get; set; } // unused
         public int AutoDeleteGreetMessagesTimer { get; set; } = 30;
+        public int AutoDeleteByeMessagesTimer { get; set; } = 30;
 
         public ulong GreetMessageChannelId { get; set; }
         public ulong ByeMessageChannelId { get; set; }
