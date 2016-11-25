@@ -27,7 +27,7 @@
     },
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.19.0.655",
-    "ImageSharp": "1.0.0-alpha-000079",
+    "ImageProcessorCore": "1.0.0-alpha1095",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",

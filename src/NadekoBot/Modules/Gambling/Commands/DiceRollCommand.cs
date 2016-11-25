@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Commands;
-using ImageSharp;
+using ImageProcessorCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
