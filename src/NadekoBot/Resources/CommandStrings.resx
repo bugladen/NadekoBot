@@ -2700,4 +2700,49 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
+  <data name="attack_cmd" xml:space="preserve">
+    <value>attack</value>
+  </data>
+  <data name="attack_desc" xml:space="preserve">
+    <value>Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.</value>
+  </data>
+  <data name="attack_usage" xml:space="preserve">
+    <value>`{0}attack "vine whip" @someguy`</value>
+  </data>
+  <data name="heal_cmd" xml:space="preserve">
+    <value>heal</value>
+  </data>
+  <data name="heal_desc" xml:space="preserve">
+    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower</value>
+  </data>
+  <data name="heal_usage" xml:space="preserve">
+    <value>`{0}heal @someone`</value>
+  </data>
+  <data name="movelist_cmd" xml:space="preserve">
+    <value>movelist ml</value>
+  </data>
+  <data name="movelist_desc" xml:space="preserve">
+    <value>Lists the moves you are able to use</value>
+  </data>
+  <data name="movelist_usage" xml:space="preserve">
+    <value>`{0}ml`</value>
+  </data>
+  <data name="settype_cmd" xml:space="preserve">
+    <value>settype</value>
+  </data>
+  <data name="settype_desc" xml:space="preserve">
+    <value>Set your poketype. Costs a NadekoFlower.</value>
+  </data>
+  <data name="settype_usage" xml:space="preserve">
+    <value>`{0}settype fire`</value>
+  </data>
+  <data name="type_cmd" xml:space="preserve">
+    <value>type</value>
+  </data>
+  <data name="type_desc" xml:space="preserve">
+    <value>Get the poketype of the target.</value>
+  </data>
+  <data name="type_usage" xml:space="preserve">
+    <value>`{0}type @someone`</value>
+  </data>
 </root>
