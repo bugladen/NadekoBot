@@ -44,7 +44,7 @@ We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work o
 ```
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-sudo apt-get update
+sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
 ```
 
 **NOTE:** .NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
