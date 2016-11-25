@@ -300,7 +300,7 @@ namespace NadekoBot.Modules.Permissions
 
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{command.Text}` command on this server.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of **`{module.Name}`** module on this server.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of **`{module.Name}`** module on this server.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -356,7 +356,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{command.Text}` command for `{user}` user.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -384,7 +384,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{module.Name}` module for `{user}` user.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -412,7 +412,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{command.Text}` command for `{role}` role.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -440,7 +440,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{module.Name}` module for `{role}` role.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -473,7 +473,7 @@ namespace NadekoBot.Modules.Permissions
             catch (Exception ex) {
                 Console.WriteLine(ex);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{command.Text}` command for `{chnl}` channel.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{command.Text}` command for `{chnl}` channel.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -501,7 +501,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `{module.Name}` module for `{chnl}` channel.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -529,7 +529,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `ALL MODULES` for `{chnl}` channel.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -557,7 +557,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `ALL MODULES` for `{role}` role.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -585,7 +585,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `ALL MODULES` for `{user}` user.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -624,7 +624,7 @@ namespace NadekoBot.Modules.Permissions
                 }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "❎ Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{(action.Value ? "✅ Allowed" : "🆗 Denied")} usage of `ALL MODULES` on this server.").ConfigureAwait(false);
         }
     }
 }
