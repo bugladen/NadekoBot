@@ -9,4 +9,4 @@
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
 
-<a href="https://twitter.com/TheNadekoBot" class="twitter-follow-button" data-show-count="false">Follow @TheNadekoBot</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/251837903137800192/tw.JPG)](https://twitter.com/TheNadekoBot)
