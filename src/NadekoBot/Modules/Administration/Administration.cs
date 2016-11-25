@@ -294,7 +294,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await (await user.CreateDMChannelAsync()).SendMessageAsync($"⛔️ **You have been BANNED from `{channel.Guild.Name}` server.**\n" +
-                                        $"Reason: {msg}").ConfigureAwait(false);
+                                        $"⚖ *Reason:* {msg}").ConfigureAwait(false);
                 await Task.Delay(2000).ConfigureAwait(false);
             }
             catch { }
@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await channel.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
 
-                await channel.SendMessageAsync("⛔️ **Banned** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("⛔️ **Banned** user **" + user.Username + "** ID: `" + user.Id + "`").ConfigureAwait(false);
             }
             catch
             {
@@ -329,7 +329,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.SendMessageAsync($"☣ **You have been SOFT-BANNED from `{channel.Guild.Name}` server.**\n" +
-              $"Reason: {msg}").ConfigureAwait(false);
+              $"⚖ *Reason:* {msg}").ConfigureAwait(false);
                 await Task.Delay(2000).ConfigureAwait(false);
             }
             catch { }
@@ -339,7 +339,7 @@ namespace NadekoBot.Modules.Administration
                 try { await channel.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
                 catch { await channel.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
 
-                await channel.SendMessageAsync("☣ **Soft-Banned** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("☣ **Soft-Banned** user **" + user.Username + "** ID: `" + user.Id + "`").ConfigureAwait(false);
             }
             catch
             {
@@ -370,7 +370,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     await user.SendMessageAsync($"‼️**You have been KICKED from `{channel.Guild.Name}` server.**\n" +
-                                    $"Reason: {msg}").ConfigureAwait(false);
+                                    $"⚖ *Reason:* {msg}").ConfigureAwait(false);
                     await Task.Delay(2000).ConfigureAwait(false);
                 }
                 catch { }
@@ -378,7 +378,7 @@ namespace NadekoBot.Modules.Administration
             try
             {
                 await user.KickAsync().ConfigureAwait(false);
-                await channel.SendMessageAsync("‼️**Kicked** user **" + user.Username + "** ID: " + user.Id).ConfigureAwait(false);
+                await channel.SendMessageAsync("‼️**Kicked** user **" + user.Username + "** ID: `" + user.Id + "`").ConfigureAwait(false);
             }
             catch
             {
@@ -587,7 +587,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
             var ch = await channel.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"✅ Created voice channel **{ch.Name}**, ID: {ch.Id}.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"✅ Created voice channel **{ch.Name}**. ID: `{ch.Id}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -596,7 +596,7 @@ namespace NadekoBot.Modules.Administration
         public async Task DelTxtChanl(IUserMessage umsg, [Remainder] ITextChannel toDelete)
         {
             await toDelete.DeleteAsync().ConfigureAwait(false);
-            await umsg.Channel.SendMessageAsync($"🗑 Removed text channel **{toDelete.Name}**, ID: {toDelete.Id}.").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync($"🗑 Removed text channel **{toDelete.Name}**. ID: `{toDelete.Id}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -606,7 +606,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
             var txtCh = await channel.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
-            await channel.SendMessageAsync($"✅ Added text channel **{txtCh.Name}**, ID: {txtCh.Id}.").ConfigureAwait(false);
+            await channel.SendMessageAsync($"✅ Added text channel **{txtCh.Name}**. ID: `{txtCh.Id}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -805,7 +805,7 @@ namespace NadekoBot.Modules.Administration
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
 
-            await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"🆕 **Message from {umsg.Author} (Bot Owner):** " + message)))
+            await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"🆕 **Message from {umsg.Author} `(Bot Owner)`:** " + message)))
                     .ConfigureAwait(false);
 
             await channel.SendMessageAsync("🆗").ConfigureAwait(false);
@@ -851,10 +851,10 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            string send = $"❕{umsg.Author.Mention} has invoked a mention on the following roles❕";
+            string send = $"❕{umsg.Author.Mention} __`has invoked a mention on the following roles`__❕";
             foreach (var role in roles)
             { 
-                send += $"\n`{role.Name}`\n";
+                send += $"\n**{role.Name}**\n";
                 send += string.Join(", ", (await channel.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct().Select(u=>u.Mention));
             }
 
