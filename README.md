@@ -8,3 +8,5 @@
 ## INSTRUCTIONS, FAQ ---> [Wiki](http://nadekobot.readthedocs.io/en/1.0/)
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
+
+<a href="https://twitter.com/TheNadekoBotv" class="twitter-follow-button" data-show-count="false">Follow @TheNadekoBot</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
