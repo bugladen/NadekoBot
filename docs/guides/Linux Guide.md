@@ -39,12 +39,12 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 Go to [this link](https://www.microsoft.com/net/core#ubuntu) provided by microsoft for instructions on how to get the most up to date version of the dotnet core sdk!  
 Make sure that you're on the correct page for your distribution of linux as the guides are different for the various distributions  
 
-We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 16/10/2016
+We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 25/11/2016
 
 ```
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2-003131 -y
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+sudo apt-get update
 ```
 
 **NOTE:** .NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
