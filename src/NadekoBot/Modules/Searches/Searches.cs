@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
-using ImageProcessorCore;
+using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
@@ -434,7 +434,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var green = Convert.ToInt32(color.Substring(2, 2), 16);
             var blue = Convert.ToInt32(color.Substring(4, 2), 16);
 
-            img.BackgroundColor(new ImageProcessorCore.Color(color));
+            img.BackgroundColor(new ImageSharp.Color(color));
 
             await channel.SendFileAsync(img.ToStream(), $"{color}.png");
         }

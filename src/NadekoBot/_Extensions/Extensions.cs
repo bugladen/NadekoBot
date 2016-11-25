@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using ImageProcessorCore;
+using ImageSharp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
