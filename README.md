@@ -9,4 +9,4 @@
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
 
-[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252028911779708929/IMG_1459.PNG)](https://twitter.com/TheNadekoBot) [![discord](https://cdn.discordapp.com/attachments/155726317222887425/252028898915647489/IMG_1458.PNG)](https://discord.gg/0ehQwTK2RBjAxzEY)
+[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252028911779708929/IMG_1459.PNG)](https://twitter.com/TheNadekoBot) [![discord](https://cdn.discordapp.com/attachments/155726317222887425/252029948741550081/IMG_1461.PNG)](https://discord.gg/0ehQwTK2RBjAxzEY)
