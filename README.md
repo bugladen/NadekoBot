@@ -9,4 +9,4 @@
 
 [![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252037169894391810/IMG_1470.PNG)](https://twitter.com/TheNadekoBot) [![discord](https://cdn.discordapp.com/attachments/155726317222887425/252029948741550081/IMG_1461.PNG)](https://discord.gg/0ehQwTK2RBjAxzEY) [![Wiki](https://cdn.discordapp.com/attachments/155726317222887425/252046873408307200/IMG_1476.PNG)](http://nadekobot.readthedocs.io/en/1.0/)
 
-`Follow me on twitter for updates. | Join my Discord server if you need any help. | Read the Docs for hosting guidelines.`
+`Follow me on twitter for updates. | Join my Discord server if you need any help. | Read the Docs for hosting guides.`
