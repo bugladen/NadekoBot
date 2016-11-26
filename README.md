@@ -7,6 +7,6 @@
 
 ##For Update, Help and Guidlines
 
-[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252192520094613504/twiter_banner.JPG)](https://twitter.com/TheNadekoBot) [![discord](https://cdn.discordapp.com/attachments/155726317222887425/252192415673221122/discord_banner.JPG)](https://discord.gg/0ehQwTK2RBjAxzEY) [![Wiki](https://cdn.discordapp.com/attachments/155726317222887425/252192472849973250/read_the_docs_banner.JPG)](http://nadekobot.readthedocs.io/en/1.0/)
+[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252197045677457408/twitter_bannner1.png)](https://twitter.com/TheNadekoBot) [![discord](https://cdn.discordapp.com/attachments/155726317222887425/252197090623488001/discord_banner.png)](https://discord.gg/0ehQwTK2RBjAxzEY) [![Wiki](https://cdn.discordapp.com/attachments/155726317222887425/252197018309623809/read_the_docs.png)](http://nadekobot.readthedocs.io/en/1.0/)
 
 `Follow me on twitter for updates. | Join my Discord server if you need help. | Read the Docs for hosting guides.`
