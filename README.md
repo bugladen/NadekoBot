@@ -11,4 +11,4 @@
 
 - `Follow me on twitter for updates.`
 - `Join my Discord server if you need any help.`
-- `Read the docs for hosting guidelines.` 
+- `Read the Docs for hosting guidelines.` 
