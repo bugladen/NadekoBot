@@ -1,18 +1,42 @@
+using Discord;
 using Discord.Commands;
-using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.DataModels;
+using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NadekoBot.Services;
+using Discord.WebSocket;
+using NadekoBot.Services.Database.Models;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Linq;
+
 
 namespace NadekoBot.Modules.Pokemon
 {
-    class PokemonModule : DiscordModule
+
+    [NadekoModule("PokeGame", ">")]
+    public partial class PokemonModule : DiscordModule
+    {
+        public static string CurrencyName { get; set; }
+        public static string CurrencyPluralName { get; set; }
+        public static string CurrencySign { get; set; }
+
+        public Gambling(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var conf = uow.BotConfig.GetOrCreate();
+
+                CurrencyName = conf.CurrencyName;
+                CurrencySign = conf.CurrencySign;
+                CurrencyPluralName = conf.CurrencyPluralName;
+            }
+        }
+
+
+        class PokemonModule : DiscordModule
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Pokemon;
 
