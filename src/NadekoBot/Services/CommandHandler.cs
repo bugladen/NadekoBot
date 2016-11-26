@@ -185,7 +185,7 @@ namespace NadekoBot.Services
                         if (guild != null && command != null && result.Error == CommandError.Exception)
                         {
                             if (permCache != null && permCache.Verbose)
-                                try { await msg.Channel.SendMessageAsync(":warning: " + result.ErrorReason).ConfigureAwait(false); } catch { }
+                                try { await msg.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
                         }
                     }
                     else

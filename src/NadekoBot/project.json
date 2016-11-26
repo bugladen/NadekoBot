@@ -27,7 +27,7 @@
     },
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.19.0.655",
-    "ImageProcessorCore": "1.0.0-alpha1095",
+    "ImageSharp": "1.0.0-alpha-000079",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
@@ -47,7 +47,8 @@
     "System.Xml.XPath": "4.3.0"
   },
   "tools": {
-    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",
+    "Microsoft.DotNet.Watcher.Tools": "1.1.0-preview4-final"
   },
   "frameworks": {
     "netcoreapp1.0": {
