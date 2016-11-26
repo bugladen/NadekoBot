@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Games
                      (pick == 2 && nadekoPick == 0))
                 msg = $"{NadekoBot.Client.GetCurrentUser().Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
             else
-                msg = $"{umsg.Author.Mention} won! {GetRPSPick(pick)}: beats {GetRPSPick(nadekoPick)}";
+                msg = $"{umsg.Author.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
 
             await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
