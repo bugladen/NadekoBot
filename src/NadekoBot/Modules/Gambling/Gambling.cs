@@ -9,6 +9,7 @@ using NadekoBot.Services;
 using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
+using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -28,6 +29,14 @@ namespace NadekoBot.Modules.Gambling
                 CurrencyName = conf.CurrencyName;
                 CurrencySign = conf.CurrencySign;
                 CurrencyPluralName = conf.CurrencyPluralName;
+            }
+        }
+
+        public static long GetCurrency(ulong id)
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                return uow.Currency.GetUserCurrency(id);
             }
         }
 
@@ -52,15 +61,8 @@ namespace NadekoBot.Modules.Gambling
             var channel = umsg.Channel;
 
             user = user ?? umsg.Author;
-            long amount;
-            BotConfig config;
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                amount = uow.Currency.GetUserCurrency(user.Id);
-                config = uow.BotConfig.GetOrCreate();
-            }
 
-            await channel.SendMessageAsync($"{user.Username} has {amount} {config.CurrencySign}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"{user.Username} has {GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -69,15 +71,7 @@ namespace NadekoBot.Modules.Gambling
         {
             var channel = umsg.Channel;
 
-            long amount;
-            BotConfig config;
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                amount = uow.Currency.GetUserCurrency(userId);
-                config = uow.BotConfig.GetOrCreate();
-            }
-
-            await channel.SendMessageAsync($"`{userId}` has {amount} {config.CurrencySign}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"`{userId}` has {GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
