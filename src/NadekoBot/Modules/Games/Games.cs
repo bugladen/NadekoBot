@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Games
             if (string.IsNullOrWhiteSpace(question))
                 return;
                 var rng = new NadekoRandom();
-            await channel.SendMessageAsync($@":question: `Question` __**{question}**__ 
+            await channel.SendMessageAsync($@"❔ `Question` __**{question}**__ 
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
@@ -61,11 +61,11 @@ namespace NadekoBot.Modules.Games
             Func<int,string> GetRPSPick = (p) =>
             {
                 if (p == 0)
-                    return "rocket";
+                    return "🚀";
                 else if (p == 1)
-                    return "paperclip";
+                    return "📎";
                 else
-                    return "scissors";
+                    return "✂️";
             };
 
             int pick;
