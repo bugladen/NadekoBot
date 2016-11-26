@@ -9,4 +9,4 @@
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
 
-[![twitter](https://cdn.discordapp.com/attachments/155726317222887425/251837903137800192/tw.JPG)](https://twitter.com/TheNadekoBot)
+[![twitter](http://www.twitter-button.net/buttons/125.png)](https://twitter.com/TheNadekoBot)
