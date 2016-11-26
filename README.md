@@ -5,7 +5,8 @@
 
 ## [Click here to invite Nadeko to your Discord server](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
 ## [Click here for a list of commands](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/)
-## INSTRUCTIONS, FAQ ---> [![Wiki](https://cdn.discordapp.com/attachments/155726317222887425/252043045283823616/IMG_1472.PNG)](http://nadekobot.readthedocs.io/en/1.0/)
+## INSTRUCTIONS, FAQ ---> 
+[![Wiki](https://cdn.discordapp.com/attachments/155726317222887425/252046873408307200/IMG_1476.PNG)](http://nadekobot.readthedocs.io/en/1.0/)
 
 You might want to join my discord server where i can provide help etc. https://discord.gg/0ehQwTK2RBjAxzEY
 
