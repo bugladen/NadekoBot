@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Games
             if (string.IsNullOrWhiteSpace(question))
                 return;
                 var rng = new NadekoRandom();
-            await channel.SendMessageAsync($@"❔ `Question` __**{question}**__ 
+            await channel.SendMessageAsync($@"❓ `Question` __**{question}**__ 
 🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
         }
 
@@ -91,13 +91,13 @@ namespace NadekoBot.Modules.Games
             var nadekoPick = new NadekoRandom().Next(0, 3);
             var msg = "";
             if (pick == nadekoPick)
-                msg = $"It's a draw! Both picked :{GetRPSPick(pick)}:";
+                msg = $"It's a draw! Both picked {GetRPSPick(pick)}";
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
-                msg = $"{NadekoBot.Client.GetCurrentUser().Mention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
+                msg = $"{NadekoBot.Client.GetCurrentUser().Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
             else
-                msg = $"{umsg.Author.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
+                msg = $"{umsg.Author.Mention} won! {GetRPSPick(pick)}: beats {GetRPSPick(nadekoPick)}";
 
             await channel.SendMessageAsync(msg).ConfigureAwait(false);
         }
