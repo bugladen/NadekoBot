@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Database.Models
 {
-    class UserPokeTypes : DbEntity
+    public class UserPokeTypes : DbEntity
     {
         public long UserId { get; set; }
         public string type { get; set; }

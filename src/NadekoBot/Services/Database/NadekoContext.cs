@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
+        public DbSet<UserPokeTypes> PokeGame { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -69,7 +70,8 @@ namespace NadekoBot.Services.Database
                     new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
                     new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
                     new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
-                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." }
+                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." },
+                    new ModulePrefix() { ModuleName = "PokeGame", Prefix = ">" }
                 });
                 bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
                 {
@@ -216,7 +218,17 @@ namespace NadekoBot.Services.Database
                 .HasMany(p => p.Songs)
                 .WithOne()
                 .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
-                
+
+
+            #endregion
+
+            #region PokeGame
+            var pokeGameEntity = modelBuilder.Entity<UserPokeTypes>();
+
+            pokeGameEntity
+                .HasIndex(pt => pt.UserId)
+                .IsUnique();
+
 
             #endregion
         }
