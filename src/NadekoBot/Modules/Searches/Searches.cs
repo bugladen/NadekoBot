@@ -241,17 +241,10 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         imgStream.Position = 0;
                         images.Add(new Image(imgStream));
                     }
-                    var msg = $@"```css
-[☕ Magic The Gathering]: {items[0]["name"].ToString()}
-[Store URL]: {await _google.ShortenUrl(items[0]["store_url"].ToString())}
-[Cost]: {items[0]["cost"].ToString()}
-[Description]: {items[0]["text"].ToString()}
-```";
                     var ms = new MemoryStream();
                     images.Merge().SaveAsJpeg(ms);
                     ms.Position = 0;
                     await channel.SendFileAsync(ms, arg + ".jpg", null).ConfigureAwait(false);
-                    await channel.SendMessageAsync(msg).ConfigureAwait(false);
                 }
                 catch
                 {
