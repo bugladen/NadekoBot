@@ -210,6 +210,51 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task MagicTheGathering(IUserMessage umsg, [Remainder] string name = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = name;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
+                return;
+            }
+
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            string response = "";
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                response = await http.GetStringAsync($"https://api.deckbrew.com/mtg/cards?name={Uri.EscapeUriString(arg)}")
+                                        .ConfigureAwait(false);
+                try
+                {
+                    var items = JArray.Parse(response).Shuffle().ToList();
+                    var images = new List<Image>();
+                    if (items == null)
+                        throw new KeyNotFoundException("Cannot find a card by that name");
+
+                    using (var sr = await http.GetStreamAsync(items[0]["editions"][0]["image_url"].ToString()))
+                    {
+                        var imgStream = new MemoryStream();
+                        await sr.CopyToAsync(imgStream);
+                        imgStream.Position = 0;
+                        images.Add(new Image(imgStream));
+                    }
+                    var ms = new MemoryStream();
+                    images.Merge().SaveAsJpeg(ms);
+                    ms.Position = 0;
+                    await channel.SendFileAsync(ms, arg + ".jpg", null).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Error could not find the card {arg}").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
         {
             var channel = (ITextChannel)umsg.Channel;
