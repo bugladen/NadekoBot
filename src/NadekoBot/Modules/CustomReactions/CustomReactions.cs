@@ -212,7 +212,7 @@ namespace NadekoBot.Modules.CustomReactions
                 await imsg.Channel.SendMessageAsync("`No custom reaction found with that id.`").ConfigureAwait(false);
             else
             {
-                await imsg.Channel.SendMessageAsync($"`Custom reaction #{id}`\n`Trigger:` {found.Trigger}\n`Response:` {found.Response}")
+                await imsg.Channel.SendMessageAsync($"`Custom reaction #{id}`\n`Trigger:` {found.Trigger}\n`Response:` {found.Response} ```css\n{found.Response}```")
                              .ConfigureAwait(false);
             }
         }
