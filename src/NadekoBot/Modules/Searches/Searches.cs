@@ -196,6 +196,20 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+
+            terms = terms?.Trim();
+            if (string.IsNullOrWhiteSpace(terms))
+                return;
+            await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
+                           .ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task MagicTheGathering(IUserMessage umsg, [Remainder] string name = null)
         {
             var channel = (ITextChannel)umsg.Channel;
