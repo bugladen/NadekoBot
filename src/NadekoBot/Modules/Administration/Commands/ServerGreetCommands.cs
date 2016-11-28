@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
                             {
                                 var t = Task.Run(async () =>
                                 {
-                                    await Task.Delay(conf.AutoDeleteGreetMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
+                                    await Task.Delay(conf.AutoDeleteByeMessagesTimer * 1000).ConfigureAwait(false); // 5 minutes
                                     try { await toDelete.DeleteAsync().ConfigureAwait(false); } catch { }
                                 });
                             }
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Administration
                                     try
                                     {
                                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                                        if (conf.AutoDeleteGreetMessagesTimer > 0)
                                         {
                                             var t = Task.Run(async () =>
                                             {
