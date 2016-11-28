@@ -41,6 +41,15 @@ namespace NadekoBot.Modules.Pokemon
             {
                 _pokelog.Warn(PokemonTypesFile + " is missing. Pokemon types not loaded.");
             }
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var conf = uow.BotConfig.GetOrCreate();
+
+                CurrencyName = conf.CurrencyName;
+                CurrencySign = conf.CurrencySign;
+                CurrencyPluralName = conf.CurrencyPluralName;
+            }
         }
 
 
@@ -191,11 +200,11 @@ namespace NadekoBot.Modules.Pokemon
 
             if (targetStats.Hp <= 0)
             {
-                response += $"\n**{targetUser.Username}** has fainted!";
+                response += $"\n**{targetUser.Nickname}** has fainted!";
             }
             else
             {
-                response += $"\n**{targetUser.Username}** has {targetStats.Hp} HP remaining";
+                response += $"\n**{targetUser.Nickname}** has {targetStats.Hp} HP remaining";
             }
 
             //update other stats
@@ -250,13 +259,13 @@ namespace NadekoBot.Modules.Pokemon
                 var targetStats = Stats[targetUser.Id];
                 if (targetStats.Hp == targetStats.MaxHp)
                 {
-                    await channel.SendMessageAsync($"{targetUser.Username} already has full HP!").ConfigureAwait(false);
+                    await channel.SendMessageAsync($"{targetUser.Nickname} already has full HP!").ConfigureAwait(false);
                     return;
                 }
                 //Payment~
                 var amount = 1;
 
-                var target = (targetUser.Id == user.Id) ? "yourself" : targetUser.Username;
+                var target = (targetUser.Id == user.Id) ? "yourself" : targetUser.Nickname;
                 if (amount > 0)
                 {
                         if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
@@ -278,16 +287,16 @@ namespace NadekoBot.Modules.Pokemon
                     }
                     else
                     {
-                        await channel.SendMessageAsync($"{user.Username} revived {targetUser.Username} with one {CurrencySign}").ConfigureAwait(false);
+                        await channel.SendMessageAsync($"{user.Nickname} revived {targetUser.Nickname} with one {CurrencySign}").ConfigureAwait(false);
                     }
                    return;
                 }
-                await channel.SendMessageAsync($"{user.Username} healed {targetUser.Username} with one {CurrencySign}").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{user.Nickname} healed {targetUser.Nickname} with one {CurrencySign}").ConfigureAwait(false);
                 return;
             }
             else
             {
-                await channel.SendMessageAsync($"{targetUser.Username} already has full HP!").ConfigureAwait(false);
+                await channel.SendMessageAsync($"{targetUser.Nickname} already has full HP!").ConfigureAwait(false);
             }
         }
 
@@ -301,12 +310,11 @@ namespace NadekoBot.Modules.Pokemon
 
             if (targetUser == null)
             {
-                await channel.SendMessageAsync("No such person.").ConfigureAwait(false);
                 return;
             }
 
             var pType = GetPokeType(targetUser.Id);
-            await channel.SendMessageAsync($"Type of {targetUser.Username} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"Type of {targetUser.Nickname} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
 
         }
 
@@ -335,7 +343,7 @@ namespace NadekoBot.Modules.Pokemon
             var amount = 1;
             if (amount > 0)
             {
-                if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"{user.Username} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
+                if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"{user.Nickname} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
                     try { await channel.SendMessageAsync($"{user.Mention} You don't have enough {CurrencyName}s.").ConfigureAwait(false); } catch { }
                     return;
@@ -347,7 +355,8 @@ namespace NadekoBot.Modules.Pokemon
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                setTypes = uow.PokeGame.GetAll().ToDictionary(x => x.UserId, y => y.type);
+                var pokeUsers = uow.PokeGame.GetAll();
+                setTypes = pokeUsers.ToDictionary(x => x.UserId, y => y.type);
                 var pt = new UserPokeTypes
                 {
                     UserId = (long)user.Id,
@@ -361,7 +370,9 @@ namespace NadekoBot.Modules.Pokemon
                 else
                 {
                     //update user in db
-                    uow.PokeGame.Update(pt);
+                    var pokeUserCmd = pokeUsers.Where(p => p.UserId == (long)user.Id).FirstOrDefault();
+                    pokeUserCmd.type = targetType.Name;
+                    uow.PokeGame.Update(pokeUserCmd);
                 }
                 await uow.CompleteAsync();
             }
