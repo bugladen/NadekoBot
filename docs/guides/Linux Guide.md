@@ -168,7 +168,7 @@ Once done, go back to **PuTTY**
   
 The above command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep the PuTTY running.
 
-Next, we need to run `linuxAIO.sh` inorder to get the latest running scripts with patches:
+**Next, we need to run `linuxAIO.sh` in order to get the latest running scripts with patches:**
 
 - `cd ~ && bash linuxAIO.sh`
 
