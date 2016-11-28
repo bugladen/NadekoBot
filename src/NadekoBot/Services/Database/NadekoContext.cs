@@ -44,6 +44,7 @@ namespace NadekoBot.Services.Database
             this.Database.Migrate();
             EnsureSeedData();
         }
+        //Uncomment this to db initialisation with dotnet ef migration add [module]
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
