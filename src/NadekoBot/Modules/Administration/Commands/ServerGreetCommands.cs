@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = ServerGreetCommands.SetGreetMessage(channel.Guild.Id, ref text);
+                var sendGreetEnabled = ServerGreetCommands.SetGreetDmMessage(channel.Guild.Id, ref text);
 
                 await channel.SendMessageAsync("🆗 New DM greet message **set**.").ConfigureAwait(false);
                 if (!sendGreetEnabled)
