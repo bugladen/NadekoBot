@@ -2700,4 +2700,13 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
+  <data name="magicthegathering_cmd" xml:space="preserve">
+    <value>magicthegathering mtg</value>
+  </data>
+  <data name="magicthegathering_desc" xml:space="preserve">
+    <value>Searches for a Magic The Gathering card.</value>
+  </data>
+  <data name="magicthegathering_usage" xml:space="preserve">
+    <value>`{0}magicthegathering about face` or `{0}mtg about face`</value>
+  </data>
 </root>
