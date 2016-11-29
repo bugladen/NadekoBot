@@ -175,16 +175,16 @@ The above command will create a new session named **nadeko** *(you can replace â
 From the options,
 
 Choose `3` To Run the bot normally.		
-**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
 
 Choose `4` To Run the bot with Auto Restart.	
-**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to be used as restart.	
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to function as restart.	
 
 See how that happens:
 
 ![img9](https://cdn.discordapp.com/attachments/251504306010849280/251506312893038592/die_explaination.gif)
 
-Also **Remember** that, while running with Auto Restart, you need to [close the tmux session](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
+**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
 
 **Now check your Discord, the bot should be online**
 
