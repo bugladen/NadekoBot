@@ -42,13 +42,38 @@ namespace NadekoBot.Modules.Searches
                 response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
 
             var obj = JObject.Parse(response)["weather"];
+            double centiLucy = Double.Parse(obj["feelscentigrade"].ToString());
+            uint[] colLucy = { 0x0000FF, 0xADD8E6, 0xFF0000, 0x8A8A8A};
+            int colBaby = 0;
+            if (centiLucy < -49)
+            {
+                colBaby = 0;
+            } else if (centiLucy > -1 && centiLucy < 1)
+            {
+                colBaby = 1;
+            } else if (centiLucy > 49)
+            {
+                colBaby = 2;
+            } else {
+				colBaby = 3;
+			}
 
-            await channel.SendMessageAsync(
-$@"🌍 **Weather for** 【{obj["target"]}】
-📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
-😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
-🌡 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
-🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
+            var embed = new EmbedBuilder()
+                .WithAuthor(eau => eau.WithName("Lucy's Forecast Today")
+                .WithIconUrl("http://icons.iconarchive.com/icons/wineass/ios7-redesign/512/Weather-icon.png"))
+                .WithDescription("\0")
+                .AddField(fb => fb.WithName("🌍 **Weather for:**").WithValue($"{obj["target"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 **Lat,Long:**").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ **Condition:**").WithValue($"{obj["condition"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 **Humidity:**").WithValue($"{obj["humidity"]}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 **Wind Speed:**").WithValue($"{obj["windspeedk"]}km/h / {obj["windspeedm"]}mph").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 **Temperature:**").WithValue($"{obj["centigrade"]}°C / {obj["fahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 **Feels like:**").WithValue($"{obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 **Sunrise:**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 **Sunset:**").WithValue($"{obj["sunset"]}").WithIsInline(true))
+                .WithColor(colLucy[colBaby])
+                .WithTimestamp(DateTime.Now);
+            await channel.SendMessageAsync("-", embed: embed.Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
