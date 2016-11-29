@@ -92,9 +92,19 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 
 ####Getting NadekoBot
 
-![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
+Use the following command to get and run `linuxAIO.sh`:		
+(Remember **DO NOT** rename the file `linuxAIO.sh`)
 
-`cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+`cd ~ && wget https://github.com/Kwoth/NadekoBot-BashScript/raw/master/linuxAIO.sh && bash linuxAIO.sh`
+
+Follow the on screen instructions:
+
+1. To Get the latest build. (most recent updates)
+2. To Get the stable build.
+
+Choose either `1` or `2` then press `enter` key.	
+Once Installation is completed you should see the options again.	
+Next, choose `5` to exit. 
 
 ####Creating and Inviting bot
 
@@ -141,8 +151,8 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 - Copy the `credentials.json` to desktop
 - EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
 - Paste/put it back in the folder once done. `(Using CyberDuck/WinSCP)`
-- If you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
-- If you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/1.0/guides/Upgrading%20Guide/)
+- **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
+- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/1.0/guides/Upgrading%20Guide/)
 
 ####Setting up Music
 
@@ -152,32 +162,33 @@ Once done, go back to **PuTTY**
 
 ####Running NadekoBot
 
-![img8](https://cdn.discordapp.com/attachments/251504306010849280/251506149973557259/running_nadeko.gif)
-
 **Create a new Session:**
 
 - `tmux new -s nadeko`  
   
-That command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep running the PuTTY.
+The above command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep the PuTTY running.
 
-- `cd NadekoBot/src/NadekoBot/`
+**Next, we need to run `linuxAIO.sh` in order to get the latest running scripts with patches:**
 
-**Without Auto Restart:**
+- `cd ~ && bash linuxAIO.sh`
 
-- `dotnet run --configuration Release`
+From the options,
 
-**With Auto Restart:**
+Choose `3` To Run the bot normally.		
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
 
-- `while :; do dotnet run -c Release; sleep 5s; done`
+Choose `4` To Run the bot with Auto Restart.	
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to function as restart.	
 
-**NOTE:** With Auto Restart, bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) so you do not have to manual restart if you ever want to. 
-See how that happens below:
+See how that happens:
 
 ![img9](https://cdn.discordapp.com/attachments/251504306010849280/251506312893038592/die_explaination.gif)
 
+**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
+
 **Now check your Discord, the bot should be online**
 
-Now time to **move the bot to background** and to do that, press **CTRL+B+D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
+Next to **move the bot to background** and to do that, press **CTRL+B+D** (this will detach the nadeko session using TMUX), and you can finally close PuTTY now.
 
 ####Some more Info (just in case)
 
@@ -205,25 +216,36 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 - Kill your previous session, check with `tmux ls`
 - `tmux kill-session -t nadeko` (don't forget to replace "nadeko" to what ever you named your bot's session)
-- Follow: [Running NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#running-nadekobot)
+- [Run the bot again.](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#running-nadekobot)
 
 ####Updating Nadeko
 
-- Connect to the terminal
+- Connect to the terminal through PuTTY.
+- `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
 - Make sure the bot is **not** running.
-- `cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh` (The same command used to install earlier)
-- Run the bot again as normal.
+- `tmux new -s nadeko` (**nadeko** is the name of the session)
+- `cd ~ && bash linuxAIO.sh`
+- Choose either `1` or `2` to update the bot with **latest build** or **stable build** respectively.
+- Choose either `3` or `4` to run the bot again with **normally** or **auto restart** respectively.
+- Done. You can close PuTTY now.
 
 ####Alternative way to Install
 
-- If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows errors, try manually installing with the following steps:
+If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
+
+
+![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
+
+`cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+
+**OR**
 
 ```
 cd ~ && git clone -b 1.0 --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
 cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
 ```
   
-- If you are still getting errors using the above steps:
+If you are getting error using the above steps try:
 
 ```
 cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
