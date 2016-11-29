@@ -9,14 +9,8 @@ namespace NadekoBot.Modules.Searches.Models
         public int total_chapters;
         public int total_volumes;
         public string description;
-
-        public override string ToString() =>
-            "`Title:` **" + title_english +
-            "**\n`Status:` " + publishing_status +
-            "\n`Chapters:` " + total_chapters +
-            "\n`Volumes:` " + total_volumes +
-            "\n`Link:` http://anilist.co/manga/" + id +
-            "\n`Synopsis:` " + description.Substring(0, description.Length > 500 ? 500 : description.Length) + "..." +
-            "\n`img:` " + image_url_lge;
+        public string[] Genres;
+        public string Link => "http://anilist.co/manga/" + id;
+        public string Synopsis => description?.Substring(0, description.Length > 500 ? 500 : description.Length) + "...";
     }
 }
