@@ -24,7 +24,7 @@ ________________________________________________________________________________
 	- Choose `2` to get the **stable build**.
 - Wait a while for the file to finish installing, it'll display it's progress in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
-- Once that's done press any key to close the command prompt.
+- Once Installation is completed, press any key to close the command prompt.
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page][DiscordApp].
