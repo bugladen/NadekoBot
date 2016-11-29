@@ -194,7 +194,7 @@ namespace NadekoBot.Modules.Gambling
             var str = $"{guildUser.Mention} `You rolled {rng}.` ";
             if (rng < 67)
             {
-                str += "More luck next time.";
+                str += "Better luck next time.";
             }
             else if (rng < 91)
             {
