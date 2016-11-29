@@ -2,7 +2,8 @@ ________________________________________________________________________________
 *Thanks to @Flatbread and Mirai for making this guide*
 ________________________________________________________________________________
 
-### Setting Up NadekoBot on Windows
+## Setting Up NadekoBot on Windows
+
 #### Prerequisites 
 - 1) [.NET Core SDK][.NET Core SDK]
 - 2) [Git][Git]
@@ -11,18 +12,19 @@ ________________________________________________________________________________
 - 5) Soundcloud Account (if you want soundcloud support)
 - 6) [7zip][7zip] (or whatever you are using, WinRar)
 - 7) [Notepad++][Notepad++]
-- 8) Windows 8 or newer
+- 8) Windows 8 or later
 
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
-- Create a folder somewhere and name it `Nadeko`.
-- Head to the [Windows Installer releases page][WinInstaller] and save the zip as prompted.
-- Extract the contents of the zip you just downloaded to the `Nadeko` folder that we created earlier.
-- You should see another folder in the `Nadeko` folder, something along the lines of `NadekoBotInstallerWin-master` copy the contents of this folder, to the `Nadeko` folder, then (optionally) remove the empty, `NadekoBotInstallerWin-master` folder
-- You should now see three files, most importantly, `NadekoInstaller.bat` after moving the contents of the folder mentioned above to the `Nadeko` folder (You may not see the `.bat` part of the filename).
-- Run/Launch/Open `NadekoInstaller.bat` and you will see it running in the command prompt.
+- Create a **new folder** anywhere you like and name it `Nadeko`.
+- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoWinAIO.bat) and select **Save link as** and save the file `NadekoWinAIO.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoWinAIO.bat`)
+- Once that's done, double-click on `NadekoWinAIO.bat` to run it.
+- From the options, 
+	- Choose `1` to get the **most recent build**.
+	- Choose `2` to get the **stable build**.
 - Wait a while for the file to finish installing, it'll display it's progress in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
+- Once Installation is completed, press any key to close the command prompt.
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page][DiscordApp].
@@ -57,14 +59,24 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 
 ####Starting the bot
-- Go to the folder which you extracted the zip to earlier, and run the `NadekoRun.bat` file
-- Your bot should now be online in the server we added her to.
-- Note: Your bot will be offline in case you close the `NadekoBot` command prompt window.
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoWinAIO.bat` file.
+- From the options,
+	- Choose `3` to **run the bot normally**.	
+	(with normal-run the bot will shutdown and will stay offline if it disconnects by the use of `.die` command until you manually run it again. Useful if you want to test the bot.)
+	- Choose `4` to **run the bot with auto restart**.	
+	(with auto restart the bot will restart itself if it disconnects by the use of `.die` command. Useful if you want to have restart function for any reason.)
 
 ####Updating NadekoBot
 - Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
-- Run `NadekoInstaller.bat` again and wait for it to finish.
-- Run `NadekoRun.bat`.
+- Once that's checked, go to the `Nadeko` folder.
+- Run the `NadekoWinAIO.bat` file.
+- From the options, 
+	- Choose `1` to get the **most recent build**.
+	- Choose `2` to get the **stable build**.
+- Follow the messages and press any key to continue.
+- Wait for it to finish. 
+- Press any key to close the window when it shows **Installation complete.** 
+- [Start the bot again.](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#starting-the-bot)
 - You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
@@ -99,7 +111,7 @@ ________________________________________________________________________________
 - Setup your API keys as explained above.
 - Restart your computer.
 
-[.NET Core SDK]: https://go.microsoft.com/fwlink/?LinkID=827524
+[.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
 [Git]: https://git-scm.com/download/win
 [WinInstaller]: https://github.com/Kwoth/NadekoBotInstallerWin/archive/master.zip
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases

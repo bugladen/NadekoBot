@@ -1,4 +1,5 @@
-### Setting Up NadekoBot on OSX
+## Setting Up NadekoBot on OSX
+
 #### Prerequisites 
 - [Homebrew][Homebrew]
 - Google Account
@@ -54,10 +55,19 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 
 ####Downloading and building Nadeko
 
-**METHOD I**
+Use the following command to get and run `linuxAIO.sh`:		
+(Remember **DO NOT** rename the file `linuxAIO.sh`)
 
-- `cd ~`
-- `curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+`cd ~ && wget https://github.com/Kwoth/NadekoBot-BashScript/raw/master/linuxAIO.sh && bash linuxAIO.sh`
+
+Follow the on screen instructions:
+
+1. To Get the latest build. (most recent updates)
+2. To Get the stable build.
+
+Choose either `1` or `2` then press `enter` key.	
+Once Installation is completed you should see the options again.	
+Next, choose `5` to exit. 
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page.][DiscordApp]
@@ -101,15 +111,21 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 
 - Start Nadeko using .NET Core:
 
-`cd ~/NadekoBot/src/NadekoBot/`
+`cd ~ && bash linuxAIO.sh`
 
-`dotnet run --configuration Release`
+From the options,
 
-CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING
+Choose `3` To Run the bot normally.		
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
 
-Now time to move bot to background and to do that, press CTRL+B+D (this will detach the nadeko session using TMUX)
+Choose `4` To Run the bot with Auto Restart.	
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to be used as restart.	
+**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
 
-*If you used Screen press CTRL+A+D (this will detach the nadeko screen)*
+**Now check your Discord, the bot should be online**
+
+Now time to move bot to background and to do that, press CTRL+B+D (this will detach the nadeko session using TMUX)	
+If you used Screen press CTRL+A+D (this will detach the nadeko screen)
 
 ####Inviting your bot to your server 
 - [Invite Guide](http://discord.kongslien.net/guide.html)
@@ -125,24 +141,14 @@ For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadek
 
 ####Updating Nadeko
 
-Nadeko is really easy to update as of version 1.0! just copy and paste the command below to update Nadeko to the latest version
-
-`cd ~/NadekoBot/ && git init && git pull`
-
-####Alternative Method to Install Nadeko
-
-*If you fail to install the bot using [METHOD I](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#downloading-and-building-nadeko) try:*
-
-**METHOD II**
-
-- `cd ~`
-- `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
-- `cd ~/NadekoBot/discord.net`
-- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
-- `dotnet restore`
-- `cd ~/NadekoBot/src/NadekoBot/`
-- `dotnet restore` 
-- `dotnet build --configuration Release`
+- Connect to the terminal.
+- `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
+- Make sure the bot is **not** running.
+- `tmux new -s nadeko` (**nadeko** is the name of the session)
+- `cd ~ && bash linuxAIO.sh`
+- Choose either `1` or `2` to update the bot with **latest build** or **stable build** respectively.
+- Choose either `3` or `4` to run the bot again with **normally** or **auto restart** respectively.
+- Done. You can close terminal now.
 
 ####Some more Info
 
@@ -157,6 +163,23 @@ Nadeko is really easy to update as of version 1.0! just copy and paste the comma
 - If you want to see the sessions after logging back again, type `screen -ls`, and that will give you the list of screens. 
 - If you want to switch to/ see that screen, type `screen -r nadeko` (nadeko is the name of the screen we created before so, replace `nadeko` with the screen name you created.)
 - If you want to kill the NadekoBot screen, type `screen -X -S nadeko quit`
+
+####Alternative Method to Install Nadeko
+
+**METHOD I**
+
+- `cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
+
+**METHOD II**
+
+- `cd ~`
+- `git clone -b 1.0 --recursive https://github.com/Kwoth/NadekoBot.git`
+- `cd ~/NadekoBot/discord.net`
+- `dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json`
+- `dotnet restore`
+- `cd ~/NadekoBot/src/NadekoBot/`
+- `dotnet restore` 
+- `dotnet build --configuration Release`
 
 [Homebrew]: http://brew.sh/
 [DiscordApp]: https://discordapp.com/developers/applications/me
