@@ -42,21 +42,6 @@ namespace NadekoBot.Modules.Searches
                 response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
 
             var obj = JObject.Parse(response)["weather"];
-            double centiLucy = Double.Parse(obj["feelscentigrade"].ToString());
-            uint[] colLucy = { 0x0000FF, 0xADD8E6, 0xFF0000, 0x8A8A8A};
-            int colBaby = 0;
-            if (centiLucy < -49)
-            {
-                colBaby = 0;
-            } else if (centiLucy > -1 && centiLucy < 1)
-            {
-                colBaby = 1;
-            } else if (centiLucy > 49)
-            {
-                colBaby = 2;
-            } else {
-				colBaby = 3;
-			}
 
             var embed = new EmbedBuilder()
                 .WithAuthor(eau => eau.WithName("Lucy's Forecast Today")
@@ -71,7 +56,6 @@ namespace NadekoBot.Modules.Searches
                 .AddField(fb => fb.WithName("🔆 **Feels like:**").WithValue($"{obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌄 **Sunrise:**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌇 **Sunset:**").WithValue($"{obj["sunset"]}").WithIsInline(true))
-                .WithColor(colLucy[colBaby])
                 .WithTimestamp(DateTime.Now);
             await channel.SendMessageAsync("-", embed: embed.Build()).ConfigureAwait(false);
         }
