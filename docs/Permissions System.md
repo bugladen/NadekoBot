@@ -1,101 +1,84 @@
 Permissions Overview
 ===================
 Have you ever felt confused or even overwhelmed when trying to set Nadeko's permissions? In this guide we will be explaining how to use the 
-permission commands correctly and even cover a few common questions! Every command we discuss here can be found in the [Commands List](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#permissions).
+permission commands correctly and even cover a few common questions! Every command we discuss here can be found in the [Commands List](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#permissions).
+
+**To see the old guide for versions 0.9 and below, see [here](http://nadekobot.readthedocs.io/en/latest/Permissions%20System/)**
 
 Why do we use the Permissions Commands?
 ------------------------------
-Permissions are very handy for setting who can use what commands in your server. By default, every command is enabled for everybody, however a few exclusions are the Administration Commands like, `.kick` and `.prune` and Bot Owner-Only commands as these require your id to be in [`credentials.json`](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/ "Setting up your credentials"). 
-With the Permission Commands it is possible to restrict who can skip the current song, pick NadekoFlowers, or even use the NSFW module.
+Permissions are very handy at setting who can use what commands in a server. By default, the NSFW module is blocked, but nothing else is. If something is a bot owner only command, it can only be ran by the bot owner, the person who is running the bot, or has their ID in [`credentials.json`](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/ "Setting up your credentials"). 
+
+The Administration module still requires that you have the correct permissions on Discord to be able to use these commands, so for users to be able to use commands like `.kick` and `.prune`, they need kick and mange messages permissions respectively.
+
+With the permissions system it possible to restrict who can skip the current song, pick NadekoFlowers or use the NSFW module.
 
 First Time Setup
 ------------------
-To change permissions you must meet one of two requirements, either:
-+ **Be the Server Owner** 
-+ Have the role specified by `;permrole` (is Nadeko by default).
+To change permissions you **must** meet the following requirement:
 
-If you meet neither of these requirements, you ***can not*** edit permissions. 
+**Have the role specified by `;permrole` (By default, this is Nadeko)**
 
-If you would like to allow Admins to edit permissions you may want to rename the `;permrole` to `;permrole Admins` and give each admin that role.
+If you have an existing role called `Nadeko` but can't assign it to yourself, create a new role called `Nadeko` and assign that to yourself.
 
-Basics & Heirachy
+If you would like to set a different role, such as `Admins`, to be the role required to edit permissions, do `;permrole Admins` (you must have the current permission role to be able to do this).
+
+Basics & Hierarchy
 -----
-Most of the commands found in the list describe what they do, but we will cover a few here.
+The [Commands List](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#permissions) is a great resource which lists **all** the available commands, however we'll go over a few commands here.
 
-If you would like to disable the NSFW module for a certain role you would use `;rolemdl NSFW disable SomeRole`. 
+Firstly, let's explain how the permissions system works - It's simple once you figure out how each command works!
+The permissions system works as a chain, everytime a command is used, the permissions chain is checked. Starting from the top of the chain, the command is compared to a rule, if it isn't either allowed or disallowed by that rule it proceeds to check the next rule all the way till it reaches the bottom rule, which allows all commands.
 
-Similarly you can view which Modules and Commands are banned on a _specific_ channel with `;chnlperms SomeChannel`.
+To view this permissions chain, do `;listperms`, with the top of the chain being rule number 1, shown at the top of the message.
 
-The heirachy of the Permissions are simple. If you disable a Module/command with a command that affects the server, `;sm NSFW disable` you can not then enable it another way such as, `;cm NSFW enable SomeChannel`. Roles are an exemption to this, i.e if all roles except for the DJ Role have music disabled, you can still use music commands if you have the DJ Role.
+If you want to remove a permission from the chain of permissions, do `;removeperm X` to remove rule number X and similarly, do `;moveperm X Y` to move rule number X to number Y (moving, not swapping!).
 
-The bot, by default will notify you when a command can't be used. To disable this notification simply use `;verbose false`.
+As an example, if you wanted to enable NSFW for a certain role, say "Lewd", you could do `;rolemdl NSFW enable Lewd`.
+This adds the rule to the top of the permissions chain so even if the default `;sm NSFW disabled` rule exists, the "Lewd" role will be able to use the NSFW module.
 
+If you want the bot to notify users why they can't use a command or module, use `;verbose true` and Nadeko will tell you what rule is preventing the command.
 
 Commonly Asked Questions
 ---------------
+
 ###How do I create a music DJ?
 To allow users to only see the current song and have a DJ role for queuing follow these five steps: 
 
-  1. `;arc music disable all` 
-1. Disables all music commands for everyone.
-  2. `;arc music enable DJ` 
-1. Gives all music commands to DJ role.
-  3. `;rc !!nowplaying enable all` 
-1.  Enables the "nowplaying" command for eveone.
-  4. `;rc !!getlink enable all` 
-1. Enables the "getlink" command for everyone.
-  5. `;rc !!listqueue enable all` 
-1. Enables the "listqueue" command for everyone.
+1.	`;sm Music disable`
 
-###How do I create an NSFW channel?
-You want to only allow NSFW commands in the #nsfw channel. - `;cm nsfw disable all` disable the nsfw module in every channel. - `;cm nsfw enable #nsfw` re-enable the nsfw module in the #nsfw channel.
+	*	Disables music commands for everybody
 
-_-- Thanks to @applemac for writing this guide_
+2.	`;sc !!nowplaying enable`
 
-Old Guide
----------
-**NadekoBot's permissions can be set up to be very specific through commands in the Permissions module.**
+	*	Enables the "nowplaying" command for everyone
 
-Each command or module can be turned on or off at: 
-- The user level (so specific users can or cannot use a command/module)
-- The role level (so only certain roles have access to certain commands/module) 
-- The channel level (so certain commands can be limited to certain channels, which can prevent music / trivia / NSFW spam in serious channels)
-- The server level.
+3.	`;sc !!getlink enable`
 
-Use `.modules` to see a list of modules (sets of commands). Use `.commands [module_name]` to see a list of commands in a certain module.
+	*	Enables the "getlink" command for everyone
 
-Permissions use a semicolon as the prefix, so always start the command with a `;`.
+4.	`;sc !!listqueue enable`
 
-Follow the semicolon with the letter of the level which you want to edit: 
-- "u" for Users. 
-- "r" for Roles. 
-- "c" for Channels. 
-- "s" for Servers.
+	*	Enables the "listqueue" command for everyone
 
-Follow the level with whether you want to edit the permissions of a command or a module. 
-- "c" for Command. 
-- "m" for Module.
+5.	`;rm Music enable DJ`
 
-Follow with a space and then the command or module name (surround the command with quotation marks if there is a space within the command, for example "!!q" or "!!n").
+	*	Enables all the music commands only for the DJ role
 
-Follow that with another space and, to enable it, type one of the following: [1, true, t, enable], or to disable it, one of the following: [0, false, f, disable].
 
-Follow that with another space and the name of the user, role, channel. (depending on the first letter you picked)
+###How do I create a NSFW channel?
+Say you want to only enable NSFW commands in the #NSFW channel, just do the following two steps.
 
-####Examples #1
+1.	`;sm NSFW disable`
+	*	Disables the NSFW module from being used
 
-- `;rm NSFW 0 [Role_Name]` Disables the NSFW module for the role,
-- `;cc "!!n" 0 [Channel_Name]` Disables skipping to the next song in the channel, 
-- `;uc "!!q" 1 [User_Name]` Enables queuing of songs for the user, 
-- `;sm Gambling 0 Disables` gambling in the server.
- 
- Check permissions by using the letter of the level you want to check followed by a p, and then the name of the level in which you want to check. If there is no name, it will default to yourself for users, the @everyone role for roles, and the channel in which the command is sent for channels.
+2.	`;cm NSFW enable #NSFW`
+	*	Enables the NSFW module for use in the #NSFW channel
 
-####Examples #2
+###I've broken permissions and am stuck, can I reset permissions?
+Yes, there is a way, in one easy command!  
 
-- `;cp [Channel_Name]`
-- `;rp [Role_Name]`
+1.	`.resetperms`
+	*	This resets the permission chain back to default, with only NSFW disabled  
 
-Insert an "a" before the level to edit the permission for all commands / modules for all users / roles / channels / server.
-
-Reference the Help command (-h) for more Permissions related commands.
+_-- Thanks to @applemac for providing the template for this guide_

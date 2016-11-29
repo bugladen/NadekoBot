@@ -4,7 +4,7 @@
 
 - *Bot Owner Only* commands refer to the commands only the **owner** of the bot can use.
 - *Bot Owner Only* commands do **not** refer to the owner of the **server**, just the owner of the **bot**.
-- *Owner of the bot* is a person who is **hosting** his own bot, and his **ID** is inside of **credentials.json** file.
+- *Owner of the bot* is a person who is **hosting** their own bot, and their **ID** is inside of **credentials.json** file.
 - You are **not** the bot **owner** if you invited the bot using **Carbonitex** or other invitation links.
 
 ###Music on the public Nadeko
@@ -17,11 +17,11 @@
 ###NadekoFlowers
 
 - NadekoFlowers is the **currency** of the public Nadeko.
-- NadekoFlowers can be earned by playing **trivia**, or other games, like betting games.
+- NadekoFlowers can be `>pick`ed after Nadeko plants a flower randomly after `>gc` has been used on a channel
 - You can give NadekoFlowers to other users, using the command `$give X @person`.
 - You can only give flowers you **own**.
 - If you want to have **unlimited** number of flowers, you will have to **host** the bot.
-- Command `$award X @person` can only be used by the *bot owner*.
+- Commands `$award X @person` and `$take X @person` can only be used by the *bot owner*.
 - If you `>plant` the flower, flower will be avaliable for everyone to `>pick` it. In that case you will **lose** the flower.
 
 ###Manage Permissions
