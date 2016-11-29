@@ -221,7 +221,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 ####Updating Nadeko
 
 - Connect to the terminal through PuTTY.
-- `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command to what ever you named your bot's session)
+- `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
 - Make sure the bot is **not** running.
 - `tmux new -s nadeko` (**nadeko** is the name of the session)
 - `cd ~ && bash linuxAIO.sh`
@@ -231,7 +231,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 ####Alternative way to Install
 
-If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows error, check if you have the `linuxAIO.sh` file and make sure its not renamed or manually install using the following command(s):
+If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
 
 
 ![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
