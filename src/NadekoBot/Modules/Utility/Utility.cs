@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Utility
                 .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
                 .WithFooter(fb => fb.WithIconUrl("https://media0.giphy.com/media/JIu5iDNbCeLsI/200_s.gif").WithText("Nadeko"))
                 .WithTimestamp(DateTime.Now);
-            await channel.SendMessageAsync("-", embed: embed);
+            await channel.SendMessageAsync("-", embed: embed.Build());
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
