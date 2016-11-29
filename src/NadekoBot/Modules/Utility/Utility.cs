@@ -157,8 +157,32 @@ namespace NadekoBot.Modules.Utility
         public async Task Stats(IUserMessage umsg)
         {
             var channel = umsg.Channel;
+            var desc = await NadekoBot.Stats.Print();
+            var servers = await NadekoBot.Stats.PrintServers();
+            var version = await NadekoBot.Stats.PrintVersion();
+            var uptime = await NadekoBot.Stats.PrintUptime();
+            var statistics = await NadekoBot.Stats.PrintStatistics();
+            var botid = await NadekoBot.Stats.PrintBotID();
+            var owners = await NadekoBot.Stats.PrintOwners();
+            DateTimeOffset date = date.ToLocalTime();
 
-            await channel.SendMessageAsync(await NadekoBot.Stats.Print());
+            var embed = new EmbedBuilder()
+                .WithAuthor(eau => eau.WithName("Author: [Kwoth#2560] | Library: [Discord.NET]")
+                .WithIconUrl("http://i.imgur.com/y0n6Lu4.jpg"))
+                .WithUrl("https://github.com/kwoth/nadekobot")
+                .WithTitle("Bot Information")
+                .WithDescription(servers)
+                .AddField(fb => fb.WithIndex(1).WithName("**Bot Version**").WithValue(version).WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName("**Bot ID**").WithValue(botid).WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName("**Uptime**").WithValue(uptime).WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName("**Statistics**").WithValue(statistics).WithIsInline(true))
+                .WithColor(0xee42f4)
+                .AddField(fb => fb.WithIndex(1).WithName("**Owners**").WithValue(owners).WithIsInline(false))
+                .WithThumbnail(tn => tn.Url = "https://avatars.githubusercontent.com/u/2537696?v=3")
+                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
+                .WithFooter(fb => fb.WithIconUrl("https://media0.giphy.com/media/JIu5iDNbCeLsI/200_s.gif").WithText("Nadeko"))
+                .WithTimestamp(DateTime.Now);
+            await channel.SendMessageAsync("-", embed: embed);
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);

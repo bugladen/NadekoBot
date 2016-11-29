@@ -61,15 +61,55 @@ namespace NadekoBot.Services.Impl
         public async Task<string> Print()
         {
             var curUser = await client.GetCurrentUserAsync();
-            return $@"```css
+            return $@"
 Author: [Kwoth#2560] | Library: [Discord.Net]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
 Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
 Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}
-Commands Ran this session: {commandsRan}
-Messages: {messageCounter} [{messageCounter / (double)GetUptime().TotalSeconds:F2}/sec] Heap: [{Heap} MB]```";
+`Commands Ran this session: {commandsRan}`
+`Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`";
+        }
+
+        public async Task<string> PrintVersion()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"{BotVersion}";
+        }
+
+        public async Task<string> PrintOwners()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}";
+        }
+
+        public async Task<string> PrintUptime()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"{GetUptimeString()}";
+        }
+
+        public async Task<string> PrintBotID()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"{curUser.Id}";
+        }
+
+        public async Task<string> PrintServers()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}";
+        }
+
+        public async Task<string> PrintStatistics()
+        {
+            var curUser = await client.GetCurrentUserAsync();
+            return $@"Commands Ran this session: {commandsRan}
+
+Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)
+
+Heap: {Heap} MB";
         }
 
         public Task Reset()
