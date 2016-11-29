@@ -1,4 +1,5 @@
-### Setting Up NadekoBot on OSX
+## Setting Up NadekoBot on OSX
+
 #### Prerequisites 
 - [Homebrew][Homebrew]
 - Google Account
