@@ -20,7 +20,7 @@ CD /D %installtemp%
 ::Downloads the latest version of Nadeko
 ECHO Downloading Nadeko...
 ECHO.
-git clone -b 1.0 --recursive --depth 1 --progress https://github.com/Kwoth/NadekoBot.git >nul
+git clone -b master --recursive --depth 1 --progress https://github.com/Kwoth/NadekoBot.git >nul
 IF %ERRORLEVEL% EQU 128 (GOTO :giterror)
 TITLE Installing NadekoBot, please wait
 ECHO.
@@ -107,4 +107,4 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	ECHO.
 	ECHO Installation complete, press any key to close this window!
 	PAUSE >nul 2>&1
-	del NadekoStable.bat
+	del Stable.bat

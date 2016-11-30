@@ -156,8 +156,8 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
             var channel = (ITextChannel)umsg.Channel;
 
             await channel.SendMessageAsync(
-@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/1.0/Commands%20List/>
-**Hosting Guides and docs can be found here**: <http://nadekobot.readthedocs.io/en/1.0/>").ConfigureAwait(false);
+@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
+**Hosting Guides and docs can be found here**: <http://nadekobot.readthedocs.io/en/latest/>").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
