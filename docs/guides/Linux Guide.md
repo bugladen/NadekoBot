@@ -108,7 +108,7 @@ Next, choose `5` to exit.
 
 ####Creating and Inviting bot
 
-- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#creating-discordbot-application)
+- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
 - [Visual Invite Guide](http://discord.kongslien.net/guide.html) *NOTE: Client ID is your Bot ID*
 - Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
@@ -120,18 +120,18 @@ Next, choose `5` to exit.
 
 **Skip this step if you are a Regular User or New to Linux.**
 
-[![img7][img7]](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot)
+[![img7][img7]](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)
 
-- Right after [Getting NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot)
+- Right after [Getting NadekoBot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)
 - `cd NadekoBot/src/NadekoBot/` (go to this folder)
 - `pico credentials.json` (open credentials.json to edit)
-- Insert your bot's **Client ID, Bot ID** (should be same as your Client ID) **and Token** if you got it following [Creating and Inviting bot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#creating-and-inviting-bot).
-- Insert your own ID in Owners ID follow: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- And Google API from [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
+- Insert your bot **Client ID, Bot ID** (should be same as your Client ID) **and Token** if you got it following [Creating and Inviting bot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#creating-and-inviting-bot).
+- Insert your own ID in Owners ID follow: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
+- And Google API from [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 - Once done, press `CTRL+X`
 - It will ask for "Save Modified Buffer?", press `Y` for yes
 - It will then ask "File Name to Write" (rename), just hit `Enter` and Done.
-- You can now move to [Running NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#running-nadekobot)
+- You can now move to [Running NadekoBot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
 
 ####Setting up SFTP
 
@@ -149,14 +149,14 @@ Next, choose `5` to exit.
 ####Setting up credentials.json
 
 - Copy the `credentials.json` to desktop
-- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-credentialsjson-file)
+- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
 - Paste/put it back in the folder once done. `(Using CyberDuck/WinSCP)`
 - **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using CyberDuck.
-- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/1.0/guides/Upgrading%20Guide/)
+- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
 
 ####Setting up Music
 
-To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
+To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 
 Once done, go back to **PuTTY**
 
@@ -175,16 +175,16 @@ The above command will create a new session named **nadeko** *(you can replace â
 From the options,
 
 Choose `3` To Run the bot normally.		
-**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
 
 Choose `4` To Run the bot with Auto Restart.	
-**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to function as restart.	
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to function as restart.	
 
 See how that happens:
 
 ![img9](https://cdn.discordapp.com/attachments/251504306010849280/251506312893038592/die_explaination.gif)
 
-**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
+**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
 
 **Now check your Discord, the bot should be online**
 
@@ -216,7 +216,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 - Kill your previous session, check with `tmux ls`
 - `tmux kill-session -t nadeko` (don't forget to replace "nadeko" to what ever you named your bot's session)
-- [Run the bot again.](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#running-nadekobot)
+- [Run the bot again.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
 
 ####Updating Nadeko
 
@@ -231,7 +231,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 ####Alternative way to Install
 
-If the [Nadeko installer](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
+If the [Nadeko installer](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
 
 
 ![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
