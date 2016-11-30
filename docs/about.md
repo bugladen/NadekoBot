@@ -1,6 +1,6 @@
 ## Terms of Use
 
-The Unlicense License
+**The Unlicense License**
 
 This is free and unencumbered software released into the public domain.
 
