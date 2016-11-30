@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.API;
 using Discord.WebSocket;
 using ImageSharp;
 using Newtonsoft.Json;

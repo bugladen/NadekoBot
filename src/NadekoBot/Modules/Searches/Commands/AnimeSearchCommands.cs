@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.API;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -63,7 +64,8 @@ namespace NadekoBot.Modules.Searches
                             Name = "Genres",
                             Value = String.Join(", ", animeData.Genres)
                         }
-                    }
+                    },
+                    Color = NadekoBot.OkColor
                 };
                 await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -104,7 +106,8 @@ namespace NadekoBot.Modules.Searches
                             Name = "Genres",
                             Value = String.Join(", ", animeData.Genres)
                         }
-                    }
+                    },
+                    Color = NadekoBot.OkColor
                 };
 
                 await channel.EmbedAsync(embed).ConfigureAwait(false);
