@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         config = uow.GuildConfigs.For(channel.Guild.Id);
                     }
-                    await channel.SendMessageAsync("ℹ️ Current **DM greet** message: `" + config.ChannelGreetMessageText?.SanitizeMentions() + "`");
+                    await channel.SendMessageAsync("ℹ️ Current **DM greet** message: `" + config.DmGreetMessageText?.SanitizeMentions() + "`");
                     return;
                 }
 
@@ -292,7 +292,7 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.GuildConfigs.For(guildId);
-                    conf.ChannelGreetMessageText = message;
+                    conf.DmGreetMessageText = message;
                     greetMsgEnabled = conf.SendChannelGreetMessage;
 
                     uow.GuildConfigs.Update(conf);
