@@ -17,8 +17,8 @@ ________________________________________________________________________________
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a **new folder** anywhere you like and name it `Nadeko`.
-- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoWinAIO.bat) and select **Save link as** and save the file `NadekoWinAIO.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoWinAIO.bat`)
-- Once that's done, double-click on `NadekoWinAIO.bat` to run it.
+- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoInstaller.bat`)
+- Once that's done, double-click on `NadekoInstaller.bat` to run it.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
@@ -59,7 +59,7 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 
 ####Starting the bot
-- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoWinAIO.bat` file.
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file.
 - From the options,
 	- Choose `3` to **run the bot normally**.	
 	(with normal-run the bot will shutdown and will stay offline if it disconnects by the use of `.die` command until you manually run it again. Useful if you want to test the bot.)
@@ -69,14 +69,14 @@ ________________________________________________________________________________
 ####Updating NadekoBot
 - Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
 - Once that's checked, go to the `Nadeko` folder.
-- Run the `NadekoWinAIO.bat` file.
+- Run the `NadekoInstaller.bat` file.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
 - Follow the messages and press any key to continue.
 - Wait for it to finish. 
 - Press any key to close the window when it shows **Installation complete.** 
-- [Start the bot again.](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#starting-the-bot)
+- [Start the bot again.](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#starting-the-bot)
 - You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
@@ -113,7 +113,6 @@ ________________________________________________________________________________
 
 [.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
 [Git]: https://git-scm.com/download/win
-[WinInstaller]: https://github.com/Kwoth/NadekoBotInstallerWin/archive/master.zip
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me
