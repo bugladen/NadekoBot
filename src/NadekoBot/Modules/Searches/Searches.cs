@@ -43,12 +43,18 @@ namespace NadekoBot.Modules.Searches
 
             var obj = JObject.Parse(response)["weather"];
 
-            await channel.SendMessageAsync(
-$@"🌍 **Weather for** 【{obj["target"]}】
-📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
-😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
-🌡 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
-🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
+            var embed = new EmbedBuilder()
+                .AddField(fb => fb.WithName("🌍 Location").WithValue($"{obj["target"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 Lat,Long").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ Condition").WithValue($"{obj["condition"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 Humidity").WithValue($"{obj["humidity"]}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 Wind Speed").WithValue($"{obj["windspeedk"]}km/h / {obj["windspeedm"]}mph").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 Temperature").WithValue($"{obj["centigrade"]}°C / {obj["fahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 Feels like").WithValue($"{obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 Sunrise").WithValue($"{obj["sunrise"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 Sunset").WithValue($"{obj["sunset"]}").WithIsInline(true))
+                .WithColor(NadekoBot.OkColor);
+            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
