@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.API;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -37,9 +38,36 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
-                var result = await GetAnimeData(query).ConfigureAwait(false);
+                var animeData = await GetAnimeData(query).ConfigureAwait(false);
 
-                await channel.SendMessageAsync(result.ToString() ?? "`No anime found.`").ConfigureAwait(false);
+                var embed = new Discord.API.Embed()
+                {
+                    Description = animeData.Synopsis,
+                    Title = animeData.title_english,
+                    Url = animeData.Link,
+                    Image = new Discord.API.EmbedImage() {
+                        Url = animeData.image_url_lge
+                    },
+                    Fields = new[] {
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Episodes",
+                            Value = animeData.total_episodes.ToString()
+                        },
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Status",
+                            Value =  animeData.AiringStatus.ToString()
+                        },
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Genres",
+                            Value = String.Join(", ", animeData.Genres)
+                        }
+                    },
+                    Color = NadekoBot.OkColor
+                };
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -51,9 +79,38 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
-                var result = await GetMangaData(query).ConfigureAwait(false);
+                var animeData = await GetMangaData(query).ConfigureAwait(false);
 
-                await channel.SendMessageAsync(result.ToString() ?? "`No manga found.`").ConfigureAwait(false);
+                var embed = new Discord.API.Embed()
+                {
+                    Description = animeData.Synopsis,
+                    Title = animeData.title_english,
+                    Url = animeData.Link,
+                    Image = new Discord.API.EmbedImage()
+                    {
+                        Url = animeData.image_url_lge
+                    },
+                    Fields = new[] {
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Chapters",
+                            Value = animeData.total_chapters.ToString()
+                        },
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Status",
+                            Value =  animeData.publishing_status.ToString()
+                        },
+                        new Discord.API.EmbedField() {
+                            Inline = true,
+                            Name = "Genres",
+                            Value = String.Join(", ", animeData.Genres)
+                        }
+                    },
+                    Color = NadekoBot.OkColor
+                };
+
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             private async Task<AnimeResult> GetAnimeData(string query)
