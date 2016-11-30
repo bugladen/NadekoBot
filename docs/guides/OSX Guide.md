@@ -30,7 +30,7 @@ brew install tmux
 
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
-- Download the .NET Core SDK, found [here.](https://go.microsoft.com/fwlink/?LinkID=827526)
+- Download the [.NET Core SDK](https://www.microsoft.com/net/core#macos), found [here.](https://go.microsoft.com/fwlink/?LinkID=835011)
 - Open the `.pkg` file you downloaded and install it.
 - `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
 
@@ -116,11 +116,11 @@ Next, choose `5` to exit.
 From the options,
 
 Choose `3` To Run the bot normally.		
-**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
 
 Choose `4` To Run the bot with Auto Restart.	
-**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to be used as restart.	
-**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to be used as restart.	
+**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
 
 **Now check your Discord, the bot should be online**
 
@@ -137,12 +137,12 @@ If you used Screen press CTRL+A+D (this will detach the nadeko screen)
   
 ####Setting NadekoBot Music
 
-For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/).
+For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/).
 
 ####Updating Nadeko
 
 - Connect to the terminal.
-- `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
+- `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
 - Make sure the bot is **not** running.
 - `tmux new -s nadeko` (**nadeko** is the name of the session)
 - `cd ~ && bash linuxAIO.sh`

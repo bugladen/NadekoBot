@@ -107,4 +107,4 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	ECHO.
 	ECHO Installation complete, press any key to close this window!
 	PAUSE >nul 2>&1
-	del NadekoLatest.bat
+	del Latest.bat

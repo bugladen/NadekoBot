@@ -10,6 +10,11 @@ using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using Discord.WebSocket;
+using NadekoBot.Services.Impl;
+using Discord.API;
+using Embed = Discord.API.Embed;
+using EmbedAuthor = Discord.API.EmbedAuthor;
+using EmbedField = Discord.API.EmbedField;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -37,7 +42,7 @@ namespace NadekoBot.Modules.Utility
 
             int i = 0;
             if (!arr.Any())
-                await channel.SendMessageAsync(_l["🚧 `Nobody is playing that game.`"]).ConfigureAwait(false);
+                await channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
         }
@@ -157,32 +162,68 @@ namespace NadekoBot.Modules.Utility
         public async Task Stats(IUserMessage umsg)
         {
             var channel = umsg.Channel;
-            var desc = await NadekoBot.Stats.Print();
-            var servers = await NadekoBot.Stats.PrintServers();
-            var version = await NadekoBot.Stats.PrintVersion();
-            var uptime = await NadekoBot.Stats.PrintUptime();
-            var statistics = await NadekoBot.Stats.PrintStatistics();
-            var botid = await NadekoBot.Stats.PrintBotID();
-            var owners = await NadekoBot.Stats.PrintOwners();
-            DateTimeOffset date = date.ToLocalTime();
 
-            var embed = new EmbedBuilder()
-                .WithAuthor(eau => eau.WithName("Author: [Kwoth#2560] | Library: [Discord.NET]")
-                .WithIconUrl("http://i.imgur.com/y0n6Lu4.jpg"))
-                .WithUrl("https://github.com/kwoth/nadekobot")
-                .WithTitle("Bot Information")
-                .WithDescription(servers)
-                .AddField(fb => fb.WithIndex(1).WithName("**Bot Version**").WithValue(version).WithIsInline(true))
-                .AddField(fb => fb.WithIndex(1).WithName("**Bot ID**").WithValue(botid).WithIsInline(true))
-                .AddField(fb => fb.WithIndex(1).WithName("**Uptime**").WithValue(uptime).WithIsInline(true))
-                .AddField(fb => fb.WithIndex(1).WithName("**Statistics**").WithValue(statistics).WithIsInline(true))
-                .WithColor(0xee42f4)
-                .AddField(fb => fb.WithIndex(1).WithName("**Owners**").WithValue(owners).WithIsInline(false))
-                .WithThumbnail(tn => tn.Url = "https://avatars.githubusercontent.com/u/2537696?v=3")
-                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
-                .WithFooter(fb => fb.WithIconUrl("https://media0.giphy.com/media/JIu5iDNbCeLsI/200_s.gif").WithText("Nadeko"))
-                .WithTimestamp(DateTime.Now);
-            await channel.SendMessageAsync("-", embed: embed.Build());
+            var stats = NadekoBot.Stats;
+
+            await channel.EmbedAsync(
+                new Embed()
+                {
+                    Author = new EmbedAuthor()
+                    {
+                        Name = $"NadekoBot v{StatsService.BotVersion}",
+                        Url = "http://nadekobot.readthedocs.io/en/latest/",
+                        IconUrl = "https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"
+                    },
+                    Fields = new[] {
+                        new EmbedField() {
+                            Name = "Author",
+                            Value = stats.Author,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Library",
+                            Value = stats.Library,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Bot ID",
+                            Value = NadekoBot.Client.GetCurrentUser().Id.ToString(),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Commands Ran",
+                            Value = stats.CommandsRan.ToString(),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Messages",
+                            Value = $"{stats.MessageCounter} [{stats.MessagesPerSecond:F2}/sec]",
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Memory",
+                            Value = $"{stats.Heap} MB",
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Owner ID(s)",
+                            Value = stats.OwnerIds,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Uptime",
+                            Value = stats.GetUptimeString("\n"),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Presence",
+                            Value = $"{NadekoBot.Client.GetGuilds().Count} servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
+                            Inline = true
+                        },
+
+                    },
+                    Color = NadekoBot.OkColor
+                });
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
@@ -252,4 +293,3 @@ namespace NadekoBot.Modules.Utility
         //}
     }
 }
-
