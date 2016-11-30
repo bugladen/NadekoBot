@@ -12,17 +12,24 @@ namespace NadekoBot.Services.Impl
 {
     public class StatsService : IStatsService
     {
-        private int messageCounter;
-        private ShardedDiscordClient  client;
+        private ShardedDiscordClient client;
         private DateTime started;
-        private int commandsRan = 0;
 
         public const string BotVersion = "1.0-rc2";
 
+        public string Author => "Kwoth#2560";
+        public string Library => "Discord.Net";
+        public int MessageCounter { get; private set; } = 0;
+        public int CommandsRan { get; private set; } = 0;
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
+        public double MessagesPerSecond => MessageCounter / (double)GetUptime().TotalSeconds;
+        public int TextChannels => client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count();
+        public int VoiceChannels => client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count();
+        public string OwnerIds => string.Join(", ", NadekoBot.Credentials.OwnerIds);
+
+
 
         Timer carbonitexTimer { get; }
-
 
         public StatsService(ShardedDiscordClient  client, CommandHandler cmdHandler)
         {
@@ -30,8 +37,8 @@ namespace NadekoBot.Services.Impl
             this.client = client;
 
             Reset();
-            this.client.MessageReceived += _ => Task.FromResult(messageCounter++);
-            cmdHandler.CommandExecuted += (_, e) => commandsRan++;
+            this.client.MessageReceived += _ => Task.FromResult(MessageCounter++);
+            cmdHandler.CommandExecuted += (_, e) => CommandsRan++;
 
             this.client.Disconnected += _ => Reset();
 
@@ -61,20 +68,20 @@ namespace NadekoBot.Services.Impl
         public async Task<string> Print()
         {
             var curUser = await client.GetCurrentUserAsync();
-            return $@"```css
-Author: [Kwoth#2560] | Library: [Discord.Net]
+            return $@"
+Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
-Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
+Owner ID(s): {OwnerIds}
 Uptime: {GetUptimeString()}
-Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}
-Commands Ran this session: {commandsRan}
-Messages: {messageCounter} [{messageCounter / (double)GetUptime().TotalSeconds:F2}/sec] Heap: [{Heap} MB]```";
+Servers: {client.GetGuilds().Count} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
+Commands Ran this session: {CommandsRan}
+Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]";
         }
 
         public Task Reset()
         {
-            messageCounter = 0;
+            MessageCounter = 0;
             started = DateTime.Now;
             return Task.CompletedTask;
         }
@@ -82,10 +89,10 @@ Messages: {messageCounter} [{messageCounter / (double)GetUptime().TotalSeconds:F
         public TimeSpan GetUptime() =>
             DateTime.Now - started;
 
-        public string GetUptimeString()
+        public string GetUptimeString(string separator = ", ")
         {
             var time = GetUptime();
-            return time.Days + " days, " + time.Hours + " hours, and " + time.Minutes + " minutes.";
+            return $"{time.Days} days{separator}{time.Hours} hours{separator}{time.Minutes} minutes";
         }
     }
 }

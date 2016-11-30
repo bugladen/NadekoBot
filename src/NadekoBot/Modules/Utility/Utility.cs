@@ -10,6 +10,11 @@ using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using Discord.WebSocket;
+using NadekoBot.Services.Impl;
+using Discord.API;
+using Embed = Discord.API.Embed;
+using EmbedAuthor = Discord.API.EmbedAuthor;
+using EmbedField = Discord.API.EmbedField;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -37,7 +42,7 @@ namespace NadekoBot.Modules.Utility
 
             int i = 0;
             if (!arr.Any())
-                await channel.SendMessageAsync(_l["🚧 `Nobody is playing that game.`"]).ConfigureAwait(false);
+                await channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
         }
@@ -158,7 +163,67 @@ namespace NadekoBot.Modules.Utility
         {
             var channel = umsg.Channel;
 
-            await channel.SendMessageAsync(await NadekoBot.Stats.Print());
+            var stats = NadekoBot.Stats;
+
+            await channel.EmbedAsync(
+                new Embed()
+                {
+                    Author = new EmbedAuthor()
+                    {
+                        Name = $"NadekoBot v{StatsService.BotVersion}",
+                        Url = "http://nadekobot.readthedocs.io/en/latest/",
+                        IconUrl = "https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"
+                    },
+                    Fields = new[] {
+                        new EmbedField() {
+                            Name = "Author",
+                            Value = stats.Author,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Library",
+                            Value = stats.Library,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Bot ID",
+                            Value = NadekoBot.Client.GetCurrentUser().Id.ToString(),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Commands Ran",
+                            Value = stats.CommandsRan.ToString(),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Messages",
+                            Value = $"{stats.MessageCounter} [{stats.MessagesPerSecond:F2}/sec]",
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Memory",
+                            Value = $"{stats.Heap} MB",
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Owner ID(s)",
+                            Value = stats.OwnerIds,
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Uptime",
+                            Value = stats.GetUptimeString("\n"),
+                            Inline = true
+                        },
+                        new EmbedField() {
+                            Name = "Presence",
+                            Value = $"{NadekoBot.Client.GetGuilds().Count} servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
+                            Inline = true
+                        },
+
+                    },
+                    Color = NadekoBot.OkColor
+                });
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
