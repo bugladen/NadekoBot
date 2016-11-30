@@ -36,7 +36,7 @@ ________________________________________________________________________________
 - Keep this window open for now.
 
 ####Setting up credentials.json file
-- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
+- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a `.json` after `credentials.json`, do not add the `.json`. You most likely have **"Hide file extensions"** enabled.)
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with [Notepad++][Notepad++].
 - In there you will see fields such as `Token`, `ClientId`, `BotId` and `OwnerIDs`.
@@ -106,7 +106,7 @@ ________________________________________________________________________________
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
 - Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
 - Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
-- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly [http://i.imgur.com/aR5l1Hn.gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
+- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
 - Setup your API keys as explained above.
 - Restart your computer.
