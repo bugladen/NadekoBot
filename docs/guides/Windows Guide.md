@@ -16,7 +16,7 @@ ________________________________________________________________________________
 
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
-- Create a **new folder** in the root directory of any hard drive and name it `Nadeko`. (If you choose any other name, make sure it doesn't contain a space in their folder name) 
+- Create a **new folder** anywhere you like and name it `Nadeko`.
 - Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoInstaller.bat`)
 - Once that's done, double-click on `NadekoInstaller.bat` to run it.
 - From the options, 
