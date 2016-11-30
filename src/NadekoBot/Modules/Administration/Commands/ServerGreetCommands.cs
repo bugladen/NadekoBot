@@ -293,7 +293,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var conf = uow.GuildConfigs.For(guildId);
                     conf.DmGreetMessageText = message;
-                    greetMsgEnabled = conf.SendChannelGreetMessage;
+                    greetMsgEnabled = conf.SendDmGreetMessage;
 
                     uow.GuildConfigs.Update(conf);
                     uow.Complete();
