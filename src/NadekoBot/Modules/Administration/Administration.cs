@@ -638,7 +638,6 @@ namespace NadekoBot.Modules.Administration
         public async Task Prune(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
-            int count = 100
             var user = channel.Guild.GetCurrentUser();
             var enumerable = (await umsg.Channel.GetMessagesAsync()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
