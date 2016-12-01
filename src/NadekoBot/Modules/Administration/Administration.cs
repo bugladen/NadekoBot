@@ -635,11 +635,11 @@ namespace NadekoBot.Modules.Administration
         //delets her own messages, no perm required
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Prune(IUserMessage umsg)
+        public async Task Prune(IUserMessage umsg, int count)
         {
             var channel = (ITextChannel)umsg.Channel;
             var user = channel.Guild.GetCurrentUser();
-            var enumerable = (await umsg.Channel.GetMessagesAsync(100)).Where(x => x.Author.Id == user.Id);
+            var enumerable = (await umsg.Channel.GetMessagesAsync(count : 100)).Where(x => x.Author.Id == user.Id);
             await umsg.Channel.DeleteMessagesAsync(enumerable);
         }
 
