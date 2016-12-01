@@ -640,8 +640,9 @@ namespace NadekoBot.Modules.Administration
             var channel = (ITextChannel)umsg.Channel;
 
             var user = channel.Guild.GetCurrentUser();
-            
-            var enumerable = (await umsg.Channel.GetMessagesAsync()).Where(x => x.Author.Id == user.Id);
+
+            var enumerable = (await umsg.Channel.GetMessagesAsync()).AsEnumerable();
+            enumerable = enumerable.Where(x => x.Author.Id == user.Id);
             await umsg.Channel.DeleteMessagesAsync(enumerable);
         }
 
