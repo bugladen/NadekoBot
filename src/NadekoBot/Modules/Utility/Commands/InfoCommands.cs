@@ -98,7 +98,7 @@ __`Users:`__ **{(await ch.GetUsersAsync()).Count()}**";
 ⚔ __`Roles:`__ **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**";
             if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
                 toReturn += $@"
-                📷 __`Avatar URL:`__ **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
+📷 __`Avatar URL:`__ **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
                 await msg.Reply(toReturn).ConfigureAwait(false);
         }
     }
