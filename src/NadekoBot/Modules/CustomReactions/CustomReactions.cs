@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
                                                           .OrderBy(cr => cr.Key)
-                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Count() })
+                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y=>y.Response).ToList() })
                                                           .ToJson()
                                                           .ToStream()
                                                           .ConfigureAwait(false);
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.CustomReactions
         [NadekoCommand, Usage, Description, Aliases]
         public async Task ListCustReactG(IUserMessage imsg, int page = 1)
         {
-            var channel = (ITextChannel)imsg.Channel;
+            var channel = imsg.Channel as ITextChannel;
             if (page < 1 || page > 10000)
                 return;
             ConcurrentHashSet<CustomReaction> customReactions;
