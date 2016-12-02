@@ -8,11 +8,9 @@ In case you need any help, hop on the [NadekoBot Server][NadekoBot Server], wher
 
 NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
 
-Check the latest [Release][Release]
-
 Here you can read current [Issues][Issues].
 
-If you want to contribute, be sure to PR on the **[1.0][1.0]** branch.
+If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 ##Content
 - [About](about.md)
 - Guides
@@ -31,12 +29,11 @@ If you want to contribute, be sure to PR on the **[1.0][1.0]** branch.
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)
 
-[img]: https://discordcdn.com/attachments/202743183774318593/210580315381563392/discord.png
+[img]: https://cdn.discordapp.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
 [GitHub]: https://github.com/Kwoth/NadekoBot
 [Issues]: https://github.com/Kwoth/NadekoBot/issues
-[1.0]: https://github.com/Kwoth/NadekoBot/tree/1.0
-[Release]: https://github.com/Kwoth/NadekoBot/releases
+[dev]: https://github.com/Kwoth/NadekoBot/tree/dev
 
 [Italian]: http://i.imgur.com/SsaTwOF.png?1
 [Russian]: http://i.imgur.com/wf9bc5G.png?1

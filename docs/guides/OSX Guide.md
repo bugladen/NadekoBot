@@ -30,7 +30,7 @@ brew install tmux
 
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
-- Download the .NET Core SDK, found [here.](https://go.microsoft.com/fwlink/?LinkID=827526)
+- Download the [.NET Core SDK](https://www.microsoft.com/net/core#macos), found [here.](https://go.microsoft.com/fwlink/?LinkID=835011)
 - Open the `.pkg` file you downloaded and install it.
 - `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
 
@@ -69,30 +69,26 @@ Choose either `1` or `2` then press `enter` key.
 Once Installation is completed you should see the options again.	
 Next, choose `5` to exit. 
 
-####Creating DiscordBot application
-- Go to [the Discord developer application page.][DiscordApp]
-- Log in with your Discord account.
-- On the left side, press `New Application`.
-- Fill out the `App Name` (your bot's name, in this case), put the image you want, and add an app description(optional).
-- Create the application.
-- Click on `Create a Bot User` and confirm it.
-- Keep this window open for now.
+####Creating and Inviting bot
+
+- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
+- [Visual Invite Guide](http://discord.kongslien.net/guide.html) *NOTE: Client ID is your Bot ID*
+- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
+- Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
+- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
+- Go to the newly created link and pick the server we created, and click `Authorize`.
+- The bot should have been added to your server.
  
 ####Setting up Credentials.json file
 - Open up the `NadekoBot` folder, which should be in your home directory, then `NadekoBot` folder then `src` folder and then the additonal `NadekoBot` folder.
-- In our `NadekoBot` folder you should have `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
-- If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
-- Open the file with your Text editor.
-- In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token.
-- Copy your bot's token, and on the `"Token"` line of your `credentials.json`, paste your bot token inbetween the quotation marks before and after the token, like so `"Example.Token"`
-- Copy the `Client ID` on the page and replace the `123123123` part of the `ClientId` line with it, and put quotation marks before and after, like earlier.
-- Again, copy the same `Client ID` and replace the null part of the `BotId` line with it, and do **not** put quotation marks before and after the ID.
-- Go to a server on discord and attempt to mention yourself, but put a backslash at the start as shown below
-- So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
-- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
-- Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
-- If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
- 
+- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
+- **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data`.
+- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
+
+####Setting NadekoBot Music
+
+For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/).
+
 ####Running NadekoBot
 
 - Using tmux
@@ -116,33 +112,21 @@ Next, choose `5` to exit.
 From the options,
 
 Choose `3` To Run the bot normally.		
-**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
+**NOTE:** With option `3` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
 
 Choose `4` To Run the bot with Auto Restart.	
-**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/1.0/Commands%20List/#administration) making the command `.die` to be used as restart.	
-**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
+**NOTE:** With option `4` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to be used as restart.	
+**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
 
 **Now check your Discord, the bot should be online**
 
 Now time to move bot to background and to do that, press CTRL+B+D (this will detach the nadeko session using TMUX)	
-If you used Screen press CTRL+A+D (this will detach the nadeko screen)
-
-####Inviting your bot to your server 
-- [Invite Guide](http://discord.kongslien.net/guide.html)
-- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
-- Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
-- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
-- Go to the newly created link and pick the server we created, and click `Authorize`.
-- The bot should have been added to your server.  
-  
-####Setting NadekoBot Music
-
-For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/).
+If you used Screen press CTRL+A+D (this will detach the nadeko screen) 
 
 ####Updating Nadeko
 
 - Connect to the terminal.
-- `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/1.0/guides/OSX%20Guide/#some-more-info)
+- `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
 - Make sure the bot is **not** running.
 - `tmux new -s nadeko` (**nadeko** is the name of the session)
 - `cd ~ && bash linuxAIO.sh`

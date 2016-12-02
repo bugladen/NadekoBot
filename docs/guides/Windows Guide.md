@@ -17,8 +17,8 @@ ________________________________________________________________________________
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a **new folder** anywhere you like and name it `Nadeko`.
-- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoWinAIO.bat) and select **Save link as** and save the file `NadekoWinAIO.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoWinAIO.bat`)
-- Once that's done, double-click on `NadekoWinAIO.bat` to run it.
+- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoInstaller.bat`)
+- Once that's done, double-click on `NadekoInstaller.bat` to run it.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
@@ -36,7 +36,7 @@ ________________________________________________________________________________
 - Keep this window open for now.
 
 ####Setting up credentials.json file
-- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a **.json** after `credentials.json `, do not add the `**.json**`. You most likely have `"Hide file extensions"` enabled.)
+- In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a `.json` after `credentials.json`, do not add the `.json`. You most likely have **"Hide file extensions"** enabled.)
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with [Notepad++][Notepad++].
 - In there you will see fields such as `Token`, `ClientId`, `BotId` and `OwnerIDs`.
@@ -59,7 +59,7 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 
 ####Starting the bot
-- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoWinAIO.bat` file.
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file.
 - From the options,
 	- Choose `3` to **run the bot normally**.	
 	(with normal-run the bot will shutdown and will stay offline if it disconnects by the use of `.die` command until you manually run it again. Useful if you want to test the bot.)
@@ -69,14 +69,14 @@ ________________________________________________________________________________
 ####Updating NadekoBot
 - Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
 - Once that's checked, go to the `Nadeko` folder.
-- Run the `NadekoWinAIO.bat` file.
+- Run the `NadekoInstaller.bat` file.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
 - Follow the messages and press any key to continue.
 - Wait for it to finish. 
 - Press any key to close the window when it shows **Installation complete.** 
-- [Start the bot again.](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#starting-the-bot)
+- [Start the bot again.](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#starting-the-bot)
 - You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
@@ -106,14 +106,13 @@ ________________________________________________________________________________
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
 - Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
 - Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
-- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly [http://i.imgur.com/aR5l1Hn.gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
+- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
 - Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
 - Setup your API keys as explained above.
 - Restart your computer.
 
 [.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
 [Git]: https://git-scm.com/download/win
-[WinInstaller]: https://github.com/Kwoth/NadekoBotInstallerWin/archive/master.zip
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me

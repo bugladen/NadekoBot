@@ -68,8 +68,7 @@ namespace NadekoBot.Modules.NSFW
             var links = await Task.WhenAll(GetGelbooruImageLink(tag), 
                                            GetDanbooruImageLink(tag),
                                            GetKonachanImageLink(tag),
-										   GetYandereImageLink(tag),
-                                           GetATFbooruImageLink(tag)).ConfigureAwait(false);
+										   GetYandereImageLink(tag)).ConfigureAwait(false);
 
             if (links.All(l => l == null))
             {
@@ -325,26 +324,6 @@ namespace NadekoBot.Modules.NSFW
             {
                 Console.WriteLine("Error in e621 search: \n" + ex);
                 return "Error, do you have too many tags?";
-            }
-        }
-
-        public static async Task<string> GetATFbooruImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-
-            var link = $"https://atfbooru.ninja/posts?" +
-                        $"limit=100";
-            if (!string.IsNullOrWhiteSpace(tag))
-                link += $"&tags={tag.Replace(" ", "+")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(link).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "data-file-url=\"(?<id>.*?)\"");
-
-                if (matches.Count == 0)
-                    return null;
-                return $"https://atfbooru.ninja" +
-                       $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
             }
         }
     }

@@ -535,7 +535,7 @@ namespace NadekoBot.Modules.Searches
                 if (matches.Count == 0)
                     return null;
                 var match = matches[rng.Next(0, matches.Count)];
-                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
 
