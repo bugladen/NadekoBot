@@ -64,6 +64,6 @@ Config.json
 DB files
 ========
 Nadeko uses few db files in order to open the database `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.0) or `data/NadekoBot.sqlite` (0.9x), you will need [DB Browser for SQLite](http://sqlitebrowser.org/) to make changes to any settings you want and click on "write changes" at the top.
-e.g. if you want to chnage 
+![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
 [CleverBot APIs]: https://cleverbot.io/keys
