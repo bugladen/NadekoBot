@@ -40,7 +40,7 @@ The whole list of commands can be found [here](http://nadekobot.readthedocs.io/e
 **Answer:** Try changing your discord [location][1], if this doesn't work be sure you have enabled the correct permissions for Nadeko and rebooted since installing FFMPEG.
 [1]: https://support.discordapp.com/hc/en-us/articles/216661717-How-do-I-change-my-Voice-Server-Region-
 
-###Question 9: I want to change data in the database (like NadekoFlowers or something else but how?
+###Question 9: I want to change data in the database like NadekoFlowers or something else but how?
 ----
 **Answer:** Follow the [DB Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#db-files), Open `/data/NadekoBot.db` using **sqlitebrowser** (or some alternative), Browse Data, select relevant table, change data, Write changes and done.
 
@@ -58,7 +58,7 @@ Follow this Detailed [Guide](http://discord.kongslien.net/guide.html).
 -----
 **Answer:** Using Visual Studio, you can solve these errors by going to `Tools` -> `NuGet Package Manager` -> `Manage NuGet Packages for Solution`. Go to the Installed tab, select the Packages that were missing (usually `Newtonsoft.json` and `RestSharp`) and install them for all projects
 
-###Question 13:  My bot has all permissions but it's still saying, "Failed to add roles. Bot has insufficient permissions.". How do I fix this?
+###Question 13:  My bot has all permissions but it's still saying, "Failed to add roles. Bot has insufficient permissions". How do I fix this?
 ----------
 **Answer:** Discord has added few new features and the roles now follows the role hierarchy which means you need to place your bot's role above every-other role your server has to fix the role hierarchy issue. [Here's](https://support.discordapp.com/hc/en-us/articles/214836687-Role-Management-101) a link to Discords role management 101.
 
