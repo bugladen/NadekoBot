@@ -59,14 +59,23 @@ Additional options
 
 Config.json
 ===========
-`config.json` is now removed with the addition of `NadekoBot.db` so if you have Nadeko 0.9x follow the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
+`config.json` is now removed with the addition of `NadekoBot.db` so if you have Nadeko 0.9x follow the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/) to upgrade your bot.
 
 DB files
 ========
-Nadeko uses few db files in order to open the database 
-- `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.0)
-- `data/NadekoBot.sqlite` (0.9x)  
-you will need [DB Browser for SQLite](http://sqlitebrowser.org/) to make changes to any settings you want and click on "write changes" at the top.
+Nadeko uses few db files in order to open these database files `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.0) or `data\NadekoBot.sqlite` (0.9x) you will need [DB Browser for SQLite](http://sqlitebrowser.org/).
+
+To make changes
+
+- go to **Browse Data** tab
+- click on **Table** drop-down list
+- choose the table you want to edit
+- click on the cell you want to edit
+- edit it on the right-hand side 
+- click on **Apply** 
+- click on **Write Changes**
+
+and that will save all the changes.
 
 ![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
