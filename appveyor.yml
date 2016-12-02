@@ -1,0 +1,11 @@
+version: 1.0.{build}
+before_build:
+- cmd: >-
+    git submodule update --init --recursive
+
+    dotnet restore
+
+    cd src/NadekoBot/
+build_script:
+- cmd: >-
+    dotnet build

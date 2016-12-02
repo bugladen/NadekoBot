@@ -4,7 +4,7 @@ To invite NadekoBot to your server, click on the image bellow:
 
 [![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
 
-In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we can provide support.
+In case you need any help, hop on the [NadekoBot Server][NadekoBot Server], where we can provide support.
 
 NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
 
@@ -17,8 +17,8 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 	- [Windows Guide](guides/Windows Guide.md)
 	- [Linux Guide](guides/Linux Guide.md)
 	- [OSX Guide](guides/OSX Guide.md)
-	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
+	- [Upgrading Guide](guides/Upgrading Guide.md)
 - Commands
 	- [Readme](Readme.md)
 	- [Commands List](Commands List.md)
@@ -29,7 +29,7 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)
 
-[img]: https://discordcdn.com/attachments/202743183774318593/210580315381563392/discord.png
+[img]: https://cdn.discordapp.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
 [GitHub]: https://github.com/Kwoth/NadekoBot
 [Issues]: https://github.com/Kwoth/NadekoBot/issues
