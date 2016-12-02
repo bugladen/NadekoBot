@@ -1,9 +1,11 @@
-###Upgrading Nadeko from an older release
+##Upgrading Nadeko from an older release
 
-- Follow the Windows Guide/Linux Guide/OS X Guide linked on the left.
-- Navigate to your old `Nadeko` folder and copy `credentials.json` and the `/data/` folder.
-- Paste this into the new Nadeko's `/NadekoBot/src/NadekoBot/` folder.
+**If you have NadekoBot 0.9x**
+
+- Follow the [Windows Guide](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/)/[Linux Guide](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/)/[OS X Guide](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/) and install **NadekoBot 1.0**.
+- Navigate to your **old** `Nadeko` folder and copy `credentials.json` file and the `data` folder.
+- Paste them into **NadekoBot 1.0** `/NadekoBot/src/NadekoBot/` folder.
 - If it asks you to overwrite files, it is fine to do so.
-- Now launch new Nadeko as the guide describes.
-- In any channel, run the `.migratedata` command - nadeko will now migrate your old data.
-- Restart nadeko and everything should work as expected!
+- Next launch your **new** Nadeko as the guide describes, if it is not already running.
+- In any channel, run the `.migratedata` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/) and Nadeko will start migrating your old data.
+- Once that is done **restart** Nadeko and everything should work as expected!
