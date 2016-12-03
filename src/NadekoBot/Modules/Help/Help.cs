@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Help
                     .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                     .WithTitle("🔎 **Error**")
                     .WithDescription("I can't find that command.")
-                    .WithColor(NadekoBot.ErrorColor)
+                    .WithColor(NadekoBot.ErrorColor);
                 await channel.EmbedAsync(erro.Build());
                 return;
             }
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Help
                 .WithTitle(str)
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
                 .AddField(fb => fb.WithIndex(1).WithName("**Usage:**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
-                .WithColor(NadekoBot.OkColor)
+                .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 //await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
