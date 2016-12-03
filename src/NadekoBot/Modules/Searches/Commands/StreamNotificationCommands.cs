@@ -274,10 +274,10 @@ namespace NadekoBot.Modules.Searches
                 }
                 if (!removed)
                 {
-                    await channel.SendMessageAsync(":anger: No such stream.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("❎ No such stream.").ConfigureAwait(false);
                     return;
                 }
-                await channel.SendMessageAsync($":ok: Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🗑 Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -329,7 +329,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await channel.SendMessageAsync(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("❎ Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
 
@@ -340,10 +340,10 @@ namespace NadekoBot.Modules.Searches
                                     .Add(stream);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                var msg = $"Stream is currently **{(data.IsLive ? "ONLINE" : "OFFLINE")}** with **{data.Views}** viewers";
+                var msg = $"ℹ️ Stream is currently **{(data.IsLive ? "ONLINE" : "OFFLINE")}** with **{data.Views}** viewers";
                 if (data.IsLive)
                     msg += stream.GetLink();
-                msg = $":ok: I will notify this channel when status changes.\n{msg}";
+                msg = $"🆗 I will notify this channel when status changes.\n{msg}";
                 await channel.SendMessageAsync(msg).ConfigureAwait(false);
             }
         }
