@@ -112,7 +112,8 @@ namespace NadekoBot.Modules.Searches
                                                 var channel = server?.GetTextChannel(fs.ChannelId);
                                                 if (channel == null)
                                                     return;
-
+                                                if (newStatus.IsLive)
+                                                    msg += "\n" + fs.GetLink();
                                                 try { await channel.SendMessageAsync(msg).ConfigureAwait(false); } catch { }
                                             }
                                         }

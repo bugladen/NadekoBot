@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Administration
                 bool newval;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var config = uow.GuildConfigs.For(channel.Guild.Id);
+                    var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                     newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Administration
                 bool areExclusive;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var config = uow.GuildConfigs.For(channel.Guild.Id);
+                    var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
 
                     areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
                     await uow.CompleteAsync();
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.Administration
                 IEnumerable<SelfAssignedRole> roles;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    conf = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                     roles = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
                 }
                 SelfAssignedRole roleModel;
@@ -207,11 +207,11 @@ namespace NadekoBot.Modules.Administration
                 var channel = (ITextChannel)umsg.Channel;
                 var guildUser = (IGuildUser)umsg.Author;
 
-                GuildConfig conf;
+                bool autoDeleteSelfAssignedRoleMessages;
                 IEnumerable<SelfAssignedRole> roles;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    autoDeleteSelfAssignedRoleMessages = uow.GuildConfigs.For(channel.Guild.Id, set => set).AutoDeleteSelfAssignedRoleMessages;
                     roles = uow.SelfAssignedRoles.GetFromGuild(channel.Guild.Id);
                 }
                 SelfAssignedRole roleModel;
@@ -236,7 +236,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 var msg = await channel.SendMessageAsync($"🆗 You no longer have **{role.Name}** role.").ConfigureAwait(false);
 
-                if (conf.AutoDeleteSelfAssignedRoleMessages)
+                if (autoDeleteSelfAssignedRoleMessages)
                 {
                     var t = Task.Run(async () =>
                     {

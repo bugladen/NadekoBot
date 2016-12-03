@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -698,7 +699,9 @@ namespace NadekoBot.Modules.Administration
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
+                    var logSetting = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.LogSetting)
+                                                                                      .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds))
+                                                                                            .LogSetting;
                     GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     enabled = logSetting.LogVoicePresence = !logSetting.LogVoicePresence;
                     if (enabled)
