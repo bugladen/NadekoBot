@@ -347,8 +347,7 @@ namespace NadekoBot.Modules.Searches
                         .WithDescription("Seek advice, you must!")
                         .WithThumbnail(th => th.WithUrl("http://i.imgur.com/62Uh4u6.jpg"))
                         .AddField(fb => fb.WithName($"🌍 **{umsg.Author.Username}**").WithValue($"{res.ToString()}").WithIsInline(false))
-                        .WithColor(NadekoBot.OkColor)
-                        .WithTimestamp(DateTime.Now);
+                        .WithColor(NadekoBot.OkColor);
                     await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
                 catch
