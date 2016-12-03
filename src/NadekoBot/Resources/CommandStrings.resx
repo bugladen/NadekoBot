@@ -2709,4 +2709,13 @@
   <data name="magicthegathering_usage" xml:space="preserve">
     <value>`{0}magicthegathering about face` or `{0}mtg about face`</value>
   </data>
+  <data name="yodify_cmd" xml:space="preserve">
+    <value>yodify yoda</value>
+  </data>
+  <data name="yodify_desc" xml:space="preserve">
+    <value>Translates your normal sentences into Yoda styled sentences!</value>
+  </data>
+  <data name="yodify_usage" xml:space="preserve">
+    <value>{0}yodify I was once an adventurer like you` or `{0}yoda my feelings hurt`</value>
+  </data>
 </root>
