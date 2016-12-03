@@ -156,8 +156,8 @@ namespace NadekoBot.Extensions
             return list.ToArray();
         }
 
-        public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, Discord.API.Embed embed)
-             => ch.SendMessageAsync("", embed: embed);
+        public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, Discord.API.Embed embed, string msg = "")
+             => ch.SendMessageAsync(msg, embed: embed);
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error, string title = null, string url = null)
              => ch.SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.ErrorColor });
