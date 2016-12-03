@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Utility
                         },
 
                     },
-                    Color = NadekoBot.OkColor
+                    Color = 0x71cd40
                 });
         }
 
