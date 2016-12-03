@@ -303,10 +303,10 @@ namespace NadekoBot.Modules.Searches
                 }
                 if (!removed)
                 {
-                    await channel.SendMessageAsync(":anger: No such stream.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("❎ No such stream.").ConfigureAwait(false);
                     return;
                 }
-                await channel.SendMessageAsync($":ok: Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🗑 Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -358,7 +358,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await channel.SendMessageAsync(":anger: Stream probably doesn't exist.").ConfigureAwait(false);
+                    await channel.SendMessageAsync("💢 Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
 
@@ -370,7 +370,7 @@ namespace NadekoBot.Modules.Searches
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 
-                var msg = $":ok: I will notify this channel when status changes.";
+                var msg = $"🆗 I will notify this channel when status changes.";
                 await channel.EmbedAsync(fs.GetEmbed(status).Build(), msg).ConfigureAwait(false);
             }
         }
