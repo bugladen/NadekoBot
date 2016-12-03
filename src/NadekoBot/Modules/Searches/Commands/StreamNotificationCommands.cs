@@ -118,12 +118,12 @@ namespace NadekoBot.Modules.Searches
                                         }
                                         catch (Exception ex)
                                         {
-                                            _log.Error(ex);
+
                                         }
                                     }));
 
                     FirstPass = false;
-                }, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+                }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
             }
 
             private async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)
