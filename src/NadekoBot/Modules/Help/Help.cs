@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Help
                 await channel.EmbedAsync(erro.Build());
                 return;
             }
-            var str = $"Command: {com.Text}";
+            var str = $"{com.Text}";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
@@ -107,12 +107,13 @@ namespace NadekoBot.Modules.Help
                 .WithAuthor(eau => eau.WithName("Help")
                 .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                .WithTitle(str)
+                //.WithTitle(str)
+                .AddField(fb => fb.WithName("**Command**").WithValue(str).WithIsInline(true))
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(4).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true)
-                .WithName("**TEST1**").WithValue($"Testing1").WithIsInline(true)
-                .WithName("**TEST2**").WithValue($"Testing2").WithIsInline(true)
-                .WithName("**TEST3**").WithValue($"Testing3").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true)
+                //.WithName("**TEST1**").WithValue($"Testing1").WithIsInline(true)
+                //.WithName("**TEST2**").WithValue($"Testing2").WithIsInline(true)
+                //.WithName("**TEST3**").WithValue($"Testing3").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
