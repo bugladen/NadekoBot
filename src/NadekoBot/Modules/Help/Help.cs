@@ -90,10 +90,10 @@ namespace NadekoBot.Modules.Help
             {
                 //await channel.SendMessageAsync("🔍 **I can't find that command.**");
                 var erro = new EmbedBuilder()
-                    .WithAuthor(eau => eau.WithName("Help")
+                    .WithAuthor(eau => eau.WithName("Sorry!")
                     .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                     .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                    .WithTitle("Sorry!")
+                    //.WithTitle("Sorry!")
                     .WithDescription("I can't find that command. Please check the **command** and **command prefix** before trying again.")
                     .WithColor(NadekoBot.ErrorColor);
                 await channel.EmbedAsync(erro.Build());
