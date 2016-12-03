@@ -157,13 +157,11 @@ namespace NadekoBot.Modules.Searches
                             return result;
                         using (var http = new HttpClient())
                         {
-                            _log.Info(twitchUrl);
                             response = await http.GetStringAsync(twitchUrl).ConfigureAwait(false);
                         }
                         var twData = JsonConvert.DeserializeObject<TwitchResponse>(response);
                         if (twData.Error != null)
                         {
-                            _log.Error(twData.Error);
                             throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
                         }
                         result = new StreamStatus()
