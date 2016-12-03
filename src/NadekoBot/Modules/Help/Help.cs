@@ -91,6 +91,7 @@ namespace NadekoBot.Modules.Help
                 //await channel.SendMessageAsync("🔍 **I can't find that command.**");
                 var erro = new EmbedBuilder()
                     .WithAuthor(eau => eau.WithName("Help")
+                    .WithAuthor(eau => eau.WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                     .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                     .WithTitle("🔎 **Error**")
                     .WithDescription("I can't find that command.")
@@ -106,6 +107,7 @@ namespace NadekoBot.Modules.Help
                 str += $" / `{alias}`";
                 var embed = new EmbedBuilder()
                 .WithAuthor(eau => eau.WithName("Help")
+                .WithAuthor(eau => eau.WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 .WithTitle(str)
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
