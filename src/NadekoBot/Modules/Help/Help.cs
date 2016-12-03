@@ -93,13 +93,13 @@ namespace NadekoBot.Modules.Help
                     .WithAuthor(eau => eau.WithName("Help")
                     .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                     .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                    .WithTitle("🔎 **Error**")
+                    .WithTitle("🔎  **Sorry!**")
                     .WithDescription("I can't find that command.")
                     .WithColor(NadekoBot.ErrorColor);
                 await channel.EmbedAsync(erro.Build());
                 return;
             }
-            var str = $"ℹ️ **Command:** `{com.Text}`";
+            var str = $"ℹ️  **Command:** `{com.Text}`";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Help
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 .WithTitle(str)
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(1).WithName("**Usage:**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
+                .AddField(fb => fb.WithIndex(1).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
