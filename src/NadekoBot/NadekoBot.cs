@@ -28,8 +28,6 @@ namespace NadekoBot
         //public static uint ErrorColor { get; } = 0xff0000;
         public static uint OkColor { get; } = 0x71cd40;
         public static uint ErrorColor { get; } = 0xee281f;
-        public static uint InfoColor { get; } = 0x00bbd6;
-        public static uint SunColor { get; } = 0xf1c40f;
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
