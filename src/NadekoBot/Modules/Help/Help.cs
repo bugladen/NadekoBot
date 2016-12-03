@@ -108,10 +108,10 @@ namespace NadekoBot.Modules.Help
                 .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 //.WithTitle(str)
-                .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
                 //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(2).WithName("TEST").WithValue($"TESTING1").WithIsInline(true))
-                .AddField(fb => fb.WithIndex(3).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
+                .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(3).WithName("Description").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(false))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
