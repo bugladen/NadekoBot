@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Utility
                         },
 
                     },
-                    Color = 0x71cd40
+                    Color = 0xee281f
                 });
         }
 
