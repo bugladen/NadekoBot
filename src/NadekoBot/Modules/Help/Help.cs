@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Help
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 .WithTitle(str)
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex().WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true)
+                .AddField(fb => fb.WithIndex(4).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true)
                 .WithName("**TEST1**").WithValue($"Testing1").WithIsInline(true)
                 .WithName("**TEST2**").WithValue($"Testing2").WithIsInline(true)
                 .WithName("**TEST3**").WithValue($"Testing3").WithIsInline(true))
