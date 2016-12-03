@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Administration
                             GuildConfig conf;
                             using (var uow = DbHandler.UnitOfWork())
                             {
-                                conf = uow.GuildConfigs.For(user.Guild.Id);
+                                conf = uow.GuildConfigs.For(user.Guild.Id, set => set);
                             }
 
                             if (conf.AutoAssignRoleId == 0)
@@ -57,13 +57,12 @@ namespace NadekoBot.Modules.Administration
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id);
+                    conf = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                     if (role == null)
                         conf.AutoAssignRoleId = 0;
                     else
                         conf.AutoAssignRoleId = role.Id;
 
-                    uow.GuildConfigs.Update(conf);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 

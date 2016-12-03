@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                 config.VerbosePermissions = action.Value;
                 Cache.AddOrUpdate(channel.Guild.Id, new PermissionCache()
                 {
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Permissions
             var channel = (ITextChannel)msg.Channel;
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                 if (role == null)
                 {
                     await channel.SendMessageAsync($"ℹ️ Current permission role is **{config.PermissionRole}**.").ConfigureAwait(false);

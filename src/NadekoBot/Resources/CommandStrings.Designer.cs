@@ -5280,7 +5280,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Removes notifications of a certain streamer on this channel..
+        ///    Looks up a localized string similar to Removes notifications of a certain streamer from a certain platform on this channel..
         /// </summary>
         public static string removestream_desc {
             get {
@@ -5289,7 +5289,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}rms SomeGuy`.
+        ///    Looks up a localized string similar to `{0}rms Twitch SomeGuy` or `{0}rms Beam SomeOtherGuy`.
         /// </summary>
         public static string removestream_usage {
             get {

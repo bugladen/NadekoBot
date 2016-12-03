@@ -220,7 +220,7 @@ namespace NadekoBot.Modules.Music
             }
             using (var uow = DbHandler.UnitOfWork())
             {
-                uow.GuildConfigs.For(channel.Guild.Id).DefaultMusicVolume = val / 100.0f;
+                uow.GuildConfigs.For(channel.Guild.Id, set => set).DefaultMusicVolume = val / 100.0f;
                 uow.Complete();
             }
             await channel.SendMessageAsync($"🎵 `Default volume set to {val}%`").ConfigureAwait(false);
@@ -747,7 +747,7 @@ namespace NadekoBot.Modules.Music
                 float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    vol = uow.GuildConfigs.For(textCh.Guild.Id).DefaultMusicVolume;
+                    vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
                 var mp = new MusicPlayer(voiceCh, vol);
 
