@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
                 .AddField(fb => fb.WithName("🔆 Feels like").WithValue($"{obj["feelscentigrade"]}°C ({obj["feelsfahrenheit"]}°F)").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌄 Sunrise").WithValue($"{obj["sunrise"]}").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌇 Sunset").WithValue($"{obj["sunset"]}").WithIsInline(true))
-                .WithColor(NadekoBot.SunColor);
+                .WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
