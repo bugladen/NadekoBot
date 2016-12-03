@@ -110,10 +110,8 @@ namespace NadekoBot.Modules.Help
                 //.WithTitle(str)
                 .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
+                .AddField(fb => fb.WithIndex(2).WithName("TEST").WithValue($"TESTING1").WithIsInline(false))
                 .AddField(fb => fb.WithIndex(3).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
-                //.WithName("**TEST1**").WithValue($"Testing1").WithIsInline(true)
-                //.WithName("**TEST2**").WithValue($"Testing2").WithIsInline(true)
-                //.WithName("**TEST3**").WithValue($"Testing3").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
