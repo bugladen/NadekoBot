@@ -88,16 +88,35 @@ namespace NadekoBot.Modules.Help
 
             if (com == null)
             {
-                await channel.SendMessageAsync("🔍 **I can't find that command.**");
+                //await channel.SendMessageAsync("🔍 **I can't find that command.**");
+                var erro = new EmbedBuilder()
+                    .WithAuthor(eau => eau.WithName("Sorry!")
+                    .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
+                    .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                    //.WithTitle("Sorry!")
+                    .WithDescription("I can't find that command. Please check the **command** and **command prefix** before trying again.")
+                    .WithColor(NadekoBot.ErrorColor);
+                await channel.EmbedAsync(erro.Build());
                 return;
             }
-            var str = $"**__Help for:__ `{com.Text}`**";
+            var str = $"{com.Text}";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
+                var embed = new EmbedBuilder()
+                .WithAuthor(eau => eau.WithName("Help")
+                .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
+                .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                //.WithTitle(str)
+                //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
+                .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
+                .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(3).WithName("Description").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(false))
+                .WithColor(NadekoBot.OkColor);
             if (com != null)
-                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
-**Usage:** {string.Format(com.Remarks, com.Module.Prefix)}").ConfigureAwait(false);
+                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                //await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
+//**Usage:** {string.Format(com.Remarks, com.Module.Prefix)}").ConfigureAwait(false);
         }
 
         private string GetCommandRequirements(Command cmd)

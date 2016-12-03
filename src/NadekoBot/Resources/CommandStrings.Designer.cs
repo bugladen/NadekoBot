@@ -7782,6 +7782,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to yodify yoda.
+        /// </summary>
+        public static string yodify_cmd {
+            get {
+                return ResourceManager.GetString("yodify_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Translates your normal sentences into Yoda styled sentences!.
+        /// </summary>
+        public static string yodify_desc {
+            get {
+                return ResourceManager.GetString("yodify_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}yodify I was once an adventurer like you` or `{0}yoda my feelings hurt`.
+        /// </summary>
+        public static string yodify_usage {
+            get {
+                return ResourceManager.GetString("yodify_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to yomama ym.
         /// </summary>
         public static string yomama_cmd {

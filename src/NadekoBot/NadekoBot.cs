@@ -24,8 +24,8 @@ namespace NadekoBot
     {
         private Logger _log;
         
-        public static uint OkColor { get; } = 0x00ff00;
-        public static uint ErrorColor { get; } = 0xff0000;
+        public static uint OkColor { get; } = 0x71cd40;
+        public static uint ErrorColor { get; } = 0xee281f;
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
