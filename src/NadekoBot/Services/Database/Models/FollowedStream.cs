@@ -13,7 +13,9 @@
         }
 
         public override int GetHashCode() => 
-            ChannelId.GetHashCode() ^ Username.GetHashCode();
+            ChannelId.GetHashCode() ^ 
+            Username.GetHashCode() ^ 
+            Type.GetHashCode();
 
         public override bool Equals(object obj)
         {
@@ -21,7 +23,9 @@
             if (fs == null)
                 return false;
 
-            return fs.ChannelId == ChannelId && fs.Username.ToLowerInvariant().Trim() == Username.ToLowerInvariant().Trim();
+            return fs.ChannelId == ChannelId && 
+                   fs.Username.ToLowerInvariant().Trim() == Username.ToLowerInvariant().Trim() &&
+                   fs.Type == Type;
         }
     }
 }

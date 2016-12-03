@@ -104,17 +104,11 @@ namespace NadekoBot.Modules.Searches
                                             if (oldCachedStatuses.TryGetValue(newStatus.ApiLink, out oldStatus) &&
                                                 oldStatus.IsLive != newStatus.IsLive)
                                             {
-                                                var msg = $"`{fs.Username}`'s stream is now " +
-                                                    $"**{(newStatus.IsLive ? "ONLINE" : "OFFLINE")}** with " +
-                                                    $"**{newStatus.Views}** viewers.";
-
                                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
                                                 var channel = server?.GetTextChannel(fs.ChannelId);
                                                 if (channel == null)
                                                     return;
-                                                if (newStatus.IsLive)
-                                                    msg += "\n" + fs.GetLink();
-                                                try { await channel.SendMessageAsync(msg).ConfigureAwait(false); } catch { }
+                                                try { await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false); } catch { }
                                             }
                                         }
                                         catch (Exception ex)
@@ -134,7 +128,7 @@ namespace NadekoBot.Modules.Searches
                 switch (stream.Type)
                 {
                     case FollowedStream.FollowedStreamType.Hitbox:
-                        var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
+                        var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username.ToLowerInvariant()}";
                         if (checkCache && cachedStatuses.TryGetValue(hitboxUrl, out result))
                             return result;
                         using (var http = new HttpClient())
@@ -153,7 +147,7 @@ namespace NadekoBot.Modules.Searches
                         cachedStatuses.AddOrUpdate(hitboxUrl, result, (key, old) => result);
                         return result;
                     case FollowedStream.FollowedStreamType.Twitch:
-                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
                         if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
                             return result;
                         using (var http = new HttpClient())
@@ -174,7 +168,7 @@ namespace NadekoBot.Modules.Searches
                         cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
                         return result;
                     case FollowedStream.FollowedStreamType.Beam:
-                        var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
+                        var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username.ToLowerInvariant()}";
                         if (checkCache && cachedStatuses.TryGetValue(beamUrl, out result))
                             return result;
                         using (var http = new HttpClient())
@@ -198,6 +192,40 @@ namespace NadekoBot.Modules.Searches
                 }
                 return null;
             }
+
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Test(IUserMessage imsg)
+            //{
+            //    var channel = (ITextChannel)imsg.Channel;
+
+            //    await channel.EmbedAsync(new Discord.API.Embed()
+            //    {
+            //        Title = "Imqtpie",
+            //        Url = "https://twitch.tv/masterkwoth",
+            //        Fields = new[] {
+            //            new Discord.API.EmbedField()
+            //            {
+            //                Name = "Status",
+            //                Value = "Online",
+            //                Inline = true,
+            //            },
+            //            new Discord.API.EmbedField()
+            //            {
+            //                Name = "Viewers",
+            //                Value = "123123",
+            //                Inline = true
+            //            },
+            //            new Discord.API.EmbedField()
+            //            {
+            //                Name = "Platform",
+            //                Value = "Twitch",
+            //                Inline = true
+            //            },
+            //        },
+            //        Color = NadekoBot.OkColor
+            //    });
+            //}
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -314,8 +342,8 @@ namespace NadekoBot.Modules.Searches
 
             private async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
-                username = username.ToLowerInvariant().Trim();
-                var stream = new FollowedStream
+                username = username.Trim();
+                var fs = new FollowedStream
                 {
                     GuildId = channel.Guild.Id,
                     ChannelId = channel.Id,
@@ -323,10 +351,10 @@ namespace NadekoBot.Modules.Searches
                     Type = type,
                 };
 
-                StreamStatus data;
+                StreamStatus status;
                 try
                 {
-                    data = await GetStreamStatus(stream).ConfigureAwait(false);
+                    status = await GetStreamStatus(fs).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -338,30 +366,45 @@ namespace NadekoBot.Modules.Searches
                 {
                     uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
                                     .FollowedStreams
-                                    .Add(stream);
+                                    .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                var msg = $"Stream is currently **{(data.IsLive ? "ONLINE" : "OFFLINE")}** with **{data.Views}** viewers";
-                if (data.IsLive)
-                    msg += stream.GetLink();
-                msg = $":ok: I will notify this channel when status changes.\n{msg}";
-                await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                
+                var msg = $":ok: I will notify this channel when status changes.";
+                await channel.EmbedAsync(fs.GetEmbed(status).Build(), msg).ConfigureAwait(false);
             }
         }
     }
 
     public static class FollowedStreamExtensions
     {
-        public static string GetLink(this FollowedStream fs)
+        public static EmbedBuilder GetEmbed(this FollowedStream fs, Searches.StreamStatus status)
         {
-            //todo C#7
+            var embed = new EmbedBuilder().WithTitle(fs.Username)
+                                          .WithUrl(fs.GetLink())
+                                          .AddField(efb => efb.WithName("Status")
+                                                            .WithValue(status.IsLive ? "Online" : "Offline")
+                                                            .WithIsInline(true))
+                                          .AddField(efb => efb.WithName("Viewers")
+                                                            .WithValue(status.IsLive ? status.Views : "-")
+                                                            .WithIsInline(true))
+                                          .AddField(efb => efb.WithName("Platform")
+                                                            .WithValue(fs.Type.ToString())
+                                                            .WithIsInline(true))
+                                          .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor);
+
+            return embed;
+        }
+
+        public static string GetLink(this FollowedStream fs) {
             if (fs.Type == FollowedStream.FollowedStreamType.Hitbox)
-                return $"\n`Here is the Link:`【 http://www.hitbox.tv/{fs.Username}/ 】";
+                return $"http://www.hitbox.tv/{fs.Username}/";
             else if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
-                return $"\n`Here is the Link:`【 http://www.twitch.tv/{fs.Username}/ 】";
+                return $"http://www.twitch.tv/{fs.Username}/";
             else if (fs.Type == FollowedStream.FollowedStreamType.Beam)
-                return $"\n`Here is the Link:`【 https://beam.pro/{fs.Username}/ 】";
-            return "???";
+                return $"https://beam.pro/{fs.Username}/";
+            else
+                return "??";
         }
     }
 }
