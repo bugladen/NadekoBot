@@ -109,9 +109,9 @@ namespace NadekoBot.Modules.Help
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 //.WithTitle(str)
                 .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
-                .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(2).WithName("TEST").WithValue($"TESTING1").WithIsInline(false))
-                .AddField(fb => fb.WithIndex(3).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
+                //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
+                .AddField(fb => fb.WithIndex(2).WithName("TEST").WithValue($"TESTING1").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(3).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
