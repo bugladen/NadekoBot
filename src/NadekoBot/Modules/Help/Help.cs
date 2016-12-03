@@ -93,13 +93,13 @@ namespace NadekoBot.Modules.Help
                     .WithAuthor(eau => eau.WithName("Help")
                     .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                     .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                    .WithTitle("**Sorry!**")
+                    .WithTitle("Sorry!")
                     .WithDescription("I can't find that command. Please check the **command** and **command prefix** before trying again.")
                     .WithColor(NadekoBot.ErrorColor);
                 await channel.EmbedAsync(erro.Build());
                 return;
             }
-            var str = $"**Command:** `{com.Text}`";
+            var str = $"Command: {com.Text}";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
