@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration
                             catch { }
                             using (var uow = DbHandler.UnitOfWork())
                             {
-                                uow.GuildConfigs.For(guild.Id).VoicePlusTextEnabled = false;
+                                uow.GuildConfigs.For(guild.Id, set => set).VoicePlusTextEnabled = false;
                                 voicePlusTextCache.TryRemove(guild.Id);
                                 await uow.CompleteAsync().ConfigureAwait(false);
                             }
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration
                     bool isEnabled;
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        var conf = uow.GuildConfigs.For(guild.Id);
+                        var conf = uow.GuildConfigs.For(guild.Id, set => set);
                         isEnabled = conf.VoicePlusTextEnabled = !conf.VoicePlusTextEnabled;
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }

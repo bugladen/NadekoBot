@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration
                 bool shouldDelete;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id).DeleteMessageOnCommand;
+                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id, set => set).DeleteMessageOnCommand;
                 }
 
                 if (shouldDelete)
@@ -128,15 +128,15 @@ namespace NadekoBot.Modules.Administration
         public async Task Delmsgoncmd(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
-            GuildConfig conf;
+            bool enabled;
             using (var uow = DbHandler.UnitOfWork())
             {
-                conf = uow.GuildConfigs.For(channel.Guild.Id);
-                conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-                uow.GuildConfigs.Update(conf);
+                var conf = uow.GuildConfigs.For(channel.Guild.Id, set => set);
+                enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
+
                 await uow.CompleteAsync();
             }
-            if (conf.DeleteMessageOnCommand)
+            if (enabled)
                 await channel.SendMessageAsync("✅ **Now automatically deleting successful command invokations.**").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync("❗**Stopped automatic deletion of successful command invokations.**").ConfigureAwait(false);
@@ -399,7 +399,7 @@ namespace NadekoBot.Modules.Administration
             
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.For(channel.Guild.Id);
+                var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
                 config.MuteRoleName = name;
                 GuildMuteRoles.AddOrUpdate(channel.Guild.Id, name, (id, old) => name);
                 await uow.CompleteAsync().ConfigureAwait(false);
