@@ -59,9 +59,24 @@ Additional options
 
 Config.json
 ===========
-In the folder where `NadekoBot.exe` is located you should also see a `Data` folder. In this folder you will find `config.json` among other files.
-`config.json` contains user specific commands, such as: if DM's sent to the bot are forwarded to you, Blacklisted Ids, Servers, and channels...etc.
+`config.json` is now removed with the addition of `NadekoBot.db` so if you have Nadeko 0.9x follow the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/) to upgrade your bot.
 
-**If you do not see** `config.json` **you need to rename** `config_example.json` **to** `config.json`
+DB files
+========
+Nadeko uses few db files in order to open these database files `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.0) or `data\NadekoBot.sqlite` (0.9x) you will need [DB Browser for SQLite](http://sqlitebrowser.org/).
+
+To make changes
+
+- go to **Browse Data** tab
+- click on **Table** drop-down list
+- choose the table you want to edit
+- click on the cell you want to edit
+- edit it on the right-hand side 
+- click on **Apply** 
+- click on **Write Changes**
+
+and that will save all the changes.
+
+![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
 [CleverBot APIs]: https://cleverbot.io/keys
