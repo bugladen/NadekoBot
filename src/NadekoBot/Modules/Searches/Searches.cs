@@ -315,6 +315,50 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Yodify(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                return;
+            }
+
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 `Please enter a sentence.`").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                http.DefaultRequestHeaders.Add("Accept", "text/plain");
+                var res = await http.GetStringAsync($"https://yoda.p.mashape.com/yoda?sentence={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
+                try
+                {
+                    var embed = new EmbedBuilder()
+                        .WithTitle("Young Padawan")
+                        .WithUrl("http://www.yodaspeak.co.uk/")
+                        .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
+                        .WithDescription("Seek advice, you must!")
+                        .WithThumbnail(th => th.WithUrl("http://i.imgur.com/62Uh4u6.jpg"))
+                        .AddField(fb => fb.WithName($"🌍 **{umsg.Author.Username}**").WithValue($"{res.ToString()}").WithIsInline(false))
+                        .WithColor(NadekoBot.OkColor);
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await channel.SendMessageAsync("💢 Failed to yodify your sentence.").ConfigureAwait(false);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task UrbanDict(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
