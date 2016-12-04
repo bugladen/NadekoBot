@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Help
                 //.WithDescription(str)
                 //.WithTitle(str)
                 //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(1).WithName("**(str)**").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(true))
                 .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
                 //.AddField(fb => fb.WithIndex(3).WithName("**Description**").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
