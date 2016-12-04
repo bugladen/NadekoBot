@@ -176,47 +176,47 @@ namespace NadekoBot.Modules.Utility
                     },
                     Fields = new[] {
                         new EmbedField() {
-                            Name = "Author",
+                            Name = "**Author**",
                             Value = stats.Author,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Library",
+                            Name = "**Library**",
                             Value = stats.Library,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Bot ID",
+                            Name = "**Bot ID**",
                             Value = NadekoBot.Client.GetCurrentUser().Id.ToString(),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Commands Ran",
+                            Name = "**Commands Ran**",
                             Value = stats.CommandsRan.ToString(),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Messages",
+                            Name = "**Messages**",
                             Value = $"{stats.MessageCounter} [{stats.MessagesPerSecond:F2}/sec]",
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Memory",
+                            Name = "**Memory**",
                             Value = $"{stats.Heap} MB",
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Owner ID(s)",
+                            Name = "**Owner ID(s)**",
                             Value = stats.OwnerIds,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Uptime",
+                            Name = "**Uptime**",
                             Value = stats.GetUptimeString("\n"),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Presence",
+                            Name = "**Presence**",
                             Value = $"{NadekoBot.Client.GetGuilds().Count} servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
                             Inline = true
                         },
