@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.Utility
                         },
                         new EmbedField() {
                             Name = Format.Bold("Presence"),
-                            Value = $"{NadekoBot.Client.GetGuilds().Count} servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
+                            Value = $"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
                             Inline = true
                         },
 
