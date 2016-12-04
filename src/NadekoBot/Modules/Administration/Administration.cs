@@ -643,7 +643,7 @@ namespace NadekoBot.Modules.Administration
             
             var enumerable = (await umsg.Channel.GetMessagesAsync()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
-            await umsg.Channel.DeleteMessagesAsync(enumerable);
+            await umsg.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
 
         // prune x
@@ -656,7 +656,7 @@ namespace NadekoBot.Modules.Administration
             await (msg as IUserMessage).DeleteAsync();
             int limit = (count < 100) ? count : 100;
             var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit));
-            await msg.Channel.DeleteMessagesAsync(enumerable);
+            await msg.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
 
         //prune @user [x]
@@ -668,7 +668,7 @@ namespace NadekoBot.Modules.Administration
             var channel = (ITextChannel)msg.Channel;
             int limit = (count < 100) ? count : 100;
             var enumerable = (await msg.Channel.GetMessagesAsync(limit: limit)).Where(m => m.Author == user);
-            await msg.Channel.DeleteMessagesAsync(enumerable);
+            await msg.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
