@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Help
             var str = $"**`{com.Text}`**";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
-                str += $"** / `{alias}`**";
+                str += $" **/** **`{alias}`**";
                 var embed = new EmbedBuilder()
                 .WithAuthor(eau => eau.WithName("Command")
                 .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
