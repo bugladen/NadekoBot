@@ -17,7 +17,7 @@ using static NadekoBot.Modules.Gambling.Gambling;
 namespace NadekoBot.Modules.Pokemon
 {
 
-    [NadekoModule("PokeGame", ">")]
+    [NadekoModule("Pokemon", ">")]
     public partial class Pokemon : DiscordModule
     {
         private static List<PokemonType> PokemonTypes = new List<PokemonType>();
