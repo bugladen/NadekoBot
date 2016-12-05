@@ -99,19 +99,19 @@ namespace NadekoBot.Modules.Help
                 await channel.EmbedAsync(erro.Build());
                 return;
             }
-            var str = $"{com.Text}";
+            var str = $"**`{com.Text}`**";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
-                str += $" / `{alias}`";
+                str += $" **/** **`{alias}`**";
                 var embed = new EmbedBuilder()
-                .WithAuthor(eau => eau.WithName("Help")
+                .WithAuthor(eau => eau.WithName("Command")
                 .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
                 .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 //.WithTitle(str)
                 //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
-                .AddField(fb => fb.WithIndex(1).WithName("**Command**").WithValue(str).WithIsInline(true))
-                .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(true))
-                .AddField(fb => fb.WithIndex(3).WithName("Description").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(false))
+                .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)} { GetCommandRequirements(com)}").WithIsInline(true))
+                .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
+                //.AddField(fb => fb.WithIndex(3).WithName("**Description**").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
