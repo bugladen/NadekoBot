@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Help
                 var erro = new EmbedBuilder()
                     .WithAuthor(eau => eau.WithName("Sorry!")
                     .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
-                    .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                    //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                     //.WithTitle("Sorry!")
                     .WithDescription("I can't find that command. Please check the **command** and **command prefix** before trying again.")
                     .WithColor(NadekoBot.ErrorColor);
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Help
                 var embed = new EmbedBuilder()
                 .WithAuthor(eau => eau.WithName("Command")
                 .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
-                .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                 //.WithTitle(str)
                 //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
                 .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)} { GetCommandRequirements(com)}").WithIsInline(true))
