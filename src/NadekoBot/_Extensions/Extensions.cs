@@ -162,6 +162,9 @@ namespace NadekoBot.Extensions
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error, string title = null, string url = null)
              => ch.SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.ErrorColor });
 
+        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string error, string title = null, string url = null)
+             => ch.SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.OkColor });
+
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
             var i = 0;
