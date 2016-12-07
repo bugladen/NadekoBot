@@ -88,15 +88,7 @@ namespace NadekoBot.Modules.Help
 
             if (com == null)
             {
-                //await channel.SendMessageAsync("🔍 **I can't find that command.**");
-                var erro = new EmbedBuilder()
-                    .WithAuthor(eau => eau.WithName("Sorry!")
-                    .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
-                    //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                    //.WithTitle("Sorry!")
-                    .WithDescription("I can't find that command. Please check the **command** and **command prefix** before trying again.")
-                    .WithColor(NadekoBot.ErrorColor);
-                await channel.EmbedAsync(erro.Build());
+                await channel.SendErrorAsync("I can't find that command. Please check the **command** and **command prefix** before trying again.");
                 return;
             }
             var str = $"**`{com.Text}`**";
@@ -104,19 +96,11 @@ namespace NadekoBot.Modules.Help
             if (alias != null)
                 str += $" **/** **`{alias}`**";
                 var embed = new EmbedBuilder()
-                .WithAuthor(eau => eau.WithName("Command")
-                .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
-                //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                //.WithTitle(str)
-                //.WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
                 .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)} { GetCommandRequirements(com)}").WithIsInline(true))
                 .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
-                //.AddField(fb => fb.WithIndex(3).WithName("**Description**").WithValue($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             if (com != null)
                 await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
-                //await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
-//**Usage:** {string.Format(com.Remarks, com.Module.Prefix)}").ConfigureAwait(false);
         }
 
         private string GetCommandRequirements(Command cmd)
