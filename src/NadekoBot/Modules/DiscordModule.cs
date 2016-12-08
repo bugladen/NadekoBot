@@ -6,7 +6,6 @@ namespace NadekoBot.Modules
 {
     public class DiscordModule
     {
-        protected ILocalization _l { get; }
         protected CommandService _commands { get; }
         protected ShardedDiscordClient  _client { get; }
         protected Logger _log { get; }
@@ -20,7 +19,6 @@ namespace NadekoBot.Modules
             else
                 _prefix = "?missing_prefix?";
 
-            _l = loc;
             _commands = cmds;
             _client = client;
             _log = LogManager.GetCurrentClassLogger();

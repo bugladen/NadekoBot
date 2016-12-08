@@ -111,10 +111,7 @@ namespace NadekoBot.Modules.Searches
                                                 try { await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false); } catch { }
                                             }
                                         }
-                                        catch (Exception ex)
-                                        {
-
-                                        }
+                                        catch { }
                                     }));
 
                     FirstPass = false;
