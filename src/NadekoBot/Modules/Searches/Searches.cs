@@ -379,8 +379,8 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
-                var res = await http.GetStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
+                http.DefaultRequestHeaders.Add("Accept", "application/json");
+                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
                 try
                 {
                     var items = JObject.Parse(res);
