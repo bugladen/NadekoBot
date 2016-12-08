@@ -69,14 +69,14 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class StreamNotificationCommands
         {
-            private Timer checkTimer { get; }
-            private ConcurrentDictionary<string, StreamStatus> oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
-            private ConcurrentDictionary<string, StreamStatus> cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
-            private Logger _log { get; }
+            private static Timer checkTimer { get; }
+            private static ConcurrentDictionary<string, StreamStatus> oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
+            private static ConcurrentDictionary<string, StreamStatus> cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
+            private static Logger _log { get; }
 
-            private bool FirstPass { get; set; } = true;
+            private static bool FirstPass { get; set; } = true;
 
-            public StreamNotificationCommands()
+            static StreamNotificationCommands()
             {
 
                 _log = NLog.LogManager.GetCurrentClassLogger();
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Searches
                 }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
             }
 
-            private async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)
+            private static async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)
             {
                 string response;
                 StreamStatus result;

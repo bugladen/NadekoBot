@@ -17,10 +17,10 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class VoicePlusTextCommands
         {
-            Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+            private static Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
             
-            private ConcurrentHashSet<ulong> voicePlusTextCache;
-            public VoicePlusTextCommands()
+            private static ConcurrentHashSet<ulong> voicePlusTextCache { get; }
+            static VoicePlusTextCommands()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Administration
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
             }
 
-            private Task UserUpdatedEventHandler(IUser iuser, IVoiceState before, IVoiceState after)
+            private static Task UserUpdatedEventHandler(IUser iuser, IVoiceState before, IVoiceState after)
             {
                 var user = (iuser as IGuildUser);
                 var guild = user?.Guild;
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration
                 return Task.CompletedTask;
             }
 
-            private string GetChannelName(string voiceName) =>
+            private static string GetChannelName(string voiceName) =>
                 channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
 
             [NadekoCommand, Usage, Description, Aliases]

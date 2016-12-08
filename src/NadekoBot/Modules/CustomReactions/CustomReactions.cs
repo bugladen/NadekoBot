@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.CustomReactions
                 GlobalReactions = new ConcurrentHashSet<CustomReaction>(items.Where(g => g.GuildId == null || g.GuildId == 0));
             }
         }
-        public CustomReactions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public CustomReactions() : base()
         {
         }
 

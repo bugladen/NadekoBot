@@ -75,12 +75,12 @@ namespace NadekoBot
             CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
 
-            //setup DI
-            var depMap = new DependencyMap();
-            depMap.Add<ILocalization>(Localizer);
-            depMap.Add<ShardedDiscordClient>(Client);
-            depMap.Add<CommandService>(CommandService);
-            depMap.Add<IGoogleApiService>(Google);
+            ////setup DI
+            //var depMap = new DependencyMap();
+            //depMap.Add<ILocalization>(Localizer);
+            //depMap.Add<ShardedDiscordClient>(Client);
+            //depMap.Add<CommandService>(CommandService);
+            //depMap.Add<IGoogleApiService>(Google);
 
 
             //setup typereaders
@@ -104,7 +104,7 @@ namespace NadekoBot
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
-            await CommandService.LoadAssembly(this.GetType().GetTypeInfo().Assembly, depMap).ConfigureAwait(false);
+            await CommandService.LoadAssembly(this.GetType().GetTypeInfo().Assembly).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
             await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
 #endif

@@ -19,11 +19,11 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class JokeCommands
         {
-            private List<WoWJoke> wowJokes = new List<WoWJoke>();
-            private List<MagicItem> magicItems;
-            private Logger _log;
+            private static List<WoWJoke> wowJokes = new List<WoWJoke>();
+            private static List<MagicItem> magicItems;
+            private static Logger _log;
 
-            public JokeCommands()
+            static JokeCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
                 if (File.Exists("data/wowjokes.json"))

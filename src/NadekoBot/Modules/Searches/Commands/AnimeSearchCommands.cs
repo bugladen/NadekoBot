@@ -10,6 +10,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches
@@ -19,14 +20,30 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class AnimeSearchCommands
         {
-            private Logger _log;
+            private static Timer anilistTokenRefresher { get; }
+            private static Logger _log { get; }
+            private static string anilistToken { get; set; }
 
-            private string anilistToken { get; set; }
-            private DateTime lastRefresh { get; set; }
-
-            public AnimeSearchCommands()
+            static AnimeSearchCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                anilistTokenRefresher = new Timer(async (state) =>
+                {
+                    var headers = new Dictionary<string, string> {
+                    {"grant_type", "client_credentials"},
+                    {"client_id", "kwoth-w0ki9"},
+                    {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
+                };
+
+                    using (var http = new HttpClient())
+                    {
+                        http.AddFakeHeaders();
+                        var formContent = new FormUrlEncodedContent(headers);
+                        var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
+                        var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
+                    }
+                }, null, TimeSpan.FromSeconds(0), TimeSpan.FromMinutes(29));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -119,7 +136,6 @@ namespace NadekoBot.Modules.Searches
                     throw new ArgumentNullException(nameof(query));
                 try
                 {
-                    await RefreshAnilistToken().ConfigureAwait(false);
 
                     var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
                     using (var http = new HttpClient())
@@ -137,37 +153,12 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            private async Task RefreshAnilistToken()
-            {
-                if (DateTime.Now - lastRefresh > TimeSpan.FromMinutes(29))
-                    lastRefresh = DateTime.Now;
-                else
-                {
-                    return;
-                }
-                var headers = new Dictionary<string, string> {
-                    {"grant_type", "client_credentials"},
-                    {"client_id", "kwoth-w0ki9"},
-                    {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
-                };
-                using (var http = new HttpClient())
-                {
-                    http.AddFakeHeaders();
-                    var formContent = new FormUrlEncodedContent(headers);
-                    var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
-                    var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
-                }
-                
-            }
-
             private async Task<MangaResult> GetMangaData(string query)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     throw new ArgumentNullException(nameof(query));
                 try
                 {
-                    await RefreshAnilistToken().ConfigureAwait(false);
                     using (var http = new HttpClient())
                     {
                         var res = await http.GetStringAsync("http://anilist.co/api/manga/search/" + Uri.EscapeUriString(query) + $"?access_token={anilistToken}").ConfigureAwait(false);

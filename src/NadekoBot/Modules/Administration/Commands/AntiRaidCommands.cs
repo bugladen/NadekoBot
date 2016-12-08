@@ -74,13 +74,13 @@ namespace NadekoBot.Modules.Administration
             private static ConcurrentDictionary<ulong, AntiSpamSetting> antiSpamGuilds =
                     new ConcurrentDictionary<ulong, AntiSpamSetting>();
 
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public AntiRaidCommands(ShardedDiscordClient client)
+            static AntiRaidCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
 
-                client.MessageReceived += (imsg) =>
+                NadekoBot.Client.MessageReceived += (imsg) =>
                 {
                     var msg = imsg as IUserMessage;
                     if (msg == null || msg.Author.IsBot)
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Administration
                     return Task.CompletedTask;
                 };
 
-                client.UserJoined += (usr) =>
+                NadekoBot.Client.UserJoined += (usr) =>
                 {
                     if (usr.IsBot)
                         return Task.CompletedTask;
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            private async Task PunishUsers(PunishmentAction action, IRole muteRole, ProtectionType pt, params IGuildUser[] gus)
+            private static async Task PunishUsers(PunishmentAction action, IRole muteRole, ProtectionType pt, params IGuildUser[] gus)
             {
                 foreach (var gu in gus)
                 {

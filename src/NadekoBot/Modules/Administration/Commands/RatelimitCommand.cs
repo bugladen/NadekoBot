@@ -16,9 +16,7 @@ namespace NadekoBot.Modules.Administration
         public class RatelimitCommand
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
-            private Logger _log { get; }
-
-            private ShardedDiscordClient _client { get; }
+            private static Logger _log { get; }
 
             public class Ratelimiter
             {
@@ -61,12 +59,11 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            public RatelimitCommand()
+            static RatelimitCommand()
             {
-                this._client = NadekoBot.Client;
-                this._log = LogManager.GetCurrentClassLogger();
+               _log = LogManager.GetCurrentClassLogger();
 
-               _client.MessageReceived += (umsg) =>
+               NadekoBot.Client.MessageReceived += (umsg) =>
                 {
                     var t = Task.Run(async () =>
                     {

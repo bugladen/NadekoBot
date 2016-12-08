@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Pokemon
 
         private Logger _pokelog { get; }
 
-        public Pokemon(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public Pokemon() : base()
         {
             _pokelog = LogManager.GetCurrentClassLogger();
             if (File.Exists(PokemonTypesFile))

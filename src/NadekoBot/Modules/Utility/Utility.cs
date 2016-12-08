@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Utility
     [NadekoModule("Utility", ".")]
     public partial class Utility : DiscordModule
     {
-        public Utility(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public Utility() : base()
         {
 
         }
@@ -236,8 +236,11 @@ namespace NadekoBot.Modules.Utility
 
             var result = string.Join("\n", matches.Cast<Match>()
                                                   .Select(m => $"**Name:** {m.Groups["name"]} **Link:** http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
-            
-            await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(result))
+                await msg.Channel.SendErrorAsync("No special emojis found.");
+            else
+                await msg.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

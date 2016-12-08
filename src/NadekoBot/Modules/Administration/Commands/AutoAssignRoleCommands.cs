@@ -15,13 +15,12 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class AutoAssignRoleCommands
         {
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public AutoAssignRoleCommands()
+            static AutoAssignRoleCommands()
             {
-                var _client = NadekoBot.Client;
-                this._log = LogManager.GetCurrentClassLogger();
-                _client.UserJoined += (user) =>
+                _log = LogManager.GetCurrentClassLogger();
+                NadekoBot.Client.UserJoined += (user) =>
                 {
                     var t = Task.Run(async () =>
                     {

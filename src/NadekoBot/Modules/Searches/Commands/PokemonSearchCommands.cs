@@ -21,9 +21,9 @@ namespace NadekoBot.Modules.Searches
             public const string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities.json";
 
             public const string PokemonListFile = "data/pokemon/pokemon_list.json";
-            private Logger _log;
+            private static Logger _log;
 
-            public PokemonSearchCommands()
+            static PokemonSearchCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
                 if (File.Exists(PokemonListFile))

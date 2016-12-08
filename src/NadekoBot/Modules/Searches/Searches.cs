@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Searches
     {
         private IGoogleApiService _google { get; }
 
-        public Searches(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService youtube) : base(loc, cmds, client)
+        public Searches(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService youtube) : base()
         {
             _google = youtube;
         }
