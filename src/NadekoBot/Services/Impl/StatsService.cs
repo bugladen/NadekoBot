@@ -38,7 +38,7 @@ namespace NadekoBot.Services.Impl
 
             Reset();
             this.client.MessageReceived += _ => Task.FromResult(MessageCounter++);
-            cmdHandler.CommandExecuted += (_, e) => CommandsRan++;
+            cmdHandler.CommandExecuted += (_, e) => Task.FromResult(CommandsRan++);
 
             this.client.Disconnected += _ => Reset();
 

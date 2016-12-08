@@ -40,11 +40,11 @@ namespace NadekoBot.Modules.Administration
             }
         }
 
-        private async void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
+        private async Task DelMsgOnCmd_Handler(IUserMessage msg, Command cmd)
         {
             try
             {
-                var channel = e.Message.Channel as ITextChannel;
+                var channel = msg.Channel as ITextChannel;
                 if (channel == null)
                     return;
 
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (shouldDelete)
-                    await e.Message.DeleteAsync().ConfigureAwait(false);
+                    await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
