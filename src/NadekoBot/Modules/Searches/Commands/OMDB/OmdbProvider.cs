@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Discord;
+using Discord.API;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,6 +33,17 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
         public string Genre { get; set; }
         public string Plot { get; set; }
         public string Poster { get; set; }
+
+        public Embed GetEmbed() =>
+            new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                              .WithTitle(Title)
+                              .WithUrl($"http://www.imdb.com/title/{ImdbId}/")
+                              .WithDescription(Plot)
+                              .AddField(efb => efb.WithName("Rating").WithValue(ImdbRating).WithIsInline(true))
+                              .AddField(efb => efb.WithName("Genre").WithValue(Genre).WithIsInline(true))
+                              .AddField(efb => efb.WithName("Year").WithValue(Year).WithIsInline(true))
+                              .WithImage(eib => eib.WithUrl(Poster))
+                              .Build();
 
         public override string ToString() =>
 $@"`Title:` {Title}
