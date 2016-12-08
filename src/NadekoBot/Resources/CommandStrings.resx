@@ -2673,24 +2673,6 @@
   <data name="wikia_usage" xml:space="preserve">
     <value>`{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`</value>
   </data>
-  <data name="bfo_cmd" xml:space="preserve">
-    <value>bfonline bfo</value>
-  </data>
-  <data name="bfo_desc" xml:space="preserve">
-    <value>Gives you online players for BF3 and BF4</value>
-  </data>
-  <data name="bfo_usage" xml:space="preserve">
-    <value>`{0}bfo bf3` or `{0}bfo bf4`</value>
-  </data>
-  <data name="bfu_cmd" xml:space="preserve">
-    <value>bfuser bfu</value>
-  </data>
-  <data name="bfu_desc" xml:space="preserve">
-    <value>Gives you back a battlefield user's stats.</value>
-  </data>
-  <data name="bfu_usage" xml:space="preserve">
-    <value>`{0}bfu platform game user`</value>
-  </data>
   <data name="yandere_cmd" xml:space="preserve">
     <value>yandere</value>
   </data>
