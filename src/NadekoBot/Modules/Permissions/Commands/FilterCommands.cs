@@ -14,14 +14,14 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class FilterCommands
         {
-            public static ConcurrentHashSet<ulong> InviteFilteringChannels { get; set; }
-            public static ConcurrentHashSet<ulong> InviteFilteringServers { get; set; }
+            public static ConcurrentHashSet<ulong> InviteFilteringChannels { get; }
+            public static ConcurrentHashSet<ulong> InviteFilteringServers { get; }
 
             //serverid, filteredwords
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<string>> ServerFilteredWords { get; set; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<string>> ServerFilteredWords { get; }
 
-            public static ConcurrentHashSet<ulong> WordFilteringChannels { get; set; }
-            public static ConcurrentHashSet<ulong> WordFilteringServers { get; set; }
+            public static ConcurrentHashSet<ulong> WordFilteringChannels { get; }
+            public static ConcurrentHashSet<ulong> WordFilteringServers { get; }
 
             public static ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
             {

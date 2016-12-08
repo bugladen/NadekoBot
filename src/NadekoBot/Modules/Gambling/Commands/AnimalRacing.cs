@@ -18,11 +18,7 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class AnimalRacing
         {
-
-            public AnimalRacing()
-            {
-            }
-            public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
+            public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -119,7 +115,7 @@ namespace NadekoBot.Modules.Gambling
                             await Task.Run(StartRace);
                             End();
                         }
-                        catch { }
+                        catch { try { End(); } catch { } }
                     });
                 }
 

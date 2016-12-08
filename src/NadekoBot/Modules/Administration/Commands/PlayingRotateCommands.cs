@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class PlayingRotateCommands
         {
-            private Logger _log { get; }
+            private static Logger _log { get; }
             public static List<PlayingStatus> RotatingStatusMessages { get; }
             public static bool RotatingStatuses { get; private set; } = false;
 
@@ -30,12 +30,9 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatusMessages = conf.RotatingStatusMessages;
                     RotatingStatuses = conf.RotatingStatuses;
                 }
-            }
 
-            public PlayingRotateCommands()
-            {
                 _log = LogManager.GetCurrentClassLogger();
-                Task.Run(async () =>
+                var t = Task.Run(async () =>
                 {
                     var index = 0;
                     do

@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Permissions
         }
 
         //guildid, root permission
-        public static ConcurrentDictionary<ulong, PermissionCache> Cache;
+        public static ConcurrentDictionary<ulong, PermissionCache> Cache { get; }
 
         static Permissions()
         {
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Permissions
             }
         }
 
-        public Permissions(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public Permissions() : base()
         {
         }
 

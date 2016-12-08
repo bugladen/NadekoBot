@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OsuCommands
         {
-            private Logger _log;
+            private static Logger _log;
 
-            public OsuCommands()
+            static OsuCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
             }

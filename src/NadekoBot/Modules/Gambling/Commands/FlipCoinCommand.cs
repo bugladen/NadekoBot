@@ -15,10 +15,9 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlipCoinCommands
         {
-            NadekoRandom rng { get; } = new NadekoRandom();
+            private static NadekoRandom rng { get; } = new NadekoRandom();
             private const string headsPath = "data/images/coins/heads.png";
             private const string tailsPath = "data/images/coins/tails.png";
-            public FlipCoinCommands() { }
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

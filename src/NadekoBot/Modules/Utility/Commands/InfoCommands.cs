@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Utility
             if (guild == null)
                 server = channel.Guild;
             else
-                server = _client.GetGuilds().Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
+                server = NadekoBot.Client.GetGuilds().Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
             if (server == null)
                 return;
 

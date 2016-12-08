@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games
                 }
             }
         }
-        public Games(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public Games() : base()
         {
         }
 

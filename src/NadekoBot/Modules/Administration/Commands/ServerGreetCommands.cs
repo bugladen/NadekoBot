@@ -17,17 +17,16 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class ServerGreetCommands
         {
-            public static long Greeted = 0;
-            private Logger _log;
+            private static Logger _log { get; }
 
-            public ServerGreetCommands()
+            static ServerGreetCommands()
             {
                 NadekoBot.Client.UserJoined += UserJoined;
                 NadekoBot.Client.UserLeft += UserLeft;
                 _log = LogManager.GetCurrentClassLogger();
             }
 
-            private Task UserLeft(IGuildUser user)
+            private static Task UserLeft(IGuildUser user)
             {
                 var leftTask = Task.Run(async () =>
                 {
@@ -67,7 +66,7 @@ namespace NadekoBot.Modules.Administration
                 return Task.CompletedTask;
             }
 
-            private Task UserJoined(IGuildUser user)
+            private static Task UserJoined(IGuildUser user)
             {
                 var joinedTask = Task.Run(async () =>
                 {

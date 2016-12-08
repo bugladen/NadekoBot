@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class CrossServerTextChannel
         {
-            public CrossServerTextChannel()
+            static CrossServerTextChannel()
             {
                 _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.MessageReceived += (imsg) =>
@@ -50,11 +50,11 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            private string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
+            private static string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
                 $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content;
             
             public static readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
