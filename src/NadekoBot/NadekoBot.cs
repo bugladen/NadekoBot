@@ -30,7 +30,6 @@ namespace NadekoBot
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
         public static ShardedDiscordClient  Client { get; private set; }
-        public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
         public static GoogleApiService Google { get; private set; }
@@ -70,7 +69,6 @@ namespace NadekoBot
 
             //initialize Services
             CommandService = new CommandService();
-            Localizer = new Localization();
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
@@ -106,7 +104,7 @@ namespace NadekoBot
 
             await CommandService.LoadAssembly(this.GetType().GetTypeInfo().Assembly).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
-            await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
+            await CommandService.Load(new Music()).ConfigureAwait(false);
 #endif
             Ready = true;
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));

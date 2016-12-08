@@ -23,13 +23,6 @@ namespace NadekoBot.Modules.Searches
     [NadekoModule("Searches", "~")]
     public partial class Searches : DiscordModule
     {
-        private IGoogleApiService _google { get; }
-
-        public Searches(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService youtube) : base()
-        {
-            _google = youtube;
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IUserMessage umsg, string city, string country)
@@ -63,7 +56,7 @@ namespace NadekoBot.Modules.Searches
         {
             var channel = (ITextChannel)umsg.Channel;
             if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
-            var result = (await _google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            var result = (await NadekoBot.Google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
                 await channel.SendMessageAsync("No results found for that query.");
@@ -186,7 +179,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await channel.SendMessageAsync(await _google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
+            await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
                            .ConfigureAwait(false);
         }
 
@@ -240,7 +233,7 @@ namespace NadekoBot.Modules.Searches
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     var msg = $@"```css
 [☕ Magic The Gathering]: {items[0]["name"].ToString()}
-[Store URL]: {await _google.ShortenUrl(items[0]["store_url"].ToString())}
+[Store URL]: {await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())}
 [Cost]: {items[0]["cost"].ToString()}
 [Description]: {items[0]["text"].ToString()}
 ```
@@ -387,7 +380,7 @@ namespace NadekoBot.Modules.Searches
                     var sb = new StringBuilder();
                     sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
                     sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                    sb.Append($"`Link:` <{await _google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
+                    sb.Append($"`Link:` <{await NadekoBot.Google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
                     await channel.SendMessageAsync(sb.ToString());
                 }
                 catch
@@ -429,7 +422,7 @@ namespace NadekoBot.Modules.Searches
                 var items = JObject.Parse(res);
                 var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
 `Definition:` {items["defs"]["def"]["text"].ToString()}
-`Link:` <{await _google.ShortenUrl(items["defs"]["def"]["uri"].ToString()).ConfigureAwait(false)}>";
+`Link:` <{await NadekoBot.Google.ShortenUrl(items["defs"]["def"]["uri"].ToString()).ConfigureAwait(false)}>";
                 await channel.SendMessageAsync(str);
             }
             catch
@@ -564,7 +557,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+            await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         public static async Task<string> GetSafebooruImageLink(string tag)

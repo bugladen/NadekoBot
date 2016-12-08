@@ -20,19 +20,16 @@ namespace NadekoBot.Modules.Music
     [NadekoModule("Music", "!!", AutoLoad = false)]
     public partial class Music : DiscordModule
     {
-        public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers = new ConcurrentDictionary<ulong, MusicPlayer>();
+        public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
         public const string MusicDataPath = "data/musicdata";
-        private IGoogleApiService _google;
 
-        public Music(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService google) : base()
+        public Music() : base()
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
             Directory.CreateDirectory(MusicDataPath);
-
-            _google = google;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -259,13 +256,13 @@ namespace NadekoBot.Modules.Music
                 await channel.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                 return;
             }
-            var plId = (await _google.GetPlaylistIdsByKeywordsAsync(arg).ConfigureAwait(false)).FirstOrDefault();
+            var plId = (await NadekoBot.Google.GetPlaylistIdsByKeywordsAsync(arg).ConfigureAwait(false)).FirstOrDefault();
             if (plId == null)
             {
                 await channel.SendMessageAsync("No search results for that query.");
                 return;
             }
-            var ids = await _google.GetPlaylistTracksAsync(plId, 500).ConfigureAwait(false);
+            var ids = await NadekoBot.Google.GetPlaylistTracksAsync(plId, 500).ConfigureAwait(false);
             if (!ids.Any())
             {
                 await channel.SendMessageAsync($"🎵 `Failed to find any songs.`").ConfigureAwait(false);

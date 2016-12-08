@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Administration
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
             }
 
-            public LogCommands(ShardedDiscordClient client)
+            public LogCommands()
             {
                 //_client.MessageReceived += _client_MessageReceived;
                 _client.MessageUpdated += _client_MessageUpdated;

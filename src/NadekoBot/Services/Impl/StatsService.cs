@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Impl
 
         Timer carbonitexTimer { get; }
 
-        public StatsService(ShardedDiscordClient  client, CommandHandler cmdHandler)
+        public StatsService(ShardedDiscordClient client, CommandHandler cmdHandler)
         {
 
             this.client = client;
