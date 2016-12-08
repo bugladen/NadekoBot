@@ -74,9 +74,6 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
-        public static async Task<IUserMessage> Reply(this IUserMessage msg, string content) =>
-            await msg.Channel.SendMessageAsync(content).ConfigureAwait(false);
-
         public static bool IsAuthor(this IUserMessage msg) =>
             NadekoBot.Client.GetCurrentUser().Id == msg.Author.Id;
 
@@ -159,11 +156,17 @@ namespace NadekoBot.Extensions
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, Discord.API.Embed embed, string msg = "")
              => ch.SendMessageAsync(msg, embed: embed);
 
-        public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error, string title = null, string url = null)
+        public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null)
              => ch.SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.ErrorColor });
 
-        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string error, string title = null, string url = null)
-             => ch.SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.OkColor });
+        public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
+             => ch.SendMessageAsync("", embed: new Embed() { Description = error, Color = NadekoBot.ErrorColor });
+
+        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null)
+             => ch.SendMessageAsync("", embed: new Embed() { Description = text, Title = title, Url = url, Color = NadekoBot.OkColor });
+
+        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
+             => ch.SendMessageAsync("", embed: new Embed() { Description = text, Color = NadekoBot.OkColor });
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
