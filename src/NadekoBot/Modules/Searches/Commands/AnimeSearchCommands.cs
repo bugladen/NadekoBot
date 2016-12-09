@@ -29,19 +29,25 @@ namespace NadekoBot.Modules.Searches
                 _log = LogManager.GetCurrentClassLogger();
                 anilistTokenRefresher = new Timer(async (state) =>
                 {
-                    var headers = new Dictionary<string, string> {
-                    {"grant_type", "client_credentials"},
-                    {"client_id", "kwoth-w0ki9"},
-                    {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
-                };
-
-                    using (var http = new HttpClient())
+                    try
                     {
-                        http.AddFakeHeaders();
-                        var formContent = new FormUrlEncodedContent(headers);
-                        var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
-                        var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
+                        var headers = new Dictionary<string, string> {
+                        {"grant_type", "client_credentials"},
+                        {"client_id", "kwoth-w0ki9"},
+                        {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
+                    };
+
+                        using (var http = new HttpClient())
+                        {
+                            http.AddFakeHeaders();
+                            var formContent = new FormUrlEncodedContent(headers);
+                            var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
+                            var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
+                        }
+                    }
+                    catch (Exception ex) {
+                        _log.Error(ex);
                     }
                 }, null, TimeSpan.FromSeconds(0), TimeSpan.FromMinutes(29));
             }
@@ -56,6 +62,12 @@ namespace NadekoBot.Modules.Searches
                     return;
 
                 var animeData = await GetAnimeData(query).ConfigureAwait(false);
+
+                if (animeData == null)
+                {
+                    await umsg.Channel.SendErrorAsync("Failed finding that animu.").ConfigureAwait(false);
+                    return;
+                }
 
                 var embed = new Discord.API.Embed()
                 {
@@ -96,32 +108,38 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
-                var animeData = await GetMangaData(query).ConfigureAwait(false);
+                var mangaData = await GetMangaData(query).ConfigureAwait(false);
+
+                if (mangaData == null)
+                {
+                    await umsg.Channel.SendErrorAsync("Failed finding that mango.").ConfigureAwait(false);
+                    return;
+                }
 
                 var embed = new Discord.API.Embed()
                 {
-                    Description = animeData.Synopsis,
-                    Title = animeData.title_english,
-                    Url = animeData.Link,
+                    Description = mangaData.Synopsis,
+                    Title = mangaData.title_english,
+                    Url = mangaData.Link,
                     Image = new Discord.API.EmbedImage()
                     {
-                        Url = animeData.image_url_lge
+                        Url = mangaData.image_url_lge
                     },
                     Fields = new[] {
                         new Discord.API.EmbedField() {
                             Inline = true,
                             Name = "Chapters",
-                            Value = animeData.total_chapters.ToString()
+                            Value = mangaData.total_chapters.ToString()
                         },
                         new Discord.API.EmbedField() {
                             Inline = true,
                             Name = "Status",
-                            Value =  animeData.publishing_status.ToString()
+                            Value =  mangaData.publishing_status.ToString()
                         },
                         new Discord.API.EmbedField() {
                             Inline = true,
                             Name = "Genres",
-                            Value = String.Join(", ", animeData.Genres)
+                            Value = String.Join(", ", mangaData.Genres)
                         }
                     },
                     Color = NadekoBot.OkColor

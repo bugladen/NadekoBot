@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OsuCommands
         {
-            private static Logger _log;
+            private static Logger _log { get; }
 
             static OsuCommands()
             {
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Searches
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendMessageAsync("💢 Failed retrieving osu signature :\\").ConfigureAwait(false);
+                        await channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
                         _log.Warn(ex, "Osu command failed");
                     }
                 }
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
-                    await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
                     return;
                 }
 
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync("Something went wrong.");
+                    await channel.SendErrorAsync("Something went wrong.");
                     _log.Warn(ex, "Osub command failed");
                 }
             }
@@ -102,13 +102,13 @@ namespace NadekoBot.Modules.Searches
                 var channel = (ITextChannel)umsg.Channel;
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
-                    await channel.SendMessageAsync("💢 An osu! API key is required.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(user))
                 {
-                    await channel.SendMessageAsync("💢 Please provide a username.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Please provide a username.").ConfigureAwait(false);
                     return;
                 }
                 using (var http = new HttpClient())
@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Searches
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendMessageAsync("Something went wrong.");
+                        await channel.SendErrorAsync("Something went wrong.");
                         _log.Warn(ex, "Osu5 command failed");
                     }
 

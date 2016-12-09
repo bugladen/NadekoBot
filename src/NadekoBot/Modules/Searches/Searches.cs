@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Searches
 
             if (shortened == arg)
             {
-                await msg.Channel.SendErrorAsync("Failed to shorten that url.");
+                await msg.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
             }
 
             await msg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
@@ -207,7 +207,8 @@ namespace NadekoBot.Modules.Searches
                                                                                .WithValue($"<{arg}>"))
                                                             .AddField(efb => efb.WithName("Short Url")
                                                                                 .WithValue($"<{shortened}>"))
-                                                            .Build());
+                                                            .Build())
+                                                            .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -286,7 +287,7 @@ namespace NadekoBot.Modules.Searches
 
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
-                await channel.SendErrorAsync ("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
                 return;
             }
 

@@ -91,28 +91,28 @@ namespace NadekoBot.Modules.Searches
                     }
 
                     await Task.WhenAll(streams.Select(async fs =>
-                                    {
-                                        try
-                                        {
-                                            var newStatus = await GetStreamStatus(fs).ConfigureAwait(false);
-                                            if (FirstPass)
-                                            {
-                                                return;
-                                            }
+                    {
+                        try
+                        {
+                            var newStatus = await GetStreamStatus(fs).ConfigureAwait(false);
+                            if (FirstPass)
+                            {
+                                return;
+                            }
 
-                                            StreamStatus oldStatus;
-                                            if (oldCachedStatuses.TryGetValue(newStatus.ApiLink, out oldStatus) &&
-                                                oldStatus.IsLive != newStatus.IsLive)
-                                            {
-                                                var server = NadekoBot.Client.GetGuild(fs.GuildId);
-                                                var channel = server?.GetTextChannel(fs.ChannelId);
-                                                if (channel == null)
-                                                    return;
-                                                try { await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false); } catch { }
-                                            }
-                                        }
-                                        catch { }
-                                    }));
+                            StreamStatus oldStatus;
+                            if (oldCachedStatuses.TryGetValue(newStatus.ApiLink, out oldStatus) &&
+                                oldStatus.IsLive != newStatus.IsLive)
+                            {
+                                var server = NadekoBot.Client.GetGuild(fs.GuildId);
+                                var channel = server?.GetTextChannel(fs.ChannelId);
+                                if (channel == null)
+                                    return;
+                                try { await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false); } catch { }
+                            }
+                        }
+                        catch { }
+                    }));
 
                     FirstPass = false;
                 }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
@@ -190,40 +190,6 @@ namespace NadekoBot.Modules.Searches
                 return null;
             }
 
-            //[NadekoCommand, Usage, Description, Aliases]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task Test(IUserMessage imsg)
-            //{
-            //    var channel = (ITextChannel)imsg.Channel;
-
-            //    await channel.EmbedAsync(new Discord.API.Embed()
-            //    {
-            //        Title = "Imqtpie",
-            //        Url = "https://twitch.tv/masterkwoth",
-            //        Fields = new[] {
-            //            new Discord.API.EmbedField()
-            //            {
-            //                Name = "Status",
-            //                Value = "Online",
-            //                Inline = true,
-            //            },
-            //            new Discord.API.EmbedField()
-            //            {
-            //                Name = "Viewers",
-            //                Value = "123123",
-            //                Inline = true
-            //            },
-            //            new Discord.API.EmbedField()
-            //            {
-            //                Name = "Platform",
-            //                Value = "Twitch",
-            //                Inline = true
-            //            },
-            //        },
-            //        Color = NadekoBot.OkColor
-            //    });
-            //}
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]
@@ -262,7 +228,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (!streams.Any())
                 {
-                    await channel.SendMessageAsync("You are not following any streams on this server.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("You are not following any streams on this server.").ConfigureAwait(false);
                     return;
                 }
 
@@ -271,7 +237,7 @@ namespace NadekoBot.Modules.Searches
                     return $"`{snc.Username}`'s stream on **{channel.Guild.GetTextChannel(snc.ChannelId)?.Name}** channel. 【`{snc.Type.ToString()}`】";
                 }));
 
-                await channel.SendMessageAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
+                await channel.SendConfirmAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -300,10 +266,10 @@ namespace NadekoBot.Modules.Searches
                 }
                 if (!removed)
                 {
-                    await channel.SendMessageAsync("❎ No such stream.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("No such stream.").ConfigureAwait(false);
                     return;
                 }
-                await channel.SendMessageAsync($"🗑 Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -324,22 +290,22 @@ namespace NadekoBot.Modules.Searches
                     }));
                     if (streamStatus.IsLive)
                     {
-                        await channel.SendMessageAsync($"`Streamer {username} is online with {streamStatus.Views} viewers.`");
+                        await channel.SendConfirmAsync($"Streamer {username} is online with {streamStatus.Views} viewers.");
                     }
                     else
                     {
-                        await channel.SendMessageAsync($"`Streamer {username} is offline.`");
+                        await channel.SendConfirmAsync($"Streamer {username} is offline.");
                     }
                 }
                 catch
                 {
-                    await channel.SendMessageAsync("No channel found.");
+                    await channel.SendErrorAsync("No channel found.");
                 }
             }
 
             private async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
-                username = username.Trim();
+                username = username.ToLowerInvariant().Trim();
                 var fs = new FollowedStream
                 {
                     GuildId = channel.Guild.Id,
@@ -355,7 +321,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await channel.SendMessageAsync("💢 Stream probably doesn't exist.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Stream probably doesn't exist.").ConfigureAwait(false);
                     return;
                 }
 
@@ -366,9 +332,7 @@ namespace NadekoBot.Modules.Searches
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                
-                var msg = $"🆗 I will notify this channel when status changes.";
-                await channel.EmbedAsync(fs.GetEmbed(status).Build(), msg).ConfigureAwait(false);
+                await channel.EmbedAsync(fs.GetEmbed(status).Build(), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
             }
         }
     }

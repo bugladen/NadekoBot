@@ -75,12 +75,12 @@ namespace NadekoBot.Modules.Searches
                 {
                     await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
                     var translation = await TranslateInternal(umsg, langs, text);
-                    await channel.SendMessageAsync(translation).ConfigureAwait(false);
+                    await channel.SendConfirmAsync(translation).ConfigureAwait(false);
 
                 }
                 catch
                 {
-                    await channel.SendMessageAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
                 }
             }
 
@@ -114,19 +114,19 @@ namespace NadekoBot.Modules.Searches
                 if (autoDelete == AutoDeleteAutoTranslate.Del)
                 {
                     TranslatedChannels.AddOrUpdate(channel.Id, true, (key, val) => true);
-                    try { await channel.SendMessageAsync("`Started automatic translation of messages on this channel. User messages will be auto-deleted.`").ConfigureAwait(false); } catch { }
+                    try { await channel.SendConfirmAsync("Started automatic translation of messages on this channel. User messages will be auto-deleted.").ConfigureAwait(false); } catch { }
                     return;
                 }
 
                 bool throwaway;
                 if (TranslatedChannels.TryRemove(channel.Id, out throwaway))
                 {
-                    try { await channel.SendMessageAsync("`Stopped automatic translation of messages on this channel.`").ConfigureAwait(false); } catch { }
+                    try { await channel.SendConfirmAsync("Stopped automatic translation of messages on this channel.").ConfigureAwait(false); } catch { }
                     return;
                 }
                 else if (TranslatedChannels.TryAdd(channel.Id, autoDelete == AutoDeleteAutoTranslate.Del))
                 {
-                    try { await channel.SendMessageAsync("`Started automatic translation of messages on this channel.`").ConfigureAwait(false); } catch { }
+                    try { await channel.SendConfirmAsync("Started automatic translation of messages on this channel.").ConfigureAwait(false); } catch { }
                 }
             }
 
@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(langs))
                 {
                     if (UserLanguages.TryRemove(ucp, out langs))
-                        await channel.SendMessageAsync($"{msg.Author.Mention}'s auto-translate language has been removed.").ConfigureAwait(false);
+                        await channel.SendConfirmAsync($"{msg.Author.Mention}'s auto-translate language has been removed.").ConfigureAwait(false);
                     return;
                 }
 
@@ -157,13 +157,13 @@ namespace NadekoBot.Modules.Searches
 
                 if (!GoogleTranslator.Instance.Languages.Contains(from) || !GoogleTranslator.Instance.Languages.Contains(to))
                 {
-                    try { await channel.SendMessageAsync("`Invalid source and/or target Language.`").ConfigureAwait(false); } catch { }
+                    try { await channel.SendErrorAsync("Invalid source and/or target language.").ConfigureAwait(false); } catch { }
                     return;
                 }
 
                 UserLanguages.AddOrUpdate(ucp, langs, (key, val) => langs);
 
-                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"Your auto-translate language has been set to {from}>{to}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

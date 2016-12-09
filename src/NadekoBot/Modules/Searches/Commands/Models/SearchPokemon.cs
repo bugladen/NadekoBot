@@ -18,9 +18,8 @@ namespace NadekoBot.Modules.Searches.Models
             public int SPD { get; set; }
             public int SPE { get; set; }
 
-            public override string ToString() => $@"
-    **HP:**  {HP,-4} **ATK:** {ATK,-4} **DEF:** {DEF,-4}
-    **SPA:** {SPA,-4} **SPD:** {SPD,-4} **SPE:** {SPE,-4}";
+            public override string ToString() => $@"**HP:**  {HP,-4} **ATK:** {ATK,-4} **DEF:** {DEF,-4}
+**SPA:** {SPA,-4} **SPD:** {SPD,-4} **SPE:** {SPE,-4}";
         }
         public int Id { get; set; }
         public string Species { get; set; }

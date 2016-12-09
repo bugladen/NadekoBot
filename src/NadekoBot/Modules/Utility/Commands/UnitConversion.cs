@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Utility
         {
 
             public static List<ConvertUnit> Units { get; set; } = new List<ConvertUnit>();
-            private static Logger _log;
+            private static Logger _log { get; }
             private static Timer _timer;
             private static TimeSpan updateInterval = new TimeSpan(12, 0, 0);
 

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
 using NadekoBot.Services;
 using Newtonsoft.Json;
@@ -19,9 +20,9 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class JokeCommands
         {
-            private static List<WoWJoke> wowJokes = new List<WoWJoke>();
-            private static List<MagicItem> magicItems;
-            private static Logger _log;
+            private static List<WoWJoke> wowJokes { get; } = new List<WoWJoke>();
+            private static List<MagicItem> magicItems { get; } = new List<MagicItem>();
+            private static Logger _log { get; }
 
             static JokeCommands()
             {
@@ -43,61 +44,62 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Yomama(IUserMessage umsg)
+            public async Task Yomama(IUserMessage msg)
             {
-                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
-                    await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(JObject.Parse(response)["joke"].ToString() + " 😆").ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Randjoke(IUserMessage umsg)
+            public async Task Randjoke(IUserMessage msg)
             {
-                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                    await channel.SendMessageAsync("`" + JObject.Parse(response)["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(JObject.Parse(response)["joke"].ToString() + " 😆").ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ChuckNorris(IUserMessage umsg)
+            public async Task ChuckNorris(IUserMessage msg)
             {
-                var channel = (ITextChannel)umsg.Channel;
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
-                    await channel.SendMessageAsync("`" + JObject.Parse(response)["value"]["joke"].ToString() + "` 😆").ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(JObject.Parse(response)["value"]["joke"].ToString() + " 😆").ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WowJoke(IUserMessage umsg)
+            public async Task WowJoke(IUserMessage msg)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (!wowJokes.Any())
                 {
+                    await msg.Channel.SendErrorAsync("Jokes not loaded.").ConfigureAwait(false);
+                    return;
                 }
-                await channel.SendMessageAsync(wowJokes[new NadekoRandom().Next(0, wowJokes.Count)].ToString());
+                var joke = wowJokes[new NadekoRandom().Next(0, wowJokes.Count)];
+                await msg.Channel.SendConfirmAsync(joke.Question, joke.Answer).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task MagicItem(IUserMessage umsg)
+            public async Task MagicItem(IUserMessage msg)
             {
-                var channel = (ITextChannel)umsg.Channel;
-                var rng = new NadekoRandom();
-                var item = magicItems[rng.Next(0, magicItems.Count)].ToString();
+                if (!wowJokes.Any())
+                {
+                    await msg.Channel.SendErrorAsync("MagicItems not loaded.").ConfigureAwait(false);
+                    return;
+                }
+                var item = magicItems[new NadekoRandom().Next(0, magicItems.Count)];
 
-                await channel.SendMessageAsync(item).ConfigureAwait(false);
+                await msg.Channel.SendConfirmAsync("✨" + item.Name, item.Description).ConfigureAwait(false);
             }
         }
     }
