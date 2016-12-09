@@ -789,60 +789,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to bfonline bfo.
-        /// </summary>
-        public static string bfo_cmd {
-            get {
-                return ResourceManager.GetString("bfo_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Gives you online players for BF3 and BF4.
-        /// </summary>
-        public static string bfo_desc {
-            get {
-                return ResourceManager.GetString("bfo_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}bfo bf3` or `{0}bfo bf4`.
-        /// </summary>
-        public static string bfo_usage {
-            get {
-                return ResourceManager.GetString("bfo_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to bfuser bfu.
-        /// </summary>
-        public static string bfu_cmd {
-            get {
-                return ResourceManager.GetString("bfu_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Gives you back a battlefield user&apos;s stats..
-        /// </summary>
-        public static string bfu_desc {
-            get {
-                return ResourceManager.GetString("bfu_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}bfu platform game user`.
-        /// </summary>
-        public static string bfu_usage {
-            get {
-                return ResourceManager.GetString("bfu_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to boobs.
         /// </summary>
         public static string boobs_cmd {

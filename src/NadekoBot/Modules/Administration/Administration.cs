@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.IO;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
+using NLog;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -24,13 +25,17 @@ namespace NadekoBot.Modules.Administration
 
         private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
 
-        public Administration(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        private static Logger _log { get; }
+
+        public Administration() : base()
         {
-            NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
 
         static Administration()
         {
+            _log = LogManager.GetCurrentClassLogger();
+            NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 var configs = NadekoBot.AllGuildConfigs;
@@ -40,11 +45,11 @@ namespace NadekoBot.Modules.Administration
             }
         }
 
-        private async void DelMsgOnCmd_Handler(object sender, CommandExecutedEventArgs e)
+        private static async Task DelMsgOnCmd_Handler(IUserMessage msg, Command cmd)
         {
             try
             {
-                var channel = e.Message.Channel as ITextChannel;
+                var channel = msg.Channel as ITextChannel;
                 if (channel == null)
                     return;
 
@@ -56,7 +61,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (shouldDelete)
-                    await e.Message.DeleteAsync().ConfigureAwait(false);
+                    await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -802,7 +807,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            var channels = await Task.WhenAll(_client.GetGuilds().Select(g =>
+            var channels = await Task.WhenAll(NadekoBot.Client.GetGuilds().Select(g =>
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
 

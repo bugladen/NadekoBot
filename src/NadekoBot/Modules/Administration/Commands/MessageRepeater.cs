@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class RepeatCommands
         {
-            public ConcurrentDictionary<ulong, RepeatRunner> repeaters;
+            public static ConcurrentDictionary<ulong, RepeatRunner> repeaters { get; }
 
             public class RepeatRunner
             {
@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            public RepeatCommands()
+            static RepeatCommands()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {

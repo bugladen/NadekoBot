@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Permissions
         public class CmdCdsCommands
         {
             public static ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> commandCooldowns { get; }
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> activeCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> activeCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
 
             static CmdCdsCommands()
             {

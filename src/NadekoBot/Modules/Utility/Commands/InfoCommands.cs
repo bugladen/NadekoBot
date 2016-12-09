@@ -10,25 +10,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility
 {
-    partial class Utility : DiscordModule
+    public partial class Utility
     {
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task TogetherTube(IUserMessage imsg)
-        {
-            var channel = (ITextChannel)imsg.Channel;
-
-            Uri target;
-            using (var http = new HttpClient())
-            {
-                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
-                target = res.RequestMessage.RequestUri;
-            }
-
-            await channel.SendMessageAsync($"🎞 {imsg.Author.Mention}, **Your new video room created. Join and invite to watch videos together with friends:** {target}")
-                         .ConfigureAwait(false);
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IUserMessage msg, string guild = null)
@@ -39,7 +22,7 @@ namespace NadekoBot.Modules.Utility
             if (guild == null)
                 server = channel.Guild;
             else
-                server = _client.GetGuilds().Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
+                server = NadekoBot.Client.GetGuilds().Where(g => g.Name.ToUpperInvariant() == guild.ToUpperInvariant()).FirstOrDefault();
             if (server == null)
                 return;
 
@@ -61,7 +44,7 @@ __`Created At:`__ **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
                 sb.AppendLine($"__`Features:`__ **{string.Join(", ", server.Features)}**");
             if (!string.IsNullOrWhiteSpace(server.SplashUrl))
                 sb.AppendLine($"__`Region:`__ **{server.VoiceRegionId}**");
-            await msg.Reply(sb.ToString()).ConfigureAwait(false);
+            await channel.SendConfirmAsync(sb.ToString()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -77,7 +60,7 @@ __`ID:`__ **{ch.Id}**
 __`Created At:`__ **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
 __`Topic:`__ {ch.Topic}
 __`Users:`__ **{(await ch.GetUsersAsync()).Count()}**";
-            await msg.Reply(toReturn).ConfigureAwait(false);
+            await msg.Channel.SendConfirmAsync(toReturn).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -99,7 +82,7 @@ __`Users:`__ **{(await ch.GetUsersAsync()).Count()}**";
             if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
                 toReturn += $@"
 📷 __`Avatar URL:`__ **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
-                await msg.Reply(toReturn).ConfigureAwait(false);
+                await msg.Channel.SendConfirmAsync(toReturn).ConfigureAwait(false);
         }
     }
 }

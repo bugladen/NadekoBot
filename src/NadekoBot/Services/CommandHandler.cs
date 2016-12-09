@@ -39,7 +39,7 @@ namespace NadekoBot.Services
 
         private List<IDMChannel> ownerChannels { get; set; }
 
-        public event EventHandler<CommandExecutedEventArgs> CommandExecuted = delegate { };
+        public event Func<IUserMessage,Command, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
         public CommandHandler(ShardedDiscordClient client, CommandService commandService)
         {
@@ -154,7 +154,7 @@ namespace NadekoBot.Services
                     var channel = (usrMsg.Channel as ITextChannel);
                     if (result.IsSuccess)
                     {
-                        CommandExecuted(this, new CommandExecutedEventArgs(usrMsg, command));
+                        await CommandExecuted(usrMsg, command);
                         _log.Info("Command Executed after {4}s\n\t" +
                                     "User: {0}\n\t" +
                                     "Server: {1}\n\t" +

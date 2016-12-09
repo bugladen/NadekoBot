@@ -13,20 +13,20 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public Func<IGuildUser, Task> UserJoined { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IMessage, Task> MessageReceived { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, Task> UserLeft { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, IGuildUser, Task> UserUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<Optional<IMessage>, IMessage, Task> MessageUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<ulong, Optional<IMessage>, Task> MessageDeleted { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IGuild, Task> UserBanned { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IGuild, Task> UserUnbanned { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, IPresence, IPresence, Task> UserPresenceUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IVoiceState, IVoiceState, Task> UserVoiceStateUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, Task> ChannelCreated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, Task> ChannelDestroyed { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, IChannel, Task> ChannelUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<Exception, Task> Disconnected { get; internal set; } = delegate { return Task.CompletedTask; };
+        public event Func<IGuildUser, Task> UserJoined = delegate { return Task.CompletedTask; };
+        public event Func<IMessage, Task> MessageReceived = delegate { return Task.CompletedTask; };
+        public event Func<IGuildUser, Task> UserLeft = delegate { return Task.CompletedTask; };
+        public event Func<IGuildUser, IGuildUser, Task> UserUpdated = delegate { return Task.CompletedTask; };
+        public event Func<Optional<IMessage>, IMessage, Task> MessageUpdated = delegate { return Task.CompletedTask; };
+        public event Func<ulong, Optional<IMessage>, Task> MessageDeleted = delegate { return Task.CompletedTask; };
+        public event Func<IUser, IGuild, Task> UserBanned = delegate { return Task.CompletedTask; };
+        public event Func<IUser, IGuild, Task> UserUnbanned = delegate { return Task.CompletedTask; };
+        public event Func<IGuildUser, IPresence, IPresence, Task> UserPresenceUpdated = delegate { return Task.CompletedTask; };
+        public event Func<IUser, IVoiceState, IVoiceState, Task> UserVoiceStateUpdated = delegate { return Task.CompletedTask; };
+        public event Func<IChannel, Task> ChannelCreated = delegate { return Task.CompletedTask; };
+        public event Func<IChannel, Task> ChannelDestroyed = delegate { return Task.CompletedTask; };
+        public event Func<IChannel, IChannel, Task> ChannelUpdated = delegate { return Task.CompletedTask; };
+        public event Func<Exception, Task> Disconnected = delegate { return Task.CompletedTask; };
 
         private IReadOnlyList<DiscordSocketClient> Clients { get; }
 

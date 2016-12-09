@@ -1,6 +1,6 @@
 ﻿namespace NadekoBot.Services
 {
-    public class Localization : ILocalization
+    public class Localization
     {
         public string this[string key] => LoadCommandString(key);
 

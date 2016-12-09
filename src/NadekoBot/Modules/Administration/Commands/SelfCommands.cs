@@ -13,9 +13,9 @@ namespace NadekoBot.Modules.Administration
         {
             private ShardedDiscordClient _client;
 
-            public SelfCommands(ShardedDiscordClient client)
+            public SelfCommands()
             {
-                this._client = client;
+                this._client = NadekoBot.Client;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

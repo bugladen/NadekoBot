@@ -6,13 +6,10 @@ namespace NadekoBot.Modules
 {
     public class DiscordModule
     {
-        protected ILocalization _l { get; }
-        protected CommandService _commands { get; }
-        protected ShardedDiscordClient  _client { get; }
         protected Logger _log { get; }
         protected string _prefix { get; }
 
-        public DiscordModule(ILocalization loc, CommandService cmds, ShardedDiscordClient client)
+        public DiscordModule()
         {
             string prefix;
             if (NadekoBot.ModulePrefixes.TryGetValue(this.GetType().Name, out prefix))
@@ -20,9 +17,6 @@ namespace NadekoBot.Modules
             else
                 _prefix = "?missing_prefix?";
 
-            _l = loc;
-            _commands = cmds;
-            _client = client;
             _log = LogManager.GetCurrentClassLogger();
         }
     }

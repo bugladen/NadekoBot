@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }
         }
-        public ClashOfClans(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public ClashOfClans() : base()
         {
         }
 

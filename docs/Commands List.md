@@ -10,6 +10,7 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 - [Music](#music)
 - [NSFW](#nsfw)
 - [Permissions](#permissions)
+- [Pokemon](#pokemon)
 - [Searches](#searches)
 - [Utility](#utility)
 
@@ -268,6 +269,17 @@ Command and aliases | Description | Usage
 
 ###### [Back to TOC](#table-of-contents)
 
+### Pokemon  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`>attack`  | Attacks a target with the given move. Use `>movelist` to see a list of moves your type can use.  | `>attack "vine whip" @someguy`
+`>movelist` `>ml` | Lists the moves you are able to use  | `>ml`
+`>heal`  | Heals someone. Revives those who fainted. Costs a NadekoFlower  | `>heal @someone`
+`>type`  | Get the poketype of the target.  | `>type @someone`
+`>settype`  | Set your poketype. Costs a NadekoFlower. Provide no arguments to see a list of available types.  | `>settype fire` or `>settype`
+
+###### [Back to TOC](#table-of-contents)
+
 ### Searches  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -283,6 +295,7 @@ Command and aliases | Description | Usage
 `~google` `~g` | Get a google search link for some terms.  | `~google query`
 `~magicthegathering` `~mtg` | Searches for a Magic The Gathering card.  | `~magicthegathering about face` or `~mtg about face`
 `~hearthstone` `~hs` | Searches for a Hearthstone card and shows its image. Takes a while to complete.  | `~hs Ysera`
+`~yodify` `~yoda` | Translates your normal sentences into Yoda styled sentences!  | ~yodify I was once an adventurer like you` or `~yoda my feelings hurt`
 `~urbandict` `~ud` | Searches Urban Dictionary for a word.  | `~ud Pineapple`
 `~#`  | Searches Tagdef.com for a hashtag.  | `~# ff`
 `~catfact`  | Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>  | `~catfact`
@@ -293,8 +306,6 @@ Command and aliases | Description | Usage
 `~color` `~clr` | Shows you what color corresponds to that hex.  | `~clr 00ff00`
 `~videocall`  | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `~videocall "@SomeGuy"`
 `~avatar` `~av` | Shows a mentioned person's avatar.  | `~av "@SomeGuy"`
-`~bfonline` `~bfo` | Gives you online players for BF3 and BF4  | `~bfo bf3` or `~bfo bf4`
-`~bfuser` `~bfu` | Gives you back a battlefield user's stats.  | `~bfu platform game user`
 `~wikia`  | Gives you back a wikia link  | `~wikia mtg Vigilance` or `~wikia mlp Dashy`
 `~minecraftping` `~mcping` | Pings a minecraft server.  | `~mcping 127.0.0.1:25565`
 `~minecraftquery` `~mcq` | Finds information about a minecraft server.  | `~mcq server:ip`
@@ -319,7 +330,7 @@ Command and aliases | Description | Usage
 `~twitch` `~tw` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `~twitch SomeStreamer`
 `~beam` `~bm` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `~beam SomeStreamer`
 `~liststreams` `~ls` | Lists all streams you are following on this server.  | `~ls`
-`~removestream` `~rms` | Removes notifications of a certain streamer on this channel. **Requires ManageMessages server permission.** | `~rms SomeGuy`
+`~removestream` `~rms` | Removes notifications of a certain streamer from a certain platform on this channel. **Requires ManageMessages server permission.** | `~rms Twitch SomeGuy` or `~rms Beam SomeOtherGuy`
 `~checkstream` `~cs` | Checks if a user is online on a certain streaming platform.  | `~cs twitch MyFavStreamer`
 `~translate` `~trans` | Translates from>to text. From the given language to the destination language.  | `~trans en>fr Hello`
 `~autotrans` `~at` | Starts automatic translation of all messages by users who set their `~atl` in this channel. You can set "del" argument to automatically delete all translated user messages. **Requires Administrator server permission.** **Bot Owner only.** | `~at` or `~at del`
@@ -345,7 +356,6 @@ Command and aliases | Description | Usage
 `.listservers`  | Lists servers the bot is on with some basic info. 15 per page. **Bot Owner only.** | `.listservers 3`
 `.calculate` `.calc` | Evaluate a mathematical expression.  | `.calc 1+1`
 `.calcops`  | Shows all available operations in .calc command  | `.calcops`
-`.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
 `.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`

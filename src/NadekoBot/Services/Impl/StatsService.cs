@@ -31,14 +31,14 @@ namespace NadekoBot.Services.Impl
 
         Timer carbonitexTimer { get; }
 
-        public StatsService(ShardedDiscordClient  client, CommandHandler cmdHandler)
+        public StatsService(ShardedDiscordClient client, CommandHandler cmdHandler)
         {
 
             this.client = client;
 
             Reset();
             this.client.MessageReceived += _ => Task.FromResult(MessageCounter++);
-            cmdHandler.CommandExecuted += (_, e) => CommandsRan++;
+            cmdHandler.CommandExecuted += (_, e) => Task.FromResult(CommandsRan++);
 
             this.client.Disconnected += _ => Reset();
 
