@@ -677,38 +677,30 @@ namespace NadekoBot.Modules.Administration
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Die(IUserMessage umsg)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try { await channel.SendMessageAsync("ℹ️ **Shutting down.**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            try { await umsg.Channel.SendMessageAsync("ℹ️ **Shutting down.**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             await Task.Delay(2000).ConfigureAwait(false);
             Environment.Exit(0);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Setname(IUserMessage umsg, [Remainder] string newName)
+        public async Task SetName(IUserMessage umsg, [Remainder] string newName)
         {
-            var channel = (ITextChannel)umsg.Channel;
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
             await (await NadekoBot.Client.GetCurrentUserAsync()).ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
-            await channel.SendMessageAsync($"ℹ️ Successfully changed name to **{newName}**").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync($"ℹ️ Successfully changed name to **{newName}**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task SetAvatar(IUserMessage umsg, [Remainder] string img = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             if (string.IsNullOrWhiteSpace(img))
                 return;
 
@@ -724,44 +716,35 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            await channel.SendMessageAsync("🆒 **New avatar set.**").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync("🆒 **New avatar set.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task SetGame(IUserMessage umsg, [Remainder] string game = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             game = game ?? "";
 
             await NadekoBot.Client.SetGame(game).ConfigureAwait(false);
 
-            await channel.SendMessageAsync("👾 **New game set.**").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync("👾 **New game set.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task SetStream(IUserMessage umsg, string url, [Remainder] string name = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             name = name ?? "";
 
             await NadekoBot.Client.SetStream(name, url).ConfigureAwait(false);
 
-            await channel.SendMessageAsync("ℹ️ **New stream set.**").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync("ℹ️ **New stream set.**").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Send(IUserMessage umsg, string where, [Remainder] string msg = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             if (string.IsNullOrWhiteSpace(msg))
                 return;
 
@@ -796,17 +779,14 @@ namespace NadekoBot.Modules.Administration
             }
             else
             {
-                await channel.SendMessageAsync("⚠️ Invalid format.").ConfigureAwait(false);
+                await umsg.Channel.SendMessageAsync("⚠️ Invalid format.").ConfigureAwait(false);
             }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Announce(IUserMessage umsg, [Remainder] string message)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             var channels = await Task.WhenAll(NadekoBot.Client.GetGuilds().Select(g =>
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
@@ -814,7 +794,7 @@ namespace NadekoBot.Modules.Administration
             await Task.WhenAll(channels.Select(c => c.SendMessageAsync($"🆕 **Message from {umsg.Author} `(Bot Owner)`:** " + message)))
                     .ConfigureAwait(false);
 
-            await channel.SendMessageAsync("🆗").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync("🆗").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -877,10 +857,8 @@ namespace NadekoBot.Modules.Administration
 
         IGuild nadekoSupportServer;
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Donators(IUserMessage umsg)
         {
-            var channel = (ITextChannel)umsg.Channel;
             IEnumerable<Donator> donatorsOrdered;
 
             using (var uow = DbHandler.UnitOfWork())
@@ -889,7 +867,7 @@ namespace NadekoBot.Modules.Administration
             }
 
             string str = $"**Thanks to the people listed below for making this project happen!**\n";
-            await channel.SendMessageAsync(str + string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync(str + string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
             
             nadekoSupportServer = nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
 
@@ -901,17 +879,14 @@ namespace NadekoBot.Modules.Administration
                 return;
 
             var usrs = nadekoSupportServer.GetUsers().Where(u => u.Roles.Contains(patreonRole));
-            await channel.SendMessageAsync("\n`Patreon supporters:`\n" + string.Join("⭐", usrs.Select(d => d.Username))).ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync("\n`Patreon supporters:`\n" + string.Join("⭐", usrs.Select(d => d.Username))).ConfigureAwait(false);
         }
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Donadd(IUserMessage umsg, IUser donator, int amount)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             Donator don;
             using (var uow = DbHandler.UnitOfWork())
             {
@@ -919,7 +894,7 @@ namespace NadekoBot.Modules.Administration
                 await uow.CompleteAsync();
             }
 
-            await channel.SendMessageAsync($"Successfuly added a new donator. Total donated amount from this user: {don.Amount} 👑").ConfigureAwait(false);
+            await umsg.Channel.SendMessageAsync($"Successfuly added a new donator. Total donated amount from this user: {don.Amount} 👑").ConfigureAwait(false);
         }
     }
 }
