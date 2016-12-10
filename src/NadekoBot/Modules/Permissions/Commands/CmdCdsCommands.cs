@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)imsg.Channel;
                 if (secs < 0 || secs > 3600)
                 {
-                    await channel.SendMessageAsync("⚠️ Invalid second parameter. (Must be a number between 0 and 3600)").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Invalid second parameter. (Must be a number between 0 and 3600)").ConfigureAwait(false);
                     return;
                 }
 
@@ -68,10 +68,14 @@ namespace NadekoBot.Modules.Permissions
                 {
                     var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     activeCds.RemoveWhere(ac => ac.Command == command.Text.ToLowerInvariant());
-                    await channel.SendMessageAsync($"🚮 Command **{command}** has no coooldown now and all existing cooldowns have been cleared.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"🚮 Command **{command}** has no coooldown now and all existing cooldowns have been cleared.")
+                                 .ConfigureAwait(false);
                 }
                 else
-                    await channel.SendMessageAsync($"✅ Command **{command}** now has a **{secs} {(secs == 1 ? "second" : "seconds")}** cooldown.").ConfigureAwait(false);
+                {
+                    await channel.SendConfirmAsync($"✅ Command **{command}** now has a **{secs} {"seconds".SnPl(secs)}** cooldown.")
+                                 .ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -82,7 +86,7 @@ namespace NadekoBot.Modules.Permissions
                 var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 if (!localSet.Any())
-                    await channel.SendMessageAsync("ℹ️ `No command cooldowns set.`").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("ℹ️ `No command cooldowns set.`").ConfigureAwait(false);
                 else
                     await channel.SendTableAsync("", localSet.Select(c => c.CommandName + ": " + c.Seconds + " secs"), s => $"{s,-30}", 2).ConfigureAwait(false);
             }

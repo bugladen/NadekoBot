@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Trivia;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
@@ -104,7 +105,7 @@ namespace NadekoBot.Modules.Permissions
 
                 }
 
-                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"Blacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
             }
         }
     }
