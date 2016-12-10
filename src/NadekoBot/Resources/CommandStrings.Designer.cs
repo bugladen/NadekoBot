@@ -5127,7 +5127,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}remind me 1d5h Do something` or `{0}remind #general Start now!`.
+        ///    Looks up a localized string similar to `{0}remind me 1d5h Do something` or `{0}remind #general 1m Start now!`.
         /// </summary>
         public static string remind_usage {
             get {
