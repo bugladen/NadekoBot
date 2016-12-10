@@ -364,7 +364,7 @@ Command and aliases | Description | Usage
 `..`  | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
 `.deletequote` `.delq` | Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.  | `.delq abc`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
-`.remind`  | Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  | `.remind me 1d5h Do something` or `.remind #general Start now!`
+`.remind`  | Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  | `.remind me 1d5h Do something` or `.remind #general 1m Start now!`
 `.remindtemplate`  | Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind. **Bot Owner only.** | `.remindtemplate %user%, do %message%!`
 `.convertlist`  | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert`  | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
