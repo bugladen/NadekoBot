@@ -790,7 +790,7 @@
     <value>Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword)message.</value>
   </data>
   <data name="remind_usage" xml:space="preserve">
-    <value>`{0}remind me 1d5h Do something` or `{0}remind #general Start now!`</value>
+    <value>`{0}remind me 1d5h Do something` or `{0}remind #general 1m Start now!`</value>
   </data>
   <data name="remindtemplate_cmd" xml:space="preserve">
     <value>remindtemplate</value>
