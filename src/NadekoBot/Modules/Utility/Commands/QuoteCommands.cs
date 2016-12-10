@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Utility
             if (quote == null)
                 return;
 
-            await channel.SendConfirmAsync("📣 " + quote.Text.SanitizeMentions());
+            await channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
