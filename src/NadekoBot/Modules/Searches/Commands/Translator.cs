@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Searches
                 text = text?.Trim();
                 if (string.IsNullOrWhiteSpace(text))
                     throw new ArgumentException();
-                return await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false);
+                return (await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions();
             }
 
             public enum AutoDeleteAutoTranslate
