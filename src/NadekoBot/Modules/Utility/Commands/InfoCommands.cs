@@ -127,7 +127,6 @@ namespace NadekoBot.Modules.Utility
         {
             var channel = (ITextChannel)msg.Channel;
             var user = usr ?? msg.Author as IGuildUser;
-            var user1 = msg.Author as IGuildUser;
             //var avurl = await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false);
             if (user == null)
                 return;
