@@ -98,9 +98,9 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
                 if (RotatingStatuses)
-                    await umsg.Channel.SendMessageAsync("🆗 **Rotating playing status enabled.**").ConfigureAwait(false);
+                    await umsg.Channel.SendConfirmAsync("🆗 **Rotating playing status enabled.**").ConfigureAwait(false);
                 else
-                    await umsg.Channel.SendMessageAsync("ℹ️ **Rotating playing status disabled.**").ConfigureAwait(false);
+                    await umsg.Channel.SendConfirmAsync("ℹ️ **Rotating playing status disabled.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                await umsg.Channel.SendMessageAsync("✅ **Added.**").ConfigureAwait(false);
+                await umsg.Channel.SendConfirmAsync("✅ **Added.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -124,11 +124,11 @@ namespace NadekoBot.Modules.Administration
             public async Task ListPlaying(IUserMessage umsg)
             {
                 if (!RotatingStatusMessages.Any())
-                    await umsg.Channel.SendMessageAsync("❎ **No rotating playing statuses set.**");
+                    await umsg.Channel.SendErrorAsync("❎ **No rotating playing statuses set.**");
                 else
                 {
                     var i = 1;
-                    await umsg.Channel.SendMessageAsync($"ℹ️ {umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
+                    await umsg.Channel.SendConfirmAsync($"ℹ️ {umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
                 }
 
             }
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatusMessages.RemoveAt(index);
                     await uow.CompleteAsync();
                 }
-                await umsg.Channel.SendMessageAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
+                await umsg.Channel.SendConfirmAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
             }
         }
     }

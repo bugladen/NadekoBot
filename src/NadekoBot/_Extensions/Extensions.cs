@@ -68,6 +68,18 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
 
+        public static async Task<IUserMessage> SendConfirmAsync(this IGuildUser user, string text)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new Embed() { Description = text, Color = NadekoBot.OkColor });
+
+        public static async Task<IUserMessage> SendConfirmAsync(this IGuildUser user, string title, string text, string url = null)
+             => await(await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new Embed() { Description = text, Title = title, Url = url, Color = NadekoBot.OkColor });
+
+        public static async Task<IUserMessage> SendErrorAsync(this IGuildUser user, string title, string error, string url = null)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new Embed() { Description = error, Title = title, Url = url, Color = NadekoBot.ErrorColor });
+
+        public static async Task<IUserMessage> SendErrorAsync(this IGuildUser user, string error)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new Embed() { Description = error, Color = NadekoBot.ErrorColor });
+
         public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(filePath, caption, isTTS).ConfigureAwait(false);
 

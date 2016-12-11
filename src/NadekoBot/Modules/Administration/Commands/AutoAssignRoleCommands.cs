@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -67,11 +68,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    await channel.SendMessageAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendMessageAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
+                await channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
             }
         }
     }

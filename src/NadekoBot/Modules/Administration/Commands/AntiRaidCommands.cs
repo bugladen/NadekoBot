@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -202,13 +203,13 @@ namespace NadekoBot.Modules.Administration
 
                 if (userThreshold < 2 || userThreshold > 30)
                 {
-                    await channel.SendMessageAsync("❗️User threshold must be between **2** and **30**.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("❗️User threshold must be between **2** and **30**.").ConfigureAwait(false);
                     return;
                 }
 
                 if (seconds < 2 || seconds > 300)
                 {
-                    await channel.SendMessageAsync("❗️Time must be between **2** and **300** seconds.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("❗️Time must be between **2** and **300** seconds.").ConfigureAwait(false);
                     return;
                 }
 
@@ -218,7 +219,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
+                    await channel.SendConfirmAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
                         "or create 'nadeko-mute' role with disabled SendMessages and try again.")
                             .ConfigureAwait(false);
                     _log.Warn(ex);
@@ -233,7 +234,7 @@ namespace NadekoBot.Modules.Administration
                 };
                 antiRaidGuilds.AddOrUpdate(channel.Guild.Id, setting, (id, old) => setting);
 
-                await channel.SendMessageAsync($"ℹ️ {imsg.Author.Mention} If **{userThreshold}** or more users join within **{seconds}** seconds, I will **{action}** them.")
+                await channel.SendConfirmAsync($"ℹ️ {imsg.Author.Mention} If **{userThreshold}** or more users join within **{seconds}** seconds, I will **{action}** them.")
                         .ConfigureAwait(false);
             }
 
@@ -250,7 +251,7 @@ namespace NadekoBot.Modules.Administration
                 AntiSpamSetting throwaway;
                 if (antiSpamGuilds.TryRemove(channel.Guild.Id, out throwaway))
                 {
-                    await channel.SendMessageAsync("🆗 **Anti-Spam feature** has been **disabled** on this server.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🆗 **Anti-Spam feature** has been **disabled** on this server.").ConfigureAwait(false);
                 }
                 else
                 {
@@ -260,7 +261,7 @@ namespace NadekoBot.Modules.Administration
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendMessageAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
+                        await channel.SendErrorAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
                             "or create 'nadeko-mute' role with disabled SendMessages and try again.")
                                 .ConfigureAwait(false);
                         _log.Warn(ex);
@@ -272,7 +273,7 @@ namespace NadekoBot.Modules.Administration
                         Action = action,
                         MessageThreshold = messageCount,
                     }))
-                    await channel.SendMessageAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
                 }
 
             }

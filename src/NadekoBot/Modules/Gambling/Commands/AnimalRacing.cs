@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Gambling
                 var ar = new AnimalRace(channel.Guild.Id, channel);
 
                 if (ar.Fail)
-                    await channel.SendMessageAsync("🏁 `Failed starting a race. Another race is probably running.`");
+                    await channel.SendErrorAsync("🏁 `Failed starting a race. Another race is probably running.`");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Gambling
                 AnimalRace ar;
                 if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
                 {
-                    await channel.SendMessageAsync("No race exists on this server");
+                    await channel.SendErrorAsync("No race exists on this server");
                     return;
                 }
                 await ar.JoinRace(umsg.Author as IGuildUser, amount);
@@ -90,21 +90,21 @@ namespace NadekoBot.Modules.Gambling
                     {
                         try
                         {
-                            try { await raceChannel.SendMessageAsync($"🏁`Race is starting in 20 seconds or when the room is full. Type {NadekoBot.ModulePrefixes[typeof(Gambling).Name]}jr to join the race.`"); } catch (Exception ex) { _log.Warn(ex); }
+                            try { await raceChannel.SendConfirmAsync($"🏁`Race is starting in 20 seconds or when the room is full. Type {NadekoBot.ModulePrefixes[typeof(Gambling).Name]}jr to join the race.`"); } catch (Exception ex) { _log.Warn(ex); }
                             var t = await Task.WhenAny(Task.Delay(20000, token), fullgame);
                             Started = true;
                             cancelSource.Cancel();
                             if (t == fullgame)
                             {
-                                try { await raceChannel.SendMessageAsync("🏁`Race full, starting right now!`"); } catch (Exception ex) { _log.Warn(ex); }
+                                try { await raceChannel.SendConfirmAsync("🏁`Race full, starting right now!`"); } catch (Exception ex) { _log.Warn(ex); }
                             }
                             else if (participants.Count > 1)
                             {
-                                try { await raceChannel.SendMessageAsync("🏁`Game starting with " + participants.Count + " participants.`"); } catch (Exception ex) { _log.Warn(ex); }
+                                try { await raceChannel.SendConfirmAsync("🏁`Game starting with " + participants.Count + " participants.`"); } catch (Exception ex) { _log.Warn(ex); }
                             }
                             else
                             {
-                                try { await raceChannel.SendMessageAsync("🏁`Race failed to start since there was not enough participants.`"); } catch (Exception ex) { _log.Warn(ex); }
+                                try { await raceChannel.SendErrorAsync("🏁`Race failed to start since there was not enough participants.`"); } catch (Exception ex) { _log.Warn(ex); }
                                 var p = participants.FirstOrDefault();
 
                                 if (p != null && p.AmountBet > 0)
@@ -185,11 +185,11 @@ namespace NadekoBot.Modules.Gambling
                         var wonAmount = winner.AmountBet * (participants.Count - 1);
                         
                         await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, false).ConfigureAwait(false);
-                        await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
+                        await raceChannel.SendConfirmAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
                     }
                     else
                     {
-                        await raceChannel.SendMessageAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race!**");
+                        await raceChannel.SendConfirmAsync($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race!**");
                     }
 
                 }
@@ -218,28 +218,28 @@ namespace NadekoBot.Modules.Gambling
                     var animal = "";
                     if (!animals.TryDequeue(out animal))
                     {
-                        await raceChannel.SendMessageAsync($"{u.Mention} `There is no running race on this server.`");
+                        await raceChannel.SendErrorAsync($"{u.Mention} `There is no running race on this server.`");
                         return;
                     }
                     var p = new Participant(u, animal, amount);
                     if (participants.Contains(p))
                     {
-                        await raceChannel.SendMessageAsync($"{u.Mention} `You already joined this race.`");
+                        await raceChannel.SendErrorAsync($"{u.Mention} `You already joined this race.`");
                         return;
                     }
                     if (Started)
                     {
-                        await raceChannel.SendMessageAsync($"{u.Mention} `Race is already started`");
+                        await raceChannel.SendErrorAsync($"{u.Mention} `Race is already started`");
                         return;
                     }
                     if (amount > 0)
                         if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)u, "BetRace", amount, true).ConfigureAwait(false))
                         {
-                            try { await raceChannel.SendMessageAsync($"{u.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
+                            try { await raceChannel.SendErrorAsync($"{u.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
                             return;
                         }
                     participants.Add(p);
-                    await raceChannel.SendMessageAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {CurrencySign}!**" : "**"));
+                    await raceChannel.SendConfirmAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {CurrencySign}!**" : "**"));
                 }
             }
 
