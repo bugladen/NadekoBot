@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games
             text = text.Trim();
             if (string.IsNullOrWhiteSpace(text))
                 return;
-            await channel.SendMessageAsync(ToLeet(text, level)).ConfigureAwait(false);
+            await channel.SendConfirmAsync("L33t", ToLeet(text, level).SanitizeMentions()).ConfigureAwait(false);
         }
 
 

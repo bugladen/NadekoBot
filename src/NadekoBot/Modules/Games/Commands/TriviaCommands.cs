@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Trivia;
 using System;
 using System.Collections.Concurrent;
@@ -36,12 +37,12 @@ namespace NadekoBot.Modules.Games
                         return;
                     var triviaGame = new TriviaGame(channel.Guild, (ITextChannel)umsg.Channel, showHints, number == 0 ? 10 : number);
                     if (RunningTrivias.TryAdd(channel.Guild.Id, triviaGame))
-                        await channel.SendMessageAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
+                        await channel.SendConfirmAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
                     else
                         await triviaGame.StopGame().ConfigureAwait(false);
                 }
                 else
-                    await channel.SendMessageAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
+                    await channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -52,9 +53,9 @@ namespace NadekoBot.Modules.Games
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
-                    await channel.SendMessageAsync(trivia.GetLeaderboard()).ConfigureAwait(false);
+                    await channel.SendConfirmAsync("Leaderboard", trivia.GetLeaderboard()).ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -64,12 +65,12 @@ namespace NadekoBot.Modules.Games
                 var channel = (ITextChannel)umsg.Channel;
 
                 TriviaGame trivia;
-                if (RunningTrivias.TryRemove(channel.Guild.Id, out trivia))
+                if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
                 {
                     await trivia.StopGame().ConfigureAwait(false);
                 }
                 else
-                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
         }
     }

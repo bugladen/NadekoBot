@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Games
             if (listArr.Count() < 2)
                 return;
             var rng = new NadekoRandom();
-            await channel.SendMessageAsync(listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
+            await channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -48,8 +48,11 @@ namespace NadekoBot.Modules.Games
             if (string.IsNullOrWhiteSpace(question))
                 return;
                 var rng = new NadekoRandom();
-            await channel.SendMessageAsync($@"❓ `Question` __**{question}**__ 
-🎱 `8Ball Answers` __**{_8BallResponses.Shuffle().FirstOrDefault()}**__").ConfigureAwait(false);
+
+            await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                               .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
+                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false))
+                               .Build());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -99,7 +102,7 @@ namespace NadekoBot.Modules.Games
             else
                 msg = $"{umsg.Author.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
 
-            await channel.SendMessageAsync(msg).ConfigureAwait(false);
+            await channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -108,7 +111,7 @@ namespace NadekoBot.Modules.Games
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            await channel.SendMessageAsync(
+            await channel.SendConfirmAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.

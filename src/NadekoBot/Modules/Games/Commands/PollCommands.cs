@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace NadekoBot.Modules.Games
                 await poll.StartPoll().ConfigureAwait(false);
             }
             else
-                await channel.SendMessageAsync("`Poll is already running on this server.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Poll is already running on this server.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -91,7 +92,7 @@ namespace NadekoBot.Modules.Games
                 msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
             else
                 msgToSend += "\n**Send a Message here with the corresponding number of the answer.**";
-            await originalMessage.Channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
+            await originalMessage.Channel.SendConfirmAsync(msgToSend).ConfigureAwait(false);
         }
 
         public async Task StopPoll()
@@ -115,7 +116,7 @@ namespace NadekoBot.Modules.Games
                                                                                  $" has {kvp.Value} votes." +
                                                                                  $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
 
-                await originalMessage.Channel.SendMessageAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
+                await originalMessage.Channel.SendConfirmAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -166,11 +167,11 @@ namespace NadekoBot.Modules.Games
                     {
                         if (!isPublic)
                         {
-                            await ch.SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                            await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
                         }
                         else
                         {
-                            var toDelete = await ch.SendMessageAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
+                            var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
                             await Task.Delay(5000);
                             await toDelete.DeleteAsync().ConfigureAwait(false);
                         }
