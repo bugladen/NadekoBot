@@ -36,5 +36,5 @@ There are two versions of the docker container for stable and dev branches. Sele
 
 Once you selected the build process you want now enter that directory and build the docker image.
 
-`docker build -t reiuiji/nadeko .`
+`docker build -t reiuiji/nadekobot .`
 
