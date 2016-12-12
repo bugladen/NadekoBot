@@ -3786,6 +3786,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to log.
+        /// </summary>
+        public static string log_cmd {
+            get {
+                return ResourceManager.GetString("log_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a lit of all events you can subscribe to..
+        /// </summary>
+        public static string log_desc {
+            get {
+                return ResourceManager.GetString("log_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}log userpresence` or `{0}log userbanned`.
+        /// </summary>
+        public static string log_usage {
+            get {
+                return ResourceManager.GetString("log_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to logevents.
+        /// </summary>
+        public static string logevents_cmd {
+            get {
+                return ResourceManager.GetString("logevents_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of all events you can subscribe to with `{0}log`.
+        /// </summary>
+        public static string logevents_desc {
+            get {
+                return ResourceManager.GetString("logevents_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}logevents`.
+        /// </summary>
+        public static string logevents_usage {
+            get {
+                return ResourceManager.GetString("logevents_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to logignore.
         /// </summary>
         public static string logignore_cmd {
@@ -3822,7 +3876,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Logs server activity in this channel..
+        ///    Looks up a localized string similar to Enables or Disables ALL log events. If enabled, all log events will log to this channel..
         /// </summary>
         public static string logserver_desc {
             get {
@@ -3831,7 +3885,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}logserver`.
+        ///    Looks up a localized string similar to `{0}logserver enable` or `{0}logserver disable`.
         /// </summary>
         public static string logserver_usage {
             get {

@@ -44,11 +44,11 @@ namespace NadekoBot.Services.Database
             this.Database.Migrate();
             EnsureSeedData();
         }
-        //Uncomment this to db initialisation with dotnet ef migration add [module]
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
-        //}
+        ////Uncomment this to db initialisation with dotnet ef migration add [module]
+        ////protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        ////{
+        ////    optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
+        ////}
 
         public void EnsureSeedData()
         {
@@ -229,6 +229,17 @@ namespace NadekoBot.Services.Database
             pokeGameEntity
                 .HasIndex(pt => pt.UserId)
                 .IsUnique();
+
+
+            #endregion
+
+            #region PokeGame
+            var ignoredLogChannel = modelBuilder.Entity<LogSetting>();
+
+            //ignoredLogChannel.HasMany(i => i.IgnoredChannels)
+            //    .WithOne(ls => ls.LogSetting);
+            //ignoredLogChannel.HasMany(i => i.IgnoredVoicePresenceChannels)
+            //    .WithOne(ls => ls.LogSetting);
 
 
             #endregion

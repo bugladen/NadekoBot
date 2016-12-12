@@ -17,7 +17,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.LogSetting)
-                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannels)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Previous)
                 .Include(gc => gc.RootPermission)
@@ -42,10 +42,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             {
                 config = _set
                                 .Include(gc => gc.FollowedStreams)
-                                 .Include(gc => gc.LogSetting)
-                                    .ThenInclude(ls => ls.IgnoredChannels)
                                 .Include(gc => gc.LogSetting)
-                                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
+                                    .ThenInclude(ls => ls.IgnoredChannels)
                                 .Include(gc => gc.FilterInvitesChannelIds)
                                 .Include(gc => gc.FilterWordsChannelIds)
                                 .Include(gc => gc.FilteredWords)

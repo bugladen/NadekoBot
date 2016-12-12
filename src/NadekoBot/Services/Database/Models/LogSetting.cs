@@ -4,31 +4,28 @@ namespace NadekoBot.Services.Database.Models
 {
     public class LogSetting : DbEntity
     {
-        public bool IsLogging { get; set; }
-        public ulong ChannelId { get; set; }
         public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
 
-        public bool MessageUpdated { get; set; } = true;
-        public bool MessageDeleted { get; set; } = true;
-
-        public bool UserJoined { get; set; } = true;
-        public bool UserLeft { get; set; } = true;
-        public bool UserBanned { get; set; } = true;
-        public bool UserUnbanned { get; set; } = true;
-        public bool UserUpdated { get; set; } = true;
-
-        public bool ChannelCreated { get; set; } = true;
-        public bool ChannelDestroyed { get; set; } = true;
-        public bool ChannelUpdated { get; set; } = true;
+        public ulong? LogOtherId { get; set; } = null;
+        public ulong? MessageUpdatedId { get; set; } = null;
+        public ulong? MessageDeletedId { get; set; } = null;
+               
+        public ulong? UserJoinedId { get; set; } = null;
+        public ulong? UserLeftId { get; set; } = null;
+        public ulong? UserBannedId { get; set; } = null;
+        public ulong? UserUnbannedId { get; set; } = null;
+        public ulong? UserUpdatedId { get; set; } = null;
+               
+        public ulong? ChannelCreatedId { get; set; } = null;
+        public ulong? ChannelDestroyedId { get; set; } = null;
+        public ulong? ChannelUpdatedId { get; set; } = null;
 
         //userpresence
-        public bool LogUserPresence { get; set; } = false;
-        public ulong UserPresenceChannelId { get; set; }
+        public ulong? LogUserPresenceId { get; set; } = null;
 
         //voicepresence
-        public bool LogVoicePresence { get; set; } = false;
-        public ulong VoicePresenceChannelId { get; set; }
-        public HashSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceChannelIds { get; set; }
-
+        public ulong? LogVoicePresenceId { get; set; } = null;
+        public ulong? LogVoicePresenceTTSId { get; set; } = null;
+        public HashSet<IgnoredLogChannel> IgnoredVoicePresenceChannels { get; set; }
     }
 }

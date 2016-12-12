@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Services.Database.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NadekoBot.Services.Database.Models
 {
     public class IgnoredLogChannel : DbEntity
     {
