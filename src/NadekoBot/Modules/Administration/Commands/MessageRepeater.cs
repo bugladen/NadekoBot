@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
                 rep.Reset();
-                await channel.SendConfirmAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
+                await channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
