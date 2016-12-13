@@ -17,7 +17,7 @@ http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/
 
 Next start the docker up with 
 
-```docker run nadeko; docker logs -f nadeko```
+```docker start nadeko; docker logs -f nadeko```
 
 The docker will start and the log file will start scrolling past. Depending on hardware the bot start can take up to 5 minutes on a small DigitalOcean droplet.
 Once the log ends with "NadekoBot | Starting NadekoBot v1.0-rc2" the bot is ready and can be invited to your server. Ctrl+C at this point to stop viewing the logs.
