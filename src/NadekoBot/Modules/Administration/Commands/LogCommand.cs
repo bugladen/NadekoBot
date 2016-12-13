@@ -79,6 +79,73 @@ namespace NadekoBot.Modules.Administration
                 _client.ChannelCreated += _client_ChannelCreated;
                 _client.ChannelDestroyed += _client_ChannelDestroyed;
                 _client.ChannelUpdated += _client_ChannelUpdated;
+
+                MuteCommands.UserMuted += MuteCommands_UserMuted;
+                MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
+            }
+
+            private Task MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            {
+                LogSetting logSetting;
+                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    || !logSetting.IsLogging)
+                    return Task.CompletedTask;
+
+                ITextChannel logChannel;
+                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting)) == null)
+                    return Task.CompletedTask;
+
+                var task = Task.Run(async () =>
+                {
+                    string mutes = "";
+                    switch (muteType)
+                    {
+                        case MuteCommands.MuteType.Voice:
+                            mutes = "voice chat";
+                            break;
+                        case MuteCommands.MuteType.Chat:
+                            mutes = "text chat";
+                            break;
+                        case MuteCommands.MuteType.All:
+                            mutes = "text and voice chat";
+                            break;
+                    }
+                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔇 **| User muted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                });
+
+                return Task.CompletedTask;
+            }
+
+            private Task MuteCommands_UserUnmuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            {
+                LogSetting logSetting;
+                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    || !logSetting.IsLogging)
+                    return Task.CompletedTask;
+
+                ITextChannel logChannel;
+                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting)) == null)
+                    return Task.CompletedTask;
+
+                var task = Task.Run(async () =>
+                {
+                    string mutes = "";
+                    switch (muteType)
+                    {
+                        case MuteCommands.MuteType.Voice:
+                            mutes = "voice chat";
+                            break;
+                        case MuteCommands.MuteType.Chat:
+                            mutes = "text chat";
+                            break;
+                        case MuteCommands.MuteType.All:
+                            mutes = "text and voice chat";
+                            break;
+                    }
+                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔊 **| User unmuted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                });
+
+                return Task.CompletedTask;
             }
 
             public static async Task TriggeredAntiProtection(IGuildUser[] users, PunishmentAction action, ProtectionType protection)
@@ -469,38 +536,6 @@ namespace NadekoBot.Modules.Administration
 
                 return Task.CompletedTask;
             }
-
-//            private Task _client_MessageReceived(IMessage imsg)
-//            {
-//                var msg = imsg as IUserMessage;
-//                if (msg == null || msg.IsAuthor())
-//                    return Task.CompletedTask;
-
-//                var channel = msg.Channel as ITextChannel;
-//                if (channel == null)
-//                    return Task.CompletedTask;
-
-//                LogSetting logSetting;
-//                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting) 
-//                    || !logSetting.IsLogging
-//                    || !logSetting.MessageReceived)
-//                    return Task.CompletedTask;
-
-//                ITextChannel logChannel;
-//                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting)) == null || logChannel.Id == imsg.Channel.Id)
-//                    return Task.CompletedTask;
-
-//                var task = Task.Run(async () =>
-//                {
-//                    var str = $@"🕔`{prettyCurrentTime}` **New Message** `#{channel.Name}`
-//👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
-//                    if (msg.Attachments.Any())
-//                        str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-//                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
-//                });
-                
-//                return Task.CompletedTask;
-//            }
 
             private enum LogChannelType { Text, Voice, UserPresence };
             private static ITextChannel TryGetLogChannel(IGuild guild, LogSetting logSetting, LogChannelType logChannelType = LogChannelType.Text)

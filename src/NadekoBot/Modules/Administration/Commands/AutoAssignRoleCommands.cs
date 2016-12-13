@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -26,11 +27,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         try
                         {
-                            GuildConfig conf;
-                            using (var uow = DbHandler.UnitOfWork())
-                            {
-                                conf = uow.GuildConfigs.For(user.Guild.Id, set => set);
-                            }
+                            GuildConfig conf = NadekoBot.AllGuildConfigs.FirstOrDefault(gc => gc.GuildId == user.Guild.Id);
 
                             if (conf.AutoAssignRoleId == 0)
                                 return;
@@ -67,11 +64,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    await channel.SendMessageAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendMessageAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
+                await channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
             }
         }
     }

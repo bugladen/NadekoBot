@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
                 if (Subscribers.TryAdd(token, set))
                 {
                     set.Add(channel);
-                    await ((IGuildUser)msg.Author).SendMessageAsync("This is your CSC token:" + token.ToString()).ConfigureAwait(false);
+                    await ((IGuildUser)msg.Author).SendConfirmAsync("This is your CSC token", token.ToString()).ConfigureAwait(false);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Administration
                 if (!Subscribers.TryGetValue(token, out set))
                     return;
                 set.Add(channel);
-                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+                await channel.SendConfirmAsync("Joined cross server channel.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     subscriber.Value.TryRemove(channel);
                 }
-                await channel.SendMessageAsync(":ok:").ConfigureAwait(false);
+                await channel.SendMessageAsync("Left cross server channel.").ConfigureAwait(false);
             }
         }
     }

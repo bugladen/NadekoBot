@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
                     {
-                        try { await channel.SendMessageAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        try { await channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                         break;
                     }
                     var currentCard = cards.DrawACard();
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Gambling
                             return c;
                         });
 
-                await channel.SendMessageAsync("`Deck reshuffled.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("Deck reshuffled.").ConfigureAwait(false);
             }
         }
     }

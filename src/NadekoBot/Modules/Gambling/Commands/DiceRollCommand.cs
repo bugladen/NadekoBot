@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Gambling
                             arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
                         var elemCnt = 0;
-                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (num < 1 || num > 30)
                 {
-                    await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
                     return;
                 }
 
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Gambling
                             arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
                         var elemCnt = 0;
-                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                 }
             }
@@ -184,7 +184,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (num < 1 || num > 30)
                 {
-                    await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
                     return;
                 }
 
@@ -249,11 +249,11 @@ namespace NadekoBot.Modules.Gambling
                         rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                     }
 
-                    await channel.SendMessageAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync($":anger: {ex.Message}").ConfigureAwait(false);
+                    await channel.SendErrorAsync($":anger: {ex.Message}").ConfigureAwait(false);
                 }
             }
 

@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                         {
                             try
                             {
-                                await (await guild.GetOwnerAsync()).SendMessageAsync(
+                                await (await guild.GetOwnerAsync()).SendErrorAsync(
                                     "⚠️ I don't have **manage server** and/or **manage channels** permission," +
                                     $" so I cannot run `voice+text` on **{guild.Name}** server.").ConfigureAwait(false);
                             }
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Administration
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
-                    await channel.SendMessageAsync("💢 I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
+                    await channel.SendErrorAsync("I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
                     return;
                 }
 
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await channel.SendMessageAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
+                        await channel.SendErrorAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
                       "`This may cause some issues, and you will have to clean up text channels yourself afterwards.`");
                     }
                     catch { }
@@ -145,16 +145,16 @@ namespace NadekoBot.Modules.Administration
                         {
                             try { await textChannel.DeleteAsync().ConfigureAwait(false); } catch { }
                         }
-                        await channel.SendMessageAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
+                        await channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
                         return;
                     }
                     voicePlusTextCache.Add(guild.Id);
-                    await channel.SendMessageAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
 
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync(ex.ToString()).ConfigureAwait(false);
+                    await channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
             [NadekoCommand, Usage, Description, Aliases]
@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Administration
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.Administrator)
                 {
-                    await channel.SendMessageAsync("⚠️ I need **Administrator permission** to do that.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("I need **Administrator permission** to do that.").ConfigureAwait(false);
                     return;
                 }
 
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendMessageAsync("✅ Done.").ConfigureAwait(false);
+                await channel.SendConfirmAsync("Cleaned v+t.").ConfigureAwait(false);
             }
         }
     }

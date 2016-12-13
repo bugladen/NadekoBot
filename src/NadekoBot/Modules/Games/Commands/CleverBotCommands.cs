@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NLog;
 using Services.CleverBotApi;
@@ -72,12 +73,11 @@ namespace NadekoBot.Modules.Games
                 var response = await cleverbot.Think(message).ConfigureAwait(false);
                 try
                 {
-                    await msg.Channel.SendMessageAsync(response).ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    _log.Warn(ex, "Eror sending response");
-                    await msg.Channel.SendMessageAsync(msg.Author.Mention+" "+response).ConfigureAwait(false); // try twice :\
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Games
                         uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, false);
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendMessageAsync($"{imsg.Author.Mention} `Disabled cleverbot on this server.`").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"{imsg.Author.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
                     return;
                 }
 
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Games
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                await channel.SendMessageAsync($"{imsg.Author.Mention} `Enabled cleverbot on this server.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"{imsg.Author.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
             }
         }
     }

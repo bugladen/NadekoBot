@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,18 +32,18 @@ namespace NadekoBot.Modules.Administration
 
                 if (server == null)
                 {
-                    await channel.SendMessageAsync("⚠️ Cannot find that server").ConfigureAwait(false);
+                    await channel.SendErrorAsync("⚠️ Cannot find that server").ConfigureAwait(false);
                     return;
                 }
                 if (server.OwnerId != _client.GetCurrentUser().Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
-                    await channel.SendMessageAsync("✅ Left server " + server.Name).ConfigureAwait(false);
+                    await channel.SendConfirmAsync("✅ Left server " + server.Name).ConfigureAwait(false);
                 }
                 else
                 {
                     await server.DeleteAsync().ConfigureAwait(false);
-                    await channel.SendMessageAsync("Deleted server " + server.Name).ConfigureAwait(false);
+                    await channel.SendConfirmAsync("Deleted server " + server.Name).ConfigureAwait(false);
                 }
             }
         }

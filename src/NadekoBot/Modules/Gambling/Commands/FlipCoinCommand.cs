@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 if (count > 10 || count < 1)
                 {
-                    await channel.SendMessageAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
+                    await channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
                     return;
                 }
                 var imgs = new Image[count];
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 3)
                 {
-                    await channel.SendMessageAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                    await channel.SendErrorAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
                                  .ConfigureAwait(false);
                     return;
                 }
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (userFlowers < amount)
                 {
-                    await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                     return;
                 }
 

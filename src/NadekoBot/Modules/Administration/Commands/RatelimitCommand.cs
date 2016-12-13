@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Administration
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))
                 {
                     throwaway.cancelSource.Cancel();
-                    await channel.SendMessageAsync("ℹ️ **Slow mode disabled.**").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("ℹ️ Slow mode disabled.").ConfigureAwait(false);
                     return;
                 }
             }
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (msg < 1 || perSec < 1 || msg > 100 || perSec > 3600)
                 {
-                    await channel.SendMessageAsync("⚠️ `Invalid parameters.`");
+                    await channel.SendErrorAsync("⚠️ Invalid parameters.");
                     return;
                 }
                 var toAdd = new Ratelimiter()
@@ -120,8 +120,8 @@ namespace NadekoBot.Modules.Administration
                 };
                 if(RatelimitingChannels.TryAdd(channel.Id, toAdd))
                 {
-                    await channel.SendMessageAsync("✅ **Slow mode initiated: " +
-                                                $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.**")
+                    await channel.SendConfirmAsync("Slow mode initiated",
+                                                $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.")
                                                 .ConfigureAwait(false);
                 }
             }

@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches
                                                 .ConfigureAwait(false);
                             if (autoDelete)
                                 try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                            await umsg.Channel.SendMessageAsync($"{umsg.Author.Mention} `:` "+text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
+                            await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` "+text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
                         }
                         catch { }
 
@@ -75,8 +75,7 @@ namespace NadekoBot.Modules.Searches
                 {
                     await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
                     var translation = await TranslateInternal(umsg, langs, text);
-                    await channel.SendConfirmAsync(translation).ConfigureAwait(false);
-
+                    await channel.SendConfirmAsync("Translation " + langs, translation).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -94,7 +93,7 @@ namespace NadekoBot.Modules.Searches
                 text = text?.Trim();
                 if (string.IsNullOrWhiteSpace(text))
                     throw new ArgumentException();
-                return await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false);
+                return (await GoogleTranslator.Instance.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions();
             }
 
             public enum AutoDeleteAutoTranslate
