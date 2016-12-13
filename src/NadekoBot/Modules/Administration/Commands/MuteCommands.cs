@@ -74,6 +74,10 @@ namespace NadekoBot.Modules.Administration
                     {
                         UserId = usr.Id
                     });
+                    ConcurrentHashSet<ulong> muted;
+                    if (MutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                        muted.Add(usr.Id);
+                    
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 await UserMuted(usr, MuteType.All).ConfigureAwait(false);
@@ -81,8 +85,8 @@ namespace NadekoBot.Modules.Administration
 
             public static async Task Unmute(IGuildUser usr)
             {
-                await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
-                await usr.AddRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false);
+                await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
+                await usr.RemoveRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false);
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.GuildConfigs.For(usr.Guild.Id, set => set.Include(gc => gc.MutedUsers));
@@ -90,10 +94,11 @@ namespace NadekoBot.Modules.Administration
                     {
                         UserId = usr.Id
                     });
+                    ConcurrentHashSet<ulong> muted;
+                    if (MutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                        muted.TryRemove(usr.Id);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                ConcurrentHashSet<ulong> muted;
-                MutedUsers.TryGetValue(usr.Guild.Id, out muted);
                 await UserUnmuted(usr, MuteType.All).ConfigureAwait(false);
             }
 
