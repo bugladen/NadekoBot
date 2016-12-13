@@ -16,6 +16,8 @@ using System.IO;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NLog;
+using NadekoBot.Services.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -25,7 +27,7 @@ namespace NadekoBot.Modules.Administration
 
         private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
 
-        private static Logger _log { get; }
+        private new static Logger _log { get; }
 
         public Administration() : base()
         {
@@ -36,13 +38,7 @@ namespace NadekoBot.Modules.Administration
             _log = LogManager.GetCurrentClassLogger();
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
 
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var configs = NadekoBot.AllGuildConfigs;
-                GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
-                        .Where(c=>!string.IsNullOrWhiteSpace(c.MuteRoleName))
-                        .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
-            }
+            
         }
 
         private static async Task DelMsgOnCmd_Handler(IUserMessage msg, Command cmd)
@@ -67,39 +63,6 @@ namespace NadekoBot.Modules.Administration
             {
                 _log.Warn(ex, "Delmsgoncmd errored...");
             }
-        }
-
-        private static async Task<IRole> GetMuteRole(IGuild guild)
-        {
-            const string defaultMuteRoleName = "nadeko-mute";
-
-            var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
-
-            var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
-            if (muteRole == null)
-            {
-
-                //if it doesn't exist, create it 
-                try { muteRole = await guild.CreateRoleAsync(muteRoleName, GuildPermissions.None).ConfigureAwait(false); }
-                catch
-                {
-                    //if creations fails,  maybe the name is not correct, find default one, if doesn't work, create default one
-                    muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
-                        await guild.CreateRoleAsync(defaultMuteRoleName, GuildPermissions.None).ConfigureAwait(false);
-                }
-
-                foreach (var toOverwrite in guild.GetTextChannels())
-                {
-                    try
-                    {
-                        await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
-                                .ConfigureAwait(false);
-                    }
-                    catch { }
-                    await Task.Delay(200).ConfigureAwait(false);
-                }
-            }
-            return muteRole;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -388,145 +351,6 @@ namespace NadekoBot.Modules.Administration
             catch
             {
                 await channel.SendErrorAsync("⚠️ Error. Most likely I don't have sufficient permissions.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        [Priority(1)]
-        public async Task SetMuteRole(IUserMessage imsg, [Remainder] string name)
-        {
-            var channel = (ITextChannel)imsg.Channel;
-            name = name.Trim();
-            if (string.IsNullOrWhiteSpace(name))
-                return;
-            
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var config = uow.GuildConfigs.For(channel.Guild.Id, set => set);
-                config.MuteRoleName = name;
-                GuildMuteRoles.AddOrUpdate(channel.Guild.Id, name, (id, old) => name);
-                await uow.CompleteAsync().ConfigureAwait(false);
-            }
-            await channel.SendConfirmAsync("☑️ **New mute role set.**").ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        [Priority(0)]
-        public Task SetMuteRole(IUserMessage imsg, [Remainder] IRole role)
-            => SetMuteRole(imsg, role.Name);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task Mute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try
-            {
-                await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
-                await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"🔇 **{user}** has been **muted** from text and voice chat successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task Unmute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try
-            {
-                await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"🔉 **{user}** has been **unmuted** from text and voice chat successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        public async Task ChatMute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try
-            {
-                await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"✏️🚫 **{user}** has been **muted** from chatting successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.ManageRoles)]
-        public async Task ChatUnmute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try
-            {
-                await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"✏️✅ **{user}** has been **unmuted** from chatting successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task VoiceMute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            try
-            {
-                await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"🎙🚫 **{user}** has been **voice muted** successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequirePermission(GuildPermission.MuteMembers)]
-        public async Task VoiceUnmute(IUserMessage umsg, IGuildUser user)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            try
-            {
-                await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
-                await channel.SendConfirmAsync($"🎙✅ **{user}** has been **voice unmuted** successfully.").ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendErrorAsync("⚠️ I most likely don't have the permission necessary for that.").ConfigureAwait(false);
             }
         }
 

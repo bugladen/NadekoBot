@@ -27,11 +27,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         try
                         {
-                            GuildConfig conf;
-                            using (var uow = DbHandler.UnitOfWork())
-                            {
-                                conf = uow.GuildConfigs.For(user.Guild.Id, set => set);
-                            }
+                            GuildConfig conf = NadekoBot.AllGuildConfigs.FirstOrDefault(gc => gc.GuildId == user.Guild.Id);
 
                             if (conf.AutoAssignRoleId == 0)
                                 return;

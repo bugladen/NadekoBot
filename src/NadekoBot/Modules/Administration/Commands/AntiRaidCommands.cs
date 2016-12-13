@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                             {
                                 if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                                 {
-                                    await PunishUsers(spamSettings.Action, await GetMuteRole(channel.Guild), ProtectionType.Spamming, (IGuildUser)msg.Author)
+                                    await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
                                         .ConfigureAwait(false);
                                 }
                             }
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Administration
                             var users = settings.RaidUsers.ToArray();
                             settings.RaidUsers.Clear();
 
-                            await PunishUsers(settings.Action, await GetMuteRole(usr.Guild), ProtectionType.Raiding, users).ConfigureAwait(false);
+                            await PunishUsers(settings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
                         }
                         await Task.Delay(1000 * settings.Seconds).ConfigureAwait(false);
 
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            private static async Task PunishUsers(PunishmentAction action, IRole muteRole, ProtectionType pt, params IGuildUser[] gus)
+            private static async Task PunishUsers(PunishmentAction action, ProtectionType pt, params IGuildUser[] gus)
             {
                 foreach (var gu in gus)
                 {
@@ -158,21 +158,21 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Mute:
                             try
                             {
-                                await gu.AddRolesAsync(muteRole);
+                                await MuteCommands.Mute(gu).ConfigureAwait(false);
                             }
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                             break;
                         case PunishmentAction.Kick:
                             try
                             {
-                                await gu.Guild.AddBanAsync(gu, 7);
+                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                                 try
                                 {
-                                    await gu.Guild.RemoveBanAsync(gu);
+                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
                                 }
                                 catch
                                 {
-                                    await gu.Guild.RemoveBanAsync(gu);
+                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
                                     // try it twice, really don't want to ban user if 
                                     // only kick has been specified as the punishement
                                 }
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Ban:
                             try
                             {
-                                await gu.Guild.AddBanAsync(gu, 7);
+                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                             }
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
                             break;
@@ -215,7 +215,7 @@ namespace NadekoBot.Modules.Administration
 
                 try
                 {
-                    await GetMuteRole(channel.Guild).ConfigureAwait(false);
+                    await MuteCommands.GetMuteRole(channel.Guild).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -257,7 +257,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await GetMuteRole(channel.Guild).ConfigureAwait(false);
+                        await MuteCommands.GetMuteRole(channel.Guild).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {

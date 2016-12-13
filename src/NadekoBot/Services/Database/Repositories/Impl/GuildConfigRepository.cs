@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .ThenInclude(gc => gc.Previous)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Next)
+                .Include(gc => gc.MutedUsers)
                 .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
