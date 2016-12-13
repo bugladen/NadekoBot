@@ -47,7 +47,8 @@ namespace NadekoBot.Modules.CustomReactions
                 }).Shuffle().FirstOrDefault();
                 if (reaction != null)
                 {
-                    try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                    if(reaction.Response != "-")
+                        try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
                     return true;
                 }
             }

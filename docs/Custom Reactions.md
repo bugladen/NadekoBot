@@ -27,6 +27,14 @@ There's no special requirement for the formatting of the response, so we could j
 
 Now, if that command was ran in a server, anyone on that server can make the bot mention them, saying `It sure is, @Username` anytime they say "Nice Weather". If the command is ran in a direct message with the bot, then the custom reaction can be used on every server the bot is connected to.  
 
+###Block global Custom Reactions
+If you want to disable some global custom reactions which you do not like, and you do not want to remove them or you are not the bot owner you can do so by adding a new Custom Reaction with the same trigger on your server, and set the response to `-`.
+
+For example:
+`.acr /o/ -`
+
+Now if you try to trigger `/o/`, it won't print anything.
+
 ###Placeholders!
 There are currently three different placeholders which we will look at, with more placeholders potentially coming in the future.  
 
