@@ -2841,6 +2841,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to hangman.
+        /// </summary>
+        public static string hangman_cmd {
+            get {
+                return ResourceManager.GetString("hangman_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to &apos;all&apos;..
+        /// </summary>
+        public static string hangman_desc {
+            get {
+                return ResourceManager.GetString("hangman_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}hangman` or `{0}hangman movies`.
+        /// </summary>
+        public static string hangman_usage {
+            get {
+                return ResourceManager.GetString("hangman_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to hangmanlist.
+        /// </summary>
+        public static string hangmanlist_cmd {
+            get {
+                return ResourceManager.GetString("hangmanlist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of hangman term types..
+        /// </summary>
+        public static string hangmanlist_desc {
+            get {
+                return ResourceManager.GetString("hangmanlist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0} hangmanlist`.
+        /// </summary>
+        public static string hangmanlist_usage {
+            get {
+                return ResourceManager.GetString("hangmanlist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to #.
         /// </summary>
         public static string hashtag_cmd {
