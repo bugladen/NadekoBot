@@ -3714,7 +3714,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Loads a playlist under a certain name..
+        ///    Looks up a localized string similar to Loads a saved playlist using it&apos;s ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones..
         /// </summary>
         public static string load_desc {
             get {
