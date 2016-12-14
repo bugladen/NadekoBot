@@ -3723,7 +3723,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}load classical-1`.
+        ///    Looks up a localized string similar to `{0}load 5`.
         /// </summary>
         public static string load_usage {
             get {

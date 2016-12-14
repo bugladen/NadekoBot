@@ -209,7 +209,7 @@ Command and aliases | Description | Usage
 `!!reptcursong` `!!rcs` | Toggles repeat of current song.  | `!!rcs`
 `!!rpeatplaylst` `!!rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).  | `!!rpl`
 `!!save`  | Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.  | `!!save classical1`
-`!!load`  | Loads a saved playlist using it's ID. Use `!!pls` to list all saved playlists and !!save to save new ones.  | `!!load classical-1`
+`!!load`  | Loads a saved playlist using it's ID. Use `!!pls` to list all saved playlists and !!save to save new ones.  | `!!load 5`
 `!!playlists` `!!pls` | Lists all playlists. Paginated. 20 per page. Default page is 0.  | `!!pls 1`
 `!!deleteplaylist` `!!delpls` | Deletes a saved playlist. Only if you made it or if you are the bot owner.  | `!!delpls animu-5`
 `!!goto`  | Goes to a specific time in seconds in a song.  | `!!goto 30`
