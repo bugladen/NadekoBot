@@ -813,9 +813,9 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         if (paused)
-                            await textCh.SendMessageAsync("🎵`Music Player paused.`").ConfigureAwait(false);
+                            await textCh.SendMessageAsync("🎵`Music playback paused.`").ConfigureAwait(false);
                         else
-                            await textCh.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
+                            await textCh.SendMessageAsync("🎵`Music playback resumed.`").ConfigureAwait(false);
                     }
                     catch { }
                 };
