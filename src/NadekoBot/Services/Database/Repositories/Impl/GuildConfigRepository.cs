@@ -122,9 +122,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public GuildConfig SetNewRootPermission(ulong guildId, Permission p)
         {
-            var data = _set
-                        .Include(gc => gc.RootPermission)
-                        .FirstOrDefault(gc => gc.GuildId == guildId);
+            var data = PermissionsFor(guildId);
 
             data.RootPermission.Prepend(p);
             data.RootPermission = p;

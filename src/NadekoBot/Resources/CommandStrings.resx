@@ -202,7 +202,7 @@
     <value>byemsg</value>
   </data>
   <data name="byemsg_desc" xml:space="preserve">
-    <value>Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.</value>
+    <value>Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message.</value>
   </data>
   <data name="byemsg_usage" xml:space="preserve">
     <value>`{0}byemsg %user% has left.`</value>
@@ -1660,10 +1660,10 @@
     <value>load</value>
   </data>
   <data name="load_desc" xml:space="preserve">
-    <value>Loads a playlist under a certain name.</value>
+    <value>Loads a saved playlist using it's ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones.</value>
   </data>
   <data name="load_usage" xml:space="preserve">
-    <value>`{0}load classical-1`</value>
+    <value>`{0}load 5`</value>
   </data>
   <data name="playlists_cmd" xml:space="preserve">
     <value>playlists pls</value>

@@ -906,7 +906,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message..
+        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message..
         /// </summary>
         public static string byemsg_desc {
             get {
@@ -3714,7 +3714,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Loads a playlist under a certain name..
+        ///    Looks up a localized string similar to Loads a saved playlist using it&apos;s ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones..
         /// </summary>
         public static string load_desc {
             get {
@@ -3723,7 +3723,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}load classical-1`.
+        ///    Looks up a localized string similar to `{0}load 5`.
         /// </summary>
         public static string load_usage {
             get {
