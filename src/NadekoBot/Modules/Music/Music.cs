@@ -29,7 +29,32 @@ namespace NadekoBot.Modules.Music
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
+            NadekoBot.Client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+
             Directory.CreateDirectory(MusicDataPath);
+        }
+
+        private Task Client_UserVoiceStateUpdated(IUser iusr, IVoiceState oldState, IVoiceState newState)
+        {
+            var usr = iusr as IGuildUser;
+            if (usr == null ||
+                oldState.VoiceChannel == newState.VoiceChannel)
+                return Task.CompletedTask;
+
+            MusicPlayer player;
+            if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
+                return Task.CompletedTask;
+
+            if ((player.PlaybackVoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
+                    player.Paused &&
+                    player.PlaybackVoiceChannel.GetUsers().Count == 2) ||  // keep in mind bot is in the channel (+1)
+                (player.PlaybackVoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
+                    !player.Paused &&
+                    player.PlaybackVoiceChannel.GetUsers().Count == 1))
+            {
+                player.TogglePause();
+            }
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -95,10 +120,6 @@ namespace NadekoBot.Modules.Music
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
             musicPlayer.TogglePause();
-            if (musicPlayer.Paused)
-                await channel.SendMessageAsync("🎵`Music Player paused.`").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -184,11 +205,11 @@ namespace NadekoBot.Modules.Music
             {
                 await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
             }
-			var embed = new EmbedBuilder()
-			    .WithAuthor(eab => eab.WithName("🎵 Now Playing"))
-				.WithTitle($"{currentSong.PrettyName}")
-				.WithDescription($"{currentSong.PrettyUser}")
-				.WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyCurrentTime()}"))
+            var embed = new EmbedBuilder()
+                .WithAuthor(eab => eab.WithName("🎵 Now Playing"))
+                .WithTitle($"{currentSong.PrettyName}")
+                .WithDescription($"{currentSong.PrettyUser}")
+                .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyCurrentTime()}"))
                 .WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
@@ -786,6 +807,17 @@ namespace NadekoBot.Modules.Music
                             var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
                         try { playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false); } catch { }
                     }
+                };
+                mp.OnPauseChanged += async (paused) =>
+                {
+                    try
+                    {
+                        if (paused)
+                            await textCh.SendMessageAsync("🎵`Music Player paused.`").ConfigureAwait(false);
+                        else
+                            await textCh.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
+                    }
+                    catch { }
                 };
                 return mp;
             });
