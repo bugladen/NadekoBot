@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Music.Classes
         public string Query { get; set; }
         public string Title { get; set; }
         public string Uri { get; set; }
+	public string AlbumArt { get; set; }
     }
     public class Song
     {
@@ -319,6 +320,7 @@ namespace NadekoBot.Modules.Music.Classes
                         Uri = svideo.StreamLink,
                         ProviderType = musicType,
                         Query = svideo.TrackLink,
+			AlbumArt = svideo.artwork_url,
                     })
                     { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
@@ -333,6 +335,7 @@ namespace NadekoBot.Modules.Music.Classes
                         Uri = svideo.StreamLink,
                         ProviderType = MusicType.Normal,
                         Query = svideo.TrackLink,
+			AlbumArt = svideo.artwork_url,
                     })
                     { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
