@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VideoLibrary;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Modules.Music.Classes//{(SongInfo.Provider ?? "-")}
 {
     public class SongInfo
     {
@@ -27,24 +27,29 @@ namespace NadekoBot.Modules.Music.Classes
     }
     public class Song
     {
-        public StreamState State { get; set; }
         public string PrettyName =>
-            $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
+            $"{SongInfo.Title.TrimTo(70)}";
         public SongInfo SongInfo { get; }
-        public string QueuerName { get; set; }
-
         public MusicPlayer MusicPlayer { get; set; }
+		
+		public string PrettyUser =>
+            $"{QueuerName}";
+        public string QueuerName { get; set; }
+		
+		public string PrettyProvider =>
+            $"{(SongInfo.Provider ?? "No Provider")}";
+        public StreamState State { get; set; }
 
         public string PrettyCurrentTime()
         {
             var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
-            var str = $"【{(int)time.TotalMinutes}m {time.Seconds}s】**/** ";
+            var str = $"{(int)time.TotalMinutes}m {time.Seconds}s / ";
             if (TotalLength == TimeSpan.Zero)
                 str += "**?**";
             else if (TotalLength == TimeSpan.MaxValue)
                 str += "**∞**";
             else
-                str += $"【{(int)TotalLength.TotalMinutes}m {TotalLength.Seconds}s】";
+                str += $"{(int)TotalLength.TotalMinutes}m {TotalLength.Seconds}s";
             return str;
         }
 
