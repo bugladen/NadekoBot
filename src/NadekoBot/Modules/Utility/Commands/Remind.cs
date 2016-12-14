@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Utility
                     if (ch == null)
                         return;
 
-                    await ch.SendConfirmAsync(
+                    await ch.SendMessageAsync(
                         replacements.Aggregate(RemindMessageFormat,
                             (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
                             .SanitizeMentions()

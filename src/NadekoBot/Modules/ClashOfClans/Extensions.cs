@@ -28,8 +28,8 @@ namespace NadekoBot.Modules.ClashOfClans
         {
             if (baseNumber < 0 || baseNumber >= cw.Bases.Count)
                 throw new ArgumentException("Invalid base number");
-            if (cw.Bases[baseNumber].CallUser != null)
-                throw new ArgumentException("That base is already claimed.");
+            if (cw.Bases[baseNumber].CallUser != null && cw.Bases[baseNumber].Stars == 3)
+                throw new ArgumentException("That base is already destroyed.");
             for (var i = 0; i < cw.Bases.Count; i++)
             {
                 if (cw.Bases[i]?.BaseDestroyed == false && cw.Bases[i]?.CallUser == u)
@@ -95,7 +95,14 @@ namespace NadekoBot.Modules.ClashOfClans
                     else
                     {
                         var left = (cw.WarState == StateOfWar.Started) ? twoHours - (DateTime.UtcNow - cw.Bases[i].TimeAdded) : twoHours;
-                        sb.AppendLine($"`{i + 1}.` ✅ `{cw.Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
+                        if (cw.Bases[i].Stars == 3)
+                        {
+                            sb.AppendLine($"`{i + 1}.` ✅ `{cw.Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
+                        }
+                        else
+                        {
+                            sb.AppendLine($"`{i + 1}.` ✅ `{cw.Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left {new string('⭐', cw.Bases[i].Stars)} {string.Concat(Enumerable.Repeat("🔸", 3 - cw.Bases[i].Stars))}");
+                        }
                     }
                 }
 
