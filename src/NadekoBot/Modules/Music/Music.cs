@@ -184,8 +184,13 @@ namespace NadekoBot.Modules.Music
             {
                 await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
             }
-            await channel.SendMessageAsync($"🎵`Now Playing` {currentSong.PrettyName} " +
-                                        $"{currentSong.PrettyCurrentTime()}").ConfigureAwait(false);
+			var embed = new EmbedBuilder()
+			    .WithAuthor(eab => eab.WithName("🎵 Now Playing"))
+				.WithTitle($"{currentSong.PrettyName}")
+				.WithDescription($"{currentSong.PrettyUser}")
+				.WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyCurrentTime()}"))
+                .WithColor(NadekoBot.OkColor);
+            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
