@@ -27,9 +27,9 @@ namespace NadekoBot.Modules.Gambling
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await channel.SendFileAsync(headsPath, $"{imsg.Author.Mention} rolled " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(headsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
                     else
-                        await channel.SendFileAsync(tailsPath, $"{imsg.Author.Mention} rolled " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(tailsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
                     return;
                 }
                 if (count > 10 || count < 1)
