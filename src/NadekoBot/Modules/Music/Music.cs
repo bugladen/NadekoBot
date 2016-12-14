@@ -96,9 +96,9 @@ namespace NadekoBot.Modules.Music
                 return;
             musicPlayer.TogglePause();
             if (musicPlayer.Paused)
-                await channel.SendMessageAsync("🎵`Music Player paused.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("🎵 Music Player **paused**.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("🎵`Music Player unpaused.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("🎵 Music Player **unpaused**.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
             {
-                await channel.SendMessageAsync("🎵 No active music player.").ConfigureAwait(false);
+                await channel.SendErrorAsync("🎵 No active music player.").ConfigureAwait(false);
                 return;
             }
             if (page <= 0)
@@ -152,12 +152,13 @@ namespace NadekoBot.Modules.Music
                 await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
             }
 
-            var toSend = $"🎵`Now Playing` {currentSong.PrettyName} " + $"{currentSong.PrettyCurrentTime()}\n";
+            //var toSend = $"🎵 Currently Playing {currentSong.PrettyName} " + $"`{currentSong.PrettyCurrentTime()}`\n";
+	    var toSend = $"🎵 Currently Playing {currentSong.PrettyName}\n";
             if (musicPlayer.RepeatSong)
                 toSend += "🔂";
             else if (musicPlayer.RepeatPlaylist)
                 toSend += "🔁";
-            toSend += $" **{musicPlayer.Playlist.Count}** `tracks currently queued. Showing page {page}` ";
+            toSend += $" `{musicPlayer.Playlist.Count} tracks currently queued. Showing page {page}:` ";
             if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
                 toSend += "**Song queue is full!**\n";
             else
@@ -165,7 +166,7 @@ namespace NadekoBot.Modules.Music
             const int itemsPerPage = 15;
             int startAt = itemsPerPage * (page - 1);
             var number = 1 + startAt;
-            await channel.SendMessageAsync(toSend + string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
+            await channel.SendConfirmAsync(toSend + string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(15).Select(v => $"`{number++}.` {v.PrettyName}"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -173,6 +174,7 @@ namespace NadekoBot.Modules.Music
         public async Task NowPlaying(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
+	    
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
@@ -184,12 +186,13 @@ namespace NadekoBot.Modules.Music
             {
                 await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
             }
-			var embed = new EmbedBuilder()
-			    .WithAuthor(eab => eab.WithName("🎵 Now Playing"))
-				.WithTitle($"{currentSong.PrettyName}")
-				.WithDescription($"{currentSong.PrettyUser}")
-				.WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyCurrentTime()}"))
-                .WithColor(NadekoBot.OkColor);
+		var embed = new EmbedBuilder()
+			    	.WithAuthor(eab => eab.WithName("Now Playing").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+				.WithTitle($"{currentSong.SongInfo.Title}")
+				.WithUrl($"{currentSong.SongInfo.Query}")
+				.WithDescription($"{currentSong.PrettyCurrentTime()}")
+				.WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyUser}"))
+                		.WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -206,7 +209,7 @@ namespace NadekoBot.Modules.Music
             if (val < 0)
                 return;
             var volume = musicPlayer.SetVolume(val);
-            await channel.SendMessageAsync($"🎵 `Volume set to {volume}%`").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"🎵 Volume set to {volume}%").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -217,7 +220,7 @@ namespace NadekoBot.Modules.Music
 
             if (val < 0 || val > 100)
             {
-                await channel.SendMessageAsync("Volume number invalid. Must be between 0 and 100").ConfigureAwait(false);
+                await channel.SendErrorAsync("Volume number invalid. Must be between 0 and 100").ConfigureAwait(false);
                 return;
             }
             using (var uow = DbHandler.UnitOfWork())
@@ -225,7 +228,7 @@ namespace NadekoBot.Modules.Music
                 uow.GuildConfigs.For(channel.Guild.Id, set => set).DefaultMusicVolume = val / 100.0f;
                 uow.Complete();
             }
-            await channel.SendMessageAsync($"🎵 `Default volume set to {val}%`").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"🎵 Default volume set to {val}%").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -240,12 +243,12 @@ namespace NadekoBot.Modules.Music
                 return;
             if (musicPlayer.Playlist.Count < 2)
             {
-                await channel.SendMessageAsync("💢 Not enough songs in order to perform the shuffle.").ConfigureAwait(false);
+                await channel.SendErrorAsync("💢 Not enough songs in order to perform the shuffle.").ConfigureAwait(false);
                 return;
             }
 
             musicPlayer.Shuffle();
-            await channel.SendMessageAsync("🎵 `Songs shuffled.`").ConfigureAwait(false);
+            await channel.SendConfirmAsync("🎵 Songs shuffled.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -258,25 +261,25 @@ namespace NadekoBot.Modules.Music
                 return;
             if (((IGuildUser)umsg.Author).VoiceChannel?.Guild != channel.Guild)
             {
-                await channel.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
+                await channel.SendErrorAsync("💢 You need to be in a **voice channel** on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                 return;
             }
             var plId = (await NadekoBot.Google.GetPlaylistIdsByKeywordsAsync(arg).ConfigureAwait(false)).FirstOrDefault();
             if (plId == null)
             {
-                await channel.SendMessageAsync("No search results for that query.");
+                await channel.SendErrorAsync("No search results for that query.");
                 return;
             }
             var ids = await NadekoBot.Google.GetPlaylistTracksAsync(plId, 500).ConfigureAwait(false);
             if (!ids.Any())
             {
-                await channel.SendMessageAsync($"🎵 `Failed to find any songs.`").ConfigureAwait(false);
+                await channel.SendErrorAsync($"🎵 Failed to find any songs.").ConfigureAwait(false);
                 return;
             }
             var idArray = ids as string[] ?? ids.ToArray();
             var count = idArray.Length;
             var msg =
-                await channel.SendMessageAsync($"🎵 `Attempting to queue {count} songs".SnPl(count) + "...`").ConfigureAwait(false);
+                await channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
             foreach (var id in idArray)
             {
                 try
@@ -286,7 +289,7 @@ namespace NadekoBot.Modules.Music
                 catch (SongNotFoundException) { }
                 catch { break; }
             }
-            await msg.ModifyAsync(m => m.Content = "🎵 `Playlist queue complete.`").ConfigureAwait(false);
+            await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -352,7 +355,7 @@ namespace NadekoBot.Modules.Music
                     }
                     catch { }
                 }
-                await channel.SendMessageAsync("🎵 `Directory queue complete.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("🎵 Directory queue complete.").ConfigureAwait(false);
             }
             catch { }
         }
@@ -364,7 +367,7 @@ namespace NadekoBot.Modules.Music
             var channel = (ITextChannel)umsg.Channel;
             if (((IGuildUser)umsg.Author).VoiceChannel?.Guild != channel.Guild)
             {
-                await channel.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
+                await channel.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                 return;
             }
             await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
@@ -418,7 +421,7 @@ namespace NadekoBot.Modules.Music
                 return;
             var song = (musicPlayer.Playlist as List<Song>)?[num - 1];
             musicPlayer.RemoveSongAt(num - 1);
-            await channel.SendMessageAsync($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"🎵 Track {song.PrettyName} at position `#{num}` has been **removed**.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -433,7 +436,7 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
             musicPlayer.ClearQueue();
-            await channel.SendMessageAsync($"🎵`Queue cleared!`").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"🎵 Queue cleared!").ConfigureAwait(false);
             return;
         }
 
@@ -459,7 +462,7 @@ namespace NadekoBot.Modules.Music
                 !int.TryParse(fromtoArr[1], out n2) || n1 < 1 || n2 < 1 || n1 == n2 ||
                 n1 > playlist.Count || n2 > playlist.Count)
             {
-                await channel.SendMessageAsync("`Invalid input.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Invalid input.").ConfigureAwait(false);
                 return;
             }
 
@@ -467,8 +470,17 @@ namespace NadekoBot.Modules.Music
             playlist.Insert(n2 - 1, s);
             var nn1 = n2 < n1 ? n1 : n1 - 1;
             playlist.RemoveAt(nn1);
+	    
+	    var embed = new EmbedBuilder()
+	    	.WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
+		.WithUrl($"{s.SongInfo.Query}")
+		.WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+		.AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
+		.AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
+		.WithColor(NadekoBot.OkColor);
+            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
 
-            await channel.SendMessageAsync($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
+            //await channel.SendConfirmAsync($"🎵Moved {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
 
 
         }
@@ -484,7 +496,7 @@ namespace NadekoBot.Modules.Music
                 return;
             }
             musicPlayer.MaxQueueSize = size;
-            await channel.SendMessageAsync($"🎵 `Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}`");
+            await channel.SendConfirmAsync($"🎵 Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}.");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -499,9 +511,9 @@ namespace NadekoBot.Modules.Music
             if (currentSong == null)
                 return;
             var currentValue = musicPlayer.ToggleRepeatSong();
-            await channel.SendMessageAsync(currentValue ?
-                                        $"🎵🔂`Repeating track:`{currentSong.PrettyName}" :
-                                        $"🎵🔂`Current track repeat stopped.`")
+            await channel.SendConfirmAsync(currentValue ?
+                                        $"🔂 Repeating track: {currentSong.PrettyName}" :
+                                        $"🔂 Current track repeat stopped.")
                                             .ConfigureAwait(false);
         }
 
@@ -514,7 +526,7 @@ namespace NadekoBot.Modules.Music
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
             var currentValue = musicPlayer.ToggleRepeatPlaylist();
-            await channel.SendMessageAsync($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"🔁 Repeat playlist {(currentValue ? "**enabled**." : "**disabled**.")}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -550,7 +562,7 @@ namespace NadekoBot.Modules.Music
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
 
-            await channel.SendMessageAsync(($"🎵 `Saved playlist as {name}.` `Id: {playlist.Id}`")).ConfigureAwait(false);
+            await channel.SendConfirmAsync(($"🎵 Saved playlist as **{name}**, ID: {playlist.Id}.")).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -567,11 +579,11 @@ namespace NadekoBot.Modules.Music
 
             if (mpl == null)
             {
-                await channel.SendMessageAsync("`Can't find playlist with that ID`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Can't find playlist with that ID.").ConfigureAwait(false);
                 return;
             }
             IUserMessage msg = null;
-            try { msg = await channel.SendMessageAsync($"`Attempting to load {mpl.Songs.Count} songs...`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            try { msg = await channel.SendMessageAsync($"🎶 Attempting to load **{mpl.Songs.Count}** songs...").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
                 var usr = (IGuildUser)umsg.Author;
@@ -583,7 +595,7 @@ namespace NadekoBot.Modules.Music
                 catch { break; }
             }
             if (msg != null)
-                await msg.ModifyAsync(m => m.Content = $"`Done loading playlist {mpl.Name}.`").ConfigureAwait(false);
+                await msg.ModifyAsync(m => m.Content = $"✅ Done loading playlist **{mpl.Name}**.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -602,9 +614,9 @@ namespace NadekoBot.Modules.Music
                 playlists = uow.MusicPlaylists.GetPlaylistsOnPage(num);
             }
 
-            await channel.SendMessageAsync($@"`Page {num} of saved playlists`
+            await channel.SendConfirmAsync($@"🎶 **Page {num} of saved playlists:**
 
-" + string.Join("\n", playlists.Select(r => $"`#{r.Id}` - `{r.Name}` by {r.Author} - **{r.Songs.Count}** songs"))).ConfigureAwait(false);
+" + string.Join("\n", playlists.Select(r => $"`#{r.Id}` - **{r.Name}** by __{r.Author}__ ({r.Songs.Count} songs)"))).ConfigureAwait(false);
         }
 
         //todo only author or owner
@@ -636,9 +648,9 @@ namespace NadekoBot.Modules.Music
                 }
 
                 if (!success)
-                    await channel.SendMessageAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("`Playlist successfully deleted.`").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🗑 Playlist successfully **deleted**.").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -680,7 +692,7 @@ namespace NadekoBot.Modules.Music
             if (seconds.Length == 1)
                 seconds = "0" + seconds;
 
-            await channel.SendMessageAsync($"`Skipped to {minutes}:{seconds}`").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"Skipped to `{minutes}:{seconds}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -701,12 +713,12 @@ namespace NadekoBot.Modules.Music
                 var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
                 if (selSong == null)
                 {
-                    await channel.SendMessageAsync("Could not select song, likely wrong index");
+                    await channel.SendErrorAsync("Could not select song, likely wrong index");
 
                 }
                 else
                 {
-                    await channel.SendMessageAsync($"🎶`Selected song {selSong.SongInfo.Title}:` <{selSong.SongInfo.Query}>").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"🎶 Selected song **{selSong.SongInfo.Title}**: <{selSong.SongInfo.Query}>").ConfigureAwait(false);
                 }
             }
             else
@@ -714,7 +726,7 @@ namespace NadekoBot.Modules.Music
                 var curSong = musicPlayer.CurrentSong;
                 if (curSong == null)
                     return;
-                await channel.SendMessageAsync($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"🎶 Current song **{curSong.SongInfo.Title}**: <{curSong.SongInfo.Query}>").ConfigureAwait(false);
             }
         }
 
@@ -728,9 +740,9 @@ namespace NadekoBot.Modules.Music
                 return;
 
             if (!musicPlayer.ToggleAutoplay())
-                await channel.SendMessageAsync("🎶`Autoplay disabled.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("❌ Autoplay disabled.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("🎶`Autoplay enabled.`").ConfigureAwait(false);
+                await channel.SendConfirmAsync("✅ Autoplay enabled.").ConfigureAwait(false);
         }
 
         public static async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
@@ -738,7 +750,7 @@ namespace NadekoBot.Modules.Music
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (!silent)
-                    await textCh.SendMessageAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
+                    await textCh.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.").ConfigureAwait(false);
                 throw new ArgumentNullException(nameof(voiceCh));
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
@@ -752,10 +764,8 @@ namespace NadekoBot.Modules.Music
                     vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
                 var mp = new MusicPlayer(voiceCh, vol);
-
-
                 IUserMessage playingMessage = null;
-                IUserMessage lastFinishedMessage = null;
+		IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
                     if (song.PrintStatusMessage)
@@ -766,7 +776,7 @@ namespace NadekoBot.Modules.Music
                                 await lastFinishedMessage.DeleteAsync().ConfigureAwait(false);
                             if (playingMessage != null)
                                 await playingMessage.DeleteAsync().ConfigureAwait(false);
-                            try { lastFinishedMessage = await textCh.SendMessageAsync($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false); } catch { }
+                            try { lastFinishedMessage = await textCh.SendConfirmAsync($"🎵 Finished {song.PrettyName}").ConfigureAwait(false); } catch { }
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
                                 await QueueSong(queuer.Guild.GetCurrentUser(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
@@ -783,8 +793,8 @@ namespace NadekoBot.Modules.Music
                         if (sender == null)
                             return;
 
-                            var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                        try { playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false); } catch { }
+                            var msgTxt = $"🎵 Playing {song.PrettyName}\t `Volume: {(int)(sender.Volume * 100)}%`";
+                        try { playingMessage = await textCh.SendConfirmAsync(msgTxt).ConfigureAwait(false); } catch { }
                     }
                 };
                 return mp;
@@ -802,14 +812,14 @@ namespace NadekoBot.Modules.Music
             }
             catch (PlaylistFullException)
             {
-                try { await textCh.SendMessageAsync($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` "); } catch { }
+                try { await textCh.SendConfirmAsync($"🎵 Queue is full at **{musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}**. "); } catch { }
                 throw;
             }
             if (!silent)
             {
                 try
                 {
-                    var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
+                    var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title.TrimTo(55)}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var t = Task.Run(async () =>
                     {
                         try
