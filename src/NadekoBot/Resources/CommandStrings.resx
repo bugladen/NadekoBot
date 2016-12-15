@@ -2781,4 +2781,13 @@
   <data name="crstats_usage" xml:space="preserve">
     <value>`{0}crstats` or `{0}crstats 3`</value>
   </data>
+    <data name="overwatch_cmd" xml:space="preserve">
+    <value>overwatch ow</value>
+  </data>
+  <data name="overwatch_desc" xml:space="preserve">
+    <value>Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`</value>
+  </data>
+  <data name="overwatch_usage" xml:space="preserve">
+    <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
+  </data>
 </root>
