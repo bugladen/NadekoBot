@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Utility
             IEnumerable<Quote> quotes;
             using (var uow = DbHandler.UnitOfWork())
             {
-                quotes = uow.Quotes.GetGroup(page * 16, 16);
+                quotes = uow.Quotes.GetGroup(channel.Guild.Id, page * 16, 16);
             }
 
             if (quotes.Any())

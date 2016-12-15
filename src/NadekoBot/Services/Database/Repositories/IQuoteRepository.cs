@@ -8,6 +8,6 @@ namespace NadekoBot.Services.Database.Repositories
     {
         IEnumerable<Quote> GetAllQuotesByKeyword(ulong guildId, string keyword);
         Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword);
-        IEnumerable<Quote> GetGroup(int skip, int take);
+        IEnumerable<Quote> GetGroup(ulong guildId, int skip, int take);
     }
 }
