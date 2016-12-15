@@ -1,8 +1,10 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.CustomReactions
@@ -18,6 +20,15 @@ namespace NadekoBot.Modules.CustomReactions
         {
             {"%mention%", (ctx) => { return $"<@{NadekoBot.Client.GetCurrentUser().Id}>"; } },
             {"%user%", (ctx) => { return ctx.Author.Mention; } },
+            {"%rnduser%", (ctx) => {
+                var ch = ctx.Channel as ITextChannel;
+                if(ch == null)
+                    return "";
+
+                var usrs = (ch.Guild.GetUsersAsync().GetAwaiter().GetResult());
+
+                return usrs.Skip(new NadekoRandom().Next(0,usrs.Count-1)).Shuffle().FirstOrDefault()?.Mention ?? "";
+            } }
             //{"%rng%", (ctx) => { return new NadekoRandom().Next(0,10).ToString(); } }
         };
 

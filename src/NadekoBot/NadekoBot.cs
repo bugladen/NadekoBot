@@ -17,6 +17,7 @@ using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Modules.Games.Commands.Hangman;
 
 namespace NadekoBot
 {

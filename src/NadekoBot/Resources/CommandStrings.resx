@@ -2745,4 +2745,40 @@
   <data name="type_usage" xml:space="preserve">
     <value>`{0}type @someone`</value>
   </data>
+  <data name="hangmanlist_cmd" xml:space="preserve">
+    <value>hangmanlist</value>
+  </data>
+  <data name="hangmanlist_desc" xml:space="preserve">
+    <value>Shows a list of hangman term types.</value>
+  </data>
+  <data name="hangmanlist_usage" xml:space="preserve">
+    <value>`{0} hangmanlist`</value>
+  </data>
+  <data name="hangman_cmd" xml:space="preserve">
+    <value>hangman</value>
+  </data>
+  <data name="hangman_desc" xml:space="preserve">
+    <value>Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to 'all'.</value>
+  </data>
+  <data name="hangman_usage" xml:space="preserve">
+    <value>`{0}hangman` or `{0}hangman movies`</value>
+  </data>
+  <data name="crstatsclear_cmd" xml:space="preserve">
+    <value>crstatsclear</value>
+  </data>
+  <data name="crstatsclear_desc" xml:space="preserve">
+    <value>Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger.</value>
+  </data>
+  <data name="crstatsclear_usage" xml:space="preserve">
+    <value>`{0}crstatsclear` or `{0}crstatsclear rng`</value>
+  </data>
+  <data name="crstats_cmd" xml:space="preserve">
+    <value>crstats</value>
+  </data>
+  <data name="crstats_desc" xml:space="preserve">
+    <value>Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters.</value>
+  </data>
+  <data name="crstats_usage" xml:space="preserve">
+    <value>`{0}crstats` or `{0}crstats 3`</value>
+  </data>
 </root>
