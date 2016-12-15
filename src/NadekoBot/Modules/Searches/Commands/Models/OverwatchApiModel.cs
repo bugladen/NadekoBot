@@ -7,23 +7,6 @@ namespace NadekoBot.Modules.Searches.Models
 {
     public class OverwatchApiModel
     {
-
-        //patch notes
-        [JsonProperty("patchNotes")]
-        public List<OverwatchPatchNotes> PatchNotes { get; set; }
-        [JsonProperty("pagination")]
-        public OverwatchPagination Pagination { get; set; }
-
-        //Player All Heroes Stats
-        public OverwatchAllHeroes AllHeroes { get; set; }
-
-        //achievements
-        [JsonProperty("achievements")]
-        public List<OverwatchAchievements> Achievements { get; set; }
-        public float totalNumberOfAchievements { get; set; }
-        public float numberOfAchievementsCompleted { get; set; }
-        public string finishedAchievements { get; set; }
-
         public OverwatchPlayer Player { get; set; }
 
         public class OverwatchPlayer
