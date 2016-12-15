@@ -20,9 +20,9 @@ namespace NadekoBot.Modules.Searches
             private static Dictionary<string, SearchPokemon> pokemons { get; } = new Dictionary<string, SearchPokemon>();
             private static Dictionary<string, SearchPokemonAbility> pokemonAbilities { get; } = new Dictionary<string, SearchPokemonAbility>();
 
-            public const string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities.json";
+            public const string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities7.json";
 
-            public const string PokemonListFile = "data/pokemon/pokemon_list.json";
+            public const string PokemonListFile = "data/pokemon/pokemon_list7.json";
             private static Logger _log { get; }
 
             static PokemonSearchCommands()
