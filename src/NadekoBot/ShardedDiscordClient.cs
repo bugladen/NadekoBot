@@ -79,13 +79,27 @@ namespace NadekoBot
             Clients[0].GetDMChannelAsync(channelId);
 
         internal Task LoginAsync(TokenType tokenType, string token) =>
-            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token); _log.Info($"Shard #{c.ShardId} logged in."); }));
+            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token).ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} logged in."); }));
 
-        internal Task ConnectAsync() =>
-            Task.WhenAll(Clients.Select(async c => { await c.ConnectAsync(); _log.Info($"Shard #{c.ShardId} connected."); }));
+        internal async Task ConnectAsync()
+        {
+            foreach (var c in Clients)
+            {
+                try
+                {
+                    await c.ConnectAsync().ConfigureAwait(false);
+                    _log.Info($"Shard #{c.ShardId} connected.");
+                }
+                catch (Exception ex)
+                {
+                    _log.Error($"Shard #{c.ShardId} FAILED CONNECTING.");
+                    _log.Error(ex);
+                }
+            }
+        }
 
         internal Task DownloadAllUsersAsync() =>
-            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync(); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
+            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync().ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
 
         public async Task SetGame(string game)
         {
