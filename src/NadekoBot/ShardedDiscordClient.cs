@@ -90,10 +90,15 @@ namespace NadekoBot
                     await c.ConnectAsync().ConfigureAwait(false);
                     _log.Info($"Shard #{c.ShardId} connected.");
                 }
-                catch (Exception ex)
+                catch
                 {
                     _log.Error($"Shard #{c.ShardId} FAILED CONNECTING.");
-                    _log.Error(ex);
+                    try { await c.ConnectAsync().ConfigureAwait(false); }
+                    catch (Exception ex2)
+                    {
+                        _log.Error($"Shard #{c.ShardId} FAILED CONNECTING TWICE.");
+                        _log.Error(ex2);
+                    }
                 }
             }
         }
