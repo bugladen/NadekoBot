@@ -80,6 +80,23 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendErrorAsync("Found no user! Please check the **Region** and **BattleTag** before trying again.");
                 }
             }
+			public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
+			{
+				try
+				{
+					using (var http = new HttpClient())
+					{
+						var Url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
+						var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(Url);
+						return model.data;
+					}
+				}
+				catch
+				{
+					return null;
+				}
+			}
+			
 		}
     }
 }
