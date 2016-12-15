@@ -4648,6 +4648,33 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("osub_usage", resourceCulture);
             }
         }
+		
+		/// <summary>
+        ///    Looks up a localized string similar to overwatch ow.
+        /// </summary>
+        public static string overwatch_cmd {
+            get {
+                return ResourceManager.GetString("overwatch_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Show&apos;s basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`.
+        /// </summary>
+        public static string overwatch_desc {
+            get {
+                return ResourceManager.GetString("overwatch_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`.
+        /// </summary>
+        public static string overwatch_usage {
+            get {
+                return ResourceManager.GetString("overwatch_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to pause p.
