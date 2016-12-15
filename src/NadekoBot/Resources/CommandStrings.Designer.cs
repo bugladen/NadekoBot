@@ -1869,6 +1869,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to crstats.
+        /// </summary>
+        public static string crstats_cmd {
+            get {
+                return ResourceManager.GetString("crstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters..
+        /// </summary>
+        public static string crstats_desc {
+            get {
+                return ResourceManager.GetString("crstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crstats` or `{0}crstats 3`.
+        /// </summary>
+        public static string crstats_usage {
+            get {
+                return ResourceManager.GetString("crstats_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to crstatsclear.
+        /// </summary>
+        public static string crstatsclear_cmd {
+            get {
+                return ResourceManager.GetString("crstatsclear_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger..
+        /// </summary>
+        public static string crstatsclear_desc {
+            get {
+                return ResourceManager.GetString("crstatsclear_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crstatsclear` or `{0}crstatsclear rng`.
+        /// </summary>
+        public static string crstatsclear_usage {
+            get {
+                return ResourceManager.GetString("crstatsclear_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to danbooru.
         /// </summary>
         public static string danbooru_cmd {
