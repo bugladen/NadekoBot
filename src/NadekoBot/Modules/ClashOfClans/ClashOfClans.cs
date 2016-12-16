@@ -294,7 +294,7 @@ namespace NadekoBot.Modules.ClashOfClans
             var channel = (ITextChannel)Context.Channel;
             //check if there are any wars
             List<ClashWar> wars = null;
-            ClashWars.TryGetValue(channel.Guild.Id, out wars);
+            ClashWars.TryGetValue(Context.Guild.Id, out wars);
             if (wars == null || wars.Count == 0)
             {
                 return null;
