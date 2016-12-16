@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task MigrateData()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())

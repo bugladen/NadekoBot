@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration
                     var t = Task.Run(async () =>
                     {
                         var usrMsg = umsg as IUserMessage;
-                        var channel = usrContext.Channel as ITextChannel;
+                        //var channel = usrContext.Channel as ITextChannel;
 
                         if (channel == null || usrMsg.IsAuthor())
                             return;
@@ -88,13 +88,13 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Slowmode()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 Ratelimiter throwaway;
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))
                 {
                     throwaway.cancelSource.Cancel();
-                    await channel.SendConfirmAsync("ℹ️ Slow mode disabled.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ Slow mode disabled.").ConfigureAwait(false);
                     return;
                 }
             }
@@ -105,11 +105,11 @@ namespace NadekoBot.Modules.Administration
             public async Task Slowmode(IUserMessage umsg, int msg, int perSec)
             {
                 await Slowmode(umsg).ConfigureAwait(false); // disable if exists
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 if (msg < 1 || perSec < 1 || msg > 100 || perSec > 3600)
                 {
-                    await channel.SendErrorAsync("⚠️ Invalid parameters.");
+                    await Context.Channel.SendErrorAsync("⚠️ Invalid parameters.");
                     return;
                 }
                 var toAdd = new Ratelimiter()
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Administration
                 };
                 if(RatelimitingChannels.TryAdd(channel.Id, toAdd))
                 {
-                    await channel.SendConfirmAsync("Slow mode initiated",
+                    await Context.Channel.SendConfirmAsync("Slow mode initiated",
                                                 $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.")
                                                 .ConfigureAwait(false);
                 }

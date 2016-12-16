@@ -23,18 +23,18 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Flip(IUserMessage imsg, int count = 1)
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await channel.SendFileAsync(headsPath, $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(headsPath, $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
                     else
-                        await channel.SendFileAsync(tailsPath, $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(tailsPath, $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
                     return;
                 }
                 if (count > 10 || count < 1)
                 {
-                    await channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
+                    await Context.Channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
                     return;
                 }
                 var imgs = new Image[count];
@@ -44,14 +44,14 @@ namespace NadekoBot.Modules.Gambling
                                 new Image(File.OpenRead(headsPath)) :
                                 new Image(File.OpenRead(tailsPath));
                 }
-                await channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Betflip(IUserMessage umsg, int amount, string guess)
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 var guildUser = (IGuildUser)Context.User;
                 var guessStr = guess.Trim().ToUpperInvariant();
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 3)
                 {
-                    await channel.SendErrorAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                    await Context.Channel.SendErrorAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
                                  .ConfigureAwait(false);
                     return;
                 }
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (userFlowers < amount)
                 {
-                    await channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                     return;
                 }
 
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Gambling
                     str = $"{Context.User.Mention}`Better luck next time.`";
                 }
 
-                await channel.SendFileAsync(imgPathToSend, str).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(imgPathToSend, str).ConfigureAwait(false);
             }
         }
     }

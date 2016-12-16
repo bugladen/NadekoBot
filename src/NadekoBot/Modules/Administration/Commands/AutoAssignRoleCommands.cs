@@ -48,12 +48,12 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id, set => set);
+                    conf = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     if (role == null)
                         conf.AutoAssignRoleId = 0;
                     else
@@ -64,11 +64,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    await channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
             }
         }
     }

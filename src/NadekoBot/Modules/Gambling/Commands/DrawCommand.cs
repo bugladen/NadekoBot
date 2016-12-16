@@ -33,8 +33,8 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Draw(int num = 1)
             {
-                var channel = (ITextChannel)Context.Channel;
-                var cards = AllDecks.GetOrAdd(channel.Guild, (s) => new Cards());
+                //var channel = (ITextChannel)Context.Channel;
+                var cards = AllDecks.GetOrAdd(Context.Guild, (s) => new Cards());
                 var images = new List<Image>();
                 var cardObjects = new List<Cards.Card>();
                 if (num > 5) num = 5;
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
                     {
-                        try { await channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        try { await Context.Channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                         break;
                     }
                     var currentCard = cards.DrawACard();
@@ -58,16 +58,16 @@ namespace NadekoBot.Modules.Gambling
                 if (cardObjects.Count == 5)
                     toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
 
-                await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ShuffleDeck()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
-                AllDecks.AddOrUpdate(channel.Guild,
+                AllDecks.AddOrUpdate(Context.Guild,
                         (g) => new Cards(),
                         (g, c) =>
                         {
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Gambling
                             return c;
                         });
 
-                await channel.SendConfirmAsync("Deck reshuffled.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Deck reshuffled.").ConfigureAwait(false);
             }
         }
     }

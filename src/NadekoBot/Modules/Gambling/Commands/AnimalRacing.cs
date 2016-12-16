@@ -24,28 +24,28 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Race()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
-                var ar = new AnimalRace(channel.Guild.Id, channel);
+                var ar = new AnimalRace(Context.Guild.Id, channel);
 
                 if (ar.Fail)
-                    await channel.SendErrorAsync("🏁 `Failed starting a race. Another race is probably running.`");
+                    await Context.Channel.SendErrorAsync("🏁 `Failed starting a race. Another race is probably running.`");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(IUserMessage umsg, int amount = 0)
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 if (amount < 0)
                     amount = 0;
 
 
                 AnimalRace ar;
-                if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
+                if (!AnimalRaces.TryGetValue(Context.Guild.Id, out ar))
                 {
-                    await channel.SendErrorAsync("No race exists on this server");
+                    await Context.Channel.SendErrorAsync("No race exists on this server");
                     return;
                 }
                 await ar.JoinRace(Context.User as IGuildUser, amount);

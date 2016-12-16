@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ForwardMessages()
             {
-                var channel = Context.Channel;
+                //var channel = Context.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -40,16 +40,16 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMs)
-                    await channel.SendConfirmAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
                 else
-                    await channel.SendConfirmAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ForwardToAll()
             {
-                var channel = Context.Channel;
+                //var channel = Context.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -58,9 +58,9 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMsToAllOwners)
-                    await channel.SendConfirmAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
                 else
-                    await channel.SendConfirmAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
 
             }
 
