@@ -12,14 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NadekoBot", "src\NadekoBot\NadekoBot.xproj", "{45EC1473-C678-4857-A544-07DFE0D0B478}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Commands", "discord.net\src\Discord.Net.Commands\Discord.Net.Commands.xproj", "{F29E2B91-6877-4EF1-8B54-523FE06F780C}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Core", "discord.net\src\Discord.Net.Core\Discord.Net.Core.xproj", "{526FAB2E-03EA-4231-B480-555F926B1750}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.WebSocket", "discord.net\src\Discord.Net.WebSocket\Discord.Net.WebSocket.xproj", "{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Rest", "discord.net\src\Discord.Net.Rest\Discord.Net.Rest.xproj", "{E8B62DD4-5A6B-4C66-916B-A782247BC983}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,30 +25,6 @@ Global
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = GlobalNadeko|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F29E2B91-6877-4EF1-8B54-523FE06F780C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{526FAB2E-03EA-4231-B480-555F926B1750}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BA94A35-7DE0-4E19-9DAC-D6378845B8D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8B62DD4-5A6B-4C66-916B-A782247BC983}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
