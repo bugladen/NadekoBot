@@ -34,9 +34,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task MigrateData(IUserMessage umsg)
+            public async Task MigrateData()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())
@@ -54,12 +54,12 @@ namespace NadekoBot.Modules.Administration
                                 break;
                         }
                     }
-                    await umsg.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    await umsg.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
                 }
             }
 

@@ -46,7 +46,7 @@ namespace NadekoBot.Services.Impl
                 configBuilder.AddJsonFile(credsFileName, true)
                     .AddEnvironmentVariables("NadekoBot_");
 
-                var data = configBuilder.Build();
+                var data = configBuilder;
 
                 Token = data[nameof(Token)];
                 if (string.IsNullOrWhiteSpace(Token))

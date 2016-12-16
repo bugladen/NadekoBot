@@ -21,28 +21,28 @@ namespace NadekoBot.Modules.Administration
                 _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.MessageReceived += (imsg) =>
                 {
-                    if (imsg.Author.IsBot)
+                    if (Context.User.IsBot)
                         return Task.CompletedTask;
 
                     var msg = imsg as IUserMessage;
                     if (msg == null)
                         return Task.CompletedTask;
 
-                    var channel = imsg.Channel as ITextChannel;
+                    var channel = Context.Channel as ITextChannel;
                     if (channel == null)
                         return Task.CompletedTask;
 
                     Task.Run(async () =>
                     {
-                        if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                        if (Context.User.Id == NadekoBot.Client.CurrentUser().Id) return;
                         foreach (var subscriber in Subscribers)
                         {
                             var set = subscriber.Value;
-                            if (!set.Contains(msg.Channel))
+                            if (!set.Contains(Context.Channel))
                                 continue;
                             foreach (var chan in set.Except(new[] { channel }))
                             {
-                                try { await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)msg.Author, msg)).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                                try { await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)Context.User, msg)).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                             }
                         }
                     });
@@ -59,24 +59,24 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Scsc(IUserMessage msg)
+            public async Task Scsc()
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 var token = new NadekoRandom().Next();
                 var set = new ConcurrentHashSet<ITextChannel>();
                 if (Subscribers.TryAdd(token, set))
                 {
                     set.Add(channel);
-                    await ((IGuildUser)msg.Author).SendConfirmAsync("This is your CSC token", token.ToString()).ConfigureAwait(false);
+                    await ((IGuildUser)Context.User).SendConfirmAsync("This is your CSC token", token.ToString()).ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageGuild)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task Jcsc(IUserMessage imsg, int token)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 ConcurrentHashSet<ITextChannel> set;
                 if (!Subscribers.TryGetValue(token, out set))
@@ -87,10 +87,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task Lcsc(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageGuild)]
+            public async Task Lcsc()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 foreach (var subscriber in Subscribers)
                 {

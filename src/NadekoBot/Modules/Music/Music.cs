@@ -62,14 +62,14 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task Next(IUserMessage umsg, int skipCount = 1)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (skipCount < 1)
                 return Task.CompletedTask;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)umsg.Author).VoiceChannel)
+            if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
             {
                 while (--skipCount > 0)
                 {
@@ -82,13 +82,13 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Stop(IUserMessage umsg)
+        public Task Stop()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
@@ -98,13 +98,13 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Destroy(IUserMessage umsg)
+        public Task Destroy()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 if(MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
             return Task.CompletedTask;
@@ -112,13 +112,13 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Pause(IUserMessage umsg)
+        public Task Pause()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return Task.CompletedTask;
             musicPlayer.TogglePause();
             return Task.CompletedTask;
@@ -128,9 +128,9 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Queue(IUserMessage umsg, [Remainder] string query)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
-            await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, query).ConfigureAwait(false);
+            await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, query).ConfigureAwait(false);
             if (channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
@@ -142,9 +142,9 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudQueue(IUserMessage umsg, [Remainder] string query)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
-            await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);
+            await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);
             if (channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(IUserMessage umsg, int page = 1)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
             {
@@ -194,9 +194,9 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task NowPlaying(IUserMessage umsg)
+        public async Task NowPlaying()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 	    
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
@@ -225,18 +225,18 @@ namespace NadekoBot.Modules.Music
 		{
 				embed.WithThumbnail(tn => tn.Url = $"{currentSong.SongInfo.AlbumArt}");
 		}
-            	await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            	await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Volume(IUserMessage umsg, int val)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
             if (val < 0)
                 return;
@@ -248,7 +248,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Defvol(IUserMessage umsg, [Remainder] int val)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (val < 0 || val > 100)
             {
@@ -265,13 +265,13 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ShufflePlaylist(IUserMessage umsg)
+        public async Task ShufflePlaylist()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
             if (musicPlayer.Playlist.Count < 2)
             {
@@ -287,11 +287,11 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Playlist(IUserMessage umsg, [Remainder] string playlist)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = playlist;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
-            if (((IGuildUser)umsg.Author).VoiceChannel?.Guild != channel.Guild)
+            if (((IGuildUser)Context.User).VoiceChannel?.Guild != channel.Guild)
             {
                 await channel.SendErrorAsync("💢 You need to be in a **voice channel** on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                 return;
@@ -316,7 +316,7 @@ namespace NadekoBot.Modules.Music
             {
                 try
                 {
-                    await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, true).ConfigureAwait(false);
+                    await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, id, true).ConfigureAwait(false);
                 }
                 catch (SongNotFoundException) { }
                 catch { break; }
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl(IUserMessage umsg, [Remainder] string pl)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             pl = pl?.Trim();
 
             if (string.IsNullOrWhiteSpace(pl))
@@ -337,7 +337,7 @@ namespace NadekoBot.Modules.Music
             using (var http = new HttpClient())
             {
                 var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
-                await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
+                await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                 MusicPlayer mp;
                 if (!MusicPlayers.TryGetValue(channel.Guild.Id, out mp))
@@ -354,7 +354,7 @@ namespace NadekoBot.Modules.Music
                             Uri = svideo.StreamLink,
                             ProviderType = MusicType.Normal,
                             Query = svideo.TrackLink,
-                        }), ((IGuildUser)umsg.Author).Username);
+                        }), ((IGuildUser)Context.User).Username);
                     }
                     catch (PlaylistFullException) { break; }
                 }
@@ -366,7 +366,7 @@ namespace NadekoBot.Modules.Music
         [OwnerOnly]
         public async Task LocalPl(IUserMessage umsg, [Remainder] string directory)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = directory;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
@@ -379,7 +379,7 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
-                        await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                        await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
                     }
                     catch (PlaylistFullException)
                     {
@@ -396,13 +396,13 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Radio(IUserMessage umsg, string radio_link)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            if (((IGuildUser)umsg.Author).VoiceChannel?.Guild != channel.Guild)
+            var channel = (ITextChannel)Context.Channel;
+            if (((IGuildUser)Context.User).VoiceChannel?.Guild != channel.Guild)
             {
                 await channel.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining it.").ConfigureAwait(false);
                 return;
             }
-            await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
+            await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
             if (channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
@@ -415,21 +415,21 @@ namespace NadekoBot.Modules.Music
         [OwnerOnly]
         public async Task Local(IUserMessage umsg, [Remainder] string path)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = path;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
-            await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, path, musicType: MusicType.Local).ConfigureAwait(false);
+            await QueueSong(((IGuildUser)Context.User), channel, ((IGuildUser)Context.User).VoiceChannel, path, musicType: MusicType.Local).ConfigureAwait(false);
 
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Move(IUserMessage umsg)
+        public async Task Move()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
-            var voiceChannel = ((IGuildUser)umsg.Author).VoiceChannel;
+            var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
             if (voiceChannel == null || voiceChannel.Guild != channel.Guild || !MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
             await musicPlayer.MoveToVoiceChannel(voiceChannel);
@@ -440,14 +440,14 @@ namespace NadekoBot.Modules.Music
         [Priority(0)]
         public async Task Remove(IUserMessage umsg, int num)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
             {
                 return;
             }
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
             if (num <= 0 || num > musicPlayer.Playlist.Count)
                 return;
@@ -461,7 +461,7 @@ namespace NadekoBot.Modules.Music
         [Priority(1)]
         public async Task Remove(IUserMessage umsg, string all)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (all.Trim().ToUpperInvariant() != "ALL")
                 return;
@@ -476,7 +476,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task MoveSong(IUserMessage umsg, [Remainder] string fromto)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
             {
@@ -510,7 +510,7 @@ namespace NadekoBot.Modules.Music
 		.AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
 		.AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
 		.WithColor(NadekoBot.OkColor);
-            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            await channel.EmbedAsync(embed).ConfigureAwait(false);
 
             //await channel.SendConfirmAsync($"🎵Moved {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
 
@@ -521,7 +521,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(IUserMessage umsg, uint size)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
             {
@@ -533,9 +533,9 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ReptCurSong(IUserMessage umsg)
+        public async Task ReptCurSong()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
@@ -551,9 +551,9 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RepeatPl(IUserMessage umsg)
+        public async Task RepeatPl()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
@@ -565,7 +565,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Save(IUserMessage umsg, [Remainder] string name)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
@@ -586,8 +586,8 @@ namespace NadekoBot.Modules.Music
                 playlist = new MusicPlaylist
                 {
                     Name = name,
-                    Author = umsg.Author.Username,
-                    AuthorId = umsg.Author.Id,
+                    Author = Context.User.Username,
+                    AuthorId = Context.User.Id,
                     Songs = songs,
                 };
                 uow.MusicPlaylists.Add(playlist);
@@ -601,7 +601,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Load(IUserMessage umsg, [Remainder] int id)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlaylist mpl;
             using (var uow = DbHandler.UnitOfWork())
@@ -618,7 +618,7 @@ namespace NadekoBot.Modules.Music
             try { msg = await channel.SendMessageAsync($"🎶 Attempting to load **{mpl.Songs.Count}** songs...").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
-                var usr = (IGuildUser)umsg.Author;
+                var usr = (IGuildUser)Context.User;
                 try
                 {
                     await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
@@ -634,7 +634,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Playlists(IUserMessage umsg, [Remainder] int num = 1)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (num <= 0)
                 return;
@@ -656,7 +656,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task DeletePlaylist(IUserMessage umsg, [Remainder] int id)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             bool success = false;
             MusicPlaylist pl = null;
@@ -668,7 +668,7 @@ namespace NadekoBot.Modules.Music
 
                     if (pl != null)
                     {
-                        if (NadekoBot.Credentials.IsOwner(umsg.Author) || pl.AuthorId == umsg.Author.Id)
+                        if (NadekoBot.Credentials.IsOwner(Context.User) || pl.AuthorId == Context.User.Id)
                         {
                             uow.MusicPlaylists.Remove(pl);
                             await uow.CompleteAsync().ConfigureAwait(false);
@@ -694,12 +694,12 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Goto(IUserMessage umsg, int time)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
-            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+            if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
 
             if (time < 0)
@@ -731,7 +731,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task GetLink(IUserMessage umsg, int index = 0)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;
@@ -764,9 +764,9 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Autoplay(IUserMessage umsg)
+        public async Task Autoplay()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
                 return;

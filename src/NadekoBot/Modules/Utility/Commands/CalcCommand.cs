@@ -16,15 +16,15 @@ namespace NadekoBot.Modules.Utility
     {
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public static async Task Calculate(IUserMessage msg, [Remainder] string expression)
+        public async Task Calculate([Remainder] string expression)
         {
             var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase);
             expr.EvaluateParameter += Expr_EvaluateParameter;
             var result = expr.Evaluate();
             if (expr.Error == null)
-                await msg.Channel.SendConfirmAsync("Result", $"{result}");
+                await Context.Channel.SendConfirmAsync("Result", $"{result}");
             else
-                await msg.Channel.SendErrorAsync($"⚙ Error", expr.Error);
+                await Context.Channel.SendErrorAsync($"⚙ Error", expr.Error);
         }
 
         private static void Expr_EvaluateParameter(string name, NCalc.ParameterArgs args)
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task CalcOps(IUserMessage msg)
+        public async Task CalcOps()
         {
             var selection = typeof(Math).GetTypeInfo().GetMethods().Except(typeof(object).GetTypeInfo().GetMethods()).Distinct(new MethodInfoEqualityComparer()).Select(x =>
             {
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility
                             "Equals",
                             "GetHashCode",
                             "GetType"});
-            await msg.Channel.SendConfirmAsync(string.Join(", ",selection));
+            await Context.Channel.SendConfirmAsync(string.Join(", ",selection));
         }
     }
 

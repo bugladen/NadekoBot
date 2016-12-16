@@ -469,7 +469,7 @@ namespace NadekoBot.Modules.Administration
                 if (msg == null || msg.IsAuthor())
                     return Task.CompletedTask;
 
-                var channel = msg.Channel as ITextChannel;
+                var channel = Context.Channel as ITextChannel;
                 if (channel == null)
                     return Task.CompletedTask;
 
@@ -488,7 +488,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        var str = $@"🕔`{prettyCurrentTime}`👤__**{msg.Author.Username}#{msg.Author.Discriminator}**__ **| Deleted Message |** 🆔 `{msg.Author.Id}` #⃣ `{channel.Name}`
+                        var str = $@"🕔`{prettyCurrentTime}`👤__**{Context.User.Username}#{Context.User.Discriminator}**__ **| Deleted Message |** 🆔 `{Context.User.Id}` #⃣ `{channel.Name}`
 🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
                         if (msg.Attachments.Any())
                             str += $"{Environment.NewLine}📎 {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
@@ -581,11 +581,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task LogServer(IUserMessage msg)
+            public async Task LogServer()
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 LogSetting logSetting;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -605,11 +605,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task LogIgnore(IUserMessage imsg)
+            public async Task LogIgnore()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 int removed;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -635,9 +635,9 @@ namespace NadekoBot.Modules.Administration
             //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
             //[OwnerOnly]
-            //public async Task LogAdd(IUserMessage msg, [Remainder] string eventName)
+            //public async Task LogAdd([Remainder] string eventName)
             //{
-            //    var channel = (ITextChannel)msg.Channel;
+            //    var channel = (ITextChannel)Context.Channel;
             //    //eventName = eventName?.Replace(" ","").ToLowerInvariant();
 
             //    switch (eventName.ToLowerInvariant())
@@ -669,9 +669,9 @@ namespace NadekoBot.Modules.Administration
 
             //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
-            //public async Task LogRemove(IUserMessage msg, string eventName)
+            //public async Task LogRemove(string eventName)
             //{
-            //    var channel = (ITextChannel)msg.Channel;
+            //    var channel = (ITextChannel)Context.Channel;
             //    eventName = eventName.ToLowerInvariant();
 
             //    switch (eventName)
@@ -704,10 +704,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
-            public async Task UserPresence(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task UserPresence()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -727,10 +727,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
-            public async Task VoicePresence(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task VoicePresence()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -754,7 +754,7 @@ namespace NadekoBot.Modules.Administration
             //[RequireContext(ContextType.Guild)]
             //public async Task VoiPresIgnore(IUserMessage imsg, IVoiceChannel voiceChannel)
             //{
-            //    var channel = (ITextChannel)imsg.Channel;
+            //    var channel = (ITextChannel)Context.Channel;
             //    int removed;
             //    using (var uow = DbHandler.UnitOfWork())
             //    {

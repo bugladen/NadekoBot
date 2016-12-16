@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IUserMessage umsg, string city, string country)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             city = city.Replace(" ", "");
             country = city.Replace(" ", "");
             string response;
@@ -47,14 +47,14 @@ namespace NadekoBot.Modules.Searches
                 .AddField(fb => fb.WithName("🌄 **Sunrise**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌇 **Sunset**").WithValue($"{obj["sunset"]}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
-            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Youtube(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
             var result = (await NadekoBot.Google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
@@ -72,10 +72,10 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Imdb(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
             var movie = await OmdbProvider.FindMovie(query);
             if (movie == null)
@@ -88,9 +88,9 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RandomCat(IUserMessage umsg)
+        public async Task RandomCat()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             using (var http = new HttpClient())
             {
                 var res = JObject.Parse(await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
@@ -100,9 +100,9 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RandomDog(IUserMessage umsg)
+        public async Task RandomDog()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             using (var http = new HttpClient())
             {
                 await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof")
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task I(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Ir(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
@@ -178,7 +178,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Lmgtfy(IUserMessage umsg, [Remainder] string ffs = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
 
             if (string.IsNullOrWhiteSpace(ffs))
@@ -190,7 +190,7 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Shorten(IUserMessage msg, [Remainder] string arg)
+        public async Task Shorten([Remainder] string arg)
         {
             if (string.IsNullOrWhiteSpace(arg))
                 return;
@@ -199,15 +199,14 @@ namespace NadekoBot.Modules.Searches
 
             if (shortened == arg)
             {
-                await msg.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
             }
 
-            await msg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                                            .AddField(efb => efb.WithName("Original Url")
                                                                                .WithValue($"<{arg}>"))
                                                             .AddField(efb => efb.WithName("Short Url")
-                                                                                .WithValue($"<{shortened}>"))
-                                                            .Build())
+                                                                                .WithValue($"<{shortened}>")))
                                                             .ConfigureAwait(false);
         }
 
@@ -215,7 +214,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
@@ -229,7 +228,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task MagicTheGathering(IUserMessage umsg, [Remainder] string name = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
@@ -237,7 +236,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
 
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string response = "";
             using (var http = new HttpClient())
             {
@@ -258,13 +257,13 @@ namespace NadekoBot.Modules.Searches
                     var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                     .WithTitle(item["name"].ToString())
                                     .WithDescription(desc)
-                                    .WithImage(eib => eib.WithUrl(img))
+                                    .WithImageUrl(img)
                                     .AddField(efb => efb.WithName("Store Url").WithValue(storeUrl).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Cost").WithValue(cost).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Types").WithValue(types).WithIsInline(true));
                                     //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
 
-                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                    await channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -277,7 +276,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Hearthstone(IUserMessage umsg, [Remainder] string name = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
@@ -291,7 +290,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
 
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string response = "";
             using (var http = new HttpClient())
             {
@@ -321,7 +320,7 @@ namespace NadekoBot.Modules.Searches
                         msg = "⚠ Found over 4 images. Showing random 4.";
                     }
                     var ms = new MemoryStream();
-                    images.Merge().SaveAsPng(ms);
+                    images.AsEnumerable().Merge().SaveAsPng(ms);
                     ms.Position = 0;
                     await channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
                 }
@@ -337,7 +336,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Yodify(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
@@ -351,7 +350,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendErrorAsync("Please enter a sentence.").ConfigureAwait(false);
                 return;
             }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
@@ -365,7 +364,7 @@ namespace NadekoBot.Modules.Searches
                         .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
                         .WithDescription(res)
                         .WithColor(NadekoBot.OkColor);
-                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                    await channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -378,7 +377,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task UrbanDict(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
@@ -392,7 +391,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendErrorAsync("Please enter a search term.").ConfigureAwait(false);
                 return;
             }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
@@ -409,7 +408,7 @@ namespace NadekoBot.Modules.Searches
                                      .WithUrl(link)
                                      .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
                                      .WithDescription(def);
-                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                    await channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -422,7 +421,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Hashtag(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -436,7 +435,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
 
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string res = "";
             using (var http = new HttpClient())
             {
@@ -456,8 +455,7 @@ namespace NadekoBot.Modules.Searches
                                                                  .WithAuthor(eab => eab.WithUrl(link)
                                                                                        .WithIconUrl("http://res.cloudinary.com/urbandictionary/image/upload/a_exif,c_fit,h_200,w_200/v1394975045/b8oszuu3tbq7ebyo7vo1.jpg")
                                                                                        .WithName(query))
-                                                                 .WithDescription(desc)
-                                                                 .Build());
+                                                                 .WithDescription(desc));
             }
             catch
             {
@@ -467,9 +465,9 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Catfact(IUserMessage umsg)
+        public async Task Catfact()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             using (var http = new HttpClient())
             {
                 var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
@@ -485,10 +483,10 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Revav(IUserMessage umsg, [Remainder] IUser usr = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (usr == null)
-                usr = umsg.Author;
+                usr = Context.User;
             await channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
         }
 
@@ -496,7 +494,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Revimg(IUserMessage umsg, [Remainder] string imageLink = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             imageLink = imageLink?.Trim() ?? "";
 
             if (string.IsNullOrWhiteSpace(imageLink))
@@ -508,7 +506,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
@@ -522,7 +520,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Wiki(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             query = query?.Trim();
             if (string.IsNullOrWhiteSpace(query))
@@ -542,7 +540,7 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Color(IUserMessage umsg, [Remainder] string color = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             color = color?.Trim().Replace("#", "");
             if (string.IsNullOrWhiteSpace((string)color))
@@ -562,11 +560,11 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Videocall(IUserMessage umsg, [Remainder] string arg = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             try
             {
-                var allUsrs = umsg.MentionedUsers.Append(umsg.Author);
+                var allUsrs = umsg.MentionedUsers.Append(Context.User);
                 var allUsrsArray = allUsrs.ToArray();
                 var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
                 str += new NadekoRandom().Next();
@@ -585,9 +583,9 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Avatar(IUserMessage umsg, [Remainder] string mention = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
-            var usr = umsg.MentionedUsers.FirstOrDefault();
+            var usr = umsg.MentionedUsers().FirstOrDefault();
             if (usr == null)
             {
                 await channel.SendErrorAsync("Invalid user specified.").ConfigureAwait(false);
@@ -616,13 +614,13 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
             {
                 await channel.SendErrorAsync("Please enter a target wikia, followed by search query.").ConfigureAwait(false);
                 return;
             }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
@@ -647,14 +645,14 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task MCPing(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
                 await channel.SendErrorAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
                 return;
             }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
@@ -684,14 +682,14 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task MCQ(IUserMessage umsg, [Remainder] string query = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
                 await channel.SendErrorAsync("Please enter `ip:port`.").ConfigureAwait(false);
                 return;
             }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();

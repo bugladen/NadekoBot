@@ -67,7 +67,7 @@ namespace NadekoBot.Services.Impl
         }
         public async Task<string> Print()
         {
-            var curUser = await client.GetCurrentUserAsync();
+            var curUser = await client.CurrentUser();
             return $@"
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]

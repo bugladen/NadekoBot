@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Permissions
 
             private async Task Blacklist(IUserMessage imsg, AddRemove action, ulong id, BlacklistType type)
             {
-                var channel = imsg.Channel;
+                var channel = Context.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {

@@ -16,7 +16,6 @@ using static NadekoBot.Modules.Gambling.Gambling;
 
 namespace NadekoBot.Modules.Pokemon
 {
-
     [NadekoModule("Pokemon", ">")]
     public partial class Pokemon : DiscordModule
     {
@@ -99,8 +98,8 @@ namespace NadekoBot.Modules.Pokemon
         [RequireContext(ContextType.Guild)]
         public async Task Attack(IUserMessage umsg, string move, IGuildUser targetUser = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            IGuildUser user = (IGuildUser)umsg.Author;
+            var channel = (ITextChannel)Context.Channel;
+            IGuildUser user = (IGuildUser)Context.User;
 
             if (string.IsNullOrWhiteSpace(move)) {
                 return;
@@ -215,10 +214,10 @@ namespace NadekoBot.Modules.Pokemon
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Movelist(IUserMessage umsg)
+        public async Task Movelist()
         {
-            var channel = (ITextChannel)umsg.Channel;
-            IGuildUser user = (IGuildUser)umsg.Author;
+            var channel = (ITextChannel)Context.Channel;
+            IGuildUser user = (IGuildUser)Context.User;
 
             var userType = GetPokeType(user.Id);
             var movesList = userType.Moves;
@@ -234,8 +233,8 @@ namespace NadekoBot.Modules.Pokemon
         [RequireContext(ContextType.Guild)]
         public async Task Heal(IUserMessage umsg, IGuildUser targetUser = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            IGuildUser user = (IGuildUser)umsg.Author;
+            var channel = (ITextChannel)Context.Channel;
+            IGuildUser user = (IGuildUser)Context.User;
 
             if (targetUser == null) {
                 await channel.SendMessageAsync("No such person.").ConfigureAwait(false);
@@ -293,8 +292,8 @@ namespace NadekoBot.Modules.Pokemon
         [RequireContext(ContextType.Guild)]
         public async Task Type(IUserMessage umsg, IGuildUser targetUser = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            IGuildUser user = (IGuildUser)umsg.Author;
+            var channel = (ITextChannel)Context.Channel;
+            IGuildUser user = (IGuildUser)Context.User;
 
             if (targetUser == null)
             {
@@ -310,13 +309,13 @@ namespace NadekoBot.Modules.Pokemon
         [RequireContext(ContextType.Guild)]
         public async Task Settype(IUserMessage umsg, [Remainder] string typeTargeted = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            IGuildUser user = (IGuildUser)umsg.Author;
+            var channel = (ITextChannel)Context.Channel;
+            IGuildUser user = (IGuildUser)Context.User;
 
             var targetType = StringToPokemonType(typeTargeted);
             if (targetType == null)
             {
-                await channel.EmbedAsync(PokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), (eb, pt) => eb.AddField(efb => efb.WithName(pt.Name).WithValue(pt.Icon).WithIsInline(true))).WithColor(NadekoBot.OkColor).Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(PokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), (eb, pt) => eb.AddField(efb => efb.WithName(pt.Name).WithValue(pt.Icon).WithIsInline(true))).WithColor(NadekoBot.OkColor)).ConfigureAwait(false);
                 return;
             }
             if (targetType == GetPokeType(user.Id))

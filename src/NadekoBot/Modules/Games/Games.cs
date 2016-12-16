@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task Choose(IUserMessage umsg, [Remainder] string list = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             if (string.IsNullOrWhiteSpace(list))
                 return;
             var listArr = list.Split(';');
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task _8Ball(IUserMessage umsg, [Remainder] string question = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (string.IsNullOrWhiteSpace(question))
                 return;
@@ -52,14 +52,14 @@ namespace NadekoBot.Modules.Games
             await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
                                .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false))
-                               .Build());
+                               );
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Rps(IUserMessage umsg, string input)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             Func<int,string> GetRPSPick = (p) =>
             {
@@ -98,9 +98,9 @@ namespace NadekoBot.Modules.Games
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
-                msg = $"{NadekoBot.Client.GetCurrentUser().Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
+                msg = $"{NadekoBot.Client.CurrentUser().Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
             else
-                msg = $"{umsg.Author.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
+                msg = $"{Context.User.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
 
             await channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task Linux(IUserMessage umsg, string guhnoo, string loonix)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             await channel.SendConfirmAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.

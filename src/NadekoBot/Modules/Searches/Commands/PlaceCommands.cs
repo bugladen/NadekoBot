@@ -11,7 +11,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class PlaceCommands
+        public class PlaceCommands : ModuleBase
         {
             string typesStr { get; } = "";
             public PlaceCommands()
@@ -33,11 +33,9 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Placelist(IUserMessage imsg)
+            public async Task Placelist()
             {
-                var channel = (ITextChannel)imsg.Channel;
-
-                await channel.SendConfirmAsync(typesStr)
+                await Context.Channel.SendConfirmAsync(typesStr)
                              .ConfigureAwait(false);
             }
 
@@ -45,8 +43,6 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Place(IUserMessage imsg, PlaceType placeType, uint width = 0, uint height = 0)
             {
-                var channel = (ITextChannel)imsg.Channel;
-
                 string url = "";
                 switch (placeType)
                 {
@@ -84,7 +80,7 @@ namespace NadekoBot.Modules.Searches
 
                 url += $"/{width}/{height}";
 
-                await channel.SendMessageAsync(url).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync(url).ConfigureAwait(false);
             }
         }
     }

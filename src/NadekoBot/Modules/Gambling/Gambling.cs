@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task Raffle(IUserMessage umsg, [Remainder] IRole role = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             role = role ?? channel.Guild.EveryoneRole;
 
@@ -58,9 +58,9 @@ namespace NadekoBot.Modules.Gambling
         [Priority(0)]
         public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
         {
-            var channel = umsg.Channel;
+            var channel = Context.Channel;
 
-            user = user ?? umsg.Author;
+            user = user ?? Context.User;
 
             await channel.SendConfirmAsync($"{user.Username} has {GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Gambling
         [Priority(1)]
         public async Task Cash(IUserMessage umsg, ulong userId)
         {
-            var channel = umsg.Channel;
+            var channel = Context.Channel;
 
             await channel.SendConfirmAsync($"`{userId}` has {GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
         }
@@ -78,17 +78,17 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
         {
-            var channel = (ITextChannel)umsg.Channel;
-            if (amount <= 0 || umsg.Author.Id == receiver.Id)
+            var channel = (ITextChannel)Context.Channel;
+            if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
-            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
+            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
             if (!success)
             {
-                await channel.SendErrorAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
+                await channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
-            await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {umsg.Author.Username} ({umsg.Author.Id}).", amount, true).ConfigureAwait(false);
-            await channel.SendConfirmAsync($"{umsg.Author.Mention} successfully sent {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
+            await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
+            await channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -104,14 +104,14 @@ namespace NadekoBot.Modules.Gambling
         [Priority(1)]
         public async Task Award(IUserMessage umsg, int amount, ulong usrId)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (amount <= 0)
                 return;
 
-            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false);
+            await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false);
 
-            await channel.SendConfirmAsync($"{umsg.Author.Mention} successfully awarded {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to <@{usrId}>!").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"{Context.User.Mention} successfully awarded {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to <@{usrId}>!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -120,12 +120,12 @@ namespace NadekoBot.Modules.Gambling
         [Priority(0)]
         public async Task Award(IUserMessage umsg, int amount, [Remainder] IRole role)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             var users = channel.Guild.GetUsers()
                                .Where(u => u.Roles.Contains(role))
                                .ToList();
             await Task.WhenAll(users.Select(u => CurrencyHandler.AddCurrencyAsync(u.Id,
-                                                      $"Awarded by bot owner to **{role.Name}** role. ({umsg.Author.Username}/{umsg.Author.Id})",
+                                                      $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})",
                                                       amount)))
                          .ConfigureAwait(false);
 
@@ -139,14 +139,14 @@ namespace NadekoBot.Modules.Gambling
         [OwnerOnly]
         public async Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             if (amount <= 0)
                 return;
 
-            if(await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount, true).ConfigureAwait(false))
-                await channel.SendConfirmAsync($"{umsg.Author.Mention} successfully took {amount} {(amount == 1? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user}!").ConfigureAwait(false);
+            if(await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
+                await channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user}!").ConfigureAwait(false);
             else
-                await channel.SendErrorAsync($"{umsg.Author.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+                await channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
 
@@ -155,31 +155,31 @@ namespace NadekoBot.Modules.Gambling
         [OwnerOnly]
         public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             if (amount <= 0)
                 return;
 
-            if(await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({umsg.Author.Username}/{umsg.Author.Id})", amount).ConfigureAwait(false))
-                await channel.SendConfirmAsync($"{umsg.Author.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
+            if(await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
+                await channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
             else
-                await channel.SendErrorAsync($"{umsg.Author.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+                await channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task BetRoll(IUserMessage umsg, long amount)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             if (amount < 1)
                 return;
 
-            var guildUser = (IGuildUser)umsg.Author;
+            var guildUser = (IGuildUser)Context.User;
 
             long userFlowers;
             using (var uow = DbHandler.UnitOfWork())
             {
-                userFlowers = uow.Currency.GetOrCreate(umsg.Author.Id).Amount;
+                userFlowers = uow.Currency.GetOrCreate(Context.User.Id).Amount;
             }
 
             if (userFlowers < amount)
@@ -217,9 +217,9 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Leaderboard(IUserMessage umsg)
+        public async Task Leaderboard()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             IEnumerable<Currency> richest = new List<Currency>();
             using (var uow = DbHandler.UnitOfWork())

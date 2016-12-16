@@ -35,17 +35,17 @@ namespace NadekoBot.Modules.Help
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Modules(IUserMessage umsg)
+        public async Task Modules()
         {
 
-            await umsg.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
+            await Context.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
                                        .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Commands(IUserMessage umsg, [Remainder] string module = null)
         {
-            var channel = umsg.Channel;
+            var channel = Context.Channel;
 
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
@@ -75,12 +75,12 @@ namespace NadekoBot.Modules.Help
         [NadekoCommand, Usage, Description, Aliases]
         public async Task H(IUserMessage umsg, [Remainder] string comToFind = null)
         {
-            var channel = umsg.Channel;
+            var channel = Context.Channel;
 
             comToFind = comToFind?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(comToFind))
             {
-                IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)umsg.Author).CreateDMChannelAsync() : channel;
+                IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)Context.User).CreateDMChannelAsync() : channel;
                 await ch.SendMessageAsync(HelpString).ConfigureAwait(false);
                 return;
             }
@@ -99,18 +99,18 @@ namespace NadekoBot.Modules.Help
                 .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)} { GetCommandRequirements(com)}").WithIsInline(true))
                 .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
                 .WithColor(NadekoBot.OkColor);
-            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         private string GetCommandRequirements(Command cmd)
         {
             return String.Join(" ", cmd.Source.CustomAttributes
-                      .Where(ca => ca.AttributeType == typeof(OwnerOnlyAttribute) || ca.AttributeType == typeof(RequirePermissionAttribute))
+                      .Where(ca => ca.AttributeType == typeof(OwnerOnlyAttribute) || ca.AttributeType == typeof(RequireUserPermissionAttribute))
                       .Select(ca =>
                       {
                           if (ca.AttributeType == typeof(OwnerOnlyAttribute))
                               return "**Bot Owner only.**";
-                          else if (ca.AttributeType == typeof(RequirePermissionAttribute))
+                          else if (ca.AttributeType == typeof(RequireUserPermissionAttribute))
                               return $"**Requires {(GuildPermission)ca.ConstructorArguments.FirstOrDefault().Value} server permission.**".Replace("Guild", "Server");
                           else
                               return $"**Requires {(GuildPermission)ca.ConstructorArguments.FirstOrDefault().Value} channel permission.**".Replace("Guild", "Server");
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Help
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public Task Hgit(IUserMessage umsg)
+        public Task Hgit()
         {
             var helpstr = new StringBuilder();
             helpstr.AppendLine("You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: <https://www.paypal.me/Kwoth>\n");
@@ -145,16 +145,16 @@ namespace NadekoBot.Modules.Help
                 }
                 helpstr.AppendLine($"`{com.Text}` {string.Join(" ", com.Aliases.Skip(1).Select(a=>"`"+a+"`"))} | {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)} | {string.Format(com.Remarks, com.Module.Prefix)}");
             }
-            helpstr = helpstr.Replace(NadekoBot.Client.GetCurrentUser().Username , "@BotName");
+            helpstr = helpstr.Replace(NadekoBot.Client.CurrentUser().Username , "@BotName");
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
             return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Guide(IUserMessage umsg)
+        public async Task Guide()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             await channel.SendConfirmAsync(
 @"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
@@ -163,9 +163,9 @@ namespace NadekoBot.Modules.Help
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Donate(IUserMessage umsg)
+        public async Task Donate()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             await channel.SendConfirmAsync(
 $@"You can support the NadekoBot project on patreon. <https://patreon.com/nadekobot> or

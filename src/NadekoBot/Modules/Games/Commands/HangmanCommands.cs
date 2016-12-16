@@ -36,19 +36,19 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Hangmanlist(IUserMessage imsg)
+            public async Task Hangmanlist()
             {
-                await imsg.Channel.SendConfirmAsync(typesStr);
+                await Context.Channel.SendConfirmAsync(typesStr);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Hangman(IUserMessage imsg, HangmanTermPool.HangmanTermType type = HangmanTermPool.HangmanTermType.All)
             {
-                var hm = new HangmanGame(imsg.Channel, type);
+                var hm = new HangmanGame(Context.Channel, type);
 
-                if (!HangmanGames.TryAdd(imsg.Channel.Id, hm))
+                if (!HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {
-                    await imsg.Channel.SendErrorAsync("Hangman game already running on this channel.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Hangman game already running on this channel.").ConfigureAwait(false);
                     return;
                 }
 
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Games
                 };
                 hm.Start();
 
-                await imsg.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman() + "\n" + hm.ScrambledWord);
+                await Context.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman() + "\n" + hm.ScrambledWord);
             }
         }
     }

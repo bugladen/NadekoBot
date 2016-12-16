@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class RemindCommands
+        public class RemindCommands : ModuleBase
         {
 
             Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
@@ -62,14 +62,16 @@ namespace NadekoBot.Modules.Utility
                 await Task.Delay(time);
                 try
                 {
-                    IMessageChannel ch;
+                    IMessageChannel ch = null;
                     if (r.IsPrivate)
                     {
                         ch = await NadekoBot.Client.GetDMChannelAsync(r.ChannelId).ConfigureAwait(false);
                     }
                     else
                     {
-                        ch = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
+                        var t = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannelAsync(r.ChannelId).ConfigureAwait(false);
+                        if (t != null)
+                            ch = await t.Value;
                     }
                     if (ch == null)
                         return;
@@ -101,16 +103,14 @@ namespace NadekoBot.Modules.Utility
             [Priority(1)]
             public async Task Remind(IUserMessage umsg, MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 IMessageChannel target;
                 if (meorhere == MeOrHere.Me)
                 {
-                    target = await ((IGuildUser)umsg.Author).CreateDMChannelAsync().ConfigureAwait(false);
+                    target = await ((IGuildUser)Context.User).CreateDMChannelAsync().ConfigureAwait(false);
                 }
                 else
                 {
-                    target = channel;
+                    target = Context.Channel;
                 }
                 await Remind(umsg, target, timeStr, message).ConfigureAwait(false);
             }
@@ -120,11 +120,11 @@ namespace NadekoBot.Modules.Utility
             [Priority(0)]
             public async Task Remind(IUserMessage umsg, IMessageChannel ch, string timeStr, [Remainder] string message)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (ch == null)
                 {
-                    await channel.SendErrorAsync($"{umsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{Context.User.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
                     return;
                 }
 
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Utility
                     IsPrivate = ch is IDMChannel,
                     When = time,
                     Message = message,
-                    UserId = umsg.Author.Id,
+                    UserId = Context.User.Id,
                     ServerId = channel.Guild.Id
                 };
 
@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                try { await channel.SendConfirmAsync($"⏰ I will remind **\"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\"** to **\"{message.SanitizeMentions()}\"** in **{output}** `({time:d.M.yyyy.} at {time:HH:mm})`").ConfigureAwait(false); } catch { }
+                try { await channel.SendConfirmAsync($"⏰ I will remind **\"{(ch is ITextChannel ? ((ITextChannel)ch).Name : Context.User.Username)}\"** to **\"{message.SanitizeMentions()}\"** in **{output}** `({time:d.M.yyyy.} at {time:HH:mm})`").ConfigureAwait(false); } catch { }
                 await StartReminder(rem);
             }
             
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Utility
             [OwnerOnly]
             public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (string.IsNullOrWhiteSpace(arg))
                     return;

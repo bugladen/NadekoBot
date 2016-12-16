@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class OverwatchCommands
+        public class OverwatchCommands : ModuleBase
         {
             private Logger _log;
             public OverwatchCommands()
@@ -27,7 +27,6 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Overwatch(IUserMessage umsg, string region, [Remainder] string query = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
                 if (string.IsNullOrWhiteSpace(query))
                     return;
                 var battletag = Regex.Replace(query, "#", "-", RegexOptions.IgnoreCase);
@@ -43,7 +42,7 @@ namespace NadekoBot.Modules.Searches
                             .WithAuthor(eau => eau.WithName($"{model.username}")
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             .WithIconUrl($"{model.avatar}"))
-                            .WithThumbnail(th => th.WithUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
+                            .WithThumbnailUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png")
                             .AddField(fb => fb.WithName("**Level**").WithValue($"{model.level}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Games.Competitive.wins}").WithIsInline(true))
@@ -53,7 +52,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
-                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                        await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                     else
                     {
@@ -61,7 +60,7 @@ namespace NadekoBot.Modules.Searches
                             .WithAuthor(eau => eau.WithName($"{model.username}")
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             .WithIconUrl($"{model.avatar}"))
-                            .WithThumbnail(th => th.WithUrl(rankimg))
+                            .WithThumbnailUrl(rankimg)
                             .AddField(fb => fb.WithName("**Level**").WithValue($"{model.level}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Games.Competitive.wins}").WithIsInline(true))
@@ -71,32 +70,32 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
-                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                        await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                         return;
                     }
                 }
                 catch
                 {
-                    await channel.SendErrorAsync("Found no user! Please check the **Region** and **BattleTag** before trying again.");
+                    await Context.Channel.SendErrorAsync("Found no user! Please check the **Region** and **BattleTag** before trying again.");
                 }
             }
-			public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
-			{
-				try
-				{
-					using (var http = new HttpClient())
-					{
-						var Url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
-						var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(Url);
-						return model.data;
-					}
-				}
-				catch
-				{
-					return null;
-				}
-			}
-			
-		}
+            public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
+            {
+                try
+                {
+                    using (var http = new HttpClient())
+                    {
+                        var Url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
+                        var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(Url);
+                        return model.data;
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            
+        }
     }
 }

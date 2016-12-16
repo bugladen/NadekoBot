@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Permissions
         }
 
         [Group]
-        public class CmdCdsCommands
+        public class CmdCdsCommands : ModuleBase
         {
             public static ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> commandCooldowns { get; }
             private static ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> activeCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
@@ -36,9 +36,9 @@ namespace NadekoBot.Modules.Permissions
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task CmdCooldown(IUserMessage imsg, Command command, int secs)
+            public async Task CmdCooldown(IUserMessage imsg, CommandInfo command, int secs)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 if (secs < 0 || secs > 3600)
                 {
                     await channel.SendErrorAsync("Invalid second parameter. (Must be a number between 0 and 3600)").ConfigureAwait(false);
@@ -50,8 +50,8 @@ namespace NadekoBot.Modules.Permissions
                     var config = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                     var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
-                    config.CommandCooldowns.RemoveWhere(cc => cc.CommandName == command.Text.ToLowerInvariant());
-                    localSet.RemoveWhere(cc => cc.CommandName == command.Text.ToLowerInvariant());
+                    config.CommandCooldowns.RemoveWhere(cc => cc.CommandName == command.Aliases.First().ToLowerInvariant());
+                    localSet.RemoveWhere(cc => cc.CommandName == command.Aliases.First().ToLowerInvariant());
                     if (secs != 0)
                     {
                         var cc = new CommandCooldown()
@@ -80,9 +80,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task AllCmdCooldowns(IUserMessage imsg)
+            public async Task AllCmdCooldowns()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 var localSet = commandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 if (!localSet.Any())

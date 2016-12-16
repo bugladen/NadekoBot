@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games
 
             private Task AnswerReceived(IMessage imsg)
             {
-                if (imsg.Author.IsBot)
+                if (Context.User.IsBot)
                     return Task.CompletedTask;
                 var msg = imsg as IUserMessage;
                 if (msg == null)
@@ -122,16 +122,16 @@ namespace NadekoBot.Modules.Games
 
                         var distance = CurrentSentence.LevenshteinDistance(guess);
                         var decision = Judge(distance, guess.Length);
-                        if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                        if (decision && !finishedUserIds.Contains(Context.User.Id))
                         {
                             var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
-                            finishedUserIds.Add(msg.Author.Id);
+                            finishedUserIds.Add(Context.User.Id);
                             await Extensions.Extensions.EmbedAsync(this.Channel, (Discord.API.Embed)new EmbedBuilder().WithColor((uint)NadekoBot.OkColor)
-                                .WithTitle((string)$"{msg.Author} finished the race!")
+                                .WithTitle((string)$"{Context.User} finished the race!")
                                 .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
                                 .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.Seconds.ToString()}sec]*").WithIsInline(true))
                                 .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true))
-                                .Build()).ConfigureAwait(false);
+                                ).ConfigureAwait(false);
                             if (finishedUserIds.Count % 4 == 0)
                             {
                                 await Extensions.Extensions.SendConfirmAsync(this.Channel, (string)$":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize((string)CurrentSentence.Replace((string)" ", (string)" \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
@@ -168,9 +168,9 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task TypeStart(IUserMessage msg)
+            public async Task TypeStart()
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var game = RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(channel));
 
@@ -189,9 +189,9 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task TypeStop(IUserMessage imsg)
+            public async Task TypeStop()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 TypingGame game;
                 if (RunningContests.TryRemove(channel.Guild.Id, out game))
                 {
@@ -207,11 +207,11 @@ namespace NadekoBot.Modules.Games
             [OwnerOnly]
             public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TypingArticles.Add(new TypingArticle
                 {
-                    Title = $"Text added on {DateTime.UtcNow} by {imsg.Author}",
+                    Title = $"Text added on {DateTime.UtcNow} by {Context.User}",
                     Text = text.SanitizeMentions(),
                 });
 
@@ -224,7 +224,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Typelist(IUserMessage imsg, int page = 1)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (page < 1)
                     return;
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Games
 
                 if (!articles.Any())
                 {
-                    await channel.SendErrorAsync($"{imsg.Author.Mention} `No articles found on that page.`").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{Context.User.Mention} `No articles found on that page.`").ConfigureAwait(false);
                     return;
                 }
                 var i = (page - 1) * 15;
@@ -246,7 +246,7 @@ namespace NadekoBot.Modules.Games
             [OwnerOnly]
             public async Task Typedel(IUserMessage imsg, int index)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 index -= 1;
                 if (index < 0 || index >= TypingArticles.Count)

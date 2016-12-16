@@ -60,10 +60,10 @@ namespace NadekoBot.Modules.Games
             private static Task PotentialFlowerGeneration(IMessage imsg)
             {
                 var msg = imsg as IUserMessage;
-                if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
+                if (msg == null || msg.IsAuthor() || Context.User.IsBot)
                     return Task.CompletedTask;
 
-                var channel = imsg.Channel as ITextChannel;
+                var channel = Context.Channel as ITextChannel;
                 if (channel == null)
                     return Task.CompletedTask;
 
@@ -99,9 +99,9 @@ namespace NadekoBot.Modules.Games
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Pick(IUserMessage imsg)
+            public async Task Pick()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
                 {
@@ -117,8 +117,8 @@ namespace NadekoBot.Modules.Games
 
                 await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
-                var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                 var t = Task.Run(async () =>
                 {
                     await Task.Delay(10000).ConfigureAwait(false);
@@ -128,11 +128,11 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Plant(IUserMessage imsg)
+            public async Task Plant()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, false).ConfigureAwait(false);
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, "Planted a flower.", 1, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await channel.SendErrorAsync($"You don't have any {Gambling.Gambling.CurrencyPluralName}.").ConfigureAwait(false);
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
                 
-                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
+                var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {
                     msg = await channel.SendConfirmAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
@@ -157,10 +157,10 @@ namespace NadekoBot.Modules.Games
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task GenCurrency(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task GenCurrency()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())

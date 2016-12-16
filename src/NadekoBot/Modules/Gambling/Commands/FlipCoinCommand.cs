@@ -23,13 +23,13 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Flip(IUserMessage imsg, int count = 1)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await channel.SendFileAsync(headsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(headsPath, $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
                     else
-                        await channel.SendFileAsync(tailsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(tailsPath, $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
                     return;
                 }
                 if (count > 10 || count < 1)
@@ -51,8 +51,8 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Betflip(IUserMessage umsg, int amount, string guess)
             {
-                var channel = (ITextChannel)umsg.Channel;
-                var guildUser = (IGuildUser)umsg.Author;
+                var channel = (ITextChannel)Context.Channel;
+                var guildUser = (IGuildUser)Context.User;
                 var guessStr = guess.Trim().ToUpperInvariant();
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
                     return;
@@ -67,12 +67,12 @@ namespace NadekoBot.Modules.Gambling
                 long userFlowers;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    userFlowers = uow.Currency.GetOrCreate(umsg.Author.Id).Amount;
+                    userFlowers = uow.Currency.GetOrCreate(Context.User.Id).Amount;
                 }
 
                 if (userFlowers < amount)
                 {
-                    await channel.SendErrorAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                     return;
                 }
 
@@ -97,12 +97,12 @@ namespace NadekoBot.Modules.Gambling
                 if (isHeads == result)
                 { 
                     var toWin = (int)Math.Round(amount * 1.8);
-                    str = $"{umsg.Author.Mention}`You guessed it!` You won {toWin}{Gambling.CurrencySign}";
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)umsg.Author, "Betflip Gamble", toWin, false).ConfigureAwait(false);
+                    str = $"{Context.User.Mention}`You guessed it!` You won {toWin}{Gambling.CurrencySign}";
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }
                 else
                 {
-                    str = $"{umsg.Author.Mention}`Better luck next time.`";
+                    str = $"{Context.User.Mention}`Better luck next time.`";
                 }
 
                 await channel.SendFileAsync(imgPathToSend, str).ConfigureAwait(false);
