@@ -112,16 +112,16 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Pause(IUserMessage umsg)
+        public Task Pause(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
             musicPlayer.TogglePause();
-	    
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

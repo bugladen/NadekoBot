@@ -221,7 +221,7 @@ namespace NadekoBot.Modules.Gambling
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            IEnumerable<Currency> richest;
+            IEnumerable<Currency> richest = new List<Currency>();
             using (var uow = DbHandler.UnitOfWork())
             {
                 richest = uow.Currency.GetTopRichest(10);
@@ -235,7 +235,7 @@ $@"```xl
 ┃        Id           ┃  $$$   ┃
 "),
                 (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
-┃{(channel.Guild.GetUser(cs.UserId)?.Username.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
+┃{(channel.Guild.GetUser(cs.UserId)?.Username?.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
                         ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
         }
     }
