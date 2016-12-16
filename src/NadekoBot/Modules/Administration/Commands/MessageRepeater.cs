@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Administration
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
                             if (oldMsg != null)
                                 try { await oldMsg.DeleteAsync(); } catch { }
-                            try { oldMsg = await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
+                            try { oldMsg = await Context.Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
                         }
                     }
                     catch (OperationCanceledException) { }
@@ -84,16 +84,16 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 RepeatRunner rep;
                 if (!repeaters.TryGetValue(channel.Id, out rep))
                 {
-                    await channel.SendErrorAsync("ℹ️ **No repeating message found on this server.**").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("ℹ️ **No repeating message found on this server.**").ConfigureAwait(false);
                     return;
                 }
                 rep.Reset();
-                await channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync("🔄 " + rep.Repeater.Message).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Repeat()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 RepeatRunner rep;
                 if (repeaters.TryRemove(channel.Id, out rep))
                 {
@@ -111,10 +111,10 @@ namespace NadekoBot.Modules.Administration
                         await uow.CompleteAsync();
                     }
                     rep.Stop();
-                    await channel.SendConfirmAsync("✅ **Stopped repeating a message.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("✅ **Stopped repeating a message.**").ConfigureAwait(false);
                 }
                 else
-                    await channel.SendConfirmAsync("ℹ️ **No message is repeating.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **No message is repeating.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
                 if (minutes < 1 || minutes > 10080)
                     return;
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Administration
                         var localRep = new Repeater
                         {
                             ChannelId = channel.Id,
-                            GuildId = channel.Guild.Id,
+                            GuildId = Context.Guild.Id,
                             Interval = TimeSpan.FromMinutes(minutes),
                             Message = message,
                         };
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Administration
                     return old;
                 });
 
-                await channel.SendConfirmAsync($"🔁 Repeating **\"{rep.Repeater.Message}\"** every `{rep.Repeater.Interval.Days} day(s), {rep.Repeater.Interval.Hours} hour(s) and {rep.Repeater.Interval.Minutes} minute(s)`.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"🔁 Repeating **\"{rep.Repeater.Message}\"** every `{rep.Repeater.Interval.Days} day(s), {rep.Repeater.Interval.Hours} hour(s) and {rep.Repeater.Interval.Minutes} minute(s)`.").ConfigureAwait(false);
             }
         }
     }

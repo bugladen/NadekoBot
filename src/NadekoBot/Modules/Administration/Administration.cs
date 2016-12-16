@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Administration
                 bool shouldDelete;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id, set => set).DeleteMessageOnCommand;
+                    shouldDelete = uow.GuildConfigs.For(Context.Guild.Id, set => set).DeleteMessageOnCommand;
                 }
 
                 if (shouldDelete)

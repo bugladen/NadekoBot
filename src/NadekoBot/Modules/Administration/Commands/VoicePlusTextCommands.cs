@@ -110,13 +110,13 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageChannels)]
             public async Task VoicePlusText()
             {
-                var channel = (ITextChannel)Context.Channel;
-                var guild = channel.Guild;
+                //var channel = (ITextChannel)Context.Channel;
+                var guild = Context.Guild;
 
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
-                    await channel.SendErrorAsync("I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
+                    await Context.Channel.SendErrorAsync("I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
                     return;
                 }
 
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await channel.SendErrorAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
+                        await Context.Channel.SendErrorAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
                       "`This may cause some issues, and you will have to clean up text channels yourself afterwards.`");
                     }
                     catch { }
@@ -145,16 +145,16 @@ namespace NadekoBot.Modules.Administration
                         {
                             try { await textChannel.DeleteAsync().ConfigureAwait(false); } catch { }
                         }
-                        await channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
+                        await Context.Channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
                         return;
                     }
                     voicePlusTextCache.Add(guild.Id);
-                    await channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
 
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
             [NadekoCommand, Usage, Description, Aliases]
@@ -163,12 +163,12 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task CleanVPlusT()
             {
-                var channel = (ITextChannel)Context.Channel;
-                var guild = channel.Guild;
+                //var channel = (ITextChannel)Context.Channel;
+                var guild = Context.Guild;
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.Administrator)
                 {
-                    await channel.SendErrorAsync("I need **Administrator permission** to do that.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("I need **Administrator permission** to do that.").ConfigureAwait(false);
                     return;
                 }
 
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendConfirmAsync("Cleaned v+t.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Cleaned v+t.").ConfigureAwait(false);
             }
         }
     }

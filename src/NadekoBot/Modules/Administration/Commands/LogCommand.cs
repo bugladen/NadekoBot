@@ -469,19 +469,19 @@ namespace NadekoBot.Modules.Administration
                 if (msg == null || msg.IsAuthor())
                     return Task.CompletedTask;
 
-                var channel = Context.Channel as ITextChannel;
+                //var channel = Context.Channel as ITextChannel;
                 if (channel == null)
                     return Task.CompletedTask;
 
                 LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                if (!GuildLogSettings.TryGetValue(Context.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
                     || !logSetting.MessageDeleted
                     || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting)) == null || logChannel.Id == msg.Id)
+                if ((logChannel = TryGetLogChannel(Context.Guild, logSetting)) == null || logChannel.Id == msg.Id)
                     return Task.CompletedTask;
 
                 var task = Task.Run(async () =>
@@ -510,19 +510,19 @@ namespace NadekoBot.Modules.Administration
                 if (before == null)
                     return Task.CompletedTask;
 
-                var channel = after.Channel as ITextChannel;
+                //var channel = after.Channel as ITextChannel;
                 if (channel == null)
                     return Task.CompletedTask;
 
                 LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                if (!GuildLogSettings.TryGetValue(Context.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
                     || !logSetting.MessageUpdated
                     || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting)) == null || logChannel.Id == after.Channel.Id)
+                if ((logChannel = TryGetLogChannel(Context.Guild, logSetting)) == null || logChannel.Id == after.Channel.Id)
                     return Task.CompletedTask;
 
                 var task = Task.Run(async () =>
@@ -553,7 +553,7 @@ namespace NadekoBot.Modules.Administration
                         id = logSetting.UserPresenceChannelId;
                         break;
                 }
-                var channel = guild.GetTextChannel(id);
+                //var channel = guild.GetTextChannel(id);
 
                 if (channel == null)
                     using (var uow = DbHandler.UnitOfWork())
@@ -585,12 +585,12 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogServer()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 LogSetting logSetting;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
-                    GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+                    logSetting = uow.GuildConfigs.For(Context.Guild.Id).LogSetting;
+                    GuildLogSettings.AddOrUpdate(Context.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     logSetting.IsLogging = !logSetting.IsLogging;
                     if (logSetting.IsLogging)
                         logSetting.ChannelId = channel.Id;
@@ -598,9 +598,9 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (logSetting.IsLogging)
-                    await channel.SendMessageAsync("✅ **Logging enabled.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("✅ **Logging enabled.**").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("ℹ️ **Logging disabled.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("ℹ️ **Logging disabled.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -609,12 +609,12 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogIgnore()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 int removed;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var config = uow.GuildConfigs.For(channel.Guild.Id);
-                    LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
+                    var config = uow.GuildConfigs.For(Context.Guild.Id);
+                    LogSetting logSetting = GuildLogSettings.GetOrAdd(Context.Guild.Id, (id) => config.LogSetting);
                     removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     if (removed == 0)
@@ -627,9 +627,9 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (removed == 0)
-                    await channel.SendMessageAsync($"🆗 Logging will **now ignore** #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"🆗 Logging will **now ignore** #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync($"ℹ️ Logging will **no longer ignore** #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"ℹ️ Logging will **no longer ignore** #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
             }
 
             //[LocalizedCommand, LocalizedRemarks, LocalizedSummary, LocalizedAlias]
@@ -637,7 +637,7 @@ namespace NadekoBot.Modules.Administration
             //[OwnerOnly]
             //public async Task LogAdd([Remainder] string eventName)
             //{
-            //    var channel = (ITextChannel)Context.Channel;
+            //    //var channel = (ITextChannel)Context.Channel;
             //    //eventName = eventName?.Replace(" ","").ToLowerInvariant();
 
             //    switch (eventName.ToLowerInvariant())
@@ -653,16 +653,16 @@ namespace NadekoBot.Modules.Administration
             //        case "channelupdated":
             //            using (var uow = DbHandler.UnitOfWork())
             //            {
-            //                var logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
-            //                GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+            //                var logSetting = uow.GuildConfigs.For(Context.Guild.Id).LogSetting;
+            //                GuildLogSettings.AddOrUpdate(Context.Guild.Id, (id) => logSetting, (id, old) => logSetting);
             //                var prop = logSetting.GetType().GetProperty(eventName);
             //                prop.SetValue(logSetting, true);
             //                await uow.CompleteAsync().ConfigureAwait(false);
             //            }
-            //            await channel.SendMessageAsync($"`Now logging {eventName} event.`").ConfigureAwait(false);
+            //            await Context.Channel.SendMessageAsync($"`Now logging {eventName} event.`").ConfigureAwait(false);
             //            break;
             //        default:
-            //            await channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
+            //            await Context.Channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
             //            break;
             //    }
             //}
@@ -671,7 +671,7 @@ namespace NadekoBot.Modules.Administration
             //[RequireContext(ContextType.Guild)]
             //public async Task LogRemove(string eventName)
             //{
-            //    var channel = (ITextChannel)Context.Channel;
+            //    //var channel = (ITextChannel)Context.Channel;
             //    eventName = eventName.ToLowerInvariant();
 
             //    switch (eventName)
@@ -688,16 +688,16 @@ namespace NadekoBot.Modules.Administration
             //        case "channelupdated":
             //            using (var uow = DbHandler.UnitOfWork())
             //            {
-            //                var config = uow.GuildConfigs.For(channel.Guild.Id);
-            //                LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
+            //                var config = uow.GuildConfigs.For(Context.Guild.Id);
+            //                LogSetting logSetting = GuildLogSettings.GetOrAdd(Context.Guild.Id, (id) => config.LogSetting);
             //                logSetting.GetType().GetProperty(eventName).SetValue(logSetting, false);
             //                config.LogSetting = logSetting;
             //                await uow.CompleteAsync().ConfigureAwait(false);
             //            }
-            //            await channel.SendMessageAsync($"`No longer logging {eventName} event.`").ConfigureAwait(false);
+            //            await Context.Channel.SendMessageAsync($"`No longer logging {eventName} event.`").ConfigureAwait(false);
             //            break;
             //        default:
-            //            await channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
+            //            await Context.Channel.SendMessageAsync($"`Event \"{eventName}\" not found.`").ConfigureAwait(false);
             //            break;
             //    }
             //}
@@ -707,12 +707,12 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task UserPresence()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var logSetting = uow.GuildConfigs.For(channel.Guild.Id).LogSetting;
-                    GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+                    var logSetting = uow.GuildConfigs.For(Context.Guild.Id).LogSetting;
+                    GuildLogSettings.AddOrUpdate(Context.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     enabled = logSetting.LogUserPresence = !logSetting.LogUserPresence;
                     if(enabled)
                         logSetting.UserPresenceChannelId = channel.Id;
@@ -720,9 +720,9 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (enabled)
-                    await channel.SendMessageAsync($"✅ Logging **user presence** updates in #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"✅ Logging **user presence** updates in #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync($"ℹ️ Stopped logging **user presence** updates.").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"ℹ️ Stopped logging **user presence** updates.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -730,14 +730,14 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task VoicePresence()
             {
-                var channel = (ITextChannel)Context.Channel;
+                //var channel = (ITextChannel)Context.Channel;
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var logSetting = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.LogSetting)
+                    var logSetting = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(gc => gc.LogSetting)
                                                                                       .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds))
                                                                                             .LogSetting;
-                    GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+                    GuildLogSettings.AddOrUpdate(Context.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     enabled = logSetting.LogVoicePresence = !logSetting.LogVoicePresence;
                     if (enabled)
                         logSetting.VoicePresenceChannelId = channel.Id;
@@ -745,21 +745,21 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 if (enabled)
-                    await channel.SendMessageAsync($"✅ Logging **voice presence** updates in #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"✅ Logging **voice presence** updates in #⃣ `{channel.Name} ({channel.Id})`").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync($"ℹ️ Stopped logging **voice presence** updates.").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync($"ℹ️ Stopped logging **voice presence** updates.").ConfigureAwait(false);
             }
 
             //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
             //public async Task VoiPresIgnore(IUserMessage imsg, IVoiceChannel voiceChannel)
             //{
-            //    var channel = (ITextChannel)Context.Channel;
+            //    //var channel = (ITextChannel)Context.Channel;
             //    int removed;
             //    using (var uow = DbHandler.UnitOfWork())
             //    {
-            //        var config = uow.GuildConfigs.For(channel.Guild.Id);
-            //        LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
+            //        var config = uow.GuildConfigs.For(Context.Guild.Id);
+            //        LogSetting logSetting = GuildLogSettings.GetOrAdd(Context.Guild.Id, (id) => config.LogSetting);
             //        removed = logSetting.IgnoredVoicePresenceChannelIds.RemoveWhere(ivpc => ivpc.ChannelId == voiceChannel.Id);
             //        if (removed == 0)
             //            logSetting.IgnoredVoicePresenceChannelIds.Add(new IgnoredVoicePresenceChannel { ChannelId = voiceChannel.Id });
@@ -768,9 +768,9 @@ namespace NadekoBot.Modules.Administration
             //    }
 
             //    if (removed == 0)
-            //        await channel.SendMessageAsync($"`Enabled logging voice presence updates for {voiceChannel.Name} ({voiceChannel.Id}) channel.`").ConfigureAwait(false);
+            //        await Context.Channel.SendMessageAsync($"`Enabled logging voice presence updates for {voiceChannel.Name} ({voiceChannel.Id}) channel.`").ConfigureAwait(false);
             //    else
-            //        await channel.SendMessageAsync($"`Disabled logging voice presence updates for {voiceChannel.Name} ({voiceChannel.Id}) channel.`").ConfigureAwait(false);
+            //        await Context.Channel.SendMessageAsync($"`Disabled logging voice presence updates for {voiceChannel.Name} ({voiceChannel.Id}) channel.`").ConfigureAwait(false);
             //}
         }
     }
