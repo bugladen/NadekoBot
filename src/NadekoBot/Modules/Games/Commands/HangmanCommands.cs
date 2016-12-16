@@ -15,9 +15,8 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-
         [Group]
-        public class HangmanCommands
+        public class HangmanCommands : ModuleBase
         {
             private static Logger _log { get; }
 
@@ -42,7 +41,7 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Hangman(IUserMessage imsg, HangmanTermPool.HangmanTermType type = HangmanTermPool.HangmanTermType.All)
+            public async Task Hangman(HangmanTermPool.HangmanTermType type = HangmanTermPool.HangmanTermType.All)
             {
                 var hm = new HangmanGame(Context.Channel, type);
 

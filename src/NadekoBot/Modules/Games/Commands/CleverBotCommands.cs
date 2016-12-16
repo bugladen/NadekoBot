@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class CleverBotCommands
+        public class CleverBotCommands : ModuleBase
         {
             private static Logger _log { get; }
 
@@ -41,8 +41,8 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            public static async Task<bool> TryAsk() {
-                var channel = Context.Channel as ITextChannel;
+            public static async Task<bool> TryAsk(IUserMessage msg) {
+                var channel = msg.Channel as ITextChannel;
 
                 if (channel == null)
                     return false;
@@ -68,16 +68,16 @@ namespace NadekoBot.Modules.Games
                     return false;
                 }
 
-                await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                await msg.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
                 var response = await cleverbot.Think(message).ConfigureAwait(false);
                 try
                 {
-                    await Context.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await Context.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }
@@ -87,32 +87,30 @@ namespace NadekoBot.Modules.Games
             [RequireUserPermission(ChannelPermission.ManageMessages)]
             public async Task Cleverbot()
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 ChatterBotSession throwaway;
-                if (CleverbotGuilds.TryRemove(channel.Guild.Id, out throwaway))
+                if (CleverbotGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, false);
+                        uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendConfirmAsync($"{Context.User.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
                     return;
                 }
 
                 var cleverbot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
                 var session = cleverbot.CreateSession();
 
-                CleverbotGuilds.TryAdd(channel.Guild.Id, session);
+                CleverbotGuilds.TryAdd(Context.Guild.Id, session);
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, true);
+                    uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, true);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                await channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
             }
         }
     }
