@@ -1,3 +1,3 @@
 {
-  "projects": [ "discord.net/src", "src" ]
+  "projects": [ "discord.net/src", "src", "../../../Documents/Visual Studio 2015/Projects/NadekoWebsite/nadekobot/discord.net/src" ]
 }
