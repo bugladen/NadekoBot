@@ -55,6 +55,7 @@ CALL Stable.bat
 GOTO stablear
 
 :autorun
+ECHO Normal Auto Restart
 ECHO Bot will not auto update on every restart!
 timeout /t 3
 CD /D %~dp0NadekoBot\src\NadekoBot
@@ -62,4 +63,7 @@ dotnet run --configuration Release
 goto autorun
 
 :Exit
+SET root=%~dp0
+CD /D %root%
+del NadekoAutoRun.bat
 CALL NadekoInstaller.bat
