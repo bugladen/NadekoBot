@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task Leave(IUserMessage umsg, [Remainder] string guildStr)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 guildStr = guildStr.Trim().ToUpperInvariant();
                 var server = _client.GetGuilds().FirstOrDefault(g => g.Id.ToString().Trim().ToUpperInvariant() == guildStr) ?? 
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Administration
                     await channel.SendErrorAsync("⚠️ Cannot find that server").ConfigureAwait(false);
                     return;
                 }
-                if (server.OwnerId != _client.GetCurrentUser().Id)
+                if (server.OwnerId != _client.CurrentUser().Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
                     await channel.SendConfirmAsync("✅ Left server " + server.Name).ConfigureAwait(false);

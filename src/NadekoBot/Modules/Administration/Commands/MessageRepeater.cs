@@ -81,10 +81,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task RepeatInvoke(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task RepeatInvoke()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 RepeatRunner rep;
                 if (!repeaters.TryGetValue(channel.Id, out rep))
@@ -98,10 +98,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Repeat(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Repeat()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 RepeatRunner rep;
                 if (repeaters.TryRemove(channel.Id, out rep))
                 {
@@ -119,10 +119,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (minutes < 1 || minutes > 10080)
                     return;

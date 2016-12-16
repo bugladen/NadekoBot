@@ -21,10 +21,10 @@ namespace NadekoBot.Modules.Administration
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task AdSarm(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task AdSarm()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 bool newval;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -39,10 +39,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task Asar(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 IEnumerable<SelfAssignedRole> roles;
 
@@ -70,10 +70,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task Rsar(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool success;
                 using (var uow = DbHandler.UnitOfWork())
@@ -91,9 +91,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Lsar(IUserMessage umsg)
+            public async Task Lsar()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var toRemove = new ConcurrentHashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
@@ -128,10 +128,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task Tesar(IUserMessage umsg)
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            public async Task Tesar()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool areExclusive;
                 using (var uow = DbHandler.UnitOfWork())
@@ -149,8 +149,8 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iam(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)umsg.Channel;
-                var guildUser = (IGuildUser)umsg.Author;
+                var channel = (ITextChannel)Context.Channel;
+                var guildUser = (IGuildUser)Context.User;
                 var usrMsg = (IUserMessage)umsg;
 
                 GuildConfig conf;
@@ -208,8 +208,8 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iamnot(IUserMessage umsg, [Remainder] IRole role)
             {
-                var channel = (ITextChannel)umsg.Channel;
-                var guildUser = (IGuildUser)umsg.Author;
+                var channel = (ITextChannel)Context.Channel;
+                var guildUser = (IGuildUser)Context.User;
 
                 bool autoDeleteSelfAssignedRoleMessages;
                 IEnumerable<SelfAssignedRole> roles;

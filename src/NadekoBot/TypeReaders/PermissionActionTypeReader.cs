@@ -10,7 +10,7 @@ namespace NadekoBot.TypeReaders
     /// </summary>
     public class PermissionActionTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(IUserMessage context, string input)
+        public override Task<TypeReaderResult> Read(CommandContext context, string input)
         {
             input = input.ToUpperInvariant();
             switch (input)

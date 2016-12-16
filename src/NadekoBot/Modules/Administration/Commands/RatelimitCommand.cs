@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration
                     var t = Task.Run(async () =>
                     {
                         var usrMsg = umsg as IUserMessage;
-                        var channel = usrMsg.Channel as ITextChannel;
+                        var channel = usrContext.Channel as ITextChannel;
 
                         if (channel == null || usrMsg.IsAuthor())
                             return;
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Administration
                         if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
                             return;
 
-                        if (limiter.CheckUserRatelimit(usrMsg.Author.Id))
+                        if (limiter.CheckUserRatelimit(usrContext.User.Id))
                             try { await usrMsg.DeleteAsync(); } catch (Exception ex) { _log.Warn(ex); }
                     });
                     return Task.CompletedTask;
@@ -85,10 +85,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Slowmode(IUserMessage umsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Slowmode()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 Ratelimiter throwaway;
                 if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))
@@ -101,11 +101,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Slowmode(IUserMessage umsg, int msg, int perSec)
             {
                 await Slowmode(umsg).ConfigureAwait(false); // disable if exists
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (msg < 1 || perSec < 1 || msg > 100 || perSec > 3600)
                 {

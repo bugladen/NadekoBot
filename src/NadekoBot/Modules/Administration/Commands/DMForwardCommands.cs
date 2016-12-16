@@ -29,9 +29,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task ForwardMessages(IUserMessage imsg)
+            public async Task ForwardMessages()
             {
-                var channel = imsg.Channel;
+                var channel = Context.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -47,9 +47,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task ForwardToAll(IUserMessage imsg)
+            public async Task ForwardToAll()
             {
-                var channel = imsg.Channel;
+                var channel = Context.Channel;
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -68,16 +68,16 @@ namespace NadekoBot.Modules.Administration
             {
                 if (ForwardDMs && ownerChannels.Any())
                 {
-                    var title = $"DM from [{msg.Author}]({msg.Author.Id})";
+                    var title = $"DM from [{Context.User}]({Context.User.Id})";
                     if (ForwardDMsToAllOwners)
                     {
-                        var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
+                        var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != Context.User.Id)
                                                                    .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
                     }
                     else
                     {
                         var firstOwnerChannel = ownerChannels.First();
-                        if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
+                        if (firstOwnerChannel.Recipient.Id != Context.User.Id)
                             try { await firstOwnerChannel.SendConfirmAsync(title, msg.Content).ConfigureAwait(false); } catch { }
                     }
                 }

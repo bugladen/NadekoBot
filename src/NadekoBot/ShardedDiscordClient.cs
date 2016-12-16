@@ -13,19 +13,19 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public event Func<IGuildUser, Task> UserJoined = delegate { return Task.CompletedTask; };
-        public event Func<IMessage, Task> MessageReceived = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, Task> UserLeft = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, IGuildUser, Task> UserUpdated = delegate { return Task.CompletedTask; };
-        public event Func<Optional<IMessage>, IMessage, Task> MessageUpdated = delegate { return Task.CompletedTask; };
-        public event Func<ulong, Optional<IMessage>, Task> MessageDeleted = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IGuild, Task> UserBanned = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IGuild, Task> UserUnbanned = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, IPresence, IPresence, Task> UserPresenceUpdated = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IVoiceState, IVoiceState, Task> UserVoiceStateUpdated = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, Task> ChannelCreated = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, Task> ChannelDestroyed = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, IChannel, Task> ChannelUpdated = delegate { return Task.CompletedTask; };
+        public event Func<SocketGuildUser, Task> UserJoined = delegate { return Task.CompletedTask; };
+        public event Func<SocketMessage, Task> MessageReceived = delegate { return Task.CompletedTask; };
+        public event Func<SocketGuildUser, Task> UserLeft = delegate { return Task.CompletedTask; };
+        public event Func<SocketUser, SocketUser, Task> UserUpdated = delegate { return Task.CompletedTask; };
+        public event Func<Optional<SocketMessage>, SocketMessage, Task> MessageUpdated = delegate { return Task.CompletedTask; };
+        public event Func<ulong, Optional<SocketMessage>, Task> MessageDeleted = delegate { return Task.CompletedTask; };
+        public event Func<SocketUser, SocketGuild, Task> UserBanned = delegate { return Task.CompletedTask; };
+        public event Func<SocketUser, SocketGuild, Task> UserUnbanned = delegate { return Task.CompletedTask; };
+        public event Func<Optional<SocketGuild>, SocketUser, SocketPresence, SocketPresence, Task> UserPresenceUpdated = delegate { return Task.CompletedTask; };
+        public event Func<SocketUser, SocketVoiceState, SocketVoiceState, Task> UserVoiceStateUpdated = delegate { return Task.CompletedTask; };
+        public event Func<SocketChannel, Task> ChannelCreated = delegate { return Task.CompletedTask; };
+        public event Func<SocketChannel, Task> ChannelDestroyed = delegate { return Task.CompletedTask; };
+        public event Func<SocketChannel, SocketChannel, Task> ChannelUpdated = delegate { return Task.CompletedTask; };
         public event Func<Exception, Task> Disconnected = delegate { return Task.CompletedTask; };
 
         private IReadOnlyList<DiscordSocketClient> Clients { get; }
@@ -48,7 +48,7 @@ namespace NadekoBot
                 client.MessageUpdated += async (arg1, m2) => await MessageUpdated(arg1, m2);
                 client.MessageDeleted += async (arg1, arg2) => await MessageDeleted(arg1, arg2);
                 client.UserBanned += async (arg1, arg2) => await UserBanned(arg1, arg2);
-                client.UserPresenceUpdated += async (arg1, arg2, arg3) => await UserPresenceUpdated(arg1, arg2, arg3);
+                client.UserPresenceUpdated += async (arg1, arg2, arg3, arg4) => await UserPresenceUpdated(arg1, arg2, arg3, arg4);
                 client.UserVoiceStateUpdated += async (arg1, arg2, arg3) => await UserVoiceStateUpdated(arg1, arg2, arg3);
                 client.ChannelCreated += async arg => await ChannelCreated(arg);
                 client.ChannelDestroyed += async arg => await ChannelDestroyed(arg);
@@ -60,17 +60,14 @@ namespace NadekoBot
             Clients = clientList.AsReadOnly();
         }
 
-        public ISelfUser GetCurrentUser() =>
-            Clients[0].GetCurrentUser();
+        public ISelfUser CurrentUser() =>
+            Clients[0].CurrentUser;
 
-        public Task<ISelfUser> GetCurrentUserAsync() =>
-            Clients[0].GetCurrentUserAsync();
-
-        public Task<ISelfUser[]> GetAllCurrentUsersAsync() =>
-            Task.WhenAll(Clients.Select(c => c.GetCurrentUserAsync()));
+        public ISelfUser[] GetAllCurrentUsers() =>
+            Clients.Select(c => c.CurrentUser).ToArray();
 
         public IReadOnlyCollection<IGuild> GetGuilds() =>
-            Clients.SelectMany(c => c.GetGuilds()).ToArray();
+            Clients.SelectMany(c => c.Guilds).ToList();
 
         public IGuild GetGuild(ulong id) =>
             Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
@@ -104,19 +101,11 @@ namespace NadekoBot
         }
 
         internal Task DownloadAllUsersAsync() =>
-            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync().ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
+            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync().ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} downloaded {c.Guilds.Sum(g => g.Users.Count)} users."); }));
 
-        public async Task SetGame(string game)
-        {
-            await Task.WhenAll((await GetAllCurrentUsersAsync())
-                                    .Select(u => u.ModifyStatusAsync(ms => ms.Game = new Discord.Game(game))));
-        }
+        public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGame(game)));
 
-        public async Task SetStream(string name, string url)
-        {
-            await Task.WhenAll((await GetAllCurrentUsersAsync())
-                                    .Select(u => u.ModifyStatusAsync(ms => ms.Game = new Discord.Game(name, url, StreamType.Twitch))));
-                
-        }
+
+        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGame(name, url, StreamType.NotStreaming)));
     }
 }

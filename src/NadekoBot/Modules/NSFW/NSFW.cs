@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Hentai(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
 
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task HentaiBomb(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             tag = "rating%3Aexplicit+" + tag;
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetYandereImageLink(tag).ConfigureAwait(false);
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Danbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetDanbooruImageLink(tag).ConfigureAwait(false);
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Konachan(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetKonachanImageLink(tag).ConfigureAwait(false);
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.NSFW
         [RequireContext(ContextType.Guild)]
         public async Task E621(IUserMessage umsg, [Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             var link = await GetE621ImageLink(tag).ConfigureAwait(false);
@@ -184,18 +184,18 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Cp(IUserMessage umsg)
+        public async Task Cp()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Boobs(IUserMessage umsg)
+        public async Task Boobs()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
             try
             {
                 JToken obj;
@@ -213,9 +213,9 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Butts(IUserMessage umsg)
+        public async Task Butts()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             try
             {

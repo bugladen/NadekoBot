@@ -22,9 +22,9 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Race(IUserMessage umsg)
+            public async Task Race()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var ar = new AnimalRace(channel.Guild.Id, channel);
 
@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(IUserMessage umsg, int amount = 0)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (amount < 0)
                     amount = 0;
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
                     await channel.SendErrorAsync("No race exists on this server");
                     return;
                 }
-                await ar.JoinRace(umsg.Author as IGuildUser, amount);
+                await ar.JoinRace(Context.User as IGuildUser, amount);
             }
 
             public class AnimalRace
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Gambling
                     var msg = imsg as IUserMessage;
                     if (msg == null)
                         return Task.CompletedTask;
-                    if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
+                    if (msg.IsAuthor() || !(Context.Channel is ITextChannel) || Context.Channel != raceChannel)
                         return Task.CompletedTask;
                     messagesSinceGameStarted++;
                     return Task.CompletedTask;

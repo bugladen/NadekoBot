@@ -106,11 +106,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            [RequirePermission(GuildPermission.ManageChannels)]
-            public async Task VoicePlusText(IUserMessage msg)
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            public async Task VoicePlusText()
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 var guild = channel.Guild;
 
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
@@ -159,11 +159,11 @@ namespace NadekoBot.Modules.Administration
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageChannels)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task CleanVPlusT(IUserMessage msg)
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            public async Task CleanVPlusT()
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 var guild = channel.Guild;
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.Administrator)

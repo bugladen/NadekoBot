@@ -75,7 +75,7 @@
 //                    .Parameter("board_id", Discord.Commands.ParameterType.Required)
 //                    .Do(async e =>
 //                    {
-//                        if (!NadekoBot.IsOwner(umsg.Author.Id)) return;
+//                        if (!NadekoBot.IsOwner(Context.User.Id)) return;
 //                        if (bound != null) return;
 //                        try
 //                        {
@@ -95,7 +95,7 @@
 //                    .Description($"Unbinds a bot from the channel and board. **Bot Owner Only!**| `{Prefix}unbind`")
 //                    .Do(async e =>
 //                    {
-//                        if (!NadekoBot.IsOwner(umsg.Author.Id)) return;
+//                        if (!NadekoBot.IsOwner(Context.User.Id)) return;
 //                        if (bound == null || bound != e.Channel) return;
 //                        t.Stop();
 //                        bound = null;
@@ -109,7 +109,7 @@
 //                    .Description($"Lists all lists, yo ;) **Bot Owner Only!**| `{Prefix}list`")
 //                    .Do(async e =>
 //                    {
-//                        if (!NadekoBot.IsOwner(umsg.Author.Id)) return;
+//                        if (!NadekoBot.IsOwner(Context.User.Id)) return;
 //                        if (bound == null || board == null || bound != e.Channel) return;
 //                        await channel.SendMessageAsync("Lists for a board '" + board.Name + "'\n" + string.Join("\n", board.Lists.Select(l => "**• " + l.ToString() + "**")))
 //                                       .ConfigureAwait(false);
@@ -120,7 +120,7 @@
 //                    .Parameter("list_name", Discord.Commands.ParameterType.Unparsed)
 //                    .Do(async e =>
 //                    {
-//                        if (!NadekoBot.IsOwner(umsg.Author.Id)) return;
+//                        if (!NadekoBot.IsOwner(Context.User.Id)) return;
 //                        if (bound == null || board == null || bound != e.Channel || list_name == null) return;
 
 //                        int num;

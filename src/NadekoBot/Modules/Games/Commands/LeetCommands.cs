@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task Leet(IUserMessage umsg, int level, [Remainder] string text = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             text = text.Trim();
             if (string.IsNullOrWhiteSpace(text))

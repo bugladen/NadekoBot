@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task RotatePlaying(IUserMessage umsg)
+            public async Task RotatePlaying()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -98,9 +98,9 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
                 if (RotatingStatuses)
-                    await umsg.Channel.SendConfirmAsync("🆗 **Rotating playing status enabled.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 **Rotating playing status enabled.**").ConfigureAwait(false);
                 else
-                    await umsg.Channel.SendConfirmAsync("ℹ️ **Rotating playing status disabled.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **Rotating playing status disabled.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -116,19 +116,19 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                await umsg.Channel.SendConfirmAsync("✅ **Added.**").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("✅ **Added.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task ListPlaying(IUserMessage umsg)
+            public async Task ListPlaying()
             {
                 if (!RotatingStatusMessages.Any())
-                    await umsg.Channel.SendErrorAsync("❎ **No rotating playing statuses set.**");
+                    await Context.Channel.SendErrorAsync("❎ **No rotating playing statuses set.**");
                 else
                 {
                     var i = 1;
-                    await umsg.Channel.SendConfirmAsync($"ℹ️ {umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
+                    await Context.Channel.SendConfirmAsync($"ℹ️ {Context.User.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
                 }
 
             }
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatusMessages.RemoveAt(index);
                     await uow.CompleteAsync();
                 }
-                await umsg.Channel.SendConfirmAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
             }
         }
     }

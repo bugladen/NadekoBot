@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                       .WithTitle("Leaderboard")
                       .WithDescription(GetLeaderboard())
-                      .Build(), "Trivia game ended.").ConfigureAwait(false);
+                      , "Trivia game ended.").ConfigureAwait(false);
             }
             catch { }
         }
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private Task PotentialGuess(IMessage imsg)
         {
-            if (imsg.Author.IsBot)
+            if (Context.User.IsBot)
                 return Task.CompletedTask;
             var umsg = imsg as IUserMessage;
             if (umsg == null)
@@ -137,11 +137,11 @@ namespace NadekoBot.Modules.Games.Trivia
             {
                 try
                 {
-                    if (!(umsg.Channel is IGuildChannel && umsg.Channel is ITextChannel)) return;
-                    if ((umsg.Channel as ITextChannel).Guild != guild) return;
-                    if (umsg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                    if (!(Context.Channel is IGuildChannel && Context.Channel is ITextChannel)) return;
+                    if ((Context.Channel as ITextChannel).Guild != guild) return;
+                    if (Context.User.Id == NadekoBot.Client.CurrentUser().Id) return;
 
-                    var guildUser = umsg.Author as IGuildUser;
+                    var guildUser = Context.User as IGuildUser;
 
                     var guess = false;
                     await _guessLock.WaitAsync().ConfigureAwait(false);

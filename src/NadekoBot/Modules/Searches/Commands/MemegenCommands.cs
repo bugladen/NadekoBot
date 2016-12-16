@@ -16,9 +16,8 @@ namespace NadekoBot.Modules.Searches
     {
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Memelist(IUserMessage umsg)
+        public async Task Memelist()
         {
-            var channel = (ITextChannel)umsg.Channel;
             HttpClientHandler handler = new HttpClientHandler();
 
             handler.AllowAutoRedirect = false;
@@ -29,7 +28,7 @@ namespace NadekoBot.Modules.Searches
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                                       .Select(kvp => Path.GetFileName(kvp.Value));
 
-                await channel.SendTableAsync(data, x => $"{x,-17}", 3).ConfigureAwait(false);
+                await Context.Channel.SendTableAsync(data, x => $"{x,-17}", 3).ConfigureAwait(false);
             }
         }
 
@@ -37,11 +36,9 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Memegen(IUserMessage umsg, string meme, string topText, string botText)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
             var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));
-            await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
+            await Context.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
                          .ConfigureAwait(false);
         }
     }

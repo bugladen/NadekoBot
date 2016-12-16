@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Trivia(IUserMessage umsg, params string[] args)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (!RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games
                     }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
                     if (number < 0)
                         return;
-                    var triviaGame = new TriviaGame(channel.Guild, (ITextChannel)umsg.Channel, showHints, number == 0 ? 10 : number);
+                    var triviaGame = new TriviaGame(channel.Guild, (ITextChannel)Context.Channel, showHints, number == 0 ? 10 : number);
                     if (RunningTrivias.TryAdd(channel.Guild.Id, triviaGame))
                         await channel.SendConfirmAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
                     else
@@ -47,9 +47,9 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tl(IUserMessage umsg)
+            public async Task Tl()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
@@ -60,9 +60,9 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tq(IUserMessage umsg)
+            public async Task Tq()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))

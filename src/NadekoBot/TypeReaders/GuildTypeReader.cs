@@ -7,7 +7,7 @@ namespace NadekoBot.TypeReaders
 {
     public class GuildTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(IUserMessage context, string input)
+        public override Task<TypeReaderResult> Read(CommandContext context, string input)
         {
             input = input.Trim().ToLowerInvariant();
             var guilds = NadekoBot.Client.GetGuilds();

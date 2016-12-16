@@ -41,8 +41,8 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            public static async Task<bool> TryAsk(IUserMessage msg) {
-                var channel = msg.Channel as ITextChannel;
+            public static async Task<bool> TryAsk() {
+                var channel = Context.Channel as ITextChannel;
 
                 if (channel == null)
                     return false;
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Games
                 if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out cleverbot))
                     return false;
 
-                var nadekoId = NadekoBot.Client.GetCurrentUser().Id;
+                var nadekoId = NadekoBot.Client.CurrentUser().Id;
                 var normalMention = $"<@{nadekoId}> ";
                 var nickMention = $"<@!{nadekoId}> ";
                 string message;
@@ -68,26 +68,26 @@ namespace NadekoBot.Modules.Games
                     return false;
                 }
 
-                await msg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
                 var response = await cleverbot.Think(message).ConfigureAwait(false);
                 try
                 {
-                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
+                    await Context.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(ChannelPermission.ManageMessages)]
-            public async Task Cleverbot(IUserMessage imsg)
+            [RequireUserPermission(ChannelPermission.ManageMessages)]
+            public async Task Cleverbot()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 ChatterBotSession throwaway;
                 if (CleverbotGuilds.TryRemove(channel.Guild.Id, out throwaway))
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Games
                         uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, false);
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendConfirmAsync($"{imsg.Author.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"{Context.User.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
                     return;
                 }
 
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Games
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                await channel.SendConfirmAsync($"{imsg.Author.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
+                await channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
             }
         }
     }

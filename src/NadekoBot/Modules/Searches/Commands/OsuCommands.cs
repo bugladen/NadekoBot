@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class OsuCommands
+        public class OsuCommands : ModuleBase
         {
             private static Logger _log { get; }
 
@@ -26,10 +26,8 @@ namespace NadekoBot.Modules.Searches
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Osu(IUserMessage umsg, string usr, [Remainder] string mode = null)
+            public async Task Osu(string usr, [Remainder] string mode = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
 
@@ -48,11 +46,11 @@ namespace NadekoBot.Modules.Searches
                         MemoryStream ms = new MemoryStream();
                         res.CopyTo(ms);
                         ms.Position = 0;
-                        await channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
+                        await Context.Channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
                         _log.Warn(ex, "Osu command failed");
                     }
                 }
@@ -62,7 +60,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Osub(IUserMessage umsg, [Remainder] string map)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
@@ -99,7 +97,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Osu5(IUserMessage umsg, string user, [Remainder] string mode = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
                     await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);

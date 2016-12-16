@@ -4,7 +4,7 @@ using NLog;
 
 namespace NadekoBot.Modules
 {
-    public class DiscordModule
+    public class DiscordModule : ModuleBase
     {
         protected Logger _log { get; }
         protected string _prefix { get; }

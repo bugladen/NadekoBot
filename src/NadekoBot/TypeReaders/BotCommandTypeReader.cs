@@ -7,12 +7,11 @@ namespace NadekoBot.TypeReaders
 {
     public class CommandTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(IUserMessage context, string input)
+        public override Task<TypeReaderResult> Read(CommandContext context, string input)
         {
             input = input.ToUpperInvariant();
             var cmd = NadekoBot.CommandService.Commands.FirstOrDefault(c => 
-                c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input) || 
-                c.Text.ToUpperInvariant() == input);
+                c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
             if (cmd == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
 

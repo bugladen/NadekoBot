@@ -34,12 +34,8 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Lolban(IUserMessage umsg)
+        public async Task Lolban()
         {
-            var channel = (ITextChannel)umsg.Channel;
-
-
-
             var showCount = 8;
             //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
             try
@@ -58,12 +54,12 @@ namespace NadekoBot.Modules.Searches
                         eb.AddField(efb => efb.WithName(champ["name"].ToString()).WithValue(champ["general"]["banRate"] + "%").WithIsInline(true));
                     }
 
-                    await channel.EmbedAsync(eb.Build(), Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
+                    await Context.Channel.EmbedAsync(eb, Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
                 }
             }
             catch (Exception)
             {
-                await channel.SendMessageAsync("Something went wrong.").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync("Something went wrong.").ConfigureAwait(false);
             }
         }
     }

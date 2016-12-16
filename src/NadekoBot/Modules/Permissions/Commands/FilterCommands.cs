@@ -62,9 +62,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task SrvrFilterInv(IUserMessage imsg)
+            public async Task SrvrFilterInv()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
@@ -88,9 +88,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ChnlFilterInv(IUserMessage imsg)
+            public async Task ChnlFilterInv()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 int removed;
                 using (var uow = DbHandler.UnitOfWork())
@@ -121,9 +121,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task SrvrFilterWords(IUserMessage imsg)
+            public async Task SrvrFilterWords()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())
@@ -147,9 +147,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ChnlFilterWords(IUserMessage imsg)
+            public async Task ChnlFilterWords()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 int removed;
                 using (var uow = DbHandler.UnitOfWork())
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task FilterWord(IUserMessage imsg, [Remainder] string word)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 word = word?.Trim().ToLowerInvariant();
 
@@ -220,9 +220,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task LstFilterWords(IUserMessage imsg)
+            public async Task LstFilterWords()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 ConcurrentHashSet<string> filteredWords;
                 ServerFilteredWords.TryGetValue(channel.Guild.Id, out filteredWords);

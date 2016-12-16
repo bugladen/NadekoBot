@@ -16,22 +16,22 @@ namespace NadekoBot.Modules.Games
         public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequirePermission(GuildPermission.ManageMessages)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         [RequireContext(ContextType.Guild)]
         public Task Poll(IUserMessage umsg, [Remainder] string arg = null)
             => InternalStartPoll(umsg, arg, isPublic: false);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequirePermission(GuildPermission.ManageMessages)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         [RequireContext(ContextType.Guild)]
         public Task PublicPoll(IUserMessage umsg, [Remainder] string arg = null)
             => InternalStartPoll(umsg, arg, isPublic: true);
 
         private async Task InternalStartPoll(IUserMessage umsg, string arg, bool isPublic = false)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
-            if (!(umsg.Author as IGuildUser).GuildPermissions.ManageChannels)
+            if (!(Context.User as IGuildUser).GuildPermissions.ManageChannels)
                 return;
             if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
                 return;
@@ -49,11 +49,11 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequirePermission(GuildPermission.ManageMessages)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         [RequireContext(ContextType.Guild)]
-        public async Task Pollend(IUserMessage umsg)
+        public async Task Pollend()
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             Poll poll;
             ActivePolls.TryRemove(channel.Guild, out poll);
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Games
         public Poll(IUserMessage umsg, string question, IEnumerable<string> enumerable, bool isPublic = false)
         {
             this.originalMessage = umsg;
-            this.guild = ((ITextChannel)umsg.Channel).Guild;
+            this.guild = ((ITextChannel)Context.Channel).Guild;
             this.question = question;
             this.answers = enumerable as string[] ?? enumerable.ToArray();
             this.isPublic = isPublic;
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Games
         {
             // has to be a user message
             var msg = imsg as IUserMessage;
-            if (msg == null || msg.Author.IsBot)
+            if (msg == null || Context.User.IsBot)
                 return Task.CompletedTask;
 
             // has to be an integer
@@ -146,32 +146,32 @@ namespace NadekoBot.Modules.Games
                     if (isPublic)
                     {
                         //if public, channel must be the same the poll started in
-                        if (originalMessage.Channel.Id != imsg.Channel.Id)
+                        if (originalMessage.Channel.Id != Context.Channel.Id)
                             return;
-                        ch = imsg.Channel;
+                        ch = Context.Channel;
                     }
                     else
                     {
                         //if private, channel must be dm channel
-                        if ((ch = msg.Channel as IDMChannel) == null)
+                        if ((ch = Context.Channel as IDMChannel) == null)
                             return;
 
                         // user must be a member of the guild this poll is in
                         var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
-                        if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
+                        if (!guildUsers.Any(u => u.Id == Context.User.Id))
                             return;
                     }
 
                     //user can vote only once
-                    if (participants.TryAdd(msg.Author.Id, vote))
+                    if (participants.TryAdd(Context.User.Id, vote))
                     {
                         if (!isPublic)
                         {
-                            await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                            await ch.SendConfirmAsync($"Thanks for voting **{Context.User.Username}**.").ConfigureAwait(false);
                         }
                         else
                         {
-                            var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
+                            var toDelete = await ch.SendConfirmAsync($"{Context.User.Mention} cast their vote.").ConfigureAwait(false);
                             await Task.Delay(5000);
                             await toDelete.DeleteAsync().ConfigureAwait(false);
                         }

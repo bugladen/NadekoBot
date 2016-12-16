@@ -45,10 +45,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
