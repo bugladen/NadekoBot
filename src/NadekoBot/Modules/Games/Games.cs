@@ -27,40 +27,34 @@ namespace NadekoBot.Modules.Games
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Choose(IUserMessage umsg, [Remainder] string list = null)
+        public async Task Choose([Remainder] string list = null)
         {
-            var channel = (ITextChannel)Context.Channel;
             if (string.IsNullOrWhiteSpace(list))
                 return;
             var listArr = list.Split(';');
             if (listArr.Count() < 2)
                 return;
             var rng = new NadekoRandom();
-            await channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task _8Ball(IUserMessage umsg, [Remainder] string question = null)
+        public async Task _8Ball([Remainder] string question = null)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             if (string.IsNullOrWhiteSpace(question))
                 return;
                 var rng = new NadekoRandom();
 
-            await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
-                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false))
-                               );
+                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Rps(IUserMessage umsg, string input)
+        public async Task Rps(string input)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             Func<int,string> GetRPSPick = (p) =>
             {
                 if (p == 0)
@@ -102,16 +96,14 @@ namespace NadekoBot.Modules.Games
             else
                 msg = $"{Context.User.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
 
-            await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Linux(IUserMessage umsg, string guhnoo, string loonix)
+        public async Task Linux(string guhnoo, string loonix)
         {
-            var channel = (ITextChannel)Context.Channel;
-
-            await channel.SendConfirmAsync(
+            await Context.Channel.SendConfirmAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.

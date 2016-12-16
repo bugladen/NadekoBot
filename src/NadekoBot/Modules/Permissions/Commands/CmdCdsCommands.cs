@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         var cc = new CommandCooldown()
                         {
-                            CommandName = command.Text.ToLowerInvariant(),
+                            CommandName = command.Aliases.First().ToLowerInvariant(),
                             Seconds = secs,
                         };
                         config.CommandCooldowns.Add(cc);
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Permissions
                 if (secs == 0)
                 {
                     var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
-                    activeCds.RemoveWhere(ac => ac.Command == command.Text.ToLowerInvariant());
+                    activeCds.RemoveWhere(ac => ac.Command == command.Aliases.First().ToLowerInvariant());
                     await channel.SendConfirmAsync($"🚮 Command **{command}** has no coooldown now and all existing cooldowns have been cleared.")
                                  .ConfigureAwait(false);
                 }
@@ -91,16 +91,16 @@ namespace NadekoBot.Modules.Permissions
                     await channel.SendTableAsync("", localSet.Select(c => c.CommandName + ": " + c.Seconds + " secs"), s => $"{s,-30}", 2).ConfigureAwait(false);
             }
 
-            public static bool HasCooldown(Command cmd, IGuild guild, IUser user)
+            public static bool HasCooldown(CommandInfo cmd, IGuild guild, IUser user)
             {
                 if (guild == null)
                     return false;
                 var cmdcds = CmdCdsCommands.commandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
                 CommandCooldown cdRule;
-                if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == cmd.Text.ToLowerInvariant())) != null)
+                if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == cmd.Aliases.First().ToLowerInvariant())) != null)
                 {
                     var activeCdsForGuild = activeCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
-                    if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == cmd.Text.ToLowerInvariant()) != null)
+                    if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == cmd.Aliases.First().ToLowerInvariant()) != null)
                     {
                         return true;
                     }
@@ -109,14 +109,14 @@ namespace NadekoBot.Modules.Permissions
                         activeCdsForGuild.Add(new ActiveCooldown()
                         {
                             UserId = user.Id,
-                            Command = cmd.Text.ToLowerInvariant(),
+                            Command = cmd.Aliases.First().ToLowerInvariant(),
                         });
                         var t = Task.Run(async () =>
                         {
                             try
                             {
                                 await Task.Delay(cdRule.Seconds * 1000);
-                                activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Text.ToLowerInvariant() && ac.UserId == user.Id);
+                                activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Aliases.First().ToLowerInvariant() && ac.UserId == user.Id);
                             }
                             catch { }
                         });

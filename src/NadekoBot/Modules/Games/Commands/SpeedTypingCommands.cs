@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games
 
             private Task AnswerReceived(IMessage imsg)
             {
-                if (Context.User.IsBot)
+                if (imsg.Author.IsBot)
                     return Task.CompletedTask;
                 var msg = imsg as IUserMessage;
                 if (msg == null)
@@ -122,12 +122,12 @@ namespace NadekoBot.Modules.Games
 
                         var distance = CurrentSentence.LevenshteinDistance(guess);
                         var decision = Judge(distance, guess.Length);
-                        if (decision && !finishedUserIds.Contains(Context.User.Id))
+                        if (decision && !finishedUserIds.Contains(imsg.Author.Id))
                         {
                             var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
-                            finishedUserIds.Add(Context.User.Id);
-                            await Extensions.Extensions.EmbedAsync(this.Channel, (Discord.API.Embed)new EmbedBuilder().WithColor((uint)NadekoBot.OkColor)
-                                .WithTitle((string)$"{Context.User} finished the race!")
+                            finishedUserIds.Add(imsg.Author.Id);
+                            await Extensions.Extensions.EmbedAsync(this.Channel, new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                                .WithTitle((string)$"{imsg.Author} finished the race!")
                                 .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
                                 .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.Seconds.ToString()}sec]*").WithIsInline(true))
                                 .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true))
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Games
         }
 
         [Group]
-        public class SpeedTypingCommands
+        public class SpeedTypingCommands : ModuleBase
         {
 
             public static List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Typeadd(IUserMessage imsg, [Remainder] string text)
+            public async Task Typeadd([Remainder] string text)
             {
                 var channel = (ITextChannel)Context.Channel;
 
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Typelist(IUserMessage imsg, int page = 1)
+            public async Task Typelist(int page = 1)
             {
                 var channel = (ITextChannel)Context.Channel;
 
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Typedel(IUserMessage imsg, int index)
+            public async Task Typedel(int index)
             {
                 var channel = (ITextChannel)Context.Channel;
 
