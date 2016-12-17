@@ -21,15 +21,9 @@ namespace NadekoBot.Services
 {
     public class IGuildUserComparer : IEqualityComparer<IGuildUser>
     {
-        public bool Equals(IGuildUser x, IGuildUser y)
-        {
-            return x.Id == y.Id;
-        }
+        public bool Equals(IGuildUser x, IGuildUser y) => x.Id == y.Id;
 
-        public int GetHashCode(IGuildUser obj)
-        {
-            return obj.Id.GetHashCode();
-        }
+        public int GetHashCode(IGuildUser obj) => obj.Id.GetHashCode();
     }
     public class CommandHandler
     {
@@ -49,7 +43,7 @@ namespace NadekoBot.Services
         }
         public async Task StartHandling()
         {
-            ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.GetUsersAsync().GetAwaiter().GetResult())
+            ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
                                   .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
                                   .Distinct(new IGuildUserComparer())
                                   .Select(async u => { try { return await u.CreateDMChannelAsync(); } catch { return null; } })))
@@ -70,14 +64,14 @@ namespace NadekoBot.Services
             if (usrMsg == null)
                 return;
 
-            if (usrContext.User.IsBot || !NadekoBot.Ready) //no bots
+            if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
                 return;
 
-            var guild = (Context.Channel as SocketTextChannel)?.Guild;
+            var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-            if (guild != null && guild.OwnerId != usrContext.User.Id)
+            if (guild != null && guild.OwnerId != msg.Author.Id)
             {
-                if (Permissions.FilterCommands.InviteFilteringChannels.Contains(usrContext.Channel.Id) ||
+                if (Permissions.FilterCommands.InviteFilteringChannels.Contains(msg.Channel.Id) ||
                     Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
                 {
                     if (usrMsg.Content.IsDiscordInvite())
@@ -89,12 +83,12 @@ namespace NadekoBot.Services
                         }
                         catch (HttpException ex)
                         {
-                            _log.Warn("I do not have permission to filter invites in channel with id " + usrContext.Channel.Id, ex);
+                            _log.Warn("I do not have permission to filter invites in channel with id " + msg.Channel.Id, ex);
                         }
                     }
                 }
 
-                var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(usrContext.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
+                var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(msg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
                 var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
                 if (filteredWords.Any(w => wordsInMessage.Contains(w)))
                 {
@@ -105,7 +99,7 @@ namespace NadekoBot.Services
                     }
                     catch (HttpException ex)
                     {
-                        _log.Warn("I do not have permission to filter words in channel with id " + usrContext.Channel.Id, ex);
+                        _log.Warn("I do not have permission to filter words in channel with id " + msg.Channel.Id, ex);
                     }
                 }
             }
@@ -113,8 +107,8 @@ namespace NadekoBot.Services
             BlacklistItem blacklistedItem;
             if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
                  (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == Context.Channel.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrContext.User.Id))) != null)
+                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == msg.Author.Id))) != null)
             {
                 return;
             }
@@ -146,12 +140,12 @@ namespace NadekoBot.Services
 
                 try
                 {
-                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrContext.User, MultiMatchHandling.Best);
+                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, msg.Author, MultiMatchHandling.Best);
                     var command = t.Item1;
                     var permCache = t.Item2;
                     var result = t.Item3;
                     sw.Stop();
-                    var channel = (usrContext.Channel as ITextChannel);
+                    var channel = (msg.Channel as ITextChannel);
                     if (result.IsSuccess)
                     {
                         await CommandExecuted(usrMsg, command);
@@ -160,7 +154,7 @@ namespace NadekoBot.Services
                                     "Server: {1}\n\t" +
                                     "Channel: {2}\n\t" +
                                     "Message: {3}",
-                                    usrContext.User + " [" + usrContext.User.Id + "]", // {0}
+                                    msg.Author + " [" + msg.Author.Id + "]", // {0}
                                     (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                                     (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                                     usrMsg.Content, // {3}
@@ -175,7 +169,7 @@ namespace NadekoBot.Services
                                     "Channel: {2}\n\t" +
                                     "Message: {3}\n\t" +
                                     "Error: {4}",
-                                    usrContext.User + " [" + usrContext.User.Id + "]", // {0}
+                                    msg.Author + " [" + msg.Author.Id + "]", // {0}
                                     (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                                     (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                                     usrMsg.Content,// {3}
@@ -185,18 +179,18 @@ namespace NadekoBot.Services
                         if (guild != null && command != null && result.Error == CommandError.Exception)
                         {
                             if (permCache != null && permCache.Verbose)
-                                try { await Context.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
+                                try { await msg.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
                         }
                     }
                     else
                     {
-                        if (Context.Channel is IPrivateChannel)
+                        if (msg.Channel is IPrivateChannel)
                         {
                             //rofl, gotta do this to prevent this message from occuring on polls
                             int vote;
                             if (int.TryParse(msg.Content, out vote)) return; 
 
-                            await Context.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
+                            await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
                             await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
                         }
@@ -212,7 +206,7 @@ namespace NadekoBot.Services
             return;
         }
 
-        public async Task<Tuple<CommandInfo, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
+        public async Task<Tuple<CommandInfo, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, SocketGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
             var searchResult = _commandService.Search(message, input);
             if (!searchResult.IsSuccess)
                 return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, searchResult);
@@ -273,16 +267,16 @@ namespace NadekoBot.Services
                         }
                     });
                     int index;
-                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
+                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(message, cmd.Aliases.First(), cmd.Module.Name, out index))
                     {
                         var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand(guild)}** is preventing this action.";
                         return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
 
-                    if (cmd.Module.Source.Name == typeof(Permissions).Name) //permissions, you must have special role
+                    if (cmd.Module.Name == typeof(Permissions).Name)
                     {
-                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
+                        if (!((IGuildUser)user).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                         {
                             return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
@@ -297,18 +291,6 @@ namespace NadekoBot.Services
             }
 
             return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
-        }
-    }
-
-    public class CommandExecutedEventArgs
-    {
-        public CommandInfo Command { get; }
-        public IUserMessage Message { get; }
-
-        public CommandExecutedEventArgs(CommandInfo cmd)
-        {
-            Message = msg;
-            Command = cmd;
         }
     }
 }

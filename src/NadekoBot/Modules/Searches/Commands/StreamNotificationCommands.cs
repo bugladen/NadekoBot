@@ -227,10 +227,11 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                var text = string.Join("\n", streams.Select(snc =>
+                var text = string.Join("\n", await Task.WhenAll(streams.Select(async snc =>
                 {
-                    return $"`{snc.Username}`'s stream on **{Context.Guild.GetTextChannel(snc.ChannelId)?.Name}** channel. 【`{snc.Type.ToString()}`】";
-                }));
+                    var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
+                    return $"`{snc.Username}`'s stream on **{(ch)?.Name}** channel. 【`{snc.Type.ToString()}`】";
+                })));
 
                 await Context.Channel.SendConfirmAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
             }

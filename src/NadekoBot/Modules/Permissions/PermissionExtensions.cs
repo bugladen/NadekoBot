@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace NadekoBot.Modules.Permissions
             return null;
         }
 
-        public static string GetCommand(this Permission perm, IGuild guild = null)
+        public static string GetCommand(this Permission perm, SocketGuild guild = null)
         {
             var com = "";
             switch (perm.PrimaryTarget)

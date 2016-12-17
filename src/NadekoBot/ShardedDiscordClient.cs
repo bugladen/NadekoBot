@@ -69,7 +69,7 @@ namespace NadekoBot
         public IReadOnlyCollection<SocketGuild> GetGuilds() =>
             Clients.SelectMany(c => c.Guilds).ToList();
 
-        public IGuild GetGuild(ulong id) =>
+        public SocketGuild GetGuild(ulong id) =>
             Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
 
         public Task<IDMChannel> GetDMChannelAsync(ulong channelId) =>

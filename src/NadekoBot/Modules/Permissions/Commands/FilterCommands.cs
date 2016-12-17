@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions
     {
         [Group]
-        public class FilterCommands
+        public class FilterCommands : ModuleBase
         {
             public static ConcurrentHashSet<ulong> InviteFilteringChannels { get; }
             public static ConcurrentHashSet<ulong> InviteFilteringServers { get; }

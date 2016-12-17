@@ -506,11 +506,11 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Videocall([Remainder] string arg = null)
+        public async Task Videocall([Remainder] params IUser[] users)
         {
             try
             {
-                var allUsrs = Context.Message.MentionedUsers.Append(Context.User);
+                var allUsrs = users.Append(Context.User);
                 var allUsrsArray = allUsrs.ToArray();
                 var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
                 str += new NadekoRandom().Next();
@@ -526,9 +526,8 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Avatar([Remainder] string mention = null)
+        public async Task Avatar([Remainder] IUser usr = null)
         {
-            var usr = Context.Message.MentionedUsers().FirstOrDefault();
             if (usr == null)
             {
                 await Context.Channel.SendErrorAsync("Invalid user specified.").ConfigureAwait(false);

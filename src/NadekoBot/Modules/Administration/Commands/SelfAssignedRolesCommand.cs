@@ -170,9 +170,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (conf.ExclusiveSelfAssignedRoles)
                 {
-                    if (guildUser.RoleIds.Contains(role.Id))
+                    var sameRoleId = guildUser.RoleIds.Where(r => roles.Select(sar => sar.RoleId).Contains(r)).FirstOrDefault();
+                    var sameRole = Context.Guild.GetRole(sameRoleId);
+                    if (sameRoleId != default(ulong))
                     {
-                        await Context.Channel.SendErrorAsync($"You already have **{sameRoles.FirstOrDefault().Name}** `exclusive self-assigned` role.").ConfigureAwait(false);
+                        await Context.Channel.SendErrorAsync($"You already have **{sameRole?.Name}** `exclusive self-assigned` role.").ConfigureAwait(false);
                         return;
                     }
                 }

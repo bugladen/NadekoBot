@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     _log = LogManager.GetCurrentClassLogger();
                     this.Repeater = repeater;
-                    this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
+                    this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannelAsync(repeater.ChannelId).GetAwaiter().GetResult();
                     if (Channel == null)
                         return;
                     Task.Run(Run);

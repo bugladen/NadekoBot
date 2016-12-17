@@ -110,8 +110,8 @@ namespace NadekoBot.Modules.Gambling
         public async Task Award(int amount, [Remainder] IRole role)
         {
             var channel = (ITextChannel)Context.Channel;
-            var users = Context.Guild.GetUsers()
-                               .Where(u => u.Roles.Contains(role))
+            var users = (await Context.Guild.GetUsersAsync())
+                               .Where(u => u.GetRoles().Contains(role))
                                .ToList();
             await Task.WhenAll(users.Select(u => CurrencyHandler.AddCurrencyAsync(u.Id,
                                                       $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})",
@@ -218,7 +218,7 @@ $@"```xl
 ┃        Id           ┃  $$$   ┃
 "),
                 (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
-┃{(Context.Guild.GetUser(cs.UserId)?.Username?.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
+┃{(Context.Guild.GetUserAsync(cs.UserId).GetAwaiter().GetResult()?.Username?.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
                         ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
         }
     }

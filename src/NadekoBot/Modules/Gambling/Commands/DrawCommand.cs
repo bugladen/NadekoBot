@@ -10,13 +10,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class DrawCommands
+        public class DrawCommands : ModuleBase
         {
             private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
@@ -33,7 +34,6 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Draw(int num = 1)
             {
-                //var channel = (ITextChannel)Context.Channel;
                 var cards = AllDecks.GetOrAdd(Context.Guild, (s) => new Cards());
                 var images = new List<Image>();
                 var cardObjects = new List<Cards.Card>();

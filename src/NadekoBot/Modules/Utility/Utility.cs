@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Utility
                 var role = Context.Guild.Roles.Where(r => r.Name.ToUpperInvariant() == roleStr).FirstOrDefault();
                 if (role == null) continue;
                 send += $"```css\n[{role.Name}]\n";
-                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Select(u => u.ToString()));
+                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()));
                 send += $"\n```";
             }
             var usr = Context.User as IGuildUser;
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Utility
                 return;
             if (target != null)
             {
-                await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
+                await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
             }
             else
             {

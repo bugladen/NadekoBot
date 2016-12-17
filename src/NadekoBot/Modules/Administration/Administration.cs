@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Administration
         {
             try
             {
-                if (roleToEdit.Position > (await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false)).Roles.Max(r => r.Position))
+                if (roleToEdit.Position > (await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false)).GetRoles().Max(r => r.Position))
                 {
                     await Context.Channel.SendErrorAsync("🚫 You can't edit roles higher than your highest role.").ConfigureAwait(false);
                     return;
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.Administration
         {
             try
             {
-                await user.RemoveRolesAsync(user.Roles).ConfigureAwait(false);
+                await user.RemoveRolesAsync(user.GetRoles()).ConfigureAwait(false);
                 await Context.Channel.SendConfirmAsync($"🗑 Successfully removed **all** roles from user **{user.Username}**").ConfigureAwait(false);
             }
             catch
@@ -237,7 +237,7 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "❗️No reason provided.";
             }
-            if (Context.User.Id != user.Guild.OwnerId && Context.User.Roles.Select(r=>r.Position).Max() >= ((IGuildUser)Context.User).Roles.Select(r => r.Position).Max())
+            if (Context.User.Id != user.Guild.OwnerId && ((IGuildUser)Context.User).GetRoles().Select(r=>r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
             {
                 await Context.Channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.").ConfigureAwait(false);
                 return;
@@ -271,7 +271,7 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "❗️No reason provided.";
             }
-            if (Context.User.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)Context.User).Roles.Select(r => r.Position).Max())
+            if (Context.User.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
             {
                 await Context.Channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
@@ -308,7 +308,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             }
 
-            if (Context.Message.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)Context.User).Roles.Select(r => r.Position).Max())
+            if (Context.Message.Author.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
             {
                 await Context.Channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
@@ -564,7 +564,7 @@ namespace NadekoBot.Modules.Administration
             else if (ids[1].ToUpperInvariant().StartsWith("U:"))
             {
                 var uid = ulong.Parse(ids[1].Substring(2));
-                var user = (await server.GetUsersAsync()).Where(u => u.Id == uid).FirstOrDefault();
+                var user = server.Users.Where(u => u.Id == uid).FirstOrDefault();
                 if (user == null)
                 {
                     return;
@@ -631,7 +631,7 @@ namespace NadekoBot.Modules.Administration
             foreach (var role in roles)
             { 
                 send += $"\n**{role.Name}**\n";
-                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct().Select(u=>u.Mention));
+                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Distinct().Select(u=>u.Mention));
             }
 
             while (send.Length > 2000)

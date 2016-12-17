@@ -7,13 +7,14 @@ using NadekoBot.Services;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class FlipCoinCommands
+        public class FlipCoinCommands : ModuleBase
         {
             private static NadekoRandom rng { get; } = new NadekoRandom();
             private const string headsPath = "data/images/coins/heads.png";

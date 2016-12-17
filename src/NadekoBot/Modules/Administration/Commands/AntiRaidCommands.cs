@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Mute:
                             try
                             {
-                                await MuteCommands.Mute(gu).ConfigureAwait(false);
+                                await MuteCommands.MuteUser(gu).ConfigureAwait(false);
                             }
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                             break;

@@ -93,8 +93,8 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName("**Joined Server**").WithValue($"{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Joined Discord**").WithValue($"{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Current Game**").WithValue($"{(user.Game?.Name == null ? "-" : user.Game.Value.Name)}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count})** - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
-                    .WithThumbnail(tn => tn.WithUrl(user.AvatarUrl))
+                    .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count})** - {string.Join(", ", user.GetRoles().Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
+                    .WithThumbnailUrl(user.AvatarUrl)
                     .WithColor(NadekoBot.OkColor);
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }

@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Administration
                             await guild.CreateRoleAsync(defaultMuteRoleName, GuildPermissions.None).ConfigureAwait(false);
                     }
 
-                    foreach (var toOverwrite in guild.GetTextChannels())
+                    foreach (var toOverwrite in (await guild.GetTextChannelsAsync()))
                     {
                         try
                         {

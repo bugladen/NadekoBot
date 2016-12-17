@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Music
         public async Task Queue([Remainder] string query)
         {
             await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, query).ConfigureAwait(false);
-            if (Context.Guild.GetCurrentUser().GetPermissions(Context.Channel).ManageMessages)
+            if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
                 await Context.Message.DeleteAsync().ConfigureAwait(false);
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Music
         public async Task SoundCloudQueue([Remainder] string query)
         {
             await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);
-            if (Context.Guild.GetCurrentUser().GetPermissions(Context.Channel).ManageMessages)
+            if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
                 await Context.Message.DeleteAsync().ConfigureAwait(false);
@@ -389,7 +389,7 @@ namespace NadekoBot.Modules.Music
                 return;
             }
             await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
-            if (Context.Guild.GetCurrentUser().GetPermissions(Context.Channel).ManageMessages)
+            if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
             {
                 await Task.Delay(10000).ConfigureAwait(false);
                 await Context.Message.DeleteAsync().ConfigureAwait(false);
@@ -793,7 +793,7 @@ namespace NadekoBot.Modules.Music
                             try { lastFinishedMessage = await textCh.SendConfirmAsync($"🎵 Finished {song.PrettyName}").ConfigureAwait(false); } catch { }
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
-                                await QueueSong(queuer.Guild.GetCurrentUser(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                                await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
                             }
                         }
                         catch { }

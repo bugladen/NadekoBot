@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private Task PotentialGuess(IMessage imsg)
         {
-            if (Context.User.IsBot)
+            if (imsg.Author.IsBot)
                 return Task.CompletedTask;
             var umsg = imsg as IUserMessage;
             if (umsg == null)
@@ -137,11 +137,11 @@ namespace NadekoBot.Modules.Games.Trivia
             {
                 try
                 {
-                    if (!(Context.Channel is IGuildChannel && Context.Channel is ITextChannel)) return;
-                    if ((Context.Channel as ITextChannel).Guild != guild) return;
-                    if (Context.User.Id == NadekoBot.Client.CurrentUser().Id) return;
+                    if (!(imsg.Channel is IGuildChannel && imsg.Channel is ITextChannel)) return;
+                    if ((imsg.Channel as ITextChannel).Guild != guild) return;
+                    if (imsg.Author.Id == NadekoBot.Client.CurrentUser().Id) return;
 
-                    var guildUser = Context.User as IGuildUser;
+                    var guildUser = imsg.Author as IGuildUser;
 
                     var guess = false;
                     await _guessLock.WaitAsync().ConfigureAwait(false);

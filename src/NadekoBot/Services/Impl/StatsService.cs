@@ -22,8 +22,8 @@ namespace NadekoBot.Services.Impl
         public int CommandsRan { get; private set; } = 0;
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
         public double MessagesPerSecond => MessageCounter / (double)GetUptime().TotalSeconds;
-        public int TextChannels => client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count();
-        public int VoiceChannels => client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count();
+        public int TextChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is ITextChannel)).Count();
+        public int VoiceChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is IVoiceChannel)).Count();
         public string OwnerIds => string.Join(", ", NadekoBot.Credentials.OwnerIds);
 
 
@@ -64,10 +64,10 @@ namespace NadekoBot.Services.Impl
                 catch { }
             }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
-        public async Task<string> Print()
+        public Task<string> Print()
         {
-            var curUser = await client.CurrentUser();
-            return $@"
+            var curUser = client.CurrentUser();
+            return Task.FromResult($@"
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
@@ -75,7 +75,7 @@ Owner ID(s): {OwnerIds}
 Uptime: {GetUptimeString()}
 Servers: {client.GetGuilds().Count} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
 Commands Ran this session: {CommandsRan}
-Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]";
+Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]");
         }
 
         public Task Reset()

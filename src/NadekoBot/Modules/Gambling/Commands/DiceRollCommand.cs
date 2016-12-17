@@ -10,23 +10,20 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class DriceRollCommands
+        public class DriceRollCommands : ModuleBase
         {
             private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Roll()
             {
-                //var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
                 var rng = new NadekoRandom();
                 var gen = rng.Next(1, 101);
 
@@ -48,14 +45,9 @@ namespace NadekoBot.Modules.Gambling
             }
             //todo merge into internallDndRoll and internalRoll
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task Roll(IUserMessage umsg, string arg)
+            public async Task Roll(string arg)
             {
-                //var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 var ordered = true;
                 var rng = new NadekoRandom();
                 Match match;
@@ -84,14 +76,9 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public async Task Roll(IUserMessage umsg, int num)
+            public async Task Roll(int num)
             {
-                //var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 var ordered = true;
 
                 if (num < 1 || num > 30)
@@ -138,13 +125,8 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Rolluo(IUserMessage umsg, string arg)
+            public async Task Rolluo(string arg)
             {
-                //var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 var ordered = false;
                 var rng = new NadekoRandom();
                 Match match;
@@ -173,13 +155,8 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Rolluo(IUserMessage umsg, int num)
+            public async Task Rolluo(int num)
             {
-                //var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 var ordered = false;
 
                 if (num < 1 || num > 30)
@@ -226,11 +203,8 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task NRoll(IUserMessage umsg, [Remainder] string range)
+            public async Task NRoll([Remainder] string range)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     int rolled;

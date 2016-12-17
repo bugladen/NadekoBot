@@ -102,21 +102,19 @@ namespace NadekoBot.Modules.Help
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        private string GetCommandRequirements(CommandInfo cmd)
-        {
-            return String.Join(" ", cmd.Preconditions
-                      .Where(ca => ca is OwnerOnlyAttribute || ca is RequireUserPermissionAttribute)
-                      .Select(ca =>
-                      {
-                          if (ca is OwnerOnlyAttribute)
-                              return "**Bot Owner only.**";
-                          var cau = (RequireUserPermissionAttribute)ca;
-                          if (cau.GuildPermission != null)
-                              return $"**Requires {cau.GuildPermission} server permission.**".Replace("Guild", "Server");
-                          else
-                              return $"**Requires {cau.ChannelPermission} channel permission.**".Replace("Guild", "Server");
-                      }));
-        }
+        private string GetCommandRequirements(CommandInfo cmd) => 
+            String.Join(" ", cmd.Preconditions
+                  .Where(ca => ca is OwnerOnlyAttribute || ca is RequireUserPermissionAttribute)
+                  .Select(ca =>
+                  {
+                      if (ca is OwnerOnlyAttribute)
+                          return "**Bot Owner only.**";
+                      var cau = (RequireUserPermissionAttribute)ca;
+                      if (cau.GuildPermission != null)
+                          return $"**Requires {cau.GuildPermission} server permission.**".Replace("Guild", "Server");
+                      else
+                          return $"**Requires {cau.ChannelPermission} channel permission.**".Replace("Guild", "Server");
+                  }));
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
