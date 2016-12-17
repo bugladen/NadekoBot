@@ -22,7 +22,6 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class UnitConverterCommands : ModuleBase
         {
-
             public static List<ConvertUnit> Units { get; set; } = new List<ConvertUnit>();
             private static Logger _log { get; }
             private static Timer _timer;
@@ -42,7 +41,7 @@ namespace NadekoBot.Modules.Utility
                     }).ToArray();
 
                     using (var uow = DbHandler.UnitOfWork())
-                    {           
+                    {
                         if (uow.ConverterUnits.Empty())
                         {
                             uow.ConverterUnits.AddRange(data);
@@ -64,7 +63,8 @@ namespace NadekoBot.Modules.Utility
             }
 
             public async Task UpdateCurrency()
-            {try
+            {
+                try
                 {
                     var currencyRates = await UpdateCurrencyRates();
                     var unitTypeString = "currency";
@@ -95,18 +95,19 @@ namespace NadekoBot.Modules.Utility
                     Units.AddRange(range);
                     _log.Info("Updated Currency");
                 }
-                catch {
+                catch
+                {
                     _log.Warn("Failed updating currency.");
                 }
             }
+
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task ConvertList()
             {
                 var res = Units.GroupBy(x => x.UnitType)
                                .Aggregate(new EmbedBuilder().WithTitle("__Units which can be used by the converter__")
                                                             .WithColor(NadekoBot.OkColor),
-                                          (embed, g) => embed.AddField(efb => 
+                                          (embed, g) => embed.AddField(efb =>
                                                                          efb.WithName(g.Key.ToTitleCase())
                                                                          .WithValue(String.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())
                                                                                                        .OrderBy(x => x)))));

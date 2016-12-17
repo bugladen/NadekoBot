@@ -211,7 +211,7 @@ namespace NadekoBot.Modules.Utility
 
             await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithColor(NadekoBot.OkColor),
                                      (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
-                                                                           .WithValue($"```css\nID: {g.Id}\nMembers: {(g.GetUsersAsync().GetAwaiter().GetResult()).Count}\nOwnerID: {g.OwnerId} ```")
+                                                                           .WithValue($"```css\nID: {g.Id}\nMembers: {g.Users.Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false))))
                          .ConfigureAwait(false);
         }
