@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
@@ -42,7 +43,7 @@ namespace NadekoBot.Modules.Games
                 if (data.Length < 3)
                     return;
 
-                var poll = new Poll(umsg, data[0], data.Skip(1), isPublic: isPublic);
+                var poll = new Poll(Context.Message, data[0], data.Skip(1), isPublic: isPublic);
                 if (ActivePolls.TryAdd(channel.Guild, poll))
                 {
                     await poll.StartPoll().ConfigureAwait(false);
@@ -127,10 +128,10 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private Task Vote(IMessage imsg)
+            private Task Vote(SocketMessage imsg)
             {
                 // has to be a user message
-                var msg = imsg as IUserMessage;
+                var msg = imsg as SocketUserMessage;
                 if (msg == null || imsg.Author.IsBot)
                     return Task.CompletedTask;
 
@@ -156,25 +157,25 @@ namespace NadekoBot.Modules.Games
                         else
                         {
                             //if private, channel must be dm channel
-                            if ((ch = Context.Channel as IDMChannel) == null)
+                            if ((ch = msg.Channel as SocketDMChannel) == null)
                                 return;
 
                             // user must be a member of the guild this poll is in
                             var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
-                            if (!guildUsers.Any(u => u.Id == Context.User.Id))
+                            if (!guildUsers.Any(u => u.Id == msg.Author.Id))
                                 return;
                         }
 
                         //user can vote only once
-                        if (participants.TryAdd(Context.User.Id, vote))
+                        if (participants.TryAdd(msg.Author.Id, vote))
                         {
                             if (!isPublic)
                             {
-                                await ch.SendConfirmAsync($"Thanks for voting **{Context.User.Username}**.").ConfigureAwait(false);
+                                await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
                             }
                             else
                             {
-                                var toDelete = await ch.SendConfirmAsync($"{Context.User.Mention} cast their vote.").ConfigureAwait(false);
+                                var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
                                 await Task.Delay(5000);
                                 await toDelete.DeleteAsync().ConfigureAwait(false);
                             }

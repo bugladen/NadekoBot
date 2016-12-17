@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -103,7 +102,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
+                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages)
                 {
                     await channel.SendErrorAsync("I need manage channel permissions in order to process this command.").ConfigureAwait(false);
                     return;

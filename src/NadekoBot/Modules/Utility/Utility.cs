@@ -4,17 +4,11 @@ using NadekoBot.Attributes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Services;
 using System.Text;
 using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Reflection;
-using Discord.WebSocket;
 using NadekoBot.Services.Impl;
-using Discord.API;
-using Embed = Discord.API.Embed;
-using EmbedAuthor = Discord.API.EmbedAuthor;
-using EmbedField = Discord.API.EmbedField;
 
 namespace NadekoBot.Modules.Utility
 {

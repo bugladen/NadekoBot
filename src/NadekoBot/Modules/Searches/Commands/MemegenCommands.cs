@@ -1,10 +1,8 @@
-using Discord.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Discord;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Net.Http;
@@ -15,7 +13,6 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Memelist()
         {
             HttpClientHandler handler = new HttpClientHandler();
@@ -33,8 +30,7 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Memegen(IUserMessage umsg, string meme, string topText, string botText)
+        public async Task Memegen(string meme, string topText, string botText)
         {
             var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
             var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));

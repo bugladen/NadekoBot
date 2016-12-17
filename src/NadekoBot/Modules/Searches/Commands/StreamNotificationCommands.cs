@@ -1,22 +1,18 @@
 ﻿using Discord.Commands;
 using Discord;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using NadekoBot.Services;
 using System.Threading;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Net.Http;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NLog;
-using NadekoBot.Services.Database;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Searches

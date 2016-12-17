@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Games
     {
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Leet(IUserMessage umsg, int level, [Remainder] string text = null)
+        public async Task Leet(int level, [Remainder] string text = null)
         {
             var channel = (ITextChannel)Context.Channel;
 

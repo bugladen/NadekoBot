@@ -16,8 +16,6 @@ using System.IO;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NLog;
-using NadekoBot.Services.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -45,7 +43,7 @@ namespace NadekoBot.Modules.Administration
         {
             try
             {
-                var channel = Context.Channel as SocketTextChannel;
+                var channel = msg.Channel as SocketTextChannel;
                 if (channel == null)
                     return;
 
@@ -53,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                 bool shouldDelete;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    shouldDelete = uow.GuildConfigs.For(Context.Guild.Id, set => set).DeleteMessageOnCommand;
+                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id, set => set).DeleteMessageOnCommand;
                 }
 
                 if (shouldDelete)
@@ -221,7 +219,7 @@ namespace NadekoBot.Modules.Administration
                 var green = Convert.ToByte(rgb ? int.Parse(args[2]) : Convert.ToInt32(arg1.Substring(2, 2), 16));
                 var blue = Convert.ToByte(rgb ? int.Parse(args[3]) : Convert.ToInt32(arg1.Substring(4, 2), 16));
                 
-                await role.ModifyAsync(r => r.Color = new Discord.Color(red, green, blue).RawValue).ConfigureAwait(false);
+                await role.ModifyAsync(r => r.Color = new Color(red, green, blue)).ConfigureAwait(false);
                 await Context.Channel.SendConfirmAsync($"☑️ Role **{role.Name}'s** color has been changed.").ConfigureAwait(false);
             }
             catch (Exception)
@@ -419,9 +417,10 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task SetTopic([Remainder] string topic = null)
         {
+            var channel = (ITextChannel)Context.Channel;
             topic = topic ?? "";
-            await Context.Channel.ModifyAsync(c => c.Topic = topic);
-            await Context.Channel.SendConfirmAsync("🆗 **New channel topic set.**").ConfigureAwait(false);
+            await channel.ModifyAsync(c => c.Topic = topic);
+            await channel.SendConfirmAsync("🆗 **New channel topic set.**").ConfigureAwait(false);
 
         }
         [NadekoCommand, Usage, Description, Aliases]
@@ -429,8 +428,9 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task SetChanlName([Remainder] string name)
         {
-            await Context.Channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync("🆗 **New channel name set.**").ConfigureAwait(false);
+            var channel = (ITextChannel)Context.Channel;
+            await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
+            await channel.SendConfirmAsync("🆗 **New channel name set.**").ConfigureAwait(false);
         }
 
 
@@ -438,7 +438,7 @@ namespace NadekoBot.Modules.Administration
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Prune()
-        {            
+        {
             var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
             
             var enumerable = (await Context.Channel.GetMessagesAsync().Flatten()).AsEnumerable();
@@ -452,8 +452,7 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task Prune(int count)
         {
-
-            await (Context.Message as IUserMessage).DeleteAsync();
+            await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
@@ -507,7 +506,7 @@ namespace NadekoBot.Modules.Administration
                     await sr.CopyToAsync(imgStream);
                     imgStream.Position = 0;
 
-                    await NadekoBot.Client.CurrentUser().ModifyAsync(u => u.Avatar = imgStream).ConfigureAwait(false);
+                    await NadekoBot.Client.CurrentUser().ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
                 }
             }
 

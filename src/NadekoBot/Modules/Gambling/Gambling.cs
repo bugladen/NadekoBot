@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
-using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
-using NadekoBot.Services.Database;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -42,12 +40,9 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Raffle(IUserMessage umsg, [Remainder] IRole role = null)
+        public async Task Raffle([Remainder] IRole role = null)
         {
-            //var channel = (ITextChannel)Context.Channel;
-
-            //role = role ?? channel.Guild.EveryoneRole;
-			role = role ?? Context.Guild.EveryoneRole;
+            role = role ?? Context.Guild.EveryoneRole;
 
             var members = role.Members().Where(u => u.Status != UserStatus.Offline && u.Status != UserStatus.Unknown);
             var membersArray = members as IUser[] ?? members.ToArray();
@@ -57,10 +52,8 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(0)]
-        public async Task Cash(IUserMessage umsg, [Remainder] IUser user = null)
+        public async Task Cash([Remainder] IUser user = null)
         {
-            //var channel = Context.Channel;
-
             user = user ?? Context.User;
 
             await Context.Channel.SendConfirmAsync($"{user.Username} has {GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
@@ -68,18 +61,15 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(1)]
-        public async Task Cash(IUserMessage umsg, ulong userId)
+        public async Task Cash(ulong userId)
         {
-            //var channel = Context.Channel;
-
             await Context.Channel.SendConfirmAsync($"`{userId}` has {GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Give(IUserMessage umsg, long amount, [Remainder] IGuildUser receiver)
+        public async Task Give(long amount, [Remainder] IGuildUser receiver)
         {
-            //var channel = (ITextChannel)Context.Channel;
             if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
             var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
@@ -96,17 +86,15 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public Task Award(IUserMessage umsg, int amount, [Remainder] IGuildUser usr) =>
-            Award(umsg, amount, usr.Id);
+        public Task Award(int amount, [Remainder] IGuildUser usr) =>
+            Award(amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(1)]
-        public async Task Award(IUserMessage umsg, int amount, ulong usrId)
+        public async Task Award(int amount, ulong usrId)
         {
-            //var channel = (ITextChannel)Context.Channel;
-
             if (amount <= 0)
                 return;
 
@@ -119,11 +107,10 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(0)]
-        public async Task Award(IUserMessage umsg, int amount, [Remainder] IRole role)
+        public async Task Award(int amount, [Remainder] IRole role)
         {
             var channel = (ITextChannel)Context.Channel;
             var users = Context.Guild.GetUsers()
-			//var users = channel.Guild.GetUsers()
                                .Where(u => u.Roles.Contains(role))
                                .ToList();
             await Task.WhenAll(users.Select(u => CurrencyHandler.AddCurrencyAsync(u.Id,
@@ -132,7 +119,6 @@ namespace NadekoBot.Modules.Gambling
                          .ConfigureAwait(false);
 
             await Context.Channel.SendConfirmAsync($"Awarded `{amount}` {Gambling.CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
-			//await channel.SendConfirmAsync($"Awarded `{amount}` {Gambling.CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
                          .ConfigureAwait(false);
 
         }
@@ -140,9 +126,8 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Take(IUserMessage umsg, long amount, [Remainder] IGuildUser user)
+        public async Task Take(long amount, [Remainder] IGuildUser user)
         {
-            //var channel = (ITextChannel)Context.Channel;
             if (amount <= 0)
                 return;
 
@@ -156,9 +141,8 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Take(IUserMessage umsg, long amount, [Remainder] ulong usrId)
+        public async Task Take(long amount, [Remainder] ulong usrId)
         {
-            //var channel = (ITextChannel)Context.Channel;
             if (amount <= 0)
                 return;
 
@@ -170,10 +154,8 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task BetRoll(IUserMessage umsg, long amount)
+        public async Task BetRoll(long amount)
         {
-            //var channel = (ITextChannel)Context.Channel;
-
             if (amount < 1)
                 return;
 
@@ -222,8 +204,6 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task Leaderboard()
         {
-            //var channel = (ITextChannel)Context.Channel;
-
             IEnumerable<Currency> richest = new List<Currency>();
             using (var uow = DbHandler.UnitOfWork())
             {

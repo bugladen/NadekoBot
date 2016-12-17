@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -12,7 +13,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class DMForwardCommands
+        public class DMForwardCommands : ModuleBase
         {
             private static bool ForwardDMs { get; set; }
             private static bool ForwardDMsToAllOwners { get; set; }
@@ -31,8 +32,6 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ForwardMessages()
             {
-                //var channel = Context.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -49,8 +48,6 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ForwardToAll()
             {
-                //var channel = Context.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -64,20 +61,20 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            public static async Task HandleDMForwarding(IMessage msg, List<IDMChannel> ownerChannels)
+            public static async Task HandleDMForwarding(SocketMessage msg, List<IDMChannel> ownerChannels)
             {
                 if (ForwardDMs && ownerChannels.Any())
                 {
-                    var title = $"DM from [{Context.User}]({Context.User.Id})";
+                    var title = $"DM from [{msg.Author}]({msg.Author.Id})";
                     if (ForwardDMsToAllOwners)
                     {
-                        var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != Context.User.Id)
+                        var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
                                                                    .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
                     }
                     else
                     {
                         var firstOwnerChannel = ownerChannels.First();
-                        if (firstOwnerChannel.Recipient.Id != Context.User.Id)
+                        if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
                             try { await firstOwnerChannel.SendConfirmAsync(title, msg.Content).ConfigureAwait(false); } catch { }
                     }
                 }

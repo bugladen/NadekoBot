@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        class SelfCommands
+        class SelfCommands : ModuleBase
         {
             private ShardedDiscordClient _client;
 
@@ -22,10 +21,8 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Leave(IUserMessage umsg, [Remainder] string guildStr)
+            public async Task Leave([Remainder] string guildStr)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 guildStr = guildStr.Trim().ToUpperInvariant();
                 var server = _client.GetGuilds().FirstOrDefault(g => g.Id.ToString().Trim().ToUpperInvariant() == guildStr) ?? 
                     _client.GetGuilds().FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);

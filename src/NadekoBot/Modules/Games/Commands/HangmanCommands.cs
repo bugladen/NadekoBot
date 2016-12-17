@@ -1,14 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands.Hangman;
 using NLog;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games

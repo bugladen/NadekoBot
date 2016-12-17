@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Discord.Commands;
-using Discord;
-using System;
 
 namespace NadekoBot.Attributes
 {

@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -32,7 +31,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Placelist()
             {
                 await Context.Channel.SendConfirmAsync(typesStr)
@@ -40,8 +38,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Place(IUserMessage imsg, PlaceType placeType, uint width = 0, uint height = 0)
+            public async Task Place(PlaceType placeType, uint width = 0, uint height = 0)
             {
                 string url = "";
                 switch (placeType)

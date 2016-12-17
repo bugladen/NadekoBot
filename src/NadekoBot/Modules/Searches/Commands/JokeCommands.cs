@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
@@ -43,7 +42,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Yomama()
             {
                 using (var http = new HttpClient())
@@ -54,7 +52,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Randjoke()
             {
                 using (var http = new HttpClient())
@@ -65,7 +62,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task ChuckNorris()
             {
                 using (var http = new HttpClient())
@@ -76,7 +72,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task WowJoke()
             {
                 if (!wowJokes.Any())
@@ -89,7 +84,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task MagicItem()
             {
                 if (!wowJokes.Any())

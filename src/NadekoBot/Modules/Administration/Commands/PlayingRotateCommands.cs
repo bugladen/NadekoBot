@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -16,7 +15,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class PlayingRotateCommands
+        public class PlayingRotateCommands : ModuleBase
         {
             private static Logger _log { get; }
             public static List<PlayingStatus> RotatingStatusMessages { get; }
@@ -70,7 +69,7 @@ namespace NadekoBot.Modules.Administration
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
                 new Dictionary<string, Func<string>> {
                     {"%servers%", () => NadekoBot.Client.GetGuilds().Count().ToString()},
-                    {"%users%", () => NadekoBot.Client.GetGuilds().Select(s => s.GetUsers().Count).Sum().ToString()},
+                    {"%users%", () => NadekoBot.Client.GetGuilds().Select(s => s.Users.Count).Sum().ToString()},
                     {"%playing%", () => {
                             var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                             if (cnt != 1) return cnt.ToString();

@@ -66,7 +66,7 @@ namespace NadekoBot
         public ISelfUser[] GetAllCurrentUsers() =>
             Clients.Select(c => c.CurrentUser).ToArray();
 
-        public IReadOnlyCollection<IGuild> GetGuilds() =>
+        public IReadOnlyCollection<SocketGuild> GetGuilds() =>
             Clients.SelectMany(c => c.Guilds).ToList();
 
         public IGuild GetGuild(ulong id) =>

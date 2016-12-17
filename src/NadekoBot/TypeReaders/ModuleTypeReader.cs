@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 
 namespace NadekoBot.TypeReaders
 {

@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
         }
 
         [Group]
-        public class AntiRaidCommands
+        public class AntiRaidCommands : ModuleBase
         {
             private static ConcurrentDictionary<ulong, AntiRaidSetting> antiRaidGuilds =
                     new ConcurrentDictionary<ulong, AntiRaidSetting>();
@@ -84,10 +84,10 @@ namespace NadekoBot.Modules.Administration
                 NadekoBot.Client.MessageReceived += (imsg) =>
                 {
                     var msg = imsg as IUserMessage;
-                    if (msg == null || Context.User.IsBot)
+                    if (msg == null || imsg.Author.IsBot)
                         return Task.CompletedTask;
 
-                    //var channel = Context.Channel as ITextChannel;
+                    var channel = imsg.Channel as ITextChannel;
                     if (channel == null)
                         return Task.CompletedTask;
 
@@ -96,17 +96,17 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             AntiSpamSetting spamSettings;
-                            if (!antiSpamGuilds.TryGetValue(Context.Guild.Id, out spamSettings))
+                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
                                 return;
 
-                            var stats = spamSettings.UserStats.AddOrUpdate(Context.User.Id, new UserSpamStats(msg.Content),
+                            var stats = spamSettings.UserStats.AddOrUpdate(imsg.Author.Id, new UserSpamStats(msg.Content),
                                 (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
 
                             if (stats.Count >= spamSettings.MessageThreshold)
                             {
-                                if (spamSettings.UserStats.TryRemove(Context.User.Id, out stats))
+                                if (spamSettings.UserStats.TryRemove(imsg.Author.Id, out stats))
                                 {
-                                    await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)Context.User)
+                                    await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)imsg.Author)
                                         .ConfigureAwait(false);
                                 }
                             }
@@ -199,8 +199,6 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task AntiRaid(IUserMessage imsg, int userThreshold, int seconds, PunishmentAction action)
             {
-                ////var channel = (ITextChannel)Context.Channel;
-
                 if (userThreshold < 2 || userThreshold > 30)
                 {
                     await Context.Channel.SendErrorAsync("❗️User threshold must be between **2** and **30**.").ConfigureAwait(false);
@@ -243,8 +241,6 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task AntiSpam(IUserMessage imsg, int messageCount=3, PunishmentAction action = PunishmentAction.Mute)
             {
-                ////var channel = (ITextChannel)Context.Channel;
-
                 if (messageCount < 2 || messageCount > 10)
                     return;
 

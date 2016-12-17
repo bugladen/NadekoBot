@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using System.Threading.Tasks;
-using Discord;
 using NadekoBot.Modules.Permissions;
 
 namespace NadekoBot.TypeReaders

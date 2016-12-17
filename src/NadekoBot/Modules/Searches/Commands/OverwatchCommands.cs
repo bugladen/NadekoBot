@@ -3,10 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
-using Newtonsoft.Json; 
-using NLog;
-using System;
-using System.Linq;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -18,18 +15,12 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OverwatchCommands : ModuleBase
         {
-            private Logger _log;
-            public OverwatchCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-            }
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Overwatch(IUserMessage umsg, string region, [Remainder] string query = null)
+            public async Task Overwatch(string region, [Remainder] string query = null)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
-                var battletag = Regex.Replace(query, "#", "-", RegexOptions.IgnoreCase);
+                var battletag = query.Replace("#", "-");
                 try
                 {
                     var model = await GetProfile(region, battletag);

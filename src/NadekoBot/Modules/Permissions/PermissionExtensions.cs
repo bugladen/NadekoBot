@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -65,7 +64,6 @@ namespace NadekoBot.Modules.Administration
 
             public LogCommands()
             {
-                //_client.MessageReceived += _client_MessageReceived;
                 _client.MessageUpdated += _client_MessageUpdated;
                 _client.MessageDeleted += _client_MessageDeleted;
                 _client.UserBanned += _client_UserBanned;

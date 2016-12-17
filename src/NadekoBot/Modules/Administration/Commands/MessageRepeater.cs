@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -17,7 +16,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class RepeatCommands
+        public class RepeatCommands : ModuleBase
         {
             public static ConcurrentDictionary<ulong, RepeatRunner> repeaters { get; }
 
@@ -53,7 +52,7 @@ namespace NadekoBot.Modules.Administration
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
                             if (oldMsg != null)
                                 try { await oldMsg.DeleteAsync(); } catch { }
-                            try { oldMsg = await Context.Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
+                            try { oldMsg = await Channel.SendMessageAsync("🔄 " + Repeater.Message).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
                         }
                     }
                     catch (OperationCanceledException) { }
@@ -84,10 +83,8 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke()
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 RepeatRunner rep;
-                if (!repeaters.TryGetValue(channel.Id, out rep))
+                if (!repeaters.TryGetValue(Context.Channel.Id, out rep))
                 {
                     await Context.Channel.SendErrorAsync("ℹ️ **No repeating message found on this server.**").ConfigureAwait(false);
                     return;
@@ -101,9 +98,8 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Repeat()
             {
-                //var channel = (ITextChannel)Context.Channel;
                 RepeatRunner rep;
-                if (repeaters.TryRemove(channel.Id, out rep))
+                if (repeaters.TryRemove(Context.Channel.Id, out rep))
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
@@ -122,8 +118,6 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 if (minutes < 1 || minutes > 10080)
                     return;
 
@@ -132,20 +126,20 @@ namespace NadekoBot.Modules.Administration
 
                 RepeatRunner rep;
 
-                rep = repeaters.AddOrUpdate(channel.Id, (cid) =>
+                rep = repeaters.AddOrUpdate(Context.Channel.Id, (cid) =>
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
                         var localRep = new Repeater
                         {
-                            ChannelId = channel.Id,
+                            ChannelId = Context.Channel.Id,
                             GuildId = Context.Guild.Id,
                             Interval = TimeSpan.FromMinutes(minutes),
                             Message = message,
                         };
                         uow.Repeaters.Add(localRep);
                         uow.Complete();
-                        return new RepeatRunner(localRep, channel);
+                        return new RepeatRunner(localRep, (ITextChannel)Context.Channel);
                     }
                 }, (cid, old) =>
                 {

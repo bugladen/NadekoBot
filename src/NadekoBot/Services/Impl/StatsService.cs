@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.WebSocket;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;

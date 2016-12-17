@@ -5,7 +5,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NLog;
 using Services.CleverBotApi;
-using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +18,8 @@ namespace NadekoBot.Modules.Games
         {
             private static Logger _log { get; }
 
-            class CleverAnswer {
+            class CleverAnswer
+            {
                 public string Status { get; set; }
                 public string Response { get; set; }
             }
@@ -41,7 +41,8 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            public static async Task<bool> TryAsk(IUserMessage msg) {
+            public static async Task<bool> TryAsk(IUserMessage msg)
+            {
                 var channel = msg.Channel as ITextChannel;
 
                 if (channel == null)

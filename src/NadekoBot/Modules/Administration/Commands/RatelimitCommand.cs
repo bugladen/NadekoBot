@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class RatelimitCommand
+        public class RatelimitCommand : ModuleBase
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
             private static Logger _log { get; }
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Administration
                     var t = Task.Run(async () =>
                     {
                         var usrMsg = umsg as IUserMessage;
-                        //var channel = usrContext.Channel as ITextChannel;
+                        var channel = umsg.Channel as ITextChannel;
 
                         if (channel == null || usrMsg.IsAuthor())
                             return;
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Administration
                         if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
                             return;
 
-                        if (limiter.CheckUserRatelimit(usrContext.User.Id))
+                        if (limiter.CheckUserRatelimit(umsg.Author.Id))
                             try { await usrMsg.DeleteAsync(); } catch (Exception ex) { _log.Warn(ex); }
                     });
                     return Task.CompletedTask;
@@ -88,10 +88,8 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Slowmode()
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 Ratelimiter throwaway;
-                if (RatelimitingChannels.TryRemove(channel.Id, out throwaway))
+                if (RatelimitingChannels.TryRemove(Context.Channel.Id, out throwaway))
                 {
                     throwaway.cancelSource.Cancel();
                     await Context.Channel.SendConfirmAsync("ℹ️ Slow mode disabled.").ConfigureAwait(false);
@@ -102,11 +100,10 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Slowmode(IUserMessage umsg, int msg, int perSec)
+            public async Task Slowmode(int msg, int perSec)
             {
-                await Slowmode(umsg).ConfigureAwait(false); // disable if exists
-                //var channel = (ITextChannel)Context.Channel;
-
+                await Slowmode().ConfigureAwait(false); // disable if exists
+                
                 if (msg < 1 || perSec < 1 || msg > 100 || perSec > 3600)
                 {
                     await Context.Channel.SendErrorAsync("⚠️ Invalid parameters.");
@@ -114,11 +111,11 @@ namespace NadekoBot.Modules.Administration
                 }
                 var toAdd = new Ratelimiter()
                 {
-                    ChannelId = channel.Id,
+                    ChannelId = Context.Channel.Id,
                     MaxMessages = msg,
                     PerSeconds = perSec,
                 };
-                if(RatelimitingChannels.TryAdd(channel.Id, toAdd))
+                if(RatelimitingChannels.TryAdd(Context.Channel.Id, toAdd))
                 {
                     await Context.Channel.SendConfirmAsync("Slow mode initiated",
                                                 $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.")

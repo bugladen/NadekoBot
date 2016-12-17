@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using NadekoBot.Services;
 using NLog;
 
 namespace NadekoBot.Modules

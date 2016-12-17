@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.API;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;

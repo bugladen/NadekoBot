@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class AutoAssignRoleCommands
+        public class AutoAssignRoleCommands : ModuleBase
         {
             private static Logger _log { get; }
 
@@ -48,8 +48,6 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {

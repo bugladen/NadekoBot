@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
 
                         try
                         {
-                            var text = await TranslateInternal(umsg, langs, umsg.Resolve(userHandling: TagHandling.Ignore), true)
+                            var text = await TranslateInternal(langs, umsg.Resolve(userHandling: TagHandling.Ignore), true)
                                                 .ConfigureAwait(false);
                             if (autoDelete)
                                 try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
@@ -67,24 +67,21 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                    var translation = await TranslateInternal(umsg, langs, text);
-                    await channel.SendConfirmAsync("Translation " + langs, translation).ConfigureAwait(false);
+                    var translation = await TranslateInternal(langs, text);
+                    await Context.Channel.SendConfirmAsync("Translation " + langs, translation).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await channel.SendErrorAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Bad input format, or something went wrong...").ConfigureAwait(false);
                 }
             }
 
-            private static async Task<string> TranslateInternal(IUserMessage umsg, string langs, [Remainder] string text = null, bool silent = false)
+            private static async Task<string> TranslateInternal(string langs, [Remainder] string text = null, bool silent = false)
             {
                 var langarr = langs.ToLowerInvariant().Split('>');
                 if (langarr.Length != 2)

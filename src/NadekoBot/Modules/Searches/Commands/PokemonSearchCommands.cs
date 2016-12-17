@@ -41,7 +41,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Pokemon([Remainder] string pokemon = null)
             {
                 pokemon = pokemon?.Trim().ToUpperInvariant();
@@ -67,7 +66,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task PokemonAbility([Remainder] string ability = null)
             {
                 ability = ability?.Trim().ToUpperInvariant().Replace(" ", "");

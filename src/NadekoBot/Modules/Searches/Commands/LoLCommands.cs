@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 //todo drawing
@@ -33,7 +31,6 @@ namespace NadekoBot.Modules.Searches
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Lolban()
         {
             var showCount = 8;

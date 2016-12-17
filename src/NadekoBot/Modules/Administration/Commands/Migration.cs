@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
@@ -21,7 +20,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class Migration
+        public class Migration : ModuleBase
         {
             private const int CURRENT_VERSION = 1;
 
@@ -36,8 +35,6 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task MigrateData()
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())
                 {

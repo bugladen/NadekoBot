@@ -21,7 +21,7 @@
     "CoreCLR-NCalc": "2.1.2",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.19.0.655",
-    "ImageSharp": "1.0.0-alpha-000079",
+    "ImageSharp": "1.0.0-alpha-*",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
@@ -38,7 +38,9 @@
     "Newtonsoft.Json": "9.0.2-beta1",
     "NLog": "5.0.0-beta03",
     "System.Diagnostics.Contracts": "4.3.0",
-    "System.Xml.XPath": "4.3.0"
+    "System.Xml.XPath": "4.3.0",
+    "Discord.Net.Commands": "1.0.0-beta2-*",
+    "Discord.Net.WebSocket": "1.0.0-beta2-*"
   },
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",

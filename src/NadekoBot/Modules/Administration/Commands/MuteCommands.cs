@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -8,9 +7,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -18,7 +15,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class MuteCommands
+        public class MuteCommands : ModuleBase
         {
             private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
 
@@ -59,11 +56,11 @@ namespace NadekoBot.Modules.Administration
                 if (muted == null || !muted.Contains(usr.Id))
                     return;
                 else
-                    await Mute(usr).ConfigureAwait(false);
+                    await MuteCommands.MuteUser(usr).ConfigureAwait(false);
                     
             }
 
-            public static async Task Mute(IGuildUser usr)
+            public static async Task MuteUser(IGuildUser usr)
             {
                 await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
                 await usr.AddRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false);
@@ -83,7 +80,7 @@ namespace NadekoBot.Modules.Administration
                 await UserMuted(usr, MuteType.All).ConfigureAwait(false);
             }
 
-            public static async Task Unmute(IGuildUser usr)
+            public static async Task UnmuteUser(IGuildUser usr)
             {
                 await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
                 await usr.RemoveRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false);
@@ -160,20 +157,18 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [Priority(0)]
-            public Task SetMuteRole(IUserMessage imsg, [Remainder] IRole role)
-                => SetMuteRole(imsg, role.Name);
+            public Task SetMuteRole([Remainder] IRole role)
+                => SetMuteRole(Context.Message, role.Name);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task Mute(IUserMessage umsg, IGuildUser user)
+            public async Task Mute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
-                    await Mute(user).ConfigureAwait(false);                    
+                    await MuteUser(user).ConfigureAwait(false);                    
                     await Context.Channel.SendConfirmAsync($"🔇 **{user}** has been **muted** from text and voice chat.").ConfigureAwait(false);
                 }
                 catch
@@ -186,13 +181,11 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task Unmute(IUserMessage umsg, IGuildUser user)
+            public async Task Unmute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
-                    await Unmute(user).ConfigureAwait(false);
+                    await UnmuteUser(user).ConfigureAwait(false);
                     await Context.Channel.SendConfirmAsync($"🔉 **{user}** has been **unmuted** from text and voice chat.").ConfigureAwait(false);
                 }
                 catch
@@ -204,10 +197,8 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            public async Task ChatMute(IUserMessage umsg, IGuildUser user)
+            public async Task ChatMute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     await user.AddRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
@@ -223,10 +214,8 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            public async Task ChatUnmute(IUserMessage umsg, IGuildUser user)
+            public async Task ChatUnmute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     await user.RemoveRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
@@ -242,10 +231,8 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task VoiceMute(IUserMessage umsg, IGuildUser user)
+            public async Task VoiceMute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     await user.ModifyAsync(usr => usr.Mute = true).ConfigureAwait(false);
@@ -261,9 +248,8 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task VoiceUnmute(IUserMessage umsg, IGuildUser user)
+            public async Task VoiceUnmute(IGuildUser user)
             {
-                //var channel = (ITextChannel)Context.Channel;
                 try
                 {
                     await user.ModifyAsync(usr => usr.Mute = false).ConfigureAwait(false);
