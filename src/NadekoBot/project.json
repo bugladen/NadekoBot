@@ -39,8 +39,14 @@
     "NLog": "5.0.0-beta03",
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Xml.XPath": "4.3.0",
-    "Discord.Net.Commands": "1.0.0-beta2-*",
-    "Discord.Net.WebSocket": "1.0.0-beta2-*"
+    "Discord.Net.Commands": {
+      "target": "project",
+      "version": "1.0.0-*"
+    },
+    "Discord.Net.WebSocket": {
+      "target": "project",
+      "version": "1.0.0-*"
+    }
   },
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",

@@ -83,7 +83,7 @@ namespace NadekoBot
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
             CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
-            CommandService.AddTypeReader<Module>(new ModuleTypeReader());
+            CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
             //connect

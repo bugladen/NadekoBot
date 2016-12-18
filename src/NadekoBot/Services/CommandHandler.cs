@@ -60,7 +60,7 @@ namespace NadekoBot.Services
 
         private async Task MessageReceivedHandler(SocketMessage msg)
         {
-            var usrMsg = msg as SocketUserMessage;
+           var usrMsg = msg as SocketUserMessage;
             if (usrMsg == null)
                 return;
 
@@ -140,7 +140,7 @@ namespace NadekoBot.Services
 
                 try
                 {
-                    var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, msg.Author, MultiMatchHandling.Best);
+                    var t = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), usrMsg.Content, DependencyMap.Empty, MultiMatchHandling.Best);
                     var command = t.Item1;
                     var permCache = t.Item2;
                     var result = t.Item3;
@@ -206,24 +206,27 @@ namespace NadekoBot.Services
             return;
         }
 
-        public async Task<Tuple<CommandInfo, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, SocketGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
-            var searchResult = _commandService.Search(message, input);
+        public async Task<Tuple<CommandInfo, PermissionCache, IResult>> ExecuteCommand(CommandContext context, string input, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        {
+            dependencyMap = dependencyMap ?? DependencyMap.Empty;
+
+            var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
                 return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, searchResult);
 
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
             {
-                var preconditionResult = await commands[i].CheckPreconditions(message);
+                var preconditionResult = await commands[i].CheckPreconditionsAsync(context).ConfigureAwait(false);
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)
-                        return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, searchResult);
+                        return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, preconditionResult);
                     else
                         continue;
                 }
 
-                var parseResult = await commands[i].Parse(message, searchResult, preconditionResult);
+                var parseResult = await commands[i].ParseAsync(context, searchResult, preconditionResult).ConfigureAwait(false);
                 if (!parseResult.IsSuccess)
                 {
                     if (parseResult.Error == CommandError.MultipleMatches)
@@ -251,13 +254,13 @@ namespace NadekoBot.Services
                 var cmd = commands[i];
                 bool resetCommand = cmd.Name == "ResetPermissions";
                 PermissionCache pc;
-                if (guild != null)
+                if (context.Guild != null)
                 {
-                    pc = Permissions.Cache.GetOrAdd(guild.Id, (id) =>
+                    pc = Permissions.Cache.GetOrAdd(context.Guild.Id, (id) =>
                     {
                         using (var uow = DbHandler.UnitOfWork())
                         {
-                            var config = uow.GuildConfigs.PermissionsFor(guild.Id);
+                            var config = uow.GuildConfigs.PermissionsFor(context.Guild.Id);
                             return new PermissionCache()
                             {
                                 Verbose = config.VerbosePermissions,
@@ -267,16 +270,16 @@ namespace NadekoBot.Services
                         }
                     });
                     int index;
-                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(message, cmd.Aliases.First(), cmd.Module.Name, out index))
+                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(context.Message, cmd.Aliases.First(), cmd.Module.Name, out index))
                     {
-                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand(guild)}** is preventing this action.";
+                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
                         return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
 
                     if (cmd.Module.Name == typeof(Permissions).Name)
                     {
-                        if (!((IGuildUser)user).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
+                        if (!((IGuildUser)context.User).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                         {
                             return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
@@ -284,10 +287,10 @@ namespace NadekoBot.Services
                 }
 
 
-                if (CmdCdsCommands.HasCooldown(cmd, guild, user))
+                if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
                     return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
 
-                return new Tuple<CommandInfo, PermissionCache, IResult>(commands[i], null, await commands[i].Execute(message, parseResult));
+                return new Tuple<CommandInfo, PermissionCache, IResult>(commands[i], null, await commands[i].Execute(context, parseResult, dependencyMap));
             }
 
             return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));

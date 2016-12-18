@@ -8,6 +8,7 @@ using Discord;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -102,7 +103,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 var perms = uow.GuildConfigs.PermissionsFor(Context.Guild.Id).RootPermission;
                 var i = 1 + 20 * (page - 1);
-                toSend = Format.Code($"📄 Permissions page {page}") + "\n\n" + String.Join("\n", perms.AsEnumerable().Skip((page - 1) * 20).Take(20).Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand(Context.Guild) + " [uneditable]") : (p.GetCommand(Context.Guild)))}"));
+                toSend = Format.Code($"📄 Permissions page {page}") + "\n\n" + String.Join("\n", perms.AsEnumerable().Skip((page - 1) * 20).Take(20).Select(p => $"`{(i++)}.` {(p.Next == null ? Format.Bold(p.GetCommand((SocketGuild)Context.Guild) + " [uneditable]") : (p.GetCommand((SocketGuild)Context.Guild)))}"));
             }
 
             await Context.Channel.SendMessageAsync(toSend).ConfigureAwait(false);
@@ -148,7 +149,7 @@ namespace NadekoBot.Modules.Permissions
                     uow2._context.SaveChanges();
                 }
 
-                await Context.Channel.SendConfirmAsync($"✅ {Context.User.Mention} removed permission **{p.GetCommand(Context.Guild)}** from position #{index + 1}.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"✅ {Context.User.Mention} removed permission **{p.GetCommand((SocketGuild)Context.Guild)}** from position #{index + 1}.").ConfigureAwait(false);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -255,7 +256,7 @@ namespace NadekoBot.Modules.Permissions
                         }, (id, old) => { old.RootPermission = config.RootPermission; return old; });
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await Context.Channel.SendConfirmAsync($"`Moved permission:` \"{fromPerm.GetCommand(Context.Guild)}\" `from #{++from} to #{++to}.`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"`Moved permission:` \"{fromPerm.GetCommand((SocketGuild)Context.Guild)}\" `from #{++from} to #{++to}.`").ConfigureAwait(false);
                     return;
                 }
                 catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)

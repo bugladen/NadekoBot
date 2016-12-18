@@ -60,11 +60,11 @@ namespace NadekoBot
             Clients = clientList.AsReadOnly();
         }
 
-        public ISelfUser CurrentUser() =>
-            Clients[0].CurrentUser;
+        public DiscordSocketClient MainClient =>
+            Clients[0];
 
-        public ISelfUser[] GetAllCurrentUsers() =>
-            Clients.Select(c => c.CurrentUser).ToArray();
+        public SocketSelfUser CurrentUser() =>
+            Clients[0].CurrentUser;
 
         public IReadOnlyCollection<SocketGuild> GetGuilds() =>
             Clients.SelectMany(c => c.Guilds).ToList();
