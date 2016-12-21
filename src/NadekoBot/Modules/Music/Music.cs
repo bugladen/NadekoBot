@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace NadekoBot.Modules.Music
 {
@@ -30,13 +31,13 @@ namespace NadekoBot.Modules.Music
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }
-        
-        NadekoBot.Client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+
+            NadekoBot.Client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
 
             Directory.CreateDirectory(MusicDataPath);
         }
-    
-    private async Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+
+        private async Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var usr = iusr as SocketGuildUser;
             if (usr == null ||
@@ -100,7 +101,7 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                if(MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
             return Task.CompletedTask;
         }
@@ -145,7 +146,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(int page = 1)
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
             {
@@ -165,7 +166,7 @@ namespace NadekoBot.Modules.Music
             }
 
             //var toSend = $"🎵 Currently Playing {currentSong.PrettyName} " + $"`{currentSong.PrettyCurrentTime()}`\n";
-        var toSend = $"🎵 Currently Playing {currentSong.PrettyName}\n";
+            var toSend = $"🎵 Currently Playing {currentSong.PrettyName}\n";
             if (musicPlayer.RepeatSong)
                 toSend += "🔂";
             else if (musicPlayer.RepeatPlaylist)
@@ -191,28 +192,28 @@ namespace NadekoBot.Modules.Music
             var currentSong = musicPlayer.CurrentSong;
             if (currentSong == null)
                 return;
-        var videoid = Regex.Match(currentSong.SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
+            var videoid = Regex.Match(currentSong.SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
 
             if (currentSong.TotalLength == TimeSpan.Zero)
             {
                 await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
             }
-        var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName("Now Playing").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-                .WithTitle($"{currentSong.SongInfo.Title}")
-                .WithUrl($"{currentSong.SongInfo.Query}")
-                .WithDescription($"{currentSong.PrettyCurrentTime()}")
-                .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyUser}"))
-                        .WithColor(NadekoBot.OkColor);
-        if (currentSong.SongInfo.Provider.Equals("YouTube", StringComparison.OrdinalIgnoreCase))
-        {
+            var embed = new EmbedBuilder()
+                        .WithAuthor(eab => eab.WithName("Now Playing").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+                    .WithTitle($"{currentSong.SongInfo.Title}")
+                    .WithUrl($"{currentSong.SongInfo.Query}")
+                    .WithDescription($"{currentSong.PrettyCurrentTime()}")
+                    .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.PrettyUser}"))
+                            .WithColor(NadekoBot.OkColor);
+            if (currentSong.SongInfo.Provider.Equals("YouTube", StringComparison.OrdinalIgnoreCase))
+            {
                 embed.WithThumbnailUrl($"https://img.youtube.com/vi/{videoid}/0.jpg");
-        }
-        else if (currentSong.SongInfo.Provider.Equals("SoundCloud", StringComparison.OrdinalIgnoreCase))
-        {
+            }
+            else if (currentSong.SongInfo.Provider.Equals("SoundCloud", StringComparison.OrdinalIgnoreCase))
+            {
                 embed.WithThumbnailUrl($"{currentSong.SongInfo.AlbumArt}");
-        }
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -234,7 +235,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Defvol([Remainder] int val)
         {
-            
+
 
             if (val < 0 || val > 100)
             {
@@ -253,7 +254,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task ShufflePlaylist()
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
@@ -273,7 +274,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Playlist([Remainder] string playlist)
         {
-            
+
             var arg = playlist;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
@@ -298,15 +299,22 @@ namespace NadekoBot.Modules.Music
             var count = idArray.Length;
             var msg =
                 await Context.Channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
-            foreach (var id in idArray)
+            var cancelSource = new CancellationTokenSource();
+
+            var tasks = Task.WhenAll(idArray.Select(async id =>
             {
+                if (cancelSource.Token.IsCancellationRequested)
+                    return;
                 try
                 {
                     await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, id, true).ConfigureAwait(false);
                 }
                 catch (SongNotFoundException) { }
-                catch { break; }
-            }
+                catch { try { cancelSource.Cancel(); } catch { } }
+            }));
+
+            await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
+
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
 
@@ -314,7 +322,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl([Remainder] string pl)
         {
-            
+
             pl = pl?.Trim();
 
             if (string.IsNullOrWhiteSpace(pl))
@@ -352,7 +360,7 @@ namespace NadekoBot.Modules.Music
         [OwnerOnly]
         public async Task LocalPl([Remainder] string directory)
         {
-            
+
             var arg = directory;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
@@ -382,7 +390,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Radio(string radio_link)
         {
-            
+
             if (((IGuildUser)Context.User).VoiceChannel?.Guild != Context.Guild)
             {
                 await Context.Channel.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining it.").ConfigureAwait(false);
@@ -401,7 +409,7 @@ namespace NadekoBot.Modules.Music
         [OwnerOnly]
         public async Task Local([Remainder] string path)
         {
-            
+
             var arg = path;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
@@ -413,7 +421,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Move()
         {
-            
+
             MusicPlayer musicPlayer;
             var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
             if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
@@ -426,7 +434,7 @@ namespace NadekoBot.Modules.Music
         [Priority(0)]
         public async Task Remove(int num)
         {
-            
+
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
@@ -447,7 +455,7 @@ namespace NadekoBot.Modules.Music
         [Priority(1)]
         public async Task Remove(string all)
         {
-            
+
 
             if (all.Trim().ToUpperInvariant() != "ALL")
                 return;
@@ -520,7 +528,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task ReptCurSong()
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
@@ -538,7 +546,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task RepeatPl()
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
@@ -550,14 +558,15 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Save([Remainder] string name)
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
 
             var curSong = musicPlayer.CurrentSong;
             var songs = musicPlayer.Playlist.Append(curSong)
-                                .Select(s=> new PlaylistSong() {
+                                .Select(s => new PlaylistSong()
+                                {
                                     Provider = s.SongInfo.Provider,
                                     ProviderType = s.SongInfo.ProviderType,
                                     Title = s.SongInfo.Title,
@@ -617,7 +626,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Playlists([Remainder] int num = 1)
         {
-            
+
 
             if (num <= 0)
                 return;
@@ -639,7 +648,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task DeletePlaylist([Remainder] int id)
         {
-            
+
 
             bool success = false;
             MusicPlaylist pl = null;
@@ -677,8 +686,6 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Goto(int time)
         {
-            
-
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
@@ -714,7 +721,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task GetLink(int index = 0)
         {
-            
+
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
@@ -779,7 +786,7 @@ namespace NadekoBot.Modules.Music
                 }
                 var mp = new MusicPlayer(voiceCh, vol);
                 IUserMessage playingMessage = null;
-        IUserMessage lastFinishedMessage = null;
+                IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
                     if (song.PrintStatusMessage)
@@ -807,21 +814,21 @@ namespace NadekoBot.Modules.Music
                         if (sender == null)
                             return;
 
-                            var msgTxt = $"🎵 Playing {song.PrettyName}\t `Vol: {(int)(sender.Volume * 100)}%`";
+                        var msgTxt = $"🎵 Playing {song.PrettyName}\t `Vol: {(int)(sender.Volume * 100)}%`";
                         try { playingMessage = await textCh.SendConfirmAsync(msgTxt).ConfigureAwait(false); } catch { }
                     }
                 };
-        mp.OnPauseChanged += async (paused) =>
-                {
-                    try
-                    {
-                        if (paused)
-                            await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                        else
-                            await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-                    }
-                    catch { }
-                };
+                mp.OnPauseChanged += async (paused) =>
+                        {
+                            try
+                            {
+                                if (paused)
+                                    await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                                else
+                                    await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                            }
+                            catch { }
+                        };
                 return mp;
             });
             Song resolvedSong;
@@ -850,7 +857,7 @@ namespace NadekoBot.Modules.Music
                         try
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
-                        
+
                             await queuedMessage.DeleteAsync().ConfigureAwait(false);
                         }
                         catch { }
