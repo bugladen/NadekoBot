@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games
                 {
                     var bot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
                     CleverbotGuilds = new ConcurrentDictionary<ulong, ChatterBotSession>(
-                        uow.GuildConfigs.GetAll()
+                        NadekoBot.AllGuildConfigs
                             .Where(gc => gc.CleverbotEnabled)
                             .ToDictionary(gc => gc.GuildId, gc => bot.CreateSession()));
                 }
