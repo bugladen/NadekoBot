@@ -47,14 +47,19 @@ namespace NadekoBot.Modules.Music.Classes
             var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
             var str = $"{(int)time.TotalMinutes}m {time.Seconds}s / ";
             if (TotalLength == TimeSpan.Zero)
-                str += "**?**";
+                str += "(?)";
             else if (TotalLength == TimeSpan.MaxValue)
                 str += "**∞**";
             else
                 str += $"{(int)TotalLength.TotalMinutes}m {TotalLength.Seconds}s";
             return str;
         }
-
+		public string PrettyMusicPlayTime()
+		{
+		var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
+        var str = $"{(int)time.TotalMinutes}m {time.Seconds}s ";
+		return str;
+		}
         const int milliseconds = 20;
         const int samplesPerFrame = (48000 / 1000) * milliseconds;
         const int frameBytes = 3840; //16-bit, 2 channels
