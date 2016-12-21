@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Searches
 
 //        public override void Init(CommandGroupBuilder cgb)
 //        {
-//            cgb.CreateCommand(Module.Prefix + "lolchamp")
+//            cgb.CreateCommand(Module.Name + "lolchamp")
 //                  .Description($"Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. |`{Prefix}lolchamp Riven` or `{Prefix}lolchamp Annie sup`")
 //                  .Parameter("champ", ParameterType.Required)
 //                  .Parameter("position", ParameterType.Unparsed)

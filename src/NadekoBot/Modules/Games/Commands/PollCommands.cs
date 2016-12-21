@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
-            public Task PublicPoll(IUserMessage umsg, [Remainder] string arg = null)
+            public Task PublicPoll([Remainder] string arg = null)
                 => InternalStartPoll(arg, isPublic: true);
 
             private async Task InternalStartPoll(string arg, bool isPublic = false)

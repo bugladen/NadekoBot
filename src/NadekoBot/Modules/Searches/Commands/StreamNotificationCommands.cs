@@ -268,7 +268,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task CheckStream(IUserMessage imsg, FollowedStream.FollowedStreamType platform, [Remainder] string username)
+            public async Task CheckStream(FollowedStream.FollowedStreamType platform, [Remainder] string username)
             {
                 var stream = username?.Trim();
                 if (string.IsNullOrWhiteSpace(stream))

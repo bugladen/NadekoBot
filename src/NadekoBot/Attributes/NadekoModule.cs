@@ -26,7 +26,7 @@ namespace NadekoBot.Attributes
             }
         }
 
-        public NadekoModuleAttribute(string moduleName, string defaultPrefix) : base(GetModulePrefix(moduleName, defaultPrefix))
+        public NadekoModuleAttribute(string moduleName, string defaultPrefix) : base(GetModulePrefix(moduleName, defaultPrefix), moduleName)
         {
             //AppendSpace = false;
         }

@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task JoinRace(IUserMessage umsg, int amount = 0)
+            public async Task JoinRace(int amount = 0)
             {
                 if (amount < 0)
                     amount = 0;

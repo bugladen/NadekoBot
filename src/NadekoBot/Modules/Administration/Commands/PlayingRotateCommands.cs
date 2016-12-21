@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task AddPlaying(IUserMessage umsg, [Remainder] string status)
+            public async Task AddPlaying([Remainder] string status)
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task RemovePlaying(IUserMessage umsg, int index)
+            public async Task RemovePlaying(int index)
             {
                 index -= 1;
 

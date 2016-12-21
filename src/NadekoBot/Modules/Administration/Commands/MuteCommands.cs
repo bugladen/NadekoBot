@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [Priority(1)]
-            public async Task SetMuteRole(IUserMessage imsg, [Remainder] string name)
+            public async Task SetMuteRole([Remainder] string name)
             {
                 //var channel = (ITextChannel)Context.Channel;
                 name = name.Trim();
@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [Priority(0)]
             public Task SetMuteRole([Remainder] IRole role)
-                => SetMuteRole(Context.Message, role.Name);
+                => SetMuteRole(role.Name);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

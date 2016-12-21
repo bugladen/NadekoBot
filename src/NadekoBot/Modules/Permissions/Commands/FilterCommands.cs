@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task FilterWord(IUserMessage imsg, [Remainder] string word)
+            public async Task FilterWord([Remainder] string word)
             {
                 var channel = (ITextChannel)Context.Channel;
 

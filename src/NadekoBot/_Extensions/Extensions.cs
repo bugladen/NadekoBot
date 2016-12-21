@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Commands;
 using ImageSharp;
 using Newtonsoft.Json;
 using System;
@@ -20,6 +21,16 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Clear();
             http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        }
+
+        public static string GetPrefix(this ModuleInfo module) => NadekoBot.ModulePrefixes[module.GetTopLevelModule().Name];
+
+        public static ModuleInfo GetTopLevelModule(this ModuleInfo module) {
+            while (module.Parent != null)
+            {
+                module = module.Parent;
+            }
+            return module;
         }
 
         public static async Task<IMessage> SendMessageToOwnerAsync(this IGuild guild, string message)
@@ -85,8 +96,8 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> SendErrorAsync(this IGuildUser user, string error)
              => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
 
-        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, bool isTTS = false) =>
-            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(filePath, caption, isTTS).ConfigureAwait(false);
+        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
+            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(File.Open(filePath, FileMode.Open), caption ?? "x", text, isTTS).ConfigureAwait(false);
 
         public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);

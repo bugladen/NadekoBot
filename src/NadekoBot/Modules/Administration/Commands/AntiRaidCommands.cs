@@ -197,7 +197,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task AntiRaid(IUserMessage imsg, int userThreshold, int seconds, PunishmentAction action)
+            public async Task AntiRaid(int userThreshold, int seconds, PunishmentAction action)
             {
                 if (userThreshold < 2 || userThreshold > 30)
                 {
@@ -239,7 +239,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task AntiSpam(IUserMessage imsg, int messageCount=3, PunishmentAction action = PunishmentAction.Mute)
+            public async Task AntiSpam(int messageCount=3, PunishmentAction action = PunishmentAction.Mute)
             {
                 if (messageCount < 2 || messageCount > 10)
                     return;

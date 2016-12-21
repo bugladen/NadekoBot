@@ -748,7 +748,7 @@ namespace NadekoBot.Modules.Administration
 
             //[LocalizedCommand, LocalizedDescription, LocalizedSummary, LocalizedAlias]
             //[RequireContext(ContextType.Guild)]
-            //public async Task VoiPresIgnore(IUserMessage imsg, IVoiceChannel voiceChannel)
+            //public async Task VoiPresIgnore(IVoiceChannel voiceChannel)
             //{
             //    //var channel = (ITextChannel)Context.Channel;
             //    int removed;

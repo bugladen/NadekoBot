@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Anime(IUserMessage umsg, [Remainder] string query)
+            public async Task Anime([Remainder] string query)
             {
                 var channel = (ITextChannel)Context.Channel;
 
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Manga(IUserMessage umsg, [Remainder] string query)
+            public async Task Manga([Remainder] string query)
             {
                 var channel = (ITextChannel)Context.Channel;
 

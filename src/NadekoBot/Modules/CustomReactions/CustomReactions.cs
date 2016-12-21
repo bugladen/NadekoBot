@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task ShowCustReact(IUserMessage imsg, int id)
+        public async Task ShowCustReact(int id)
         {
             ConcurrentHashSet<CustomReaction> customReactions;
             if (Context.Guild == null)
@@ -229,7 +229,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task DelCustReact(IUserMessage imsg, int id)
+        public async Task DelCustReact(int id)
         {
             if ((Context.Guild == null && !NadekoBot.Credentials.IsOwner(Context.User)) || (Context.Guild != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
             {
@@ -268,7 +268,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task CrStatsClear(IUserMessage imsg, string trigger = null)
+        public async Task CrStatsClear(string trigger = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
             {
@@ -290,7 +290,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task CrStats(IUserMessage imsg, int page = 1)
+        public async Task CrStats(int page = 1)
         {
             if (page < 1)
                 return;

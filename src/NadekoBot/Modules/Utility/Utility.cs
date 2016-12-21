@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task ListServers(IUserMessage imsg, int page = 1)
+        public async Task ListServers(int page = 1)
         {
             var channel = (ITextChannel)Context.Channel;
 

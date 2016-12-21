@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Gambling
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Flip(IUserMessage imsg, int count = 1)
+            public async Task Flip(int count = 1)
             {
                 //var channel = (ITextChannel)Context.Channel;
                 if (count == 1)
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Betflip(IUserMessage umsg, int amount, string guess)
+            public async Task Betflip(int amount, string guess)
             {
                 //var channel = (ITextChannel)Context.Channel;
                 var guildUser = (IGuildUser)Context.User;

@@ -214,7 +214,7 @@ namespace NadekoBot.Modules.NSFW
 
                 if (matches.Count == 0)
                     return null;
-                return matches[rng.Next(0, matches.Count)].Groups["ll"].Value;
+                return "http:" + matches[rng.Next(0, matches.Count)].Groups["ll"].Value;
             }
         }
 

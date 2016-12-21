@@ -362,7 +362,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task ByeDel(IUserMessage umsg, int timer = 30)
+            public async Task ByeDel(int timer = 30)
             {
                 await ServerGreetCommands.SetByeDel(Context.Guild.Id, timer).ConfigureAwait(false);
 

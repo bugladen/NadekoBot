@@ -71,6 +71,7 @@ namespace NadekoBot.Services
 
             if (guild != null && guild.OwnerId != msg.Author.Id)
             {
+                //todo split checks into their own modules
                 if (Permissions.FilterCommands.InviteFilteringChannels.Contains(msg.Channel.Id) ||
                     Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
                 {
@@ -133,6 +134,18 @@ namespace NadekoBot.Services
             }
             catch { }
 
+            string messageContent = usrMsg.Content;
+            foreach (var k in NadekoBot.ModulePrefixes.Values)
+            {
+                if (usrMsg.Content.ToLowerInvariant().StartsWith(k))
+                {
+                    messageContent = messageContent.Insert(k.Length, " ");
+                    break;
+                }
+
+            }
+
+
             var throwaway = Task.Run(async () =>
             {
                 var sw = new Stopwatch();
@@ -140,10 +153,10 @@ namespace NadekoBot.Services
 
                 try
                 {
-                    var t = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), usrMsg.Content, DependencyMap.Empty, MultiMatchHandling.Best);
-                    var command = t.Item1;
-                    var permCache = t.Item2;
-                    var result = t.Item3;
+                    var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
+                    var command = exec.CommandInfo;
+                    var permCache = exec.PermissionCache;
+                    var result = exec.Result;
                     sw.Stop();
                     var channel = (msg.Channel as ITextChannel);
                     if (result.IsSuccess)
@@ -205,14 +218,17 @@ namespace NadekoBot.Services
             });
             return;
         }
+        public Task<ExecuteCommandResult> ExecuteCommandAsync(CommandContext context, int argPos, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+            => ExecuteCommand(context, context.Message.Content.Substring(argPos), dependencyMap, multiMatchHandling);
 
-        public async Task<Tuple<CommandInfo, PermissionCache, IResult>> ExecuteCommand(CommandContext context, string input, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+
+        public async Task<ExecuteCommandResult> ExecuteCommand(CommandContext context, string input, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
             dependencyMap = dependencyMap ?? DependencyMap.Empty;
 
             var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
-                return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, searchResult);
+                return new ExecuteCommandResult(null, null, searchResult);
 
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
@@ -221,7 +237,7 @@ namespace NadekoBot.Services
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)
-                        return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, preconditionResult);
+                        return new ExecuteCommandResult(null, null, preconditionResult);
                     else
                         continue;
                 }
@@ -245,7 +261,7 @@ namespace NadekoBot.Services
                     if (!parseResult.IsSuccess)
                     {
                         if (commands.Count == 1)
-                            return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, parseResult);
+                            return new ExecuteCommandResult(null, null, parseResult);
                         else
                             continue;
                     }
@@ -273,7 +289,7 @@ namespace NadekoBot.Services
                     if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(context.Message, cmd.Aliases.First(), cmd.Module.Name, out index))
                     {
                         var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
-                        return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
+                        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
 
@@ -281,19 +297,33 @@ namespace NadekoBot.Services
                     {
                         if (!((IGuildUser)context.User).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                         {
-                            return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
+                            return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
                     }
                 }
 
 
                 if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
-                    return new Tuple<CommandInfo, PermissionCache, IResult>(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
 
-                return new Tuple<CommandInfo, PermissionCache, IResult>(commands[i], null, await commands[i].Execute(context, parseResult, dependencyMap));
+                return new ExecuteCommandResult(commands[i], null, await commands[i].Execute(context, parseResult, dependencyMap));
             }
 
-            return new Tuple<CommandInfo, PermissionCache, IResult>(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
+            return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
+        }
+
+        public struct ExecuteCommandResult
+        {
+            public readonly CommandInfo CommandInfo;
+            public readonly PermissionCache PermissionCache;
+            public readonly IResult Result;
+
+            public ExecuteCommandResult(CommandInfo commandInfo, PermissionCache cache, IResult result)
+            {
+                this.CommandInfo = commandInfo;
+                this.PermissionCache = cache;
+                this.Result = result;
+            }
         }
     }
 }

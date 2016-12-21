@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)
+            public async Task AutoAssignRole([Remainder] IRole role = null)
             {
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())

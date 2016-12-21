@@ -28,7 +28,7 @@ namespace NadekoBot
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
-        public static ShardedDiscordClient  Client { get; private set; }
+        public static ShardedDiscordClient Client { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
         public static GoogleApiService Google { get; private set; }
@@ -96,7 +96,7 @@ namespace NadekoBot
             //load commands and prefixes
             using (var uow = DbHandler.UnitOfWork())
             {
-                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.OrderByDescending(mp => mp.Prefix.Length).ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling().ConfigureAwait(false);

@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task Remind(IUserMessage umsg, MeOrHere meorhere, string timeStr, [Remainder] string message)
+            public async Task Remind(MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
                 IMessageChannel target;
                 if (meorhere == MeOrHere.Me)
@@ -111,13 +111,13 @@ namespace NadekoBot.Modules.Utility
                 {
                     target = Context.Channel;
                 }
-                await Remind(umsg, target, timeStr, message).ConfigureAwait(false);
+                await Remind(target, timeStr, message).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public async Task Remind(IUserMessage umsg, IMessageChannel ch, string timeStr, [Remainder] string message)
+            public async Task Remind(IMessageChannel ch, string timeStr, [Remainder] string message)
             {
                 var channel = (ITextChannel)Context.Channel;
 
@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task RemindTemplate(IUserMessage umsg, [Remainder] string arg)
+            public async Task RemindTemplate([Remainder] string arg)
             {
                 var channel = (ITextChannel)Context.Channel;
 

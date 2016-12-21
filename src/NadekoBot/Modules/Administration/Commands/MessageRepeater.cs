@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
+            public async Task Repeat(int minutes, [Remainder] string message)
             {
                 if (minutes < 1 || minutes > 10080)
                     return;

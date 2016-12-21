@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Translate(IUserMessage umsg, string langs, [Remainder] string text = null)
+            public async Task Translate(string langs, [Remainder] string text = null)
             {
                 try
                 {

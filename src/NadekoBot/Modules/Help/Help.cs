@@ -38,12 +38,14 @@ namespace NadekoBot.Modules.Help
         public async Task Modules()
         {
 
-            await Context.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
+            await Context.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ",
+                NadekoBot.CommandService.Modules.GroupBy(mi => mi.GetTopLevelModule()).Select(m => m.Key.Name).OrderBy(m => m)) +
+                        $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
                                        .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Commands(IUserMessage umsg, [Remainder] string module = null)
+        public async Task Commands([Remainder] string module = null)
         {
             var channel = Context.Channel;
 
@@ -73,7 +75,7 @@ namespace NadekoBot.Modules.Help
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task H(IUserMessage umsg, [Remainder] string comToFind = null)
+        public async Task H([Remainder] string comToFind = null)
         {
             var channel = Context.Channel;
 
@@ -142,7 +144,7 @@ namespace NadekoBot.Modules.Help
                     helpstr.AppendLine("----------------|--------------|-------");
                     lastModule = com.Module.Name;
                 }
-                helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} | {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)} | {string.Format(com.Remarks, com.Module.Prefix)}");
+                helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} | {string.Format(com.Summary, com.Module.GetPrefix())} {GetCommandRequirements(com)} | {string.Format(com.Remarks, com.Module.GetPrefix())}");
             }
             helpstr = helpstr.Replace(NadekoBot.Client.CurrentUser().Username , "@BotName");
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());

@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Permissions
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task CmdCooldown(IUserMessage imsg, CommandInfo command, int secs)
+            public async Task CmdCooldown(CommandInfo command, int secs)
             {
                 var channel = (ITextChannel)Context.Channel;
                 if (secs < 0 || secs > 3600)
