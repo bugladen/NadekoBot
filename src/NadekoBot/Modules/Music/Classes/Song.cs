@@ -103,8 +103,6 @@ namespace NadekoBot.Modules.Music.Classes
             SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo, frameBytes * 100);
             var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);
 
-            bytesSent = 0;
-
             try
             {
                 var attempt = 0;             
