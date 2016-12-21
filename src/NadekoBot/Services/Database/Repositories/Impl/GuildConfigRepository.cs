@@ -13,7 +13,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public new IEnumerable<GuildConfig> GetAll() =>
+        public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.LogSetting)

@@ -46,7 +46,7 @@ namespace NadekoBot
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                AllGuildConfigs = uow.GuildConfigs.GetAll();
+                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs();
             }
         }
 
