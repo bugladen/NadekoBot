@@ -16,13 +16,13 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net", "discord.net\
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Commands", "discord.net\src\Discord.Net.Commands\Discord.Net.Commands.xproj", "{078DD7E6-943D-4D09-AFC2-D2BA58B76C9C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Core", "Discord.Net\src\Discord.Net.Core\Discord.Net.Core.xproj", "{E5F4786F-58F3-469E-8C87-1908A95436B7}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Core", "discord.net\src\Discord.Net.Core\Discord.Net.Core.xproj", "{E5F4786F-58F3-469E-8C87-1908A95436B7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Rest", "Discord.Net\src\Discord.Net.Rest\Discord.Net.Rest.xproj", "{63F5B5C8-56FE-4B53-8003-B58CEB451EF9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Rest", "discord.net\src\Discord.Net.Rest\Discord.Net.Rest.xproj", "{63F5B5C8-56FE-4B53-8003-B58CEB451EF9}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.Rpc", "discord.net\src\Discord.Net.Rpc\Discord.Net.Rpc.xproj", "{0E741C78-869B-4E05-A300-0C5B32F07734}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.WebSocket", "Discord.Net\src\Discord.Net.WebSocket\Discord.Net.WebSocket.xproj", "{E9800F7A-3354-41B1-BDBB-2D59F8124EC9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discord.Net.WebSocket", "discord.net\src\Discord.Net.WebSocket\Discord.Net.WebSocket.xproj", "{E9800F7A-3354-41B1-BDBB-2D59F8124EC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
