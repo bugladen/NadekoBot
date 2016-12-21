@@ -21,6 +21,11 @@ namespace NadekoBot.Modules.Gambling
         {
             private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
 
+            public enum RoleOrderType {
+                Ordered,
+                Unordered
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Roll()
             {
@@ -42,37 +47,6 @@ namespace NadekoBot.Modules.Gambling
                 });
 
                 await Context.Channel.SendFileAsync(imageStream, "dice.png", $"{Context.User.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
-            }
-            //todo merge into internallDndRoll and internalRoll
-            [NadekoCommand, Usage, Description, Aliases]
-            [Priority(1)]
-            public async Task Roll(string arg)
-            {
-                var ordered = true;
-                var rng = new NadekoRandom();
-                Match match;
-                if ((match = dndRegex.Match(arg)).Length != 0)
-                {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(match.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
-                    {
-                        var add = 0;
-                        var sub = 0;
-                        int.TryParse(match.Groups["add"].Value, out add);
-                        int.TryParse(match.Groups["sub"].Value, out sub);
-
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
-                        {
-                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
-                        }
-                        var elemCnt = 0;
-                        await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
-                    }
-                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -123,37 +97,7 @@ namespace NadekoBot.Modules.Gambling
                 ms.Position = 0;
                 await Context.Channel.SendFileAsync(ms, "dice.png", $"{Context.User.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            public async Task Rolluo(string arg)
-            {
-                var ordered = false;
-                var rng = new NadekoRandom();
-                Match match;
-                if ((match = dndRegex.Match(arg)).Length != 0)
-                {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(match.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
-                    {
-                        var add = 0;
-                        var sub = 0;
-                        int.TryParse(match.Groups["add"].Value, out add);
-                        int.TryParse(match.Groups["sub"].Value, out sub);
-
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
-                        {
-                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
-                        }
-                        var elemCnt = 0;
-                        await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
-                    }
-                }
-            }
-
+            
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Rolluo(int num)
             {
@@ -202,6 +146,73 @@ namespace NadekoBot.Modules.Gambling
                 await Context.Channel.SendFileAsync(ms, "dice.png", $"{Context.User.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
+            //todo merge into internallDndRoll and internalRoll
+            [NadekoCommand, Usage, Description, Aliases]
+            [Priority(1)]
+            public async Task Roll(string arg)
+            {
+                
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            public async Task Rolluo(string arg)
+            {
+                var ordered = false;
+                var rng = new NadekoRandom();
+                Match match;
+                if ((match = dndRegex.Match(arg)).Length != 0)
+                {
+                    int n1;
+                    int n2;
+                    if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                        int.TryParse(match.Groups["n2"].ToString(), out n2) &&
+                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
+                    {
+                        var add = 0;
+                        var sub = 0;
+                        int.TryParse(match.Groups["add"].Value, out add);
+                        int.TryParse(match.Groups["sub"].Value, out sub);
+
+                        var arr = new int[n1];
+                        for (int i = 0; i < n1; i++)
+                        {
+                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
+                        }
+                        var elemCnt = 0;
+                        await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                    }
+                }
+            }
+
+            private async Task InternalDndRoll(string arg, RoleOrderType ordType)
+            {
+                var ordered = ordType == RoleOrderType.Ordered;
+                var rng = new NadekoRandom();
+                Match match;
+                if ((match = dndRegex.Match(arg)).Length != 0)
+                {
+                    int n1;
+                    int n2;
+                    if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                        int.TryParse(match.Groups["n2"].ToString(), out n2) &&
+                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
+                    {
+                        var add = 0;
+                        var sub = 0;
+                        int.TryParse(match.Groups["add"].Value, out add);
+                        int.TryParse(match.Groups["sub"].Value, out sub);
+
+                        var arr = new int[n1];
+                        for (int i = 0; i < n1; i++)
+                        {
+                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
+                        }
+                        var elemCnt = 0;
+                        await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                    }
+                }
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             public async Task NRoll([Remainder] string range)
             {
@@ -215,7 +226,7 @@ namespace NadekoBot.Modules.Gambling
                                         .Select(int.Parse)
                                         .ToArray();
                         if (arr[0] > arr[1])
-                            throw new ArgumentException("First argument should be bigger than the second one.");
+                            throw new ArgumentException("Second argument must be larger than the first one.");
                         rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
                     }
                     else

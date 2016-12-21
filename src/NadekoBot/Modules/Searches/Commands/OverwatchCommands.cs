@@ -23,6 +23,7 @@ namespace NadekoBot.Modules.Searches
                 var battletag = query.Replace("#", "-");
                 try
                 {
+                    await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                     var model = await GetProfile(region, battletag);
                         
                     var rankimg = $"{model.Competitive.rank_img}";

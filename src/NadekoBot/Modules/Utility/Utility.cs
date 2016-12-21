@@ -125,11 +125,27 @@ namespace NadekoBot.Modules.Utility
                 return;
             if (target != null)
             {
-                await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
+                var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
+                if (!roles.Any())
+                {
+                    await channel.SendErrorAsync("No roles on this page.");
+                }
+                else
+                {
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```");
+                }
             }
             else
             {
-                await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
+                var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
+                if (!roles.Any())
+                {
+                    await channel.SendErrorAsync("No roles on this page.");
+                }
+                else
+                {
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```");
+                }
             }
         }
 

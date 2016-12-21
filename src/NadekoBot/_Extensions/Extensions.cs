@@ -79,34 +79,34 @@ namespace NadekoBot.Extensions
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-        public static async Task<IUserMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendMessageAsync(this IUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
 
-        public static async Task<IUserMessage> SendConfirmAsync(this IGuildUser user, string text)
+        public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text)
              => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
 
-        public static async Task<IUserMessage> SendConfirmAsync(this IGuildUser user, string title, string text, string url = null)
+        public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string url = null)
              => await(await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
                  .WithTitle(title).WithUrl(url));
 
-        public static async Task<IUserMessage> SendErrorAsync(this IGuildUser user, string title, string error, string url = null)
+        public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string url = null)
              => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error)
                  .WithTitle(title).WithUrl(url));
 
-        public static async Task<IUserMessage> SendErrorAsync(this IGuildUser user, string error)
+        public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error)
              => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
 
-        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(File.Open(filePath, FileMode.Open), caption ?? "x", text, isTTS).ConfigureAwait(false);
 
-        public static async Task<IUserMessage> SendFileAsync(this IGuildUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
+        public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
         public static bool IsAuthor(this IUserMessage msg) =>
             NadekoBot.Client.CurrentUser().Id == msg.Author.Id;
 
         public static IEnumerable<IUser> Members(this IRole role) =>
-            role.Guild.GetUsersAsync().GetAwaiter().GetResult() ?? Enumerable.Empty<IUser>();
+            role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();
         
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
              => ch.SendMessageAsync(msg, embed: embed);

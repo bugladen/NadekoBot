@@ -38,9 +38,6 @@ namespace NadekoBot.Modules.ClashOfClans
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }
         }
-        public ClashOfClans() : base()
-        {
-        }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
         {
@@ -52,7 +49,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 {
                     Bases[i] = null;
                     try { await war.Channel.SendErrorAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false); } catch { }
-            }
+                }
             }
         }
 

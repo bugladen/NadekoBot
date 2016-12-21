@@ -143,9 +143,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 return Task.CompletedTask;
 
             var guess = char.ToUpperInvariant(msg.Content[0]); 
-            // todo hmmmm
-            // how do i want to limit the users on guessing?
-            // one guess every 5 seconds if wrong?
+
             Task.Run(async () =>
             {
                 try

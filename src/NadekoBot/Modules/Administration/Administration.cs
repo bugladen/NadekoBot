@@ -25,6 +25,8 @@ namespace NadekoBot.Modules.Administration
 
         private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
 
+        private static ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; } = new ConcurrentHashSet<ulong>();
+
         private new static Logger _log { get; }
 
         public Administration() : base()
@@ -36,6 +38,7 @@ namespace NadekoBot.Modules.Administration
             _log = LogManager.GetCurrentClassLogger();
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
 
+            DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.DeleteMessageOnCommand).Select(g => g.GuildId));
             
         }
 
@@ -46,15 +49,7 @@ namespace NadekoBot.Modules.Administration
                 var channel = msg.Channel as SocketTextChannel;
                 if (channel == null)
                     return;
-
-                //todo cache this
-                bool shouldDelete;
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    shouldDelete = uow.GuildConfigs.For(channel.Guild.Id, set => set).DeleteMessageOnCommand;
-                }
-
-                if (shouldDelete)
+                if (DeleteMessagesOnCommand.Contains(channel.Guild.Id))
                     await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -99,9 +94,15 @@ namespace NadekoBot.Modules.Administration
                 await uow.CompleteAsync();
             }
             if (enabled)
+            {
+                DeleteMessagesOnCommand.Add(Context.Guild.Id);
                 await Context.Channel.SendConfirmAsync("✅ **Now automatically deleting successful command invokations.**").ConfigureAwait(false);
+            }
             else
+            {
+                DeleteMessagesOnCommand.TryRemove(Context.Guild.Id);
                 await Context.Channel.SendConfirmAsync("❗**Stopped automatic deletion of successful command invokations.**").ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

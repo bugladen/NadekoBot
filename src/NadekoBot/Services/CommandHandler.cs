@@ -135,15 +135,15 @@ namespace NadekoBot.Services
             catch { }
 
             string messageContent = usrMsg.Content;
-            foreach (var k in NadekoBot.ModulePrefixes.Values)
-            {
-                if (usrMsg.Content.ToLowerInvariant().StartsWith(k))
-                {
-                    messageContent = messageContent.Insert(k.Length, " ");
-                    break;
-                }
+            //foreach (var k in NadekoBot.ModulePrefixes.Values)
+            //{
+            //    if (usrMsg.Content.ToLowerInvariant().StartsWith(k))
+            //    {
+            //        messageContent = messageContent.Insert(k.Length, " ");
+            //        break;
+            //    }
 
-            }
+            //}
 
 
             var throwaway = Task.Run(async () =>

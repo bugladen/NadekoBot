@@ -38,9 +38,9 @@ namespace NadekoBot.Modules.Help
         public async Task Modules()
         {
 
+            var mdls = NadekoBot.CommandService.Modules.GroupBy(mi => mi.GetTopLevelModule()).Select(m => m.Key.Name).OrderBy(m => m);
             await Context.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ",
-                NadekoBot.CommandService.Modules.GroupBy(mi => mi.GetTopLevelModule()).Select(m => m.Key.Name).OrderBy(m => m)) +
-                        $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
+                 mdls) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
                                        .ConfigureAwait(false);
         }
 

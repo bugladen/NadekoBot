@@ -9,7 +9,7 @@ namespace NadekoBot.Services
 {
     public static class CurrencyHandler
     {
-        public static async Task<bool> RemoveCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task<bool> RemoveCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             var success = await RemoveCurrencyAsync(author.Id, reason, amount);
 

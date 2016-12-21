@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Utility
                             "Equals",
                             "GetHashCode",
                             "GetType"});
-                await Context.Channel.SendConfirmAsync(string.Join(", ", selection));
+                await Context.Channel.SendConfirmAsync("Available functions in calc", string.Join(", ", selection));
             }
         }
 

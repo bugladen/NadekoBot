@@ -64,16 +64,10 @@ namespace NadekoBot.Modules.Gambling
                                  .ConfigureAwait(false);
                     return;
                 }
-                // todo update this
-                long userFlowers;
-                using (var uow = DbHandler.UnitOfWork())
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, "Betflip Gamble", amount, false).ConfigureAwait(false);
+                if (!removed)
                 {
-                    userFlowers = uow.Currency.GetOrCreate(Context.User.Id).Amount;
-                }
-
-                if (userFlowers < amount)
-                {
-                    await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
 

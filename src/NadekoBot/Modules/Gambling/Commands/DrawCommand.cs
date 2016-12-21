@@ -53,7 +53,6 @@ namespace NadekoBot.Modules.Gambling
                 MemoryStream bitmapStream = new MemoryStream();
                 images.Merge().SaveAsPng(bitmapStream);
                 bitmapStream.Position = 0;
-                //todo CARD NAMES?
                 var toSend = $"{Context.User.Mention}";
                 if (cardObjects.Count == 5)
                     toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
