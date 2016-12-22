@@ -615,7 +615,9 @@ namespace NadekoBot.Modules.Administration
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
 
-            await Task.WhenAll(channels.Select(c => c.SendConfirmAsync($"🆕 Message from {umsg.Author} `[Bot Owner]`:", message)))
+            if (channels == null)
+                return;
+            await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync($"🆕 Message from {umsg.Author} `[Bot Owner]`:", message)))
                     .ConfigureAwait(false);
 
             await umsg.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
