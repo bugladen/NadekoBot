@@ -2794,7 +2794,7 @@
     <value>acro</value>
   </data>
   <data name="acro_desc" xml:space="preserve">
-    <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 45)</value>
+    <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)</value>
   </data>
   <data name="acro_usage" xml:space="preserve">
     <value>`{0}acro` or `{0}acro 30`</value>

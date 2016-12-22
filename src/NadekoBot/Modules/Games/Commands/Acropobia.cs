@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Acro(IUserMessage imsg, int time = 45)
+            public async Task Acro(IUserMessage imsg, int time = 60)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -66,6 +66,8 @@ namespace NadekoBot.Modules.Games
 
             private readonly ConcurrentDictionary<string, IGuildUser> submissions = new ConcurrentDictionary<string, IGuildUser>();
             public IReadOnlyDictionary<string, IGuildUser> Submissions => submissions;
+
+            private readonly ConcurrentHashSet<ulong> usersWhoVoted = new ConcurrentHashSet<ulong>();
 
             private int spamCount = 0;
 
@@ -136,7 +138,10 @@ namespace NadekoBot.Modules.Games
                 }
                 else if (submissions.Count == 1)
                 {
-                    await channel.SendConfirmAsync("Acrophobia", $"{submissions.First().Value.Mention} is the winner for being the only user who made a submission!").ConfigureAwait(false);
+                    await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        .WithDescription($"{submissions.First().Value.Mention} is the winner for being the only user who made a submission!")
+                        .WithFooter(efb => efb.WithText(submissions.First().Key.ToLowerInvariant().ToTitleCase()))
+                        .Build()).ConfigureAwait(false);
                     return;
                 }
                 var submissionClosedEmbed = GetEmbed();
@@ -226,9 +231,27 @@ namespace NadekoBot.Modules.Games
                             IGuildUser usr;
                             if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
                             {
+                                if (!usersWhoVoted.Add(guildUser.Id))
+                                    return;
                                 votes.AddOrUpdate(input, 1, (key, old) => ++old);
                                 await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
                                 await msg.DeleteAsync().ConfigureAwait(false);
+                                return;
+                            }
+
+                            int num;
+                            if (int.TryParse(input, out num) && num >= 0 && num < submissions.Count)
+                            {
+                                var kvp = submissions.Skip(num).First();
+                                usr = kvp.Value;
+                                if (usr.Id == guildUser.Id)
+                                    return;
+                                if (!usersWhoVoted.Add(guildUser.Id))
+                                    return;
+                                votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
+                                await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
+                                await msg.DeleteAsync().ConfigureAwait(false);
+                                return;
                             }
 
                         }
