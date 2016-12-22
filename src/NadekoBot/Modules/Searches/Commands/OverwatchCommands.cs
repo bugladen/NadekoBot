@@ -37,6 +37,7 @@ namespace NadekoBot.Modules.Searches
                         
                     var rankimg = $"{model.Competitive.rank_img}";
                     var rank = $"{model.Competitive.rank}";
+					var competitiveplay = $"{model.Games.Competitive.played}";
                     if (string.IsNullOrWhiteSpace(rank))
                     {
                         var embed = new EmbedBuilder()
@@ -72,8 +73,21 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
-                        return;
-                    }
+					}
+					if (string.IsNullOrWhiteSpace(competitiveplay))
+					{
+						var embed = new EmbedBuilder()
+                            .WithAuthor(eau => eau.WithName($"{model.username}")
+                            .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
+                            .WithIconUrl($"{model.avatar}"))
+                            .WithThumbnail(th => th.WithUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
+                            .AddField(fb => fb.WithName("**Level**").WithValue($"{model.level}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"0 hour").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
+                            .WithColor(NadekoBot.OkColor);
+                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+					}
                 }
                 catch
                 {
