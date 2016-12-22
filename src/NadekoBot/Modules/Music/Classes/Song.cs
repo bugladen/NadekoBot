@@ -170,10 +170,15 @@ namespace NadekoBot.Modules.Music.Classes
                             if (slowconnection)
                             {
                                 _log.Warn("Slow connection has disrupted music, waiting a bit for buffer");
+
                                 await Task.Delay(1000, cancelToken).ConfigureAwait(false);
+                                nextTime = Environment.TickCount + milliseconds;
                             }
                             else
+                            {
                                 await Task.Delay(100, cancelToken).ConfigureAwait(false);
+                                nextTime = Environment.TickCount + milliseconds;
+                            }
                         }
                         else
                             attempt = 0;
@@ -182,7 +187,10 @@ namespace NadekoBot.Modules.Music.Classes
                         attempt = 0;
 
                     while (this.MusicPlayer.Paused)
+                    {
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
+                        nextTime = Environment.TickCount + milliseconds;
+                    }
 
 
                     buffer = AdjustVolume(buffer, MusicPlayer.Volume);
