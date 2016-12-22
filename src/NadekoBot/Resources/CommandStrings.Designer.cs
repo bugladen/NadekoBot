@@ -87,6 +87,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to acro.
+        /// </summary>
+        public static string acro_cmd {
+            get {
+                return ResourceManager.GetString("acro_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 45).
+        /// </summary>
+        public static string acro_desc {
+            get {
+                return ResourceManager.GetString("acro_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}acro` or `{0}acro 30`.
+        /// </summary>
+        public static string acro_usage {
+            get {
+                return ResourceManager.GetString("acro_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to addcustreact acr.
         /// </summary>
         public static string addcustreact_cmd {
