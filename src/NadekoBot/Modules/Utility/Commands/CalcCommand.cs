@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility
                             "Equals",
                             "GetHashCode",
                             "GetType"});
-            await msg.Channel.SendConfirmAsync(string.Join(", ",selection));
+            await msg.Channel.SendConfirmAsync("Available functions in calc", string.Join(", ", selection));
         }
     }
 

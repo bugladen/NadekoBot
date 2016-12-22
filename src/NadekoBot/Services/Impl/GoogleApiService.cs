@@ -167,7 +167,8 @@ namespace NadekoBot.Services.Impl
                 remaining -= toGet;
 
                 var q = yt.Videos.List("contentDetails");
-                q.Id = string.Join(",", videoIds);
+                q.Id = string.Join(",", videoIdsList.Take(toGet));
+                videoIdsList = videoIdsList.Skip(toGet).ToList();
                 var items = (await q.ExecuteAsync().ConfigureAwait(false)).Items;
                 foreach (var i in items)
                 {

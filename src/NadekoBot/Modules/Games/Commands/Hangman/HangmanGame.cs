@@ -143,10 +143,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
                 return Task.CompletedTask;
 
-            var guess = char.ToUpperInvariant(msg.Content[0]); 
-            // todo hmmmm
-            // how do i want to limit the users on guessing?
-            // one guess every 5 seconds if wrong?
+            var guess = char.ToUpperInvariant(msg.Content[0]);
+
             Task.Run(async () =>
             {
                 try

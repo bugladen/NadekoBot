@@ -130,6 +130,7 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
+                        await Task.Delay(3000).ConfigureAwait(false);
                     }
                     finally
                     {

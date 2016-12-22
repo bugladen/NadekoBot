@@ -31,13 +31,15 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(query))
                     return;
                 var battletag = Regex.Replace(query, "#", "-", RegexOptions.IgnoreCase);
+
+                await channel.TriggerTypingAsync().ConfigureAwait(false);
                 try
                 {
                     var model = await GetProfile(region, battletag);
                         
                     var rankimg = $"{model.Competitive.rank_img}";
                     var rank = $"{model.Competitive.rank}";
-					var competitiveplay = $"{model.Games.Competitive.played}";
+                    var competitiveplay = $"{model.Games.Competitive.played}";
                     if (string.IsNullOrWhiteSpace(rank))
                     {
                         var embed = new EmbedBuilder()
@@ -73,10 +75,10 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithOkColor();
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
-					}
-					if (string.IsNullOrWhiteSpace(competitiveplay))
-					{
-						var embed = new EmbedBuilder()
+                    }
+                    if (string.IsNullOrWhiteSpace(competitiveplay))
+                    {
+                        var embed = new EmbedBuilder()
                             .WithAuthor(eau => eau.WithName($"{model.username}")
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             .WithIconUrl($"{model.avatar}"))
@@ -87,30 +89,30 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithOkColor();
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
-					}
+                    }
                 }
                 catch
                 {
                     await channel.SendErrorAsync("Found no user! Please check the **Region** and **BattleTag** before trying again.");
                 }
             }
-			public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
-			{
-				try
-				{
-					using (var http = new HttpClient())
-					{
-						var Url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
-						var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(Url);
-						return model.data;
-					}
-				}
-				catch
-				{
-					return null;
-				}
-			}
-			
-		}
+            public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
+            {
+                try
+                {
+                    using (var http = new HttpClient())
+                    {
+                        var Url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
+                        var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(Url);
+                        return model.data;
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            
+        }
     }
 }
