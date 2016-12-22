@@ -4648,8 +4648,8 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("osub_usage", resourceCulture);
             }
         }
-		
-		/// <summary>
+        
+        /// <summary>
         ///    Looks up a localized string similar to overwatch ow.
         /// </summary>
         public static string overwatch_cmd {
@@ -7818,7 +7818,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations..
+        ///    Looks up a localized string similar to Shows weather data for a specified city. You can also specify a country after a comma..
         /// </summary>
         public static string weather_desc {
             get {
@@ -7827,7 +7827,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}we Moscow RF`.
+        ///    Looks up a localized string similar to `{0}we Moscow, RU`.
         /// </summary>
         public static string weather_usage {
             get {
