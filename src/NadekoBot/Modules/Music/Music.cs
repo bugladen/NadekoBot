@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.Music
             var number = 1 + startAt;
 
 		var embed = new EmbedBuilder()
-		    .WithAuthor(eab => eab.WithName($"Track List: Page {page}").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+		    .WithAuthor(eab => eab.WithName($"Track List: Page {page}").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 			.WithDescription(string.Join("\n", musicPlayer.Playlist.Skip(startAt).Take(10).Select(v => $"`{number++}.` **[{v.SongInfo.Title.TrimTo(70)}]({v.SongInfo.Query})**\n\t\t*{v.PrettyCurrentTime()}* **|** *{v.PrettyProvider}* **|** *{v.QueuerName}*")))
             .WithFooter(ef => ef.WithText($"{musicPlayer.Playlist.Count} tracks currently queued."))
 			.WithColor(NadekoBot.OkColor);
@@ -241,7 +241,7 @@ namespace NadekoBot.Modules.Music
 		var videoid = Regex.Match(currentSong.SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
 				
 		var embed = new EmbedBuilder()
-			    .WithAuthor(eab => eab.WithName("Now Playing").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+			    .WithAuthor(eab => eab.WithName("Now Playing").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 				.WithTitle($"{currentSong.SongInfo.Title}")
 				//.WithDescription($"{currentSong.PrettyCurrentTime()}")
 				.WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.QueuerName}"))
@@ -512,7 +512,7 @@ namespace NadekoBot.Modules.Music
             musicPlayer.RemoveSongAt(num - 1);
             //await channel.SendConfirmAsync($"🎵 Track {song.PrettyName} at position `#{num}` has been **removed**.").ConfigureAwait(false);
 			var embed = new EmbedBuilder()
-				.WithAuthor(eab => eab.WithName("Song Removed!").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+				.WithAuthor(eab => eab.WithName("Song Removed!").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 				.AddField(fb => fb.WithName("**Song Position**").WithValue($"#{num}").WithIsInline(true))
 				.AddField(fb => fb.WithName("**Song Name**").WithValue($"**[{song.SongInfo.Title.TrimTo(70)}]({song.SongInfo.Query})** `{song.PrettyProvider} | {song.QueuerName.TrimTo(15)}`").WithIsInline(true))
 				.WithColor(NadekoBot.ErrorColor);
@@ -569,7 +569,7 @@ namespace NadekoBot.Modules.Music
 	    var embed = new EmbedBuilder()
 	    	.WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
 		.WithUrl($"{s.SongInfo.Query}")
-		.WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+		.WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 		.AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
 		.AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
 		.WithColor(NadekoBot.OkColor);
@@ -714,7 +714,7 @@ namespace NadekoBot.Modules.Music
 //" + string.Join("\n", playlists.Select(r => $"`#{r.Id}` - **{r.Name}** by __{r.Author}__ ({r.Songs.Count} songs)"))).ConfigureAwait(false);
 
 			var embed = new EmbedBuilder()
-				.WithAuthor(eab => eab.WithName($"Page {num} of Saved Playlists").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+				.WithAuthor(eab => eab.WithName($"Page {num} of Saved Playlists").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 				.WithDescription(string.Join("\n", playlists.Select(r => $"`#{r.Id}` - **{r.Name}**\t by **`{r.Author}`**\t ({r.Songs.Count} songs)")))
 				.WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
@@ -879,7 +879,7 @@ namespace NadekoBot.Modules.Music
 								await lastFinishedMessage.DeleteAsync().ConfigureAwait(false);
 								//try { lastFinishedMessage = await textCh.SendConfirmAsync($"🎵 Finished {song.PrettyName}").ConfigureAwait(false); } catch { }
 								try { lastFinishedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															.WithAuthor(eab => eab.WithName("Finished Song").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+															.WithAuthor(eab => eab.WithName("Finished Song").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 															.WithTitle($"{song.SongInfo.Title}")
 															.WithFooter(ef => ef.WithText($"{song.PrettyProvider} | {song.QueuerName}"))
                                                             .Build())
@@ -888,7 +888,7 @@ namespace NadekoBot.Modules.Music
                             else
 							{
 								try { lastFinishedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															.WithAuthor(eab => eab.WithName("Finished Song").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+															.WithAuthor(eab => eab.WithName("Finished Song").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 															.WithTitle($"{song.SongInfo.Title}")
 															.WithFooter(ef => ef.WithText($"{song.PrettyProvider} | {song.QueuerName}"))
                                                             .Build())
@@ -916,7 +916,7 @@ namespace NadekoBot.Modules.Music
 							await playingMessage.DeleteAsync().ConfigureAwait(false);
 							//try { playingMessage = await textCh.SendConfirmAsync(msgTxt).ConfigureAwait(false); } catch { }
 							try { playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															.WithAuthor(eab => eab.WithName("Playing Song").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+															.WithAuthor(eab => eab.WithName("Playing Song").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 															.WithTitle($"{song.SongInfo.Title}")
 															.WithDescription($"Volume: {(int)(sender.Volume * 100)}%")
 															.WithFooter(ef => ef.WithText($"{song.PrettyProvider} | {song.QueuerName}"))
@@ -927,7 +927,7 @@ namespace NadekoBot.Modules.Music
 						{
 							//try { playingMessage = await textCh.SendConfirmAsync(msgTxt).ConfigureAwait(false); } catch { }
 							try { playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															.WithAuthor(eab => eab.WithName("Playing Song").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+															.WithAuthor(eab => eab.WithName("Playing Song").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 															.WithTitle($"{song.SongInfo.Title}")
 															.WithDescription($"Volume: {(int)(sender.Volume * 100)}%")
 															.WithFooter(ef => ef.WithText($"{song.PrettyProvider} | {song.QueuerName}"))
@@ -993,7 +993,7 @@ namespace NadekoBot.Modules.Music
                 {
                     //var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var queuedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															.WithAuthor(eab => eab.WithName("Queued Song").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+															.WithAuthor(eab => eab.WithName("Queued Song").WithIconUrl("http://i.imgur.com/nhKS3PT.png"))
 															.WithTitle($"{resolvedSong.SongInfo.Title}")
 															.WithDescription($"Queue #{musicPlayer.Playlist.Count + 1}")
 															.WithFooter(ef => ef.WithText($"{resolvedSong.PrettyProvider}"))
