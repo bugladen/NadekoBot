@@ -172,8 +172,7 @@ namespace NadekoBot.Modules.Games
                         else
                         {
                             var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
-                            await Task.Delay(5000);
-                            await toDelete.DeleteAsync().ConfigureAwait(false);
+                            toDelete.DeleteAfter(5);
                         }
                     }
                 }

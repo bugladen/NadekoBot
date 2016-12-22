@@ -41,9 +41,9 @@ namespace NadekoBot.Modules.Music.Classes
 
         public float Volume { get; private set; }
 
-        public event Func<MusicPlayer, Song, Task> OnCompleted = delegate { return Task.CompletedTask; };
-        public event Func<MusicPlayer, Song, Task> OnStarted = delegate { return Task.CompletedTask; };
-        public event Func<bool, Task> OnPauseChanged = delegate { return Task.CompletedTask; };
+        public event Action<MusicPlayer, Song> OnCompleted = delegate { };
+        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
+        public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
 

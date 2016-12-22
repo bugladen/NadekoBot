@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                                           .AddField(efb => efb.WithName("It was").WithValue(Term.Word))
                                           .WithImage(eib => eib.WithUrl(Term.ImageUrl));
             if (Errors >= MaxErrors)
-                await GameChannel.EmbedAsync(embed.WithColor(NadekoBot.ErrorColor).Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithErrorColor().Build()).ConfigureAwait(false);
             else
                 await GameChannel.EmbedAsync(embed.WithOkColor().Build()).ConfigureAwait(false);
         }

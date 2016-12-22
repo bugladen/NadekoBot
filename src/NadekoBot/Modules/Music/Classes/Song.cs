@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Music.Classes
         public string QueuerName { get; set; }
 
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
-        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / frameBytes / 1000 / milliseconds);
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / frameBytes / (1000 / milliseconds));
 
         const int milliseconds = 20;
         const int samplesPerFrame = (48000 / 1000) * milliseconds;
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string PrettyFullName => $"{PrettyName}\n\t\t*{PrettyInfo}*";
 
-        public string PrettyCurrentTime => TotalTime.ToString(@"mm\:ss");
+        public string PrettyCurrentTime => CurrentTime.ToString(@"mm\:ss");
 
         private string PrettyTotalTime {
             get {

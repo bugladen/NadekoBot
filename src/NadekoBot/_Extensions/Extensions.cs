@@ -28,6 +28,9 @@ namespace NadekoBot.Extensions
         public static EmbedBuilder WithOkColor(this EmbedBuilder eb) =>
             eb.WithColor(NadekoBot.OkColor);
 
+        public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) =>
+            eb.WithColor(NadekoBot.ErrorColor);
+
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
         {
             Task.Run(async () =>
