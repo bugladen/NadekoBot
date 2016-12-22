@@ -105,7 +105,10 @@ namespace NadekoBot.Modules.Permissions
 
                 }
 
-                await channel.SendConfirmAsync($"Blacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
+                if(action == AddRemove.Add)
+                    await channel.SendConfirmAsync($"Blacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
+                else
+                    await channel.SendConfirmAsync($"Unblacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
             }
         }
     }
