@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Utility
             {
                 var res = Units.GroupBy(x => x.UnitType)
                                .Aggregate(new EmbedBuilder().WithTitle("__Units which can be used by the converter__")
-                                                            .WithColor(NadekoBot.OkColor),
+                                                            .WithOkColor(),
                                           (embed, g) => embed.AddField(efb => 
                                                                          efb.WithName(g.Key.ToTitleCase())
                                                                          .WithValue(String.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())

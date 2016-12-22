@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Games
                 return;
                 var rng = new NadekoRandom();
 
-            await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
                                .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false))
                                .Build());

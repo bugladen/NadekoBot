@@ -41,9 +41,9 @@ namespace NadekoBot.Modules.Music.Classes
 
         public float Volume { get; private set; }
 
-        public event EventHandler<Song> OnCompleted = delegate { };
-        public event EventHandler<Song> OnStarted = delegate { };
-        public event Action<bool> OnPauseChanged = delegate { };
+        public event Func<MusicPlayer, Song, Task> OnCompleted = delegate { return Task.CompletedTask; };
+        public event Func<MusicPlayer, Song, Task> OnStarted = delegate { return Task.CompletedTask; };
+        public event Func<bool, Task> OnPauseChanged = delegate { return Task.CompletedTask; };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
 
@@ -250,11 +250,11 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var curSong = CurrentSong;
             var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
-                                                          s.TotalLength == TimeSpan.Zero);
+                                                            s.TotalTime == TimeSpan.Zero);
             if (curSong != null)
                 toUpdate = toUpdate.Append(curSong);
             var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
-                              .Distinct();
+                                .Distinct();
 
             var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
 
@@ -264,11 +264,12 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     if (s.SongInfo.Query.EndsWith(kvp.Key))
                     {
-                        s.TotalLength = kvp.Value;
+                        s.TotalTime = kvp.Value;
                         return;
                     }
                 }
             });
+
         }
 
         public void Destroy()

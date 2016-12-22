@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
-                            .WithColor(NadekoBot.OkColor);
+                            .WithOkColor();
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                     }
                     else
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
-                            .WithColor(NadekoBot.OkColor);
+                            .WithOkColor();
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
 					}
 					if (string.IsNullOrWhiteSpace(competitiveplay))
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"0 hour").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
-                            .WithColor(NadekoBot.OkColor);
+                            .WithOkColor();
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
 					}
                 }

@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.API;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -35,7 +36,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
         public string Poster { get; set; }
 
         public Embed GetEmbed() =>
-            new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            new EmbedBuilder().WithOkColor()
                               .WithTitle(Title)
                               .WithUrl($"http://www.imdb.com/title/{ImdbId}/")
                               .WithDescription(Plot)

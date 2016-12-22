@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             if (Errors >= MaxErrors)
                 await GameChannel.EmbedAsync(embed.WithColor(NadekoBot.ErrorColor).Build()).ConfigureAwait(false);
             else
-                await GameChannel.EmbedAsync(embed.WithColor(NadekoBot.OkColor).Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithOkColor().Build()).ConfigureAwait(false);
         }
 
         private Task PotentialGuess(IMessage msg)

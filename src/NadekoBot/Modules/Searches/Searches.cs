@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Searches
                 .AddField(fb => fb.WithName("🔆 **Feels like**").WithValue($"{obj["feelscentigrade"]}°C ({obj["feelsfahrenheit"]}°F)").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌄 **Sunrise**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌇 **Sunset**").WithValue($"{obj["sunset"]}").WithIsInline(true))
-                .WithColor(NadekoBot.OkColor);
+                .WithOkColor();
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Searches
                 await msg.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
             }
 
-            await msg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await msg.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .AddField(efb => efb.WithName("Original Url")
                                                                                .WithValue($"<{arg}>"))
                                                             .AddField(efb => efb.WithName("Short Url")
@@ -255,7 +255,7 @@ namespace NadekoBot.Modules.Searches
                     var desc = item["text"].ToString();
                     var types = String.Join(",\n", item["types"].ToObject<string[]>());
                     var img = item["editions"][0]["image_url"].ToString();
-                    var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                    var embed = new EmbedBuilder().WithOkColor()
                                     .WithTitle(item["name"].ToString())
                                     .WithDescription(desc)
                                     .WithImage(eib => eib.WithUrl(img))
@@ -364,7 +364,7 @@ namespace NadekoBot.Modules.Searches
                         .WithUrl("http://www.yodaspeak.co.uk/")
                         .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
                         .WithDescription(res)
-                        .WithColor(NadekoBot.OkColor);
+                        .WithOkColor();
                     await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
                 catch
@@ -405,7 +405,7 @@ namespace NadekoBot.Modules.Searches
                     var word = item["word"].ToString();
                     var def = item["definition"].ToString();
                     var link = item["permalink"].ToString();
-                    var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                    var embed = new EmbedBuilder().WithOkColor()
                                      .WithUrl(link)
                                      .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
                                      .WithDescription(def);
@@ -452,7 +452,7 @@ namespace NadekoBot.Modules.Searches
                 var hashtag = item["hashtag"].ToString();
                 var link = item["uri"].ToString();
                 var desc = item["text"].ToString();
-                await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                                  .WithAuthor(eab => eab.WithUrl(link)
                                                                                        .WithIconUrl("http://res.cloudinary.com/urbandictionary/image/upload/a_exif,c_fit,h_200,w_200/v1394975045/b8oszuu3tbq7ebyo7vo1.jpg")
                                                                                        .WithName(query))
