@@ -120,6 +120,8 @@ Command and aliases | Description | Usage
 `.listcustreactg` `.lcrg` | Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.  | `.lcrg 1`
 `.showcustreact` `.scr` | Shows a custom reaction's response on a given ID.  | `.scr 1`
 `.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.  | `.dcr 5`
+`.crstatsclear`  | Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger.  | `.crstatsclear` or `.crstatsclear rng`
+`.crstats`  | Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `.crstatsclear` to reset the counters.  | `.crstats` or `.crstats 3`
 
 ###### [Back to TOC](#table-of-contents)
 
@@ -157,6 +159,8 @@ Command and aliases | Description | Usage
 `>publicpoll` `>ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `>ppoll Question?;Answer1;Answ 2;A_3`
 `>pollend`  | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `>pollend`
 `>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `>cleverbot`
+`>hangmanlist`  | Shows a list of hangman term types.  | `> hangmanlist`
+`>hangman`  | Starts a game of hangman in the channel. Use `>hangmanlist` to see a list of available term types. Defaults to 'all'.  | `>hangman` or `>hangman movies`
 `>pick`  | Picks the currency planted in this channel.  | `>pick`
 `>plant`  | Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)  | `>plant`
 `>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `>gc`
@@ -322,6 +326,7 @@ Command and aliases | Description | Usage
 `~osu`  | Shows osu stats for a player.  | `~osu Name` or `~osu Name taiko`
 `~osub`  | Shows information about an osu beatmap.  | `~osub https://osu.ppy.sh/s/127712`
 `~osu5`  | Displays a user's top 5 plays.  | `~osu5 Name`
+`~overwatch` `~ow` | Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`  | `~ow us Battletag#1337` or  `~overwatch eu Battletag#2016`
 `~placelist`  | Shows the list of available tags for the `~place` command.  | `~placelist`
 `~place`  | Shows a placeholder image of a given tag. Use `~placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.  | `~place Cage` or `~place steven 500 400`
 `~pokemon` `~poke` | Searches for a pokemon.  | `~poke Sylveon`
