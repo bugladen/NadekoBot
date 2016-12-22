@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var i = 0;
+                //var i = 0;
                 if (submissions.Count == 0)
                 {
                     await channel.SendErrorAsync("Acrophobia", "Game ended with no submissions.");

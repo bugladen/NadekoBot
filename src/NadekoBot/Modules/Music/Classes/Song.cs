@@ -49,6 +49,8 @@ namespace NadekoBot.Modules.Music.Classes
         public string PrettyName => $"**[{SongInfo.Title.TrimTo(70)}]({SongInfo.Query})**";
 
         public string PrettyInfo => $"{PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
+		
+		public string PTT => $"{PrettyTotalTime}";
 
         public string PrettyFullName => $"{PrettyName}\n\t\t*{PrettyInfo}*";
 
@@ -59,7 +61,7 @@ namespace NadekoBot.Modules.Music.Classes
                 if (TotalTime == TimeSpan.Zero)
                     return "(?)";
                 else if (TotalTime == TimeSpan.MaxValue)
-                    return "**∞**";
+                    return "∞";
                 else
                     return TotalTime.ToString(@"mm\:ss");
             }
