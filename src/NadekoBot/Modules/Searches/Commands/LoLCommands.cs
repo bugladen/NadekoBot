@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Searches
                                                     $"limit={showCount}")
                                                     .ConfigureAwait(false))["data"] as JArray;
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
-                    var eb = new EmbedBuilder().WithColor(NadekoBot.OkColor).WithTitle(Format.Underline($"{dataList.Count} most banned champions"));
+                    var eb = new EmbedBuilder().WithOkColor().WithTitle(Format.Underline($"{dataList.Count} most banned champions"));
                     for (var i = 0; i < dataList.Count; i++)
                     {
                         var champ = dataList[i];

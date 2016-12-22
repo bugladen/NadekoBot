@@ -17,8 +17,6 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
 {
-    //todo make currency generation change and cooldown modifyable
-    //only by bot owner through commands
     public partial class Games
     {
         /// <summary>
@@ -119,11 +117,7 @@ namespace NadekoBot.Modules.Games
 
                 await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
                 var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
-                var t = Task.Run(async () =>
-                {
-                    await Task.Delay(10000).ConfigureAwait(false);
-                    try { await msg.DeleteAsync().ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                msg.DeleteAfter(10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

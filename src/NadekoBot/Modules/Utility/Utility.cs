@@ -35,16 +35,16 @@ namespace NadekoBot.Modules.Utility
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
                 return;
-            var arr = (await (umsg.Channel as IGuildChannel).Guild.GetUsersAsync())
+            var usrs = (await (umsg.Channel as IGuildChannel).Guild.GetUsersAsync())
                     .Where(u => u.Game?.Name?.ToUpperInvariant() == game)
                     .Select(u => u.Username)
                     .ToList();
 
             int i = 0;
-            if (!arr.Any())
+            if (!usrs.Any())
                 await channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 2)
+                await channel.SendConfirmAsync($"List of users playing {game} game. Total {usrs.Count}.", "```css\n" + string.Join("\n", usrs.Take(30).GroupBy(item => (i++) / 2)
                                                                                  .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
                                                                                  .ConfigureAwait(false);
         }
@@ -132,13 +132,30 @@ namespace NadekoBot.Modules.Utility
 
             if (page < 1 || page > 100)
                 return;
+
             if (target != null)
             {
-                await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
+                var roles = target.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
+                if (!roles.Any())
+                {
+                    await channel.SendErrorAsync("No roles on this page.").ConfigureAwait(false);
+                }
+                else
+                {
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```").ConfigureAwait(false);
+                }
             }
             else
             {
-                await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage)).SanitizeMentions() + "\n```");
+                var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
+                if (!roles.Any())
+                {
+                    await channel.SendErrorAsync("No roles on this page.").ConfigureAwait(false);
+                }
+                else
+                {
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```").ConfigureAwait(false);
+                }
             }
         }
 
@@ -263,7 +280,7 @@ namespace NadekoBot.Modules.Utility
                 return;
             }
 
-            await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithColor(NadekoBot.OkColor),
+            await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
                                      (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
                                                                            .WithValue($"```css\nID: {g.Id}\nMembers: {g.GetUsers().Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false)))

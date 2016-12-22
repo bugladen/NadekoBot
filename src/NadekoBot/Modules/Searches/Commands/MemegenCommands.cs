@@ -39,8 +39,8 @@ namespace NadekoBot.Modules.Searches
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
-            var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));
+            var top = topText.Replace(' ', '-');
+            var bot = botText.Replace(' ', '-');
             await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
                          .ConfigureAwait(false);
         }

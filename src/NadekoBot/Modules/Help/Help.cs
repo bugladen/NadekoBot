@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Help
                 var embed = new EmbedBuilder()
                 .AddField(fb => fb.WithIndex(1).WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Prefix)} { GetCommandRequirements(com)}").WithIsInline(true))
                 .AddField(fb => fb.WithIndex(2).WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
-                .WithColor(NadekoBot.OkColor);
+                .WithOkColor();
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 

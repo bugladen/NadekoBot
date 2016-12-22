@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.CustomReactions
                 reactions.Add(cr);
             }
 
-            await imsg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await imsg.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle("New Custom Reaction")
                 .WithDescription($"#{cr.Id}")
                 .AddField(efb => efb.WithName("Trigger").WithValue(key))
@@ -225,7 +225,7 @@ namespace NadekoBot.Modules.CustomReactions
                 await imsg.Channel.SendErrorAsync("No custom reaction found with that id.").ConfigureAwait(false);
             else
             {
-                await imsg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                await imsg.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription($"#{id}")
                     .AddField(efb => efb.WithName("Trigger").WithValue(found.Trigger))
                     .AddField(efb => efb.WithName("Response").WithValue(found.Response + "\n```css\n" + found.Response + "```"))
@@ -304,7 +304,7 @@ namespace NadekoBot.Modules.CustomReactions
             await imsg.Channel.EmbedAsync(ReactionStats.OrderByDescending(x => x.Value)
                                                .Skip((page - 1)*9)
                                                .Take(9)
-                                               .Aggregate(new EmbedBuilder().WithColor(NadekoBot.OkColor).WithTitle($"Custom Reaction stats page #{page}"),
+                                               .Aggregate(new EmbedBuilder().WithOkColor().WithTitle($"Custom Reaction stats page #{page}"),
                                                          (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true)))
                                                          .Build())
                               .ConfigureAwait(false);

@@ -25,6 +25,23 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
 
+        public static EmbedBuilder WithOkColor(this EmbedBuilder eb) =>
+            eb.WithColor(NadekoBot.OkColor);
+
+        public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) =>
+            eb.WithColor(NadekoBot.ErrorColor);
+
+        public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(seconds * 1000);
+                try { await msg.DeleteAsync().ConfigureAwait(false); }
+                catch { }
+            });
+            return msg;
+        }
+
         public static async Task<IMessage> SendMessageToOwnerAsync(this IGuild guild, string message)
         {
             var ownerPrivate = await (await guild.GetOwnerAsync().ConfigureAwait(false)).CreateDMChannelAsync()
@@ -64,6 +81,8 @@ namespace NadekoBot.Extensions
             str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+
+        public static DateTime ToUnixTimestamp(this double number) => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(number);
 
         public static async Task<IUserMessage> SendMessageAsync(this IGuildUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);

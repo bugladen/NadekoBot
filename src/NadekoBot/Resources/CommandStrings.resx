@@ -1876,10 +1876,10 @@
     <value>weather we</value>
   </data>
   <data name="weather_desc" xml:space="preserve">
-    <value>Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.</value>
+    <value>Shows weather data for a specified city. You can also specify a country after a comma.</value>
   </data>
   <data name="weather_usage" xml:space="preserve">
-    <value>`{0}we Moscow RF`</value>
+    <value>`{0}we Moscow, RU`</value>
   </data>
   <data name="youtube_cmd" xml:space="preserve">
     <value>youtube yt</value>
@@ -2781,7 +2781,7 @@
   <data name="crstats_usage" xml:space="preserve">
     <value>`{0}crstats` or `{0}crstats 3`</value>
   </data>
-    <data name="overwatch_cmd" xml:space="preserve">
+  <data name="overwatch_cmd" xml:space="preserve">
     <value>overwatch ow</value>
   </data>
   <data name="overwatch_desc" xml:space="preserve">
@@ -2789,5 +2789,14 @@
   </data>
   <data name="overwatch_usage" xml:space="preserve">
     <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
+  </data>
+  <data name="acro_cmd" xml:space="preserve">
+    <value>acrophobia acro</value>
+  </data>
+  <data name="acro_desc" xml:space="preserve">
+    <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)</value>
+  </data>
+  <data name="acro_usage" xml:space="preserve">
+    <value>`{0}acro` or `{0}acro 30`</value>
   </data>
 </root>

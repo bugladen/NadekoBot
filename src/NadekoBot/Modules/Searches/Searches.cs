@@ -17,6 +17,7 @@ using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
+using NadekoBot.Modules.Searches.Commands.Models;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -25,28 +26,30 @@ namespace NadekoBot.Modules.Searches
     {
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Weather(IUserMessage umsg, string city, string country)
+        public async Task Weather(IUserMessage umsg, [Remainder] string query)
         {
             var channel = (ITextChannel)umsg.Channel;
-            city = city.Replace(" ", "");
-            country = city.Replace(" ", "");
+            if (string.IsNullOrWhiteSpace(query))
+                return;
+
             string response;
             using (var http = new HttpClient())
-                response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
 
-            var obj = JObject.Parse(response)["weather"];
+            var data = JsonConvert.DeserializeObject<WeatherData>(response);
 
             var embed = new EmbedBuilder()
-                .AddField(fb => fb.WithName("🌍 **Location**").WithValue($"{obj["target"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("☁ **Condition**").WithValue($"{obj["condition"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{obj["humidity"]}%").WithIsInline(true))
-                .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue($"{obj["windspeedk"]}km/h ({obj["windspeedm"]}mph)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue($"{obj["centigrade"]}°C ({obj["fahrenheit"]}°F)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🔆 **Feels like**").WithValue($"{obj["feelscentigrade"]}°C ({obj["feelsfahrenheit"]}°F)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌄 **Sunrise**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌇 **Sunset**").WithValue($"{obj["sunset"]}").WithIsInline(true))
-                .WithColor(NadekoBot.OkColor);
+                .AddField(fb => fb.WithName("🌍 **Location**").WithValue(data.name + ", " + data.sys.country).WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{data.coord.lat}, {data.coord.lon}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ **Condition**").WithValue(String.Join(", ", data.weather.Select(w=>w.main))).WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{data.main.humidity}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue(data.wind.speed + " km/h").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue(data.main.temp + "°C").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 **Min - Max**").WithValue($"{data.main.temp_min}°C - {data.main.temp_max}°C").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 **Sunrise (utc)**").WithValue($"{data.sys.sunrise.ToUnixTimestamp():HH:mm}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 **Sunset (utc)**").WithValue($"{data.sys.sunset.ToUnixTimestamp():HH:mm}").WithIsInline(true))
+                .WithOkColor()
+                .WithFooter(efb => efb.WithText("Powered by http://openweathermap.org"));
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -202,7 +205,7 @@ namespace NadekoBot.Modules.Searches
                 await msg.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
             }
 
-            await msg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await msg.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .AddField(efb => efb.WithName("Original Url")
                                                                                .WithValue($"<{arg}>"))
                                                             .AddField(efb => efb.WithName("Short Url")
@@ -221,7 +224,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(terms))
                 return;
 
-            await channel.SendConfirmAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
+            await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
         }
 
@@ -255,7 +258,7 @@ namespace NadekoBot.Modules.Searches
                     var desc = item["text"].ToString();
                     var types = String.Join(",\n", item["types"].ToObject<string[]>());
                     var img = item["editions"][0]["image_url"].ToString();
-                    var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                    var embed = new EmbedBuilder().WithOkColor()
                                     .WithTitle(item["name"].ToString())
                                     .WithDescription(desc)
                                     .WithImage(eib => eib.WithUrl(img))
@@ -364,7 +367,7 @@ namespace NadekoBot.Modules.Searches
                         .WithUrl("http://www.yodaspeak.co.uk/")
                         .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
                         .WithDescription(res)
-                        .WithColor(NadekoBot.OkColor);
+                        .WithOkColor();
                     await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
                 catch
@@ -405,7 +408,7 @@ namespace NadekoBot.Modules.Searches
                     var word = item["word"].ToString();
                     var def = item["definition"].ToString();
                     var link = item["permalink"].ToString();
-                    var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                    var embed = new EmbedBuilder().WithOkColor()
                                      .WithUrl(link)
                                      .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
                                      .WithDescription(def);
@@ -452,7 +455,7 @@ namespace NadekoBot.Modules.Searches
                 var hashtag = item["hashtag"].ToString();
                 var link = item["uri"].ToString();
                 var desc = item["text"].ToString();
-                await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                                  .WithAuthor(eab => eab.WithUrl(link)
                                                                                        .WithIconUrl("http://res.cloudinary.com/urbandictionary/image/upload/a_exif,c_fit,h_200,w_200/v1394975045/b8oszuu3tbq7ebyo7vo1.jpg")
                                                                                        .WithName(query))

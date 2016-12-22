@@ -11,6 +11,7 @@ using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Extensions;
+using System.Threading;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -18,6 +19,8 @@ namespace NadekoBot.Modules.ClashOfClans
     public class ClashOfClans : DiscordModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
+
+        private static Timer checkWarTimer { get; }
 
         static ClashOfClans()
         {
@@ -32,13 +35,21 @@ namespace NadekoBot.Modules.ClashOfClans
                                                          ?.GetTextChannel(cw.ChannelId);
                             return cw;
                         })
-                        .Where(cw => cw?.Channel != null)
+                        .Where(cw => cw.Channel != null)
                         .GroupBy(cw => cw.GuildId)
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }
-        }
-        public ClashOfClans() : base()
-        {
+
+            checkWarTimer = new Timer(async _ =>
+            {
+                foreach (var kvp in ClashWars)
+                {
+                    foreach (var war in kvp.Value)
+                    {
+                        try { await CheckWar(TimeSpan.FromHours(2), war).ConfigureAwait(false); } catch { }
+                    }
+                }
+            }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
@@ -46,12 +57,21 @@ namespace NadekoBot.Modules.ClashOfClans
             var Bases = war.Bases;
             for (var i = 0; i < Bases.Count; i++)
             {
-                if (Bases[i].CallUser == null) continue;
-                if (!Bases[i].BaseDestroyed && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
+                var callUser = Bases[i].CallUser;
+                if (callUser == null) continue;
+                if ((!Bases[i].BaseDestroyed) && DateTime.UtcNow - Bases[i].TimeAdded >= callExpire)
                 {
-                    Bases[i] = null;
-                    try { await war.Channel.SendErrorAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false); } catch { }
-            }
+                    if (Bases[i].Stars != 3)
+                        Bases[i].BaseDestroyed = true;
+                    else
+                        Bases[i] = null;
+                    try
+                    {
+                        SaveWar(war);
+                        await war.Channel.SendErrorAsync($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -216,7 +236,7 @@ namespace NadekoBot.Modules.ClashOfClans
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            var warsInfo = GetWarInfo(umsg,number);
+            var warsInfo = GetWarInfo(umsg, number);
             if (warsInfo == null)
             {
                 await channel.SendErrorAsync("🔰 That war does not exist.").ConfigureAwait(false);

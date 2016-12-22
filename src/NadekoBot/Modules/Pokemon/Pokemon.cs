@@ -316,7 +316,7 @@ namespace NadekoBot.Modules.Pokemon
             var targetType = StringToPokemonType(typeTargeted);
             if (targetType == null)
             {
-                await channel.EmbedAsync(PokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), (eb, pt) => eb.AddField(efb => efb.WithName(pt.Name).WithValue(pt.Icon).WithIsInline(true))).WithColor(NadekoBot.OkColor).Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(PokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), (eb, pt) => eb.AddField(efb => efb.WithName(pt.Name).WithValue(pt.Icon).WithIsInline(true))).WithOkColor().Build()).ConfigureAwait(false);
                 return;
             }
             if (targetType == GetPokeType(user.Id))

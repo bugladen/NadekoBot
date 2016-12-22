@@ -195,12 +195,8 @@ namespace NadekoBot.Modules.Administration
 
                 if (conf.AutoDeleteSelfAssignedRoleMessages)
                 {
-                    var t = Task.Run(async () =>
-                    {
-                        await Task.Delay(3000).ConfigureAwait(false);
-                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
-                        try { await usrMsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                    });
+                    msg.DeleteAfter(3);
+                    umsg.DeleteAfter(3);
                 }
             }
 
@@ -242,12 +238,8 @@ namespace NadekoBot.Modules.Administration
 
                 if (autoDeleteSelfAssignedRoleMessages)
                 {
-                    var t = Task.Run(async () =>
-                    {
-                        await Task.Delay(3000).ConfigureAwait(false);
-                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { } // if 502 or something, i don't want bot crashing
-                        try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                    });
+                    msg.DeleteAfter(3);
+                    umsg.DeleteAfter(3);
                 }
             }
         }

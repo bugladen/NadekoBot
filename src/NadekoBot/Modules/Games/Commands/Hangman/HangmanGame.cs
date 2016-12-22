@@ -118,9 +118,9 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                                           .AddField(efb => efb.WithName("It was").WithValue(Term.Word))
                                           .WithImage(eib => eib.WithUrl(Term.ImageUrl));
             if (Errors >= MaxErrors)
-                await GameChannel.EmbedAsync(embed.WithColor(NadekoBot.ErrorColor).Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithErrorColor().Build()).ConfigureAwait(false);
             else
-                await GameChannel.EmbedAsync(embed.WithColor(NadekoBot.OkColor).Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithOkColor().Build()).ConfigureAwait(false);
         }
 
         private Task PotentialGuess(IMessage msg)
@@ -143,10 +143,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
                 return Task.CompletedTask;
 
-            var guess = char.ToUpperInvariant(msg.Content[0]); 
-            // todo hmmmm
-            // how do i want to limit the users on guessing?
-            // one guess every 5 seconds if wrong?
+            var guess = char.ToUpperInvariant(msg.Content[0]);
+
             Task.Run(async () =>
             {
                 try

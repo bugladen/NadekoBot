@@ -41,8 +41,8 @@ namespace NadekoBot.Modules.Music.Classes
 
         public float Volume { get; private set; }
 
-        public event EventHandler<Song> OnCompleted = delegate { };
-        public event EventHandler<Song> OnStarted = delegate { };
+        public event Action<MusicPlayer, Song> OnCompleted = delegate { };
+        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
@@ -130,6 +130,7 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
+                        await Task.Delay(3000).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -250,11 +251,11 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var curSong = CurrentSong;
             var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
-                                                          s.TotalLength == TimeSpan.Zero);
+                                                            s.TotalTime == TimeSpan.Zero);
             if (curSong != null)
                 toUpdate = toUpdate.Append(curSong);
             var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
-                              .Distinct();
+                                .Distinct();
 
             var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
 
@@ -264,11 +265,12 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     if (s.SongInfo.Query.EndsWith(kvp.Key))
                     {
-                        s.TotalLength = kvp.Value;
+                        s.TotalTime = kvp.Value;
                         return;
                     }
                 }
             });
+
         }
 
         public void Destroy()

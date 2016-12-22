@@ -49,6 +49,7 @@ namespace NadekoBot.Modules.Searches
                 using (var http = new HttpClient())
                 {
                     var response = await http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
+                    System.Console.WriteLine(response);
                     await msg.Channel.SendConfirmAsync(JObject.Parse(response)["joke"].ToString() + " 😆").ConfigureAwait(false);
                 }
             }

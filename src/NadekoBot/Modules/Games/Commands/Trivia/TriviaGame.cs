@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Games.Trivia
             Games.TriviaCommands.RunningTrivias.TryRemove(channel.Guild.Id, out throwaway);
             try
             {
-                await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                       .WithTitle("Leaderboard")
                       .WithDescription(GetLeaderboard())
                       .Build(), "Trivia game ended.").ConfigureAwait(false);
