@@ -102,20 +102,8 @@ namespace NadekoBot.Modules.Music
         //public Task Destroy(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
-			var msg =
-                await channel.SendMessageAsync($"🔴 Initiating Self-Destruct Sequence!").ConfigureAwait(false);
-				await Task.Delay(2000).ConfigureAwait(false);
-				await msg.ModifyAsync(m => m.Content = "⚪️ Self-Destruct Sequence Initiated T Minus 4").ConfigureAwait(false);
-				await Task.Delay(1000).ConfigureAwait(false);
-				await msg.ModifyAsync(m => m.Content = "🔴 Self-Destruct Sequence Initiated T Minus 3").ConfigureAwait(false);
-				await Task.Delay(1000).ConfigureAwait(false);
-				await msg.ModifyAsync(m => m.Content = "⚪️ Self-Destruct Sequence Initiated T Minus 2").ConfigureAwait(false);
-				await Task.Delay(1000).ConfigureAwait(false);
-				await msg.ModifyAsync(m => m.Content = "🔴 Self-Destruct Sequence Initiated T Minus 1").ConfigureAwait(false);
-				await Task.Delay(2000).ConfigureAwait(false);
-				await msg.ModifyAsync(m => m.Content = "🌸 Nice Try! I am Indestructible.").ConfigureAwait(false);
-				
-
+			await channel.SendErrorAsync("Command is temporarily disabled.").ConfigureAwait(false);
+			
             /*MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
