@@ -2791,7 +2791,7 @@
     <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
   </data>
   <data name="acro_cmd" xml:space="preserve">
-    <value>acro</value>
+    <value>acrophobia acro</value>
   </data>
   <data name="acro_desc" xml:space="preserve">
     <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)</value>

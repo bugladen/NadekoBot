@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Games
 --
 {this.submissions.Aggregate("", (agg, cur) => agg + $"`{++i}.` **{cur.Key.ToLowerInvariant().ToTitleCase()}**\n")}
 --")
-                    .WithFooter(efb => efb.WithText("Vote by retyping one of the submissions"));
+                    .WithFooter(efb => efb.WithText("Vote by typing a number of the submission"));
             }
 
             public async Task Run()
@@ -229,24 +229,23 @@ namespace NadekoBot.Modules.Games
                             }
 
                             IGuildUser usr;
-                            if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
-                            {
-                                if (!usersWhoVoted.Add(guildUser.Id))
-                                    return;
-                                votes.AddOrUpdate(input, 1, (key, old) => ++old);
-                                await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
-                                await msg.DeleteAsync().ConfigureAwait(false);
-                                return;
-                            }
+                            //if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
+                            //{
+                            //    if (!usersWhoVoted.Add(guildUser.Id))
+                            //        return;
+                            //    votes.AddOrUpdate(input, 1, (key, old) => ++old);
+                            //    await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
+                            //    await msg.DeleteAsync().ConfigureAwait(false);
+                            //    return;
+                            //}
 
                             int num;
-                            if (int.TryParse(input, out num) && num >= 0 && num < submissions.Count)
+                            if (int.TryParse(input, out num) && num > 0 && num <= submissions.Count)
                             {
-                                var kvp = submissions.Skip(num).First();
+                                var kvp = submissions.Skip(num - 1).First();
                                 usr = kvp.Value;
-                                if (usr.Id == guildUser.Id)
-                                    return;
-                                if (!usersWhoVoted.Add(guildUser.Id))
+                                //can't vote for yourself, can't vote multiple times
+                                if (usr.Id == guildUser.Id || !usersWhoVoted.Add(guildUser.Id))
                                     return;
                                 votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
                                 await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);

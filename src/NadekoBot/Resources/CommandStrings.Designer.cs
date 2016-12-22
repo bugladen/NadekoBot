@@ -87,7 +87,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to acro.
+        ///    Looks up a localized string similar to acrophobia acro.
         /// </summary>
         public static string acro_cmd {
             get {
