@@ -64,80 +64,14 @@ namespace NadekoBot.Services
             _client.MessageReceived += MessageReceivedHandler;
         }
 
-        private async Task MessageReceivedHandler(IMessage msg)
+        private Task MessageReceivedHandler(IMessage msg)
         {
             var usrMsg = msg as IUserMessage;
             if (usrMsg == null)
-                return;
+                return Task.CompletedTask;
 
             if (usrMsg.Author.IsBot || !NadekoBot.Ready) //no bots
-                return;
-
-            var guild = (msg.Channel as ITextChannel)?.Guild;
-
-            if (guild != null && guild.OwnerId != usrMsg.Author.Id)
-            {
-                if (Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
-                    Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
-                {
-                    if (usrMsg.Content.IsDiscordInvite())
-                    {
-                        try
-                        {
-                            await usrMsg.DeleteAsync().ConfigureAwait(false);
-                            return;
-                        }
-                        catch (HttpException ex)
-                        {
-                            _log.Warn("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id, ex);
-                        }
-                    }
-                }
-
-                var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
-                var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
-                if (filteredWords.Any(w => wordsInMessage.Contains(w)))
-                {
-                    try
-                    {
-                        await usrMsg.DeleteAsync().ConfigureAwait(false);
-                        return;
-                    }
-                    catch (HttpException ex)
-                    {
-                        _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
-                    }
-                }
-            }
-
-            BlacklistItem blacklistedItem;
-            if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
-                 (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
-            {
-                return;
-            }
-
-            try
-            {
-                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
-
-                if (cleverbotExecuted)
-                    return;
-            }
-            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
-
-            try
-            {
-                // maybe this message is a custom reaction
-                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
-
-                //if it was, don't execute the command
-                if (crExecuted)
-                    return;
-            }
-            catch { }
+                return Task.CompletedTask;
 
             var throwaway = Task.Run(async () =>
             {
@@ -146,6 +80,72 @@ namespace NadekoBot.Services
 
                 try
                 {
+                    var guild = (msg.Channel as ITextChannel)?.Guild;
+
+                    if (guild != null && guild.OwnerId != usrMsg.Author.Id)
+                    {
+                        if (Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
+                            Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
+                        {
+                            if (usrMsg.Content.IsDiscordInvite())
+                            {
+                                try
+                                {
+                                    await usrMsg.DeleteAsync().ConfigureAwait(false);
+                                    return;
+                                }
+                                catch (HttpException ex)
+                                {
+                                    _log.Warn("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id, ex);
+                                }
+                            }
+                        }
+
+                        var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
+                        var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
+                        if (filteredWords.Any(w => wordsInMessage.Contains(w)))
+                        {
+                            try
+                            {
+                                await usrMsg.DeleteAsync().ConfigureAwait(false);
+                                return;
+                            }
+                            catch (HttpException ex)
+                            {
+                                _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
+                            }
+                        }
+                    }
+
+                    BlacklistItem blacklistedItem;
+                    if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
+                         (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
+                         (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                         (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
+
+                        if (cleverbotExecuted)
+                            return;
+                    }
+                    catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+
+                    try
+                    {
+                        // maybe this message is a custom reaction
+                        var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+
+                        //if it was, don't execute the command
+                        if (crExecuted)
+                            return;
+                    }
+                    catch { }
+
                     var t = await ExecuteCommand(usrMsg, usrMsg.Content, guild, usrMsg.Author, MultiMatchHandling.Best);
                     var command = t.Item1;
                     var permCache = t.Item2;
@@ -209,7 +209,8 @@ namespace NadekoBot.Services
                         _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
                 }
             });
-            return;
+
+            return Task.CompletedTask;
         }
 
         public async Task<Tuple<Command, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {

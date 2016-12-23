@@ -35,6 +35,8 @@ namespace NadekoBot.Modules.Games
             //channelId/last generation
             private static ConcurrentDictionary<ulong, DateTime> lastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
 
+            private static ConcurrentHashSet<ulong> usersRecentlyPicked { get; } = new ConcurrentHashSet<ulong>();
+
             private static float chance { get; }
             private static int cooldown { get; }
             private static Logger _log { get; }
@@ -101,23 +103,29 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)imsg.Channel;
 
-                if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages)
+                if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(imsg.Author.Id))
+                    return;
+
+                try
                 {
-                    await channel.SendErrorAsync("I need manage channel permissions in order to process this command.").ConfigureAwait(false);
-                    return;
+
+                    List<IUserMessage> msgs;
+
+                    try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    if (!plantedFlowers.TryRemove(channel.Id, out msgs))
+                        return;
+
+                    await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
+
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                    var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
+                    msg.DeleteAfter(10);
                 }
-
-                List<IUserMessage> msgs;
-
-                try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                if (!plantedFlowers.TryRemove(channel.Id, out msgs))
-                    return;
-
-                await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
-
-                await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
-                var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
-                msg.DeleteAfter(10);
+                finally
+                {
+                    await Task.Delay(60000);
+                    usersRecentlyPicked.TryRemove(imsg.Author.Id);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
