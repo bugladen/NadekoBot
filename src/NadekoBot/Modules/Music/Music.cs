@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Text.RegularExpressions;
-//using System.Threading;
+using System.Threading;
 
 namespace NadekoBot.Modules.Music
 {
@@ -326,7 +326,7 @@ namespace NadekoBot.Modules.Music
             var msg =
                 await channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
 				
-            /*var cancelSource = new CancellationTokenSource();
+            var cancelSource = new CancellationTokenSource();
 
             var tasks = Task.WhenAll(idArray.Select(async id =>
             {
@@ -340,9 +340,9 @@ namespace NadekoBot.Modules.Music
                 catch { try { cancelSource.Cancel(); } catch { } }
             }));
 
-            await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));*/
+            await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
 			
-			foreach (var id in idArray)
+			/*foreach (var id in idArray)
             {
                 try
                 {
@@ -350,7 +350,7 @@ namespace NadekoBot.Modules.Music
                 }
                 catch (SongNotFoundException) { }
                 catch { break; }
-            }
+            }*/
 
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
