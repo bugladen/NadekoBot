@@ -49,8 +49,6 @@ namespace NadekoBot.Modules.Music.Classes
         public string PrettyName => $"**[{SongInfo.Title.TrimTo(70)}]({SongInfo.Query})**";
 
         public string PrettyInfo => $"{PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
-		
-		public string PTT => $"{PrettyTotalTime}";
 
         public string PrettyFullName => $"{PrettyName}\n\t\t*{PrettyInfo}*";
 
@@ -64,6 +62,24 @@ namespace NadekoBot.Modules.Music.Classes
                     return "∞";
                 else
                     return TotalTime.ToString(@"mm\:ss");
+            }
+        }
+
+        public string Thumbnail {
+            get {
+                switch (SongInfo.ProviderType)
+                {
+                    case MusicType.Normal:
+                        //todo have videoid in songinfo from the start
+                        var videoId = Regex.Match(SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
+                        return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
+                    case MusicType.Soundcloud:
+                        return SongInfo.AlbumArt;
+                    case MusicType.Local:
+                    case MusicType.Radio:
+                    default:
+                        return "";
+                }
             }
         }
 

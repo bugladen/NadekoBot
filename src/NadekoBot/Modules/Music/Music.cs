@@ -217,26 +217,16 @@ namespace NadekoBot.Modules.Music
             if (currentSong == null)
                 return;
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
-            var videoid = Regex.Match(currentSong.SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
 
             var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName("Now Playing")
                         .WithMusicIcon())
-						.WithTitle($"{currentSong.SongInfo.Title}")
-                    .WithDescription(currentSong.PrettyCurrentTime + "/" + currentSong.PTT)
+                        .WithTitle($"{currentSong.SongInfo.Title}")
+                    .WithDescription(currentSong.PrettyFullTime)
                     .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.QueuerName}"))
-                    .WithOkColor();
-			if (currentSong.SongInfo.Provider.Equals("YouTube", StringComparison.OrdinalIgnoreCase))
-			{
-				embed.WithThumbnail(tn => tn.Url = $"https://img.youtube.com/vi/{videoid}/0.jpg");
-				embed.WithUrl($"{currentSong.SongInfo.Query}");
-			}
-			else if (currentSong.SongInfo.Provider.Equals("SoundCloud", StringComparison.OrdinalIgnoreCase))
-			{
-				embed.WithThumbnail(tn => tn.Url = $"{currentSong.SongInfo.AlbumArt}");
-				embed.WithUrl($"{currentSong.SongInfo.Query}");
-			}
-
+                    .WithOkColor()
+                    .WithThumbnail(tn => tn.Url = currentSong.Thumbnail)
+                    .WithUrl(currentSong.SongInfo.Query);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -325,7 +315,7 @@ namespace NadekoBot.Modules.Music
 
             var msg =
                 await channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
-				
+                
             var cancelSource = new CancellationTokenSource();
 
             var tasks = Task.WhenAll(idArray.Select(async id =>
@@ -341,16 +331,6 @@ namespace NadekoBot.Modules.Music
             }));
 
             await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
-			
-			/*foreach (var id in idArray)
-            {
-                try
-                {
-                    await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, true).ConfigureAwait(false);
-                }
-                catch (SongNotFoundException) { }
-                catch { break; }
-            }*/
 
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
@@ -847,7 +827,7 @@ namespace NadekoBot.Modules.Music
                     {
                         if (finishedMessage != null)
                             finishedMessage.DeleteAfter(0);
-						
+                        
                         finishedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
                                                   .WithDescription(song.PrettyName)
@@ -863,11 +843,11 @@ namespace NadekoBot.Modules.Music
                     catch { }
                 };
                 IUserMessage playingMessage = null;
-				
+                
                 mp.OnStarted += async (player, song) =>
                 {
-					try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
-					var sender = player as MusicPlayer;
+                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
+                    var sender = player as MusicPlayer;
                     if (sender == null)
                     return;
                     try
