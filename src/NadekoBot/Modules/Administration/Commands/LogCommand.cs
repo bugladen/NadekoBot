@@ -514,6 +514,9 @@ namespace NadekoBot.Modules.Administration
                 if (channel == null)
                     return Task.CompletedTask;
 
+                if (before.Content == after.Content)
+                    return Task.CompletedTask;
+
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
