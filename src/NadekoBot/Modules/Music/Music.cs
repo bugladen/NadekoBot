@@ -867,6 +867,9 @@ namespace NadekoBot.Modules.Music
                 mp.OnStarted += async (player, song) =>
                 {
 					try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
+					var sender = player as MusicPlayer;
+                    if (sender == null)
+                    return;
                     try
                     {
                         if (playingMessage != null)
@@ -874,8 +877,8 @@ namespace NadekoBot.Modules.Music
 
                         playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
-                                                    .WithDescription(song.PrettyName)
-                                                    .WithFooter(ef => ef.WithText(song.PrettyInfo))
+                                                    .WithDescription($"{song.PrettyName}")
+                                                    .WithFooter(ef => ef.WithText($"🔉 {(int)(sender.Volume * 100)}% | {song.PrettyInfo}"))
                                                     .Build())
                                                     .ConfigureAwait(false);
                     }
