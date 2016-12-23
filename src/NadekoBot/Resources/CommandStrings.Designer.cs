@@ -4767,7 +4767,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Picks the currency planted in this channel..
+        ///    Looks up a localized string similar to Picks the currency planted in this channel. 60 seconds cooldown..
         /// </summary>
         public static string pick_desc {
             get {

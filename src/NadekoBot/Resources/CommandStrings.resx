@@ -1363,7 +1363,7 @@
     <value>pick</value>
   </data>
   <data name="pick_desc" xml:space="preserve">
-    <value>Picks the currency planted in this channel.</value>
+    <value>Picks the currency planted in this channel. 60 seconds cooldown.</value>
   </data>
   <data name="pick_usage" xml:space="preserve">
     <value>`{0}pick`</value>
