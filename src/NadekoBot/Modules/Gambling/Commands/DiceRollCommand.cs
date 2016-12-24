@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.Gambling
                     var rng = new NadekoRandom();
 
                     var rolls = new List<char>();
-                    
+
                     for (int i = 0; i < n1; i++)
                     {
                         rolls.Add(fateRolls[rng.Next(0, fateRolls.Length)]);
@@ -192,8 +192,11 @@ namespace NadekoBot.Modules.Gambling
                         {
                             arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
-                        var elemCnt = 0;
-                        await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
+                        .AddField(efb => efb.WithName(Format.Bold("Result"))
+                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
+                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                     }
                 }
             }
