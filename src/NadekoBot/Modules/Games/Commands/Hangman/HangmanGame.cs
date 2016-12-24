@@ -116,7 +116,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             var embed = new EmbedBuilder().WithTitle("Hangman Game")
                                           .WithDescription(toSend)
                                           .AddField(efb => efb.WithName("It was").WithValue(Term.Word))
-                                          .WithImage(eib => eib.WithUrl(Term.ImageUrl));
+                                          .WithImage(eib => eib.WithUrl(Term.ImageUrl))
+                                          .WithFooter(efb => efb.WithText(string.Join(" ", Guesses)));
             if (Errors >= MaxErrors)
                 await GameChannel.EmbedAsync(embed.WithErrorColor().Build()).ConfigureAwait(false);
             else
@@ -134,7 +135,13 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                     MessagesSinceLastPost = 0;
                     Task.Run(async () =>
                     {
-                        try { await GameChannel.SendConfirmAsync("Hangman Game", ScrambledWord + "\n" + GetHangman()).ConfigureAwait(false); } catch { }
+                        try
+                        {
+                            await GameChannel.SendConfirmAsync("Hangman Game",
+                                ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        }
+                        catch { }
                     });
                 }
                 return Task.CompletedTask;
@@ -151,9 +158,11 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 {
                     if (Guesses.Contains(guess))
                     {
+                        MessagesSinceLastPost = 0;
                         ++Errors;
                         if (Errors < MaxErrors)
-                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman()).ConfigureAwait(false);
+                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
                         else
                             await End().ConfigureAwait(false);
                         return;
@@ -170,14 +179,18 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                           await End().ConfigureAwait(false);
                             return;
                         }
-                        try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman()).ConfigureAwait(false); } catch { }
+                        MessagesSinceLastPost = 0;
+                        try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
+                            footer: string.Join(" ", Guesses)).ConfigureAwait(false); } catch { }
 
                     }
                     else
                     {
+                        MessagesSinceLastPost = 0;
                         ++Errors;
                         if (Errors < MaxErrors)
-                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman()).ConfigureAwait(false);
+                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
                         else
                             await End().ConfigureAwait(false);
                     }

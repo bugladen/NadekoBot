@@ -229,10 +229,10 @@
     <value>logserver</value>
   </data>
   <data name="logserver_desc" xml:space="preserve">
-    <value>Logs server activity in this channel.</value>
+    <value>Enables or Disables ALL log events. If enabled, all log events will log to this channel.</value>
   </data>
   <data name="logserver_usage" xml:space="preserve">
-    <value>`{0}logserver`</value>
+    <value>`{0}logserver enable` or `{0}logserver disable`</value>
   </data>
   <data name="logignore_cmd" xml:space="preserve">
     <value>logignore</value>
@@ -988,7 +988,7 @@
     <value>Sets a module's permission at the server level.</value>
   </data>
   <data name="srvrmdl_usage" xml:space="preserve">
-    <value>`{0}sm "module name" enable`</value>
+    <value>`{0}sm ModuleName enable`</value>
   </data>
   <data name="srvrcmd_cmd" xml:space="preserve">
     <value>srvrcmd sc</value>
@@ -1006,7 +1006,7 @@
     <value>Sets a module's permission at the role level.</value>
   </data>
   <data name="rolemdl_usage" xml:space="preserve">
-    <value>`{0}rm "module name" enable MyRole`</value>
+    <value>`{0}rm ModuleName enable MyRole`</value>
   </data>
   <data name="rolecmd_cmd" xml:space="preserve">
     <value>rolecmd rc</value>
@@ -1024,7 +1024,7 @@
     <value>Sets a module's permission at the channel level.</value>
   </data>
   <data name="chnlmdl_usage" xml:space="preserve">
-    <value>`{0}cm "module name" enable SomeChannel`</value>
+    <value>`{0}cm ModuleName enable SomeChannel`</value>
   </data>
   <data name="chnlcmd_cmd" xml:space="preserve">
     <value>chnlcmd cc</value>
@@ -1042,7 +1042,7 @@
     <value>Sets a module's permission at the user level.</value>
   </data>
   <data name="usrmdl_usage" xml:space="preserve">
-    <value>`{0}um "module name" enable SomeUsername`</value>
+    <value>`{0}um ModuleName enable SomeUsername`</value>
   </data>
   <data name="usrcmd_cmd" xml:space="preserve">
     <value>usrcmd uc</value>
@@ -1192,10 +1192,10 @@
     <value>roll</value>
   </data>
   <data name="roll_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
   </data>
   <data name="roll_usage" xml:space="preserve">
-    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5`</value>
+    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`</value>
   </data>
   <data name="rolluo_cmd" xml:space="preserve">
     <value>rolluo</value>
@@ -2798,5 +2798,23 @@
   </data>
   <data name="acro_usage" xml:space="preserve">
     <value>`{0}acro` or `{0}acro 30`</value>
+  </data>
+  <data name="logevents_cmd" xml:space="preserve">
+    <value>logevents</value>
+  </data>
+  <data name="logevents_desc" xml:space="preserve">
+    <value>Shows a list of all events you can subscribe to with `{0}log`</value>
+  </data>
+  <data name="logevents_usage" xml:space="preserve">
+    <value>`{0}logevents`</value>
+  </data>
+  <data name="log_cmd" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="log_desc" xml:space="preserve">
+    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a lit of all events you can subscribe to.</value>
+  </data>
+  <data name="log_usage" xml:space="preserve">
+    <value>`{0}log userpresence` or `{0}log userbanned`</value>
   </data>
 </root>

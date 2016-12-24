@@ -108,7 +108,13 @@ namespace NadekoBot.Modules.Searches
                                 var channel = server?.GetTextChannel(fs.ChannelId);
                                 if (channel == null)
                                     return;
-                                try { await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false); } catch { }
+                                try
+                                {
+                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false);
+                                    if (!newStatus.IsLive)
+                                        msg.DeleteAfter(60);
+                                }
+                                catch { }
                             }
                         }
                         catch { }

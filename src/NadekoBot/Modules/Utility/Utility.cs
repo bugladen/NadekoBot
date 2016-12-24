@@ -15,6 +15,7 @@ using Discord.API;
 using Embed = Discord.API.Embed;
 using EmbedAuthor = Discord.API.EmbedAuthor;
 using EmbedField = Discord.API.EmbedField;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -25,6 +26,27 @@ namespace NadekoBot.Modules.Utility
         public Utility() : base()
         {
 
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task TogetherTube(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            Uri target;
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
+                target = res.RequestMessage.RequestUri;
+            }
+
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
+                .WithName("Together Tube")
+                .WithUrl("https://togethertube.com/"))
+                .WithDescription($"{imsg.Author.Mention} Here is your room link:\n{target}")
+                .Build());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -185,64 +207,23 @@ namespace NadekoBot.Modules.Utility
             var stats = NadekoBot.Stats;
 
             await channel.EmbedAsync(
-                new Embed()
-                {
-                    Author = new EmbedAuthor()
-                    {
-                        Name = $"NadekoBot v{StatsService.BotVersion}",
-                        Url = "http://nadekobot.readthedocs.io/en/latest/",
-                        IconUrl = "https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"
-                    },
-                    Fields = new[] {
-                        new EmbedField() {
-                            Name = Format.Bold("Author"),
-                            Value = stats.Author,
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Library"),
-                            Value = stats.Library,
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Bot ID"),
-                            Value = NadekoBot.Client.GetCurrentUser().Id.ToString(),
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Commands Ran"),
-                            Value = stats.CommandsRan.ToString(),
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Messages"),
-                            Value = $"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)",
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Memory"),
-                            Value = $"{stats.Heap} MB",
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Owner ID(s)"),
-                            Value = stats.OwnerIds,
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Uptime"),
-                            Value = stats.GetUptimeString("\n"),
-                            Inline = true
-                        },
-                        new EmbedField() {
-                            Name = Format.Bold("Presence"),
-                            Value = $"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
-                            Inline = true
-                        },
-
-                    },
-                    Color = 0x00bbd6
-                });
+                new EmbedBuilder().WithOkColor()
+                    .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
+                                          .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
+                                          .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
+                    .AddField(efb => efb.WithName(Format.Bold("Author")).WithValue(stats.Author).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Library")).WithValue(stats.Library).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.GetCurrentUser().Id.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Commands Ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Owner ID(s)")).WithValue(stats.OwnerIds).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
+#if !GLOBAL_NADEKO
+                    .WithFooter(efb => efb.WithText($"Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued."))
+#endif
+                    .Build());
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);

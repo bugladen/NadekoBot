@@ -19,6 +19,9 @@ namespace NadekoBot.Modules.Gambling
         public class DriceRollCommands
         {
             private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private Regex fudgeRegex { get; } = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+
+            private readonly char[] fateRolls = new[] { '-', ' ', '+' };
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -141,12 +144,29 @@ namespace NadekoBot.Modules.Gambling
                 if (channel == null)
                     return;
 
-                var rng = new NadekoRandom();
                 Match match;
-                if ((match = dndRegex.Match(arg)).Length != 0)
+                int n1;
+                int n2;
+                if ((match = fudgeRegex.Match(arg)).Length != 0 &&
+                    int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                    n1 > 0 && n1 < 500)
                 {
-                    int n1;
-                    int n2;
+                    var rng = new NadekoRandom();
+
+                    var rolls = new List<char>();
+
+                    for (int i = 0; i < n1; i++)
+                    {
+                        rolls.Add(fateRolls[rng.Next(0, fateRolls.Length)]);
+                    }
+                    var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} fate {(n1 == 1 ? "die" : "dice")}.")
+                        .AddField(efb => efb.WithName(Format.Bold("Result"))
+                            .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                }
+                else if ((match = dndRegex.Match(arg)).Length != 0)
+                {
+                    var rng = new NadekoRandom();
                     if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
                         int.TryParse(match.Groups["n2"].ToString(), out n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
@@ -161,8 +181,11 @@ namespace NadekoBot.Modules.Gambling
                         {
                             arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
-                        var elemCnt = 0;
-                        await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
+                        .AddField(efb => efb.WithName(Format.Bold("Result"))
+                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
+                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                     }
                 }
             }

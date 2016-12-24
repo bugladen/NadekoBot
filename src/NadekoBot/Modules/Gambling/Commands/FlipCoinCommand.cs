@@ -67,6 +67,7 @@ namespace NadekoBot.Modules.Gambling
                 if (!removed)
                 {
                     await channel.SendErrorAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
+                    return;
                 }
                 //heads = true
                 //tails = false

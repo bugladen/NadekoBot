@@ -57,10 +57,10 @@ Command and aliases | Description | Usage
 `.lcsc`  | Leaves Cross server channel instance from this channel. **Requires ManageServer server permission.** | `.lcsc`
 `.fwmsgs`  | Toggles forwarding of non-command messages sent to bot's DM to the bot owners **Bot Owner only.** | `.fwmsgs`
 `.fwtoall`  | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json **Bot Owner only.** | `.fwtoall`
-`.logserver`  | Logs server activity in this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver`
+`.logserver`  | Enables or Disables ALL log events. If enabled, all log events will log to this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver enable` or `.logserver disable`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logignore`
-`.userpresence`  | Starts logging to this channel when someone from the server goes online/offline/idle. **Requires Administrator server permission.** | `.userpresence`
-`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. **Requires Administrator server permission.** | `.voicepresence`
+`.logevents`  | Shows a list of all events you can subscribe to with `.log` **Requires Administrator server permission.** | `.logevents`
+`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a lit of all events you can subscribe to. **Requires Administrator server permission.** | `.log userpresence` or `.log userbanned`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer. **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled. **Requires ManageMessages server permission.** | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot Owner only.** | `.migratedata`
@@ -158,10 +158,11 @@ Command and aliases | Description | Usage
 `>poll`  | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `>poll Question?;Answer1;Answ 2;A_3`
 `>publicpoll` `>ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `>ppoll Question?;Answer1;Answ 2;A_3`
 `>pollend`  | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `>pollend`
+`>acrophobia` `>acro` | Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)  | `>acro` or `>acro 30`
 `>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `>cleverbot`
 `>hangmanlist`  | Shows a list of hangman term types.  | `> hangmanlist`
 `>hangman`  | Starts a game of hangman in the channel. Use `>hangmanlist` to see a list of available term types. Defaults to 'all'.  | `>hangman` or `>hangman movies`
-`>pick`  | Picks the currency planted in this channel.  | `>pick`
+`>pick`  | Picks the currency planted in this channel. 60 seconds cooldown.  | `>pick`
 `>plant`  | Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)  | `>plant`
 `>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `>gc`
 `>typestart`  | Starts a typing contest.  | `>typestart`
@@ -248,13 +249,13 @@ Command and aliases | Description | Usage
 `;removeperm` `;rp` | Removes a permission from a given position in Permissions list.  | `;rp 1`
 `;moveperm` `;mp` | Moves permission from one position to another in Permissions list.  | `;mp 2 4`
 `;srvrcmd` `;sc` | Sets a command's permission at the server level.  | `;sc "command name" disable`
-`;srvrmdl` `;sm` | Sets a module's permission at the server level.  | `;sm "module name" enable`
+`;srvrmdl` `;sm` | Sets a module's permission at the server level.  | `;sm ModuleName enable`
 `;usrcmd` `;uc` | Sets a command's permission at the user level.  | `;uc "command name" enable SomeUsername`
-`;usrmdl` `;um` | Sets a module's permission at the user level.  | `;um "module name" enable SomeUsername`
+`;usrmdl` `;um` | Sets a module's permission at the user level.  | `;um ModuleName enable SomeUsername`
 `;rolecmd` `;rc` | Sets a command's permission at the role level.  | `;rc "command name" disable MyRole`
-`;rolemdl` `;rm` | Sets a module's permission at the role level.  | `;rm "module name" enable MyRole`
+`;rolemdl` `;rm` | Sets a module's permission at the role level.  | `;rm ModuleName enable MyRole`
 `;chnlcmd` `;cc` | Sets a command's permission at the channel level.  | `;cc "command name" enable SomeChannel`
-`;chnlmdl` `;cm` | Sets a module's permission at the channel level.  | `;cm "module name" enable SomeChannel`
+`;chnlmdl` `;cm` | Sets a module's permission at the channel level.  | `;cm ModuleName enable SomeChannel`
 `;allchnlmdls` `;acm` | Enable or disable all modules in a specified channel.  | `;acm enable #SomeChannel`
 `;allrolemdls` `;arm` | Enable or disable all modules for a specific role.  | `;arm [enable/disable] MyRole`
 `;allusrmdls` `;aum` | Enable or disable all modules for a specific user.  | `;aum enable @someone`
@@ -287,7 +288,7 @@ Command and aliases | Description | Usage
 ### Searches  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~weather` `~we` | Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.  | `~we Moscow RF`
+`~weather` `~we` | Shows weather data for a specified city. You can also specify a country after a comma.  | `~we Moscow, RU`
 `~youtube` `~yt` | Searches youtubes and shows the first result  | `~yt query`
 `~imdb` `~omdb` | Queries omdb for movies or series, show first result.  | `~imdb Batman vs Superman`
 `~randomcat` `~meow` | Shows a random cat image.  | `~meow`
