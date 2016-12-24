@@ -988,7 +988,7 @@
     <value>Sets a module's permission at the server level.</value>
   </data>
   <data name="srvrmdl_usage" xml:space="preserve">
-    <value>`{0}sm "module name" enable`</value>
+    <value>`{0}sm ModuleName enable`</value>
   </data>
   <data name="srvrcmd_cmd" xml:space="preserve">
     <value>srvrcmd sc</value>
@@ -1006,7 +1006,7 @@
     <value>Sets a module's permission at the role level.</value>
   </data>
   <data name="rolemdl_usage" xml:space="preserve">
-    <value>`{0}rm "module name" enable MyRole`</value>
+    <value>`{0}rm ModuleName enable MyRole`</value>
   </data>
   <data name="rolecmd_cmd" xml:space="preserve">
     <value>rolecmd rc</value>
@@ -1024,7 +1024,7 @@
     <value>Sets a module's permission at the channel level.</value>
   </data>
   <data name="chnlmdl_usage" xml:space="preserve">
-    <value>`{0}cm "module name" enable SomeChannel`</value>
+    <value>`{0}cm ModuleName enable SomeChannel`</value>
   </data>
   <data name="chnlcmd_cmd" xml:space="preserve">
     <value>chnlcmd cc</value>
@@ -1042,7 +1042,7 @@
     <value>Sets a module's permission at the user level.</value>
   </data>
   <data name="usrmdl_usage" xml:space="preserve">
-    <value>`{0}um "module name" enable SomeUsername`</value>
+    <value>`{0}um ModuleName enable SomeUsername`</value>
   </data>
   <data name="usrcmd_cmd" xml:space="preserve">
     <value>usrcmd uc</value>

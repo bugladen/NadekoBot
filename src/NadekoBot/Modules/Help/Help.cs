@@ -38,8 +38,10 @@ namespace NadekoBot.Modules.Help
         public async Task Modules(IUserMessage umsg)
         {
 
-            await umsg.Channel.SendMessageAsync("📜 **List of modules:** ```css\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name)) + $"\n``` ℹ️ **Type** `-commands module_name` **to get a list of commands in that module.** ***e.g.*** `-commands games`")
-                                       .ConfigureAwait(false);
+            var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText($" ℹ️ Type `-cmds ModuleName` to get a list of commands in that module. eg `-cmds games`"))
+                .WithTitle("📜 List Of Modules").WithDescription("\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name).OrderBy(s=>s)))
+                .Build();
+            await umsg.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
