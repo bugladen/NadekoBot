@@ -1192,10 +1192,10 @@
     <value>roll</value>
   </data>
   <data name="roll_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
   </data>
   <data name="roll_usage" xml:space="preserve">
-    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5`</value>
+    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`</value>
   </data>
   <data name="rolluo_cmd" xml:space="preserve">
     <value>rolluo</value>
