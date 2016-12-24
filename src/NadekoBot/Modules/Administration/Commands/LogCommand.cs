@@ -695,6 +695,8 @@ namespace NadekoBot.Modules.Administration
                     logSetting.LogUserPresenceId =
                     logSetting.LogVoicePresenceId =
                     logSetting.LogVoicePresenceTTSId = (action.Value ? channel.Id : (ulong?)null);
+
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 if (action.Value)
                     await channel.SendMessageAsync("✅ Logging all events on this channel.").ConfigureAwait(false);
