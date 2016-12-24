@@ -229,10 +229,10 @@
     <value>logserver</value>
   </data>
   <data name="logserver_desc" xml:space="preserve">
-    <value>Logs server activity in this channel.</value>
+    <value>Enables or Disables ALL log events. If enabled, all log events will log to this channel.</value>
   </data>
   <data name="logserver_usage" xml:space="preserve">
-    <value>`{0}logserver`</value>
+    <value>`{0}logserver enable` or `{0}logserver disable`</value>
   </data>
   <data name="logignore_cmd" xml:space="preserve">
     <value>logignore</value>
@@ -2798,5 +2798,23 @@
   </data>
   <data name="acro_usage" xml:space="preserve">
     <value>`{0}acro` or `{0}acro 30`</value>
+  </data>
+  <data name="logevents_cmd" xml:space="preserve">
+    <value>logevents</value>
+  </data>
+  <data name="logevents_desc" xml:space="preserve">
+    <value>Shows a list of all events you can subscribe to with `{0}log`</value>
+  </data>
+  <data name="logevents_usage" xml:space="preserve">
+    <value>`{0}logevents`</value>
+  </data>
+  <data name="log_cmd" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="log_desc" xml:space="preserve">
+    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a lit of all events you can subscribe to.</value>
+  </data>
+  <data name="log_usage" xml:space="preserve">
+    <value>`{0}log userpresence` or `{0}log userbanned`</value>
   </data>
 </root>
