@@ -89,17 +89,6 @@ namespace NadekoBot.Modules.Gambling
                 await InternallDndRoll(umsg, arg, false).ConfigureAwait(false);
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task FateRoll(IUserMessage msg, string arg)
-            {
-                var channel = (ITextChannel)msg.Channel;
-
-                int n1;
-                Match match;
-                
-            }
-
             private async Task InternalRoll(IUserMessage umsg, int num, bool ordered)
             {
                 var channel = (ITextChannel)umsg.Channel;

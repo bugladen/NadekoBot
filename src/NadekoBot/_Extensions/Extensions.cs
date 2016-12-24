@@ -25,6 +25,9 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
 
+        public static EmbedBuilder WithImageUrl(this EmbedBuilder eb, string url) =>
+            eb.WithImage(eib => eib.WithUrl(url));
+
         public static EmbedBuilder WithOkColor(this EmbedBuilder eb) =>
             eb.WithColor(NadekoBot.OkColor);
 
