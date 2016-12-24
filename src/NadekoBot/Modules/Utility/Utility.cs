@@ -15,6 +15,7 @@ using Discord.API;
 using Embed = Discord.API.Embed;
 using EmbedAuthor = Discord.API.EmbedAuthor;
 using EmbedField = Discord.API.EmbedField;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -25,6 +26,27 @@ namespace NadekoBot.Modules.Utility
         public Utility() : base()
         {
 
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task TogetherTube(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            Uri target;
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
+                target = res.RequestMessage.RequestUri;
+            }
+
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
+                .WithName("Together Tube")
+                .WithUrl("https://togethertube.com/"))
+                .WithDescription($"{imsg.Author.Mention} Here is your room link:\n{target}")
+                .Build());
         }
 
         [NadekoCommand, Usage, Description, Aliases]
