@@ -736,6 +736,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.Administrator)]
+            [OwnerOnly]
             public async Task LogEvents(IUserMessage imsg)
             {
                 await imsg.Channel.SendConfirmAsync("Log events you can subscribe to:", String.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>()));
@@ -744,6 +745,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.Administrator)]
+            [OwnerOnly]
             public async Task Log(IUserMessage imsg, LogType type)
             {
                 var channel = (ITextChannel)imsg.Channel;
