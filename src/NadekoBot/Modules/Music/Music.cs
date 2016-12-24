@@ -310,27 +310,31 @@ namespace NadekoBot.Modules.Music
                 await channel.SendErrorAsync($"🎵 Failed to find any songs.").ConfigureAwait(false);
                 return;
             }
-            var idArray = ids as string[] ?? ids.ToArray();
-            var count = idArray.Length;
+            var count = ids.Count();
 
-            var msg =
-                await channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
+            var msg = await channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
                 
             var cancelSource = new CancellationTokenSource();
 
-            var tasks = Task.WhenAll(idArray.Select(async id =>
-            {
-                if (cancelSource.Token.IsCancellationRequested)
-                    return;
-                try
-                {
-                    await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, true).ConfigureAwait(false);
-                }
-                catch (SongNotFoundException) { }
-                catch { try { cancelSource.Cancel(); } catch { } }
-            }));
+            var gusr = (IGuildUser)umsg.Author;
 
-            await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
+            while (ids.Any() && !cancelSource.IsCancellationRequested)
+            {
+                var tasks = Task.WhenAll(ids.Take(5).Select(async id =>
+                {
+                    if (cancelSource.Token.IsCancellationRequested)
+                        return;
+                    try
+                    {
+                        await QueueSong(gusr, channel, gusr.VoiceChannel, id, true).ConfigureAwait(false);
+                    }
+                    catch (SongNotFoundException) { }
+                    catch { try { cancelSource.Cancel(); } catch { } }
+                }));
+
+                await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
+                ids = ids.Skip(5);
+            }
 
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
@@ -386,11 +390,12 @@ namespace NadekoBot.Modules.Music
                 var dir = new DirectoryInfo(arg);
                 var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
                                     .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
+                var gusr = (IGuildUser)umsg.Author;
                 foreach (var file in fileEnum)
                 {
                     try
                     {
-                        await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                        await QueueSong(gusr, channel, gusr.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
                     }
                     catch (PlaylistFullException)
                     {
@@ -636,9 +641,10 @@ namespace NadekoBot.Modules.Music
             }
             IUserMessage msg = null;
             try { msg = await channel.SendMessageAsync($"🎶 Attempting to load **{mpl.Songs.Count}** songs...").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+
+            var usr = (IGuildUser)umsg.Author;
             foreach (var item in mpl.Songs)
             {
-                var usr = (IGuildUser)umsg.Author;
                 try
                 {
                     await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
