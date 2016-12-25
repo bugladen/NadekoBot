@@ -2817,4 +2817,13 @@
   <data name="log_usage" xml:space="preserve">
     <value>`{0}log userpresence` or `{0}log userbanned`</value>
   </data>
+  <data name="fairplay_cmd" xml:space="preserve">
+    <value>fairplay fp</value>
+  </data>
+  <data name="fairplay_desc" xml:space="preserve">
+    <value>Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.</value>
+  </data>
+  <data name="fairplay_usage" xml:space="preserve">
+    <value>`{0}fp`</value>
+  </data>
 </root>

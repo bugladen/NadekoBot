@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Music.Classes
         /// Player will prioritize different queuer name
         /// over the song position in the playlist
         /// </summary>
-        public bool FairPlay { get; set; } = false;
+        public bool FairPlay { get; set; } = true;
 
         /// <summary>
         /// Users who recently got their music wish
@@ -214,7 +214,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
 
             recentlyPlayedUsers.Add(song.QueuerName);
-            return song ?? playlist.FirstOrDefault();
+            return song;
         }
 
         public void Shuffle()
