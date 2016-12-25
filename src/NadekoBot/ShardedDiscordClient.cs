@@ -48,6 +48,7 @@ namespace NadekoBot
                 client.MessageUpdated += async (arg1, m2) => await MessageUpdated(arg1, m2);
                 client.MessageDeleted += async (arg1, arg2) => await MessageDeleted(arg1, arg2);
                 client.UserBanned += async (arg1, arg2) => await UserBanned(arg1, arg2);
+                client.UserUnbanned += async (arg1, arg2) => await UserUnbanned(arg1, arg2);
                 client.UserPresenceUpdated += async (arg1, arg2, arg3) => await UserPresenceUpdated(arg1, arg2, arg3);
                 client.UserVoiceStateUpdated += async (arg1, arg2, arg3) => await UserVoiceStateUpdated(arg1, arg2, arg3);
                 client.ChannelCreated += async arg => await ChannelCreated(arg);
