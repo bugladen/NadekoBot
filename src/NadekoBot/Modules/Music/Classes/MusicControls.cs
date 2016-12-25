@@ -30,6 +30,17 @@ namespace NadekoBot.Modules.Music.Classes
     {
         private IAudioClient audioClient { get; set; }
 
+        /// <summary>
+        /// Player will prioritize different queuer name
+        /// over the song position in the playlist
+        /// </summary>
+        public bool FairPlay { get; set; } = false;
+
+        /// <summary>
+        /// Users who recently got their music wish
+        /// </summary>
+        private ConcurrentHashSet<string> recentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
+
         private readonly List<Song> playlist = new List<Song>();
         public IReadOnlyCollection<Song> Playlist => playlist;
 
@@ -107,11 +118,13 @@ namespace NadekoBot.Modules.Music.Classes
                         }
 
                         CurrentSong = GetNextSong();
-                        RemoveSongAt(0);
 
                         if (CurrentSong == null)
                             continue;
 
+                        var index = playlist.IndexOf(CurrentSong);
+                        if (index != -1)
+                            RemoveSongAt(index);
 
                         OnStarted(this, CurrentSong);
                         await CurrentSong.Play(audioClient, cancelToken);
@@ -183,8 +196,26 @@ namespace NadekoBot.Modules.Music.Classes
             return volume;
         }
 
-        private Song GetNextSong() =>
-            playlist.FirstOrDefault();
+        private Song GetNextSong()
+        {
+            if (!FairPlay)
+            {
+                return playlist.FirstOrDefault();
+            }
+            var song = playlist.FirstOrDefault(c => !recentlyPlayedUsers.Contains(c.QueuerName))
+                ?? playlist.FirstOrDefault();
+
+            if (song == null)
+                return null;
+
+            if (recentlyPlayedUsers.Contains(song.QueuerName))
+            {
+                recentlyPlayedUsers.Clear();
+            }
+
+            recentlyPlayedUsers.Add(song.QueuerName);
+            return song ?? playlist.FirstOrDefault();
+        }
 
         public void Shuffle()
         {
