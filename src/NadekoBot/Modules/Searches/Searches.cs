@@ -23,6 +23,7 @@ using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -559,18 +560,8 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
-            if (link == null)
-                await channel.SendErrorAsync("No results.");
-            else
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor().WithDescription(umsg.Author.Mention + " " + tag).WithImageUrl(link)
-                    .WithFooter(efb => efb.WithText("Safebooru")).Build()).ConfigureAwait(false);
-        }
+        public Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
+            => InternalDapiCommand(umsg, tag, DapiSearchType.Safebooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -648,22 +639,6 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
             await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
-        }
-
-        public static async Task<string> GetSafebooruImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-
-            var doc = new XmlDocument();
-            using (var http = new HttpClient())
-            {
-                var stream = await http.GetStreamAsync($"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}")
-                    .ConfigureAwait(false);
-                doc.Load(stream);
-
-                var node = doc.LastChild.ChildNodes[rng.Next(0, doc.LastChild.ChildNodes.Count)];
-                return "http:" + node.Attributes["file_url"].Value;
-            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -774,6 +749,70 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        public enum DapiSearchType
+        {
+            Safebooru,
+            Gelbooru,
+            Konachan,
+            Rule34,
+            Yandere
+        }
+
+        public static async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+
+            var url = await InternalDapiSearch(tag, type).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
+            else
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText(type.ToString()))
+                    .Build()).ConfigureAwait(false);
+        }
+
+        public static async Task<string> InternalDapiSearch(string tag, DapiSearchType type)
+        {
+            tag = tag.Replace(" ", "_");
+            string website = "";
+            switch (type)
+            {
+                case DapiSearchType.Safebooru:
+                    website = $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Gelbooru:
+                    website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Rule34:
+                    website = $"https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Konachan:
+                    website = $"https://konachan.com/post.xml?s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Yandere:
+                    website = $"https://yande.re/post.xml?limit=100&tags={tag}";
+                    break;
+            }
+            using (var http = new HttpClient())
+            {
+                http.AddFakeHeaders();
+                var data = await http.GetStreamAsync(website);
+                var doc = new XmlDocument();
+                doc.Load(data);
+
+                var node = doc.LastChild.ChildNodes[new NadekoRandom().Next(0, doc.LastChild.ChildNodes.Count)];
+
+                var url = node.Attributes["file_url"].Value;
+                if (!url.StartsWith("http"))
+                    url = "https:" + url;
+                return url;
+            }
+        }
         public static async Task<bool> ValidateQuery(ITextChannel ch, string query)
         {
             if (!string.IsNullOrEmpty(query.Trim())) return true;
