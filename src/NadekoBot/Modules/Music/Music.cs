@@ -128,6 +128,20 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Fairplay(IUserMessage umsg)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return;
+            if (((IGuildUser)umsg.Author).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
+                return;
+            var val = musicPlayer.FairPlay = !musicPlayer.FairPlay;
+
+            await channel.SendConfirmAsync("Fair play " + (val ? "enabled" : "disabled") + ".").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Queue(IUserMessage umsg, [Remainder] string query)
         {
             var channel = (ITextChannel)umsg.Channel;

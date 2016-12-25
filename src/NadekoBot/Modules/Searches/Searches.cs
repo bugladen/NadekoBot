@@ -18,6 +18,10 @@ using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
 using NadekoBot.Modules.Searches.Commands.Models;
+using AngleSharp.Parser.Html;
+using AngleSharp;
+using AngleSharp.Dom.Html;
+using AngleSharp.Dom;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -41,7 +45,7 @@ namespace NadekoBot.Modules.Searches
             var embed = new EmbedBuilder()
                 .AddField(fb => fb.WithName("🌍 **Location**").WithValue(data.name + ", " + data.sys.country).WithIsInline(true))
                 .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{data.coord.lat}, {data.coord.lon}").WithIsInline(true))
-                .AddField(fb => fb.WithName("☁ **Condition**").WithValue(String.Join(", ", data.weather.Select(w=>w.main))).WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ **Condition**").WithValue(String.Join(", ", data.weather.Select(w => w.main))).WithIsInline(true))
                 .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{data.main.humidity}%").WithIsInline(true))
                 .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue(data.wind.speed + " km/h").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue(data.main.temp + "°C").WithIsInline(true))
@@ -214,18 +218,63 @@ namespace NadekoBot.Modules.Searches
                                                             .ConfigureAwait(false);
         }
 
+        //private readonly Regex googleSearchRegex = new Regex(@"<h3 class=""r""><a href=""(?:\/url?q=)?(?<link>.*?)"".*?>(?<title>.*?)<\/a>.*?class=""st"">(?<text>.*?)<\/span>", RegexOptions.Compiled);
+        //private readonly Regex htmlReplace = new Regex(@"(?:<b>(.*?)<\/b>|<em>(.*?)<\/em>)", RegexOptions.Compiled);
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-            
+
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
 
-            await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
-                           .ConfigureAwait(false);
+            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
+
+            var fullQueryLink = $"https://www.google.com/search?q={ terms }&gws_rd=cr,ssl";
+            var config = Configuration.Default.WithDefaultLoader();
+            var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
+
+            var elems = document.QuerySelectorAll("div.g");
+
+            var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
+            var totalResults = resultsElem?.TextContent;
+            //var time = resultsElem.Children.FirstOrDefault()?.TextContent
+            //^ this doesn't work for some reason, <nobr> is completely missing in parsed collection
+            if (!elems.Any())
+                return;
+
+            var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
+            {
+                var aTag = (elem.Children.FirstOrDefault().Children.FirstOrDefault() as IHtmlAnchorElement); // <h3> -> <a>
+                var href = aTag?.Href;
+                var name = aTag?.TextContent;
+                if (href == null || name == null)
+                    return null;
+
+                var txt = elem.QuerySelectorAll(".st").FirstOrDefault()?.TextContent;
+
+                if (txt == null)
+                    return null;
+
+                return new GoogleSearchResult(name, href, txt);
+            }).Where(x => x != null).Take(5);
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithAuthor(eab => eab.WithName("Search For: " + terms)
+                    .WithUrl(fullQueryLink)
+                    .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                .WithTitle(umsg.Author.Mention)
+                .WithFooter(efb => efb.WithText(totalResults));
+            string desc = "";
+            foreach (GoogleSearchResult res in results)
+            {
+                desc += $"[{Format.Bold(res.Title)}]({res.Link})\n{res.Text}\n\n";
+            }
+            await channel.EmbedAsync(embed.WithDescription(desc).Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -265,7 +314,7 @@ namespace NadekoBot.Modules.Searches
                                     .AddField(efb => efb.WithName("Store Url").WithValue(storeUrl).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Cost").WithValue(cost).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Types").WithValue(types).WithIsInline(true));
-                                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
+                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
 
                     await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
@@ -614,7 +663,7 @@ namespace NadekoBot.Modules.Searches
                 return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)

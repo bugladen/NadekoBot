@@ -1374,7 +1374,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}cm &quot;module name&quot; enable SomeChannel`.
+        ///    Looks up a localized string similar to `{0}cm ModuleName enable SomeChannel`.
         /// </summary>
         public static string chnlmdl_usage {
             get {
@@ -2432,6 +2432,33 @@ namespace NadekoBot.Resources {
         public static string endwar_usage {
             get {
                 return ResourceManager.GetString("endwar_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to fairplay fp.
+        /// </summary>
+        public static string fairplay_cmd {
+            get {
+                return ResourceManager.GetString("fairplay_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles fairplay. While enabled, music player will prioritize songs from users who didn&apos;t have their song recently played instead of the song&apos;s position in the queue..
+        /// </summary>
+        public static string fairplay_desc {
+            get {
+                return ResourceManager.GetString("fairplay_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}fp`.
+        /// </summary>
+        public static string fairplay_usage {
+            get {
+                return ResourceManager.GetString("fairplay_usage", resourceCulture);
             }
         }
         
@@ -5856,7 +5883,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}rm &quot;module name&quot; enable MyRole`.
+        ///    Looks up a localized string similar to `{0}rm ModuleName enable MyRole`.
         /// </summary>
         public static string rolemdl_usage {
             get {
@@ -5901,7 +5928,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y..
+        ///    Looks up a localized string similar to Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter &apos;F&apos; if you want to roll fate dice instead of dnd..
         /// </summary>
         public static string roll_desc {
             get {
@@ -5910,7 +5937,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}roll` or `{0}roll 7` or `{0}roll 3d5`.
+        ///    Looks up a localized string similar to `{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`.
         /// </summary>
         public static string roll_usage {
             get {
@@ -6909,7 +6936,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}sm &quot;module name&quot; enable`.
+        ///    Looks up a localized string similar to `{0}sm ModuleName enable`.
         /// </summary>
         public static string srvrmdl_usage {
             get {
@@ -7692,7 +7719,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}um &quot;module name&quot; enable SomeUsername`.
+        ///    Looks up a localized string similar to `{0}um ModuleName enable SomeUsername`.
         /// </summary>
         public static string usrmdl_usage {
             get {

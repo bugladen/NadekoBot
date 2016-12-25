@@ -628,32 +628,49 @@ namespace NadekoBot.Modules.Administration
                     switch (logChannelType)
                     {
                         case LogType.Other:
+                            newLogSetting.LogOtherId = null;
                             break;
                         case LogType.MessageUpdated:
+                            newLogSetting.MessageUpdatedId = null;
                             break;
                         case LogType.MessageDeleted:
+                            newLogSetting.MessageDeletedId = null;
                             break;
                         case LogType.UserJoined:
+                            newLogSetting.UserJoinedId = null;
                             break;
                         case LogType.UserLeft:
+                            newLogSetting.UserLeftId = null;
                             break;
                         case LogType.UserBanned:
+                            newLogSetting.UserBannedId = null;
                             break;
                         case LogType.UserUnbanned:
+                            newLogSetting.UserUnbannedId = null;
                             break;
                         case LogType.UserUpdated:
+                            newLogSetting.UserUpdatedId = null;
+                            break;
+                        case LogType.UserMuted:
+                            newLogSetting.UserMutedId = null;
                             break;
                         case LogType.ChannelCreated:
+                            newLogSetting.ChannelCreatedId = null;
                             break;
                         case LogType.ChannelDestroyed:
+                            newLogSetting.ChannelDestroyedId = null;
                             break;
                         case LogType.ChannelUpdated:
+                            newLogSetting.ChannelUpdatedId = null;
                             break;
                         case LogType.UserPresence:
+                            newLogSetting.LogUserPresenceId = null;
                             break;
                         case LogType.VoicePresence:
+                            newLogSetting.LogVoicePresenceId = null;
                             break;
                         case LogType.VoicePresenceTTS:
+                            newLogSetting.LogVoicePresenceTTSId = null;
                             break;
                         default:
                             break;

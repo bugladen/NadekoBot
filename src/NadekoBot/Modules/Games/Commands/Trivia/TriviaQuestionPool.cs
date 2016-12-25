@@ -1,5 +1,6 @@
 ﻿using NadekoBot.Extensions;
 using NadekoBot.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
@@ -11,36 +12,31 @@ namespace NadekoBot.Modules.Games.Trivia
 {
     public class TriviaQuestionPool
     {
-        public static TriviaQuestionPool Instance { get; } = new TriviaQuestionPool();
-        public ConcurrentHashSet<TriviaQuestion> pool = new ConcurrentHashSet<TriviaQuestion>();
+        private static TriviaQuestionPool _instance;
+        public static TriviaQuestionPool Instance { get; } = _instance ?? (_instance = new TriviaQuestionPool());
+
+        private const string questionsFile = "data/trivia_questions.json";
 
         private Random rng { get; } = new NadekoRandom();
+        
+        private TriviaQuestion[] pool { get; }
 
         static TriviaQuestionPool() { }
 
         private TriviaQuestionPool()
         {
-            Reload();
+            pool = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(questionsFile));
         }
 
-        public TriviaQuestion GetRandomQuestion(IEnumerable<TriviaQuestion> exclude)
+        public TriviaQuestion GetRandomQuestion(HashSet<TriviaQuestion> exclude)
         {
-            var list = pool.Except(exclude).ToList();
-            var rand = rng.Next(0, list.Count);
-            return list[rand];
-        }
+            if (pool.Length == 0)
+                return null;
 
-        public void Reload()
-        {
-            var arr = JArray.Parse(File.ReadAllText("data/questions.json"));
+            TriviaQuestion randomQuestion;
+            while (exclude.Contains(randomQuestion = pool[rng.Next(0, pool.Length)])) ;
 
-            foreach (var item in arr)
-            {
-                var tq = new TriviaQuestion(item["Question"].ToString().SanitizeMentions(), item["Answer"].ToString().SanitizeMentions(), item["Category"]?.ToString());
-                pool.Add(tq);
-            }
-            var r = new NadekoRandom();
-            pool = new ConcurrentHashSet<TriviaQuestion>(pool.OrderBy(x => r.Next()));
+            return randomQuestion;
         }
     }
 }
