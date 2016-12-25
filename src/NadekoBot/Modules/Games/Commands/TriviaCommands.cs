@@ -40,9 +40,10 @@ namespace NadekoBot.Modules.Games
                         await channel.SendConfirmAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
                     else
                         await triviaGame.StopGame().ConfigureAwait(false);
+                    return;
                 }
-                else
-                    await channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
+
+                await channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -53,9 +54,12 @@ namespace NadekoBot.Modules.Games
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
+                {
                     await channel.SendConfirmAsync("Leaderboard", trivia.GetLeaderboard()).ConfigureAwait(false);
-                else
-                    await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
+                    return;
+                }
+
+                await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -68,9 +72,10 @@ namespace NadekoBot.Modules.Games
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
                 {
                     await trivia.StopGame().ConfigureAwait(false);
+                    return;
                 }
-                else
-                    await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
+
+                await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
         }
     }
