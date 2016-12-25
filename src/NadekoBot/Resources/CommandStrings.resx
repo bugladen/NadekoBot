@@ -2826,4 +2826,13 @@
   <data name="fairplay_usage" xml:space="preserve">
     <value>`{0}fp`</value>
   </data>
+  <data name="define_cmd" xml:space="preserve">
+    <value>define def</value>
+  </data>
+  <data name="define_desc" xml:space="preserve">
+    <value>Finds a definition of a word.</value>
+  </data>
+  <data name="define_usage" xml:space="preserve">
+    <value>`{0}def heresy`</value>
+  </data>
 </root>

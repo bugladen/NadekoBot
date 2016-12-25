@@ -2004,6 +2004,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to define def.
+        /// </summary>
+        public static string define_cmd {
+            get {
+                return ResourceManager.GetString("define_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds a definition of a word..
+        /// </summary>
+        public static string define_desc {
+            get {
+                return ResourceManager.GetString("define_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}def heresy`.
+        /// </summary>
+        public static string define_usage {
+            get {
+                return ResourceManager.GetString("define_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to defvol dv.
         /// </summary>
         public static string defvol_cmd {

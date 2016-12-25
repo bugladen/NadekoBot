@@ -474,6 +474,42 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Define(IUserMessage msg, [Remainder] string word)
+        {
+            var channel = (ITextChannel)msg.Channel;
+
+            if (string.IsNullOrWhiteSpace(word))
+                return;
+
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
+
+                var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+                var sense = data.Results.Where(x => x.Senses != null && x.Senses[0].Definition != null).FirstOrDefault()?.Senses[0];
+
+                if (sense?.Definition == null)
+                    return;
+
+                string definition = sense.Definition.ToString();
+                if (!(sense.Definition is string))
+                    definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
+
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithTitle("Define: " + word)
+                    .WithDescription(definition)
+                    .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
+
+                if (sense.Examples != null)
+                    embed.AddField(efb => efb.WithName("Example").WithValue(sense.Examples.First().text));
+
+                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Hashtag(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
