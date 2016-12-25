@@ -22,6 +22,7 @@ using AngleSharp.Parser.Html;
 using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
+using System.Xml;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -567,7 +568,8 @@ namespace NadekoBot.Modules.Searches
             if (link == null)
                 await channel.SendErrorAsync("No results.");
             else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor().WithDescription(umsg.Author.Mention + " " + tag).WithImageUrl(link)
+                    .WithFooter(efb => efb.WithText("Safebooru")).Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -651,16 +653,16 @@ namespace NadekoBot.Modules.Searches
         public static async Task<string> GetSafebooruImageLink(string tag)
         {
             var rng = new NadekoRandom();
-            var url =
-            $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+
+            var doc = new XmlDocument();
             using (var http = new HttpClient())
             {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                var stream = await http.GetStreamAsync($"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}")
+                    .ConfigureAwait(false);
+                doc.Load(stream);
+
+                var node = doc.LastChild.ChildNodes[rng.Next(0, doc.LastChild.ChildNodes.Count)];
+                return "http:" + node.Attributes["file_url"].Value;
             }
         }
 
