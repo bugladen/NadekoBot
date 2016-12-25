@@ -1692,15 +1692,6 @@
   <data name="goto_usage" xml:space="preserve">
     <value>`{0}goto 30`</value>
   </data>
-  <data name="getlink_cmd" xml:space="preserve">
-    <value>getlink gl</value>
-  </data>
-  <data name="getlink_desc" xml:space="preserve">
-    <value>Shows a link to the song in the queue by index, or the currently playing song by default.</value>
-  </data>
-  <data name="getlink_usage" xml:space="preserve">
-    <value>`{0}gl`</value>
-  </data>
   <data name="autoplay_cmd" xml:space="preserve">
     <value>autoplay ap</value>
   </data>

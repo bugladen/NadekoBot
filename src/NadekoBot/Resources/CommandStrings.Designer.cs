@@ -2625,33 +2625,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to getlink gl.
-        /// </summary>
-        public static string getlink_cmd {
-            get {
-                return ResourceManager.GetString("getlink_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Shows a link to the song in the queue by index, or the currently playing song by default..
-        /// </summary>
-        public static string getlink_desc {
-            get {
-                return ResourceManager.GetString("getlink_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}gl`.
-        /// </summary>
-        public static string getlink_usage {
-            get {
-                return ResourceManager.GetString("getlink_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to give.
         /// </summary>
         public static string give_cmd {

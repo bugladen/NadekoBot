@@ -775,41 +775,6 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task GetLink(IUserMessage umsg, int index = 0)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-                return;
-
-            if (index < 0)
-                return;
-
-            if (index > 0)
-            {
-
-                var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
-                if (selSong == null)
-                {
-                    await channel.SendErrorAsync("Could not select song, likely wrong index");
-
-                }
-                else
-                {
-                    await channel.SendMessageAsync($"🎶 Selected song **{selSong.SongInfo.Title}**: <{selSong.SongInfo.Query}>").ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                var curSong = musicPlayer.CurrentSong;
-                if (curSong == null)
-                    return;
-                await channel.SendMessageAsync($"🎶 Current song **{curSong.SongInfo.Title}**: <{curSong.SongInfo.Query}>").ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Autoplay(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
