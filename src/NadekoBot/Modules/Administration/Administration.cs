@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Administration
             _log = LogManager.GetCurrentClassLogger();
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
 
-            
+
         }
 
         private static async Task DelMsgOnCmd_Handler(IUserMessage msg, Command cmd)
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Administration
                     PermRole = config.PermissionRole,
                     Verbose = config.VerbosePermissions,
                 };
-                Permissions.Permissions.Cache.AddOrUpdate(channel.Guild.Id, 
+                Permissions.Permissions.Cache.AddOrUpdate(channel.Guild.Id,
                     toAdd, (id, old) => toAdd);
                 await uow.CompleteAsync();
             }
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             }
             var roleName = args[0].ToUpperInvariant();
-            var role = channel.Guild.Roles.Where(r=>r.Name.ToUpperInvariant() == roleName).FirstOrDefault();
+            var role = channel.Guild.Roles.Where(r => r.Name.ToUpperInvariant() == roleName).FirstOrDefault();
 
             if (role == null)
             {
@@ -234,7 +234,7 @@ namespace NadekoBot.Modules.Administration
                 var red = Convert.ToByte(rgb ? int.Parse(arg1) : Convert.ToInt32(arg1.Substring(0, 2), 16));
                 var green = Convert.ToByte(rgb ? int.Parse(args[2]) : Convert.ToInt32(arg1.Substring(2, 2), 16));
                 var blue = Convert.ToByte(rgb ? int.Parse(args[3]) : Convert.ToInt32(arg1.Substring(4, 2), 16));
-                
+
                 await role.ModifyAsync(r => r.Color = new Discord.Color(red, green, blue).RawValue).ConfigureAwait(false);
                 await channel.SendConfirmAsync($"☑️ Role **{role.Name}'s** color has been changed.").ConfigureAwait(false);
             }
@@ -254,7 +254,7 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "❗️No reason provided.";
             }
-            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r=>r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
             {
                 await channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
@@ -367,7 +367,7 @@ namespace NadekoBot.Modules.Administration
             {
                 foreach (var u in users)
                 {
-                    await u.ModifyAsync(usr=>usr.Deaf = true).ConfigureAwait(false);
+                    await u.ModifyAsync(usr => usr.Deaf = true).ConfigureAwait(false);
                 }
                 await channel.SendConfirmAsync("🔇 **Deafen** successful.").ConfigureAwait(false);
             }
@@ -390,7 +390,7 @@ namespace NadekoBot.Modules.Administration
             {
                 foreach (var u in users)
                 {
-                    await u.ModifyAsync(usr=> usr.Deaf = false).ConfigureAwait(false);
+                    await u.ModifyAsync(usr => usr.Deaf = false).ConfigureAwait(false);
                 }
                 await channel.SendConfirmAsync("🔊 **Undeafen** successful.").ConfigureAwait(false);
             }
@@ -467,9 +467,9 @@ namespace NadekoBot.Modules.Administration
         public async Task Prune(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
-            
+
             var user = channel.Guild.GetCurrentUser();
-            
+
             var enumerable = (await umsg.Channel.GetMessagesAsync()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
             await umsg.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
@@ -650,8 +650,10 @@ namespace NadekoBot.Modules.Administration
                 cnt -= 100;
             }
             var title = $"Chatlog-{channel.Guild.Name}/#{channel.Name}-{DateTime.Now}.txt";
+            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
+                .Select(g => new { date = g.Key, messages = g.Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
             await (umsg.Author as IGuildUser).SendFileAsync(
-                await JsonConvert.SerializeObject(new { Messages = msgs.Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) }, Formatting.Indented).ToStream().ConfigureAwait(false),
+                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false),
                 title, title).ConfigureAwait(false);
         }
 
@@ -665,9 +667,9 @@ namespace NadekoBot.Modules.Administration
 
             string send = $"❕{umsg.Author.Mention} has invoked a mention on the following roles ❕";
             foreach (var role in roles)
-            { 
+            {
                 send += $"\n**{role.Name}**\n";
-                send += string.Join(", ", (await channel.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct().Select(u=>u.Mention));
+                send += string.Join(", ", (await channel.Guild.GetUsersAsync()).Where(u => u.Roles.Contains(role)).Distinct().Select(u => u.Mention));
             }
 
             while (send.Length > 2000)
@@ -692,7 +694,7 @@ namespace NadekoBot.Modules.Administration
                 donatorsOrdered = uow.Donators.GetDonatorsOrdered();
             }
             await umsg.Channel.SendConfirmAsync("Thanks to the people listed below for making this project happen!", string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
-            
+
             nadekoSupportServer = nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
 
             if (nadekoSupportServer == null)

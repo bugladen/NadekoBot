@@ -834,19 +834,26 @@ namespace NadekoBot.Modules.Searches
                     website = $"https://yande.re/post.xml?limit=100&tags={tag}";
                     break;
             }
-            using (var http = new HttpClient())
+            try
             {
-                http.AddFakeHeaders();
-                var data = await http.GetStreamAsync(website);
-                var doc = new XmlDocument();
-                doc.Load(data);
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var data = await http.GetStreamAsync(website);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
 
-                var node = doc.LastChild.ChildNodes[new NadekoRandom().Next(0, doc.LastChild.ChildNodes.Count)];
+                    var node = doc.LastChild.ChildNodes[new NadekoRandom().Next(0, doc.LastChild.ChildNodes.Count)];
 
-                var url = node.Attributes["file_url"].Value;
-                if (!url.StartsWith("http"))
-                    url = "https:" + url;
-                return url;
+                    var url = node.Attributes["file_url"].Value;
+                    if (!url.StartsWith("http"))
+                        url = "https:" + url;
+                    return url;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
         public static async Task<bool> ValidateQuery(ITextChannel ch, string query)
