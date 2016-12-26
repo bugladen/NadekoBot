@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
                                                           .OrderBy(cr => cr.Key)
-                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y => new { id = y.Response, text = y.Response }).ToList() })
+                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y => new { id = y.Id, text = y.Response }).ToList() })
                                                           .ToJson()
                                                           .ToStream()
                                                           .ConfigureAwait(false);
