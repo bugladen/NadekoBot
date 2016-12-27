@@ -814,7 +814,7 @@ namespace NadekoBot.Modules.Searches
 
         public static async Task<string> InternalDapiSearch(string tag, DapiSearchType type)
         {
-            tag = tag.Replace(" ", "_");
+            tag = tag?.Replace(" ", "_");
             string website = "";
             switch (type)
             {
