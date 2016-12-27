@@ -193,6 +193,8 @@ namespace NadekoBot.Modules.Music
             int startAt = itemsPerPage * (page - 1);
             var number = 0 + startAt;
 
+            var total = musicPlayer.TotalPlaytime;
+            var maxPlaytime = musicPlayer.MaxPlaytimeSeconds;
             var embed = new EmbedBuilder()
                 .WithAuthor(eab => eab.WithName($"Player Queue - Page {page}")
                                       .WithMusicIcon())
@@ -200,7 +202,9 @@ namespace NadekoBot.Modules.Music
                     .Skip(startAt)
                     .Take(10)
                     .Select(v => $"`{++number}.` {v.PrettyFullName}")))
-                .WithFooter(ef => ef.WithText($"{musicPlayer.Playlist.Count} tracks currently queued."))
+                .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
+$"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
+(musicPlayer.FairPlay? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
                 .WithOkColor();
 
             if (musicPlayer.RepeatSong)
@@ -235,7 +239,8 @@ namespace NadekoBot.Modules.Music
             var embed = new EmbedBuilder().WithOkColor()
                             .WithAuthor(eab => eab.WithName("Now Playing").WithMusicIcon())
                             .WithDescription(currentSong.PrettyName)
-                            .WithFooter(ef => ef.WithText(currentSong.PrettyFullTime + $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
+                            .WithThumbnail(tn => tn.Url = currentSong.Thumbnail)
+                            .WithFooter(ef => ef.WithText(musicPlayer.PrettyVolume + " | " + currentSong.PrettyFullTime + $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
 
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
@@ -563,7 +568,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxPlaytime(IUserMessage imsg, uint seconds)
         {
-            if (seconds < 15)
+            if (seconds < 15 && seconds != 0)
                 return;
 
             var channel = (ITextChannel)imsg.Channel;

@@ -49,9 +49,9 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string PrettyName  => $"**[{SongInfo.Title.TrimTo(65)}]({songUrl})**";
 
-        public string PrettyInfo => $"🔉 {(int)(MusicPlayer.Volume * 100)}% | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
+        public string PrettyInfo => $"{MusicPlayer.PrettyVolume} | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
 
-        public string PrettyFullName => $"{PrettyName}\n\t\t*{PrettyInfo}*";
+        public string PrettyFullName => $"{PrettyName}\n\t\t`{PrettyTotalTime} | {PrettyProvider} | {QueuerName}`";
 
         public string PrettyCurrentTime => CurrentTime.ToString(@"mm\:ss");
 

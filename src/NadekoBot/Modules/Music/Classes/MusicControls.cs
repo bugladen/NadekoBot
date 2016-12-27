@@ -75,6 +75,8 @@ namespace NadekoBot.Modules.Music.Classes
 
         private ConcurrentQueue<Action> actionQueue { get; set; } = new ConcurrentQueue<Action>();
 
+        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
+
         public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
         {
             if (startingVoiceChannel == null)
