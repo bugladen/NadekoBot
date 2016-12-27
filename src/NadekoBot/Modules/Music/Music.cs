@@ -239,8 +239,7 @@ namespace NadekoBot.Modules.Music
                     .WithDescription(currentSong.PrettyFullTime)
                     .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.QueuerName}"))
                     .WithOkColor()
-                    .WithThumbnail(tn => tn.Url = currentSong.Thumbnail)
-                    .WithUrl(currentSong.SongUrl);
+                    .WithThumbnail(tn => tn.Url = currentSong.Thumbnail);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 

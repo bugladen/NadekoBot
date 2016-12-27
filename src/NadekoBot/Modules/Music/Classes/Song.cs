@@ -80,8 +80,9 @@ namespace NadekoBot.Modules.Music.Classes
                         return $"https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
                     case MusicType.Soundcloud:
                         return SongInfo.AlbumArt;
+                    default:
+                        return "";
                 }
-                return "";
             }
         }
 
