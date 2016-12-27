@@ -75,6 +75,7 @@ namespace NadekoBot.Modules.Administration
                 _client.UserLeft += _client_UserLeft;
                 _client.UserPresenceUpdated += _client_UserPresenceUpdated;
                 _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
+                _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
                 _client.UserUpdated += _client_UserUpdated;
 
                 _client.ChannelCreated += _client_ChannelCreated;
@@ -83,6 +84,54 @@ namespace NadekoBot.Modules.Administration
 
                 MuteCommands.UserMuted += MuteCommands_UserMuted;
                 MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
+            }
+
+            private Task _client_UserVoiceStateUpdated_TTS(IUser iusr, IVoiceState before, IVoiceState after)
+            {
+                var usr = iusr as IGuildUser;
+                if (usr == null)
+                    return Task.CompletedTask;
+
+                var beforeVch = before.VoiceChannel;
+                var afterVch = after.VoiceChannel;
+
+                if (beforeVch == afterVch)
+                    return Task.CompletedTask;
+
+                LogSetting logSetting;
+                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    || (logSetting.LogVoicePresenceTTSId == null))
+                    return Task.CompletedTask;
+
+                ITextChannel logChannel;
+                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTTS)) == null)
+                    return Task.CompletedTask;
+
+                string str = null;
+                if (beforeVch?.Guild == afterVch?.Guild)
+                {
+                    str = $"**{usr.Username}** moved from **{beforeVch.Name}** to **{afterVch.Name}**";
+                }
+                else if (beforeVch == null)
+                {
+                    str = $"**{usr.Username}** has joined **{afterVch.Name}**";
+                }
+                else if (afterVch == null)
+                {
+                    str = $"**{usr.Username}** has left **{beforeVch.Name}**";
+                }
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
+                        toDelete.DeleteAfter(5);
+                    }
+                    catch { }
+                });
+
+                return Task.CompletedTask;
             }
 
             private Task MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
