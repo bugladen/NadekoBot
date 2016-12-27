@@ -232,14 +232,11 @@ namespace NadekoBot.Modules.Music
                 return;
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
-            var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName("Now Playing")
-                        .WithMusicIcon())
-                        .WithTitle(currentSong.SongInfo.Title)
-                    .WithDescription(currentSong.PrettyFullTime)
-                    .WithFooter(ef => ef.WithText($"{currentSong.PrettyProvider} | {currentSong.QueuerName}"))
-                    .WithOkColor()
-                    .WithThumbnail(tn => tn.Url = currentSong.Thumbnail);
+            var embed = new EmbedBuilder().WithOkColor()
+                            .WithAuthor(eab => eab.WithName("Now Playing").WithMusicIcon())
+                            .WithDescription(currentSong.PrettyName)
+                            .WithFooter(ef => ef.WithText(currentSong.PrettyFullTime + $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
+
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -557,11 +554,27 @@ namespace NadekoBot.Modules.Music
             var channel = (ITextChannel)umsg.Channel;
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
-            {
                 return;
-            }
             musicPlayer.MaxQueueSize = size;
             await channel.SendConfirmAsync($"🎵 Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}.");
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SetMaxPlaytime(IUserMessage imsg, uint seconds)
+        {
+            if (seconds < 15)
+                return;
+
+            var channel = (ITextChannel)imsg.Channel;
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer))
+                return;
+            musicPlayer.MaxPlaytimeSeconds = seconds;
+            if(seconds == 0)
+                await channel.SendConfirmAsync($"🎵 Max playtime has no limit now.");
+            else
+                await channel.SendConfirmAsync($"🎵 Max playtime set to {seconds} seconds.");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -845,7 +858,7 @@ namespace NadekoBot.Modules.Music
                         playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
                                                     .WithDescription(song.PrettyName)
-                                                    .WithFooter(ef => ef.WithText($"🔉 {(int)(sender.Volume * 100)}% | {song.PrettyInfo}"))
+                                                    .WithFooter(ef => ef.WithText(song.PrettyInfo))
                                                     .Build())
                                                     .ConfigureAwait(false);
                     }

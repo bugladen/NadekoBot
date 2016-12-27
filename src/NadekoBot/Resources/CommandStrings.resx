@@ -2826,4 +2826,13 @@
   <data name="define_usage" xml:space="preserve">
     <value>`{0}def heresy`</value>
   </data>
+  <data name="setmaxplaytime_cmd" xml:space="preserve">
+    <value>setmaxplaytime smp</value>
+  </data>
+  <data name="setmaxplaytime_desc" xml:space="preserve">
+    <value>Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit.</value>
+  </data>
+  <data name="setmaxplaytime_usage" xml:space="preserve">
+    <value>`{0}smp 0` or `{0}smp 270`</value>
+  </data>
 </root>

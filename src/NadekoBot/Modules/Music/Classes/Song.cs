@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string PrettyName  => $"**[{SongInfo.Title.TrimTo(65)}]({songUrl})**";
 
-        public string PrettyInfo => $"{PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
+        public string PrettyInfo => $"🔉 {(int)(MusicPlayer.Volume * 100)}% | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
 
         public string PrettyFullName => $"{PrettyName}\n\t\t*{PrettyInfo}*";
 
@@ -185,7 +185,8 @@ namespace NadekoBot.Modules.Music.Classes
                 int nextTime = Environment.TickCount + milliseconds;
 
                 byte[] buffer = new byte[frameBytes];
-                while (!cancelToken.IsCancellationRequested)
+                while (!cancelToken.IsCancellationRequested && //song canceled for whatever reason
+                    !(MusicPlayer.MaxPlaytimeSeconds != 0 && CurrentTime.TotalSeconds >= MusicPlayer.MaxPlaytimeSeconds)) // or exceedded max playtime
                 {
                     //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                     var read = await inStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);

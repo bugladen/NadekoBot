@@ -6378,6 +6378,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setmaxplaytime smp.
+        /// </summary>
+        public static string setmaxplaytime_cmd {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit..
+        /// </summary>
+        public static string setmaxplaytime_desc {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smp 0` or `{0}smp 270`.
+        /// </summary>
+        public static string setmaxplaytime_usage {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to setmaxqueue smq.
         /// </summary>
         public static string setmaxqueue_cmd {
