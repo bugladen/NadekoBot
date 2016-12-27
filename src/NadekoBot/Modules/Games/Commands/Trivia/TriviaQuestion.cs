@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private static string Scramble(string word)
         {
-            var letters = word.ToArray();
+            var letters = word.ToCharArray();
             var count = 0;
             for (var i = 0; i < letters.Length; i++)
             {
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 if (letters[i] != ' ')
                     letters[i] = '_';
             }
-            return string.Join(" ", letters);
+            return string.Join(" \x200B", new string(letters).Replace(" ", " \x200B").AsEnumerable());
         }
     }
 }
