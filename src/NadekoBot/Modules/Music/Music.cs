@@ -912,8 +912,8 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 {
                     //var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var queuedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                            .WithAuthor(eab => eab.WithName("Queued Song").WithMusicIcon())
-                                                            .WithDescription($"{resolvedSong.PrettyName}\nQueue #{musicPlayer.Playlist.Count + 1}")
+                                                            .WithAuthor(eab => eab.WithName("Queued Song #" + (musicPlayer.Playlist.Count + 1)).WithMusicIcon())
+                                                            .WithDescription($"{resolvedSong.PrettyName}\nQueue ")
                                                             .WithThumbnail(tn => tn.Url = resolvedSong.Thumbnail)
                                                             .WithFooter(ef => ef.WithText(resolvedSong.PrettyProvider))
                                                             .Build())
