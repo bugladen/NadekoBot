@@ -53,13 +53,13 @@ namespace NadekoBot.Modules.Administration
                             var toSend = "🔄 " + Repeater.Message;
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
 
-                            var lastMsgInChannel = (await Channel.GetMessagesAsync(1)).FirstOrDefault();
-                            if (lastMsgInChannel.Id == oldMsg.Id) //don't send if it's the same message in the channel
-                                continue;
+                           //var lastMsgInChannel = (await Channel.GetMessagesAsync(2)).FirstOrDefault();
+                           // if (lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
+                           //     continue;
 
                             if (oldMsg != null)
                                 try { await oldMsg.DeleteAsync(); } catch { }
-                            try { oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); try { source.Cancel(); } catch { } }
+                            try { oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                         }
                     }
                     catch (OperationCanceledException) { }
