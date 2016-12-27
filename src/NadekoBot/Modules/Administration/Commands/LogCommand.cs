@@ -110,15 +110,15 @@ namespace NadekoBot.Modules.Administration
                 string str = null;
                 if (beforeVch?.Guild == afterVch?.Guild)
                 {
-                    str = $"**{usr.Username}** moved from **{beforeVch.Name}** to **{afterVch.Name}**";
+                    str = $"{usr.Username} moved from {beforeVch.Name} to {afterVch.Name}";
                 }
                 else if (beforeVch == null)
                 {
-                    str = $"**{usr.Username}** has joined **{afterVch.Name}**";
+                    str = $"{usr.Username} has joined {afterVch.Name}";
                 }
                 else if (afterVch == null)
                 {
-                    str = $"**{usr.Username}** has left **{beforeVch.Name}**";
+                    str = $"{usr.Username} has left {beforeVch.Name}";
                 }
 
                 Task.Run(async () =>
