@@ -142,49 +142,47 @@ namespace NadekoBot.Modules.Games.Trivia
                 try { await channel.SendConfirmAsync("Trivia Game", "Stopping after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
         }
 
-        private Task PotentialGuess(IMessage imsg)
+        private async void PotentialGuess(IMessage imsg)
         {
             if (imsg.Author.IsBot)
-                return Task.CompletedTask;
+                return;
+
             var umsg = imsg as IUserMessage;
             if (umsg == null)
-                return Task.CompletedTask;
-            var t = Task.Run(async () =>
+                return;
+            try
             {
+                var textChannel = umsg.Channel as ITextChannel;
+                if (textChannel == null || textChannel.Guild != guild)
+                    return;
+
+                var guildUser = (IGuildUser)umsg.Author;
+
+                var guess = false;
+                await _guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    var textChannel = umsg.Channel as ITextChannel;
-                    if (textChannel == null || textChannel.Guild != guild)
-                        return;
-
-                    var guildUser = (IGuildUser)umsg.Author;
-
-                    var guess = false;
-                    await _guessLock.WaitAsync().ConfigureAwait(false);
-                    try
+                    if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
                     {
-                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
-                        {
-                            Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
-                            guess = true;
-                        }
+                        Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
+                        guess = true;
                     }
-                    finally { _guessLock.Release(); }
-                    if (!guess) return;
-                    triviaCancelSource.Cancel();
-
-                    
-                    if (Users[guildUser] == WinRequirement) {
-                        ShouldStopGame = true;
-                        await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
-                        return;
-                    }
-                    await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
-
                 }
-                catch (Exception ex) { _log.Warn(ex); }
-            });
-            return Task.CompletedTask;
+                finally { _guessLock.Release(); }
+                if (!guess) return;
+                triviaCancelSource.Cancel();
+
+
+                if (Users[guildUser] == WinRequirement)
+                {
+                    ShouldStopGame = true;
+                    await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    return;
+                }
+                await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+
+            }
+            catch (Exception ex) { _log.Warn(ex); }
         }
 
         public string GetLeaderboard()

@@ -57,46 +57,43 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private static Task PotentialFlowerGeneration(IMessage imsg)
+            private static async void PotentialFlowerGeneration(IMessage imsg)
             {
                 var msg = imsg as IUserMessage;
                 if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
-                    return Task.CompletedTask;
+                    return;
 
                 var channel = imsg.Channel as ITextChannel;
                 if (channel == null)
-                    return Task.CompletedTask;
+                    return;
 
                 if (!generationChannels.Contains(channel.Id))
-                    return Task.CompletedTask;
+                    return;
 
-                var t = Task.Run(async () =>
+                var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
+                var rng = new NadekoRandom();
+
+                if (DateTime.Now - TimeSpan.FromSeconds(cooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    return;
+
+                var num = rng.Next(1, 101) + chance * 100;
+
+                if (num > 100)
                 {
-                    var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                    var rng = new NadekoRandom();
-
-                    if (DateTime.Now - TimeSpan.FromSeconds(cooldown) < lastGeneration) //recently generated in this channel, don't generate again
-                        return;
-
-                    var num = rng.Next(1, 101) + chance * 100;
-
-                    if (num > 100)
+                    lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
+                    try
                     {
-                        lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
-                        try
-                        {
-                            var sent = await channel.SendFileAsync(
-                                GetRandomCurrencyImagePath(), 
-                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
-                                    .ConfigureAwait(false);
-                            plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
-                        }
-                        catch { }
-                        
+                        var sent = await channel.SendFileAsync(
+                            GetRandomCurrencyImagePath(),
+                            $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
+                                .ConfigureAwait(false);
+                        plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
                     }
-                });
-                return Task.CompletedTask;
+                    catch { }
+
+                }
             }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(IUserMessage imsg)

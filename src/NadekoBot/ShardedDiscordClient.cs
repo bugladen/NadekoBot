@@ -13,20 +13,20 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public event Func<IGuildUser, Task> UserJoined = delegate { return Task.CompletedTask; };
-        public event Func<IMessage, Task> MessageReceived = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, Task> UserLeft = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, IGuildUser, Task> UserUpdated = delegate { return Task.CompletedTask; };
-        public event Func<Optional<IMessage>, IMessage, Task> MessageUpdated = delegate { return Task.CompletedTask; };
-        public event Func<ulong, Optional<IMessage>, Task> MessageDeleted = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IGuild, Task> UserBanned = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IGuild, Task> UserUnbanned = delegate { return Task.CompletedTask; };
-        public event Func<IGuildUser, IPresence, IPresence, Task> UserPresenceUpdated = delegate { return Task.CompletedTask; };
-        public event Func<IUser, IVoiceState, IVoiceState, Task> UserVoiceStateUpdated = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, Task> ChannelCreated = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, Task> ChannelDestroyed = delegate { return Task.CompletedTask; };
-        public event Func<IChannel, IChannel, Task> ChannelUpdated = delegate { return Task.CompletedTask; };
-        public event Func<Exception, Task> Disconnected = delegate { return Task.CompletedTask; };
+        public event Action<IGuildUser> UserJoined = delegate {  };
+        public event Action<IMessage> MessageReceived = delegate {  };
+        public event Action<IGuildUser> UserLeft = delegate {  };
+        public event Action<IGuildUser, IGuildUser> UserUpdated = delegate {  };
+        public event Action<Optional<IMessage>, IMessage> MessageUpdated = delegate {  };
+        public event Action<ulong, Optional<IMessage>> MessageDeleted = delegate {  };
+        public event Action<IUser, IGuild> UserBanned = delegate {  };
+        public event Action<IUser, IGuild> UserUnbanned = delegate {  };
+        public event Action<IGuildUser, IPresence, IPresence> UserPresenceUpdated = delegate {  };
+        public event Action<IUser, IVoiceState, IVoiceState> UserVoiceStateUpdated = delegate {  };
+        public event Action<IChannel> ChannelCreated = delegate {  };
+        public event Action<IChannel> ChannelDestroyed = delegate {  };
+        public event Action<IChannel, IChannel> ChannelUpdated = delegate { };
+        public event Action<Exception> Disconnected = delegate {  };
 
         private IReadOnlyList<DiscordSocketClient> Clients { get; }
 
@@ -41,19 +41,19 @@ namespace NadekoBot
                 discordSocketConfig.ShardId = i;
                 var client = new DiscordSocketClient(discordSocketConfig);
                 clientList.Add(client);
-                client.UserJoined += async arg1 => await UserJoined(arg1);
-                client.MessageReceived += async arg1 => await MessageReceived(arg1);
-                client.UserLeft += async arg1 => await UserLeft(arg1);
-                client.UserUpdated += async (arg1, gu2) => await UserUpdated(arg1, gu2);
-                client.MessageUpdated += async (arg1, m2) => await MessageUpdated(arg1, m2);
-                client.MessageDeleted += async (arg1, arg2) => await MessageDeleted(arg1, arg2);
-                client.UserBanned += async (arg1, arg2) => await UserBanned(arg1, arg2);
-                client.UserUnbanned += async (arg1, arg2) => await UserUnbanned(arg1, arg2);
-                client.UserPresenceUpdated += async (arg1, arg2, arg3) => await UserPresenceUpdated(arg1, arg2, arg3);
-                client.UserVoiceStateUpdated += async (arg1, arg2, arg3) => await UserVoiceStateUpdated(arg1, arg2, arg3);
-                client.ChannelCreated += async arg => await ChannelCreated(arg);
-                client.ChannelDestroyed += async arg => await ChannelDestroyed(arg);
-                client.ChannelUpdated += async (arg1, arg2) => await ChannelUpdated(arg1, arg2);
+                client.UserJoined += arg1 => { UserJoined(arg1); return Task.CompletedTask; };
+                client.MessageReceived += arg1 => { MessageReceived(arg1); return Task.CompletedTask; };
+                client.UserLeft += arg1 => { UserLeft(arg1); return Task.CompletedTask; };
+                client.UserUpdated += (arg1, gu2) => { UserUpdated(arg1, gu2); return Task.CompletedTask; };
+                client.MessageUpdated += (arg1, m2) => { MessageUpdated(arg1, m2); return Task.CompletedTask; };
+                client.MessageDeleted += (arg1, arg2) => { MessageDeleted(arg1, arg2); return Task.CompletedTask; };
+                client.UserBanned += (arg1, arg2) => { UserBanned(arg1, arg2); return Task.CompletedTask; };
+                client.UserUnbanned += (arg1, arg2) => { UserUnbanned(arg1, arg2); return Task.CompletedTask; };
+                client.UserPresenceUpdated += (arg1, arg2, arg3) => { UserPresenceUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.UserVoiceStateUpdated += (arg1, arg2, arg3) => { UserVoiceStateUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.ChannelCreated += arg => { ChannelCreated(arg); return Task.CompletedTask; };
+                client.ChannelDestroyed += arg => { ChannelDestroyed(arg); return Task.CompletedTask; };
+                client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
             }

@@ -114,6 +114,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to activity.
+        /// </summary>
+        public static string activity_cmd {
+            get {
+                return ResourceManager.GetString("activity_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Checks for spammers..
+        /// </summary>
+        public static string activity_desc {
+            get {
+                return ResourceManager.GetString("activity_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}activity`.
+        /// </summary>
+        public static string activity_usage {
+            get {
+                return ResourceManager.GetString("activity_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to addcustreact acr.
         /// </summary>
         public static string addcustreact_cmd {

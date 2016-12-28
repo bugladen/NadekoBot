@@ -2835,4 +2835,13 @@
   <data name="setmaxplaytime_usage" xml:space="preserve">
     <value>`{0}smp 0` or `{0}smp 270`</value>
   </data>
+  <data name="activity_cmd" xml:space="preserve">
+    <value>activity</value>
+  </data>
+  <data name="activity_desc" xml:space="preserve">
+    <value>Checks for spammers.</value>
+  </data>
+  <data name="activity_usage" xml:space="preserve">
+    <value>`{0}activity`</value>
+  </data>
 </root>

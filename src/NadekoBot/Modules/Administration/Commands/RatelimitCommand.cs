@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                         if (limiter.CheckUserRatelimit(usrMsg.Author.Id))
                             try { await usrMsg.DeleteAsync(); } catch (Exception ex) { _log.Warn(ex); }
                     });
-                    return Task.CompletedTask;
+                    return;
                 };
             }
 

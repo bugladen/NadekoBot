@@ -85,11 +85,11 @@ namespace NadekoBot.Modules.Administration
                 {
                     var msg = imsg as IUserMessage;
                     if (msg == null || msg.Author.IsBot)
-                        return Task.CompletedTask;
+                        return;
 
                     var channel = msg.Channel as ITextChannel;
                     if (channel == null)
-                        return Task.CompletedTask;
+                        return;
 
                     var t = Task.Run(async () =>
                     {
@@ -113,20 +113,18 @@ namespace NadekoBot.Modules.Administration
                         }
                         catch { }
                     });
-                    return Task.CompletedTask;
+                    return;
                 };
 
-                NadekoBot.Client.UserJoined += (usr) =>
+                NadekoBot.Client.UserJoined += async (usr) =>
                 {
-                    if (usr.IsBot)
-                        return Task.CompletedTask;
-
-                    AntiRaidSetting settings;
-                    if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
-                        return Task.CompletedTask;
-
-                    var t = Task.Run(async () =>
+                    try
                     {
+                        if (usr.IsBot)
+                            return;
+                        AntiRaidSetting settings;
+                        if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
+                            return;
                         if (!settings.RaidUsers.Add(usr))
                             return;
 
@@ -143,9 +141,9 @@ namespace NadekoBot.Modules.Administration
 
                         settings.RaidUsers.TryRemove(usr);
                         --settings.UsersCount;
-                    });
 
-                    return Task.CompletedTask;
+                    }
+                    catch { }
                 };
             }
 

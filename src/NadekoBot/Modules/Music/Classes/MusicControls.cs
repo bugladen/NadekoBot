@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Music.Classes
         public bool Autoplay { get; set; } = false;
         public uint MaxQueueSize { get; set; } = 0;
 
-        private ConcurrentQueue<Action> actionQueue { get; set; } = new ConcurrentQueue<Action>();
+        private ConcurrentQueue<Action> actionQueue { get; } = new ConcurrentQueue<Action>();
 
         public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
 

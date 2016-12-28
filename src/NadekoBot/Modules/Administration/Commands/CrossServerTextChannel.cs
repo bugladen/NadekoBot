@@ -19,21 +19,18 @@ namespace NadekoBot.Modules.Administration
             static CrossServerTextChannel()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                NadekoBot.Client.MessageReceived += (imsg) =>
+                NadekoBot.Client.MessageReceived += async (imsg) =>
                 {
-                    if (imsg.Author.IsBot)
-                        return Task.CompletedTask;
-
-                    var msg = imsg as IUserMessage;
-                    if (msg == null)
-                        return Task.CompletedTask;
-
-                    var channel = imsg.Channel as ITextChannel;
-                    if (channel == null)
-                        return Task.CompletedTask;
-
-                    Task.Run(async () =>
+                    try
                     {
+                        if (imsg.Author.IsBot)
+                            return;
+                        var msg = imsg as IUserMessage;
+                        if (msg == null)
+                            return;
+                        var channel = imsg.Channel as ITextChannel;
+                        if (channel == null)
+                            return;
                         if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
                         foreach (var subscriber in Subscribers)
                         {
@@ -45,8 +42,10 @@ namespace NadekoBot.Modules.Administration
                                 try { await chan.SendMessageAsync(GetText(channel.Guild, channel, (IGuildUser)msg.Author, msg)).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                             }
                         }
-                    });
-                    return Task.CompletedTask;
+                    }
+                    catch (Exception ex) {
+                        _log.Warn(ex);
+                    }
                 };
             }
 

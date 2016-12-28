@@ -36,17 +36,15 @@ namespace NadekoBot.Modules.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        private Task Client_UserVoiceStateUpdated(IUser iusr, IVoiceState oldState, IVoiceState newState)
+        private void Client_UserVoiceStateUpdated(IUser iusr, IVoiceState oldState, IVoiceState newState)
         {
             var usr = iusr as IGuildUser;
             if (usr == null ||
                 oldState.VoiceChannel == newState.VoiceChannel)
-                return Task.CompletedTask;
-
+                return;
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
-                return Task.CompletedTask;
-
+                return;
             if ((player.PlaybackVoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
                     player.Paused &&
                     player.PlaybackVoiceChannel.GetUsers().Count == 2) ||  // keep in mind bot is in the channel (+1)
@@ -56,7 +54,7 @@ namespace NadekoBot.Modules.Music
             {
                 player.TogglePause();
             }
-            return Task.CompletedTask;
+            return;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -903,7 +901,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             }
             catch (PlaylistFullException)
             {
-                try { await textCh.SendConfirmAsync($"🎵 Queue is full at **{musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}**. "); } catch { }
+                try { await textCh.SendConfirmAsync($"🎵 Queue is full at **{musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}**."); } catch { }
                 throw;
             }
             if (!silent)

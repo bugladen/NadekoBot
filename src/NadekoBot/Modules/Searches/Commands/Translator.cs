@@ -28,40 +28,34 @@ namespace NadekoBot.Modules.Searches
                 TranslatedChannels = new ConcurrentDictionary<ulong, bool>();
                 UserLanguages = new ConcurrentDictionary<UserChannelPair, string>();
 
-                NadekoBot.Client.MessageReceived += (msg) =>
+                NadekoBot.Client.MessageReceived += async (msg) =>
                 {
                     var umsg = msg as IUserMessage;
-                    if(umsg == null)
-                        return Task.CompletedTask;
+                    if (umsg == null)
+                        return;
 
                     bool autoDelete;
                     if (!TranslatedChannels.TryGetValue(umsg.Channel.Id, out autoDelete))
-                        return Task.CompletedTask;
-
-                    var t = Task.Run(async () =>
+                        return;
+                    var key = new UserChannelPair()
                     {
-                        var key = new UserChannelPair()
-                        {
-                            UserId = umsg.Author.Id,
-                            ChannelId = umsg.Channel.Id,
-                        };
+                        UserId = umsg.Author.Id,
+                        ChannelId = umsg.Channel.Id,
+                    };
 
-                        string langs;
-                        if (!UserLanguages.TryGetValue(key, out langs))
-                            return;
+                    string langs;
+                    if (!UserLanguages.TryGetValue(key, out langs))
+                        return;
 
-                        try
-                        {
-                            var text = await TranslateInternal(umsg, langs, umsg.Resolve(UserMentionHandling.Ignore), true)
-                                                .ConfigureAwait(false);
-                            if (autoDelete)
-                                try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                            await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` "+text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
-                        }
-                        catch { }
-
-                    });
-                    return Task.CompletedTask;
+                    try
+                    {
+                        var text = await TranslateInternal(umsg, langs, umsg.Resolve(UserMentionHandling.Ignore), true)
+                                            .ConfigureAwait(false);
+                        if (autoDelete)
+                            try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                        await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` " + text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
+                    }
+                    catch {  }
                 };
             }
 
