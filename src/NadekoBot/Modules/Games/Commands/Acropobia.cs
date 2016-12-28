@@ -3,6 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -73,9 +74,12 @@ namespace NadekoBot.Modules.Games
 
             //text, votes
             private readonly ConcurrentDictionary<string, int> votes = new ConcurrentDictionary<string, int>();
+            private readonly Logger _log;
 
             public AcrophobiaGame(ITextChannel channel, int time)
             {
+                this._log = LogManager.GetCurrentClassLogger();
+
                 this.channel = channel;
                 this.time = time;
                 this.source = new CancellationTokenSource();
@@ -253,7 +257,10 @@ namespace NadekoBot.Modules.Games
 
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
             }
 
             public async Task End()
@@ -275,7 +282,7 @@ namespace NadekoBot.Modules.Games
 
             public void EnsureStopped()
             {
-                NadekoBot.Client.MessageReceived -= PotentialAcro; 
+                NadekoBot.Client.MessageReceived -= PotentialAcro;
                 if (!source.IsCancellationRequested)
                     source.Cancel();
             }

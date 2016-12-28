@@ -144,14 +144,15 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private async void PotentialGuess(IMessage imsg)
         {
-            if (imsg.Author.IsBot)
-                return;
-
-            var umsg = imsg as IUserMessage;
-            if (umsg == null)
-                return;
             try
             {
+                if (imsg.Author.IsBot)
+                    return;
+
+                var umsg = imsg as IUserMessage;
+                if (umsg == null)
+                    return;
+
                 var textChannel = umsg.Channel as ITextChannel;
                 if (textChannel == null || textChannel.Guild != guild)
                     return;

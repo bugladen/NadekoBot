@@ -81,39 +81,35 @@ namespace NadekoBot.Modules.Administration
             {
                 _log = LogManager.GetCurrentClassLogger();
 
-                NadekoBot.Client.MessageReceived += (imsg) =>
+                NadekoBot.Client.MessageReceived += async (imsg) =>
                 {
-                    var msg = imsg as IUserMessage;
-                    if (msg == null || msg.Author.IsBot)
-                        return;
 
-                    var channel = msg.Channel as ITextChannel;
-                    if (channel == null)
-                        return;
-
-                    var t = Task.Run(async () =>
+                    try
                     {
-                        try
+                        var msg = imsg as IUserMessage;
+                        if (msg == null || msg.Author.IsBot)
+                            return;
+
+                        var channel = msg.Channel as ITextChannel;
+                        if (channel == null)
+                            return;
+                        AntiSpamSetting spamSettings;
+                        if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
+                            return;
+
+                        var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
+                            (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
+
+                        if (stats.Count >= spamSettings.MessageThreshold)
                         {
-                            AntiSpamSetting spamSettings;
-                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
-                                return;
-
-                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
-                                (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
-
-                            if (stats.Count >= spamSettings.MessageThreshold)
+                            if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                             {
-                                if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
-                                {
-                                    await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
-                                        .ConfigureAwait(false);
-                                }
+                                await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
+                                    .ConfigureAwait(false);
                             }
                         }
-                        catch { }
-                    });
-                    return;
+                    }
+                    catch { }
                 };
 
                 NadekoBot.Client.UserJoined += async (usr) =>
@@ -239,7 +235,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.Administrator)]
-            public async Task AntiSpam(IUserMessage imsg, int messageCount=3, PunishmentAction action = PunishmentAction.Mute)
+            public async Task AntiSpam(IUserMessage imsg, int messageCount = 3, PunishmentAction action = PunishmentAction.Mute)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -271,7 +267,7 @@ namespace NadekoBot.Modules.Administration
                         Action = action,
                         MessageThreshold = messageCount,
                     }))
-                    await channel.SendConfirmAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
+                        await channel.SendConfirmAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
                 }
 
             }

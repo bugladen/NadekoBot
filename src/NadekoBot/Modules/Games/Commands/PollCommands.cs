@@ -126,19 +126,20 @@ namespace NadekoBot.Modules.Games
 
         private async void Vote(IMessage imsg)
         {
-            // has to be a user message
-            var msg = imsg as IUserMessage;
-            if (msg == null || msg.Author.IsBot)
-                return;
-
-            // has to be an integer
-            int vote;
-            if (!int.TryParse(imsg.Content, out vote))
-                return;
-            if (vote < 1 || vote > answers.Length)
-                return;
             try
             {
+                // has to be a user message
+                var msg = imsg as IUserMessage;
+                if (msg == null || msg.Author.IsBot)
+                    return;
+
+                // has to be an integer
+                int vote;
+                if (!int.TryParse(imsg.Content, out vote))
+                    return;
+                if (vote < 1 || vote > answers.Length)
+                    return;
+
                 IMessageChannel ch;
                 if (isPublic)
                 {

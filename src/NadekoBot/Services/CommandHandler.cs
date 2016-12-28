@@ -64,20 +64,21 @@ namespace NadekoBot.Services
 
         private async void MessageReceivedHandler(IMessage msg)
         {
-            var usrMsg = msg as IUserMessage;
-            if (usrMsg == null)
-                return;
-
-            if (!usrMsg.IsAuthor())
-                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
-
-            if (usrMsg.Author.IsBot || !NadekoBot.Ready) //no bots
-                return;
-            var sw = new Stopwatch();
-            sw.Start();
-
             try
             {
+                var usrMsg = msg as IUserMessage;
+                if (usrMsg == null)
+                    return;
+
+                if (!usrMsg.IsAuthor())
+                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+
+                if (usrMsg.Author.IsBot || !NadekoBot.Ready) //no bots
+                    return;
+                var sw = new Stopwatch();
+                sw.Start();
+
+
                 var guild = (msg.Channel as ITextChannel)?.Guild;
 
                 if (guild != null && guild.OwnerId != usrMsg.Author.Id)
@@ -208,7 +209,8 @@ namespace NadekoBot.Services
             }
         }
 
-        public async Task<Tuple<Command, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best) {
+        public async Task<Tuple<Command, PermissionCache, IResult>> ExecuteCommand(IUserMessage message, string input, IGuild guild, IUser user, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Best)
+        {
             var searchResult = _commandService.Search(message, input);
             if (!searchResult.IsSuccess)
                 return new Tuple<Command, PermissionCache, IResult>(null, null, searchResult);

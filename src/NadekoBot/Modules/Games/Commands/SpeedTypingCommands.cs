@@ -107,13 +107,14 @@ namespace NadekoBot.Modules.Games
 
             private async void AnswerReceived(IMessage imsg)
             {
-                if (imsg.Author.IsBot)
-                    return;
-                var msg = imsg as IUserMessage;
-                if (msg == null)
-                    return;
                 try
                 {
+                    if (imsg.Author.IsBot)
+                        return;
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return;
+
                     if (this.Channel == null || this.Channel.Id != this.Channel.Id) return;
 
                     var guess = msg.Content;

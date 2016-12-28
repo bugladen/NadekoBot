@@ -2,6 +2,7 @@
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,6 +71,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
 
     public class HangmanGame
     {
+        private readonly Logger _log;
+
         public IMessageChannel GameChannel { get; }
         public HashSet<char> Guesses { get; } = new HashSet<char>();
         public HangmanObject Term { get; private set; }
@@ -97,6 +100,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
 
         public HangmanGame(IMessageChannel channel, HangmanTermPool.HangmanTermType type)
         {
+            _log = LogManager.GetCurrentClassLogger();
             this.GameChannel = channel;
             this.TermType = type;
         }
@@ -126,29 +130,32 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
 
         private async void PotentialGuess(IMessage msg)
         {
-            if (msg.Channel != GameChannel)
-                return; // message's channel has to be the same as game's
-            if (msg.Content.Length != 1) // message must be 1 char long
-            {
-                if (++MessagesSinceLastPost > 10)
-                {
-                    MessagesSinceLastPost = 0;
-                    try
-                    {
-                        await GameChannel.SendConfirmAsync("Hangman Game",
-                            ScrambledWord + "\n" + GetHangman(),
-                            footer: string.Join(" ", Guesses)).ConfigureAwait(false);
-                    }
-                    catch { }
-                }
-            }
-
-            if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
-                return;
-
-            var guess = char.ToUpperInvariant(msg.Content[0]);
             try
             {
+                if (!(msg is IUserMessage))
+                    return;
+
+                if (msg.Channel != GameChannel)
+                    return; // message's channel has to be the same as game's
+                if (msg.Content.Length != 1) // message must be 1 char long
+                {
+                    if (++MessagesSinceLastPost > 10)
+                    {
+                        MessagesSinceLastPost = 0;
+                        try
+                        {
+                            await GameChannel.SendConfirmAsync("Hangman Game",
+                                ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        }
+                        catch { }
+                    }
+                }
+
+                if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
+                    return;
+
+                var guess = char.ToUpperInvariant(msg.Content[0]);
                 if (Guesses.Contains(guess))
                 {
                     MessagesSinceLastPost = 0;
@@ -193,7 +200,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 }
 
             }
-            catch { }
+            catch (Exception ex) { _log.Warn(ex); }
         }
 
         public string GetHangman() => $@"\_\_\_\_\_\_\_\_\_
