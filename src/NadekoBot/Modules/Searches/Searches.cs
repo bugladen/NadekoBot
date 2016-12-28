@@ -22,6 +22,8 @@ using AngleSharp.Parser.Html;
 using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -472,6 +474,42 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Define(IUserMessage msg, [Remainder] string word)
+        {
+            var channel = (ITextChannel)msg.Channel;
+
+            if (string.IsNullOrWhiteSpace(word))
+                return;
+
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
+
+                var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+                var sense = data.Results.Where(x => x.Senses != null && x.Senses[0].Definition != null).FirstOrDefault()?.Senses[0];
+
+                if (sense?.Definition == null)
+                    return;
+
+                string definition = sense.Definition.ToString();
+                if (!(sense.Definition is string))
+                    definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
+
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithTitle("Define: " + word)
+                    .WithDescription(definition)
+                    .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
+
+                if (sense.Examples != null)
+                    embed.AddField(efb => efb.WithName("Example").WithValue(sense.Examples.First().text));
+
+                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Hashtag(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -558,17 +596,8 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
-            if (link == null)
-                await channel.SendErrorAsync("No results.");
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
+        public Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
+            => InternalDapiCommand(umsg, tag, DapiSearchType.Safebooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -646,22 +675,6 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
             await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
-        }
-
-        public static async Task<string> GetSafebooruImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-            var url =
-            $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -772,6 +785,77 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        public enum DapiSearchType
+        {
+            Safebooru,
+            Gelbooru,
+            Konachan,
+            Rule34,
+            Yandere
+        }
+
+        public static async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+
+            var url = await InternalDapiSearch(tag, type).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
+            else
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText(type.ToString()))
+                    .Build()).ConfigureAwait(false);
+        }
+
+        public static async Task<string> InternalDapiSearch(string tag, DapiSearchType type)
+        {
+            tag = tag?.Replace(" ", "_");
+            string website = "";
+            switch (type)
+            {
+                case DapiSearchType.Safebooru:
+                    website = $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Gelbooru:
+                    website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Rule34:
+                    website = $"https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Konachan:
+                    website = $"https://konachan.com/post.xml?s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Yandere:
+                    website = $"https://yande.re/post.xml?limit=100&tags={tag}";
+                    break;
+            }
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var data = await http.GetStreamAsync(website);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
+
+                    var node = doc.LastChild.ChildNodes[new NadekoRandom().Next(0, doc.LastChild.ChildNodes.Count)];
+
+                    var url = node.Attributes["file_url"].Value;
+                    if (!url.StartsWith("http"))
+                        url = "https:" + url;
+                    return url;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public static async Task<bool> ValidateQuery(ITextChannel ch, string query)
         {
             if (!string.IsNullOrEmpty(query.Trim())) return true;

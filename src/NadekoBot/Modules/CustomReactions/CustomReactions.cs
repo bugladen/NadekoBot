@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
                                                           .OrderBy(cr => cr.Key)
-                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y => y.Response).ToList() })
+                                                          .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y => new { id = y.Id, text = y.Response }).ToList() })
                                                           .ToJson()
                                                           .ToStream()
                                                           .ConfigureAwait(false);
@@ -293,7 +293,7 @@ namespace NadekoBot.Modules.CustomReactions
                 {
                     await imsg.Channel.SendErrorAsync("No stats for that trigger found, no action taken.").ConfigureAwait(false);
                 }
-            }            
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (page < 1)
                 return;
             await imsg.Channel.EmbedAsync(ReactionStats.OrderByDescending(x => x.Value)
-                                               .Skip((page - 1)*9)
+                                               .Skip((page - 1) * 9)
                                                .Take(9)
                                                .Aggregate(new EmbedBuilder().WithOkColor().WithTitle($"Custom Reaction stats page #{page}"),
                                                          (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true)))

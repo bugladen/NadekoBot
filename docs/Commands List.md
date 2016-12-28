@@ -59,8 +59,8 @@ Command and aliases | Description | Usage
 `.fwtoall`  | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json **Bot Owner only.** | `.fwtoall`
 `.logserver`  | Enables or Disables ALL log events. If enabled, all log events will log to this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver enable` or `.logserver disable`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logignore`
-`.logevents`  | Shows a list of all events you can subscribe to with `.log` **Requires Administrator server permission.** | `.logevents`
-`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a lit of all events you can subscribe to. **Requires Administrator server permission.** | `.log userpresence` or `.log userbanned`
+`.logevents`  | Shows a list of all events you can subscribe to with `.log` **Requires Administrator server permission.** **Bot Owner only.** | `.logevents`
+`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a lit of all events you can subscribe to. **Requires Administrator server permission.** **Bot Owner only.** | `.log userpresence` or `.log userbanned`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer. **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled. **Requires ManageMessages server permission.** | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot Owner only.** | `.migratedata`
@@ -137,7 +137,7 @@ Command and aliases | Description | Usage
 `$leaderboard` `$lb` | Displays bot currency leaderboard.  | `$lb`
 `$race`  | Starts a new animal race.  | `$race`
 `$joinrace` `$jr` | Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.  | `$jr` or `$jr 5`
-`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.  | `$roll` or `$roll 7` or `$roll 3d5`
+`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.  | `$roll` or `$roll 7` or `$roll 3d5` or `$roll 5dF`
 `$rolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.  | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`
 `$nroll`  | Rolls in a given range.  | `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$draw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.  | `$draw` or `$draw 5`
@@ -195,6 +195,7 @@ Command and aliases | Description | Usage
 `!!stop` `!!s` | Stops the music and clears the playlist. Stays in the channel.  | `!!s`
 `!!destroy` `!!d` | Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)  | `!!d`
 `!!pause` `!!p` | Pauses or Unpauses the song.  | `!!p`
+`!!fairplay` `!!fp` | Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `!!fp`
 `!!queue` `!!q` `!!yq` | Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.  | `!!q Dream Of Venice`
 `!!soundcloudqueue` `!!sq` | Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.  | `!!sq Dream Of Venice`
 `!!listqueue` `!!lq` | Lists 15 currently queued songs per page. Default page is 1.  | `!!lq` or `!!lq 2`
@@ -211,6 +212,7 @@ Command and aliases | Description | Usage
 `!!remove` `!!rm` | Remove a song by its # in the queue, or 'all' to remove whole queue.  | `!!rm 5`
 `!!movesong` `!!ms` | Moves a song from one position to another.  | `!!ms 5>3`
 `!!setmaxqueue` `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq 50` or `!!smq`
+`!!setmaxplaytime` `!!smp` | Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.  | `!!smp 0` or `!!smp 270`
 `!!reptcursong` `!!rcs` | Toggles repeat of current song.  | `!!rcs`
 `!!rpeatplaylst` `!!rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).  | `!!rpl`
 `!!save`  | Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.  | `!!save classical1`
@@ -218,7 +220,6 @@ Command and aliases | Description | Usage
 `!!playlists` `!!pls` | Lists all playlists. Paginated. 20 per page. Default page is 0.  | `!!pls 1`
 `!!deleteplaylist` `!!delpls` | Deletes a saved playlist. Only if you made it or if you are the bot owner.  | `!!delpls animu-5`
 `!!goto`  | Goes to a specific time in seconds in a song.  | `!!goto 30`
-`!!getlink` `!!gl` | Shows a link to the song in the queue by index, or the currently playing song by default.  | `!!gl`
 `!!autoplay` `!!ap` | Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)  | `!!ap`
 
 ###### [Back to TOC](#table-of-contents)
@@ -228,8 +229,8 @@ Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~hentai`  | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
 `~hentaibomb`  | Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.  | `~hentaibomb yuri`
-`~yandere`  | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
 `~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
+`~yandere`  | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
 `~konachan`  | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.  | `~konachan yuri`
 `~gelbooru`  | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
 `~rule34`  | Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
@@ -302,6 +303,7 @@ Command and aliases | Description | Usage
 `~hearthstone` `~hs` | Searches for a Hearthstone card and shows its image. Takes a while to complete.  | `~hs Ysera`
 `~yodify` `~yoda` | Translates your normal sentences into Yoda styled sentences!  | ~yodify I was once an adventurer like you` or `~yoda my feelings hurt`
 `~urbandict` `~ud` | Searches Urban Dictionary for a word.  | `~ud Pineapple`
+`~define` `~def` | Finds a definition of a word.  | `~def heresy`
 `~#`  | Searches Tagdef.com for a hashtag.  | `~# ff`
 `~catfact`  | Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>  | `~catfact`
 `~revav`  | Returns a google reverse image search for someone's avatar.  | `~revav "@SomeGuy"`
@@ -349,6 +351,7 @@ Command and aliases | Description | Usage
 ### Utility  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
 `.whosplaying` `.whpl` | Shows a list of users who are playing the specified game.  | `.whpl Overwatch`
 `.inrole`  | Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.  | `.inrole Role`
 `.checkmyperms`  | Checks your user-specific permissions on this channel.  | `.checkmyperms`

@@ -114,6 +114,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to activity.
+        /// </summary>
+        public static string activity_cmd {
+            get {
+                return ResourceManager.GetString("activity_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Checks for spammers..
+        /// </summary>
+        public static string activity_desc {
+            get {
+                return ResourceManager.GetString("activity_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}activity`.
+        /// </summary>
+        public static string activity_usage {
+            get {
+                return ResourceManager.GetString("activity_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to addcustreact acr.
         /// </summary>
         public static string addcustreact_cmd {
@@ -2000,6 +2027,33 @@ namespace NadekoBot.Resources {
         public static string deafen_usage {
             get {
                 return ResourceManager.GetString("deafen_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to define def.
+        /// </summary>
+        public static string define_cmd {
+            get {
+                return ResourceManager.GetString("define_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds a definition of a word..
+        /// </summary>
+        public static string define_desc {
+            get {
+                return ResourceManager.GetString("define_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}def heresy`.
+        /// </summary>
+        public static string define_usage {
+            get {
+                return ResourceManager.GetString("define_usage", resourceCulture);
             }
         }
         
@@ -6347,6 +6401,33 @@ namespace NadekoBot.Resources {
         public static string setgame_usage {
             get {
                 return ResourceManager.GetString("setgame_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setmaxplaytime smp.
+        /// </summary>
+        public static string setmaxplaytime_cmd {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit..
+        /// </summary>
+        public static string setmaxplaytime_desc {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smp 0` or `{0}smp 270`.
+        /// </summary>
+        public static string setmaxplaytime_usage {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_usage", resourceCulture);
             }
         }
         

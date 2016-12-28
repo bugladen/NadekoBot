@@ -2,6 +2,7 @@
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +44,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                                        .Concat(data.Things)
                                        .ToList();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
             }
         }
@@ -64,12 +66,14 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 default:
                     return data.All[rng.Next(0, data.All.Count)];
             }
-            
+
         }
     }
 
     public class HangmanGame
     {
+        private readonly Logger _log;
+
         public IMessageChannel GameChannel { get; }
         public HashSet<char> Guesses { get; } = new HashSet<char>();
         public HangmanObject Term { get; private set; }
@@ -97,6 +101,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
 
         public HangmanGame(IMessageChannel channel, HangmanTermPool.HangmanTermType type)
         {
+            _log = LogManager.GetCurrentClassLogger();
             this.GameChannel = channel;
             this.TermType = type;
         }
@@ -124,17 +129,20 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 await GameChannel.EmbedAsync(embed.WithOkColor().Build()).ConfigureAwait(false);
         }
 
-        private Task PotentialGuess(IMessage msg)
+        private async void PotentialGuess(IMessage msg)
         {
-            if (msg.Channel != GameChannel)
-                return Task.CompletedTask; // message's channel has to be the same as game's
-            if (msg.Content.Length != 1) // message must be 1 char long
+            try
             {
-                if (++MessagesSinceLastPost > 10)
+                if (!(msg is IUserMessage))
+                    return;
+
+                if (msg.Channel != GameChannel)
+                    return; // message's channel has to be the same as game's
+                if (msg.Content.Length != 1) // message must be 1 char long
                 {
-                    MessagesSinceLastPost = 0;
-                    Task.Run(async () =>
+                    if (++MessagesSinceLastPost > 10)
                     {
+                        MessagesSinceLastPost = 0;
                         try
                         {
                             await GameChannel.SendConfirmAsync("Hangman Game",
@@ -142,20 +150,12 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                                 footer: string.Join(" ", Guesses)).ConfigureAwait(false);
                         }
                         catch { }
-                    });
-                }
-                return Task.CompletedTask;
-            }
+                    }
 
-            if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
-                return Task.CompletedTask;
+                    if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
+                        return;
 
-            var guess = char.ToUpperInvariant(msg.Content[0]);
-
-            Task.Run(async () =>
-            {
-                try
-                {
+                    var guess = char.ToUpperInvariant(msg.Content[0]);
                     if (Guesses.Contains(guess))
                     {
                         MessagesSinceLastPost = 0;
@@ -176,12 +176,16 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                         {
                             try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!").ConfigureAwait(false); } catch { }
 
-                          await End().ConfigureAwait(false);
+                            await End().ConfigureAwait(false);
                             return;
                         }
                         MessagesSinceLastPost = 0;
-                        try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
-                            footer: string.Join(" ", Guesses)).ConfigureAwait(false); } catch { }
+                        try
+                        {
+                            await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
+                          footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        }
+                        catch { }
 
                     }
                     else
@@ -196,22 +200,16 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                     }
 
                 }
-                catch { }
-
-            });
-            return Task.CompletedTask;
+            }
+            catch (Exception ex) { _log.Warn(ex); }
         }
 
-        public string GetHangman()
-        {
-            return
-$@"\_\_\_\_\_\_\_\_\_
+        public string GetHangman() => $@"\_\_\_\_\_\_\_\_\_
       |           |
       |           |
    {(Errors > 0 ? "😲" : "      ")}        |
    {(Errors > 1 ? "/" : "  ")} {(Errors > 2 ? "|" : "  ")} {(Errors > 3 ? "\\" : "  ")}       | 
     {(Errors > 4 ? "/" : "  ")} {(Errors > 5 ? "\\" : "  ")}        |
                /-\";
-        }
     }
 }

@@ -34,7 +34,16 @@ namespace NadekoBot.Modules.Music.Classes
         /// Player will prioritize different queuer name
         /// over the song position in the playlist
         /// </summary>
-        public bool FairPlay { get; set; } = true;
+        public bool FairPlay { get; set; } = false;
+
+        /// <summary>
+        /// Song will stop playing after this amount of time. 
+        /// To prevent people queueing radio or looped songs 
+        /// while other people want to listen to other songs too.
+        /// </summary>
+        public uint MaxPlaytimeSeconds { get; set; } = 0;
+
+        public TimeSpan TotalPlaytime => new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
 
         /// <summary>
         /// Users who recently got their music wish
@@ -64,7 +73,9 @@ namespace NadekoBot.Modules.Music.Classes
         public bool Autoplay { get; set; } = false;
         public uint MaxQueueSize { get; set; } = 0;
 
-        private ConcurrentQueue<Action> actionQueue { get; set; } = new ConcurrentQueue<Action>();
+        private ConcurrentQueue<Action> actionQueue { get; } = new ConcurrentQueue<Action>();
+
+        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
 
         public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
         {

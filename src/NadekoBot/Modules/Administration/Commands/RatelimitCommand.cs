@@ -45,7 +45,8 @@ namespace NadekoBot.Modules.Administration
                     else
                     {
                         usr.MessageCount++;
-                        var t = Task.Run(async () => {
+                        var t = Task.Run(async () =>
+                        {
                             try
                             {
                                 await Task.Delay(PerSeconds * 1000, cancelSource.Token);
@@ -61,26 +62,26 @@ namespace NadekoBot.Modules.Administration
 
             static RatelimitCommand()
             {
-               _log = LogManager.GetCurrentClassLogger();
+                _log = LogManager.GetCurrentClassLogger();
 
-               NadekoBot.Client.MessageReceived += (umsg) =>
-                {
-                    var t = Task.Run(async () =>
-                    {
-                        var usrMsg = umsg as IUserMessage;
-                        var channel = usrMsg.Channel as ITextChannel;
+                NadekoBot.Client.MessageReceived += async (umsg) =>
+                 {
+                     try
+                     {
+                         var usrMsg = umsg as IUserMessage;
+                         var channel = usrMsg.Channel as ITextChannel;
 
-                        if (channel == null || usrMsg.IsAuthor())
-                            return;
-                        Ratelimiter limiter;
-                        if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
-                            return;
+                         if (channel == null || usrMsg.IsAuthor())
+                             return;
+                         Ratelimiter limiter;
+                         if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
+                             return;
 
-                        if (limiter.CheckUserRatelimit(usrMsg.Author.Id))
-                            try { await usrMsg.DeleteAsync(); } catch (Exception ex) { _log.Warn(ex); }
-                    });
-                    return Task.CompletedTask;
-                };
+                         if (limiter.CheckUserRatelimit(usrMsg.Author.Id))
+                             await usrMsg.DeleteAsync();
+                     }
+                     catch (Exception ex) { _log.Warn(ex); }
+                 };
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -118,7 +119,7 @@ namespace NadekoBot.Modules.Administration
                     MaxMessages = msg,
                     PerSeconds = perSec,
                 };
-                if(RatelimitingChannels.TryAdd(channel.Id, toAdd))
+                if (RatelimitingChannels.TryAdd(channel.Id, toAdd))
                 {
                     await channel.SendConfirmAsync("Slow mode initiated",
                                                 $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.")

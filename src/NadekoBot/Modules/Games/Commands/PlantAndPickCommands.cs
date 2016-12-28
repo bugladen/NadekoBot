@@ -51,27 +51,27 @@ namespace NadekoBot.Modules.Games
                     var conf = uow.BotConfig.GetOrCreate();
                     var x =
                     generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
-                        .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj=>obj.ChannelId)));
+                        .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;
                 }
             }
 
-            private static Task PotentialFlowerGeneration(IMessage imsg)
+            private static async void PotentialFlowerGeneration(IMessage imsg)
             {
-                var msg = imsg as IUserMessage;
-                if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
-                    return Task.CompletedTask;
-
-                var channel = imsg.Channel as ITextChannel;
-                if (channel == null)
-                    return Task.CompletedTask;
-
-                if (!generationChannels.Contains(channel.Id))
-                    return Task.CompletedTask;
-
-                var t = Task.Run(async () =>
+                try
                 {
+                    var msg = imsg as IUserMessage;
+                    if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
+                        return;
+
+                    var channel = imsg.Channel as ITextChannel;
+                    if (channel == null)
+                        return;
+
+                    if (!generationChannels.Contains(channel.Id))
+                        return;
+
                     var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
                     var rng = new NadekoRandom();
 
@@ -83,20 +83,19 @@ namespace NadekoBot.Modules.Games
                     if (num > 100)
                     {
                         lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
-                        try
-                        {
-                            var sent = await channel.SendFileAsync(
-                                GetRandomCurrencyImagePath(), 
-                                $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
-                                    .ConfigureAwait(false);
-                            plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
-                        }
-                        catch { }
-                        
+
+                        var sent = await channel.SendFileAsync(
+                            GetRandomCurrencyImagePath(),
+                            $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
+                                .ConfigureAwait(false);
+                        plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
+
+
                     }
-                });
-                return Task.CompletedTask;
+                }
+                catch { }
             }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(IUserMessage imsg)
@@ -144,7 +143,7 @@ namespace NadekoBot.Modules.Games
                 var file = GetRandomCurrencyImagePath();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
-                
+
                 var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {
@@ -156,7 +155,7 @@ namespace NadekoBot.Modules.Games
                 }
                 plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.ManageMessages)]

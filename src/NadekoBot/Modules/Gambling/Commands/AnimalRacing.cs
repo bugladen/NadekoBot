@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         var wonAmount = winner.AmountBet * (participants.Count - 1);
 
-                        await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, false).ConfigureAwait(false);
+                        await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, true).ConfigureAwait(false);
                         await raceChannel.SendConfirmAsync("Animal Race", $"{winner.User.Mention} as {winner.Animal} **Won the race and {wonAmount}{CurrencySign}!**").ConfigureAwait(false);
                     }
                     else
@@ -209,15 +209,15 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private Task Client_MessageReceived(IMessage imsg)
+                private void Client_MessageReceived(IMessage imsg)
                 {
                     var msg = imsg as IUserMessage;
                     if (msg == null)
-                        return Task.CompletedTask;
+                        return;
                     if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
-                        return Task.CompletedTask;
+                        return;
                     messagesSinceGameStarted++;
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 private async Task CheckForFullGameAsync(CancellationToken cancelToken)
@@ -248,7 +248,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
                     if (amount > 0)
-                        if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)u, "BetRace", amount, true).ConfigureAwait(false))
+                        if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)u, "BetRace", amount, false).ConfigureAwait(false))
                         {
                             try { await raceChannel.SendErrorAsync($"{u.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
                             return;
@@ -277,10 +277,7 @@ namespace NadekoBot.Modules.Gambling
                     this.AmountBet = amount;
                 }
 
-                public override int GetHashCode()
-                {
-                    return User.GetHashCode();
-                }
+                public override int GetHashCode() => User.GetHashCode();
 
                 public override bool Equals(object obj)
                 {

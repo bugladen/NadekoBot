@@ -105,42 +105,39 @@ namespace NadekoBot.Modules.Games
                 NadekoBot.Client.MessageReceived += AnswerReceived;
             }
 
-            private Task AnswerReceived(IMessage imsg)
+            private async void AnswerReceived(IMessage imsg)
             {
-                if (imsg.Author.IsBot)
-                    return Task.CompletedTask;
-                var msg = imsg as IUserMessage;
-                if (msg == null)
-                    return Task.CompletedTask;
-                var t = Task.Run(async () =>
+                try
                 {
-                    try
+                    if (imsg.Author.IsBot)
+                        return;
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return;
+
+                    if (this.Channel == null || this.Channel.Id != this.Channel.Id) return;
+
+                    var guess = msg.Content;
+
+                    var distance = CurrentSentence.LevenshteinDistance(guess);
+                    var decision = Judge(distance, guess.Length);
+                    if (decision && !finishedUserIds.Contains(msg.Author.Id))
                     {
-                        if (this.Channel == null || this.Channel.Id != this.Channel.Id) return;
-
-                        var guess = msg.Content;
-
-                        var distance = CurrentSentence.LevenshteinDistance(guess);
-                        var decision = Judge(distance, guess.Length);
-                        if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                        var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
+                        finishedUserIds.Add(msg.Author.Id);
+                        await Extensions.Extensions.EmbedAsync(this.Channel, (Discord.API.Embed)new EmbedBuilder().WithColor((uint)NadekoBot.OkColor)
+                            .WithTitle((string)$"{msg.Author} finished the race!")
+                            .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
+                            .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.Seconds.ToString()}sec]*").WithIsInline(true))
+                            .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true))
+                            .Build()).ConfigureAwait(false);
+                        if (finishedUserIds.Count % 4 == 0)
                         {
-                            var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
-                            finishedUserIds.Add(msg.Author.Id);
-                            await Extensions.Extensions.EmbedAsync(this.Channel, (Discord.API.Embed)new EmbedBuilder().WithColor((uint)NadekoBot.OkColor)
-                                .WithTitle((string)$"{msg.Author} finished the race!")
-                                .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
-                                .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.Seconds.ToString()}sec]*").WithIsInline(true))
-                                .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true))
-                                .Build()).ConfigureAwait(false);
-                            if (finishedUserIds.Count % 4 == 0)
-                            {
-                                await Extensions.Extensions.SendConfirmAsync(this.Channel, (string)$":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize((string)CurrentSentence.Replace((string)" ", (string)" \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
-                            }
+                            await Extensions.Extensions.SendConfirmAsync(this.Channel, (string)$":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize((string)CurrentSentence.Replace((string)" ", (string)" \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
                         }
                     }
-                    catch { }
-                });
-                return Task.CompletedTask;
+                }
+                catch (Exception ex) { _log.Warn(ex); }
             }
 
             private bool Judge(int errors, int textLength) => errors <= textLength / 25;

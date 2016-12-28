@@ -26,26 +26,22 @@ namespace NadekoBot.Modules.Administration
                 AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
                 _log = LogManager.GetCurrentClassLogger();
-                NadekoBot.Client.UserJoined += (user) =>
+                NadekoBot.Client.UserJoined += async (user) =>
                 {
-                    var t = Task.Run(async () =>
+                    try
                     {
-                        try
-                        {
-                            ulong roleId = 0;
-                            AutoAssignedRoles.TryGetValue(user.Guild.Id, out roleId);
+                        ulong roleId = 0;
+                        AutoAssignedRoles.TryGetValue(user.Guild.Id, out roleId);
 
-                            if (roleId == 0)
-                                return;
+                        if (roleId == 0)
+                            return;
 
-                            var role = user.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
+                        var role = user.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
 
-                            if (role != null)
-                                await user.AddRolesAsync(role).ConfigureAwait(false);
-                        }
-                        catch (Exception ex) { _log.Warn(ex); }
-                    });
-                    return Task.CompletedTask;
+                        if (role != null)
+                            await user.AddRolesAsync(role).ConfigureAwait(false);
+                    }
+                    catch (Exception ex) { _log.Warn(ex); }
                 };
             }
 

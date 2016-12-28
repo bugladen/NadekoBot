@@ -75,6 +75,7 @@ namespace NadekoBot.Modules.Administration
                 _client.UserLeft += _client_UserLeft;
                 _client.UserPresenceUpdated += _client_UserPresenceUpdated;
                 _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
+                _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
                 _client.UserUpdated += _client_UserUpdated;
 
                 _client.ChannelCreated += _client_ChannelCreated;
@@ -85,51 +86,60 @@ namespace NadekoBot.Modules.Administration
                 MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
             }
 
-            private Task MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            private async void _client_UserVoiceStateUpdated_TTS(IUser iusr, IVoiceState before, IVoiceState after)
             {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.UserMutedId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
+                try
                 {
-                    string mutes = "";
-                    switch (muteType)
-                    {
-                        case MuteCommands.MuteType.Voice:
-                            mutes = "voice chat";
-                            break;
-                        case MuteCommands.MuteType.Chat:
-                            mutes = "text chat";
-                            break;
-                        case MuteCommands.MuteType.All:
-                            mutes = "text and voice chat";
-                            break;
-                    }
-                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔇 **| User muted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                    var usr = iusr as IGuildUser;
+                    if (usr == null)
+                        return;
 
-                return Task.CompletedTask;
+                    var beforeVch = before.VoiceChannel;
+                    var afterVch = after.VoiceChannel;
+
+                    if (beforeVch == afterVch)
+                        return;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.LogVoicePresenceTTSId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTTS)) == null)
+                        return;
+
+                    string str = null;
+                    if (beforeVch?.Guild == afterVch?.Guild)
+                    {
+                        str = $"{usr.Username} moved from {beforeVch.Name} to {afterVch.Name}";
+                    }
+                    else if (beforeVch == null)
+                    {
+                        str = $"{usr.Username} has joined {afterVch.Name}";
+                    }
+                    else if (afterVch == null)
+                    {
+                        str = $"{usr.Username} has left {beforeVch.Name}";
+                    }
+                    var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
+                    toDelete.DeleteAfter(5);
+                }
+                catch { }
             }
 
-            private Task MuteCommands_UserUnmuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            private async void MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
             {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.UserMutedId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
+                try
                 {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.UserMutedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
+                        return;
                     string mutes = "";
                     switch (muteType)
                     {
@@ -143,392 +153,404 @@ namespace NadekoBot.Modules.Administration
                             mutes = "text and voice chat";
                             break;
                     }
-                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔊 **| User unmuted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                    await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔇 **| User muted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
 
-                return Task.CompletedTask;
+            private async void MuteCommands_UserUnmuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            {
+                try
+                {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.UserMutedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
+                        return;
+
+                    string mutes = "";
+                    switch (muteType)
+                    {
+                        case MuteCommands.MuteType.Voice:
+                            mutes = "voice chat";
+                            break;
+                        case MuteCommands.MuteType.Chat:
+                            mutes = "text chat";
+                            break;
+                        case MuteCommands.MuteType.All:
+                            mutes = "text and voice chat";
+                            break;
+                    }
+                    await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🔊 **| User unmuted from the {mutes}. |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
             }
 
             public static async Task TriggeredAntiProtection(IGuildUser[] users, PunishmentAction action, ProtectionType protection)
             {
-                if (users.Length == 0)
-                    return;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out logSetting)
-                    || (logSetting.LogOtherId == null))
-                    return;
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(users.First().Guild, logSetting, LogType.Other)) == null)
-                    return;
-
-                var punishment = "";
-                if (action == PunishmentAction.Mute)
+                try
                 {
-                    punishment = "🔇 MUTED";
-                    //punishment = "MUTED";
-                }
-                else if (action == PunishmentAction.Kick)
-                {
-                    punishment = "☣ SOFT-BANNED (KICKED)";
-                    //punishment = "KICKED";
-                }
-                else if (action == PunishmentAction.Ban)
-                {
-                    punishment = "⛔️ BANNED";
-                    //punishment = "BANNED";
-                }
-                await logChannel.SendMessageAsync(String.Join("\n", users.Select(user => $"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to __**{protection}**__ protection on **{user.Guild.Name}** server.")))
-                //await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"{Format.Bold(user.ToString())} was **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
-                                .ConfigureAwait(false);
-            }
+                    if (users.Length == 0)
+                        return;
 
-            private Task _client_UserUpdated(IGuildUser before, IGuildUser after)
-            {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
-                    || (logSetting.UserUpdatedId == null))
-                    return Task.CompletedTask;
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out logSetting)
+                        || (logSetting.LogOtherId == null))
+                        return;
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(users.First().Guild, logSetting, LogType.Other)) == null)
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try
+                    var punishment = "";
+                    if (action == PunishmentAction.Mute)
                     {
-                        string str = $"🕔`{prettyCurrentTime}`";
-                        if (before.Username != after.Username)
-                            //str += $"**Name Changed**`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
-                            str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Name Changed |** 🆔 `{before.Id}`\n\t\t`New:` **{after.ToString()}**";
-                        else if (before.Nickname != after.Nickname)
-                            str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Nickname Changed |** 🆔 `{before.Id}`\n\t\t`Old:` **{before.Nickname}#{before.Discriminator}**\n\t\t`New:` **{after.Nickname}#{after.Discriminator}**";
-                        //str += $"**Nickname Changed**`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
-                        else if (before.AvatarUrl != after.AvatarUrl)
-                            //str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
-                            str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Avatar Changed |** 🆔 `{before.Id}`\n\t🖼 {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
-                        else if (!before.Roles.SequenceEqual(after.Roles))
-                        {
-                            if (before.Roles.Count() < after.Roles.Count())
-                            {
-                                var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
-                                //str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
-                                str += $"👤__**{before.ToString()}**__ **| User's Role Added |** 🆔 `{before.Id}`\n\t✅ {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
-                            }
-                            else if (before.Roles.Count() > after.Roles.Count())
-                            {
-                                var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
-                                //str += $"**User's Roles changed **`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
-                                str += $"👤__**{before.ToString()}**__ **| User's Role Removed |** 🆔 `{before.Id}`\n\t🚮 {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
-                            }
-                        }
-                        else
-                            return;
-                        try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        punishment = "🔇 MUTED";
+                        //punishment = "MUTED";
                     }
-                    catch { }
-                });
-
-                return Task.CompletedTask;
+                    else if (action == PunishmentAction.Kick)
+                    {
+                        punishment = "☣ SOFT-BANNED (KICKED)";
+                        //punishment = "KICKED";
+                    }
+                    else if (action == PunishmentAction.Ban)
+                    {
+                        punishment = "⛔️ BANNED";
+                        //punishment = "BANNED";
+                    }
+                    await logChannel.SendMessageAsync(String.Join("\n", users.Select(user => $"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to __**{protection}**__ protection on **{user.Guild.Name}** server.")))
+                                    //await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"{Format.Bold(user.ToString())} was **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
+                                    .ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private Task _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
+            private async void _client_UserUpdated(IGuildUser before, IGuildUser after)
             {
-                var before = cbefore as IGuildChannel;
-                if (before == null)
-                    return Task.CompletedTask;
-                var after = (IGuildChannel)cafter;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
-                    || (logSetting.ChannelUpdatedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
+                try
                 {
-                    try
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
+                        || (logSetting.UserUpdatedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
+                        return;
+                    string str = $"🕔`{prettyCurrentTime}`";
+                    if (before.Username != after.Username)
+                        //str += $"**Name Changed**`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
+                        str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Name Changed |** 🆔 `{before.Id}`\n\t\t`New:` **{after.ToString()}**";
+                    else if (before.Nickname != after.Nickname)
+                        str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Nickname Changed |** 🆔 `{before.Id}`\n\t\t`Old:` **{before.Nickname}#{before.Discriminator}**\n\t\t`New:` **{after.Nickname}#{after.Discriminator}**";
+                    //str += $"**Nickname Changed**`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
+                    else if (before.AvatarUrl != after.AvatarUrl)
+                        //str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
+                        str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Avatar Changed |** 🆔 `{before.Id}`\n\t🖼 {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
+                    else if (!before.Roles.SequenceEqual(after.Roles))
                     {
-                        if (before.Name != after.Name)
-                            //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
-                            await logChannel.SendMessageAsync($@"🕓`{prettyCurrentTime}`ℹ️ **| Channel Name Changed |** #⃣ `{after.Name} ({after.Id})`
+                        if (before.Roles.Count() < after.Roles.Count())
+                        {
+                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
+                            //str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                            str += $"👤__**{before.ToString()}**__ **| User's Role Added |** 🆔 `{before.Id}`\n\t✅ {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
+                        }
+                        else if (before.Roles.Count() > after.Roles.Count())
+                        {
+                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "**" + r.Name + "**");
+                            //str += $"**User's Roles changed **`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                            str += $"👤__**{before.ToString()}**__ **| User's Role Removed |** 🆔 `{before.Id}`\n\t🚮 {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.Roles.Select(r => r.Name)).SanitizeMentions()}`** ⚔";
+                        }
+                    }
+                    else
+                        return;
+                    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
+            {
+                try
+                {
+                    var before = cbefore as IGuildChannel;
+                    if (before == null)
+                        return;
+                    var after = (IGuildChannel)cafter;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
+                        || (logSetting.ChannelUpdatedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
+                        return;
+                    if (before.Name != after.Name)
+                        //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
+                        await logChannel.SendMessageAsync($@"🕓`{prettyCurrentTime}`ℹ️ **| Channel Name Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {before.Name}
     **`New:`** {after.Name}").ConfigureAwait(false);
-                        else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
-                            //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
-                            await logChannel.SendMessageAsync($@"🕘`{prettyCurrentTime}`ℹ️ **| Channel Topic Changed |** #⃣ `{after.Name} ({after.Id})`
+                    else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
+                        //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
+                        await logChannel.SendMessageAsync($@"🕘`{prettyCurrentTime}`ℹ️ **| Channel Topic Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {((ITextChannel)before).Topic}
     **`New:`** {((ITextChannel)after).Topic}").ConfigureAwait(false);
-                    }
-                    catch { }
-                });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_ChannelDestroyed(IChannel ich)
-            {
-                var ch = ich as IGuildChannel;
-                if (ch == null)
-                    return Task.CompletedTask;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
-                    || (logSetting.ChannelDestroyedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelDestroyed)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try { await logChannel.SendMessageAsync($"🕕`{prettyCurrentTime}`🗑 **| {(ch is IVoiceChannel ? "Voice" : "Text")} Channel Deleted #⃣ {ch.Name}** `({ch.Id})`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_ChannelCreated(IChannel ich)
-            {
-                var ch = ich as IGuildChannel;
-                if (ch == null)
-                    return Task.CompletedTask;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
-                    || (logSetting.ChannelCreatedId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelCreated)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try { await logChannel.SendMessageAsync($"🕓`{prettyCurrentTime}`🆕 **| {(ch is IVoiceChannel ? "Voice" : "Text")} Channel Created: #⃣ {ch.Name}** `({ch.Id})`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_UserVoiceStateUpdated(IUser iusr, IVoiceState before, IVoiceState after)
-            {
-                var usr = iusr as IGuildUser;
-                if (usr == null)
-                    return Task.CompletedTask;
-
-                var beforeVch = before.VoiceChannel;
-                var afterVch = after.VoiceChannel;
-
-                if (beforeVch == afterVch)
-                    return Task.CompletedTask;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.LogVoicePresenceId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)) == null)
-                    return Task.CompletedTask;
-
-                string str = null;
-                if (beforeVch?.Guild == afterVch?.Guild)
-                {
-                    str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ moved from **{beforeVch.Name}** to **{afterVch.Name}** voice channel.";
                 }
-                else if (beforeVch == null)
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_ChannelDestroyed(IChannel ich)
+            {
+                try
                 {
-                    str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ has joined **{afterVch.Name}** voice channel.";
+                    var ch = ich as IGuildChannel;
+                    if (ch == null)
+                        return;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
+                        || (logSetting.ChannelDestroyedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelDestroyed)) == null)
+                        return;
+
+                    await logChannel.SendMessageAsync($"🕕`{prettyCurrentTime}`🗑 **| {(ch is IVoiceChannel ? "Voice" : "Text")} Channel Deleted #⃣ {ch.Name}** `({ch.Id})`").ConfigureAwait(false);
                 }
-                else if (afterVch == null)
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_ChannelCreated(IChannel ich)
+            {
+                try
                 {
-                    str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ has left **{beforeVch.Name}** voice channel.";
+                    var ch = ich as IGuildChannel;
+                    if (ch == null)
+                        return;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
+                        || (logSetting.ChannelCreatedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelCreated)) == null)
+                        return;
+
+                    await logChannel.SendMessageAsync($"🕓`{prettyCurrentTime}`🆕 **| {(ch is IVoiceChannel ? "Voice" : "Text")} Channel Created: #⃣ {ch.Name}** `({ch.Id})`").ConfigureAwait(false);
                 }
-                if (str != null)
-                    UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-
-                return Task.CompletedTask;
+                catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private Task _client_UserPresenceUpdated(IGuildUser usr, IPresence before, IPresence after)
+            private async void _client_UserVoiceStateUpdated(IUser iusr, IVoiceState before, IVoiceState after) => await Task.Run(() =>
             {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.LogUserPresenceId == null)
-                    || before.Status == after.Status)
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserPresence)) == null)
-                    return Task.CompletedTask;
-                string str;
-                if (before.Status != after.Status)
-                    str = $"🔵`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
-                else
-                    str = $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
-
-                UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_UserLeft(IGuildUser usr)
-            {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.UserLeftId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
+                try
                 {
-                    try { await logChannel.SendMessageAsync($"❗️🕛`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__❌ **| USER LEFT |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                    var usr = iusr as IGuildUser;
+                    if (usr == null)
+                        return;
 
-                return Task.CompletedTask;
-            }
+                    var beforeVch = before.VoiceChannel;
+                    var afterVch = after.VoiceChannel;
 
-            private Task _client_UserJoined(IGuildUser usr)
-            {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || (logSetting.UserJoinedId == null))
-                    return Task.CompletedTask;
+                    if (beforeVch == afterVch)
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
-                    return Task.CompletedTask;
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.LogVoicePresenceId == null))
+                        return;
 
-                var task = Task.Run(async () =>
-                {
-                    try { await logChannel.SendMessageAsync($"❕🕓`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__✅ **| USER JOINED |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)) == null)
+                        return;
 
-                return Task.CompletedTask;
-            }
-
-            private Task _client_UserUnbanned(IUser usr, IGuild guild)
-            {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
-                    || (logSetting.UserUnbannedId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try { await logChannel.SendMessageAsync($"❕🕘`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__♻️ **| USER UN-BANNED |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_UserBanned(IUser usr, IGuild guild)
-            {
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
-                    || (logSetting.UserBannedId == null))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try { await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🚫 **| USER BANNED |** 🆔 `{usr.Id}`").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
-
-                return Task.CompletedTask;
-            }
-
-            private Task _client_MessageDeleted(ulong arg1, Optional<IMessage> imsg)
-            {
-                var msg = (imsg.IsSpecified ? imsg.Value : null) as IUserMessage;
-                if (msg == null || msg.IsAuthor())
-                    return Task.CompletedTask;
-
-                var channel = msg.Channel as ITextChannel;
-                if (channel == null)
-                    return Task.CompletedTask;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
-                    || (logSetting.MessageDeletedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting, LogType.MessageDeleted)) == null || logChannel.Id == msg.Id)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
-                {
-                    try
+                    string str = null;
+                    if (beforeVch?.Guild == afterVch?.Guild)
                     {
-                        var str = $@"🕔`{prettyCurrentTime}`👤__**{msg.Author.Username}#{msg.Author.Discriminator}**__ **| Deleted Message |** 🆔 `{msg.Author.Id}` #⃣ `{channel.Name}`
-🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
-                        if (msg.Attachments.Any())
-                            str += $"{Environment.NewLine}📎 {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                        await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
+                        str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ moved from **{beforeVch.Name}** to **{afterVch.Name}** voice channel.";
                     }
-                    catch (Exception ex) { _log.Warn(ex); }
-                });
+                    else if (beforeVch == null)
+                    {
+                        str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ has joined **{afterVch.Name}** voice channel.";
+                    }
+                    else if (afterVch == null)
+                    {
+                        str = $"🎙`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__ has left **{beforeVch.Name}** voice channel.";
+                    }
+                    if (str != null)
+                        UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
+            });
 
-                return Task.CompletedTask;
+            private async void _client_UserPresenceUpdated(IGuildUser usr, IPresence before, IPresence after) => await Task.Run(() =>
+            {
+                try
+                {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.LogUserPresenceId == null)
+                        || before.Status == after.Status)
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserPresence)) == null)
+                        return;
+                    string str;
+                    if (before.Status != after.Status)
+                        str = $"🔵`{prettyCurrentTime}`👤__**{usr.Username}**__ is now **{after.Status}**.";
+                    else
+                        str = $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game}**.";
+
+                    UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+                }
+                catch { }
+            });
+
+            private async void _client_UserLeft(IGuildUser usr)
+            {
+                try
+                {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.UserLeftId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
+                        return;
+                    await logChannel.SendMessageAsync($"❗️🕛`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__❌ **| USER LEFT |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch { }
             }
 
-            private Task _client_MessageUpdated(Optional<IMessage> optmsg, IMessage imsg2)
+            private async void _client_UserJoined(IGuildUser usr)
             {
-                var after = imsg2 as IUserMessage;
-                if (after == null || after.IsAuthor())
-                    return Task.CompletedTask;
-
-                var before = (optmsg.IsSpecified ? optmsg.Value : null) as IUserMessage;
-                if (before == null)
-                    return Task.CompletedTask;
-
-                var channel = after.Channel as ITextChannel;
-                if (channel == null)
-                    return Task.CompletedTask;
-
-                if (before.Content == after.Content)
-                    return Task.CompletedTask;
-
-                LogSetting logSetting;
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
-                    || (logSetting.MessageUpdatedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
-                    return Task.CompletedTask;
-
-                ITextChannel logChannel;
-                if ((logChannel = TryGetLogChannel(channel.Guild, logSetting, LogType.MessageUpdated)) == null || logChannel.Id == after.Channel.Id)
-                    return Task.CompletedTask;
-
-                var task = Task.Run(async () =>
+                try
                 {
-                    //try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}` **Message** 📝 `#{channel.Name}`
-                    //👤`{before.Author.Username}`
-                    try { await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{before.Author.Username}#{before.Author.Discriminator}**__ **| 📝 Edited Message |** 🆔 `{before.Author.Id}` #⃣ `{channel.Name}`
-        `Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
-        **`New:`** {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                });
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                        || (logSetting.UserJoinedId == null))
+                        return;
 
-                return Task.CompletedTask;
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
+                        return;
+
+                    await logChannel.SendMessageAsync($"❕🕓`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__✅ **| USER JOINED |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_UserUnbanned(IUser usr, IGuild guild)
+            {
+                try
+                {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
+                        || (logSetting.UserUnbannedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
+                        return;
+
+                    await logChannel.SendMessageAsync($"❕🕘`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__♻️ **| USER UN-BANNED |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_UserBanned(IUser usr, IGuild guild)
+            {
+                try
+                {
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
+                        || (logSetting.UserBannedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
+                        return;
+                    await logChannel.SendMessageAsync($"‼️🕕`{prettyCurrentTime}`👤__**{usr.Username}#{usr.Discriminator}**__🚫 **| USER BANNED |** 🆔 `{usr.Id}`").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_MessageDeleted(ulong arg1, Optional<IMessage> imsg)
+            {
+
+                try
+                {
+                    var msg = (imsg.IsSpecified ? imsg.Value : null) as IUserMessage;
+                    if (msg == null || msg.IsAuthor())
+                        return;
+
+                    var channel = msg.Channel as ITextChannel;
+                    if (channel == null)
+                        return;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                        || (logSetting.MessageDeletedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(channel.Guild, logSetting, LogType.MessageDeleted)) == null || logChannel.Id == msg.Id)
+                        return;
+                    var str = $@"🕔`{prettyCurrentTime}`👤__**{msg.Author.Username}#{msg.Author.Discriminator}**__ **| Deleted Message |** 🆔 `{msg.Author.Id}` #⃣ `{channel.Name}`
+🗑 {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+                    if (msg.Attachments.Any())
+                        str += $"{Environment.NewLine}📎 {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
+                    await logChannel.SendMessageAsync(str.SanitizeMentions()).ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            }
+
+            private async void _client_MessageUpdated(Optional<IMessage> optmsg, IMessage imsg2)
+            {
+                try
+                {
+                    var after = imsg2 as IUserMessage;
+                    if (after == null || after.IsAuthor())
+                        return;
+
+                    var before = (optmsg.IsSpecified ? optmsg.Value : null) as IUserMessage;
+                    if (before == null)
+                        return;
+
+                    var channel = after.Channel as ITextChannel;
+                    if (channel == null)
+                        return;
+
+                    if (before.Content == after.Content)
+                        return;
+
+                    LogSetting logSetting;
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                        || (logSetting.MessageUpdatedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = TryGetLogChannel(channel.Guild, logSetting, LogType.MessageUpdated)) == null || logChannel.Id == after.Channel.Id)
+                        return;
+                    await logChannel.SendMessageAsync($@"🕔`{prettyCurrentTime}`👤__**{before.Author.Username}#{before.Author.Discriminator}**__ **| 📝 Edited Message |** 🆔 `{before.Author.Id}` #⃣ `{channel.Name}`
+        `Old:` {before.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}
+        **`New:`** {after.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator).SanitizeMentions()}").ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
             }
 
             public enum LogType
