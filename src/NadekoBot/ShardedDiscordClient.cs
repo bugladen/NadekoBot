@@ -42,7 +42,12 @@ namespace NadekoBot
                 var client = new DiscordSocketClient(discordSocketConfig);
                 clientList.Add(client);
                 client.UserJoined += arg1 => { UserJoined(arg1); return Task.CompletedTask; };
-                client.MessageReceived += arg1 => { MessageReceived(arg1); return Task.CompletedTask; };
+                client.MessageReceived += arg1 =>
+                {
+                    if (arg1.Author == null || arg1.Author.IsBot)
+                        return Task.CompletedTask; MessageReceived(arg1);
+                    return Task.CompletedTask;
+                };
                 client.UserLeft += arg1 => { UserLeft(arg1); return Task.CompletedTask; };
                 client.UserUpdated += (arg1, gu2) => { UserUpdated(arg1, gu2); return Task.CompletedTask; };
                 client.MessageUpdated += (arg1, m2) => { MessageUpdated(arg1, m2); return Task.CompletedTask; };

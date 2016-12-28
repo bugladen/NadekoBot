@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Music.Classes
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
                         Uri = svideo.StreamLink,
-                        ProviderType = MusicType.Normal,
+                        ProviderType = MusicType.Soundcloud,
                         Query = svideo.TrackLink,
                         AlbumArt = svideo.artwork_url,
                     })

@@ -69,6 +69,8 @@ namespace NadekoBot.Modules.Administration
                      try
                      {
                          var usrMsg = umsg as IUserMessage;
+                         if (usrMsg == null)
+                             return;
                          var channel = usrMsg.Channel as ITextChannel;
 
                          if (channel == null || usrMsg.IsAuthor())
