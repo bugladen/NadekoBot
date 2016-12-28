@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -55,12 +56,17 @@ namespace NadekoBot.Modules.Searches
                     var res = await http.GetStringAsync($"{xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
                     var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                    var sent = await channel.SendMessageAsync($"{msg.Author.Mention} " + comic.ToString())
+                    var embed = new EmbedBuilder().WithOkColor()
+                                                  .WithImage(eib => eib.WithUrl(comic.ImageLink))
+                                                  .WithAuthor(eab => eab.WithName(comic.Title).WithUrl($"{xkcdUrl}/{num}").WithIconUrl("http://xkcd.com/s/919f27.ico"))
+                                                  .AddField(efb => efb.WithName("Comic#").WithValue(comic.Num.ToString()).WithIsInline(true))
+                                                  .AddField(efb => efb.WithName("Date").WithValue($"{comic.Month}/{comic.Year}").WithIsInline(true));
+                    var sent = await channel.EmbedAsync(embed.Build())
                                  .ConfigureAwait(false);
 
                     await Task.Delay(10000).ConfigureAwait(false);
 
-                    await sent.ModifyAsync(m => m.Content = sent.Content + $"\n`Alt:` {comic.Alt}");
+                    await sent.ModifyAsync(m => m.Embed = embed.AddField(efb => efb.WithName("Alt").WithValue(comic.Alt.ToString()).WithIsInline(false)).Build());
                 }
             }
         }

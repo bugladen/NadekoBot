@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace NadekoBot.Modules.Games
                 await poll.StartPoll().ConfigureAwait(false);
             }
             else
-                await channel.SendMessageAsync("`Poll is already running on this server.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Poll is already running on this server.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -91,7 +92,7 @@ namespace NadekoBot.Modules.Games
                 msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
             else
                 msgToSend += "\n**Send a Message here with the corresponding number of the answer.**";
-            await originalMessage.Channel.SendMessageAsync(msgToSend).ConfigureAwait(false);
+            await originalMessage.Channel.SendConfirmAsync(msgToSend).ConfigureAwait(false);
         }
 
         public async Task StopPoll()
@@ -115,7 +116,7 @@ namespace NadekoBot.Modules.Games
                                                                                  $" has {kvp.Value} votes." +
                                                                                  $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
 
-                await originalMessage.Channel.SendMessageAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
+                await originalMessage.Channel.SendConfirmAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -123,62 +124,57 @@ namespace NadekoBot.Modules.Games
             }
         }
 
-        private Task Vote(IMessage imsg)
+        private async void Vote(IMessage imsg)
         {
-            // has to be a user message
-            var msg = imsg as IUserMessage;
-            if (msg == null || msg.Author.IsBot)
-                return Task.CompletedTask;
-
-            // has to be an integer
-            int vote;
-            if (!int.TryParse(imsg.Content, out vote))
-                return Task.CompletedTask;
-            if (vote < 1 || vote > answers.Length)
-                return Task.CompletedTask;
-
-            var t = Task.Run(async () =>
+            try
             {
-                try
+                // has to be a user message
+                var msg = imsg as IUserMessage;
+                if (msg == null || msg.Author.IsBot)
+                    return;
+
+                // has to be an integer
+                int vote;
+                if (!int.TryParse(imsg.Content, out vote))
+                    return;
+                if (vote < 1 || vote > answers.Length)
+                    return;
+
+                IMessageChannel ch;
+                if (isPublic)
                 {
-                    IMessageChannel ch;
-                    if (isPublic)
+                    //if public, channel must be the same the poll started in
+                    if (originalMessage.Channel.Id != imsg.Channel.Id)
+                        return;
+                    ch = imsg.Channel;
+                }
+                else
+                {
+                    //if private, channel must be dm channel
+                    if ((ch = msg.Channel as IDMChannel) == null)
+                        return;
+
+                    // user must be a member of the guild this poll is in
+                    var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
+                    if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
+                        return;
+                }
+
+                //user can vote only once
+                if (participants.TryAdd(msg.Author.Id, vote))
+                {
+                    if (!isPublic)
                     {
-                        //if public, channel must be the same the poll started in
-                        if (originalMessage.Channel.Id != imsg.Channel.Id)
-                            return;
-                        ch = imsg.Channel;
+                        await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
                     }
                     else
                     {
-                        //if private, channel must be dm channel
-                        if ((ch = msg.Channel as IDMChannel) == null)
-                            return;
-
-                        // user must be a member of the guild this poll is in
-                        var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
-                        if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
-                            return;
-                    }
-
-                    //user can vote only once
-                    if (participants.TryAdd(msg.Author.Id, vote))
-                    {
-                        if (!isPublic)
-                        {
-                            await ch.SendMessageAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            var toDelete = await ch.SendMessageAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
-                            await Task.Delay(5000);
-                            await toDelete.DeleteAsync().ConfigureAwait(false);
-                        }
+                        var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
+                        toDelete.DeleteAfter(5);
                     }
                 }
-                catch { }
-            });
-            return Task.CompletedTask;
+            }
+            catch { }
         }
     }
 }

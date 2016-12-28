@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -74,58 +75,52 @@ namespace NadekoBot.Modules.Administration
             private static ConcurrentDictionary<ulong, AntiSpamSetting> antiSpamGuilds =
                     new ConcurrentDictionary<ulong, AntiSpamSetting>();
 
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public AntiRaidCommands(ShardedDiscordClient client)
+            static AntiRaidCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
 
-                client.MessageReceived += (imsg) =>
+                NadekoBot.Client.MessageReceived += async (imsg) =>
                 {
-                    var msg = imsg as IUserMessage;
-                    if (msg == null || msg.Author.IsBot)
-                        return Task.CompletedTask;
 
-                    var channel = msg.Channel as ITextChannel;
-                    if (channel == null)
-                        return Task.CompletedTask;
-
-                    var t = Task.Run(async () =>
+                    try
                     {
-                        try
+                        var msg = imsg as IUserMessage;
+                        if (msg == null || msg.Author.IsBot)
+                            return;
+
+                        var channel = msg.Channel as ITextChannel;
+                        if (channel == null)
+                            return;
+                        AntiSpamSetting spamSettings;
+                        if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
+                            return;
+
+                        var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
+                            (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
+
+                        if (stats.Count >= spamSettings.MessageThreshold)
                         {
-                            AntiSpamSetting spamSettings;
-                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings))
-                                return;
-
-                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
-                                (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
-
-                            if (stats.Count >= spamSettings.MessageThreshold)
+                            if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                             {
-                                if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
-                                {
-                                    await PunishUsers(spamSettings.Action, await GetMuteRole(channel.Guild), ProtectionType.Spamming, (IGuildUser)msg.Author)
-                                        .ConfigureAwait(false);
-                                }
+                                await PunishUsers(spamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
+                                    .ConfigureAwait(false);
                             }
                         }
-                        catch { }
-                    });
-                    return Task.CompletedTask;
+                    }
+                    catch { }
                 };
 
-                client.UserJoined += (usr) =>
+                NadekoBot.Client.UserJoined += async (usr) =>
                 {
-                    if (usr.IsBot)
-                        return Task.CompletedTask;
-
-                    AntiRaidSetting settings;
-                    if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
-                        return Task.CompletedTask;
-
-                    var t = Task.Run(async () =>
+                    try
                     {
+                        if (usr.IsBot)
+                            return;
+                        AntiRaidSetting settings;
+                        if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
+                            return;
                         if (!settings.RaidUsers.Add(usr))
                             return;
 
@@ -136,19 +131,19 @@ namespace NadekoBot.Modules.Administration
                             var users = settings.RaidUsers.ToArray();
                             settings.RaidUsers.Clear();
 
-                            await PunishUsers(settings.Action, await GetMuteRole(usr.Guild), ProtectionType.Raiding, users).ConfigureAwait(false);
+                            await PunishUsers(settings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
                         }
                         await Task.Delay(1000 * settings.Seconds).ConfigureAwait(false);
 
                         settings.RaidUsers.TryRemove(usr);
                         --settings.UsersCount;
-                    });
 
-                    return Task.CompletedTask;
+                    }
+                    catch { }
                 };
             }
 
-            private async Task PunishUsers(PunishmentAction action, IRole muteRole, ProtectionType pt, params IGuildUser[] gus)
+            private static async Task PunishUsers(PunishmentAction action, ProtectionType pt, params IGuildUser[] gus)
             {
                 foreach (var gu in gus)
                 {
@@ -157,21 +152,21 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Mute:
                             try
                             {
-                                await gu.AddRolesAsync(muteRole);
+                                await MuteCommands.Mute(gu).ConfigureAwait(false);
                             }
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                             break;
                         case PunishmentAction.Kick:
                             try
                             {
-                                await gu.Guild.AddBanAsync(gu, 7);
+                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                                 try
                                 {
-                                    await gu.Guild.RemoveBanAsync(gu);
+                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
                                 }
                                 catch
                                 {
-                                    await gu.Guild.RemoveBanAsync(gu);
+                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
                                     // try it twice, really don't want to ban user if 
                                     // only kick has been specified as the punishement
                                 }
@@ -181,7 +176,7 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Ban:
                             try
                             {
-                                await gu.Guild.AddBanAsync(gu, 7);
+                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                             }
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
                             break;
@@ -202,23 +197,23 @@ namespace NadekoBot.Modules.Administration
 
                 if (userThreshold < 2 || userThreshold > 30)
                 {
-                    await channel.SendMessageAsync("❗️User threshold must be between **2** and **30**.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("❗️User threshold must be between **2** and **30**.").ConfigureAwait(false);
                     return;
                 }
 
                 if (seconds < 2 || seconds > 300)
                 {
-                    await channel.SendMessageAsync("❗️Time must be between **2** and **300** seconds.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("❗️Time must be between **2** and **300** seconds.").ConfigureAwait(false);
                     return;
                 }
 
                 try
                 {
-                    await GetMuteRole(channel.Guild).ConfigureAwait(false);
+                    await MuteCommands.GetMuteRole(channel.Guild).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
+                    await channel.SendConfirmAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
                         "or create 'nadeko-mute' role with disabled SendMessages and try again.")
                             .ConfigureAwait(false);
                     _log.Warn(ex);
@@ -233,14 +228,14 @@ namespace NadekoBot.Modules.Administration
                 };
                 antiRaidGuilds.AddOrUpdate(channel.Guild.Id, setting, (id, old) => setting);
 
-                await channel.SendMessageAsync($"ℹ️ {imsg.Author.Mention} If **{userThreshold}** or more users join within **{seconds}** seconds, I will **{action}** them.")
+                await channel.SendConfirmAsync($"ℹ️ {imsg.Author.Mention} If **{userThreshold}** or more users join within **{seconds}** seconds, I will **{action}** them.")
                         .ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequirePermission(GuildPermission.Administrator)]
-            public async Task AntiSpam(IUserMessage imsg, int messageCount=3, PunishmentAction action = PunishmentAction.Mute)
+            public async Task AntiSpam(IUserMessage imsg, int messageCount = 3, PunishmentAction action = PunishmentAction.Mute)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -250,17 +245,17 @@ namespace NadekoBot.Modules.Administration
                 AntiSpamSetting throwaway;
                 if (antiSpamGuilds.TryRemove(channel.Guild.Id, out throwaway))
                 {
-                    await channel.SendMessageAsync("🆗 **Anti-Spam feature** has been **disabled** on this server.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync("🆗 **Anti-Spam feature** has been **disabled** on this server.").ConfigureAwait(false);
                 }
                 else
                 {
                     try
                     {
-                        await GetMuteRole(channel.Guild).ConfigureAwait(false);
+                        await MuteCommands.GetMuteRole(channel.Guild).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendMessageAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
+                        await channel.SendErrorAsync("⚠️ Failed creating a mute role. Give me ManageRoles permission" +
                             "or create 'nadeko-mute' role with disabled SendMessages and try again.")
                                 .ConfigureAwait(false);
                         _log.Warn(ex);
@@ -272,7 +267,7 @@ namespace NadekoBot.Modules.Administration
                         Action = action,
                         MessageThreshold = messageCount,
                     }))
-                    await channel.SendMessageAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
+                        await channel.SendConfirmAsync("✅ **Anti-Spam feature** has been **enabled** on this server.").ConfigureAwait(false);
                 }
 
             }

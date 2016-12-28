@@ -13,20 +13,20 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public Func<IGuildUser, Task> UserJoined { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IMessage, Task> MessageReceived { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, Task> UserLeft { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, IGuildUser, Task> UserUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<Optional<IMessage>, IMessage, Task> MessageUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<ulong, Optional<IMessage>, Task> MessageDeleted { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IGuild, Task> UserBanned { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IGuild, Task> UserUnbanned { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IGuildUser, IPresence, IPresence, Task> UserPresenceUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IUser, IVoiceState, IVoiceState, Task> UserVoiceStateUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, Task> ChannelCreated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, Task> ChannelDestroyed { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<IChannel, IChannel, Task> ChannelUpdated { get; internal set; } = delegate { return Task.CompletedTask; };
-        public Func<Exception, Task> Disconnected { get; internal set; } = delegate { return Task.CompletedTask; };
+        public event Action<IGuildUser> UserJoined = delegate {  };
+        public event Action<IMessage> MessageReceived = delegate {  };
+        public event Action<IGuildUser> UserLeft = delegate {  };
+        public event Action<IGuildUser, IGuildUser> UserUpdated = delegate {  };
+        public event Action<Optional<IMessage>, IMessage> MessageUpdated = delegate {  };
+        public event Action<ulong, Optional<IMessage>> MessageDeleted = delegate {  };
+        public event Action<IUser, IGuild> UserBanned = delegate {  };
+        public event Action<IUser, IGuild> UserUnbanned = delegate {  };
+        public event Action<IGuildUser, IPresence, IPresence> UserPresenceUpdated = delegate {  };
+        public event Action<IUser, IVoiceState, IVoiceState> UserVoiceStateUpdated = delegate {  };
+        public event Action<IChannel> ChannelCreated = delegate {  };
+        public event Action<IChannel> ChannelDestroyed = delegate {  };
+        public event Action<IChannel, IChannel> ChannelUpdated = delegate { };
+        public event Action<Exception> Disconnected = delegate {  };
 
         private IReadOnlyList<DiscordSocketClient> Clients { get; }
 
@@ -41,18 +41,24 @@ namespace NadekoBot
                 discordSocketConfig.ShardId = i;
                 var client = new DiscordSocketClient(discordSocketConfig);
                 clientList.Add(client);
-                client.UserJoined += async arg1 => await UserJoined(arg1);
-                client.MessageReceived += async arg1 => await MessageReceived(arg1);
-                client.UserLeft += async arg1 => await UserLeft(arg1);
-                client.UserUpdated += async (arg1, gu2) => await UserUpdated(arg1, gu2);
-                client.MessageUpdated += async (arg1, m2) => await MessageUpdated(arg1, m2);
-                client.MessageDeleted += async (arg1, arg2) => await MessageDeleted(arg1, arg2);
-                client.UserBanned += async (arg1, arg2) => await UserBanned(arg1, arg2);
-                client.UserPresenceUpdated += async (arg1, arg2, arg3) => await UserPresenceUpdated(arg1, arg2, arg3);
-                client.UserVoiceStateUpdated += async (arg1, arg2, arg3) => await UserVoiceStateUpdated(arg1, arg2, arg3);
-                client.ChannelCreated += async arg => await ChannelCreated(arg);
-                client.ChannelDestroyed += async arg => await ChannelDestroyed(arg);
-                client.ChannelUpdated += async (arg1, arg2) => await ChannelUpdated(arg1, arg2);
+                client.UserJoined += arg1 => { UserJoined(arg1); return Task.CompletedTask; };
+                client.MessageReceived += arg1 =>
+                {
+                    if (arg1.Author == null || arg1.Author.IsBot)
+                        return Task.CompletedTask; MessageReceived(arg1);
+                    return Task.CompletedTask;
+                };
+                client.UserLeft += arg1 => { UserLeft(arg1); return Task.CompletedTask; };
+                client.UserUpdated += (arg1, gu2) => { UserUpdated(arg1, gu2); return Task.CompletedTask; };
+                client.MessageUpdated += (arg1, m2) => { MessageUpdated(arg1, m2); return Task.CompletedTask; };
+                client.MessageDeleted += (arg1, arg2) => { MessageDeleted(arg1, arg2); return Task.CompletedTask; };
+                client.UserBanned += (arg1, arg2) => { UserBanned(arg1, arg2); return Task.CompletedTask; };
+                client.UserUnbanned += (arg1, arg2) => { UserUnbanned(arg1, arg2); return Task.CompletedTask; };
+                client.UserPresenceUpdated += (arg1, arg2, arg3) => { UserPresenceUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.UserVoiceStateUpdated += (arg1, arg2, arg3) => { UserVoiceStateUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.ChannelCreated += arg => { ChannelCreated(arg); return Task.CompletedTask; };
+                client.ChannelDestroyed += arg => { ChannelDestroyed(arg); return Task.CompletedTask; };
+                client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
             }
@@ -79,13 +85,32 @@ namespace NadekoBot
             Clients[0].GetDMChannelAsync(channelId);
 
         internal Task LoginAsync(TokenType tokenType, string token) =>
-            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token); _log.Info($"Shard #{c.ShardId} logged in."); }));
+            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token).ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} logged in."); }));
 
-        internal Task ConnectAsync() =>
-            Task.WhenAll(Clients.Select(async c => { await c.ConnectAsync(); _log.Info($"Shard #{c.ShardId} connected."); }));
+        internal async Task ConnectAsync()
+        {
+            foreach (var c in Clients)
+            {
+                try
+                {
+                    await c.ConnectAsync().ConfigureAwait(false);
+                    _log.Info($"Shard #{c.ShardId} connected.");
+                }
+                catch
+                {
+                    _log.Error($"Shard #{c.ShardId} FAILED CONNECTING.");
+                    try { await c.ConnectAsync().ConfigureAwait(false); }
+                    catch (Exception ex2)
+                    {
+                        _log.Error($"Shard #{c.ShardId} FAILED CONNECTING TWICE.");
+                        _log.Error(ex2);
+                    }
+                }
+            }
+        }
 
         internal Task DownloadAllUsersAsync() =>
-            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync(); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
+            Task.WhenAll(Clients.Select(async c => { await c.DownloadAllUsersAsync().ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users."); }));
 
         public async Task SetGame(string game)
         {

@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (ch == null)
                 {
-                    await channel.SendMessageAsync($"⚠️ {umsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{umsg.Author.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
                     return;
                 }
 
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (m.Length == 0)
                 {
-                    await channel.SendMessageAsync("❎ **Not a valid time format.** type `-h .remind`").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Not a valid time format. Type `-h .remind`").ConfigureAwait(false);
                     return;
                 }
 
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Utility
                         (groupName == "hours" && value > 23) ||
                         (groupName == "minutes" && value > 59))
                     {
-                        await channel.SendMessageAsync($"⚠️ Invalid {groupName} value.").ConfigureAwait(false);
+                        await channel.SendErrorAsync($"Invalid {groupName} value.").ConfigureAwait(false);
                         return;
                     }
                     else
@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                try { await channel.SendMessageAsync($"⏰ I will remind **\"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\"** to **\"{message.SanitizeMentions()}\"** in **{output}** `({time:d.M.yyyy.} at {time:HH:mm})`").ConfigureAwait(false); } catch { }
+                try { await channel.SendConfirmAsync($"⏰ I will remind **\"{(ch is ITextChannel ? ((ITextChannel)ch).Name : umsg.Author.Username)}\"** to **\"{message.SanitizeMentions()}\"** in **{output}** `({time:d.M.yyyy.} at {time:HH:mm})`").ConfigureAwait(false); } catch { }
                 await StartReminder(rem);
             }
             
@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.Utility
                     uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.SendMessageAsync("🆗 New remind template set.");
+                await channel.SendConfirmAsync("🆗 New remind template set.");
             }
         }
     }

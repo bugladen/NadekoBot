@@ -10,13 +10,14 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using NadekoBot.Extensions;
+using System.Xml;
 
 namespace NadekoBot.Modules.NSFW
 {
     [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
-        public NSFW(ILocalization loc, CommandService cmds, ShardedDiscordClient client) : base(loc, cmds, client)
+        public NSFW() : base()
         {
         }
 
@@ -32,7 +33,7 @@ namespace NadekoBot.Modules.NSFW
 
             var rng = new NadekoRandom();
             Task<string> provider = Task.FromResult("");
-            switch (rng.Next(0,4))
+            switch (rng.Next(0, 4))
             {
                 case 0:
                     provider = GetDanbooruImageLink(tag);
@@ -51,10 +52,11 @@ namespace NadekoBot.Modules.NSFW
             }
             var link = await provider.ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+                await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
         }
+
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -65,52 +67,20 @@ namespace NadekoBot.Modules.NSFW
             tag = tag?.Trim() ?? "";
             tag = "rating%3Aexplicit+" + tag;
 
-            var links = await Task.WhenAll(GetGelbooruImageLink(tag), 
+            var links = await Task.WhenAll(GetGelbooruImageLink(tag),
                                            GetDanbooruImageLink(tag),
                                            GetKonachanImageLink(tag),
-										   GetYandereImageLink(tag)).ConfigureAwait(false);
+                                           GetYandereImageLink(tag)).ConfigureAwait(false);
 
             if (links.All(l => l == null))
             {
-                await channel.SendMessageAsync("`No results.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
                 return;
             }
 
             await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
         }
-		
-        public static async Task<string> GetYandereImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-            var url =
-            $"https://yande.re/post.xml?" +
-            $"limit=25" +
-            $"&page={rng.Next(0, 15)}" +
-            $"&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                //var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-        }
-		
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
 
-            tag = tag?.Trim() ?? "";
-            var link = await GetYandereImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -119,54 +89,38 @@ namespace NadekoBot.Modules.NSFW
             var channel = (ITextChannel)umsg.Channel;
 
             tag = tag?.Trim() ?? "";
-            var link = await GetDanbooruImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+
+            var url = await GetDanbooruImageLink(tag).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
             else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText("Danbooru"))
+                    .Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Konachan(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetKonachanImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
+        public Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetGelbooruImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
+        public Task Konachan(IUserMessage umsg, [Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Konachan);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
+        public Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Gelbooru);
 
-            tag = tag?.Trim() ?? "";
-            var link = await GetRule34ImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Rule34);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -175,11 +129,17 @@ namespace NadekoBot.Modules.NSFW
             var channel = (ITextChannel)umsg.Channel;
 
             tag = tag?.Trim() ?? "";
-            var link = await GetE621ImageLink(tag).ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(link))
-                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+
+            var url = await GetE621ImageLink(tag).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
             else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText("e621"))
+                    .Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -201,13 +161,13 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new NadekoRandom().Next(0, 9880) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new NadekoRandom().Next(0, 10229) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
+                await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 
@@ -222,109 +182,71 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = new HttpClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new NadekoRandom().Next(0, 3873) }").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new NadekoRandom().Next(0, 4222) }").ConfigureAwait(false))[0];
                 }
                 await channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await channel.SendMessageAsync($"💢 {ex.Message}").ConfigureAwait(false);
-            }
-        }
-
-        public static async Task<string> GetKonachanImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-
-            var link = $"http://konachan.com/post?" +
-                        $"page={rng.Next(0, 5)}";
-            if (!string.IsNullOrWhiteSpace(tag))
-                link += $"&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(link).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "<a class=\"directlink largeimg\" href=\"(?<ll>.*?)\">");
-
-                if (matches.Count == 0)
-                    return null;
-                return matches[rng.Next(0, matches.Count)].Groups["ll"].Value;
+                await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 
         public static async Task<string> GetDanbooruImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-
-            if (tag == "loli") //loli doesn't work for some reason atm
-                tag = "flat_chest";
-
-            var link = $"http://danbooru.donmai.us/posts?" +
-                        $"page={rng.Next(0, 15)}";
-            if (!string.IsNullOrWhiteSpace(tag))
-                link += $"&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(link).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
-
-                if (matches.Count == 0)
-                    return null;
-                return $"http://danbooru.donmai.us" +
-                       $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
-            }
-        }
-
-        public static async Task<string> GetGelbooruImageLink(string tag)
-        {
-            using (var http = new HttpClient())
-            {
-                http.AddFakeHeaders();
-
-                var webpage = await http.GetStringAsync("http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags="+ tag.Replace(" ", "_")).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-
-                var rng = new NadekoRandom();
-                var match = matches[rng.Next(0, matches.Count)];
-                return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-        }
-
-        public static async Task<string> GetRule34ImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-            var url =
-            $"http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-        }
-
-
-        public static async Task<string> GetE621ImageLink(string tags)
         {
             try
             {
                 using (var http = new HttpClient())
                 {
                     http.AddFakeHeaders();
-                    var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1");
-                    var doc = XDocument.Load(data);
-                    return doc.Descendants("file_url").FirstOrDefault().Value;
+                    var data = await http.GetStreamAsync("https://danbooru.donmai.us/posts.xml?limit=100&tags=" + tag);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
+                    var nodes = doc.GetElementsByTagName("file-url");
+
+                    var node = nodes[new NadekoRandom().Next(0, nodes.Count)];
+                    return "https://danbooru.donmai.us" + node.InnerText;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine("Error in e621 search: \n" + ex);
-                return "Error, do you have too many tags?";
+                return null;
             }
         }
+
+
+        public static async Task<string> GetE621ImageLink(string tag)
+        {
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + tag);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
+                    var nodes = doc.GetElementsByTagName("file_url");
+
+                    var node = nodes[new NadekoRandom().Next(0, nodes.Count)];
+                    return node.InnerText;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static Task<string> GetYandereImageLink(string tag) =>
+            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Yandere);
+
+        public static Task<string> GetKonachanImageLink(string tag) =>
+            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Konachan);
+
+        public static Task<string> GetGelbooruImageLink(string tag) =>
+            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Gelbooru);
+
+        public static Task<string> GetRule34ImageLink(string tag) =>
+            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Rule34);
     }
 }

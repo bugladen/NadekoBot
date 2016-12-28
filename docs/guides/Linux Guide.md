@@ -95,7 +95,7 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 Use the following command to get and run `linuxAIO.sh`:		
 (Remember **DO NOT** rename the file `linuxAIO.sh`)
 
-`cd ~ && wget https://github.com/Kwoth/NadekoBot-BashScript/raw/master/linuxAIO.sh && bash linuxAIO.sh`
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/master/linuxAIO.sh && bash linuxAIO.sh`
 
 Follow the on screen instructions:
 

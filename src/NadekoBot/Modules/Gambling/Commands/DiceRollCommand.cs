@@ -19,6 +19,9 @@ namespace NadekoBot.Modules.Gambling
         public class DriceRollCommands
         {
             private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private Regex fudgeRegex { get; } = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+
+            private readonly char[] fateRolls = new[] { '-', ' ', '+' };
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -46,41 +49,11 @@ namespace NadekoBot.Modules.Gambling
 
                 await channel.SendFileAsync(imageStream, "dice.png", $"{umsg.Author.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
             }
-            //todo merge into internallDndRoll and internalRoll
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            [Priority(1)]
-            public async Task Roll(IUserMessage umsg, string arg)
+
+            public enum RollOrderType
             {
-                var channel = (ITextChannel)umsg.Channel;
-                if (channel == null)
-                    return;
-
-                var ordered = true;
-                var rng = new NadekoRandom();
-                Match match;
-                if ((match = dndRegex.Match(arg)).Length != 0)
-                {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(match.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
-                    {
-                        var add = 0;
-                        var sub = 0;
-                        int.TryParse(match.Groups["add"].Value, out add);
-                        int.TryParse(match.Groups["sub"].Value, out sub);
-
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
-                        {
-                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
-                        }
-                        var elemCnt = 0;
-                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
-                    }
-                }
+                Ordered,
+                Unordered
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -88,15 +61,43 @@ namespace NadekoBot.Modules.Gambling
             [Priority(0)]
             public async Task Roll(IUserMessage umsg, int num)
             {
+                await InternalRoll(umsg, num, true).ConfigureAwait(false);
+            }
+
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task Rolluo(IUserMessage umsg, int num)
+            {
+                await InternalRoll(umsg, num, false).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(1)]
+            public async Task Roll(IUserMessage umsg, string arg)
+            {
+                await InternallDndRoll(umsg, arg, true).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(1)]
+            public async Task Rolluo(IUserMessage umsg, string arg)
+            {
+                await InternallDndRoll(umsg, arg, false).ConfigureAwait(false);
+            }
+
+            private async Task InternalRoll(IUserMessage umsg, int num, bool ordered)
+            {
                 var channel = (ITextChannel)umsg.Channel;
                 if (channel == null)
                     return;
 
-                var ordered = true;
-
                 if (num < 1 || num > 30)
                 {
-                    await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
                     return;
                 }
 
@@ -137,21 +138,35 @@ namespace NadekoBot.Modules.Gambling
                 await channel.SendFileAsync(ms, "dice.png", $"{umsg.Author.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Rolluo(IUserMessage umsg, string arg)
+            private async Task InternallDndRoll(IUserMessage umsg, string arg, bool ordered)
             {
                 var channel = (ITextChannel)umsg.Channel;
                 if (channel == null)
                     return;
 
-                var ordered = false;
-                var rng = new NadekoRandom();
                 Match match;
-                if ((match = dndRegex.Match(arg)).Length != 0)
+                int n1;
+                int n2;
+                if ((match = fudgeRegex.Match(arg)).Length != 0 &&
+                    int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                    n1 > 0 && n1 < 500)
                 {
-                    int n1;
-                    int n2;
+                    var rng = new NadekoRandom();
+
+                    var rolls = new List<char>();
+
+                    for (int i = 0; i < n1; i++)
+                    {
+                        rolls.Add(fateRolls[rng.Next(0, fateRolls.Length)]);
+                    }
+                    var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} fate {(n1 == 1 ? "die" : "dice")}.")
+                        .AddField(efb => efb.WithName(Format.Bold("Result"))
+                            .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                }
+                else if ((match = dndRegex.Match(arg)).Length != 0)
+                {
+                    var rng = new NadekoRandom();
                     if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
                         int.TryParse(match.Groups["n2"].ToString(), out n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
@@ -166,63 +181,13 @@ namespace NadekoBot.Modules.Gambling
                         {
                             arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
-                        var elemCnt = 0;
-                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
+                        .AddField(efb => efb.WithName(Format.Bold("Result"))
+                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
+                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                     }
                 }
-            }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Rolluo(IUserMessage umsg, int num)
-            {
-                var channel = (ITextChannel)umsg.Channel;
-                if (channel == null)
-                    return;
-
-                var ordered = false;
-
-                if (num < 1 || num > 30)
-                {
-                    await channel.SendMessageAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
-                    return;
-                }
-
-                var rng = new NadekoRandom();
-
-                var dice = new List<Image>(num);
-                var values = new List<int>(num);
-                for (var i = 0; i < num; i++)
-                {
-                    var randomNumber = rng.Next(1, 7);
-                    var toInsert = dice.Count;
-                    if (ordered)
-                    {
-                        if (randomNumber == 6 || dice.Count == 0)
-                            toInsert = 0;
-                        else if (randomNumber != 1)
-                            for (var j = 0; j < dice.Count; j++)
-                            {
-                                if (values[j] < randomNumber)
-                                {
-                                    toInsert = j;
-                                    break;
-                                }
-                            }
-                    }
-                    else
-                    {
-                        toInsert = dice.Count;
-                    }
-                    dice.Insert(toInsert, GetDice(randomNumber));
-                    values.Insert(toInsert, randomNumber);
-                }
-
-                var bitmap = dice.Merge();
-                var ms = new MemoryStream();
-                bitmap.SaveAsPng(ms);
-                ms.Position = 0;
-                await channel.SendFileAsync(ms, "dice.png", $"{umsg.Author.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -241,7 +206,7 @@ namespace NadekoBot.Modules.Gambling
                                         .Select(int.Parse)
                                         .ToArray();
                         if (arr[0] > arr[1])
-                            throw new ArgumentException("First argument should be bigger than the second one.");
+                            throw new ArgumentException("Second argument must be larger than the first one.");
                         rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
                     }
                     else
@@ -249,11 +214,11 @@ namespace NadekoBot.Modules.Gambling
                         rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                     }
 
-                    await channel.SendMessageAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                    await channel.SendConfirmAsync($"{umsg.Author.Mention} rolled **{rolled}**.").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync($":anger: {ex.Message}").ConfigureAwait(false);
+                    await channel.SendErrorAsync($":anger: {ex.Message}").ConfigureAwait(false);
                 }
             }
 

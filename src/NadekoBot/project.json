@@ -25,8 +25,10 @@
     "Discord.Net": {
       "target": "project"
     },
+    "AngleSharp": "0.9.9",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
-    "Google.Apis.YouTube.v3": "1.19.0.655",
+    "Google.Apis.YouTube.v3": "1.20.0.701",
+    "Google.Apis.Customsearch.v1": "1.20.0.466",
     "ImageSharp": "1.0.0-alpha-000079",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
@@ -60,8 +62,11 @@
   },
   "configurations": {
     "GlobalNadeko": {
-      "buildOptions": { "define": [ "GLOBAL_NADEKO" ] },
-      "compilationOptions": { "optimize": true }
+      "buildOptions": {
+        "define": [ "GLOBAL_NADEKO" ],
+        "nowarn": [ "CS1573", "CS1591" ],
+        "optimize": true
+      }
     }
   }
 }

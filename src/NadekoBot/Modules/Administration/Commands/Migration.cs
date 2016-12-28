@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Administration
                     var byeMsg = (string)reader["ByeText"];
                     var grdel = false;
                     var byedel = grdel;
-                    var gc = uow.GuildConfigs.For(gid);
+                    var gc = uow.GuildConfigs.For(gid, set => set);
 
                     if (greetDM)
                         gc.SendDmGreetMessage = greet;
@@ -195,12 +195,9 @@ namespace NadekoBot.Modules.Administration
                             guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
                             selfAssRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildConfig.GuildId, RoleId = r }).ToArray());
                             var logSetting = guildConfig.LogSetting;
-                            guildConfig.LogSetting.IsLogging = data.LogChannel != null;
-                            guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
                             guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
 
-                            guildConfig.LogSetting.LogUserPresence = data.LogPresenceChannel != null;
-                            guildConfig.LogSetting.UserPresenceChannelId = data.LogPresenceChannel ?? 0;
+                            guildConfig.LogSetting.LogUserPresenceId = data.LogPresenceChannel;
 
 
                             guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>

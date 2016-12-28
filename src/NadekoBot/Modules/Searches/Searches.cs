@@ -17,43 +17,45 @@ using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
+using NadekoBot.Modules.Searches.Commands.Models;
+using AngleSharp.Parser.Html;
+using AngleSharp;
+using AngleSharp.Dom.Html;
+using AngleSharp.Dom;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace NadekoBot.Modules.Searches
 {
     [NadekoModule("Searches", "~")]
     public partial class Searches : DiscordModule
     {
-        private IGoogleApiService _google { get; }
-
-        public Searches(ILocalization loc, CommandService cmds, ShardedDiscordClient client, IGoogleApiService youtube) : base(loc, cmds, client)
-        {
-            _google = youtube;
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Weather(IUserMessage umsg, string city, string country)
+        public async Task Weather(IUserMessage umsg, [Remainder] string query)
         {
             var channel = (ITextChannel)umsg.Channel;
-            city = city.Replace(" ", "");
-            country = city.Replace(" ", "");
+            if (string.IsNullOrWhiteSpace(query))
+                return;
+
             string response;
             using (var http = new HttpClient())
-                response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
 
-            var obj = JObject.Parse(response)["weather"];
+            var data = JsonConvert.DeserializeObject<WeatherData>(response);
 
             var embed = new EmbedBuilder()
-                .AddField(fb => fb.WithName("🌍 Location").WithValue($"{obj["target"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("📏 Lat,Long").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("☁ Condition").WithValue($"{obj["condition"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("😓 Humidity").WithValue($"{obj["humidity"]}%").WithIsInline(true))
-                .AddField(fb => fb.WithName("💨 Wind Speed").WithValue($"{obj["windspeedk"]}km/h / {obj["windspeedm"]}mph").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌡 Temperature").WithValue($"{obj["centigrade"]}°C / {obj["fahrenheit"]}°F").WithIsInline(true))
-                .AddField(fb => fb.WithName("🔆 Feels like").WithValue($"{obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌄 Sunrise").WithValue($"{obj["sunrise"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌇 Sunset").WithValue($"{obj["sunset"]}").WithIsInline(true))
-                .WithColor(NadekoBot.OkColor);
+                .AddField(fb => fb.WithName("🌍 **Location**").WithValue(data.name + ", " + data.sys.country).WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{data.coord.lat}, {data.coord.lon}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ **Condition**").WithValue(String.Join(", ", data.weather.Select(w => w.main))).WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{data.main.humidity}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue(data.wind.speed + " km/h").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue(data.main.temp + "°C").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 **Min - Max**").WithValue($"{data.main.temp_min}°C - {data.main.temp_max}°C").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 **Sunrise (utc)**").WithValue($"{data.sys.sunrise.ToUnixTimestamp():HH:mm}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 **Sunset (utc)**").WithValue($"{data.sys.sunset.ToUnixTimestamp():HH:mm}").WithIsInline(true))
+                .WithOkColor()
+                .WithFooter(efb => efb.WithText("Powered by http://openweathermap.org"));
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
@@ -63,13 +65,16 @@ namespace NadekoBot.Modules.Searches
         {
             var channel = (ITextChannel)umsg.Channel;
             if (!(await ValidateQuery(channel, query).ConfigureAwait(false))) return;
-            var result = (await _google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            var result = (await NadekoBot.Google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
-                await channel.SendMessageAsync("No results found for that query.");
+                await channel.SendErrorAsync("No results found for that query.").ConfigureAwait(false);
                 return;
             }
+
             await channel.SendMessageAsync(result).ConfigureAwait(false);
+
+            //await channel.EmbedAsync(new Discord.API.Embed() { Video = new Discord.API.EmbedVideo() { Url = result.Replace("watch?v=", "embed/") }, Color = NadekoBot.OkColor }).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -84,10 +89,10 @@ namespace NadekoBot.Modules.Searches
             var movie = await OmdbProvider.FindMovie(query);
             if (movie == null)
             {
-                await channel.SendMessageAsync("Failed to find that movie.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Failed to find that movie.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(movie.ToString()).ConfigureAwait(false);
+            await channel.EmbedAsync(movie.GetEmbed()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -97,9 +102,8 @@ namespace NadekoBot.Modules.Searches
             var channel = (ITextChannel)umsg.Channel;
             using (var http = new HttpClient())
             {
-                await channel.SendMessageAsync(JObject.Parse(
-                                await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false))["file"].ToString())
-                                    .ConfigureAwait(false);
+                var res = JObject.Parse(await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
+                await channel.SendMessageAsync(res["file"].ToString()).ConfigureAwait(false);
             }
         }
 
@@ -110,7 +114,8 @@ namespace NadekoBot.Modules.Searches
             var channel = (ITextChannel)umsg.Channel;
             using (var http = new HttpClient())
             {
-                await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof").ConfigureAwait(false)).ConfigureAwait(false);
+                await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof")
+                             .ConfigureAwait(false)).ConfigureAwait(false);
             }
         }
 
@@ -135,11 +140,12 @@ namespace NadekoBot.Modules.Searches
             {
                 if (exception.Message.Contains("403 (Forbidden)"))
                 {
-                    await channel.SendMessageAsync("Daily limit reached!");
+                    await channel.SendErrorAsync("Daily limit reached!");
                 }
                 else
                 {
-                    await channel.SendMessageAsync("Something went wrong.");
+                    await channel.SendErrorAsync("Something went wrong.");
+                    _log.Error(exception);
                 }
             }
         }
@@ -167,11 +173,12 @@ namespace NadekoBot.Modules.Searches
             {
                 if (exception.Message.Contains("403 (Forbidden)"))
                 {
-                    await channel.SendMessageAsync("Daily limit reached!");
+                    await channel.SendErrorAsync("Daily limit reached!");
                 }
                 else
                 {
-                    await channel.SendMessageAsync("Something went wrong.");
+                    await channel.SendErrorAsync("Something went wrong.");
+                    _log.Error(exception);
                 }
             }
         }
@@ -186,7 +193,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await channel.SendMessageAsync(await _google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
+            await channel.SendConfirmAsync(await NadekoBot.Google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
                            .ConfigureAwait(false);
         }
 
@@ -197,8 +204,24 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
-            await msg.Channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(arg).ConfigureAwait(false));
+            var shortened = await NadekoBot.Google.ShortenUrl(arg).ConfigureAwait(false);
+
+            if (shortened == arg)
+            {
+                await msg.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
+            }
+
+            await msg.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                           .AddField(efb => efb.WithName("Original Url")
+                                                                               .WithValue($"<{arg}>"))
+                                                            .AddField(efb => efb.WithName("Short Url")
+                                                                                .WithValue($"<{shortened}>"))
+                                                            .Build())
+                                                            .ConfigureAwait(false);
         }
+
+        //private readonly Regex googleSearchRegex = new Regex(@"<h3 class=""r""><a href=""(?:\/url?q=)?(?<link>.*?)"".*?>(?<title>.*?)<\/a>.*?class=""st"">(?<text>.*?)<\/span>", RegexOptions.Compiled);
+        //private readonly Regex htmlReplace = new Regex(@"(?:<b>(.*?)<\/b>|<em>(.*?)<\/em>)", RegexOptions.Compiled);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -206,12 +229,53 @@ namespace NadekoBot.Modules.Searches
         {
             var channel = (ITextChannel)umsg.Channel;
 
-
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
-            await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
-                           .ConfigureAwait(false);
+
+            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
+
+            var fullQueryLink = $"https://www.google.com/search?q={ terms }&gws_rd=cr,ssl";
+            var config = Configuration.Default.WithDefaultLoader();
+            var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
+
+            var elems = document.QuerySelectorAll("div.g");
+
+            var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
+            var totalResults = resultsElem?.TextContent;
+            //var time = resultsElem.Children.FirstOrDefault()?.TextContent
+            //^ this doesn't work for some reason, <nobr> is completely missing in parsed collection
+            if (!elems.Any())
+                return;
+
+            var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
+            {
+                var aTag = (elem.Children.FirstOrDefault().Children.FirstOrDefault() as IHtmlAnchorElement); // <h3> -> <a>
+                var href = aTag?.Href;
+                var name = aTag?.TextContent;
+                if (href == null || name == null)
+                    return null;
+
+                var txt = elem.QuerySelectorAll(".st").FirstOrDefault()?.TextContent;
+
+                if (txt == null)
+                    return null;
+
+                return new GoogleSearchResult(name, href, txt);
+            }).Where(x => x != null).Take(5);
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
+                    .WithUrl(fullQueryLink)
+                    .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                .WithTitle(umsg.Author.Mention)
+                .WithFooter(efb => efb.WithText(totalResults));
+
+            var desc = await Task.WhenAll(results.Select(async res => 
+                    $"[{Format.Bold(res?.Title)}]({(await NadekoBot.Google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
+                .ConfigureAwait(false);
+            await channel.EmbedAsync(embed.WithDescription(String.Concat(desc)).Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -222,7 +286,7 @@ namespace NadekoBot.Modules.Searches
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter a card name to search for.").ConfigureAwait(false);
                 return;
             }
 
@@ -238,18 +302,26 @@ namespace NadekoBot.Modules.Searches
                     var items = JArray.Parse(response).Shuffle().ToList();
                     if (items == null)
                         throw new KeyNotFoundException("Cannot find a card by that name");
-                    var msg = $@"```css
-[☕ Magic The Gathering]: {items[0]["name"].ToString()}
-[Store URL]: {await _google.ShortenUrl(items[0]["store_url"].ToString())}
-[Cost]: {items[0]["cost"].ToString()}
-[Description]: {items[0]["text"].ToString()}
-```
-{items[0]["editions"][0]["image_url"].ToString()}";
-                    await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                    var item = items[0];
+                    var storeUrl = await NadekoBot.Google.ShortenUrl(item["store_url"].ToString());
+                    var cost = item["cost"].ToString();
+                    var desc = item["text"].ToString();
+                    var types = String.Join(",\n", item["types"].ToObject<string[]>());
+                    var img = item["editions"][0]["image_url"].ToString();
+                    var embed = new EmbedBuilder().WithOkColor()
+                                    .WithTitle(item["name"].ToString())
+                                    .WithDescription(desc)
+                                    .WithImage(eib => eib.WithUrl(img))
+                                    .AddField(efb => efb.WithName("Store Url").WithValue(storeUrl).WithIsInline(true))
+                                    .AddField(efb => efb.WithName("Cost").WithValue(cost).WithIsInline(true))
+                                    .AddField(efb => efb.WithName("Types").WithValue(types).WithIsInline(true));
+                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
+
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await channel.SendMessageAsync($"💢 Error could not find the card {arg}").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"Error could not find the card '{arg}'.").ConfigureAwait(false);
                 }
             }
         }
@@ -262,13 +334,13 @@ namespace NadekoBot.Modules.Searches
             var arg = name;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter a card name to search for.").ConfigureAwait(false);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
-                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
                 return;
             }
 
@@ -308,7 +380,49 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendMessageAsync($"💢 Error {ex.Message}").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"Error occured.").ConfigureAwait(false);
+                    _log.Error(ex);
+                }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Yodify(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            {
+                await channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
+                return;
+            }
+
+            var arg = query;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendErrorAsync("Please enter a sentence.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                http.DefaultRequestHeaders.Add("Accept", "text/plain");
+                var res = await http.GetStringAsync($"https://yoda.p.mashape.com/yoda?sentence={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
+                try
+                {
+                    var embed = new EmbedBuilder()
+                        .WithUrl("http://www.yodaspeak.co.uk/")
+                        .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
+                        .WithDescription(res)
+                        .WithOkColor();
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await channel.SendErrorAsync("Failed to yodify your sentence.").ConfigureAwait(false);
                 }
             }
         }
@@ -321,35 +435,75 @@ namespace NadekoBot.Modules.Searches
 
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
-                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
                 return;
             }
 
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter a search term.").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
-                var res = await http.GetStringAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
+                http.DefaultRequestHeaders.Add("Accept", "application/json");
+                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(arg)}").ConfigureAwait(false);
                 try
                 {
                     var items = JObject.Parse(res);
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
-                    sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                    sb.Append($"`Link:` <{await _google.ShortenUrl(items["list"][0]["permalink"].ToString()).ConfigureAwait(false)}>");
-                    await channel.SendMessageAsync(sb.ToString());
+                    var item = items["list"][0];
+                    var word = item["word"].ToString();
+                    var def = item["definition"].ToString();
+                    var link = item["permalink"].ToString();
+                    var embed = new EmbedBuilder().WithOkColor()
+                                     .WithUrl(link)
+                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
+                                     .WithDescription(def);
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await channel.SendMessageAsync("💢 Failed finding a definition for that term.").ConfigureAwait(false);
+                    await channel.SendErrorAsync("Failed finding a definition for that term.").ConfigureAwait(false);
                 }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Define(IUserMessage msg, [Remainder] string word)
+        {
+            var channel = (ITextChannel)msg.Channel;
+
+            if (string.IsNullOrWhiteSpace(word))
+                return;
+
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
+
+                var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+                var sense = data.Results.Where(x => x.Senses != null && x.Senses[0].Definition != null).FirstOrDefault()?.Senses[0];
+
+                if (sense?.Definition == null)
+                    return;
+
+                string definition = sense.Definition.ToString();
+                if (!(sense.Definition is string))
+                    definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
+
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithTitle("Define: " + word)
+                    .WithDescription(definition)
+                    .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
+
+                if (sense.Examples != null)
+                    embed.AddField(efb => efb.WithName("Example").WithValue(sense.Examples.First().text));
+
+                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
             }
         }
 
@@ -362,12 +516,12 @@ namespace NadekoBot.Modules.Searches
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 `Please enter a search term.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter a search term.").ConfigureAwait(false);
                 return;
             }
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
-                await channel.SendMessageAsync("💢 `Bot owner didn't specify MashapeApiKey. You can't use this functionality.`").ConfigureAwait(false);
+                await channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
                 return;
             }
 
@@ -383,14 +537,20 @@ namespace NadekoBot.Modules.Searches
             try
             {
                 var items = JObject.Parse(res);
-                var str = $@"`Hashtag:` {items["defs"]["def"]["hashtag"].ToString()}
-`Definition:` {items["defs"]["def"]["text"].ToString()}
-`Link:` <{await _google.ShortenUrl(items["defs"]["def"]["uri"].ToString()).ConfigureAwait(false)}>";
-                await channel.SendMessageAsync(str);
+                var item = items["defs"]["def"];
+                var hashtag = item["hashtag"].ToString();
+                var link = item["uri"].ToString();
+                var desc = item["text"].ToString();
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                                 .WithAuthor(eab => eab.WithUrl(link)
+                                                                                       .WithIconUrl("http://res.cloudinary.com/urbandictionary/image/upload/a_exif,c_fit,h_200,w_200/v1394975045/b8oszuu3tbq7ebyo7vo1.jpg")
+                                                                                       .WithName(query))
+                                                                 .WithDescription(desc)
+                                                                 .Build());
             }
             catch
             {
-                await channel.SendMessageAsync("💢 Failed finding a definition for that tag.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Failed finding a definition for that tag.").ConfigureAwait(false);
             }
         }
 
@@ -404,7 +564,9 @@ namespace NadekoBot.Modules.Searches
                 var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
                 if (response == null)
                     return;
-                await channel.SendMessageAsync($"🐈 `{JObject.Parse(response)["facts"][0].ToString()}`").ConfigureAwait(false);
+
+                var fact = JObject.Parse(response)["facts"][0].ToString();
+                await channel.SendConfirmAsync("🐈fact", fact).ConfigureAwait(false);
             }
         }
 
@@ -416,7 +578,7 @@ namespace NadekoBot.Modules.Searches
 
             if (usr == null)
                 usr = umsg.Author;
-            await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -428,22 +590,13 @@ namespace NadekoBot.Modules.Searches
 
             if (string.IsNullOrWhiteSpace(imageLink))
                 return;
-            await channel.SendMessageAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
+            await channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            tag = tag?.Trim() ?? "";
-            var link = await GetSafebooruImageLink(tag).ConfigureAwait(false);
-            if (link == null)
-                await channel.SendMessageAsync("`No results.`");
-            else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
+        public Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
+            => InternalDapiCommand(umsg, tag, DapiSearchType.Safebooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -459,7 +612,7 @@ namespace NadekoBot.Modules.Searches
                 var result = await http.GetStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query));
                 var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
                 if (data.Query.Pages[0].Missing)
-                    await channel.SendMessageAsync("`That page could not be found.`");
+                    await channel.SendErrorAsync("That page could not be found.");
                 else
                     await channel.SendMessageAsync(data.Query.Pages[0].FullUrl);
             }
@@ -499,12 +652,12 @@ namespace NadekoBot.Modules.Searches
                 str += new NadekoRandom().Next();
                 foreach (var usr in allUsrsArray)
                 {
-                    await (await (usr as IGuildUser).CreateDMChannelAsync()).SendMessageAsync(str).ConfigureAwait(false);
+                    await (await (usr as IGuildUser).CreateDMChannelAsync()).SendConfirmAsync(str).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _log.Error(ex);
             }
         }
 
@@ -517,182 +670,12 @@ namespace NadekoBot.Modules.Searches
             var usr = umsg.MentionedUsers.FirstOrDefault();
             if (usr == null)
             {
-                await channel.SendMessageAsync("Invalid user specified.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(await _google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+            await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
-        public static async Task<string> GetSafebooruImageLink(string tag)
-        {
-            var rng = new NadekoRandom();
-            var url =
-            $"http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            using (var http = new HttpClient())
-            {
-                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
-                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
-                if (matches.Count == 0)
-                    return null;
-                var match = matches[rng.Next(0, matches.Count)];
-                return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task BFO(IUserMessage umsg, [Remainder] string game = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            if (string.IsNullOrWhiteSpace(game))
-            {
-                await channel.SendMessageAsync("💢 Please enter a game `(bf3, bf4)`").ConfigureAwait(false);
-                return;
-            }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                try
-                {
-                    if (game.Equals("bf3", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var res = await http.GetStringAsync($"http://api.bf3stats.com/global/onlinestats/").ConfigureAwait(false);
-                        var items = JObject.Parse(res);
-                        var sb = new StringBuilder();
-                        var status = items["status"];
-                        var x360 = items["360"];
-                        var ps3 = items["ps3"];
-                        var pc = items["pc"];
-
-                        var response = $@"```css
-[☕ BF3 Status: {status.ToString().ToUpper()}]
-XBOX360: ✔[{x360.ToString()}]
-PS3: ✔[{ps3.ToString()}]
-PC: ✔[{pc.ToString()}]
-```";
-                        await channel.SendMessageAsync(response);
-                    }
-                    else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var res = await http.GetStringAsync($"http://api.bf4stats.com/api/onlinePlayers?output=json").ConfigureAwait(false);
-                        var items = JObject.Parse(res);
-                        var sb = new StringBuilder();
-                        var status = !string.IsNullOrEmpty(items.ToString()) ? "OK" : "BAD";
-                        var pc = items["pc"];
-                        var ps3 = items["ps3"];
-                        var ps4 = items["ps4"];
-                        var xbox = items["xbox"];
-                        var xone = items["xone"];
-
-                        sb.AppendLine("```css");
-                        sb.AppendLine($"[☕ BF4 Status: {status}]");
-
-                        foreach (var i in items) {
-                            var plat = items[i.Key];
-                            sb.AppendLine($"{plat["label"]}: ✔[{plat["count"]}] / ↑[{plat["peak24"]}]");
-                        }
-
-                        sb.Append("```");
-                        await channel.SendMessageAsync(sb.ToString());
-                    }
-                } catch
-                {
-                    await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {game}.").ConfigureAwait(false);
-                }
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task BFU(IUserMessage umsg, string platform, string game, [Remainder] string query = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-            if (string.IsNullOrWhiteSpace(platform) || string.IsNullOrWhiteSpace(game) || string.IsNullOrWhiteSpace(query))
-            {
-                await channel.SendMessageAsync("💢 Please enter a platform `(pc, xbox, ps3, xone, ps4)`, game `(bf3, bf4)`, followed by a search query.").ConfigureAwait(false);
-                return;
-            }
-            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                try
-                {
-                    if (game.Equals("bf3", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var res = await http.GetStringAsync($"http://api.bf3stats.com/{Uri.EscapeUriString(platform)}/playerlist/players={Uri.EscapeUriString(query)}?output=json").ConfigureAwait(false);
-                        var items = JObject.Parse(res);
-                        var sb = new StringBuilder();
-                        var playerName = items["list"][query];
-                        var playerTag = playerName["tag"];
-                        var playerCountryName = playerName["country_name"];
-                        var playerStats = playerName["stats"];
-                        var playerRank = playerStats["rank"];
-                        var playerRank_name = playerRank["name"];
-                        var playerGlobal_Kills = playerStats["global"]["kills"];
-                        var playerGlobal_Deaths = playerStats["global"]["deaths"];
-                        var playerGlobal_KD = Math.Round(Double.Parse(playerGlobal_Kills.ToString()) / Double.Parse(playerGlobal_Deaths.ToString()), 2);
-                        var playerGlobal_Wins = playerStats["global"]["wins"];
-                        var playerGlobal_Losses = playerStats["global"]["losses"];
-                        var playerGlobal_WL = Math.Round(Double.Parse(playerGlobal_Wins.ToString()) / Double.Parse(playerGlobal_Losses.ToString()), 2);
-                        var playerGlobal_Shots = playerStats["global"]["shots"];
-                        var playerGlobal_Hits = playerStats["global"]["hits"];
-                        var playerGlobal_Accuracy = Math.Round(Double.Parse(playerGlobal_Hits.ToString()) / Double.Parse(playerGlobal_Shots.ToString()), 2);
-                        var playerGlobal_ELO = playerStats["global"]["elo"];
-
-                        var response = $@"```css
-[☕ BF3 Player: {query}]
-Platform: [{platform.ToUpper()}]
-Tag: [{playerTag.ToString()}]
-K/D: [{playerGlobal_KD.ToString()}]
-W/L: [{playerGlobal_WL.ToString()}]
-Accuracy: %[{playerGlobal_Accuracy.ToString()}]
-ELO: [{playerGlobal_ELO.ToString()}]
-```";
-                        await channel.SendMessageAsync(response);
-                    } else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
-                        var items = JObject.Parse(res);
-                        var sb = new StringBuilder();
-
-                        var player = items["player"];
-                        var playerStats = items["stats"];
-
-                        var playerName = player["name"];
-                        var playerTag = player["tag"];
-                        var playerPlatform = player["plat"];
-                        var playerKills = playerStats["kills"];
-                        var playerDeaths = playerStats["deaths"];
-                        var player_KD = Math.Round(Double.Parse(playerKills.ToString()) / Double.Parse(playerDeaths.ToString()), 2);
-                        var playerWins = playerStats["numWins"];
-                        var playerRounds = playerStats["numRounds"];
-                        var player_WL = Math.Round(Double.Parse(playerWins.ToString()) / Double.Parse(playerRounds.ToString()), 2);
-                        var shotsFired = playerStats["shotsFired"];
-                        var shotsHit = playerStats["shotsHit"];
-                        var accuracy = Math.Round(Double.Parse(shotsHit.ToString()) / Double.Parse(shotsFired.ToString()), 2);
-                        var playerELO = playerStats["elo"];
-
-                        var response = $@"```css
-[☕ BF4 Player: {playerName.ToString()}]
-Platform: [{playerPlatform.ToString().ToUpper()}]
-Tag: [{playerTag.ToString()}]
-K/D: [{player_KD.ToString()}]
-W/L: [{player_WL.ToString()}]
-Accuracy: %[{accuracy.ToString()}]
-ELO: [{playerELO.ToString()}]
-```";
-                        await channel.SendMessageAsync(response);
-                    }
-                }
-                catch
-                {
-                    await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {query}.").ConfigureAwait(false);
-                }
-            }
-        }
-        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)
@@ -700,7 +683,7 @@ ELO: [{playerELO.ToString()}]
             var channel = (ITextChannel)umsg.Channel;
             if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
             {
-                await channel.SendMessageAsync("💢 Please enter a target wikia, followed by search query.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter a target wikia, followed by search query.").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -719,7 +702,7 @@ ELO: [{playerELO.ToString()}]
                 }
                 catch
                 {
-                    await channel.SendMessageAsync($"💢 Failed finding `{query}`.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"Failed finding `{query}`.").ConfigureAwait(false);
                 }
             }
         }
@@ -732,7 +715,7 @@ ELO: [{playerELO.ToString()}]
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
+                await channel.SendErrorAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -756,7 +739,7 @@ ELO: [{playerELO.ToString()}]
                 }
                 catch
                 {
-                    await channel.SendMessageAsync($"💢 Failed finding `{arg}`.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"Failed finding `{arg}`.").ConfigureAwait(false);
                 }
             }
         }
@@ -769,7 +752,7 @@ ELO: [{playerELO.ToString()}]
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
             {
-                await channel.SendMessageAsync("💢 Please enter a `ip:port`.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please enter `ip:port`.").ConfigureAwait(false);
                 return;
             }
             await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -796,15 +779,86 @@ ELO: [{playerELO.ToString()}]
                 }
                 catch
                 {
-                    await channel.SendMessageAsync($"💢 Failed finding server `{arg}`.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"Failed finding server `{arg}`.").ConfigureAwait(false);
                 }
             }
         }
 
+        public enum DapiSearchType
+        {
+            Safebooru,
+            Gelbooru,
+            Konachan,
+            Rule34,
+            Yandere
+        }
+
+        public static async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+
+            var url = await InternalDapiSearch(tag, type).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
+            else
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText(type.ToString()))
+                    .Build()).ConfigureAwait(false);
+        }
+
+        public static async Task<string> InternalDapiSearch(string tag, DapiSearchType type)
+        {
+            tag = tag?.Replace(" ", "_");
+            string website = "";
+            switch (type)
+            {
+                case DapiSearchType.Safebooru:
+                    website = $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Gelbooru:
+                    website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Rule34:
+                    website = $"https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Konachan:
+                    website = $"https://konachan.com/post.xml?s=post&q=index&limit=100&tags={tag}";
+                    break;
+                case DapiSearchType.Yandere:
+                    website = $"https://yande.re/post.xml?limit=100&tags={tag}";
+                    break;
+            }
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var data = await http.GetStreamAsync(website);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
+
+                    var node = doc.LastChild.ChildNodes[new NadekoRandom().Next(0, doc.LastChild.ChildNodes.Count)];
+
+                    var url = node.Attributes["file_url"].Value;
+                    if (!url.StartsWith("http"))
+                        url = "https:" + url;
+                    return url;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public static async Task<bool> ValidateQuery(ITextChannel ch, string query)
         {
             if (!string.IsNullOrEmpty(query.Trim())) return true;
-            await ch.SendMessageAsync("Please specify search parameters.").ConfigureAwait(false);
+            await ch.SendErrorAsync("Please specify search parameters.").ConfigureAwait(false);
             return false;
         }
     }

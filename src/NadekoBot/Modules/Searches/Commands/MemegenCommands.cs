@@ -25,20 +25,11 @@ namespace NadekoBot.Modules.Searches
 
             using (var http = new HttpClient(handler))
             {
-                http.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                string rawJson = "";
-                try
-                {
-                    rawJson = await http.GetStringAsync("https://memegen.link/api/templates/").ConfigureAwait(false);                    
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+                var rawJson = await http.GetStringAsync("https://memegen.link/api/templates/").ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
-                                          .Select(kvp => Path.GetFileName(kvp.Value));
+                                      .Select(kvp => Path.GetFileName(kvp.Value));
 
-                await channel.SendTableAsync(data, x => $"{x,-17}", 3);
+                await channel.SendTableAsync(data, x => $"{x,-17}", 3).ConfigureAwait(false);
             }
         }
 
@@ -48,9 +39,10 @@ namespace NadekoBot.Modules.Searches
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            var top = Uri.EscapeDataString(topText.Replace(' ', '-'));
-            var bot = Uri.EscapeDataString(botText.Replace(' ', '-'));
-            await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg");
+            var top = topText.Replace(' ', '-');
+            var bot = botText.Replace(' ', '-');
+            await channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
+                         .ConfigureAwait(false);
         }
     }
 }

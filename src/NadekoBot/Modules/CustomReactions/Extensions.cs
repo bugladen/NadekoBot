@@ -1,8 +1,11 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -17,7 +20,41 @@ namespace NadekoBot.Modules.CustomReactions
         {
             {"%mention%", (ctx) => { return $"<@{NadekoBot.Client.GetCurrentUser().Id}>"; } },
             {"%user%", (ctx) => { return ctx.Author.Mention; } },
-            {"%rng%", (ctx) => { return new NadekoRandom().Next(0,10).ToString(); } }
+            {"%rnduser%", (ctx) => {
+                var ch = ctx.Channel as ITextChannel;
+                if(ch == null)
+                    return "";
+
+                var usrs = (ch.Guild.GetUsersAsync().GetAwaiter().GetResult());
+
+                return usrs.Skip(new NadekoRandom().Next(0,usrs.Count-1)).Shuffle().FirstOrDefault()?.Mention ?? "";
+            } }
+            //{"%rng%", (ctx) => { return new NadekoRandom().Next(0,10).ToString(); } }
+        };
+
+        private static readonly Regex rngRegex = new Regex("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
+
+        private static readonly NadekoRandom rng = new NadekoRandom();
+
+        public static Dictionary<Regex, MatchEvaluator> regexPlaceholders = new Dictionary<Regex, MatchEvaluator>()
+        {
+            { rngRegex, (match) => {
+                int from = 0;
+                int.TryParse(match.Groups["from"].ToString(), out from);
+
+                int to = 0;
+                int.TryParse(match.Groups["to"].ToString(), out to);
+
+                if(from == 0 && to == 0)
+                {
+                    return rng.Next(0, 11).ToString();
+                }
+
+                if(from >= to)
+                    return "";
+
+                return rng.Next(from,to+1).ToString();
+            } }
         };
 
         private static string ResolveTriggerString(this string str, IUserMessage ctx)
@@ -39,6 +76,11 @@ namespace NadekoBot.Modules.CustomReactions
             foreach (var ph in responsePlaceholders)
             {
                 str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, resolvedTrigger));
+            }
+
+            foreach (var ph in regexPlaceholders)
+            {
+                str = ph.Key.Replace(str, ph.Value);
             }
             return str;
         }

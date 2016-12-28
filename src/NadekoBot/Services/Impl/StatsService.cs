@@ -15,7 +15,7 @@ namespace NadekoBot.Services.Impl
         private ShardedDiscordClient client;
         private DateTime started;
 
-        public const string BotVersion = "1.0-rc2";
+        public const string BotVersion = "1.0.0";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
@@ -31,14 +31,14 @@ namespace NadekoBot.Services.Impl
 
         Timer carbonitexTimer { get; }
 
-        public StatsService(ShardedDiscordClient  client, CommandHandler cmdHandler)
+        public StatsService(ShardedDiscordClient client, CommandHandler cmdHandler)
         {
 
             this.client = client;
 
             Reset();
             this.client.MessageReceived += _ => Task.FromResult(MessageCounter++);
-            cmdHandler.CommandExecuted += (_, e) => CommandsRan++;
+            cmdHandler.CommandExecuted += (_, e) => Task.FromResult(CommandsRan++);
 
             this.client.Disconnected += _ => Reset();
 

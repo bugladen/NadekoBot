@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Modules.Permissions;
+using System;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
 {
@@ -12,15 +13,14 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public new IEnumerable<GuildConfig> GetAll() =>
+        public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
-                .Include(gc => gc.LogSetting)
-                    .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Previous)
                 .Include(gc => gc.RootPermission)
                     .ThenInclude(gc => gc.Next)
+                .Include(gc => gc.MutedUsers)
                 .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
@@ -33,20 +33,28 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// </summary>
         /// <param name="guildId"></param>
         /// <returns></returns>
-        public GuildConfig For(ulong guildId)
+        public GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
         {
-            var config = _set
-                            .Include(gc => gc.FollowedStreams)
-                             .Include(gc => gc.LogSetting)
-                                .ThenInclude(ls => ls.IgnoredChannels)
-                            .Include(gc => gc.LogSetting)
-                                .ThenInclude(ls => ls.IgnoredVoicePresenceChannelIds)
-                            .Include(gc => gc.FilterInvitesChannelIds)
-                            .Include(gc => gc.FilterWordsChannelIds)
-                            .Include(gc => gc.FilteredWords)
-                            .Include(gc => gc.GenerateCurrencyChannelIds)
-                            .Include(gc => gc.CommandCooldowns)
-                            .FirstOrDefault(c => c.GuildId == guildId);
+            GuildConfig config;
+
+            if (includes == null)
+            {
+                config = _set
+                                .Include(gc => gc.FollowedStreams)
+                                .Include(gc => gc.LogSetting)
+                                    .ThenInclude(ls => ls.IgnoredChannels)
+                                .Include(gc => gc.FilterInvitesChannelIds)
+                                .Include(gc => gc.FilterWordsChannelIds)
+                                .Include(gc => gc.FilteredWords)
+                                .Include(gc => gc.GenerateCurrencyChannelIds)
+                                .Include(gc => gc.CommandCooldowns)
+                                .FirstOrDefault(c => c.GuildId == guildId);
+            }
+            else
+            {
+                var set = includes(_set);
+                config = set.FirstOrDefault(c => c.GuildId == guildId);
+            }
 
             if (config == null)
             {
@@ -58,6 +66,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 _context.SaveChanges();
             }
             return config;
+        }
+
+        public GuildConfig LogSettingsFor(ulong guildId)
+        {
+            return _set.Include(gc => gc.LogSetting)
+                            .ThenInclude(gc => gc.IgnoredChannels)
+               .FirstOrDefault();
         }
 
         public GuildConfig PermissionsFor(ulong guildId)
@@ -110,9 +125,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public GuildConfig SetNewRootPermission(ulong guildId, Permission p)
         {
-            var data = _set
-                        .Include(gc => gc.RootPermission)
-                        .FirstOrDefault(gc => gc.GuildId == guildId);
+            var data = PermissionsFor(guildId);
 
             data.RootPermission.Prepend(p);
             data.RootPermission = p;

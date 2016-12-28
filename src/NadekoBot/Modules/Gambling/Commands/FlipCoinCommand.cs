@@ -15,10 +15,9 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlipCoinCommands
         {
-            NadekoRandom rng { get; } = new NadekoRandom();
+            private static NadekoRandom rng { get; } = new NadekoRandom();
             private const string headsPath = "data/images/coins/heads.png";
             private const string tailsPath = "data/images/coins/tails.png";
-            public FlipCoinCommands() { }
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -28,14 +27,14 @@ namespace NadekoBot.Modules.Gambling
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await channel.SendFileAsync(headsPath, $"{imsg.Author.Mention} rolled " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(headsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
                     else
-                        await channel.SendFileAsync(tailsPath, $"{imsg.Author.Mention} rolled " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        await channel.SendFileAsync(tailsPath, $"{imsg.Author.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
                     return;
                 }
                 if (count > 10 || count < 1)
                 {
-                    await channel.SendMessageAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
+                    await channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
                     return;
                 }
                 var imgs = new Image[count];
@@ -60,24 +59,16 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 3)
                 {
-                    await channel.SendMessageAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                    await channel.SendErrorAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
                                  .ConfigureAwait(false);
                     return;
                 }
-                // todo update this
-                long userFlowers;
-                using (var uow = DbHandler.UnitOfWork())
+                var removed = await CurrencyHandler.RemoveCurrencyAsync(guildUser, "Betflip Gamble", amount, false).ConfigureAwait(false);
+                if (!removed)
                 {
-                    userFlowers = uow.Currency.GetOrCreate(umsg.Author.Id).Amount;
-                }
-
-                if (userFlowers < amount)
-                {
-                    await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
-
-                await CurrencyHandler.RemoveCurrencyAsync(guildUser, "Betflip Gamble", amount, false).ConfigureAwait(false);
                 //heads = true
                 //tails = false
 
