@@ -266,17 +266,16 @@ namespace NadekoBot.Modules.Searches
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithAuthor(eab => eab.WithName("Search For: " + terms)
+                .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
                     .WithUrl(fullQueryLink)
                     .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                 .WithTitle(umsg.Author.Mention)
                 .WithFooter(efb => efb.WithText(totalResults));
-            string desc = "";
-            foreach (GoogleSearchResult res in results)
-            {
-                desc += $"[{Format.Bold(res.Title)}]({res.Link})\n{res.Text}\n\n";
-            }
-            await channel.EmbedAsync(embed.WithDescription(desc).Build()).ConfigureAwait(false);
+
+            var desc = await Task.WhenAll(results.Select(async res => 
+                    $"[{Format.Bold(res?.Title)}]({(await NadekoBot.Google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
+                .ConfigureAwait(false);
+            await channel.EmbedAsync(embed.WithDescription(String.Concat(desc)).Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
