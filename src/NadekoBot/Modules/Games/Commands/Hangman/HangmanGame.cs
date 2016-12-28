@@ -44,7 +44,8 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                                        .Concat(data.Things)
                                        .ToList();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
             }
         }
@@ -65,7 +66,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 default:
                     return data.All[rng.Next(0, data.All.Count)];
             }
-            
+
         }
     }
 
@@ -150,55 +151,55 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                         }
                         catch { }
                     }
-                }
 
-                if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
-                    return;
+                    if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
+                        return;
 
-                var guess = char.ToUpperInvariant(msg.Content[0]);
-                if (Guesses.Contains(guess))
-                {
-                    MessagesSinceLastPost = 0;
-                    ++Errors;
-                    if (Errors < MaxErrors)
-                        await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman(),
-                            footer: string.Join(" ", Guesses)).ConfigureAwait(false);
-                    else
-                        await End().ConfigureAwait(false);
-                    return;
-                }
-
-                Guesses.Add(guess);
-
-                if (Term.Word.ToUpperInvariant().Contains(guess))
-                {
-                    if (GuessedAll)
+                    var guess = char.ToUpperInvariant(msg.Content[0]);
+                    if (Guesses.Contains(guess))
                     {
-                        try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!").ConfigureAwait(false); } catch { }
-
-                        await End().ConfigureAwait(false);
+                        MessagesSinceLastPost = 0;
+                        ++Errors;
+                        if (Errors < MaxErrors)
+                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        else
+                            await End().ConfigureAwait(false);
                         return;
                     }
-                    MessagesSinceLastPost = 0;
-                    try
+
+                    Guesses.Add(guess);
+
+                    if (Term.Word.ToUpperInvariant().Contains(guess))
                     {
-                        await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
-                      footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        if (GuessedAll)
+                        {
+                            try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!").ConfigureAwait(false); } catch { }
+
+                            await End().ConfigureAwait(false);
+                            return;
+                        }
+                        MessagesSinceLastPost = 0;
+                        try
+                        {
+                            await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author.Mention} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
+                          footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        }
+                        catch { }
+
                     }
-                    catch { }
-
-                }
-                else
-                {
-                    MessagesSinceLastPost = 0;
-                    ++Errors;
-                    if (Errors < MaxErrors)
-                        await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman(),
-                            footer: string.Join(" ", Guesses)).ConfigureAwait(false);
                     else
-                        await End().ConfigureAwait(false);
-                }
+                    {
+                        MessagesSinceLastPost = 0;
+                        ++Errors;
+                        if (Errors < MaxErrors)
+                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author.Mention} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman(),
+                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                        else
+                            await End().ConfigureAwait(false);
+                    }
 
+                }
             }
             catch (Exception ex) { _log.Warn(ex); }
         }
