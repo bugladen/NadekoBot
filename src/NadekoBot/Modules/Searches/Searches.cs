@@ -266,7 +266,7 @@ namespace NadekoBot.Modules.Searches
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithAuthor(eab => eab.WithName("Search For: " + terms)
+                .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
                     .WithUrl(fullQueryLink)
                     .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                 .WithTitle(umsg.Author.Mention)
@@ -274,7 +274,8 @@ namespace NadekoBot.Modules.Searches
             string desc = "";
             foreach (GoogleSearchResult res in results)
             {
-                desc += $"[{Format.Bold(res.Title)}]({res.Link})\n{res.Text}\n\n";
+				var shortlinks = await NadekoBot.Google.ShortenUrl(res.Link).ConfigureAwait(false);
+                desc += $"[{Format.Bold(res.Title.TrimTo(70))}]({shortlinks})\n{res.Text.TrimTo(150)}\n\n";
             }
             await channel.EmbedAsync(embed.WithDescription(desc).Build()).ConfigureAwait(false);
         }
