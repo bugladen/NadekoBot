@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Music.Classes
         private string PrettyTotalTime {
             get {
                 if (TotalTime == TimeSpan.Zero)
-                    return "-";
+                    return "(?)";
                 else if (TotalTime == TimeSpan.MaxValue)
                     return "∞";
                 else
@@ -68,18 +68,17 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string Thumbnail {
             get {
-                switch (SongInfo.Provider)
+                switch (SongInfo.ProviderType)
                 {
-                    
-                    case "YouTube":
+                    case MusicType.Radio:
+                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
+                    case MusicType.Normal:
                         //todo have videoid in songinfo from the start
                         var videoId = Regex.Match(SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
                         return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
-					case "Radio Stream":
-                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
-                    case "Local File":
+                    case MusicType.Local:
                         return $"https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
-                    case "SoundCloud":
+                    case MusicType.Soundcloud:
                         return SongInfo.AlbumArt;
                     default:
                         return "";
