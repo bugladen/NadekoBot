@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OverwatchCommands
         {
-            private Logger _log;
+            private readonly Logger _log;
             public OverwatchCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();

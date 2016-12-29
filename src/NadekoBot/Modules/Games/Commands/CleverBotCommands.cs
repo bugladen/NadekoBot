@@ -7,6 +7,7 @@ using NLog;
 using Services.CleverBotApi;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +31,7 @@ namespace NadekoBot.Modules.Games
             static CleverBotCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -39,6 +41,9 @@ namespace NadekoBot.Modules.Games
                             .Where(gc => gc.CleverbotEnabled)
                             .ToDictionary(gc => gc.GuildId, gc => bot.CreateSession()));
                 }
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             public static async Task<bool> TryAsk(IUserMessage msg) {

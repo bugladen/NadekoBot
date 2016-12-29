@@ -10,6 +10,7 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -44,6 +45,8 @@ namespace NadekoBot.Modules.Games
             static PlantPickCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
 
                 using (var uow = DbHandler.UnitOfWork())
@@ -55,6 +58,9 @@ namespace NadekoBot.Modules.Games
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;
                 }
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             private static async void PotentialFlowerGeneration(IMessage imsg)

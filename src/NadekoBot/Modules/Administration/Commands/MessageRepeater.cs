@@ -8,6 +8,7 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,10 +80,15 @@ namespace NadekoBot.Modules.Administration
 
             static RepeatCommands()
             {
+                var _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     repeaters = new ConcurrentDictionary<ulong, RepeatRunner>(uow.Repeaters.GetAll().Select(r => new RepeatRunner(r)).Where(r => r != null).ToDictionary(r => r.Repeater.ChannelId));
                 }
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]

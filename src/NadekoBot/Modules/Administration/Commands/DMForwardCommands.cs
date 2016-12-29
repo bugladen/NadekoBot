@@ -3,7 +3,9 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NLog;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +18,13 @@ namespace NadekoBot.Modules.Administration
         {
             private static bool ForwardDMs { get; set; }
             private static bool ForwardDMsToAllOwners { get; set; }
+
+            private static readonly Logger _log;
             
             static DMForwardCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();

@@ -11,6 +11,7 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace NadekoBot.Modules.Administration
             {
                 _client = NadekoBot.Client;
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -62,6 +64,9 @@ namespace NadekoBot.Modules.Administration
                         _log.Warn(ex);
                     }
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             public LogCommands()

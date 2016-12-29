@@ -10,6 +10,8 @@ using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 using NadekoBot.Services.Database;
+using NLog;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.Gambling
 {

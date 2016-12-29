@@ -20,14 +20,11 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class TranslateCommands
         {
-            private static ConcurrentDictionary<ulong, bool> TranslatedChannels { get; }
-            private static ConcurrentDictionary<UserChannelPair, string> UserLanguages { get; }
+            private static ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
+            private static ConcurrentDictionary<UserChannelPair, string> UserLanguages { get; } = new ConcurrentDictionary<UserChannelPair, string>();
 
             static TranslateCommands()
             {
-                TranslatedChannels = new ConcurrentDictionary<ulong, bool>();
-                UserLanguages = new ConcurrentDictionary<UserChannelPair, string>();
-
                 NadekoBot.Client.MessageReceived += async (msg) =>
                 {
                     try
