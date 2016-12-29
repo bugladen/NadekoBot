@@ -21,9 +21,7 @@ namespace NadekoBot.Modules.Games
                 }
             }
         }
-        public Games() : base()
-        {
-        }
+
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

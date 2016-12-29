@@ -37,8 +37,6 @@ namespace NadekoBot.Modules.Administration
         {
             _log = LogManager.GetCurrentClassLogger();
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
-
-
         }
 
         private static async Task DelMsgOnCmd_Handler(IUserMessage msg, Command cmd)

@@ -7,6 +7,8 @@ using System.Collections.Concurrent;
 using NadekoBot.Services.Database.Models;
 using Discord;
 using NadekoBot.Extensions;
+using NLog;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -18,14 +20,20 @@ namespace NadekoBot.Modules.CustomReactions
 
         public static ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
 
+        private static new readonly Logger _log;
+
         static CustomReactions()
         {
+            _log = LogManager.GetCurrentClassLogger();
+            var sw = Stopwatch.StartNew();
             using (var uow = DbHandler.UnitOfWork())
             {
                 var items = uow.CustomReactions.GetAll();
                 GuildReactions = new ConcurrentDictionary<ulong, ConcurrentHashSet<CustomReaction>>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => new ConcurrentHashSet<CustomReaction>(g)));
                 GlobalReactions = new ConcurrentHashSet<CustomReaction>(items.Where(g => g.GuildId == null || g.GuildId == 0));
             }
+            sw.Stop();
+            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
         public CustomReactions() : base()
         {
