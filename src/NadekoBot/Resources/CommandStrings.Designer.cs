@@ -600,6 +600,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to autohentai.
+        /// </summary>
+        public static string autohentai_cmd {
+            get {
+                return ResourceManager.GetString("autohentai_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable..
+        /// </summary>
+        public static string autohentai_desc {
+            get {
+                return ResourceManager.GetString("autohentai_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`.
+        /// </summary>
+        public static string autohentai_usage {
+            get {
+                return ResourceManager.GetString("autohentai_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to autoplay ap.
         /// </summary>
         public static string autoplay_cmd {

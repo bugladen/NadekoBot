@@ -6,6 +6,7 @@ using NadekoBot.Modules.Searches.Models;
 using Newtonsoft.Json;
 using NLog;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace NadekoBot.Modules.Searches
             static PokemonSearchCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+
                 if (File.Exists(PokemonListFile))
                 {
                     pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText(PokemonListFile));
@@ -38,6 +41,9 @@ namespace NadekoBot.Modules.Searches
                     pokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText(PokemonAbilitiesFile));
                 else
                     _log.Warn(PokemonAbilitiesFile + " is missing. Pokemon abilities not loaded.");
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]

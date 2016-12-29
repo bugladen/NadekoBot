@@ -8,6 +8,8 @@ using Discord;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
+using NLog;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -26,6 +28,9 @@ namespace NadekoBot.Modules.Permissions
 
         static Permissions()
         {
+            var _log = LogManager.GetCurrentClassLogger();
+            var sw = Stopwatch.StartNew();
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 Cache = new ConcurrentDictionary<ulong, PermissionCache>(uow.GuildConfigs
@@ -38,6 +43,9 @@ namespace NadekoBot.Modules.Permissions
                                                                                 PermRole = v.PermissionRole
                                                                             }));
             }
+
+            sw.Stop();
+            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
         public Permissions() : base()

@@ -7,6 +7,7 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,9 +24,11 @@ namespace NadekoBot.Modules.Administration
 
             static AutoAssignRoleCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+
                 AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
-                _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.UserJoined += async (user) =>
                 {
                     try
@@ -43,6 +46,9 @@ namespace NadekoBot.Modules.Administration
                     }
                     catch (Exception ex) { _log.Warn(ex); }
                 };
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -8,6 +8,7 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,8 +23,11 @@ namespace NadekoBot.Modules.Administration
             public static List<PlayingStatus> RotatingStatusMessages { get; }
             public static bool RotatingStatuses { get; private set; } = false;
 
+            //todo wtf is with this while(true) in constructor
             static PlayingRotateCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.BotConfig.GetOrCreate();
@@ -31,7 +35,6 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatuses = conf.RotatingStatuses;
                 }
 
-                _log = LogManager.GetCurrentClassLogger();
                 var t = Task.Run(async () =>
                 {
                     var index = 0;

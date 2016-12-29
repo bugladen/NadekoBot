@@ -11,12 +11,17 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using NadekoBot.Extensions;
 using System.Xml;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.NSFW
 {
     [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
+        //ulong/cancel
+        private static ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+
         public NSFW() : base()
         {
         }
@@ -54,7 +59,52 @@ namespace NadekoBot.Modules.NSFW
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync(link).ConfigureAwait(false);
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithImageUrl(link)
+                    .WithDescription("Tag: " + tag)
+                    .Build()).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task AutoHentai(IUserMessage umsg, int interval = 0, string tags = null)
+        {
+            Timer t;
+
+            if (interval == 0)
+            {
+                if (AutoHentaiTimers.TryRemove(umsg.Channel.Id, out t))
+                {
+                    t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                    await umsg.Channel.SendConfirmAsync("Autohentai stopped.").ConfigureAwait(false);
+                }
+                return;
+            }
+
+            if (interval < 20)
+                return;
+
+            var tagsArr = tags?.Split('|');
+
+            t = new Timer(async (state) =>
+            {
+                try
+                {
+                    if (tagsArr == null || tagsArr.Length == 0)
+                        await Hentai(umsg, null).ConfigureAwait(false);
+                    else
+                        await Hentai(umsg, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]);
+                }
+                catch { }
+            }, null, interval * 1000, interval * 1000);
+
+            AutoHentaiTimers.AddOrUpdate(umsg.Channel.Id, t, (key, old) =>
+            {
+                old.Change(Timeout.Infinite, Timeout.Infinite);
+                return t;
+            });
+
+            await umsg.Channel.SendConfirmAsync($"Autohentai started. Reposting every {interval}s with one of the following tags:\n{string.Join(", ", tagsArr)}").ConfigureAwait(false);
         }
 
 

@@ -6,9 +6,11 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,21 +36,25 @@ namespace NadekoBot.Modules.Administration
                 All
             }
 
-            static MuteCommands() {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var configs = NadekoBot.AllGuildConfigs;
-                    GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
-                            .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-                            .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
+            static MuteCommands()
+            {
+                var _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+                
+                var configs = NadekoBot.AllGuildConfigs;
+                GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
+                        .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
+                        .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
 
-                    MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
-                        k => k.GuildId,
-                        v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
-                    ));
-                }
+                MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
+                    k => k.GuildId,
+                    v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
+                ));
 
                 NadekoBot.Client.UserJoined += Client_UserJoined;
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             private static async void Client_UserJoined(IGuildUser usr)

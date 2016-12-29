@@ -4,8 +4,10 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NLog;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,11 +24,16 @@ namespace NadekoBot.Modules.Administration
             private static ConcurrentHashSet<ulong> voicePlusTextCache { get; }
             static VoicePlusTextCommands()
             {
+                var _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
                 }
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             private static async void UserUpdatedEventHandler(IUser iuser, IVoiceState before, IVoiceState after)
