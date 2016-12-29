@@ -22,6 +22,8 @@ namespace NadekoBot.Modules.Help
 
         static Help()
         {
+
+            //todo don't cache this, just query db when someone wants -h
             using (var uow = DbHandler.UnitOfWork())
             {
                 var config = uow.BotConfig.GetOrCreate();

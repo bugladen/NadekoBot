@@ -91,15 +91,17 @@ namespace NadekoBot
         internal Task LoginAsync(TokenType tokenType, string token) =>
             Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token).ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} logged in."); }));
 
-        internal Task ConnectAsync() =>
-            Task.WhenAll(Clients.Select(async c =>
+        internal async Task ConnectAsync()
+        {
+
+            foreach (var c in Clients)
             {
                 try
                 {
                     var sw = Stopwatch.StartNew();
                     await c.ConnectAsync().ConfigureAwait(false);
                     sw.Stop();
-                    _log.Info($"Shard #{c.ShardId} connected after {sw.Elapsed.TotalSeconds}s ({++_connectedCount}/{Clients.Count})");
+                    _log.Info($"Shard #{c.ShardId} connected after {sw.Elapsed.TotalSeconds:F2}s ({++_connectedCount}/{Clients.Count})");
                 }
                 catch
                 {
@@ -111,7 +113,8 @@ namespace NadekoBot
                         _log.Error(ex2);
                     }
                 }
-            }));
+            }
+        }
 
         internal Task DownloadAllUsersAsync() =>
             Task.WhenAll(Clients.Select(async c =>
@@ -119,7 +122,7 @@ namespace NadekoBot
                 var sw = Stopwatch.StartNew();
                 await c.DownloadAllUsersAsync().ConfigureAwait(false);
                 sw.Stop();
-                _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users after {sw.Elapsed.TotalSeconds}s ({++_downloadedCount}/{Clients.Count}).");
+                _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
             }));
 
         public async Task SetGame(string game)

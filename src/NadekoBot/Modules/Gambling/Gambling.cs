@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Gambling
         public static string CurrencyPluralName { get; set; }
         public static string CurrencySign { get; set; }
         
-        public Gambling() : base()
+        static Gambling()
         {
             using (var uow = DbHandler.UnitOfWork())
             {

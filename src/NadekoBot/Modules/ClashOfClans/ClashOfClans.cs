@@ -12,6 +12,8 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading;
+using System.Diagnostics;
+using NLog;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -22,8 +24,12 @@ namespace NadekoBot.Modules.ClashOfClans
 
         private static Timer checkWarTimer { get; }
 
+        private static new readonly Logger _log;
+
         static ClashOfClans()
         {
+            _log = LogManager.GetCurrentClassLogger();
+            var sw = Stopwatch.StartNew();
             using (var uow = DbHandler.UnitOfWork())
             {
                 ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
@@ -50,6 +56,9 @@ namespace NadekoBot.Modules.ClashOfClans
                     }
                 }
             }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+
+            sw.Stop();
+            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
