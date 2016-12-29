@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
-            => Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Yandere);
+            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

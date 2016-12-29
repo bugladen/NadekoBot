@@ -266,17 +266,16 @@ namespace NadekoBot.Modules.Searches
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithAuthor(eab => eab.WithName("Search For: " + terms)
+                .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
                     .WithUrl(fullQueryLink)
                     .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                 .WithTitle(umsg.Author.Mention)
                 .WithFooter(efb => efb.WithText(totalResults));
-            string desc = "";
-            foreach (GoogleSearchResult res in results)
-            {
-                desc += $"[{Format.Bold(res.Title)}]({res.Link})\n{res.Text}\n\n";
-            }
-            await channel.EmbedAsync(embed.WithDescription(desc).Build()).ConfigureAwait(false);
+
+            var desc = await Task.WhenAll(results.Select(async res => 
+                    $"[{Format.Bold(res?.Title)}]({(await NadekoBot.Google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
+                .ConfigureAwait(false);
+            await channel.EmbedAsync(embed.WithDescription(String.Concat(desc)).Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -664,17 +663,17 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Avatar(IUserMessage umsg, [Remainder] string mention = null)
+        public async Task Avatar(IUserMessage umsg, [Remainder] IUser usr = null)
         {
             var channel = (ITextChannel)umsg.Channel;
 
-            var usr = umsg.MentionedUsers.FirstOrDefault();
             if (usr == null)
-            {
-                await channel.SendErrorAsync("Invalid user specified.").ConfigureAwait(false);
-                return;
-            }
-            await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+                usr = umsg.Author;
+
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithTitle($"{usr}'s Avatar")
+                .WithImageUrl(usr.AvatarUrl)
+                .Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

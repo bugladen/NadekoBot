@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
 
                 if (msg.Channel != GameChannel)
                     return; // message's channel has to be the same as game's
-                if (msg.Content.Length != 1) // message must be 1 char long
+                if (msg.Content.Length == 1) // message must be 1 char long
                 {
                     if (++MessagesSinceLastPost > 10)
                     {
