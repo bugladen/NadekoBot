@@ -4011,7 +4011,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a lit of all events you can subscribe to..
+        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a list of all events you can subscribe to..
         /// </summary>
         public static string log_desc {
             get {

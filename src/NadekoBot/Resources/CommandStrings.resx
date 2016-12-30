@@ -2803,7 +2803,7 @@
     <value>log</value>
   </data>
   <data name="log_desc" xml:space="preserve">
-    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a lit of all events you can subscribe to.</value>
+    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
   </data>
   <data name="log_usage" xml:space="preserve">
     <value>`{0}log userpresence` or `{0}log userbanned`</value>

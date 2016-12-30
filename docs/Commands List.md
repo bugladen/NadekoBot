@@ -60,7 +60,7 @@ Command and aliases | Description | Usage
 `.logserver`  | Enables or Disables ALL log events. If enabled, all log events will log to this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver enable` or `.logserver disable`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logignore`
 `.logevents`  | Shows a list of all events you can subscribe to with `.log` **Requires Administrator server permission.** **Bot Owner only.** | `.logevents`
-`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a lit of all events you can subscribe to. **Requires Administrator server permission.** **Bot Owner only.** | `.log userpresence` or `.log userbanned`
+`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a list of all events you can subscribe to. **Requires Administrator server permission.** **Bot Owner only.** | `.log userpresence` or `.log userbanned`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer. **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled. **Requires ManageMessages server permission.** | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot Owner only.** | `.migratedata`
@@ -228,6 +228,7 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~hentai`  | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
+`~autohentai`  | Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.  | `~autohentai 30 yuri|tail|long_hair` or `~autohentai`
 `~hentaibomb`  | Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.  | `~hentaibomb yuri`
 `~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
 `~yandere`  | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
@@ -368,6 +369,7 @@ Command and aliases | Description | Usage
 `.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`
+`.activity`  | Checks for spammers. **Bot Owner only.** | `.activity`
 `.listquotes` `.liqu` | `.liqu` or `.liqu 3`  | Lists all quotes on the server ordered alphabetically. 15 Per page.
 `...`  | Shows a random quote with a specified name.  | `... abc`
 `..`  | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
