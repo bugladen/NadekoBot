@@ -29,7 +29,6 @@ namespace NadekoBot.Modules.Searches
             static PokemonSearchCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                var sw = Stopwatch.StartNew();
 
                 if (File.Exists(PokemonListFile))
                 {
@@ -41,9 +40,6 @@ namespace NadekoBot.Modules.Searches
                     pokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText(PokemonAbilitiesFile));
                 else
                     _log.Warn(PokemonAbilitiesFile + " is missing. Pokemon abilities not loaded.");
-
-                sw.Stop();
-                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
