@@ -28,11 +28,8 @@ namespace NadekoBot.Modules.Permissions
 
             static CmdCdsCommands()
             {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var configs = NadekoBot.AllGuildConfigs;
-                    commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
-                }
+                var configs = NadekoBot.AllGuildConfigs;
+                commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
