@@ -715,7 +715,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task LogServer(IUserMessage msg, PermissionAction action)
             {
@@ -750,7 +750,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task LogIgnore(IUserMessage imsg)
             {
@@ -779,7 +779,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task LogEvents(IUserMessage imsg)
             {
@@ -788,7 +788,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.Administrator)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task Log(IUserMessage imsg, LogType type)
             {

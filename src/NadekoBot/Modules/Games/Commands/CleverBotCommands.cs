@@ -5,6 +5,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NLog;
 using Services.CleverBotApi;
+using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
@@ -92,6 +93,8 @@ namespace NadekoBot.Modules.Games
             [RequireUserPermission(ChannelPermission.ManageMessages)]
             public async Task Cleverbot()
             {
+                var channel = (ITextChannel)Context.Channel;
+
                 Lazy<ChatterBotSession> throwaway;
                 if (CleverbotGuilds.TryRemove(channel.Guild.Id, out throwaway))
                 {

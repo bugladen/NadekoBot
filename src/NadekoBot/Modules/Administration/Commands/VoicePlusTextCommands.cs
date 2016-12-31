@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void UserUpdatedEventHandler(SocketUser iuser, IVoiceState before, IVoiceState after)
+            private static async void UserUpdatedEventHandler(SocketUser iuser, SocketVoiceState before, SocketVoiceState after)
             {
                 var user = (iuser as SocketGuildUser);
                 var guild = user?.Guild;
@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Administration
 
                 try
                 {
-                    var botUserPerms = guild.GetCurrentUser().GuildPermissions;
+                    var botUserPerms = guild.CurrentUser.GuildPermissions;
 
                     if (before.VoiceChannel == after.VoiceChannel) return;
 
@@ -72,38 +72,37 @@ namespace NadekoBot.Modules.Administration
                     }
 
 
-                        var beforeVch = before.VoiceChannel;
-                        if (beforeVch != null)
-                        {
-                            var textChannel = (await guild.GetTextChannelsAsync()).Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
-                            if (textChannel != null)
-                                await textChannel.AddPermissionOverwriteAsync(user,
-                                    new OverwritePermissions(readMessages: PermValue.Deny,
-                                                       sendMessages: PermValue.Deny)).ConfigureAwait(false);
-                        }
-                        var afterVch = after.VoiceChannel;
-                        if (afterVch != null && guild.AFKChannelId != afterVch.Id)
-                        {
-                            var textChannel = (await guild.GetTextChannelsAsync())
-                                                        .Where(t => t.Name ==  GetChannelName(afterVch.Name).ToLowerInvariant())
-                                                        .FirstOrDefault();
-                            if (textChannel == null)
-                            {
-                                textChannel = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name).ToLowerInvariant()).ConfigureAwait(false));
-                                await textChannel.AddPermissionOverwriteAsync(guild.EveryoneRole,
-                                    new OverwritePermissions(readMessages: PermValue.Deny,
-                                                       sendMessages: PermValue.Deny)).ConfigureAwait(false);
-                            }
-                            await textChannel.AddPermissionOverwriteAsync(user,
-                                new OverwritePermissions(readMessages: PermValue.Allow,
-                                                        sendMessages: PermValue.Allow)).ConfigureAwait(false);
-                        }
-                    }
-                    catch (Exception ex)
+                    var beforeVch = before.VoiceChannel;
+                    if (beforeVch != null)
                     {
-                        Console.WriteLine(ex);
+                        var textChannel = (await guild.GetTextChannelsAsync()).Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
+                        if (textChannel != null)
+                            await textChannel.AddPermissionOverwriteAsync(user,
+                                new OverwritePermissions(readMessages: PermValue.Deny,
+                                                   sendMessages: PermValue.Deny)).ConfigureAwait(false);
                     }
-                });
+                    var afterVch = after.VoiceChannel;
+                    if (afterVch != null && guild.AFKChannelId != afterVch.Id)
+                    {
+                        var textChannel = (await guild.GetTextChannelsAsync())
+                                                    .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
+                                                    .FirstOrDefault();
+                        if (textChannel == null)
+                        {
+                            textChannel = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name).ToLowerInvariant()).ConfigureAwait(false));
+                            await textChannel.AddPermissionOverwriteAsync(guild.EveryoneRole,
+                                new OverwritePermissions(readMessages: PermValue.Deny,
+                                                   sendMessages: PermValue.Deny)).ConfigureAwait(false);
+                        }
+                        await textChannel.AddPermissionOverwriteAsync(user,
+                            new OverwritePermissions(readMessages: PermValue.Allow,
+                                                    sendMessages: PermValue.Allow)).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
 
             private static string GetChannelName(string voiceName) =>

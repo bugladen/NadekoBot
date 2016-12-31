@@ -58,9 +58,9 @@ namespace NadekoBot.Services
             _client.MessageReceived += MessageReceivedHandler;
         }
 
-        private async Task MessageReceivedHandler(SocketMessage msg)
+        private async void MessageReceivedHandler(SocketMessage msg)
         {
-           var usrMsg = msg as SocketUserMessage;
+            var usrMsg = msg as SocketUserMessage;
             if (usrMsg == null)
                 return;
 
@@ -135,87 +135,75 @@ namespace NadekoBot.Services
             catch { }
 
             string messageContent = usrMsg.Content;
-            //foreach (var k in NadekoBot.ModulePrefixes.Values)
-            //{
-            //    if (usrMsg.Content.ToLowerInvariant().StartsWith(k))
-            //    {
-            //        messageContent = messageContent.Insert(k.Length, " ");
-            //        break;
-            //    }
 
-            //}
+            var sw = new Stopwatch();
+            sw.Start();
 
-
-            var throwaway = Task.Run(async () =>
+            try
             {
-                var sw = new Stopwatch();
-                sw.Start();
-
-                try
+                var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
+                var command = exec.CommandInfo;
+                var permCache = exec.PermissionCache;
+                var result = exec.Result;
+                sw.Stop();
+                var channel = (msg.Channel as ITextChannel);
+                if (result.IsSuccess)
                 {
-                    var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
-                    var command = exec.CommandInfo;
-                    var permCache = exec.PermissionCache;
-                    var result = exec.Result;
-                    sw.Stop();
-                    var channel = (msg.Channel as ITextChannel);
-                    if (result.IsSuccess)
+                    await CommandExecuted(usrMsg, command);
+                    _log.Info("Command Executed after {4}s\n\t" +
+                                "User: {0}\n\t" +
+                                "Server: {1}\n\t" +
+                                "Channel: {2}\n\t" +
+                                "Message: {3}",
+                                msg.Author + " [" + msg.Author.Id + "]", // {0}
+                                (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                                (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                                usrMsg.Content, // {3}
+                                sw.Elapsed.TotalSeconds // {4}
+                                );
+                }
+                else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
+                {
+                    _log.Warn("Command Errored after {5}s\n\t" +
+                                "User: {0}\n\t" +
+                                "Server: {1}\n\t" +
+                                "Channel: {2}\n\t" +
+                                "Message: {3}\n\t" +
+                                "Error: {4}",
+                                msg.Author + " [" + msg.Author.Id + "]", // {0}
+                                (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                                (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                                usrMsg.Content,// {3}
+                                result.ErrorReason, // {4}
+                                sw.Elapsed.TotalSeconds // {5}
+                                );
+                    if (guild != null && command != null && result.Error == CommandError.Exception)
                     {
-                        await CommandExecuted(usrMsg, command);
-                        _log.Info("Command Executed after {4}s\n\t" +
-                                    "User: {0}\n\t" +
-                                    "Server: {1}\n\t" +
-                                    "Channel: {2}\n\t" +
-                                    "Message: {3}",
-                                    msg.Author + " [" + msg.Author.Id + "]", // {0}
-                                    (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                    (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                    usrMsg.Content, // {3}
-                                    sw.Elapsed.TotalSeconds // {4}
-                                    );
-                    }
-                    else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
-                    {
-                        _log.Warn("Command Errored after {5}s\n\t" +
-                                    "User: {0}\n\t" +
-                                    "Server: {1}\n\t" +
-                                    "Channel: {2}\n\t" +
-                                    "Message: {3}\n\t" +
-                                    "Error: {4}",
-                                    msg.Author + " [" + msg.Author.Id + "]", // {0}
-                                    (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                    (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                    usrMsg.Content,// {3}
-                                    result.ErrorReason, // {4}
-                                    sw.Elapsed.TotalSeconds // {5}
-                                    );
-                        if (guild != null && command != null && result.Error == CommandError.Exception)
-                        {
-                            if (permCache != null && permCache.Verbose)
-                                try { await msg.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
-                        }
-                    }
-                    else
-                    {
-                        if (msg.Channel is IPrivateChannel)
-                        {
-                            //rofl, gotta do this to prevent this message from occuring on polls
-                            int vote;
-                            if (int.TryParse(msg.Content, out vote)) return; 
-
-                            await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
-
-                            await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
-                        }
+                        if (permCache != null && permCache.Verbose)
+                            try { await msg.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    _log.Warn(ex, "Error in CommandHandler");
-                    if (ex.InnerException != null)
-                        _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+                    if (msg.Channel is IPrivateChannel)
+                    {
+                        //rofl, gotta do this to prevent this message from occuring on polls
+                        int vote;
+                        if (int.TryParse(msg.Content, out vote)) return;
+
+                        await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
+
+                        await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
+                    }
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex, "Error in CommandHandler");
+                if (ex.InnerException != null)
+                    _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+            }
+
             return;
         }
         public Task<ExecuteCommandResult> ExecuteCommandAsync(CommandContext context, int argPos, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
@@ -267,7 +255,7 @@ namespace NadekoBot.Services
                     }
                 }
 
-                var cmd = commands[i];
+                var cmd = commands[i].Command;
                 bool resetCommand = cmd.Name == "ResetPermissions";
                 PermissionCache pc;
                 if (context.Guild != null)

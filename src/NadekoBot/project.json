@@ -17,6 +17,7 @@
     "define": []
   },
   "dependencies": {
+    "AngleSharp": "0.9.9",
     "VideoLibrary": "1.3.4",
     "CoreCLR-NCalc": "2.1.2",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",

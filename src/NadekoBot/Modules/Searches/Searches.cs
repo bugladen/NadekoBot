@@ -190,7 +190,7 @@ namespace NadekoBot.Modules.Searches
                 await Context.Channel.SendErrorAsync("Failed to shorten that url.").ConfigureAwait(false);
             }
 
-            await msg.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                                            .AddField(efb => efb.WithName("Original Url")
                                                                                .WithValue($"<{arg}>"))
                                                             .AddField(efb => efb.WithName("Short Url")
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Searches
                 .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
                     .WithUrl(fullQueryLink)
                     .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                .WithTitle(umsg.Author.Mention)
+                .WithTitle(Context.User.Mention)
                 .WithFooter(efb => efb.WithText(totalResults));
 
             var desc = await Task.WhenAll(results.Select(async res => 
@@ -612,12 +612,11 @@ namespace NadekoBot.Modules.Searches
         public async Task Avatar([Remainder] IUser usr = null)
         {
             if (usr == null)
-                usr = umsg.Author;
+                usr = Context.User;
 
-            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle($"{usr}'s Avatar")
-                .WithImageUrl(usr.AvatarUrl)
-                .Build()).ConfigureAwait(false);
+                .WithImageUrl(usr.AvatarUrl)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -745,8 +744,7 @@ namespace NadekoBot.Modules.Searches
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(umsg.Author.Mention + " " + tag)
                     .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText(type.ToString()))
-                    .Build()).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
 
         public static async Task<string> InternalDapiSearch(string tag, DapiSearchType type)
@@ -793,7 +791,7 @@ namespace NadekoBot.Modules.Searches
                 return null;
             }
         }
-        public static async Task<bool> ValidateQuery(ITextChannel ch, string query)
+        public static async Task<bool> ValidateQuery(IMessageChannel ch, string query)
         {
             if (!string.IsNullOrEmpty(query.Trim())) return true;
             await ch.SendErrorAsync("Please specify search parameters.").ConfigureAwait(false);

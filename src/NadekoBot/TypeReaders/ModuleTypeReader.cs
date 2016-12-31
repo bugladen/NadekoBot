@@ -7,7 +7,7 @@ namespace NadekoBot.TypeReaders
 {
     public class ModuleTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(CommandContext context, string input)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
             var module = NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input);

@@ -64,12 +64,12 @@ namespace NadekoBot.Modules.Administration
                     {
                         conf.AutoAssignRoleId = 0;
                         ulong throwaway;
-                        AutoAssignedRoles.TryRemove(channel.Guild.Id, out throwaway);
+                        AutoAssignedRoles.TryRemove(Context.Guild.Id, out throwaway);
                     }
                     else
                     {
                         conf.AutoAssignRoleId = role.Id;
-                        AutoAssignedRoles.AddOrUpdate(channel.Guild.Id, role.Id, (key, val) => role.Id);
+                        AutoAssignedRoles.AddOrUpdate(Context.Guild.Id, role.Id, (key, val) => role.Id);
                     }
 
                     await uow.CompleteAsync().ConfigureAwait(false);

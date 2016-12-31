@@ -23,8 +23,7 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
 
-        public static EmbedBuilder WithImageUrl(this EmbedBuilder eb, string url) =>
-            eb.WithImage(eib => eib.WithUrl(url));
+        public static DateTime ToUnixTimestamp(this double number) => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(number);
 
         public static EmbedBuilder WithOkColor(this EmbedBuilder eb) =>
             eb.WithColor(NadekoBot.OkColor);
@@ -131,16 +130,16 @@ namespace NadekoBot.Extensions
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
              => ch.SendMessageAsync(msg, embed: embed);
 
-        public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string error = null)
+        public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.ErrorColor).WithDescription(error)
-                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(error));
+                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null, string footer = null)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
-                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer));
+                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
@@ -154,10 +153,8 @@ namespace NadekoBot.Extensions
 ```");
         }
 
-        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
-        {
-            return ch.SendTableAsync("", items, howToPrint, columns);
-        }
+        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3) => 
+            ch.SendTableAsync("", items, howToPrint, columns);
 
         /// <summary>
         /// returns an IEnumerable with randomized element order

@@ -4,6 +4,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
 using Newtonsoft.Json;
+using NLog;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Searches
                     return;
                 var battletag = Regex.Replace(query, "#", "-", RegexOptions.IgnoreCase);
 
-                await channel.TriggerTypingAsync().ConfigureAwait(false);
+                await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 try
                 {
                     await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);

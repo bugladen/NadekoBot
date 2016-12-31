@@ -14,19 +14,19 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public event Action<IGuildUser> UserJoined = delegate { };
-        public event Action<IMessage> MessageReceived = delegate { };
-        public event Action<IGuildUser> UserLeft = delegate { };
-        public event Action<IGuildUser, IGuildUser> UserUpdated = delegate { };
-        public event Action<Optional<IMessage>, IMessage> MessageUpdated = delegate { };
-        public event Action<ulong, Optional<IMessage>> MessageDeleted = delegate { };
-        public event Action<IUser, IGuild> UserBanned = delegate { };
-        public event Action<IUser, IGuild> UserUnbanned = delegate { };
-        public event Action<IGuildUser, IPresence, IPresence> UserPresenceUpdated = delegate { };
-        public event Action<IUser, IVoiceState, IVoiceState> UserVoiceStateUpdated = delegate { };
-        public event Action<IChannel> ChannelCreated = delegate { };
-        public event Action<IChannel> ChannelDestroyed = delegate { };
-        public event Action<IChannel, IChannel> ChannelUpdated = delegate { };
+        public event Action<SocketGuildUser> UserJoined = delegate { };
+        public event Action<SocketMessage> MessageReceived = delegate { };
+        public event Action<SocketGuildUser> UserLeft = delegate { };
+        public event Action<SocketUser, SocketUser> UserUpdated = delegate { };
+        public event Action<Optional<SocketMessage>, SocketMessage> MessageUpdated = delegate { };
+        public event Action<ulong, Optional<SocketMessage>> MessageDeleted = delegate { };
+        public event Action<SocketUser, SocketGuild> UserBanned = delegate { };
+        public event Action<SocketUser, SocketGuild> UserUnbanned = delegate { };
+        public event Action<Optional<SocketGuild>, SocketUser, SocketPresence, SocketPresence> UserPresenceUpdated = delegate { };
+        public event Action<SocketUser, SocketVoiceState, SocketVoiceState> UserVoiceStateUpdated = delegate { };
+        public event Action<SocketChannel> ChannelCreated = delegate { };
+        public event Action<SocketChannel> ChannelDestroyed = delegate { };
+        public event Action<SocketChannel, SocketChannel> ChannelUpdated = delegate { };
         public event Action<Exception> Disconnected = delegate { };
 
         private uint _connectedCount = 0;
@@ -58,7 +58,7 @@ namespace NadekoBot
                 client.MessageDeleted += (arg1, arg2) => { MessageDeleted(arg1, arg2); return Task.CompletedTask; };
                 client.UserBanned += (arg1, arg2) => { UserBanned(arg1, arg2); return Task.CompletedTask; };
                 client.UserUnbanned += (arg1, arg2) => { UserUnbanned(arg1, arg2); return Task.CompletedTask; };
-                client.UserPresenceUpdated += (arg1, arg2, arg3) => { UserPresenceUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.UserPresenceUpdated += (arg1, arg2, arg3, arg4) => { UserPresenceUpdated(arg1, arg2, arg3, arg4); return Task.CompletedTask; };
                 client.UserVoiceStateUpdated += (arg1, arg2, arg3) => { UserVoiceStateUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
                 client.ChannelCreated += arg => { ChannelCreated(arg); return Task.CompletedTask; };
                 client.ChannelDestroyed += arg => { ChannelDestroyed(arg); return Task.CompletedTask; };
@@ -119,7 +119,7 @@ namespace NadekoBot
                 var sw = Stopwatch.StartNew();
                 await c.DownloadAllUsersAsync().ConfigureAwait(false);
                 sw.Stop();
-                _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
+                _log.Info($"Shard #{c.ShardId} downloaded {c.Guilds.Sum(g => g.Users.Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
             }));
 
         public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGame(game)));

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -162,7 +163,7 @@ namespace NadekoBot.Modules.Gambling
                     var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} fate {(n1 == 1 ? "die" : "dice")}.")
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
-                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                    await channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 else if ((match = dndRegex.Match(arg)).Length != 0)
                 {
@@ -185,7 +186,7 @@ namespace NadekoBot.Modules.Gambling
                         var embed = new EmbedBuilder().WithOkColor().WithDescription($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
-                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                        await channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }
             }

@@ -128,57 +128,58 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-        private async void Vote(IMessage imsg)
-        {
-            try
+            private async void Vote(IMessage imsg)
             {
-                // has to be a user message
-                var msg = imsg as IUserMessage;
-                if (msg == null || msg.Author.IsBot)
-                    return;
-
-                // has to be an integer
-                int vote;
-                if (!int.TryParse(imsg.Content, out vote))
-                    return;
-                if (vote < 1 || vote > answers.Length)
-                    return;
-
-                IMessageChannel ch;
-                if (isPublic)
+                try
                 {
-                    //if public, channel must be the same the poll started in
-                    if (originalMessage.Channel.Id != imsg.Channel.Id)
-                        return;
-                    ch = imsg.Channel;
-                }
-                else
-                {
-                    //if private, channel must be dm channel
-                    if ((ch = msg.Channel as IDMChannel) == null)
+                    // has to be a user message
+                    var msg = imsg as IUserMessage;
+                    if (msg == null || msg.Author.IsBot)
                         return;
 
-                    // user must be a member of the guild this poll is in
-                    var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
-                    if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
+                    // has to be an integer
+                    int vote;
+                    if (!int.TryParse(imsg.Content, out vote))
                         return;
-                }
+                    if (vote < 1 || vote > answers.Length)
+                        return;
 
-                //user can vote only once
-                if (participants.TryAdd(msg.Author.Id, vote))
-                {
-                    if (!isPublic)
+                    IMessageChannel ch;
+                    if (isPublic)
                     {
-                        await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                        //if public, channel must be the same the poll started in
+                        if (originalMessage.Channel.Id != imsg.Channel.Id)
+                            return;
+                        ch = imsg.Channel;
                     }
                     else
                     {
-                        var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
-                        toDelete.DeleteAfter(5);
+                        //if private, channel must be dm channel
+                        if ((ch = msg.Channel as IDMChannel) == null)
+                            return;
+
+                        // user must be a member of the guild this poll is in
+                        var guildUsers = await guild.GetUsersAsync().ConfigureAwait(false);
+                        if (!guildUsers.Any(u => u.Id == imsg.Author.Id))
+                            return;
+                    }
+
+                    //user can vote only once
+                    if (participants.TryAdd(msg.Author.Id, vote))
+                    {
+                        if (!isPublic)
+                        {
+                            await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var toDelete = await ch.SendConfirmAsync($"{msg.Author.Mention} cast their vote.").ConfigureAwait(false);
+                            toDelete.DeleteAfter(5);
+                        }
                     }
                 }
+                catch { }
             }
-            catch { }
         }
     }
 }

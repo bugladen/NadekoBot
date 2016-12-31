@@ -9,6 +9,7 @@ using Discord;
 using NadekoBot.Extensions;
 using NLog;
 using System.Diagnostics;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.CustomReactions
 {

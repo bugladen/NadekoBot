@@ -6,7 +6,7 @@ namespace NadekoBot.TypeReaders
 {
     public class CommandTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(CommandContext context, string input)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
             var cmd = NadekoBot.CommandService.Commands.FirstOrDefault(c => 

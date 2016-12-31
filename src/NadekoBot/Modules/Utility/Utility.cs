@@ -23,7 +23,6 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task WhosPlaying([Remainder] string game = null)
         public async Task TogetherTube(IUserMessage imsg)
         {
             Uri target;
@@ -191,18 +190,16 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {
-            var channel = Context.Channel;
-
             var stats = NadekoBot.Stats;
 
-            await channel.EmbedAsync(
+            await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
                                           .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
                                           .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
                     .AddField(efb => efb.WithName(Format.Bold("Author")).WithValue(stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Library")).WithValue(stats.Library).WithIsInline(true))
-                    .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.GetCurrentUser().Id.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.CurrentUser().Id.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Commands Ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))

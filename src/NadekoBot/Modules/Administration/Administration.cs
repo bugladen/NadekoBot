@@ -63,6 +63,7 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ResetPermissions()
         {
+            var channel = (ITextChannel)Context.Channel;
             using (var uow = DbHandler.UnitOfWork())
             {
                 var config = uow.GuildConfigs.PermissionsFor(Context.Guild.Id);
@@ -78,7 +79,7 @@ namespace NadekoBot.Modules.Administration
                 await uow.CompleteAsync();
             }
 
-            await Context.Channel.SendConfirmAsync($"{Context.Message.Author.Mention} 🆗 **Permissions for this server are reset.**");
+            await channel.SendConfirmAsync($"{Context.Message.Author.Mention} 🆗 **Permissions for this server are reset.**");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -619,9 +620,11 @@ namespace NadekoBot.Modules.Administration
                 cnt -= 100;
             }
             var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
+            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
+                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
             await (Context.User as IGuildUser).SendFileAsync(
                 await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false),
-                title, title).ConfigureAwait(false);
+title, title).ConfigureAwait(false);
         }
 
 
