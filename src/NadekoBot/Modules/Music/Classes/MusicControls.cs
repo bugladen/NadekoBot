@@ -30,6 +30,26 @@ namespace NadekoBot.Modules.Music.Classes
     {
         private IAudioClient audioClient { get; set; }
 
+        /// <summary>
+        /// Player will prioritize different queuer name
+        /// over the song position in the playlist
+        /// </summary>
+        public bool FairPlay { get; set; } = false;
+
+        /// <summary>
+        /// Song will stop playing after this amount of time. 
+        /// To prevent people queueing radio or looped songs 
+        /// while other people want to listen to other songs too.
+        /// </summary>
+        public uint MaxPlaytimeSeconds { get; set; } = 0;
+
+        public TimeSpan TotalPlaytime => new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
+
+        /// <summary>
+        /// Users who recently got their music wish
+        /// </summary>
+        private ConcurrentHashSet<string> recentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
+
         private readonly List<Song> playlist = new List<Song>();
         public IReadOnlyCollection<Song> Playlist => playlist;
 
@@ -41,8 +61,8 @@ namespace NadekoBot.Modules.Music.Classes
 
         public float Volume { get; private set; }
 
-        public event EventHandler<Song> OnCompleted = delegate { };
-        public event EventHandler<Song> OnStarted = delegate { };
+        public event Action<MusicPlayer, Song> OnCompleted = delegate { };
+        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
@@ -53,7 +73,9 @@ namespace NadekoBot.Modules.Music.Classes
         public bool Autoplay { get; set; } = false;
         public uint MaxQueueSize { get; set; } = 0;
 
-        private ConcurrentQueue<Action> actionQueue { get; set; } = new ConcurrentQueue<Action>();
+        private ConcurrentQueue<Action> actionQueue { get; } = new ConcurrentQueue<Action>();
+
+        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
 
         public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
         {
@@ -107,11 +129,13 @@ namespace NadekoBot.Modules.Music.Classes
                         }
 
                         CurrentSong = GetNextSong();
-                        RemoveSongAt(0);
 
                         if (CurrentSong == null)
                             continue;
 
+                        var index = playlist.IndexOf(CurrentSong);
+                        if (index != -1)
+                            RemoveSongAt(index);
 
                         OnStarted(this, CurrentSong);
                         await CurrentSong.Play(audioClient, cancelToken);
@@ -130,7 +154,7 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
-                        await Task.Delay(30000);
+                        await Task.Delay(3000).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -183,8 +207,26 @@ namespace NadekoBot.Modules.Music.Classes
             return volume;
         }
 
-        private Song GetNextSong() =>
-            playlist.FirstOrDefault();
+        private Song GetNextSong()
+        {
+            if (!FairPlay)
+            {
+                return playlist.FirstOrDefault();
+            }
+            var song = playlist.FirstOrDefault(c => !recentlyPlayedUsers.Contains(c.QueuerName))
+                ?? playlist.FirstOrDefault();
+
+            if (song == null)
+                return null;
+
+            if (recentlyPlayedUsers.Contains(song.QueuerName))
+            {
+                recentlyPlayedUsers.Clear();
+            }
+
+            recentlyPlayedUsers.Add(song.QueuerName);
+            return song;
+        }
 
         public void Shuffle()
         {
@@ -251,11 +293,11 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var curSong = CurrentSong;
             var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
-                                                          s.TotalLength == TimeSpan.Zero);
+                                                            s.TotalTime == TimeSpan.Zero);
             if (curSong != null)
                 toUpdate = toUpdate.Append(curSong);
             var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
-                              .Distinct();
+                                .Distinct();
 
             var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
 
@@ -265,11 +307,12 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     if (s.SongInfo.Query.EndsWith(kvp.Key))
                     {
-                        s.TotalLength = kvp.Value;
+                        s.TotalTime = kvp.Value;
                         return;
                     }
                 }
             });
+
         }
 
         public void Destroy()

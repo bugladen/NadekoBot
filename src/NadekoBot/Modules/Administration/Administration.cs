@@ -73,7 +73,8 @@ namespace NadekoBot.Modules.Administration
                     PermRole = config.PermissionRole,
                     Verbose = config.VerbosePermissions,
                 };
-                Permissions.Permissions.Cache.AddOrUpdate(Context.Guild.Id, toAdd, (id, old) => toAdd);
+                Permissions.Permissions.Cache.AddOrUpdate(channel.Guild.Id,
+                    toAdd, (id, old) => toAdd);
                 await uow.CompleteAsync();
             }
 
@@ -346,7 +347,7 @@ namespace NadekoBot.Modules.Administration
             {
                 foreach (var u in users)
                 {
-                    await u.ModifyAsync(usr=>usr.Deaf = true).ConfigureAwait(false);
+                    await u.ModifyAsync(usr => usr.Deaf = true).ConfigureAwait(false);
                 }
                 await Context.Channel.SendConfirmAsync("🔇 **Deafen** successful.").ConfigureAwait(false);
             }
@@ -367,7 +368,7 @@ namespace NadekoBot.Modules.Administration
             {
                 foreach (var u in users)
                 {
-                    await u.ModifyAsync(usr=> usr.Deaf = false).ConfigureAwait(false);
+                    await u.ModifyAsync(usr => usr.Deaf = false).ConfigureAwait(false);
                 }
                 await Context.Channel.SendConfirmAsync("🔊 **Undeafen** successful.").ConfigureAwait(false);
             }
@@ -585,8 +586,9 @@ namespace NadekoBot.Modules.Administration
             var channels = await Task.WhenAll(NadekoBot.Client.GetGuilds().Select(g =>
                 g.GetDefaultChannelAsync()
             )).ConfigureAwait(false);
-
-            await Task.WhenAll(channels.Select(c => c.SendConfirmAsync($"🆕 Message from {Context.User} `[Bot Owner]`:", message)))
+            if (channels == null)
+                return;
+            await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync($"🆕 Message from {Context.User} `[Bot Owner]`:", message)))
                     .ConfigureAwait(false);
 
             await Context.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
@@ -618,7 +620,7 @@ namespace NadekoBot.Modules.Administration
             }
             var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
             await (Context.User as IGuildUser).SendFileAsync(
-                await JsonConvert.SerializeObject(new { Messages = msgs.Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) }, Formatting.Indented).ToStream().ConfigureAwait(false),
+                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false),
                 title, title).ConfigureAwait(false);
         }
 
@@ -630,7 +632,7 @@ namespace NadekoBot.Modules.Administration
         {
             string send = $"❕{Context.User.Mention} has invoked a mention on the following roles ❕";
             foreach (var role in roles)
-            { 
+            {
                 send += $"\n**{role.Name}**\n";
                 send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Distinct().Select(u=>u.Mention));
             }

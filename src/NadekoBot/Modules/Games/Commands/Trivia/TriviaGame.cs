@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private int QuestionDurationMiliseconds { get; } = 30000;
         private int HintTimeoutMiliseconds { get; } = 6000;
-        public bool ShowHints { get; set; } = true;
+        public bool ShowHints { get; } = true;
         private CancellationTokenSource triviaCancelSource { get; set; }
 
         public TriviaQuestion CurrentQuestion { get; private set; }
@@ -35,141 +35,161 @@ namespace NadekoBot.Modules.Games.Trivia
 
         public int WinRequirement { get; } = 10;
 
-        public TriviaGame(IGuild guild, ITextChannel channel, bool showHints, int winReq = 10)
+        public TriviaGame(IGuild guild, ITextChannel channel, bool showHints, int winReq)
         {
-            _log = LogManager.GetCurrentClassLogger();
-            ShowHints = showHints;
+            this._log = LogManager.GetCurrentClassLogger();
+
+            this.ShowHints = showHints;
             this.guild = guild;
             this.channel = channel;
-            WinRequirement = winReq;
-            Task.Run(async () => { try { await StartGame().ConfigureAwait(false); } catch { } });
+            this.WinRequirement = winReq;
         }
 
-        private async Task StartGame()
+        public async Task StartGame()
         {
             while (!ShouldStopGame)
             {
                 // reset the cancellation source
                 triviaCancelSource = new CancellationTokenSource();
-                var token = triviaCancelSource.Token;
+
                 // load question
                 CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
                 if (CurrentQuestion == null)
                 {
-                    try { await channel.SendErrorAsync($":exclamation: Failed loading a trivia question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                    await End().ConfigureAwait(false);
+                    await channel.SendErrorAsync("Trivia Game", "Failed loading a question.").ConfigureAwait(false);
                     return;
                 }
                 oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
-                                                   //sendquestion
-                try { await channel.SendConfirmAsync($":question: Question",$"**{CurrentQuestion.Question}**").ConfigureAwait(false); }
-                catch (HttpException ex) when (ex.StatusCode  == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                {
-                    break;
-                }
-                catch (Exception ex) { _log.Warn(ex); }
 
-                //receive messages
-                NadekoBot.Client.MessageReceived += PotentialGuess;
-
-                //allow people to guess
-                GameActive = true;
-
+                EmbedBuilder questionEmbed;
+                IUserMessage questionMessage;
                 try
                 {
-                    //hint
-                    await Task.Delay(HintTimeoutMiliseconds, token).ConfigureAwait(false);
-                    if (ShowHints)
-                        try { await channel.SendConfirmAsync($":exclamation: Hint", CurrentQuestion.GetHint()).ConfigureAwait(false); }
-                        catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                        {
-                            break;
-                        }
-                        catch (Exception ex) { _log.Warn(ex); }
+                    questionEmbed = new EmbedBuilder().WithOkColor()
+                        .WithTitle("Trivia Game")
+                        .AddField(eab => eab.WithName("Category").WithValue(CurrentQuestion.Category))
+                        .AddField(eab => eab.WithName("Question").WithValue(CurrentQuestion.Question));
 
-                    //timeout
-                    await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token).ConfigureAwait(false);
-
+                    questionMessage = await channel.EmbedAsync(questionEmbed.Build()).ConfigureAwait(false);
                 }
-                catch (TaskCanceledException) { } //means someone guessed the answer
-                GameActive = false;
+                catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                    await Task.Delay(2000).ConfigureAwait(false);
+                    continue;
+                }
+
+                //receive messages
+                try
+                {
+                    NadekoBot.Client.MessageReceived += PotentialGuess;
+
+                    //allow people to guess
+                    GameActive = true;
+                    try
+                    {
+                        //hint
+                        await Task.Delay(HintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
+                        if (ShowHints)
+                            try
+                            {
+                                await questionMessage.ModifyAsync(m => m.Embed = questionEmbed.WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
+                                    .ConfigureAwait(false);
+                            }
+                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                            {
+                                break;
+                            }
+                            catch (Exception ex) { _log.Warn(ex); }
+
+                        //timeout
+                        await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
+
+                    }
+                    catch (TaskCanceledException) { } //means someone guessed the answer
+                }
+                finally
+                {
+                    GameActive = false;
+                    NadekoBot.Client.MessageReceived -= PotentialGuess;
+                }
                 if (!triviaCancelSource.IsCancellationRequested)
-                    try { await channel.SendConfirmAsync($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                NadekoBot.Client.MessageReceived -= PotentialGuess;
-                // load next question if game is still running
+                    try { await channel.SendErrorAsync("Trivia Game", $"**Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 await Task.Delay(2000).ConfigureAwait(false);
             }
-            try { NadekoBot.Client.MessageReceived -= PotentialGuess; } catch { }
-            GameActive = false;
-            await End().ConfigureAwait(false);
         }
 
-        public async Task End()
+        public async Task EnsureStopped()
         {
             ShouldStopGame = true;
-            TriviaGame throwaway;
-            Games.TriviaCommands.RunningTrivias.TryRemove(channel.Guild.Id, out throwaway);
-            try
-            {
-                await channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                      .WithTitle("Leaderboard")
-                      .WithDescription(GetLeaderboard())
-                      , "Trivia game ended.").ConfigureAwait(false);
-            }
-            catch { }
+
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithAuthor(eab => eab.WithName("Trivia Game Ended"))
+                    .WithTitle("Final Results")
+                    .WithDescription(GetLeaderboard())
+                    .Build()).ConfigureAwait(false);
         }
 
         public async Task StopGame()
         {
-            if (!ShouldStopGame)
-                try { await channel.SendConfirmAsync(":exclamation: Trivia will stop after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            var old = ShouldStopGame;
             ShouldStopGame = true;
+            if (!old)
+                try { await channel.SendConfirmAsync("Trivia Game", "Stopping after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
         }
 
-        private Task PotentialGuess(IMessage imsg)
+        private async void PotentialGuess(IMessage imsg)
         {
-            if (imsg.Author.IsBot)
-                return Task.CompletedTask;
-            var umsg = imsg as IUserMessage;
-            if (umsg == null)
-                return Task.CompletedTask;
-            var t = Task.Run(async () =>
+            try
             {
+                if (imsg.Author.IsBot)
+                    return;
+
+                var umsg = imsg as IUserMessage;
+                if (umsg == null)
+                    return;
+
+                var textChannel = umsg.Channel as ITextChannel;
+                if (textChannel == null || textChannel.Guild != guild)
+                    return;
+
+                var guildUser = (IGuildUser)umsg.Author;
+
+                var guess = false;
+                await _guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    if (!(imsg.Channel is IGuildChannel && imsg.Channel is ITextChannel)) return;
-                    if ((imsg.Channel as ITextChannel).Guild != guild) return;
-                    if (imsg.Author.Id == NadekoBot.Client.CurrentUser().Id) return;
-
-                    var guildUser = imsg.Author as IGuildUser;
-
-                    var guess = false;
-                    await _guessLock.WaitAsync().ConfigureAwait(false);
-                    try
+                    if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
                     {
-                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
-                        {
-                            Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
-                            guess = true;
-                        }
+                        Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
+                        guess = true;
                     }
-                    finally { _guessLock.Release(); }
-                    if (!guess) return;
-                    triviaCancelSource.Cancel();
-                    try { await channel.SendConfirmAsync($"☑️ {guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
-                    if (Users[guildUser] != WinRequirement) return;
-                    ShouldStopGame = true;
-                    await channel.SendConfirmAsync($":exclamation: We have a winner! It's {guildUser.Mention}.").ConfigureAwait(false);
                 }
-                catch (Exception ex) { _log.Warn(ex); }
-            });
-            return Task.CompletedTask;
+                finally { _guessLock.Release(); }
+                if (!guess) return;
+                triviaCancelSource.Cancel();
+
+
+                if (Users[guildUser] == WinRequirement)
+                {
+                    ShouldStopGame = true;
+                    await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    return;
+                }
+                await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+
+            }
+            catch (Exception ex) { _log.Warn(ex); }
         }
 
         public string GetLeaderboard()
         {
             if (Users.Count == 0)
-                return "";
+                return "No results.";
 
             var sb = new StringBuilder();
 

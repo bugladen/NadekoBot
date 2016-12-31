@@ -9,6 +9,7 @@ using NadekoBot.Extensions;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using NadekoBot.Services.Impl;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -23,6 +24,25 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task WhosPlaying([Remainder] string game = null)
+        public async Task TogetherTube(IUserMessage imsg)
+        {
+            Uri target;
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
+                target = res.RequestMessage.RequestUri;
+            }
+
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
+                .WithName("Together Tube")
+                .WithUrl("https://togethertube.com/"))
+                .WithDescription($"{imsg.Author.Mention} Here is your room link:\n{target}"));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task WhosPlaying(IUserMessage umsg, [Remainder] string game = null)
         {
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
@@ -123,16 +143,17 @@ namespace NadekoBot.Modules.Utility
 
             if (page < 1 || page > 100)
                 return;
+
             if (target != null)
             {
                 var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
                 if (!roles.Any())
                 {
-                    await channel.SendErrorAsync("No roles on this page.");
+                    await channel.SendErrorAsync("No roles on this page.").ConfigureAwait(false);
                 }
                 else
                 {
-                    await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```");
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of roles for {target.Username}**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```").ConfigureAwait(false);
                 }
             }
             else
@@ -140,11 +161,11 @@ namespace NadekoBot.Modules.Utility
                 var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * RolesPerPage).Take(RolesPerPage);
                 if (!roles.Any())
                 {
-                    await channel.SendErrorAsync("No roles on this page.");
+                    await channel.SendErrorAsync("No roles on this page.").ConfigureAwait(false);
                 }
                 else
                 {
-                    await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```");
+                    await channel.SendConfirmAsync($"⚔ **Page #{page} of all roles on this server:**", $"```css\n• " + string.Join("\n• ", roles).SanitizeMentions() + "\n```").ConfigureAwait(false);
                 }
             }
         }
@@ -175,19 +196,23 @@ namespace NadekoBot.Modules.Utility
             var stats = NadekoBot.Stats;
 
             await channel.EmbedAsync(
-                new EmbedBuilder().WithColor(new Color(0x00bbd6))
+                new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
                                           .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
                                           .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
                     .AddField(efb => efb.WithName(Format.Bold("Author")).WithValue(stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Library")).WithValue(stats.Library).WithIsInline(true))
-                    .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.CurrentUser().Id.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.GetCurrentUser().Id.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Commands Ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Owner ID(s)")).WithValue(stats.OwnerIds).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
-                    .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true)));
+                    .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
+#if !GLOBAL_NADEKO
+                    .WithFooter(efb => efb.WithText($"Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued."))
+#endif
+                    );
         }
 
         private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
@@ -225,7 +250,7 @@ namespace NadekoBot.Modules.Utility
                 return;
             }
 
-            await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithColor(NadekoBot.OkColor),
+            await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
                                      (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
                                                                            .WithValue($"```css\nID: {g.Id}\nMembers: {g.Users.Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false))))

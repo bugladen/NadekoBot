@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -30,7 +31,6 @@ namespace NadekoBot.Modules.Utility
             static UnitConverterCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-
                 try
                 {
                     var data = JsonConvert.DeserializeObject<List<MeasurementUnit>>(File.ReadAllText("data/units.json")).Select(u => new ConvertUnit()

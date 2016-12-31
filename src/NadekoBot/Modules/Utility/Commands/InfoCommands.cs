@@ -99,5 +99,31 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Activity(IUserMessage imsg, int page = 1)
+        {
+            const int activityPerPage = 15;
+            page -= 1;
+
+            if (page < 0)
+                return;
+
+            int startCount = page * activityPerPage;
+
+            StringBuilder str = new StringBuilder();
+            foreach (var kvp in NadekoBot.CommandHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page*activityPerPage).Take(activityPerPage))
+            {
+                str.AppendLine($"`{++startCount}.` **{kvp.Key}** [{kvp.Value/NadekoBot.Stats.GetUptime().TotalSeconds:F2}/s] - {kvp.Value} total");
+            }
+
+            await imsg.Channel.EmbedAsync(new EmbedBuilder().WithTitle($"Activity Page #{page}")
+                .WithOkColor()
+                .WithFooter(efb => efb.WithText($"{NadekoBot.CommandHandler.UserMessagesSent.Count} users total."))
+                .WithDescription(str.ToString())
+                .Build());
+        }
     }
 }

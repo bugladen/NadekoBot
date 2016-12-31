@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -26,6 +27,7 @@ namespace NadekoBot.Modules.Searches
             static JokeCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+
                 if (File.Exists("data/wowjokes.json"))
                 {
                     wowJokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));

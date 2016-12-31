@@ -57,10 +57,10 @@ Command and aliases | Description | Usage
 `.lcsc`  | Leaves Cross server channel instance from this channel. **Requires ManageServer server permission.** | `.lcsc`
 `.fwmsgs`  | Toggles forwarding of non-command messages sent to bot's DM to the bot owners **Bot Owner only.** | `.fwmsgs`
 `.fwtoall`  | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json **Bot Owner only.** | `.fwtoall`
-`.logserver`  | Logs server activity in this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver`
+`.logserver`  | Enables or Disables ALL log events. If enabled, all log events will log to this channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logserver enable` or `.logserver disable`
 `.logignore`  | Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Requires Administrator server permission.** **Bot Owner only.** | `.logignore`
-`.userpresence`  | Starts logging to this channel when someone from the server goes online/offline/idle. **Requires Administrator server permission.** | `.userpresence`
-`.voicepresence`  | Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in. **Requires Administrator server permission.** | `.voicepresence`
+`.logevents`  | Shows a list of all events you can subscribe to with `.log` **Requires Administrator server permission.** **Bot Owner only.** | `.logevents`
+`.log`  | Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `.logevents` to see a list of all events you can subscribe to. **Requires Administrator server permission.** **Bot Owner only.** | `.log userpresence` or `.log userbanned`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message and restarts the timer. **Requires ManageMessages server permission.** | `.repinv`
 `.repeat`  | Repeat a message every X minutes. If no parameters are specified, repeat is disabled. **Requires ManageMessages server permission.** | `.repeat 5 Hello there`
 `.migratedata`  | Migrate data from old bot configuration **Bot Owner only.** | `.migratedata`
@@ -120,6 +120,8 @@ Command and aliases | Description | Usage
 `.listcustreactg` `.lcrg` | Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.  | `.lcrg 1`
 `.showcustreact` `.scr` | Shows a custom reaction's response on a given ID.  | `.scr 1`
 `.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.  | `.dcr 5`
+`.crstatsclear`  | Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger.  | `.crstatsclear` or `.crstatsclear rng`
+`.crstats`  | Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `.crstatsclear` to reset the counters.  | `.crstats` or `.crstats 3`
 
 ###### [Back to TOC](#table-of-contents)
 
@@ -135,7 +137,7 @@ Command and aliases | Description | Usage
 `$leaderboard` `$lb` | Displays bot currency leaderboard.  | `$lb`
 `$race`  | Starts a new animal race.  | `$race`
 `$joinrace` `$jr` | Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.  | `$jr` or `$jr 5`
-`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.  | `$roll` or `$roll 7` or `$roll 3d5`
+`$roll`  | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.  | `$roll` or `$roll 7` or `$roll 3d5` or `$roll 5dF`
 `$rolluo`  | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.  | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`
 `$nroll`  | Rolls in a given range.  | `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$draw`  | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.  | `$draw` or `$draw 5`
@@ -156,8 +158,11 @@ Command and aliases | Description | Usage
 `>poll`  | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `>poll Question?;Answer1;Answ 2;A_3`
 `>publicpoll` `>ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `>ppoll Question?;Answer1;Answ 2;A_3`
 `>pollend`  | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `>pollend`
+`>acrophobia` `>acro` | Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)  | `>acro` or `>acro 30`
 `>cleverbot`  | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `>cleverbot`
-`>pick`  | Picks the currency planted in this channel.  | `>pick`
+`>hangmanlist`  | Shows a list of hangman term types.  | `> hangmanlist`
+`>hangman`  | Starts a game of hangman in the channel. Use `>hangmanlist` to see a list of available term types. Defaults to 'all'.  | `>hangman` or `>hangman movies`
+`>pick`  | Picks the currency planted in this channel. 60 seconds cooldown.  | `>pick`
 `>plant`  | Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)  | `>plant`
 `>gencurrency` `>gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `>gc`
 `>typestart`  | Starts a typing contest.  | `>typestart`
@@ -190,6 +195,7 @@ Command and aliases | Description | Usage
 `!!stop` `!!s` | Stops the music and clears the playlist. Stays in the channel.  | `!!s`
 `!!destroy` `!!d` | Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)  | `!!d`
 `!!pause` `!!p` | Pauses or Unpauses the song.  | `!!p`
+`!!fairplay` `!!fp` | Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `!!fp`
 `!!queue` `!!q` `!!yq` | Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.  | `!!q Dream Of Venice`
 `!!soundcloudqueue` `!!sq` | Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.  | `!!sq Dream Of Venice`
 `!!listqueue` `!!lq` | Lists 15 currently queued songs per page. Default page is 1.  | `!!lq` or `!!lq 2`
@@ -206,6 +212,7 @@ Command and aliases | Description | Usage
 `!!remove` `!!rm` | Remove a song by its # in the queue, or 'all' to remove whole queue.  | `!!rm 5`
 `!!movesong` `!!ms` | Moves a song from one position to another.  | `!!ms 5>3`
 `!!setmaxqueue` `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq 50` or `!!smq`
+`!!setmaxplaytime` `!!smp` | Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.  | `!!smp 0` or `!!smp 270`
 `!!reptcursong` `!!rcs` | Toggles repeat of current song.  | `!!rcs`
 `!!rpeatplaylst` `!!rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).  | `!!rpl`
 `!!save`  | Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.  | `!!save classical1`
@@ -213,7 +220,6 @@ Command and aliases | Description | Usage
 `!!playlists` `!!pls` | Lists all playlists. Paginated. 20 per page. Default page is 0.  | `!!pls 1`
 `!!deleteplaylist` `!!delpls` | Deletes a saved playlist. Only if you made it or if you are the bot owner.  | `!!delpls animu-5`
 `!!goto`  | Goes to a specific time in seconds in a song.  | `!!goto 30`
-`!!getlink` `!!gl` | Shows a link to the song in the queue by index, or the currently playing song by default.  | `!!gl`
 `!!autoplay` `!!ap` | Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)  | `!!ap`
 
 ###### [Back to TOC](#table-of-contents)
@@ -222,9 +228,10 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~hentai`  | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
+`~autohentai`  | Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.  | `~autohentai 30 yuri|tail|long_hair` or `~autohentai`
 `~hentaibomb`  | Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.  | `~hentaibomb yuri`
-`~yandere`  | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
 `~danbooru`  | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
+`~yandere`  | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
 `~konachan`  | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.  | `~konachan yuri`
 `~gelbooru`  | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
 `~rule34`  | Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
@@ -244,13 +251,13 @@ Command and aliases | Description | Usage
 `;removeperm` `;rp` | Removes a permission from a given position in Permissions list.  | `;rp 1`
 `;moveperm` `;mp` | Moves permission from one position to another in Permissions list.  | `;mp 2 4`
 `;srvrcmd` `;sc` | Sets a command's permission at the server level.  | `;sc "command name" disable`
-`;srvrmdl` `;sm` | Sets a module's permission at the server level.  | `;sm "module name" enable`
+`;srvrmdl` `;sm` | Sets a module's permission at the server level.  | `;sm ModuleName enable`
 `;usrcmd` `;uc` | Sets a command's permission at the user level.  | `;uc "command name" enable SomeUsername`
-`;usrmdl` `;um` | Sets a module's permission at the user level.  | `;um "module name" enable SomeUsername`
+`;usrmdl` `;um` | Sets a module's permission at the user level.  | `;um ModuleName enable SomeUsername`
 `;rolecmd` `;rc` | Sets a command's permission at the role level.  | `;rc "command name" disable MyRole`
-`;rolemdl` `;rm` | Sets a module's permission at the role level.  | `;rm "module name" enable MyRole`
+`;rolemdl` `;rm` | Sets a module's permission at the role level.  | `;rm ModuleName enable MyRole`
 `;chnlcmd` `;cc` | Sets a command's permission at the channel level.  | `;cc "command name" enable SomeChannel`
-`;chnlmdl` `;cm` | Sets a module's permission at the channel level.  | `;cm "module name" enable SomeChannel`
+`;chnlmdl` `;cm` | Sets a module's permission at the channel level.  | `;cm ModuleName enable SomeChannel`
 `;allchnlmdls` `;acm` | Enable or disable all modules in a specified channel.  | `;acm enable #SomeChannel`
 `;allrolemdls` `;arm` | Enable or disable all modules for a specific role.  | `;arm [enable/disable] MyRole`
 `;allusrmdls` `;aum` | Enable or disable all modules for a specific user.  | `;aum enable @someone`
@@ -283,7 +290,7 @@ Command and aliases | Description | Usage
 ### Searches  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`~weather` `~we` | Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.  | `~we Moscow RF`
+`~weather` `~we` | Shows weather data for a specified city. You can also specify a country after a comma.  | `~we Moscow, RU`
 `~youtube` `~yt` | Searches youtubes and shows the first result  | `~yt query`
 `~imdb` `~omdb` | Queries omdb for movies or series, show first result.  | `~imdb Batman vs Superman`
 `~randomcat` `~meow` | Shows a random cat image.  | `~meow`
@@ -297,6 +304,7 @@ Command and aliases | Description | Usage
 `~hearthstone` `~hs` | Searches for a Hearthstone card and shows its image. Takes a while to complete.  | `~hs Ysera`
 `~yodify` `~yoda` | Translates your normal sentences into Yoda styled sentences!  | ~yodify I was once an adventurer like you` or `~yoda my feelings hurt`
 `~urbandict` `~ud` | Searches Urban Dictionary for a word.  | `~ud Pineapple`
+`~define` `~def` | Finds a definition of a word.  | `~def heresy`
 `~#`  | Searches Tagdef.com for a hashtag.  | `~# ff`
 `~catfact`  | Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>  | `~catfact`
 `~revav`  | Returns a google reverse image search for someone's avatar.  | `~revav "@SomeGuy"`
@@ -322,6 +330,7 @@ Command and aliases | Description | Usage
 `~osu`  | Shows osu stats for a player.  | `~osu Name` or `~osu Name taiko`
 `~osub`  | Shows information about an osu beatmap.  | `~osub https://osu.ppy.sh/s/127712`
 `~osu5`  | Displays a user's top 5 plays.  | `~osu5 Name`
+`~overwatch` `~ow` | Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`  | `~ow us Battletag#1337` or  `~overwatch eu Battletag#2016`
 `~placelist`  | Shows the list of available tags for the `~place` command.  | `~placelist`
 `~place`  | Shows a placeholder image of a given tag. Use `~placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.  | `~place Cage` or `~place steven 500 400`
 `~pokemon` `~poke` | Searches for a pokemon.  | `~poke Sylveon`
@@ -343,6 +352,7 @@ Command and aliases | Description | Usage
 ### Utility  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
 `.whosplaying` `.whpl` | Shows a list of users who are playing the specified game.  | `.whpl Overwatch`
 `.inrole`  | Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.  | `.inrole Role`
 `.checkmyperms`  | Checks your user-specific permissions on this channel.  | `.checkmyperms`
@@ -359,6 +369,7 @@ Command and aliases | Description | Usage
 `.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`
+`.activity`  | Checks for spammers. **Bot Owner only.** | `.activity`
 `.listquotes` `.liqu` | `.liqu` or `.liqu 3`  | Lists all quotes on the server ordered alphabetically. 15 Per page.
 `...`  | Shows a random quote with a specified name.  | `... abc`
 `..`  | Adds a new quote with the specified name and message.  | `.. sayhi Hi`

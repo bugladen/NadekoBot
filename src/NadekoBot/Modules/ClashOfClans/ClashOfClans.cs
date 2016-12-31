@@ -11,6 +11,8 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading;
+using System.Diagnostics;
+using NLog;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -21,8 +23,12 @@ namespace NadekoBot.Modules.ClashOfClans
 
         private static Timer checkWarTimer { get; }
 
+        private static new readonly Logger _log;
+
         static ClashOfClans()
         {
+            _log = LogManager.GetCurrentClassLogger();
+            var sw = Stopwatch.StartNew();
             using (var uow = DbHandler.UnitOfWork())
             {
                 ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
@@ -36,7 +42,7 @@ namespace NadekoBot.Modules.ClashOfClans
                                                          .GetResult();
                             return cw;
                         })
-                        .Where(cw => cw?.Channel != null)
+                        .Where(cw => cw.Channel != null)
                         .GroupBy(cw => cw.GuildId)
                         .ToDictionary(g => g.Key, g => g.ToList()));
             }
@@ -55,6 +61,20 @@ namespace NadekoBot.Modules.ClashOfClans
         public ClashOfClans() : base()
         {
 
+
+            checkWarTimer = new Timer(async _ =>
+            {
+                foreach (var kvp in ClashWars)
+                {
+                    foreach (var war in kvp.Value)
+                    {
+                        try { await CheckWar(TimeSpan.FromHours(2), war).ConfigureAwait(false); } catch { }
+                    }
+                }
+            }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+
+            sw.Stop();
+            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)

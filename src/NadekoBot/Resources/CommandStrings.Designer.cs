@@ -87,6 +87,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to acrophobia acro.
+        /// </summary>
+        public static string acro_cmd {
+            get {
+                return ResourceManager.GetString("acro_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60).
+        /// </summary>
+        public static string acro_desc {
+            get {
+                return ResourceManager.GetString("acro_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}acro` or `{0}acro 30`.
+        /// </summary>
+        public static string acro_usage {
+            get {
+                return ResourceManager.GetString("acro_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to activity.
+        /// </summary>
+        public static string activity_cmd {
+            get {
+                return ResourceManager.GetString("activity_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Checks for spammers..
+        /// </summary>
+        public static string activity_desc {
+            get {
+                return ResourceManager.GetString("activity_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}activity`.
+        /// </summary>
+        public static string activity_usage {
+            get {
+                return ResourceManager.GetString("activity_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to addcustreact acr.
         /// </summary>
         public static string addcustreact_cmd {
@@ -542,6 +596,33 @@ namespace NadekoBot.Resources {
         public static string autoassignrole_usage {
             get {
                 return ResourceManager.GetString("autoassignrole_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to autohentai.
+        /// </summary>
+        public static string autohentai_cmd {
+            get {
+                return ResourceManager.GetString("autohentai_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable..
+        /// </summary>
+        public static string autohentai_desc {
+            get {
+                return ResourceManager.GetString("autohentai_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`.
+        /// </summary>
+        public static string autohentai_usage {
+            get {
+                return ResourceManager.GetString("autohentai_usage", resourceCulture);
             }
         }
         
@@ -1347,7 +1428,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}cm &quot;module name&quot; enable SomeChannel`.
+        ///    Looks up a localized string similar to `{0}cm ModuleName enable SomeChannel`.
         /// </summary>
         public static string chnlmdl_usage {
             get {
@@ -1977,6 +2058,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to define def.
+        /// </summary>
+        public static string define_cmd {
+            get {
+                return ResourceManager.GetString("define_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds a definition of a word..
+        /// </summary>
+        public static string define_desc {
+            get {
+                return ResourceManager.GetString("define_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}def heresy`.
+        /// </summary>
+        public static string define_usage {
+            get {
+                return ResourceManager.GetString("define_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to defvol dv.
         /// </summary>
         public static string defvol_cmd {
@@ -2409,6 +2517,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to fairplay fp.
+        /// </summary>
+        public static string fairplay_cmd {
+            get {
+                return ResourceManager.GetString("fairplay_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles fairplay. While enabled, music player will prioritize songs from users who didn&apos;t have their song recently played instead of the song&apos;s position in the queue..
+        /// </summary>
+        public static string fairplay_desc {
+            get {
+                return ResourceManager.GetString("fairplay_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}fp`.
+        /// </summary>
+        public static string fairplay_usage {
+            get {
+                return ResourceManager.GetString("fairplay_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to fw.
         /// </summary>
         public static string filterword_cmd {
@@ -2567,33 +2702,6 @@ namespace NadekoBot.Resources {
         public static string gencurrency_usage {
             get {
                 return ResourceManager.GetString("gencurrency_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to getlink gl.
-        /// </summary>
-        public static string getlink_cmd {
-            get {
-                return ResourceManager.GetString("getlink_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Shows a link to the song in the queue by index, or the currently playing song by default..
-        /// </summary>
-        public static string getlink_desc {
-            get {
-                return ResourceManager.GetString("getlink_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}gl`.
-        /// </summary>
-        public static string getlink_usage {
-            get {
-                return ResourceManager.GetString("getlink_usage", resourceCulture);
             }
         }
         
@@ -3894,6 +4002,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to log.
+        /// </summary>
+        public static string log_cmd {
+            get {
+                return ResourceManager.GetString("log_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a list of all events you can subscribe to..
+        /// </summary>
+        public static string log_desc {
+            get {
+                return ResourceManager.GetString("log_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}log userpresence` or `{0}log userbanned`.
+        /// </summary>
+        public static string log_usage {
+            get {
+                return ResourceManager.GetString("log_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to logevents.
+        /// </summary>
+        public static string logevents_cmd {
+            get {
+                return ResourceManager.GetString("logevents_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of all events you can subscribe to with `{0}log`.
+        /// </summary>
+        public static string logevents_desc {
+            get {
+                return ResourceManager.GetString("logevents_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}logevents`.
+        /// </summary>
+        public static string logevents_usage {
+            get {
+                return ResourceManager.GetString("logevents_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to logignore.
         /// </summary>
         public static string logignore_cmd {
@@ -3930,7 +4092,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Logs server activity in this channel..
+        ///    Looks up a localized string similar to Enables or Disables ALL log events. If enabled, all log events will log to this channel..
         /// </summary>
         public static string logserver_desc {
             get {
@@ -3939,7 +4101,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}logserver`.
+        ///    Looks up a localized string similar to `{0}logserver enable` or `{0}logserver disable`.
         /// </summary>
         public static string logserver_usage {
             get {
@@ -4648,8 +4810,8 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("osub_usage", resourceCulture);
             }
         }
-		
-		/// <summary>
+        
+        /// <summary>
         ///    Looks up a localized string similar to overwatch ow.
         /// </summary>
         public static string overwatch_cmd {
@@ -4740,7 +4902,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Picks the currency planted in this channel..
+        ///    Looks up a localized string similar to Picks the currency planted in this channel. 60 seconds cooldown..
         /// </summary>
         public static string pick_desc {
             get {
@@ -5775,7 +5937,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}rm &quot;module name&quot; enable MyRole`.
+        ///    Looks up a localized string similar to `{0}rm ModuleName enable MyRole`.
         /// </summary>
         public static string rolemdl_usage {
             get {
@@ -5820,7 +5982,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y..
+        ///    Looks up a localized string similar to Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter &apos;F&apos; if you want to roll fate dice instead of dnd..
         /// </summary>
         public static string roll_desc {
             get {
@@ -5829,7 +5991,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}roll` or `{0}roll 7` or `{0}roll 3d5`.
+        ///    Looks up a localized string similar to `{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`.
         /// </summary>
         public static string roll_usage {
             get {
@@ -6266,6 +6428,33 @@ namespace NadekoBot.Resources {
         public static string setgame_usage {
             get {
                 return ResourceManager.GetString("setgame_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setmaxplaytime smp.
+        /// </summary>
+        public static string setmaxplaytime_cmd {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit..
+        /// </summary>
+        public static string setmaxplaytime_desc {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smp 0` or `{0}smp 270`.
+        /// </summary>
+        public static string setmaxplaytime_usage {
+            get {
+                return ResourceManager.GetString("setmaxplaytime_usage", resourceCulture);
             }
         }
         
@@ -6828,7 +7017,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}sm &quot;module name&quot; enable`.
+        ///    Looks up a localized string similar to `{0}sm ModuleName enable`.
         /// </summary>
         public static string srvrmdl_usage {
             get {
@@ -7611,7 +7800,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}um &quot;module name&quot; enable SomeUsername`.
+        ///    Looks up a localized string similar to `{0}um ModuleName enable SomeUsername`.
         /// </summary>
         public static string usrmdl_usage {
             get {
@@ -7818,7 +8007,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations..
+        ///    Looks up a localized string similar to Shows weather data for a specified city. You can also specify a country after a comma..
         /// </summary>
         public static string weather_desc {
             get {
@@ -7827,7 +8016,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}we Moscow RF`.
+        ///    Looks up a localized string similar to `{0}we Moscow, RU`.
         /// </summary>
         public static string weather_usage {
             get {

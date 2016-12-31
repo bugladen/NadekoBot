@@ -229,10 +229,10 @@
     <value>logserver</value>
   </data>
   <data name="logserver_desc" xml:space="preserve">
-    <value>Logs server activity in this channel.</value>
+    <value>Enables or Disables ALL log events. If enabled, all log events will log to this channel.</value>
   </data>
   <data name="logserver_usage" xml:space="preserve">
-    <value>`{0}logserver`</value>
+    <value>`{0}logserver enable` or `{0}logserver disable`</value>
   </data>
   <data name="logignore_cmd" xml:space="preserve">
     <value>logignore</value>
@@ -988,7 +988,7 @@
     <value>Sets a module's permission at the server level.</value>
   </data>
   <data name="srvrmdl_usage" xml:space="preserve">
-    <value>`{0}sm "module name" enable`</value>
+    <value>`{0}sm ModuleName enable`</value>
   </data>
   <data name="srvrcmd_cmd" xml:space="preserve">
     <value>srvrcmd sc</value>
@@ -1006,7 +1006,7 @@
     <value>Sets a module's permission at the role level.</value>
   </data>
   <data name="rolemdl_usage" xml:space="preserve">
-    <value>`{0}rm "module name" enable MyRole`</value>
+    <value>`{0}rm ModuleName enable MyRole`</value>
   </data>
   <data name="rolecmd_cmd" xml:space="preserve">
     <value>rolecmd rc</value>
@@ -1024,7 +1024,7 @@
     <value>Sets a module's permission at the channel level.</value>
   </data>
   <data name="chnlmdl_usage" xml:space="preserve">
-    <value>`{0}cm "module name" enable SomeChannel`</value>
+    <value>`{0}cm ModuleName enable SomeChannel`</value>
   </data>
   <data name="chnlcmd_cmd" xml:space="preserve">
     <value>chnlcmd cc</value>
@@ -1042,7 +1042,7 @@
     <value>Sets a module's permission at the user level.</value>
   </data>
   <data name="usrmdl_usage" xml:space="preserve">
-    <value>`{0}um "module name" enable SomeUsername`</value>
+    <value>`{0}um ModuleName enable SomeUsername`</value>
   </data>
   <data name="usrcmd_cmd" xml:space="preserve">
     <value>usrcmd uc</value>
@@ -1192,10 +1192,10 @@
     <value>roll</value>
   </data>
   <data name="roll_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
   </data>
   <data name="roll_usage" xml:space="preserve">
-    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5`</value>
+    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`</value>
   </data>
   <data name="rolluo_cmd" xml:space="preserve">
     <value>rolluo</value>
@@ -1363,7 +1363,7 @@
     <value>pick</value>
   </data>
   <data name="pick_desc" xml:space="preserve">
-    <value>Picks the currency planted in this channel.</value>
+    <value>Picks the currency planted in this channel. 60 seconds cooldown.</value>
   </data>
   <data name="pick_usage" xml:space="preserve">
     <value>`{0}pick`</value>
@@ -1692,15 +1692,6 @@
   <data name="goto_usage" xml:space="preserve">
     <value>`{0}goto 30`</value>
   </data>
-  <data name="getlink_cmd" xml:space="preserve">
-    <value>getlink gl</value>
-  </data>
-  <data name="getlink_desc" xml:space="preserve">
-    <value>Shows a link to the song in the queue by index, or the currently playing song by default.</value>
-  </data>
-  <data name="getlink_usage" xml:space="preserve">
-    <value>`{0}gl`</value>
-  </data>
   <data name="autoplay_cmd" xml:space="preserve">
     <value>autoplay ap</value>
   </data>
@@ -1876,10 +1867,10 @@
     <value>weather we</value>
   </data>
   <data name="weather_desc" xml:space="preserve">
-    <value>Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.</value>
+    <value>Shows weather data for a specified city. You can also specify a country after a comma.</value>
   </data>
   <data name="weather_usage" xml:space="preserve">
-    <value>`{0}we Moscow RF`</value>
+    <value>`{0}we Moscow, RU`</value>
   </data>
   <data name="youtube_cmd" xml:space="preserve">
     <value>youtube yt</value>
@@ -2781,7 +2772,7 @@
   <data name="crstats_usage" xml:space="preserve">
     <value>`{0}crstats` or `{0}crstats 3`</value>
   </data>
-    <data name="overwatch_cmd" xml:space="preserve">
+  <data name="overwatch_cmd" xml:space="preserve">
     <value>overwatch ow</value>
   </data>
   <data name="overwatch_desc" xml:space="preserve">
@@ -2789,5 +2780,77 @@
   </data>
   <data name="overwatch_usage" xml:space="preserve">
     <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
+  </data>
+  <data name="acro_cmd" xml:space="preserve">
+    <value>acrophobia acro</value>
+  </data>
+  <data name="acro_desc" xml:space="preserve">
+    <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)</value>
+  </data>
+  <data name="acro_usage" xml:space="preserve">
+    <value>`{0}acro` or `{0}acro 30`</value>
+  </data>
+  <data name="logevents_cmd" xml:space="preserve">
+    <value>logevents</value>
+  </data>
+  <data name="logevents_desc" xml:space="preserve">
+    <value>Shows a list of all events you can subscribe to with `{0}log`</value>
+  </data>
+  <data name="logevents_usage" xml:space="preserve">
+    <value>`{0}logevents`</value>
+  </data>
+  <data name="log_cmd" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="log_desc" xml:space="preserve">
+    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
+  </data>
+  <data name="log_usage" xml:space="preserve">
+    <value>`{0}log userpresence` or `{0}log userbanned`</value>
+  </data>
+  <data name="fairplay_cmd" xml:space="preserve">
+    <value>fairplay fp</value>
+  </data>
+  <data name="fairplay_desc" xml:space="preserve">
+    <value>Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.</value>
+  </data>
+  <data name="fairplay_usage" xml:space="preserve">
+    <value>`{0}fp`</value>
+  </data>
+  <data name="define_cmd" xml:space="preserve">
+    <value>define def</value>
+  </data>
+  <data name="define_desc" xml:space="preserve">
+    <value>Finds a definition of a word.</value>
+  </data>
+  <data name="define_usage" xml:space="preserve">
+    <value>`{0}def heresy`</value>
+  </data>
+  <data name="setmaxplaytime_cmd" xml:space="preserve">
+    <value>setmaxplaytime smp</value>
+  </data>
+  <data name="setmaxplaytime_desc" xml:space="preserve">
+    <value>Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit.</value>
+  </data>
+  <data name="setmaxplaytime_usage" xml:space="preserve">
+    <value>`{0}smp 0` or `{0}smp 270`</value>
+  </data>
+  <data name="activity_cmd" xml:space="preserve">
+    <value>activity</value>
+  </data>
+  <data name="activity_desc" xml:space="preserve">
+    <value>Checks for spammers.</value>
+  </data>
+  <data name="activity_usage" xml:space="preserve">
+    <value>`{0}activity`</value>
+  </data>
+  <data name="autohentai_cmd" xml:space="preserve">
+    <value>autohentai</value>
+  </data>
+  <data name="autohentai_desc" xml:space="preserve">
+    <value>Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autohentai_usage" xml:space="preserve">
+    <value>`{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`</value>
   </data>
 </root>

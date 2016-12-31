@@ -33,8 +33,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.ActiveCfg = GlobalNadeko|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = GlobalNadeko|Any CPU
+		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.ActiveCfg = Release|Any CPU
+		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91E9E7BD-75C9-4E98-84AA-2C271922E5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

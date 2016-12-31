@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="data\questions.json" />
+    <DnxInvisibleContent Include="data\questions2.json" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

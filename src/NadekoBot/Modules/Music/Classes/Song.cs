@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using VideoLibrary;
+using System.Net;
 
 namespace NadekoBot.Modules.Music.Classes
 {
@@ -18,42 +19,20 @@ namespace NadekoBot.Modules.Music.Classes
     {
         public string Provider { get; set; }
         public MusicType ProviderType { get; set; }
-        /// <summary>
-        /// Will be set only if the providertype is normal
-        /// </summary>
         public string Query { get; set; }
         public string Title { get; set; }
         public string Uri { get; set; }
-    public string AlbumArt { get; set; }
+        public string AlbumArt { get; set; }
     }
+
     public class Song
     {
-    public StreamState State { get; set; }
-        public string PrettyName =>
-            $"**{SongInfo.Title.TrimTo(55)} `{(SongInfo.Provider ?? "-")} by {QueuerName}`**";
-        //$"{SongInfo.Title.TrimTo(70)}";
         public SongInfo SongInfo { get; }
         public MusicPlayer MusicPlayer { get; set; }
-        
-        public string PrettyUser =>
-            $"{QueuerName}";
         public string QueuerName { get; set; }
-        
-        public string PrettyProvider =>
-            $"{(SongInfo.Provider ?? "No Provider")}";
 
-        public string PrettyCurrentTime()
-        {
-            var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
-            var str = $"{(int)time.TotalMinutes}m {time.Seconds}s / ";
-            if (TotalLength == TimeSpan.Zero)
-                str += "**?**";
-            else if (TotalLength == TimeSpan.MaxValue)
-                str += "**∞**";
-            else
-                str += $"{(int)TotalLength.TotalMinutes}m {TotalLength.Seconds}s";
-            return str;
-        }
+        public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / frameBytes / (1000 / milliseconds));
 
         const int milliseconds = 20;
         const int samplesPerFrame = (48000 / 1000) * milliseconds;
@@ -61,11 +40,71 @@ namespace NadekoBot.Modules.Music.Classes
 
         private ulong bytesSent { get; set; } = 0;
 
-        public bool PrintStatusMessage { get; set; } = true;
+        //pwetty
+
+        public string PrettyProvider =>
+            $"{(SongInfo.Provider ?? "No Provider")}";
+
+        public string PrettyFullTime => PrettyCurrentTime + " / " + PrettyTotalTime;
+
+        public string PrettyName  => $"**[{SongInfo.Title.TrimTo(65)}]({songUrl})**";
+
+        public string PrettyInfo => $"{MusicPlayer.PrettyVolume} | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
+
+        public string PrettyFullName => $"{PrettyName}\n\t\t`{PrettyTotalTime} | {PrettyProvider} | {QueuerName}`";
+
+        public string PrettyCurrentTime => CurrentTime.ToString(@"mm\:ss");
+
+        private string PrettyTotalTime {
+            get {
+                if (TotalTime == TimeSpan.Zero)
+                    return "(?)";
+                else if (TotalTime == TimeSpan.MaxValue)
+                    return "∞";
+                else
+                    return TotalTime.ToString(@"mm\:ss");
+            }
+        }
+
+        public string Thumbnail {
+            get {
+                switch (SongInfo.ProviderType)
+                {
+                    case MusicType.Radio:
+                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
+                    case MusicType.Normal:
+                        //todo have videoid in songinfo from the start
+                        var videoId = Regex.Match(SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
+                        return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
+                    case MusicType.Local:
+                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
+                    case MusicType.Soundcloud:
+                        return SongInfo.AlbumArt;
+                    default:
+                        return "";
+                }
+            }
+        }
+
+        private string songUrl {
+            get {
+                switch (SongInfo.ProviderType)
+                {
+                    case MusicType.Normal:
+                        return SongInfo.Query;
+                    case MusicType.Soundcloud:
+                        return SongInfo.Query;
+                    case MusicType.Local:
+                        return $"https://google.com/search?q={ WebUtility.UrlEncode(SongInfo.Title).Replace(' ', '+') }";
+                    case MusicType.Radio:
+                        return $"https://google.com/search?q={SongInfo.Title}";
+                    default:
+                        return "";
+                }
+            }
+        }
 
         private int skipTo = 0;
-        private Logger _log;
-
         public int SkipTo {
             get { return skipTo; }
             set {
@@ -74,7 +113,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        public TimeSpan TotalLength { get; set; } = TimeSpan.Zero;
+        private readonly Logger _log;
 
         public Song(SongInfo songInfo)
         {
@@ -86,14 +125,8 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var s = new Song(SongInfo);
             s.MusicPlayer = MusicPlayer;
-            s.State = StreamState.Queued;
+            s.QueuerName = QueuerName;
             return s;
-        }
-
-        public Song SetMusicPlayer(MusicPlayer mp)
-        {
-            this.MusicPlayer = mp;
-            return this;
         }
 
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
@@ -105,7 +138,7 @@ namespace NadekoBot.Modules.Music.Classes
 
             try
             {
-                var attempt = 0;             
+                var attempt = 0;
 
                 var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken, 1.MiB()); //Fast connection can do this easy
                 var finished = false;
@@ -126,7 +159,7 @@ namespace NadekoBot.Modules.Music.Classes
                             _log.Warn("Slow connection buffering more to ensure no disruption, consider hosting in cloud");
                             continue;
                         }
-                        
+
                         if (inStream.BufferingCompleted && count == 1)
                         {
                             _log.Debug("Prebuffering canceled. Cannot get any data from the stream.");
@@ -136,7 +169,7 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             continue;
                         }
-                     }
+                    }
                     else if (prebufferingTask.IsCanceled)
                     {
                         _log.Debug("Prebuffering canceled. Cannot get any data from the stream.");
@@ -145,19 +178,20 @@ namespace NadekoBot.Modules.Music.Classes
                     finished = true;
                 }
                 sw.Stop();
-                _log.Debug("Prebuffering successfully completed in "+ sw.Elapsed);
+                _log.Debug("Prebuffering successfully completed in " + sw.Elapsed);
 
                 var outStream = voiceClient.CreatePCMStream(960);
 
                 int nextTime = Environment.TickCount + milliseconds;
 
                 byte[] buffer = new byte[frameBytes];
-                while (!cancelToken.IsCancellationRequested)
+                while (!cancelToken.IsCancellationRequested && //song canceled for whatever reason
+                    !(MusicPlayer.MaxPlaytimeSeconds != 0 && CurrentTime.TotalSeconds >= MusicPlayer.MaxPlaytimeSeconds)) // or exceedded max playtime
                 {
                     //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                     var read = await inStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     //await inStream.CopyToAsync(voiceClient.OutputStream);
-                    if(read < frameBytes)
+                    if (read < frameBytes)
                         _log.Debug("read {0}", read);
                     unchecked
                     {
@@ -177,10 +211,15 @@ namespace NadekoBot.Modules.Music.Classes
                             if (slowconnection)
                             {
                                 _log.Warn("Slow connection has disrupted music, waiting a bit for buffer");
+
                                 await Task.Delay(1000, cancelToken).ConfigureAwait(false);
+                                nextTime = Environment.TickCount + milliseconds;
                             }
                             else
+                            {
                                 await Task.Delay(100, cancelToken).ConfigureAwait(false);
+                                nextTime = Environment.TickCount + milliseconds;
+                            }
                         }
                         else
                             attempt = 0;
@@ -189,7 +228,10 @@ namespace NadekoBot.Modules.Music.Classes
                         attempt = 0;
 
                     while (this.MusicPlayer.Paused)
+                    {
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
+                        nextTime = Environment.TickCount + milliseconds;
+                    }
 
 
                     buffer = AdjustVolume(buffer, MusicPlayer.Volume);
@@ -204,7 +246,7 @@ namespace NadekoBot.Modules.Music.Classes
             finally
             {
                 await bufferTask;
-                if(inStream != null)
+                if (inStream != null)
                     inStream.Dispose();
             }
         }
@@ -217,35 +259,6 @@ namespace NadekoBot.Modules.Music.Classes
             }
             _log.Debug("Buffering successfull");
         }
-
-        /*
-        //stackoverflow ftw
-        private static byte[] AdjustVolume(byte[] audioSamples, float volume)
-        {
-            if (Math.Abs(volume - 1.0f) < 0.01f)
-                return audioSamples;
-            var array = new byte[audioSamples.Length];
-            for (var i = 0; i < array.Length; i += 2)
-            {
-
-                // convert byte pair to int
-                short buf1 = audioSamples[i + 1];
-                short buf2 = audioSamples[i];
-
-                buf1 = (short)((buf1 & 0xff) << 8);
-                buf2 = (short)(buf2 & 0xff);
-
-                var res = (short)(buf1 | buf2);
-                res = (short)(res * volume);
-
-                // convert back
-                array[i] = (byte)res;
-                array[i + 1] = (byte)(res >> 8);
-
-            }
-            return array;
-        }
-        */
 
         //aidiakapi ftw
         public unsafe static byte[] AdjustVolume(byte[] audioSamples, float volume)
@@ -272,202 +285,5 @@ namespace NadekoBot.Modules.Music.Classes
 
             return audioSamples;
         }
-
-        public static async Task<Song> ResolveSong(string query, MusicType musicType = MusicType.Normal)
-        {
-            if (string.IsNullOrWhiteSpace(query))
-                throw new ArgumentNullException(nameof(query));
-
-            if (musicType != MusicType.Local && IsRadioLink(query))
-            {
-                musicType = MusicType.Radio;
-                query = await HandleStreamContainers(query).ConfigureAwait(false) ?? query;
-            }
-
-            try
-            {
-                switch (musicType)
-                {
-                    case MusicType.Local:
-                        return new Song(new SongInfo
-                        {
-                            Uri = "\"" + Path.GetFullPath(query) + "\"",
-                            Title = Path.GetFileNameWithoutExtension(query),
-                            Provider = "Local File",
-                            ProviderType = musicType,
-                            Query = query,
-                        });
-                    case MusicType.Radio:
-                        return new Song(new SongInfo
-                        {
-                            Uri = query,
-                            Title = $"{query}",
-                            Provider = "Radio Stream",
-                            ProviderType = musicType,
-                            Query = query
-                        })
-                        { TotalLength = TimeSpan.MaxValue };
-                }
-                if (SoundCloud.Default.IsSoundCloudLink(query))
-                {
-                    var svideo = await SoundCloud.Default.ResolveVideoAsync(query).ConfigureAwait(false);
-                    return new Song(new SongInfo
-                    {
-                        Title = svideo.FullName,
-                        Provider = "SoundCloud",
-                        Uri = svideo.StreamLink,
-                        ProviderType = musicType,
-                        Query = svideo.TrackLink,
-            AlbumArt = svideo.artwork_url,
-                    })
-                    { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
-                }
-
-                if (musicType == MusicType.Soundcloud)
-                {
-                    var svideo = await SoundCloud.Default.GetVideoByQueryAsync(query).ConfigureAwait(false);
-                    return new Song(new SongInfo
-                    {
-                        Title = svideo.FullName,
-                        Provider = "SoundCloud",
-                        Uri = svideo.StreamLink,
-                        ProviderType = MusicType.Normal,
-                        Query = svideo.TrackLink,
-            AlbumArt = svideo.artwork_url,
-                    })
-                    { TotalLength = TimeSpan.FromMilliseconds(svideo.Duration) };
-                }
-
-                var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
-                if (string.IsNullOrWhiteSpace(link))
-                    throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
-                var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-                var video = videos
-                    .Where(v => v.AudioBitrate < 256)
-                    .OrderByDescending(v => v.AudioBitrate)
-                    .FirstOrDefault();
-
-                if (video == null) // do something with this error
-                    throw new Exception("Could not load any video elements based on the query.");
-                var m = Regex.Match(query, @"\?t=(?<t>\d*)");
-                int gotoTime = 0;
-                if (m.Captures.Count > 0)
-                    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
-                var song = new Song(new SongInfo
-                {
-                    Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
-                    Provider = "YouTube",
-                    Uri = video.Uri,
-                    Query = link,
-                    ProviderType = musicType,
-                });
-                song.SkipTo = gotoTime;
-                return song;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed resolving the link.{ex.Message}");
-                return null;
-            }
-        }
-
-        private static async Task<string> HandleStreamContainers(string query)
-        {
-            string file = null;
-            try
-            {
-                using (var http = new HttpClient())
-                {
-                    file = await http.GetStringAsync(query).ConfigureAwait(false);
-                }
-            }
-            catch
-            {
-                return query;
-            }
-            if (query.Contains(".pls"))
-            {
-                //File1=http://armitunes.com:8000/
-                //Regex.Match(query)
-                try
-                {
-                    var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    Console.WriteLine($"Failed reading .pls:\n{file}");
-                    return null;
-                }
-            }
-            if (query.Contains(".m3u"))
-            {
-                /* 
-# This is a comment
-                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
-                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
-                */
-                try
-                {
-                    var m = Regex.Match(file, "(?<url>^[^#].*)", RegexOptions.Multiline);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    Console.WriteLine($"Failed reading .m3u:\n{file}");
-                    return null;
-                }
-
-            }
-            if (query.Contains(".asx"))
-            {
-                //<ref href="http://armitunes.com:8000"/>
-                try
-                {
-                    var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    Console.WriteLine($"Failed reading .asx:\n{file}");
-                    return null;
-                }
-            }
-            if (query.Contains(".xspf"))
-            {
-                /*
-                <?xml version="1.0" encoding="UTF-8"?>
-                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
-                        <trackList>
-                            <track><location>file:///mp3s/song_1.mp3</location></track>
-                */
-                try
-                {
-                    var m = Regex.Match(file, "<location>(?<url>.*?)</location>");
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    Console.WriteLine($"Failed reading .xspf:\n{file}");
-                    return null;
-                }
-            }
-
-            return query;
-        }
-
-        private static bool IsRadioLink(string query) =>
-            (query.StartsWith("http") ||
-            query.StartsWith("ww"))
-            &&
-            (query.Contains(".pls") ||
-            query.Contains(".m3u") ||
-            query.Contains(".asx") ||
-            query.Contains(".xspf"));
     }
 }

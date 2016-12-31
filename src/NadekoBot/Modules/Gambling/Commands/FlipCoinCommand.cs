@@ -70,8 +70,6 @@ namespace NadekoBot.Modules.Gambling
                     await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
-
-                await CurrencyHandler.RemoveCurrencyAsync(guildUser, "Betflip Gamble", amount, false).ConfigureAwait(false);
                 //heads = true
                 //tails = false
 

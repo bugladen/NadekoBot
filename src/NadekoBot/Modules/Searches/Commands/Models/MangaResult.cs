@@ -10,6 +10,7 @@ namespace NadekoBot.Modules.Searches.Models
         public int total_volumes;
         public string description;
         public string[] Genres;
+        public string average_score;
         public string Link => "http://anilist.co/manga/" + id;
         public string Synopsis => description?.Substring(0, description.Length > 500 ? 500 : description.Length) + "...";
     }

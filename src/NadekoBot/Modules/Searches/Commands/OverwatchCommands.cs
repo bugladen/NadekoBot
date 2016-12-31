@@ -15,12 +15,19 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OverwatchCommands : ModuleBase
         {
+            private readonly Logger _log;
+            public OverwatchCommands()
+            {
+                _log = LogManager.GetCurrentClassLogger();
+            }
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Overwatch(string region, [Remainder] string query = null)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
-                var battletag = query.Replace("#", "-");
+                var battletag = Regex.Replace(query, "#", "-", RegexOptions.IgnoreCase);
+
+                await channel.TriggerTypingAsync().ConfigureAwait(false);
                 try
                 {
                     await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -28,6 +35,7 @@ namespace NadekoBot.Modules.Searches
                         
                     var rankimg = $"{model.Competitive.rank_img}";
                     var rank = $"{model.Competitive.rank}";
+                    var competitiveplay = $"{model.Games.Competitive.played}";
                     if (string.IsNullOrWhiteSpace(rank))
                     {
                         var embed = new EmbedBuilder()
@@ -43,7 +51,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
-                            .WithColor(NadekoBot.OkColor);
+                            .WithOkColor();
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                     else
