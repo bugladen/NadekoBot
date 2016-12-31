@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Administration
                     if (muted == null || !muted.Contains(usr.Id))
                         return;
                     else
-                        await Mute(usr).ConfigureAwait(false);
+                        await MuteUser(usr).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -215,7 +215,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await user.AddRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                    await user.AddRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                     UserMuted(user, MuteType.Chat);
                     await Context.Channel.SendConfirmAsync($"✏️🚫 **{user}** has been **muted** from chatting.").ConfigureAwait(false);
                 }
@@ -232,7 +232,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await user.RemoveRolesAsync(await GetMuteRole(channel.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                    await user.RemoveRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                     UserUnmuted(user, MuteType.Chat);
                     await Context.Channel.SendConfirmAsync($"✏️✅ **{user}** has been **unmuted** from chatting.").ConfigureAwait(false);
                 }

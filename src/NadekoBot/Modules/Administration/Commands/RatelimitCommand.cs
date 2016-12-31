@@ -118,7 +118,6 @@ namespace NadekoBot.Modules.Administration
                     MaxMessages = msg,
                     PerSeconds = perSec,
                 };
-                if (RatelimitingChannels.TryAdd(channel.Id, toAdd))
                 if(RatelimitingChannels.TryAdd(Context.Channel.Id, toAdd))
                 {
                     await Context.Channel.SendConfirmAsync("Slow mode initiated",

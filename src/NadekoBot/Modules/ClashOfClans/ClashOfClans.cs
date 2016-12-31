@@ -58,24 +58,6 @@ namespace NadekoBot.Modules.ClashOfClans
                 }
             }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
-        public ClashOfClans() : base()
-        {
-
-
-            checkWarTimer = new Timer(async _ =>
-            {
-                foreach (var kvp in ClashWars)
-                {
-                    foreach (var war in kvp.Value)
-                    {
-                        try { await CheckWar(TimeSpan.FromHours(2), war).ConfigureAwait(false); } catch { }
-                    }
-                }
-            }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
-
-            sw.Stop();
-            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
-        }
 
         private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
         {

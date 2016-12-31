@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Games.Trivia
                         .AddField(eab => eab.WithName("Category").WithValue(CurrentQuestion.Category))
                         .AddField(eab => eab.WithName("Question").WithValue(CurrentQuestion.Question));
 
-                    questionMessage = await channel.EmbedAsync(questionEmbed.Build()).ConfigureAwait(false);
+                    questionMessage = await channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
                 }
                 catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Games.Trivia
                         if (ShowHints)
                             try
                             {
-                                await questionMessage.ModifyAsync(m => m.Embed = questionEmbed.WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
+                                await questionMessage.ModifyAsync(m => m.Embed = questionEmbed.WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())))
                                     .ConfigureAwait(false);
                             }
                             catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
@@ -130,8 +130,7 @@ namespace NadekoBot.Modules.Games.Trivia
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName("Trivia Game Ended"))
                     .WithTitle("Final Results")
-                    .WithDescription(GetLeaderboard())
-                    .Build()).ConfigureAwait(false);
+                    .WithDescription(GetLeaderboard())).ConfigureAwait(false);
         }
 
         public async Task StopGame()

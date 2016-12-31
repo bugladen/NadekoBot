@@ -125,12 +125,12 @@ namespace NadekoBot.Modules.Games
                     {
                         var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
                         finishedUserIds.Add(msg.Author.Id);
-                        await Extensions.Extensions.EmbedAsync(this.Channel, (Discord.API.Embed)new EmbedBuilder().WithColor((uint)NadekoBot.OkColor)
+                        await this.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle((string)$"{msg.Author} finished the race!")
                             .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
                             .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.Seconds.ToString()}sec]*").WithIsInline(true))
-                            .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true))
-                            .Build()).ConfigureAwait(false);
+                            .AddField(efb => efb.WithName((string)"Errors").WithValue((string)distance.ToString()).WithIsInline((bool)true)))
+                                .ConfigureAwait(false);
                         if (finishedUserIds.Count % 4 == 0)
                         {
                             await this.Channel.SendConfirmAsync($":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**").ConfigureAwait(false);

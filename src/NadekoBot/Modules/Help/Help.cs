@@ -41,8 +41,7 @@ namespace NadekoBot.Modules.Help
         {
 
             var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText($" ℹ️ Type `-cmds ModuleName` to get a list of commands in that module. eg `-cmds games`"))
-                .WithTitle("📜 List Of Modules").WithDescription("\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name).OrderBy(s=>s)))
-                .Build();
+                .WithTitle("📜 List Of Modules").WithDescription("\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name).OrderBy(s=>s)));
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 

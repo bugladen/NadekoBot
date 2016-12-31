@@ -122,8 +122,7 @@ namespace NadekoBot.Modules.Utility
             await imsg.Channel.EmbedAsync(new EmbedBuilder().WithTitle($"Activity Page #{page}")
                 .WithOkColor()
                 .WithFooter(efb => efb.WithText($"{NadekoBot.CommandHandler.UserMessagesSent.Count} users total."))
-                .WithDescription(str.ToString())
-                .Build());
+                .WithDescription(str.ToString()));
         }
     }
 }

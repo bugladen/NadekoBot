@@ -9,6 +9,8 @@ using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using Discord.WebSocket;
+using System.Diagnostics;
+using NLog;
 
 namespace NadekoBot.Modules.Permissions
 {

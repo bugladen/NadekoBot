@@ -16,6 +16,7 @@ using NadekoBot.Modules.Help;
 using static NadekoBot.Modules.Administration.Administration;
 using NadekoBot.Modules.CustomReactions;
 using NadekoBot.Modules.Games;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Services
 {
@@ -34,6 +35,9 @@ namespace NadekoBot.Services
         private List<IDMChannel> ownerChannels { get; set; }
 
         public event Func<SocketUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
+
+        //userid/msg count
+        public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
 
         public CommandHandler(ShardedDiscordClient client, CommandService commandService)
         {
@@ -63,6 +67,9 @@ namespace NadekoBot.Services
             var usrMsg = msg as SocketUserMessage;
             if (usrMsg == null)
                 return;
+
+            if (!usrMsg.IsAuthor())
+                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
 
             if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
                 return;
@@ -294,7 +301,7 @@ namespace NadekoBot.Services
                 if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
                     return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
 
-                return new ExecuteCommandResult(commands[i], null, await commands[i].Execute(context, parseResult, dependencyMap));
+                return new ExecuteCommandResult(cmd, null, await commands[i].ExecuteAsync(context, parseResult, dependencyMap));
             }
 
             return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));

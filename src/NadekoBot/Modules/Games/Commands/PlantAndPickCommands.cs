@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(imsg.Author.Id))
+                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(Context.User.Id))
                     return;
 
                 try
@@ -121,14 +121,14 @@ namespace NadekoBot.Modules.Games
 
                     await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
-                    var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                    var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                     msg.DeleteAfter(10);
                 }
                 finally
                 {
                     await Task.Delay(60000);
-                    usersRecentlyPicked.TryRemove(imsg.Author.Id);
+                    usersRecentlyPicked.TryRemove(Context.User.Id);
                 }
             }
 

@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Searches
                         if (!UserLanguages.TryGetValue(key, out langs))
                             return;
 
-                        var text = await TranslateInternal(langs, umsg.Resolve(UserMentionHandling.Ignore), true)
+                        var text = await TranslateInternal(langs, umsg.Resolve(TagHandling.Ignore), true)
                                             .ConfigureAwait(false);
                         if (autoDelete)
                             try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }

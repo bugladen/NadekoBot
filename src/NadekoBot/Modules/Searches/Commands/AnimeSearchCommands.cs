@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName("Status").WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", animeData.Genres)).WithIsInline(true))
                     .WithFooter(efb => efb.WithText("Score: " + animeData.average_score + " / 100"));
-                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

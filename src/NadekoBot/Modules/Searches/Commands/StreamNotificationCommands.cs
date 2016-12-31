@@ -103,12 +103,14 @@ namespace NadekoBot.Modules.Searches
                                 oldStatus.IsLive != newStatus.IsLive)
                             {
                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
-                                var channel = server?.GetTextChannelAsync(fs.ChannelId);
+                                if (server == null)
+                                    return;
+                                var channel = await server.GetTextChannelAsync(fs.ChannelId);
                                 if (channel == null)
                                     return;
                                 try
                                 {
-                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false);
+                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
                                     if (!newStatus.IsLive)
                                         msg.DeleteAfter(60);
                                 }

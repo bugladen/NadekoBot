@@ -38,8 +38,6 @@ namespace NadekoBot.Modules.Administration
 
                     if (!conf.SendChannelByeMessage) return;
                     var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
-                        if (!conf.SendChannelByeMessage) return;
-                        var channel = (await user.Guild.GetTextChannelsAsync()).FirstOrDefault(c => c.Id == conf.ByeMessageChannelId);
 
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;

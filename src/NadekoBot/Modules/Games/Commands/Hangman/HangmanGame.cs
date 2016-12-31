@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             var embed = new EmbedBuilder().WithTitle("Hangman Game")
                                           .WithDescription(toSend)
                                           .AddField(efb => efb.WithName("It was").WithValue(Term.Word))
-                                          .WithImage(eib => eib.WithUrl(Term.ImageUrl))
+                                          .WithImageUrl(Term.ImageUrl)
                                           .WithFooter(efb => efb.WithText(string.Join(" ", Guesses)));
             if (Errors >= MaxErrors)
                 await GameChannel.EmbedAsync(embed.WithErrorColor()).ConfigureAwait(false);

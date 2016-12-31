@@ -67,7 +67,10 @@ namespace NadekoBot
             });
 
             //initialize Services
-            CommandService = new CommandService();
+            CommandService = new CommandService(new CommandServiceConfig() {
+                CaseSensitiveCommands = false,
+                SeparatorChar = '-'
+            });
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);

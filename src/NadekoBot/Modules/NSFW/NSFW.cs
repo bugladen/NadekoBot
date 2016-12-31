@@ -61,8 +61,7 @@ namespace NadekoBot.Modules.NSFW
             else
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithImageUrl(link)
-                    .WithDescription("Tag: " + tag)
-                    .Build()).ConfigureAwait(false);
+                    .WithDescription("Tag: " + tag)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -148,8 +147,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(umsg.Author.Mention + " " + tag)
                     .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText("Danbooru"))
-                    .Build()).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText("Danbooru"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -188,8 +186,7 @@ namespace NadekoBot.Modules.NSFW
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(umsg.Author.Mention + " " + tag)
                     .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText("e621"))
-                    .Build()).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText("e621"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
