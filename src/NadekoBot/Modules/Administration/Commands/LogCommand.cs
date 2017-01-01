@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class LogCommands
+        public class LogCommands : ModuleBase
         {
             private static ShardedDiscordClient _client { get; }
             private static Logger _log { get; }

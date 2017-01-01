@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class Acropobia
+        public class Acropobia : ModuleBase
         {
             //channelId, game
             public static ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, AcrophobiaGame>();

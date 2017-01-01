@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Help
         {
 
             var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText($" ℹ️ Type `-cmds ModuleName` to get a list of commands in that module. eg `-cmds games`"))
-                .WithTitle("📜 List Of Modules").WithDescription("\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.Select(m => m.Name).OrderBy(s=>s)));
+                .WithTitle("📜 List Of Modules").WithDescription("\n• " + string.Join("\n• ", NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).Select(m => m.Key.Name).OrderBy(s => s)));
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Help
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
                 return;
-            var cmds = NadekoBot.CommandService.Commands.Where(c => c.Module.Name.ToUpperInvariant().StartsWith(module))
+            var cmds = NadekoBot.CommandService.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module))
                                                   .OrderBy(c => c.Aliases.First())
                                                   .Distinct(new CommandTextEqualityComparer())
                                                   .AsEnumerable();

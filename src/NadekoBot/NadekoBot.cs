@@ -68,8 +68,7 @@ namespace NadekoBot
 
             //initialize Services
             CommandService = new CommandService(new CommandServiceConfig() {
-                CaseSensitiveCommands = false,
-                SeparatorChar = '-'
+                CaseSensitiveCommands = false
             });
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, CommandService);
