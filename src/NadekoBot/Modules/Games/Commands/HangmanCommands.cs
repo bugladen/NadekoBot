@@ -18,15 +18,11 @@ namespace NadekoBot.Modules.Games
 
             //channelId, game
             public static ConcurrentDictionary<ulong, HangmanGame> HangmanGames { get; } = new ConcurrentDictionary<ulong, HangmanGame>();
+            private static string typesStr { get; } = "";
 
             static HangmanCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-            }
-
-            string typesStr { get; } = "";
-            public HangmanCommands()
-            {
                 typesStr = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Games).Name]}hangman\" term types:`\n" + String.Join(", ", Enum.GetNames(typeof(HangmanTermPool.HangmanTermType)));
             }
 

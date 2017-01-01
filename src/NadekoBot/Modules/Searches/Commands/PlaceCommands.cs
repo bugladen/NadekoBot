@@ -12,11 +12,7 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class PlaceCommands : ModuleBase
         {
-            string typesStr { get; } = "";
-            public PlaceCommands()
-            {
-                typesStr = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Searches).Name]}place\" tags:`\n" + String.Join(", ", Enum.GetNames(typeof(PlaceType)));
-            }
+            private static string typesStr { get; } = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Searches).Name]}place\" tags:`\n" + String.Join(", ", Enum.GetNames(typeof(PlaceType)));
 
             public enum PlaceType
             {

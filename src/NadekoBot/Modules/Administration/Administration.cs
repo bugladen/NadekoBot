@@ -29,10 +29,6 @@ namespace NadekoBot.Modules.Administration
 
         private new static Logger _log { get; }
 
-        public Administration() : base()
-        {
-        }
-
         static Administration()
         {
             _log = LogManager.GetCurrentClassLogger();

@@ -22,10 +22,6 @@ namespace NadekoBot.Modules.NSFW
         //ulong/cancel
         private static ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
-        public NSFW() : base()
-        {
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Hentai([Remainder] string tag = null)

@@ -54,15 +54,11 @@ namespace NadekoBot.Modules.Utility
                 {
                     _log.Warn("Could not load units: " + e.Message);
                 }
-            }
 
-            public UnitConverterCommands()
-            {
                 _timer = new Timer(async (obj) => await UpdateCurrency(), null, (int)updateInterval.TotalMilliseconds, (int)updateInterval.TotalMilliseconds);
-
             }
 
-            public async Task UpdateCurrency()
+            public static async Task UpdateCurrency()
             {
                 try
                 {

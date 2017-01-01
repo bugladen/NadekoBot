@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Music
 
         public const string MusicDataPath = "data/musicdata";
 
-        public Music() : base()
+        static Music()
         {
             //it can fail if its currenctly opened or doesn't exist. Either way i don't care
             try { Directory.Delete(MusicDataPath, true); } catch { }
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        private async void Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+        private static async void Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var usr = iusr as SocketGuildUser;
             if (usr == null ||
@@ -60,10 +60,7 @@ namespace NadekoBot.Modules.Music
                     player.TogglePause();
                 }
             }
-            catch (Exception ex)
-            {
-                _log.Warn(ex);
-            }
+            catch { }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

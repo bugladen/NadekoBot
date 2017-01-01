@@ -22,17 +22,17 @@ namespace NadekoBot.Modules.Utility
             Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
                                     RegexOptions.Compiled | RegexOptions.Multiline);
 
-            private string RemindMessageFormat { get; }
+            private static string RemindMessageFormat { get; }
 
-            IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
+            private static IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
             {
                 { "%message%" , (r) => r.Message },
                 { "%user%", (r) => $"<@!{r.UserId}>" },
                 { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
             };
-            private Logger _log { get; }
+            private  static Logger _log { get; }
 
-            public RemindCommands()
+            static RemindCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
                 List<Reminder> reminders;
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            private async Task StartReminder(Reminder r)
+            private static async Task StartReminder(Reminder r)
             {
                 var now = DateTime.Now;
                 var twoMins = new TimeSpan(0, 2, 0);

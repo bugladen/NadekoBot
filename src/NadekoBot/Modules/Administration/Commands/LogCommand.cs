@@ -67,10 +67,7 @@ namespace NadekoBot.Modules.Administration
 
                 sw.Stop();
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
-            }
 
-            public LogCommands()
-            {
                 //_client.MessageReceived += _client_MessageReceived;
                 _client.MessageUpdated += _client_MessageUpdated;
                 _client.MessageDeleted += _client_MessageDeleted;
@@ -91,7 +88,7 @@ namespace NadekoBot.Modules.Administration
                 MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
             }
 
-            private async void _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+            private static async void _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
             {
                 try
                 {
@@ -133,7 +130,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private async void MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            private static async void MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
             {
                 try
                 {
@@ -163,7 +160,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void MuteCommands_UserUnmuted(IGuildUser usr, MuteCommands.MuteType muteType)
+            private static async void MuteCommands_UserUnmuted(IGuildUser usr, MuteCommands.MuteType muteType)
             {
                 try
                 {
@@ -226,13 +223,12 @@ namespace NadekoBot.Modules.Administration
                         //punishment = "BANNED";
                     }
                     await logChannel.SendMessageAsync(String.Join("\n", users.Select(user => $"‼️ {Format.Bold(user.ToString())} got **{punishment}** due to __**{protection}**__ protection on **{user.Guild.Name}** server.")))
-                                    //await logChannel.SendMessageAsync(String.Join("\n",users.Select(user=>$"{Format.Bold(user.ToString())} was **{punishment}** due to `{protection}` protection on **{user.Guild.Name}** server.")))
                                     .ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_UserUpdated(SocketUser uBefore, SocketUser uAfter)
+            private static async void _client_UserUpdated(SocketUser uBefore, SocketUser uAfter)
             {
                 try
                 {
@@ -254,26 +250,21 @@ namespace NadekoBot.Modules.Administration
                     string str = $"🕔`{prettyCurrentTime}`";
 
                     if (before.Username != after.Username)
-                        //str += $"**Name Changed**`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
                         str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Name Changed |** 🆔 `{before.Id}`\n\t\t`New:` **{after.ToString()}**";
                     else if (before.Nickname != after.Nickname)
                         str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Nickname Changed |** 🆔 `{before.Id}`\n\t\t`Old:` **{before.Nickname}#{before.Discriminator}**\n\t\t`New:` **{after.Nickname}#{after.Discriminator}**";
-                    //str += $"**Nickname Changed**`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
                     else if (before.AvatarUrl != after.AvatarUrl)
-                        //str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
-                        str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Avatar Changed |** 🆔 `{before.Id}`\n\t🖼 {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
+                        str += $"👤__**{before.Username}#{before.Discriminator}**__ **| Avatar Changed |** 🆔 `{before.Id}`\n\t🖼 {await NadekoBot.Google.ShortenUrl(before.AvatarUrl)} `=>` {await NadekoBot.Google.ShortenUrl(after.AvatarUrl)}";
                     else if (!before.RoleIds.SequenceEqual(after.RoleIds))
                     {
                         if (before.RoleIds.Count < after.RoleIds.Count)
                         {
                             var diffRoles = after.RoleIds.Where(r => !before.RoleIds.Contains(r)).Select(r => "**" + before.Guild.GetRole(r).Name + "**");
-                            //str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
                             str += $"👤__**{before.ToString()}**__ **| User's Role Added |** 🆔 `{before.Id}`\n\t✅ {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.GetRoles().Select(r => r.Name)).SanitizeMentions()}`** ⚔";
                         }
                         else if (before.RoleIds.Count > after.RoleIds.Count)
                         {
                             var diffRoles = before.RoleIds.Where(r => !after.RoleIds.Contains(r)).Select(r => "**" + before.Guild.GetRole(r).Name + "**");
-                            //str += $"**User's Roles changed **`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
                             str += $"👤__**{before.ToString()}**__ **| User's Role Removed |** 🆔 `{before.Id}`\n\t🚮 {string.Join(", ", diffRoles).SanitizeMentions()}\n\t\t⚔ **`{string.Join(", ", after.GetRoles().Select(r => r.Name)).SanitizeMentions()}`** ⚔";
                         }
                     }
@@ -284,7 +275,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
+            private static async void _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
             {
                 try
                 {
@@ -303,12 +294,10 @@ namespace NadekoBot.Modules.Administration
                     if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
                         return;
                     if (before.Name != after.Name)
-                        //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
                         await logChannel.SendMessageAsync($@"🕓`{prettyCurrentTime}`ℹ️ **| Channel Name Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {before.Name}
     **`New:`** {after.Name}").ConfigureAwait(false);
                     else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
-                        //await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
                         await logChannel.SendMessageAsync($@"🕘`{prettyCurrentTime}`ℹ️ **| Channel Topic Changed |** #⃣ `{after.Name} ({after.Id})`
     `Old:` {((ITextChannel)before).Topic}
     **`New:`** {((ITextChannel)after).Topic}").ConfigureAwait(false);
@@ -316,7 +305,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_ChannelDestroyed(IChannel ich)
+            private static async void _client_ChannelDestroyed(IChannel ich)
             {
                 try
                 {
@@ -339,7 +328,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_ChannelCreated(IChannel ich)
+            private static async void _client_ChannelCreated(IChannel ich)
             {
                 try
                 {
@@ -361,7 +350,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+            private static async void _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
             {
                 try
                 {
@@ -406,7 +395,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            private async void _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
+            private static async void _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
             {
                 try
                 {
@@ -435,7 +424,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private async void _client_UserLeft(IGuildUser usr)
+            private static async void _client_UserLeft(IGuildUser usr)
             {
                 try
                 {
@@ -452,7 +441,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private async void _client_UserJoined(IGuildUser usr)
+            private static async void _client_UserJoined(IGuildUser usr)
             {
                 try
                 {
@@ -470,7 +459,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_UserUnbanned(IUser usr, IGuild guild)
+            private static async void _client_UserUnbanned(IUser usr, IGuild guild)
             {
                 try
                 {
@@ -488,7 +477,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_UserBanned(IUser usr, IGuild guild)
+            private static async void _client_UserBanned(IUser usr, IGuild guild)
             {
                 try
                 {
@@ -505,7 +494,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_MessageDeleted(ulong arg1, Optional<SocketMessage> imsg)
+            private static async void _client_MessageDeleted(ulong arg1, Optional<SocketMessage> imsg)
             {
 
                 try
@@ -536,7 +525,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private async void _client_MessageUpdated(Optional<SocketMessage> optmsg, SocketMessage imsg2)
+            private static async void _client_MessageUpdated(Optional<SocketMessage> optmsg, SocketMessage imsg2)
             {
                 try
                 {

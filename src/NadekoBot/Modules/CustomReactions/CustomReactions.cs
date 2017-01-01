@@ -36,9 +36,6 @@ namespace NadekoBot.Modules.CustomReactions
             sw.Stop();
             _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
-        public CustomReactions() : base()
-        {
-        }
 
         public void ClearStats() => ReactionStats.Clear();
 

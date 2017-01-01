@@ -148,7 +148,6 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class SpeedTypingCommands : ModuleBase
         {
-
             public static List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
             const string typingArticlesPath = "data/typing_articles.json";
@@ -157,12 +156,7 @@ namespace NadekoBot.Modules.Games
             {
                 try { TypingArticles = JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(typingArticlesPath)); } catch { }
             }
-            public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
-
-            public SpeedTypingCommands()
-            {
-                RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
-            }
+            public static ConcurrentDictionary<ulong, TypingGame> RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

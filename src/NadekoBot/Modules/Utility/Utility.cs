@@ -16,11 +16,6 @@ namespace NadekoBot.Modules.Utility
     [NadekoModule("Utility", ".")]
     public partial class Utility : DiscordModule
     {
-        public Utility() : base()
-        {
-
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task TogetherTube()

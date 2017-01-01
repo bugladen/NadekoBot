@@ -24,9 +24,9 @@ namespace NadekoBot.Modules.Administration
         {
             private const int CURRENT_VERSION = 1;
 
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public Migration()
+            static Migration()
             {
                 _log = LogManager.GetCurrentClassLogger();
             }

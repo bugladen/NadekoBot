@@ -21,14 +21,7 @@ namespace NadekoBot.Modules.Gambling
         {
             private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
-
-            public DrawCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-            }
-
             private const string cardsPath = "data/images/cards";
-            private Logger _log { get; }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -42,7 +35,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
                     {
-                        try { await Context.Channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        try { await Context.Channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch { }
                         break;
                     }
                     var currentCard = cards.DrawACard();

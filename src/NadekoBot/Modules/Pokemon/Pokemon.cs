@@ -24,18 +24,18 @@ namespace NadekoBot.Modules.Pokemon
         
         public const string PokemonTypesFile = "data/pokemon_types.json";
 
-        private Logger _pokelog { get; }
+        private static new Logger _log { get; }
 
-        public Pokemon() : base()
+        static Pokemon()
         {
-            _pokelog = LogManager.GetCurrentClassLogger();
+            _log = LogManager.GetCurrentClassLogger();
             if (File.Exists(PokemonTypesFile))
             {
                 PokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText(PokemonTypesFile));
             }
             else
             {
-                _pokelog.Warn(PokemonTypesFile + " is missing. Pokemon types not loaded.");
+                _log.Warn(PokemonTypesFile + " is missing. Pokemon types not loaded.");
             }
         }
 

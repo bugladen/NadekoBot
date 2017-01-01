@@ -49,10 +49,6 @@ namespace NadekoBot.Modules.Permissions
             _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
-        public Permissions() : base()
-        {
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(PermissionAction action)
