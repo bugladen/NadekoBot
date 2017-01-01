@@ -19,15 +19,10 @@ namespace NadekoBot.Modules.NSFW
     [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
-        //ulong/cancel
         private static ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Hentai([Remainder] string tag = null)
+        private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             tag = tag?.Trim() ?? "";
 
             tag = "rating%3Aexplicit+" + tag;
@@ -54,11 +49,16 @@ namespace NadekoBot.Modules.NSFW
             var link = await provider.ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
-            else
+            else if (!noError)
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithImageUrl(link)
                     .WithDescription("Tag: " + tag)).ConfigureAwait(false);
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Hentai([Remainder] string tag = null) =>
+            InternalHentai(Context.Channel, tag, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -86,9 +86,9 @@ namespace NadekoBot.Modules.NSFW
                 try
                 {
                     if (tagsArr == null || tagsArr.Length == 0)
-                        await Hentai(null).ConfigureAwait(false);
+                        await InternalHentai(Context.Channel, null, true).ConfigureAwait(false);
                     else
-                        await Hentai(tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]);
+                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)], true);
                 }
                 catch { }
             }, null, interval * 1000, interval * 1000);
