@@ -552,7 +552,7 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public Task Safebooru([Remainder] string tag = null)
-            => InternalDapiCommand(umsg, tag, DapiSearchType.Safebooru);
+            => InternalDapiCommand(Context.Message, tag, DapiSearchType.Safebooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Wiki([Remainder] string query = null)

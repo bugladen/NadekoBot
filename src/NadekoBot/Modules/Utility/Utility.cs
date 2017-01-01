@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Utility
                 .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
                 .WithName("Together Tube")
                 .WithUrl("https://togethertube.com/"))
-                .WithDescription($"{imsg.Author.Mention} Here is your room link:\n{target}"));
+                .WithDescription($"{Context.User.Mention} Here is your room link:\n{target}"));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
