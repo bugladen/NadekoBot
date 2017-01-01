@@ -21,10 +21,8 @@ namespace NadekoBot.Modules.Gambling
             private const string tailsPath = "data/images/coins/tails.png";
             
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Flip(int count = 1)
             {
-                //var channel = (ITextChannel)Context.Channel;
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
@@ -49,11 +47,8 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Betflip(int amount, string guess)
             {
-                //var channel = (ITextChannel)Context.Channel;
-                var guildUser = (IGuildUser)Context.User;
                 var guessStr = guess.Trim().ToUpperInvariant();
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
                     return;
@@ -64,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
                                  .ConfigureAwait(false);
                     return;
                 }
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, "Betflip Gamble", amount, false).ConfigureAwait(false);
+                var removed = await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Betflip Gamble", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
@@ -91,7 +86,7 @@ namespace NadekoBot.Modules.Gambling
                 { 
                     var toWin = (int)Math.Round(amount * 1.8);
                     str = $"{Context.User.Mention}`You guessed it!` You won {toWin}{Gambling.CurrencySign}";
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }
                 else
                 {

@@ -17,7 +17,6 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility : DiscordModule
     {
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task TogetherTube()
         {
             Uri target;
@@ -123,7 +122,7 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task ServerId()
         {
-            await Context.Channel.SendConfirmAsync($"🆔 of this server is `{((ITextChannel)Context.Channel).Guild.Id}`").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"🆔 of this server is `{Context.Guild.Id}`").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -223,12 +222,9 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task ListServers(int page = 1)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             page -= 1;
 
             if (page < 0)
@@ -238,11 +234,11 @@ namespace NadekoBot.Modules.Utility
 
             if (!guilds.Any())
             {
-                await channel.SendErrorAsync("No servers found on that page.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync("No servers found on that page.").ConfigureAwait(false);
                 return;
             }
 
-            await channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
+            await Context.Channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
                                      (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
                                                                            .WithValue($"```css\nID: {g.Id}\nMembers: {g.Users.Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false))))

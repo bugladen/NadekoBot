@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Gambling
         public static string CurrencyName { get; set; }
         public static string CurrencyPluralName { get; set; }
         public static string CurrencySign { get; set; }
-        
+
         static Gambling()
         {
             using (var uow = DbHandler.UnitOfWork())
@@ -90,7 +90,6 @@ namespace NadekoBot.Modules.Gambling
             Award(amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(1)]
         public async Task Award(int amount, ulong usrId)
@@ -122,7 +121,7 @@ namespace NadekoBot.Modules.Gambling
                          .ConfigureAwait(false);
 
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
@@ -131,35 +130,31 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if(await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user}!").ConfigureAwait(false);
+            if (await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
+                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user}!").ConfigureAwait(false);
             else
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task Take(long amount, [Remainder] ulong usrId)
         {
             if (amount <= 0)
                 return;
 
-            if(await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
+            if (await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
                 await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
             else
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task BetRoll(long amount)
         {
             if (amount < 1)
                 return;
-
-            var guildUser = (IGuildUser)Context.User;
 
             long userFlowers;
             using (var uow = DbHandler.UnitOfWork())
@@ -169,14 +164,14 @@ namespace NadekoBot.Modules.Gambling
 
             if (userFlowers < amount)
             {
-                await Context.Channel.SendErrorAsync($"{guildUser.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
                 return;
             }
 
-            await CurrencyHandler.RemoveCurrencyAsync(guildUser, "Betroll Gamble", amount, false).ConfigureAwait(false);
+            await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Betroll Gamble", amount, false).ConfigureAwait(false);
 
             var rng = new NadekoRandom().Next(0, 101);
-            var str = $"{guildUser.Mention} `You rolled {rng}.` ";
+            var str = $"{Context.User.Mention} `You rolled {rng}.` ";
             if (rng < 67)
             {
                 str += "Better luck next time.";
@@ -184,24 +179,23 @@ namespace NadekoBot.Modules.Gambling
             else if (rng < 91)
             {
                 str += $"Congratulations! You won {amount * 2}{Gambling.CurrencySign} for rolling above 66";
-                await CurrencyHandler.AddCurrencyAsync(guildUser, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);
             }
             else if (rng < 100)
             {
                 str += $"Congratulations! You won {amount * 3}{Gambling.CurrencySign} for rolling above 90.";
-                await CurrencyHandler.AddCurrencyAsync(guildUser, "Betroll Gamble", amount * 3, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 3, false).ConfigureAwait(false);
             }
             else
             {
                 str += $"👑 Congratulations! You won {amount * 10}{Gambling.CurrencySign} for rolling **100**. 👑";
-                await CurrencyHandler.AddCurrencyAsync(guildUser, "Betroll Gamble", amount * 10, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 10, false).ConfigureAwait(false);
             }
 
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Leaderboard()
         {
             IEnumerable<Currency> richest = new List<Currency>();

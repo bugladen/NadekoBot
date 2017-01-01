@@ -25,12 +25,8 @@ namespace NadekoBot.Modules.Gambling
             private readonly char[] fateRolls = new[] { '-', ' ', '+' };
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Roll()
             {
-                var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
                 var rng = new NadekoRandom();
                 var gen = rng.Next(1, 101);
 
@@ -48,7 +44,7 @@ namespace NadekoBot.Modules.Gambling
                     catch { return new MemoryStream(); }
                 });
 
-                await channel.SendFileAsync(imageStream, "dice.png", $"{Context.User.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(imageStream, "dice.png", $"{Context.User.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
             }
 
             public enum RollOrderType
@@ -58,7 +54,6 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task Roll(int num)
             {
@@ -67,7 +62,6 @@ namespace NadekoBot.Modules.Gambling
 
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task Rolluo(int num)
             {
@@ -75,7 +69,6 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(1)]
             public async Task Roll(string arg)
             {
@@ -83,7 +76,6 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(1)]
             public async Task Rolluo(string arg)
             {
@@ -92,13 +84,9 @@ namespace NadekoBot.Modules.Gambling
 
             private async Task InternalRoll( int num, bool ordered)
             {
-                var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 if (num < 1 || num > 30)
                 {
-                    await channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
                     return;
                 }
 
@@ -136,15 +124,11 @@ namespace NadekoBot.Modules.Gambling
                 var ms = new MemoryStream();
                 bitmap.SaveAsPng(ms);
                 ms.Position = 0;
-                await channel.SendFileAsync(ms, "dice.png", $"{Context.User.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(ms, "dice.png", $"{Context.User.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
             }
 
             private async Task InternallDndRoll(string arg, bool ordered)
             {
-                var channel = (ITextChannel)Context.Channel;
-                if (channel == null)
-                    return;
-
                 Match match;
                 int n1;
                 int n2;
@@ -163,7 +147,7 @@ namespace NadekoBot.Modules.Gambling
                     var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} fate {(n1 == 1 ? "die" : "dice")}.")
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
-                    await channel.EmbedAsync(embed).ConfigureAwait(false);
+                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 else if ((match = dndRegex.Match(arg)).Length != 0)
                 {
@@ -186,17 +170,14 @@ namespace NadekoBot.Modules.Gambling
                         var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
-                        await channel.EmbedAsync(embed).ConfigureAwait(false);
+                        await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task NRoll([Remainder] string range)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 try
                 {
                     int rolled;
@@ -215,11 +196,11 @@ namespace NadekoBot.Modules.Gambling
                         rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                     }
 
-                    await channel.SendConfirmAsync($"{Context.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendErrorAsync($":anger: {ex.Message}").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($":anger: {ex.Message}").ConfigureAwait(false);
                 }
             }
 

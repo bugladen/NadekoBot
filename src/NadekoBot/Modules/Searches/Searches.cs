@@ -31,7 +31,6 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches : DiscordModule
     {
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Weather([Remainder] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -398,8 +397,6 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task UrbanDict([Remainder] string query = null)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
             {
                 await Context.Channel.SendErrorAsync("Bot owner didn't specify MashapeApiKey. You can't use this functionality.").ConfigureAwait(false);
@@ -439,10 +436,8 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Define([Remainder] string word)
         {
-
             if (string.IsNullOrWhiteSpace(word))
                 return;
 
@@ -474,7 +469,6 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Hashtag([Remainder] string query = null)
         {
             var arg = query;
@@ -550,7 +544,6 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Safebooru([Remainder] string tag = null)
             => InternalDapiCommand(Context.Message, tag, DapiSearchType.Safebooru);
 
@@ -732,7 +725,7 @@ namespace NadekoBot.Modules.Searches
 
         public static async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = umsg.Channel;
 
             tag = tag?.Trim() ?? "";
 

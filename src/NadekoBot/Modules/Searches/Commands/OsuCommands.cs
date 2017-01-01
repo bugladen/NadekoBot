@@ -25,7 +25,6 @@ namespace NadekoBot.Modules.Searches
                 _log = LogManager.GetCurrentClassLogger();
             }
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Osu(string usr, [Remainder] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(usr))
@@ -57,7 +56,6 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Osub([Remainder] string map)
             {
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))

@@ -56,12 +56,10 @@ namespace NadekoBot.Modules.NSFW
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Hentai([Remainder] string tag = null) =>
             InternalHentai(Context.Channel, tag, false);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
@@ -104,7 +102,6 @@ namespace NadekoBot.Modules.NSFW
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task HentaiBomb([Remainder] string tag = null)
         {
             var channel = (ITextChannel)Context.Channel;
@@ -128,7 +125,6 @@ namespace NadekoBot.Modules.NSFW
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Danbooru([Remainder] string tag = null)
         {
             var channel = (ITextChannel)Context.Channel;
@@ -147,53 +143,44 @@ namespace NadekoBot.Modules.NSFW
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Yandere([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Konachan([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Gelbooru([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public Task Rule34([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task E621([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             tag = tag?.Trim() ?? "";
 
             var url = await GetE621ImageLink(tag).ConfigureAwait(false);
 
             if (url == null)
-                await channel.SendErrorAsync(Context.User.Mention + " No results.");
+                await Context.Channel.SendErrorAsync(Context.User.Mention + " No results.");
             else
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(Context.User.Mention + " " + tag)
                     .WithImageUrl(url)
                     .WithFooter(efb => efb.WithText("e621"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Cp()
         {
             await Context.Channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Boobs()
         {
             try
@@ -212,7 +199,6 @@ namespace NadekoBot.Modules.NSFW
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Butts()
         {
             try

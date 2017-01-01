@@ -42,7 +42,7 @@ namespace NadekoBot.Services
             return true;
         }
 
-        public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task AddCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             await AddCurrencyAsync(author.Id, reason, amount);
 

@@ -53,11 +53,8 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task Anime([Remainder] string query)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
@@ -78,15 +75,13 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName("Status").WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", animeData.Genres)).WithIsInline(true))
                     .WithFooter(efb => efb.WithText("Score: " + animeData.average_score + " / 100"));
-                await channel.EmbedAsync(embed).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Manga([Remainder] string query)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
@@ -108,7 +103,7 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", mangaData.Genres)).WithIsInline(true))
                     .WithFooter(efb => efb.WithText("Score: " + mangaData.average_score + " / 100"));
 
-                await channel.EmbedAsync(embed).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             private async Task<AnimeResult> GetAnimeData(string query)

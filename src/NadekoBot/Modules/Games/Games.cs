@@ -24,7 +24,6 @@ namespace NadekoBot.Modules.Games
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Choose([Remainder] string list = null)
         {
             if (string.IsNullOrWhiteSpace(list))
@@ -37,7 +36,6 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task _8Ball([Remainder] string question = null)
         {
             if (string.IsNullOrWhiteSpace(question))
@@ -50,7 +48,6 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Rps(string input)
         {
             Func<int,string> GetRPSPick = (p) =>
@@ -98,7 +95,6 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Linux(string guhnoo, string loonix)
         {
             await Context.Channel.SendConfirmAsync(
