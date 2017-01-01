@@ -730,7 +730,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task LogServer(IUserMessage msg, PermissionAction action)
+            public async Task LogServer(PermissionAction action)
             {
                 var channel = (ITextChannel)msg.Channel;
                 LogSetting logSetting;
@@ -765,7 +765,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task LogIgnore(IUserMessage imsg)
+            public async Task LogIgnore()
             {
                 var channel = (ITextChannel)imsg.Channel;
                 int removed;
@@ -794,7 +794,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task LogEvents(IUserMessage imsg)
+            public async Task LogEvents()
             {
                 await imsg.Channel.SendConfirmAsync("Log events you can subscribe to:", String.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>()));
             }
@@ -803,7 +803,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
             [OwnerOnly]
-            public async Task Log(IUserMessage imsg, LogType type)
+            public async Task Log(LogType type)
             {
                 var channel = (ITextChannel)imsg.Channel;
                 ulong? channelId = null;
