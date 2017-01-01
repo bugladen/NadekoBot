@@ -732,7 +732,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogServer(PermissionAction action)
             {
-                var channel = (ITextChannel)msg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 LogSetting logSetting;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -767,7 +767,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogIgnore()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 int removed;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -796,7 +796,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogEvents()
             {
-                await imsg.Channel.SendConfirmAsync("Log events you can subscribe to:", String.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>()));
+                await Context.Channel.SendConfirmAsync("Log events you can subscribe to:", String.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>()));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -805,7 +805,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task Log(LogType type)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 ulong? channelId = null;
                 using (var uow = DbHandler.UnitOfWork())
                 {
