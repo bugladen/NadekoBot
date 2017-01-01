@@ -111,8 +111,6 @@ namespace NadekoBot.Modules.Searches
                                 try
                                 {
                                     var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
-                                    if (!newStatus.IsLive)
-                                        msg.DeleteAfter(60);
                                 }
                                 catch { }
                             }
