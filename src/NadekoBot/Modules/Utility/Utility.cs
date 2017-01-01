@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task TogetherTube(IUserMessage imsg)
+        public async Task TogetherTube()
         {
             Uri target;
             using (var http = new HttpClient())
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task WhosPlaying(IUserMessage umsg, [Remainder] string game = null)
+        public async Task WhosPlaying([Remainder] string game = null)
         {
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
