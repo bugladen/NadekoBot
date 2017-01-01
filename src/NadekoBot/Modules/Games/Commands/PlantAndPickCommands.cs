@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -62,11 +63,11 @@ namespace NadekoBot.Modules.Games
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void PotentialFlowerGeneration(IMessage imsg)
+            private static async void PotentialFlowerGeneration(SocketMessage imsg)
             {
                 try
                 {
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
                         return;
 

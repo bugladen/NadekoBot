@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
@@ -128,11 +129,11 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 await GameChannel.EmbedAsync(embed.WithOkColor()).ConfigureAwait(false);
         }
 
-        private async void PotentialGuess(IMessage msg)
+        private async void PotentialGuess(SocketMessage msg)
         {
             try
             {
-                if (!(msg is IUserMessage))
+                if (!(msg is SocketUserMessage))
                     return;
 
                 if (msg.Channel != GameChannel)

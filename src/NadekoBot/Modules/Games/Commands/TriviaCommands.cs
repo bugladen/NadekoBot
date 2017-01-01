@@ -21,13 +21,13 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public Task Trivia([Remainder] string additionalArgs = "")
-                => Trivia(Context.Message, 10, additionalArgs);
+                => Trivia(10, additionalArgs);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Trivia(IUserMessage umsg, int winReq = 10, [Remainder] string additionalArgs = "")
+            public async Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var showHints = !additionalArgs.Contains("nohint");
 

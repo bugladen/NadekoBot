@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands.Models;
@@ -105,13 +106,13 @@ namespace NadekoBot.Modules.Games
                 NadekoBot.Client.MessageReceived += AnswerReceived;
             }
 
-            private async void AnswerReceived(IMessage imsg)
+            private async void AnswerReceived(SocketMessage imsg)
             {
                 try
                 {
                     if (imsg.Author.IsBot)
                         return;
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null)
                         return;
 

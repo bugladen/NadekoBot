@@ -475,7 +475,7 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Hashtag(IUserMessage umsg, [Remainder] string query = null)
+        public async Task Hashtag([Remainder] string query = null)
         {
             var arg = query;
             if (string.IsNullOrWhiteSpace(arg))
@@ -551,7 +551,7 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
+        public Task Safebooru([Remainder] string tag = null)
             => InternalDapiCommand(umsg, tag, DapiSearchType.Safebooru);
 
         [NadekoCommand, Usage, Description, Aliases]

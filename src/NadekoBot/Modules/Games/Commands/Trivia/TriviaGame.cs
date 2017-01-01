@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Net;
+using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NLog;
 using System;
@@ -141,14 +142,14 @@ namespace NadekoBot.Modules.Games.Trivia
                 try { await channel.SendConfirmAsync("Trivia Game", "Stopping after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
         }
 
-        private async void PotentialGuess(IMessage imsg)
+        private async void PotentialGuess(SocketMessage imsg)
         {
             try
             {
                 if (imsg.Author.IsBot)
                     return;
 
-                var umsg = imsg as IUserMessage;
+                var umsg = imsg as SocketUserMessage;
                 if (umsg == null)
                     return;
 

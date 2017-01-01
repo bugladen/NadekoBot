@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -25,7 +26,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Acro(IUserMessage imsg, int time = 60)
+            public async Task Acro(int time = 60)
             {
                 var channel = (ITextChannel)imsg.Channel;
 
@@ -167,11 +168,11 @@ namespace NadekoBot.Modules.Games
                 await End().ConfigureAwait(false);
             }
 
-            private async void PotentialAcro(IMessage arg)
+            private async void PotentialAcro(SocketMessage arg)
             {
                 try
                 {
-                    var msg = arg as IUserMessage;
+                    var msg = arg as SocketUserMessage;
                     if (msg == null || msg.Author.IsBot || msg.Channel.Id != channel.Id)
                         return;
 

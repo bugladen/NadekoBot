@@ -128,12 +128,12 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private async void Vote(IMessage imsg)
+            private async void Vote(SocketMessage imsg)
             {
                 try
                 {
                     // has to be a user message
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null || msg.Author.IsBot)
                         return;
 

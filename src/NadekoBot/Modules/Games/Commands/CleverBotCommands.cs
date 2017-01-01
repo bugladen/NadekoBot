@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -46,7 +47,7 @@ namespace NadekoBot.Modules.Games
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            public static async Task<bool> TryAsk(IUserMessage msg)
+            public static async Task<bool> TryAsk(SocketUserMessage msg)
             {
                 var channel = msg.Channel as ITextChannel;
 

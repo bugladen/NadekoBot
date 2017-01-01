@@ -207,9 +207,9 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private void Client_MessageReceived(IMessage imsg)
+                private void Client_MessageReceived(SocketMessage imsg)
                 {
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null)
                         return;
                     if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
