@@ -10,7 +10,7 @@ namespace NadekoBot.TypeReaders
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
-            var module = NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input);
+            var module = NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
             if (module == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 
