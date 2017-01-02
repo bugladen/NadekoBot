@@ -64,7 +64,10 @@ namespace NadekoBot.Services
 
         private async void MessageReceivedHandler(SocketMessage msg)
         {
-            var usrMsg = msg as SocketUserMessage;
+            try
+            {
+
+                var usrMsg = msg as SocketUserMessage;
             if (usrMsg == null)
                 return;
 
@@ -145,9 +148,6 @@ namespace NadekoBot.Services
 
             var sw = new Stopwatch();
             sw.Start();
-
-            try
-            {
                 var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
                 var command = exec.CommandInfo;
                 var permCache = exec.PermissionCache;
