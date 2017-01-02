@@ -4,11 +4,11 @@ TITLE Downloading NadekoBot, please wait
 SET root=%~dp0
 CD /D %root%
 SET rootdir=%cd%
-SET build1=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.API\
-SET build2=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.Core\
-SET build3=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.Rest\
-SET build4=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.WebSocket\
-SET build5=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.Commands\
+SET build1=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.API\
+SET build2=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Core\
+SET build3=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Rest\
+SET build4=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.WebSocket\
+SET build5=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Commands\
 SET build6=%root%NadekoInstall_Temp\NadekoBot\src\NadekoBot\
 SET installtemp=%root%NadekoInstall_Temp\
 ::Deleting traces of last setup for the sake of clean folders, if by some miracle it still exists
