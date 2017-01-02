@@ -4,9 +4,12 @@ TITLE Downloading NadekoBot, please wait
 SET root=%~dp0
 CD /D %root%
 SET rootdir=%cd%
-SET build1=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net\
-SET build2=%root%NadekoInstall_Temp\NadekoBot\discord.net\src\Discord.Net.Commands\
-SET build3=%root%NadekoInstall_Temp\NadekoBot\src\NadekoBot\
+SET build1=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.API\
+SET build2=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Core\
+SET build3=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Rest\
+SET build4=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.WebSocket\
+SET build5=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Commands\
+SET build6=%root%NadekoInstall_Temp\NadekoBot\src\NadekoBot\
 SET installtemp=%root%NadekoInstall_Temp\
 ::Deleting traces of last setup for the sake of clean folders, if by some miracle it still exists
 IF EXIST %installtemp% ( RMDIR %installtemp% /S /Q >nul 2>&1)
@@ -31,6 +34,12 @@ dotnet restore >nul 2>&1
 CD /D %build2%
 dotnet restore >nul 2>&1
 CD /D %build3%
+dotnet restore >nul 2>&1
+CD /D %build4%
+dotnet restore >nul 2>&1
+CD /D %build5%
+dotnet restore >nul 2>&1
+CD /D %build6%
 dotnet restore >nul 2>&1
 dotnet build --configuration Release >nul 2>&1
 ::Attempts to backup old files if they currently exist in the same folder as the batch file
