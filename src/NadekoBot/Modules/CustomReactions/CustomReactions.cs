@@ -273,6 +273,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
         public async Task CrStatsClear(string trigger = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
