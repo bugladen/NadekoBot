@@ -68,24 +68,40 @@ namespace NadekoBot.Services
             {
 
                 var usrMsg = msg as SocketUserMessage;
-            if (usrMsg == null)
-                return;
+                if (usrMsg == null)
+                    return;
 
-            if (!usrMsg.IsAuthor())
-                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+                if (!usrMsg.IsAuthor())
+                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
 
-            if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
-                return;
+                if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
+                    return;
 
-            var guild = (msg.Channel as SocketTextChannel)?.Guild;
+                var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-            if (guild != null && guild.OwnerId != msg.Author.Id)
-            {
-                //todo split checks into their own modules
-                if (Permissions.FilterCommands.InviteFilteringChannels.Contains(msg.Channel.Id) ||
-                    Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
+                if (guild != null && guild.OwnerId != msg.Author.Id)
                 {
-                    if (usrMsg.Content.IsDiscordInvite())
+                    //todo split checks into their own modules
+                    if (Permissions.FilterCommands.InviteFilteringChannels.Contains(msg.Channel.Id) ||
+                        Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
+                    {
+                        if (usrMsg.Content.IsDiscordInvite())
+                        {
+                            try
+                            {
+                                await usrMsg.DeleteAsync().ConfigureAwait(false);
+                                return;
+                            }
+                            catch (HttpException ex)
+                            {
+                                _log.Warn("I do not have permission to filter invites in channel with id " + msg.Channel.Id, ex);
+                            }
+                        }
+                    }
+
+                    var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(msg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
+                    var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
+                    if (filteredWords.Any(w => wordsInMessage.Contains(w)))
                     {
                         try
                         {
@@ -94,60 +110,45 @@ namespace NadekoBot.Services
                         }
                         catch (HttpException ex)
                         {
-                            _log.Warn("I do not have permission to filter invites in channel with id " + msg.Channel.Id, ex);
+                            _log.Warn("I do not have permission to filter words in channel with id " + msg.Channel.Id, ex);
                         }
                     }
                 }
 
-                var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(msg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
-                var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
-                if (filteredWords.Any(w => wordsInMessage.Contains(w)))
+                BlacklistItem blacklistedItem;
+                if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
+                     (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
+                     (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                     (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == msg.Author.Id))) != null)
                 {
-                    try
-                    {
-                        await usrMsg.DeleteAsync().ConfigureAwait(false);
-                        return;
-                    }
-                    catch (HttpException ex)
-                    {
-                        _log.Warn("I do not have permission to filter words in channel with id " + msg.Channel.Id, ex);
-                    }
+                    return;
                 }
-            }
+#if !GLOBAL_NADEKO
+                try
+                {
+                    var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
 
-            BlacklistItem blacklistedItem;
-            if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
-                 (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
-                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == msg.Author.Id))) != null)
-            {
-                return;
-            }
+                    if (cleverbotExecuted)
+                        return;
+                }
+                catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
 
-            try
-            {
-                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
+#endif
+                try
+                {
+                    // maybe this message is a custom reaction
+                    var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
 
-                if (cleverbotExecuted)
-                    return;
-            }
-            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+                    //if it was, don't execute the command
+                    if (crExecuted)
+                        return;
+                }
+                catch { }
 
-            try
-            {
-                // maybe this message is a custom reaction
-                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+                string messageContent = usrMsg.Content;
 
-                //if it was, don't execute the command
-                if (crExecuted)
-                    return;
-            }
-            catch { }
-
-            string messageContent = usrMsg.Content;
-
-            var sw = new Stopwatch();
-            sw.Start();
+                var sw = new Stopwatch();
+                sw.Start();
                 var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
                 var command = exec.CommandInfo;
                 var permCache = exec.PermissionCache;
