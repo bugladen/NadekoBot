@@ -263,7 +263,7 @@ namespace NadekoBot.Services
                 }
 
                 var cmd = commands[i].Command;
-                bool resetCommand = cmd.Name == "ResetPermissions";
+                bool resetCommand = cmd.Name == "resetperms";
                 var module = cmd.Module.GetTopLevelModule();
                 PermissionCache pc;
                 if (context.Guild != null)
