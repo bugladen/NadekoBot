@@ -264,6 +264,7 @@ namespace NadekoBot.Services
 
                 var cmd = commands[i].Command;
                 bool resetCommand = cmd.Name == "ResetPermissions";
+                var module = cmd.Module.GetTopLevelModule();
                 PermissionCache pc;
                 if (context.Guild != null)
                 {
@@ -281,14 +282,14 @@ namespace NadekoBot.Services
                         }
                     });
                     int index;
-                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(context.Message, cmd.Aliases.First(), cmd.Module.Name, out index))
+                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out index))
                     {
                         var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
                         return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
 
-                    if (cmd.Module.Name == typeof(Permissions).Name)
+                    if (module.Name == typeof(Permissions).Name)
                     {
                         if (!((IGuildUser)context.User).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                         {
