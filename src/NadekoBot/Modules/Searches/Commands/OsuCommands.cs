@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class OsuCommands
+        public class OsuCommands : ModuleBase
         {
             private static Logger _log { get; }
 
@@ -25,11 +25,8 @@ namespace NadekoBot.Modules.Searches
                 _log = LogManager.GetCurrentClassLogger();
             }
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Osu(IUserMessage umsg, string usr, [Remainder] string mode = null)
+            public async Task Osu(string usr, [Remainder] string mode = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
 
@@ -48,25 +45,22 @@ namespace NadekoBot.Modules.Searches
                         MemoryStream ms = new MemoryStream();
                         res.CopyTo(ms);
                         ms.Position = 0;
-                        await channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
+                        await Context.Channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
                         _log.Warn(ex, "Osu command failed");
                     }
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Osub(IUserMessage umsg, [Remainder] string map)
+            public async Task Osub([Remainder] string map)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
-                    await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
                     return;
                 }
 
@@ -85,21 +79,20 @@ namespace NadekoBot.Modules.Searches
                         var time = TimeSpan.FromSeconds(Double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
                         sb.AppendLine($"{obj["artist"]} - {obj["title"]}, mapped by {obj["creator"]}. https://osu.ppy.sh/s/{obj["beatmapset_id"]}");
                         sb.AppendLine($"{starRating} stars, {obj["bpm"]} BPM | AR{obj["diff_approach"]}, CS{obj["diff_size"]}, OD{obj["diff_overall"]} | Length: {time}");
-                        await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+                        await Context.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendErrorAsync("Something went wrong.");
+                    await Context.Channel.SendErrorAsync("Something went wrong.");
                     _log.Warn(ex, "Osub command failed");
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Osu5(IUserMessage umsg, string user, [Remainder] string mode = null)
+            public async Task Osu5(string user, [Remainder] string mode = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
                     await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);

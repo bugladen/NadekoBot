@@ -13,7 +13,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,9 +21,8 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class UnitConverterCommands
+        public class UnitConverterCommands : ModuleBase
         {
-
             public static List<ConvertUnit> Units { get; set; } = new List<ConvertUnit>();
             private static Logger _log { get; }
             private static Timer _timer;
@@ -43,7 +41,7 @@ namespace NadekoBot.Modules.Utility
                     }).ToArray();
 
                     using (var uow = DbHandler.UnitOfWork())
-                    {           
+                    {
                         if (uow.ConverterUnits.Empty())
                         {
                             uow.ConverterUnits.AddRange(data);
@@ -56,16 +54,13 @@ namespace NadekoBot.Modules.Utility
                 {
                     _log.Warn("Could not load units: " + e.Message);
                 }
-            }
 
-            public UnitConverterCommands()
-            {
                 _timer = new Timer(async (obj) => await UpdateCurrency(), null, (int)updateInterval.TotalMilliseconds, (int)updateInterval.TotalMilliseconds);
-
             }
 
-            public async Task UpdateCurrency()
-            {try
+            public static async Task UpdateCurrency()
+            {
+                try
                 {
                     var currencyRates = await UpdateCurrencyRates();
                     var unitTypeString = "currency";
@@ -96,36 +91,37 @@ namespace NadekoBot.Modules.Utility
                     Units.AddRange(range);
                     _log.Info("Updated Currency");
                 }
-                catch {
+                catch
+                {
                     _log.Warn("Failed updating currency.");
                 }
             }
+
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task ConvertList(IUserMessage msg)
+            public async Task ConvertList()
             {
                 var res = Units.GroupBy(x => x.UnitType)
                                .Aggregate(new EmbedBuilder().WithTitle("__Units which can be used by the converter__")
-                                                            .WithOkColor(),
-                                          (embed, g) => embed.AddField(efb => 
+                                                            .WithColor(NadekoBot.OkColor),
+                                          (embed, g) => embed.AddField(efb =>
                                                                          efb.WithName(g.Key.ToTitleCase())
                                                                          .WithValue(String.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())
                                                                                                        .OrderBy(x => x)))));
-                await msg.Channel.EmbedAsync(res.Build());
+                await Context.Channel.EmbedAsync(res);
             }
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Convert(IUserMessage msg, string origin, string target, decimal value)
+            public async Task Convert(string origin, string target, decimal value)
             {
                 var originUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
                 var targetUnit = Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
-                    await msg.Channel.SendErrorAsync(string.Format("Cannot convert {0} to {1}: units not found", origin, target));
+                    await Context.Channel.SendErrorAsync(string.Format("Cannot convert {0} to {1}: units not found", origin, target));
                     return;
                 }
                 if (originUnit.UnitType != targetUnit.UnitType)
                 {
-                    await msg.Channel.SendErrorAsync(string.Format("Cannot convert {0} to {1}: types of unit are not equal", originUnit.Triggers.First(), targetUnit.Triggers.First()));
+                    await Context.Channel.SendErrorAsync(string.Format("Cannot convert {0} to {1}: types of unit are not equal", originUnit.Triggers.First(), targetUnit.Triggers.First()));
                     return;
                 }
                 decimal res;
@@ -169,7 +165,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 res = Math.Round(res, 4);
 
-                await msg.Channel.SendConfirmAsync(string.Format("{0} {1} is equal to {2} {3}", value, (originUnit.Triggers.First() + "s").SnPl(value.IsInteger() ? (int)value : 2), res, (targetUnit.Triggers.First() + "s").SnPl(res.IsInteger() ? (int)res : 2)));
+                await Context.Channel.SendConfirmAsync(string.Format("{0} {1} is equal to {2} {3}", value, (originUnit.Triggers.First() + "s").SnPl(value.IsInteger() ? (int)value : 2), res, (targetUnit.Triggers.First() + "s").SnPl(res.IsInteger() ? (int)res : 2)));
             }
         }
 

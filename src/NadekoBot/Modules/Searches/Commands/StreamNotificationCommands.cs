@@ -1,21 +1,18 @@
 ﻿using Discord.Commands;
-using Newtonsoft.Json.Linq;
+using Discord;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using NadekoBot.Services;
 using System.Threading;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Net.Http;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NLog;
-using NadekoBot.Services.Database;
 using NadekoBot.Extensions;
 using System.Diagnostics;
 
@@ -68,7 +65,7 @@ namespace NadekoBot.Modules.Searches
         }
 
         [Group]
-        public class StreamNotificationCommands
+        public class StreamNotificationCommands : ModuleBase
         {
             private static Timer checkTimer { get; }
             private static ConcurrentDictionary<string, StreamStatus> oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
@@ -106,14 +103,14 @@ namespace NadekoBot.Modules.Searches
                                 oldStatus.IsLive != newStatus.IsLive)
                             {
                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
-                                var channel = server?.GetTextChannel(fs.ChannelId);
+                                if (server == null)
+                                    return;
+                                var channel = await server.GetTextChannelAsync(fs.ChannelId);
                                 if (channel == null)
                                     return;
                                 try
                                 {
-                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus).Build()).ConfigureAwait(false);
-                                    if (!newStatus.IsLive)
-                                        msg.DeleteAfter(60);
+                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
                                 }
                                 catch { }
                             }
@@ -199,66 +196,63 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Hitbox(IUserMessage msg, [Remainder] string username) =>
-                await TrackStream((ITextChannel)msg.Channel, username, FollowedStream.FollowedStreamType.Hitbox)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Hitbox([Remainder] string username) =>
+                await TrackStream((ITextChannel)Context.Channel, username, FollowedStream.FollowedStreamType.Hitbox)
                     .ConfigureAwait(false);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Twitch(IUserMessage msg, [Remainder] string username) =>
-                await TrackStream((ITextChannel)msg.Channel, username, FollowedStream.FollowedStreamType.Twitch)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Twitch([Remainder] string username) =>
+                await TrackStream((ITextChannel)Context.Channel, username, FollowedStream.FollowedStreamType.Twitch)
                     .ConfigureAwait(false);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task Beam(IUserMessage msg, [Remainder] string username) =>
-                await TrackStream((ITextChannel)msg.Channel, username, FollowedStream.FollowedStreamType.Beam)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Beam([Remainder] string username) =>
+                await TrackStream((ITextChannel)Context.Channel, username, FollowedStream.FollowedStreamType.Beam)
                     .ConfigureAwait(false);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ListStreams(IUserMessage imsg)
+            public async Task ListStreams()
             {
-                var channel = (ITextChannel)imsg.Channel;
-
                 IEnumerable<FollowedStream> streams;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     streams = uow.GuildConfigs
-                                 .For(channel.Guild.Id, 
+                                 .For(Context.Guild.Id, 
                                       set => set.Include(gc => gc.FollowedStreams))
                                  .FollowedStreams;
                 }
 
                 if (!streams.Any())
                 {
-                    await channel.SendConfirmAsync("You are not following any streams on this server.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("You are not following any streams on this server.").ConfigureAwait(false);
                     return;
                 }
 
-                var text = string.Join("\n", streams.Select(snc =>
+                var text = string.Join("\n", await Task.WhenAll(streams.Select(async snc =>
                 {
-                    return $"`{snc.Username}`'s stream on **{channel.Guild.GetTextChannel(snc.ChannelId)?.Name}** channel. 【`{snc.Type.ToString()}`】";
-                }));
+                    var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
+                    return $"`{snc.Username}`'s stream on **{(ch)?.Name}** channel. 【`{snc.Type.ToString()}`】";
+                })));
 
-                await channel.SendConfirmAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task RemoveStream(IUserMessage msg, FollowedStream.FollowedStreamType type, [Remainder] string username)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task RemoveStream(FollowedStream.FollowedStreamType type, [Remainder] string username)
             {
-                var channel = (ITextChannel)msg.Channel;
-
                 username = username.ToLowerInvariant().Trim();
 
                 var fs = new FollowedStream()
                 {
-                    ChannelId = channel.Id,
+                    ChannelId = Context.Channel.Id,
                     Username = username,
                     Type = type
                 };
@@ -266,25 +260,23 @@ namespace NadekoBot.Modules.Searches
                 bool removed;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var config = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
+                    var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
                     removed = config.FollowedStreams.Remove(fs);
                     if (removed)
                         await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 if (!removed)
                 {
-                    await channel.SendErrorAsync("No such stream.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("No such stream.").ConfigureAwait(false);
                     return;
                 }
-                await channel.SendConfirmAsync($"Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task CheckStream(IUserMessage imsg, FollowedStream.FollowedStreamType platform, [Remainder] string username)
+            public async Task CheckStream(FollowedStream.FollowedStreamType platform, [Remainder] string username)
             {
-                var channel = (ITextChannel)imsg.Channel;
-
                 var stream = username?.Trim();
                 if (string.IsNullOrWhiteSpace(stream))
                     return;
@@ -297,20 +289,20 @@ namespace NadekoBot.Modules.Searches
                     }));
                     if (streamStatus.IsLive)
                     {
-                        await channel.SendConfirmAsync($"Streamer {username} is online with {streamStatus.Views} viewers.");
+                        await Context.Channel.SendConfirmAsync($"Streamer {username} is online with {streamStatus.Views} viewers.");
                     }
                     else
                     {
-                        await channel.SendConfirmAsync($"Streamer {username} is offline.");
+                        await Context.Channel.SendConfirmAsync($"Streamer {username} is offline.");
                     }
                 }
                 catch
                 {
-                    await channel.SendErrorAsync("No channel found.");
+                    await Context.Channel.SendErrorAsync("No channel found.");
                 }
             }
 
-            private async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
+            private static async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
                 username = username.ToLowerInvariant().Trim();
                 var fs = new FollowedStream
@@ -339,7 +331,7 @@ namespace NadekoBot.Modules.Searches
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.EmbedAsync(fs.GetEmbed(status).Build(), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
+                await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
             }
         }
     }

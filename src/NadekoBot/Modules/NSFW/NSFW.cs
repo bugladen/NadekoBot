@@ -19,19 +19,10 @@ namespace NadekoBot.Modules.NSFW
     [NadekoModule("NSFW", "~")]
     public class NSFW : DiscordModule
     {
-        //ulong/cancel
         private static ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
-        public NSFW() : base()
+        private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Hentai(IUserMessage umsg, [Remainder] string tag = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
             tag = tag?.Trim() ?? "";
 
             tag = "rating%3Aexplicit+" + tag;
@@ -58,25 +49,27 @@ namespace NadekoBot.Modules.NSFW
             var link = await provider.ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
                 await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
-            else
+            else if (!noError)
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithImageUrl(link)
-                    .WithDescription("Tag: " + tag)
-                    .Build()).ConfigureAwait(false);
+                    .WithDescription("Tag: " + tag)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task AutoHentai(IUserMessage umsg, int interval = 0, string tags = null)
+        public Task Hentai([Remainder] string tag = null) =>
+            InternalHentai(Context.Channel, tag, false);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
 
             if (interval == 0)
             {
-                if (AutoHentaiTimers.TryRemove(umsg.Channel.Id, out t))
+                if (AutoHentaiTimers.TryRemove(Context.Channel.Id, out t))
                 {
                     t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-                    await umsg.Channel.SendConfirmAsync("Autohentai stopped.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("Autohentai stopped.").ConfigureAwait(false);
                 }
                 return;
             }
@@ -91,28 +84,27 @@ namespace NadekoBot.Modules.NSFW
                 try
                 {
                     if (tagsArr == null || tagsArr.Length == 0)
-                        await Hentai(umsg, null).ConfigureAwait(false);
+                        await InternalHentai(Context.Channel, null, true).ConfigureAwait(false);
                     else
-                        await Hentai(umsg, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]);
+                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)], true);
                 }
                 catch { }
             }, null, interval * 1000, interval * 1000);
 
-            AutoHentaiTimers.AddOrUpdate(umsg.Channel.Id, t, (key, old) =>
+            AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
             });
 
-            await umsg.Channel.SendConfirmAsync($"Autohentai started. Reposting every {interval}s with one of the following tags:\n{string.Join(", ", tagsArr)}").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"Autohentai started. Reposting every {interval}s with one of the following tags:\n{string.Join(", ", tagsArr)}").ConfigureAwait(false);
         }
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task HentaiBomb(IUserMessage umsg, [Remainder] string tag = null)
+        public async Task HentaiBomb([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
             tag = "rating%3Aexplicit+" + tag;
@@ -133,79 +125,64 @@ namespace NadekoBot.Modules.NSFW
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Danbooru(IUserMessage umsg, [Remainder] string tag = null)
+        public async Task Danbooru([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
+            var channel = (ITextChannel)Context.Channel;
 
             tag = tag?.Trim() ?? "";
 
             var url = await GetDanbooruImageLink(tag).ConfigureAwait(false);
 
             if (url == null)
-                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
+                await channel.SendErrorAsync(Context.User.Mention + " No results.");
             else
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithDescription(Context.User.Mention + " " + tag)
                     .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText("Danbooru"))
-                    .Build()).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText("Danbooru"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public Task Yandere(IUserMessage umsg, [Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Yandere);
+        public Task Yandere([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public Task Konachan(IUserMessage umsg, [Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Konachan);
+        public Task Konachan([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public Task Gelbooru(IUserMessage umsg, [Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Gelbooru);
+        public Task Gelbooru([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public Task Rule34(IUserMessage umsg, [Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(umsg, tag, Searches.Searches.DapiSearchType.Rule34);
+        public Task Rule34([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task E621(IUserMessage umsg, [Remainder] string tag = null)
+        public async Task E621([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             tag = tag?.Trim() ?? "";
 
             var url = await GetE621ImageLink(tag).ConfigureAwait(false);
 
             if (url == null)
-                await channel.SendErrorAsync(umsg.Author.Mention + " No results.");
+                await Context.Channel.SendErrorAsync(Context.User.Mention + " No results.");
             else
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(umsg.Author.Mention + " " + tag)
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(Context.User.Mention + " " + tag)
                     .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText("e621"))
-                    .Build()).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText("e621"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Cp(IUserMessage umsg)
+        public async Task Cp()
         {
-            var channel = (ITextChannel)umsg.Channel;
-
-            await channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
+            await Context.Channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Boobs(IUserMessage umsg)
+        public async Task Boobs()
         {
-            var channel = (ITextChannel)umsg.Channel;
             try
             {
                 JToken obj;
@@ -213,20 +190,17 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{ new NadekoRandom().Next(0, 10229) }").ConfigureAwait(false))[0];
                 }
-                await channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync($"http://media.oboobs.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Butts(IUserMessage umsg)
+        public async Task Butts()
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             try
             {
                 JToken obj;
@@ -234,11 +208,11 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{ new NadekoRandom().Next(0, 4222) }").ConfigureAwait(false))[0];
                 }
-                await channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync($"http://media.obutts.ru/{ obj["preview"].ToString() }").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 

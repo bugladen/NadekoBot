@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace NadekoBot.Modules.Searches.Models

@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
@@ -7,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands.Hangman
@@ -121,19 +121,19 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             var embed = new EmbedBuilder().WithTitle("Hangman Game")
                                           .WithDescription(toSend)
                                           .AddField(efb => efb.WithName("It was").WithValue(Term.Word))
-                                          .WithImage(eib => eib.WithUrl(Term.ImageUrl))
+                                          .WithImageUrl(Term.ImageUrl)
                                           .WithFooter(efb => efb.WithText(string.Join(" ", Guesses)));
             if (Errors >= MaxErrors)
-                await GameChannel.EmbedAsync(embed.WithErrorColor().Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithErrorColor()).ConfigureAwait(false);
             else
-                await GameChannel.EmbedAsync(embed.WithOkColor().Build()).ConfigureAwait(false);
+                await GameChannel.EmbedAsync(embed.WithOkColor()).ConfigureAwait(false);
         }
 
-        private async void PotentialGuess(IMessage msg)
+        private async void PotentialGuess(SocketMessage msg)
         {
             try
             {
-                if (!(msg is IUserMessage))
+                if (!(msg is SocketUserMessage))
                     return;
 
                 if (msg.Channel != GameChannel)

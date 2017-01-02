@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
@@ -21,23 +20,21 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class Migration
+        public class Migration : ModuleBase
         {
             private const int CURRENT_VERSION = 1;
 
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public Migration()
+            static Migration()
             {
                 _log = LogManager.GetCurrentClassLogger();
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task MigrateData(IUserMessage umsg)
+            public async Task MigrateData()
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -54,12 +51,12 @@ namespace NadekoBot.Modules.Administration
                                 break;
                         }
                     }
-                    await umsg.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    await umsg.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
                 }
             }
 

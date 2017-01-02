@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class PokemonSearchCommands
+        public class PokemonSearchCommands : ModuleBase
         {
             private static Dictionary<string, SearchPokemon> pokemons { get; } = new Dictionary<string, SearchPokemon>();
             private static Dictionary<string, SearchPokemonAbility> pokemonAbilities { get; } = new Dictionary<string, SearchPokemonAbility>();
@@ -43,11 +43,8 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Pokemon(IUserMessage umsg, [Remainder] string pokemon = null)
+            public async Task Pokemon([Remainder] string pokemon = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 pokemon = pokemon?.Trim().ToUpperInvariant();
                 if (string.IsNullOrWhiteSpace(pokemon))
                     return;
@@ -57,25 +54,22 @@ namespace NadekoBot.Modules.Searches
                     if (kvp.Key.ToUpperInvariant() == pokemon.ToUpperInvariant())
                     {
                         var p = kvp.Value;
-                        await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Key.ToTitleCase())
                             .WithDescription(p.BaseStats.ToString())
                             .AddField(efb => efb.WithName("Types").WithValue(string.Join(",\n", p.Types)).WithIsInline(true))
                             .AddField(efb => efb.WithName("Height/Weight").WithValue($"{p.HeightM}m/{p.WeightKg}kg").WithIsInline(true))
                             .AddField(efb => efb.WithName("Abilitities").WithValue(string.Join(",\n", p.Abilities.Select(a => a.Value))).WithIsInline(true))
-                            .Build());
+                            );
                         return;
                     }
                 }
-                await channel.SendErrorAsync("No pokemon found.");
+                await Context.Channel.SendErrorAsync("No pokemon found.");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task PokemonAbility(IUserMessage umsg, [Remainder] string ability = null)
+            public async Task PokemonAbility([Remainder] string ability = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 ability = ability?.Trim().ToUpperInvariant().Replace(" ", "");
                 if (string.IsNullOrWhiteSpace(ability))
                     return;
@@ -83,15 +77,15 @@ namespace NadekoBot.Modules.Searches
                 {
                     if (kvp.Key.ToUpperInvariant() == ability)
                     {
-                        await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Value.Name)
                             .WithDescription(kvp.Value.Desc)
                             .AddField(efb => efb.WithName("Rating").WithValue(kvp.Value.Rating.ToString()).WithIsInline(true))
-                            .Build()).ConfigureAwait(false);
+                            ).ConfigureAwait(false);
                         return;
                     }
                 }
-                await channel.SendErrorAsync("No ability found.");
+                await Context.Channel.SendErrorAsync("No ability found.");
             }
         }
     }
