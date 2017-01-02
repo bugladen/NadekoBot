@@ -114,13 +114,14 @@ namespace NadekoBot.Modules.NSFW
                                            GetKonachanImageLink(tag),
                                            GetYandereImageLink(tag)).ConfigureAwait(false);
 
-            if (links.All(l => l == null))
+            var linksEnum = links.Where(l => l != null);
+            if (!linksEnum.Any())
             {
                 await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
                 return;
             }
 
-            await channel.SendMessageAsync(String.Join("\n\n", links)).ConfigureAwait(false);
+            await channel.SendMessageAsync(String.Join("\n\n", linksEnum)).ConfigureAwait(false);
         }
 
 
