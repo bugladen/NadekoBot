@@ -104,8 +104,6 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public async Task HentaiBomb([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             tag = tag?.Trim() ?? "";
             tag = "rating%3Aexplicit+" + tag;
 
@@ -114,30 +112,28 @@ namespace NadekoBot.Modules.NSFW
                                            GetKonachanImageLink(tag),
                                            GetYandereImageLink(tag)).ConfigureAwait(false);
 
-            var linksEnum = links.Where(l => l != null);
-            if (!linksEnum.Any())
+            var linksEnum = links?.Where(l => l != null);
+            if (links == null || !linksEnum.Any())
             {
-                await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync("No results found.").ConfigureAwait(false);
                 return;
             }
 
-            await channel.SendMessageAsync(String.Join("\n\n", linksEnum)).ConfigureAwait(false);
+            await Context.Channel.SendMessageAsync(String.Join("\n\n", linksEnum)).ConfigureAwait(false);
         }
 
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Danbooru([Remainder] string tag = null)
         {
-            var channel = (ITextChannel)Context.Channel;
-
             tag = tag?.Trim() ?? "";
 
             var url = await GetDanbooruImageLink(tag).ConfigureAwait(false);
 
             if (url == null)
-                await channel.SendErrorAsync(Context.User.Mention + " No results.");
+                await Context.Channel.SendErrorAsync(Context.User.Mention + " No results.");
             else
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(Context.User.Mention + " " + tag)
                     .WithImageUrl(url)
                     .WithFooter(efb => efb.WithText("Danbooru"))).ConfigureAwait(false);
