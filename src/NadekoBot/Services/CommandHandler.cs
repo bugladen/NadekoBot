@@ -66,13 +66,12 @@ namespace NadekoBot.Services
         {
             try
             {
-
                 var usrMsg = msg as SocketUserMessage;
                 if (usrMsg == null)
                     return;
 
-                if (!usrMsg.IsAuthor())
-                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+                //if (!usrMsg.IsAuthor())
+                //    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
 
                 if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
                     return;

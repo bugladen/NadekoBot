@@ -1926,23 +1926,23 @@
   <data name="randomdog_usage" xml:space="preserve">
     <value>`{0}woof`</value>
   </data>
-  <data name="i_cmd" xml:space="preserve">
-    <value>img i</value>
+  <data name="image_cmd" xml:space="preserve">
+    <value>image img</value>
   </data>
-  <data name="i_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}ir for different results.</value>
+  <data name="image_desc" xml:space="preserve">
+    <value>Pulls the first image found using a search parameter. Use {0}imgr for different results.</value>
   </data>
-  <data name="i_usage" xml:space="preserve">
-    <value>`{0}i cute kitten`</value>
+  <data name="image_usage" xml:space="preserve">
+    <value>`{0}img cute kitten`</value>
   </data>
-  <data name="ir_cmd" xml:space="preserve">
-    <value>ir</value>
+  <data name="randomimage_cmd" xml:space="preserve">
+    <value>randomimage rimg</value>
   </data>
-  <data name="ir_desc" xml:space="preserve">
+  <data name="randomimage_desc" xml:space="preserve">
     <value>Pulls a random image using a search parameter.</value>
   </data>
-  <data name="ir_usage" xml:space="preserve">
-    <value>`{0}ir cute kitten`</value>
+  <data name="randomimage_usage" xml:space="preserve">
+    <value>`{0}rimg cute kitten`</value>
   </data>
   <data name="lmgtfy_cmd" xml:space="preserve">
     <value>lmgtfy</value>

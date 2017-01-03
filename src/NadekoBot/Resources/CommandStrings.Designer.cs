@@ -3246,33 +3246,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to img i.
-        /// </summary>
-        public static string i_cmd {
-            get {
-                return ResourceManager.GetString("i_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}ir for different results..
-        /// </summary>
-        public static string i_desc {
-            get {
-                return ResourceManager.GetString("i_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}i cute kitten`.
-        /// </summary>
-        public static string i_usage {
-            get {
-                return ResourceManager.GetString("i_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to iam.
         /// </summary>
         public static string iam_cmd {
@@ -3327,6 +3300,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to image img.
+        /// </summary>
+        public static string image_cmd {
+            get {
+                return ResourceManager.GetString("image_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}imgr for different results..
+        /// </summary>
+        public static string image_desc {
+            get {
+                return ResourceManager.GetString("image_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}img cute kitten`.
+        /// </summary>
+        public static string image_usage {
+            get {
+                return ResourceManager.GetString("image_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to imdb omdb.
         /// </summary>
         public static string imdb_cmd {
@@ -3377,33 +3377,6 @@ namespace NadekoBot.Resources {
         public static string inrole_usage {
             get {
                 return ResourceManager.GetString("inrole_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to ir.
-        /// </summary>
-        public static string ir_cmd {
-            get {
-                return ResourceManager.GetString("ir_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Pulls a random image using a search parameter..
-        /// </summary>
-        public static string ir_desc {
-            get {
-                return ResourceManager.GetString("ir_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}ir cute kitten`.
-        /// </summary>
-        public static string ir_usage {
-            get {
-                return ResourceManager.GetString("ir_usage", resourceCulture);
             }
         }
         
@@ -5402,6 +5375,33 @@ namespace NadekoBot.Resources {
         public static string randomdog_usage {
             get {
                 return ResourceManager.GetString("randomdog_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to randomimage rimg.
+        /// </summary>
+        public static string randomimage_cmd {
+            get {
+                return ResourceManager.GetString("randomimage_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pulls a random image using a search parameter..
+        /// </summary>
+        public static string randomimage_desc {
+            get {
+                return ResourceManager.GetString("randomimage_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rimg cute kitten`.
+        /// </summary>
+        public static string randomimage_usage {
+            get {
+                return ResourceManager.GetString("randomimage_usage", resourceCulture);
             }
         }
         
