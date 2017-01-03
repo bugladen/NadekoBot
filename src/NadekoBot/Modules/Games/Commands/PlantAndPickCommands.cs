@@ -47,7 +47,10 @@ namespace NadekoBot.Modules.Games
                 _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
 
+
+#if !GLOBAL_NADEKO
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
+#endif
 
                 using (var uow = DbHandler.UnitOfWork())
                 {

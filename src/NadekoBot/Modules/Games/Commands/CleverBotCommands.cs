@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Games
                 }
                 return true;
             }
-
+#if !GLOBAL_NADEKO
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -120,6 +120,7 @@ namespace NadekoBot.Modules.Games
 
                 await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
             }
+#endif
         }
     }
 }
