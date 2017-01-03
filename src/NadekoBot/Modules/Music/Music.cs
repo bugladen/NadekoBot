@@ -461,27 +461,29 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
         public async Task Remove(int num)
         {
 
-
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-            {
                 return;
-            }
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
-            if (num <= 0 || num > musicPlayer.Playlist.Count)
-                return;
-            var song = (musicPlayer.Playlist as List<Song>)?[num - 1];
+            musicPlayer.SongRemoved += async (song) =>
+            {
+                try
+                {
+
+                    var embed = new EmbedBuilder()
+                        .WithAuthor(eab => eab.WithName("Removed song #" + num).WithMusicIcon())
+                        .WithDescription(song.PrettyName)
+                        .WithFooter(ef => ef.WithText(song.PrettyInfo))
+                        .WithErrorColor();
+
+                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+
+                }
+                catch { }
+            };
+
             musicPlayer.RemoveSongAt(num - 1);
-
-            var embed = new EmbedBuilder()
-                .WithAuthor(eab => eab.WithName("Song Removed!").WithMusicIcon())
-                .AddField(fb => fb.WithName("**Song Position**").WithValue($"#{num}").WithIsInline(true))
-                .AddField(fb => fb.WithName("**Song Name**").WithValue(song.PrettyName).WithIsInline(true))
-                .WithFooter(ef => ef.WithText($"{song.PrettyProvider} | {song.QueuerName}"))
-                .WithErrorColor();
-
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

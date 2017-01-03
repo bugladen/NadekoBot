@@ -77,6 +77,8 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
 
+        public event Action<Song> SongRemoved = delegate { };
+
         public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
         {
             if (startingVoiceChannel == null)
@@ -277,7 +279,12 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 if (index < 0 || index >= playlist.Count)
                     return;
-                playlist.RemoveAt(index);
+                var song = playlist.ElementAtOrDefault(index);
+                if (playlist.Remove(song))
+                {
+                    SongRemoved(song);
+                }
+                
             });
         }
 
