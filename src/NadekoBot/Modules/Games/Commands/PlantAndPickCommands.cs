@@ -10,6 +10,7 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Games
         /// https://discord.gg/0TYNJfCU4De7YIk8
         /// </summary>
         [Group]
-        public class PlantPickCommands
+        public class PlantPickCommands : ModuleBase
         {
             private static ConcurrentHashSet<ulong> generationChannels { get; } = new ConcurrentHashSet<ulong>();
             //channelid/message
@@ -44,8 +45,10 @@ namespace NadekoBot.Modules.Games
             static PlantPickCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+#if !GLOBAL_NADEKO
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
-
+#endif
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.BotConfig.GetOrCreate();
@@ -55,13 +58,16 @@ namespace NadekoBot.Modules.Games
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;
                 }
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void PotentialFlowerGeneration(IMessage imsg)
+            private static async void PotentialFlowerGeneration(SocketMessage imsg)
             {
                 try
                 {
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
                         return;
 
@@ -95,14 +101,14 @@ namespace NadekoBot.Modules.Games
                 }
                 catch { }
             }
-
+#if !GLOBAL_NADEKO
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Pick(IUserMessage imsg)
+            public async Task Pick()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
-                if (!channel.Guild.GetCurrentUser().GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(imsg.Author.Id))
+                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(Context.User.Id))
                     return;
 
                 try
@@ -110,58 +116,56 @@ namespace NadekoBot.Modules.Games
 
                     List<IUserMessage> msgs;
 
-                    try { await imsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                    if (!plantedFlowers.TryRemove(channel.Id, out msgs))
-                        return;
+                try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
+                if (!plantedFlowers.TryRemove(channel.Id, out msgs))
+                    return;
 
                     await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)imsg.Author, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
-                    var msg = await channel.SendConfirmAsync($"**{imsg.Author}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                    var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                     msg.DeleteAfter(10);
                 }
                 finally
                 {
                     await Task.Delay(60000);
-                    usersRecentlyPicked.TryRemove(imsg.Author.Id);
+                    usersRecentlyPicked.TryRemove(Context.User.Id);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Plant(IUserMessage imsg)
+            public async Task Plant()
             {
-                var channel = (ITextChannel)imsg.Channel;
-
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)imsg.Author, "Planted a flower.", 1, false).ConfigureAwait(false);
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, "Planted a flower.", 1, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await channel.SendErrorAsync($"You don't have any {Gambling.Gambling.CurrencyPluralName}.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($"You don't have any {Gambling.Gambling.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
 
                 var file = GetRandomCurrencyImagePath();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
-
-                var msgToSend = $"Oh how Nice! **{imsg.Author.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
+                
+                var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {
-                    msg = await channel.SendConfirmAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
+                    msg = await Context.Channel.SendConfirmAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
                 }
                 else
                 {
-                    msg = await channel.SendFileAsync(file, msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(file, msgToSend).ConfigureAwait(false);
                 }
-                plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
+                plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
-
+#endif
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageMessages)]
-            public async Task GenCurrency(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task GenCurrency()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 bool enabled;
                 using (var uow = DbHandler.UnitOfWork())

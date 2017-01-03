@@ -8,26 +8,26 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-//todo Rewrite? Fix trivia not stopping bug
+
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
         [Group]
-        public class TriviaCommands
+        public class TriviaCommands : ModuleBase
         {
-            public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
+            public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Trivia(IUserMessage umsg, [Remainder] string additionalArgs = "")
-                => Trivia(umsg, 10, additionalArgs);
+            public Task Trivia([Remainder] string additionalArgs = "")
+                => Trivia(10, additionalArgs);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Trivia(IUserMessage umsg, int winReq = 10, [Remainder] string additionalArgs = "")
+            public async Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var showHints = !additionalArgs.Contains("nohint");
 
@@ -45,15 +45,15 @@ namespace NadekoBot.Modules.Games
                     }
                     return;                    
                 }
-
-                await channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
+                else
+                    await Context.Channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tl(IUserMessage umsg)
+            public async Task Tl()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
@@ -67,9 +67,9 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tq(IUserMessage umsg)
+            public async Task Tq()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))

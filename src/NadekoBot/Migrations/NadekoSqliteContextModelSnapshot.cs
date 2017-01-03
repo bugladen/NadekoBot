@@ -2,10 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using NadekoBot.Services.Database;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Modules.Music.Classes;
 
 namespace NadekoBot.Migrations
 {

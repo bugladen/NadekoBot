@@ -10,31 +10,24 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class DrawCommands
+        public class DrawCommands : ModuleBase
         {
             private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 
-
-            public DrawCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-            }
-
             private const string cardsPath = "data/images/cards";
-            private Logger _log { get; }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Draw(IUserMessage msg, int num = 1)
+            public async Task Draw(int num = 1)
             {
-                var channel = (ITextChannel)msg.Channel;
-                var cards = AllDecks.GetOrAdd(channel.Guild, (s) => new Cards());
+                var cards = AllDecks.GetOrAdd(Context.Guild, (s) => new Cards());
                 var images = new List<Image>();
                 var cardObjects = new List<Cards.Card>();
                 if (num > 5) num = 5;
@@ -42,7 +35,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
                     {
-                        try { await channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                        try { await Context.Channel.SendErrorAsync("No more cards in a deck.").ConfigureAwait(false); } catch { }
                         break;
                     }
                     var currentCard = cards.DrawACard();
@@ -53,21 +46,20 @@ namespace NadekoBot.Modules.Gambling
                 MemoryStream bitmapStream = new MemoryStream();
                 images.Merge().SaveAsPng(bitmapStream);
                 bitmapStream.Position = 0;
-
-                var toSend = $"{msg.Author.Mention}";
+                var toSend = $"{Context.User.Mention}";
                 if (cardObjects.Count == 5)
                     toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
 
-                await channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(bitmapStream, images.Count + " cards.jpg", toSend).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ShuffleDeck(IUserMessage imsg)
+            public async Task ShuffleDeck()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                //var channel = (ITextChannel)Context.Channel;
 
-                AllDecks.AddOrUpdate(channel.Guild,
+                AllDecks.AddOrUpdate(Context.Guild,
                         (g) => new Cards(),
                         (g, c) =>
                         {
@@ -75,7 +67,7 @@ namespace NadekoBot.Modules.Gambling
                             return c;
                         });
 
-                await channel.SendConfirmAsync("Deck reshuffled.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Deck reshuffled.").ConfigureAwait(false);
             }
         }
     }

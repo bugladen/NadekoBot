@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.API;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -18,7 +17,7 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class AnimeSearchCommands
+        public class AnimeSearchCommands : ModuleBase
         {
             private static Timer anilistTokenRefresher { get; }
             private static Logger _log { get; }
@@ -54,11 +53,8 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Anime(IUserMessage umsg, [Remainder] string query)
+            public async Task Anime([Remainder] string query)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
@@ -66,7 +62,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (animeData == null)
                 {
-                    await umsg.Channel.SendErrorAsync("Failed finding that animu.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Failed finding that animu.").ConfigureAwait(false);
                     return;
                 }
 
@@ -79,15 +75,13 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName("Status").WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", animeData.Genres)).WithIsInline(true))
                     .WithFooter(efb => efb.WithText("Score: " + animeData.average_score + " / 100"));
-                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Manga(IUserMessage umsg, [Remainder] string query)
+            public async Task Manga([Remainder] string query)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 if (string.IsNullOrWhiteSpace(query))
                     return;
 
@@ -95,7 +89,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (mangaData == null)
                 {
-                    await umsg.Channel.SendErrorAsync("Failed finding that mango.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Failed finding that mango.").ConfigureAwait(false);
                     return;
                 }
 
@@ -109,7 +103,7 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", mangaData.Genres)).WithIsInline(true))
                     .WithFooter(efb => efb.WithText("Score: " + mangaData.average_score + " / 100"));
 
-                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             private async Task<AnimeResult> GetAnimeData(string query)

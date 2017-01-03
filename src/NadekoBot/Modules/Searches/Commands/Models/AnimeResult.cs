@@ -1,5 +1,4 @@
 ﻿using NadekoBot.Extensions;
-using System.Globalization;
 
 namespace NadekoBot.Modules.Searches.Models
 {

@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -16,39 +17,36 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class AnimalRacing
+        public class AnimalRacing : ModuleBase
         {
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Race(IUserMessage umsg)
+            public async Task Race()
             {
-                var channel = (ITextChannel)umsg.Channel;
-
-                var ar = new AnimalRace(channel.Guild.Id, channel);
+                var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel);
 
                 if (ar.Fail)
-                    await channel.SendErrorAsync("Animal Race", "Failed starting. Another race is probably running.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("🏁 `Failed starting a race. Another race is probably running.`").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task JoinRace(IUserMessage umsg, int amount = 0)
+            public async Task JoinRace(int amount = 0)
             {
-                var channel = (ITextChannel)umsg.Channel;
 
                 if (amount < 0)
                     amount = 0;
 
 
                 AnimalRace ar;
-                if (!AnimalRaces.TryGetValue(channel.Guild.Id, out ar))
+                if (!AnimalRaces.TryGetValue(Context.Guild.Id, out ar))
                 {
-                    await channel.SendErrorAsync("No race exists on this server").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("No race exists on this server").ConfigureAwait(false);
                     return;
                 }
-                await ar.JoinRace(umsg.Author as IGuildUser, amount);
+                await ar.JoinRace(Context.User as IGuildUser, amount);
             }
 
             public class AnimalRace
@@ -209,9 +207,9 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private void Client_MessageReceived(IMessage imsg)
+                private void Client_MessageReceived(SocketMessage imsg)
                 {
-                    var msg = imsg as IUserMessage;
+                    var msg = imsg as SocketUserMessage;
                     if (msg == null)
                         return;
                     if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)

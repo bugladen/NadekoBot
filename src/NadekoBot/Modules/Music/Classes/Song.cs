@@ -71,11 +71,11 @@ namespace NadekoBot.Modules.Music.Classes
                 switch (SongInfo.ProviderType)
                 {
                     case MusicType.Radio:
+                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
+                    case MusicType.Normal:
                         //todo have videoid in songinfo from the start
                         var videoId = Regex.Match(SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
                         return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
-                    case MusicType.Normal:
-                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
                     case MusicType.Local:
                         return $"https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
                     case MusicType.Soundcloud:

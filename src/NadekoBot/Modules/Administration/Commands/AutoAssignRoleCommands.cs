@@ -7,6 +7,7 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class AutoAssignRoleCommands
+        public class AutoAssignRoleCommands : ModuleBase
         {
             private static Logger _log { get; }
             //guildid/roleid
@@ -23,9 +24,11 @@ namespace NadekoBot.Modules.Administration
 
             static AutoAssignRoleCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
+
                 AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
-                _log = LogManager.GetCurrentClassLogger();
                 NadekoBot.Client.UserJoined += async (user) =>
                 {
                     try
@@ -43,29 +46,30 @@ namespace NadekoBot.Modules.Administration
                     }
                     catch (Exception ex) { _log.Warn(ex); }
                 };
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task AutoAssignRole(IUserMessage umsg, [Remainder] IRole role = null)
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            public async Task AutoAssignRole([Remainder] IRole role = null)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 GuildConfig conf;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    conf = uow.GuildConfigs.For(channel.Guild.Id, set => set);
+                    conf = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     if (role == null)
                     {
                         conf.AutoAssignRoleId = 0;
                         ulong throwaway;
-                        AutoAssignedRoles.TryRemove(channel.Guild.Id, out throwaway);
+                        AutoAssignedRoles.TryRemove(Context.Guild.Id, out throwaway);
                     }
                     else
                     {
                         conf.AutoAssignRoleId = role.Id;
-                        AutoAssignedRoles.AddOrUpdate(channel.Guild.Id, role.Id, (key, val) => role.Id);
+                        AutoAssignedRoles.AddOrUpdate(Context.Guild.Id, role.Id, (key, val) => role.Id);
                     }
 
                     await uow.CompleteAsync().ConfigureAwait(false);
@@ -73,11 +77,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    await channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 **Auto assign role** on user join is now **disabled**.").ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("✅ **Auto assign role** on user join is now **enabled**.").ConfigureAwait(false);
             }
         }
     }

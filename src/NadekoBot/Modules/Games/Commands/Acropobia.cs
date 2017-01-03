@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -18,16 +19,16 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class Acropobia
+        public class Acropobia : ModuleBase
         {
             //channelId, game
             public static ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, AcrophobiaGame>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Acro(IUserMessage imsg, int time = 60)
+            public async Task Acro(int time = 60)
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 var game = new AcrophobiaGame(channel, time);
                 if (AcrophobiaGames.TryAdd(channel.Id, game))
@@ -123,7 +124,7 @@ namespace NadekoBot.Modules.Games
                 var embed = GetEmbed();
 
                 //SUBMISSIONS PHASE
-                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
                 try
                 {
                     await Task.Delay(time * 1000, source.Token).ConfigureAwait(false);
@@ -144,13 +145,13 @@ namespace NadekoBot.Modules.Games
                 {
                     await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithDescription($"{submissions.First().Value.Mention} is the winner for being the only user who made a submission!")
-                        .WithFooter(efb => efb.WithText(submissions.First().Key.ToLowerInvariant().ToTitleCase()))
-                        .Build()).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(submissions.First().Key.ToLowerInvariant().ToTitleCase())))
+                            .ConfigureAwait(false);
                     return;
                 }
                 var submissionClosedEmbed = GetEmbed();
 
-                await channel.EmbedAsync(submissionClosedEmbed.Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(submissionClosedEmbed).ConfigureAwait(false);
 
                 //VOTING PHASE
                 this.phase = AcroPhase.Voting;
@@ -167,11 +168,11 @@ namespace NadekoBot.Modules.Games
                 await End().ConfigureAwait(false);
             }
 
-            private async void PotentialAcro(IMessage arg)
+            private async void PotentialAcro(SocketMessage arg)
             {
                 try
                 {
-                    var msg = arg as IUserMessage;
+                    var msg = arg as SocketUserMessage;
                     if (msg == null || msg.Author.IsBot || msg.Channel.Id != channel.Id)
                         return;
 
@@ -186,7 +187,7 @@ namespace NadekoBot.Modules.Games
                         if (spamCount > 10)
                         {
                             spamCount = 0;
-                            try { await channel.EmbedAsync(GetEmbed().Build()).ConfigureAwait(false); }
+                            try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
                         //user didn't input something already
@@ -226,7 +227,7 @@ namespace NadekoBot.Modules.Games
                         if (spamCount > 10)
                         {
                             spamCount = 0;
-                            try { await channel.EmbedAsync(GetEmbed().Build()).ConfigureAwait(false); }
+                            try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
 
@@ -277,7 +278,7 @@ namespace NadekoBot.Modules.Games
                     .WithDescription($"Winner is {submissions[winner.Key].Mention} with {winner.Value} points.\n")
                     .WithFooter(efb => efb.WithText(winner.Key.ToLowerInvariant().ToTitleCase()));
 
-                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             public void EnsureStopped()

@@ -1,10 +1,9 @@
 ﻿using Discord.Commands;
-using NadekoBot.Services;
 using NLog;
 
 namespace NadekoBot.Modules
 {
-    public class DiscordModule
+    public abstract class DiscordModule : ModuleBase
     {
         protected Logger _log { get; }
         protected string _prefix { get; }
