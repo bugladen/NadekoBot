@@ -460,17 +460,16 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
         [Priority(0)]
         public async Task Remove(int num)
         {
-
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
+
             musicPlayer.SongRemoved += async (song) =>
             {
                 try
                 {
-
                     var embed = new EmbedBuilder()
                         .WithAuthor(eab => eab.WithName("Removed song #" + num).WithMusicIcon())
                         .WithDescription(song.PrettyName)

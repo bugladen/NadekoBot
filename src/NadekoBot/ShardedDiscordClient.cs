@@ -122,9 +122,9 @@ namespace NadekoBot
                 _log.Info($"Shard #{c.ShardId} downloaded {c.Guilds.Sum(g => g.Users.Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
             }));
 
-        public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGame(game)));
+        public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(game)));
 
 
-        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGame(name, url, StreamType.NotStreaming)));
+        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(name, url, StreamType.NotStreaming)));
     }
 }

@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Searches
 
                     await Task.Delay(10000).ConfigureAwait(false);
 
-                    await sent.ModifyAsync(m => m.Embed = embed.AddField(efb => efb.WithName("Alt").WithValue(comic.Alt.ToString()).WithIsInline(false)));
+                    await sent.ModifyAsync(m => m.Embed = embed.AddField(efb => efb.WithName("Alt").WithValue(comic.Alt.ToString()).WithIsInline(false)).Build());
                 }
             }
         }
