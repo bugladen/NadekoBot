@@ -62,7 +62,15 @@ namespace NadekoBot.Modules.Music.Classes
                 else if (TotalTime == TimeSpan.MaxValue)
                     return "∞";
                 else
-                    return TotalTime.ToString(@"mm\:ss");
+                {
+                    var time = TotalTime.ToString(@"mm\:ss");
+                    var hrs = (int)TotalTime.TotalHours;
+
+                    if (hrs > 0)
+                        return hrs + ":" + time;
+                    else
+                        return time;
+                } 
             }
         }
 
