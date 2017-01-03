@@ -65,6 +65,13 @@ namespace NadekoBot
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
+
+                client.Disconnected += (ex) =>
+                {
+                    _log.Error("Shard #{0} disconnected", i);
+                    _log.Error(ex);
+                    return Task.CompletedTask;
+                };
             }
 
             Clients = clientList.AsReadOnly();
@@ -85,8 +92,14 @@ namespace NadekoBot
         public Task<IDMChannel> GetDMChannelAsync(ulong channelId) =>
             Clients[0].GetDMChannelAsync(channelId);
 
-        internal Task LoginAsync(TokenType tokenType, string token) =>
-            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token).ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} logged in."); }));
+        internal async Task LoginAsync(TokenType tokenType, string token)
+        {
+            foreach (var c in Clients)
+            {
+                await c.LoginAsync(tokenType, token).ConfigureAwait(false);
+                _log.Info($"Shard #{c.ShardId} logged in.");
+            }
+        }
 
         internal async Task ConnectAsync()
         {
