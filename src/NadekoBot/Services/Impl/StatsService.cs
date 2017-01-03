@@ -25,9 +25,7 @@ namespace NadekoBot.Services.Impl
         public int TextChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is ITextChannel)).Count();
         public int VoiceChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is IVoiceChannel)).Count();
         public string OwnerIds => string.Join(", ", NadekoBot.Credentials.OwnerIds);
-
-
-
+        
         Timer carbonitexTimer { get; }
 
         public StatsService(ShardedDiscordClient client, CommandHandler cmdHandler)

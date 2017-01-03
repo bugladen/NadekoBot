@@ -48,11 +48,15 @@ namespace NadekoBot.Modules.NSFW
             }
             var link = await provider.ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
-                await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
-            else if (!noError)
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithImageUrl(link)
-                    .WithDescription("Tag: " + tag)).ConfigureAwait(false);
+            {
+                if (noError)
+                    await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
+                return;
+            }
+
+            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithImageUrl(link)
+                .WithDescription("Tag: " + tag)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
