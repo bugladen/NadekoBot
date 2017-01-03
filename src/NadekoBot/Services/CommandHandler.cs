@@ -123,17 +123,22 @@ namespace NadekoBot.Services
                 {
                     return;
                 }
-#if !GLOBAL_NADEKO
+
                 try
                 {
                     var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
 
                     if (cleverbotExecuted)
+                    {
+                        _log.Info($@"CleverBot Executed
+        Server: {guild.Name} [{guild.Id}]
+        Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
+        UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
+        Message: {usrMsg.Content}");
                         return;
+                    }
                 }
                 catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
-
-#endif
                 try
                 {
                     // maybe this message is a custom reaction
