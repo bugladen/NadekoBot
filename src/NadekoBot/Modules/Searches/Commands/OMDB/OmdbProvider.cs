@@ -18,7 +18,8 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
             {
                 var res = await http.GetStringAsync(String.Format(queryUrl,name.Trim().Replace(' ','+'))).ConfigureAwait(false);
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
-
+                if (movie?.Title == null)
+                    return null;
                 movie.Poster = await NadekoBot.Google.ShortenUrl(movie.Poster);
                 return movie;
             }
