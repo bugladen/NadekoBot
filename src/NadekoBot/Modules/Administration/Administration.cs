@@ -483,25 +483,11 @@ namespace NadekoBot.Modules.Administration
         [OwnerOnly]
         public async Task SaveChat(int cnt)
         {
-            ulong? lastmsgId = null;
             var sb = new StringBuilder();
             var msgs = new List<IMessage>(cnt);
-            while (cnt > 0)
-            {
-                var dlcnt = cnt < 100 ? cnt : 100;
-                IEnumerable<IMessage> dledMsgs;
-                if (lastmsgId == null)
-                    dledMsgs = await Context.Channel.GetMessagesAsync(cnt).Flatten().ConfigureAwait(false);
-                else
-                    dledMsgs = await Context.Channel.GetMessagesAsync(lastmsgId.Value, Direction.Before, dlcnt).Flatten().ConfigureAwait(false);
 
-                if (!dledMsgs.Any())
-                    break;
+            await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
 
-                msgs.AddRange(dledMsgs);
-                lastmsgId = msgs[msgs.Count - 1].Id;
-                cnt -= 100;
-            }
             var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
             var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
                 .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
