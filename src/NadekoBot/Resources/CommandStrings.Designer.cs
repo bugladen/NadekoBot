@@ -6576,7 +6576,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets the bot&apos;s status. (Online/Idle/Invisible).
+        ///    Looks up a localized string similar to Sets the bot&apos;s status. (Online/Idle/Dnd/Invisible).
         /// </summary>
         public static string setstatus_desc {
             get {

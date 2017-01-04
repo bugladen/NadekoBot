@@ -2857,7 +2857,7 @@
     <value>setstatus</value>
   </data>
   <data name="setstatus_desc" xml:space="preserve">
-    <value>Sets the bot's status. (Online/Idle/Invisible)</value>
+    <value>Sets the bot's status. (Online/Idle/Dnd/Invisible)</value>
   </data>
   <data name="setstatus_usage" xml:space="preserve">
     <value>`{0}setstatus Idle`</value>

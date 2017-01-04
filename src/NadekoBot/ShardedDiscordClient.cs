@@ -153,6 +153,8 @@ namespace NadekoBot
                     return UserStatus.Invisible;
                 case SettableUserStatus.Idle:
                     return UserStatus.AFK;
+                case SettableUserStatus.Dnd:
+                    return UserStatus.DoNotDisturb;
             }
 
             return UserStatus.Online;
@@ -166,6 +168,9 @@ namespace NadekoBot
         Invisible = 2,
         Invis = 2,
         Idle = 3,
-        Afk = 3
+        Afk = 3,
+        Dnd = 4,
+        DoNotDisturb = 4,
+        Busy = 4,
     }
 }
