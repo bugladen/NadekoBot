@@ -127,7 +127,12 @@ namespace NadekoBot.Modules.Help
             var helpstr = new StringBuilder();
             helpstr.AppendLine("You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: <https://www.paypal.me/Kwoth>\n");
             helpstr.AppendLine("##Table Of Contents");
-            helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Where(m => m.GetTopLevelModule().Name.ToLowerInvariant() != "help").OrderBy(m => m.Name).Prepend(NadekoBot.CommandService.Modules.FirstOrDefault(m=>m.Name.ToLowerInvariant()=="help")).Select(m => $"- [{m.Name}](#{m.Name.ToLowerInvariant()})")));
+            helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Where(m => m.GetTopLevelModule().Name.ToLowerInvariant() != "help")
+                .Select(m => m.GetTopLevelModule().Name)
+                .Distinct()
+                .OrderBy(m => m)
+                .Prepend("Help")
+                .Select(m => $"- [{m}](#{m.ToLowerInvariant()})")));
             helpstr.AppendLine();
             string lastModule = null;
             foreach (var com in NadekoBot.CommandService.Commands.OrderBy(com => com.Module.GetTopLevelModule().Name).GroupBy(c => c.Aliases.First()).Select(g => g.First()))
@@ -150,7 +155,7 @@ namespace NadekoBot.Modules.Help
             }
             helpstr = helpstr.Replace(NadekoBot.Client.CurrentUser().Username , "@BotName");
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
-            await Context.Channel.SendMessageAsync("").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync("Commandlist Regenerated").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
