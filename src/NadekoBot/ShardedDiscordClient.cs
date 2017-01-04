@@ -65,7 +65,7 @@ namespace NadekoBot
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
-
+                client.Log += Client_Log;
                 var j = i;
                 client.Disconnected += (ex) =>
                 {
@@ -76,6 +76,12 @@ namespace NadekoBot
             }
 
             Clients = clientList.AsReadOnly();
+        }
+
+        private Task Client_Log(LogMessage arg)
+        {
+            _log.Warn(arg.Exception, arg.Message);
+            return Task.CompletedTask;
         }
 
         public DiscordSocketClient MainClient =>
