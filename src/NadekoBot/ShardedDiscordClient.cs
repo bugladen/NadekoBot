@@ -67,17 +67,11 @@ namespace NadekoBot
                 _log.Info($"Shard #{i} initialized.");
 
                 var j = i;
-                client.Disconnected += async (ex) =>
+                client.Disconnected += (ex) =>
                 {
-                    try
-                    {
-                        _log.Error("Shard #{0} disconnected", j);
-                        _log.Error(ex, ex?.Message ?? "No error");
-
-                        try { await client.DisconnectAsync().ConfigureAwait(false); } catch { }
-                        await client.ConnectAsync().ConfigureAwait(false);
-                    }
-                    catch { }
+                    _log.Error("Shard #{0} disconnected", j);
+                    _log.Error(ex, ex?.Message ?? "No error");
+                    return Task.CompletedTask;
                 };
             }
 
