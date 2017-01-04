@@ -1930,7 +1930,7 @@
     <value>image img</value>
   </data>
   <data name="image_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}imgr for different results.</value>
+    <value>Pulls the first image found using a search parameter. Use {0}rimg for different results.</value>
   </data>
   <data name="image_usage" xml:space="preserve">
     <value>`{0}img cute kitten`</value>

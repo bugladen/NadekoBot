@@ -3309,7 +3309,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}imgr for different results..
+        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}rimg for different results..
         /// </summary>
         public static string image_desc {
             get {
