@@ -101,14 +101,14 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Destroy()
         {
-            await Context.Channel.SendErrorAsync("This command is temporarily disabled.").ConfigureAwait(false);
+            //await Context.Channel.SendErrorAsync("This command is temporarily disabled.").ConfigureAwait(false);
 
-            /*MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                if(MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer))
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return;
+            if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
-            return Task.CompletedTask;*/
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
