@@ -6567,6 +6567,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setstatus.
+        /// </summary>
+        public static string setstatus_cmd {
+            get {
+                return ResourceManager.GetString("setstatus_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the bot&apos;s status. (Online/Idle/Invisible).
+        /// </summary>
+        public static string setstatus_desc {
+            get {
+                return ResourceManager.GetString("setstatus_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}setstatus Idle`.
+        /// </summary>
+        public static string setstatus_usage {
+            get {
+                return ResourceManager.GetString("setstatus_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to setstream.
         /// </summary>
         public static string setstream_cmd {

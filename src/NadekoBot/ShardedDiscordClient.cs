@@ -140,5 +140,32 @@ namespace NadekoBot
 
 
         public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(name, url, StreamType.NotStreaming)));
+
+        public Task SetStatus(SettableUserStatus status) => Task.WhenAll(Clients.Select(ms => ms.SetStatusAsync(SettableUserStatusToUserStatus(status))));
+
+        private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
+        {
+            switch (sus)
+            {
+                case SettableUserStatus.Online:
+                    return UserStatus.Online;
+                case SettableUserStatus.Invisible:
+                    return UserStatus.Invisible;
+                case SettableUserStatus.Idle:
+                    return UserStatus.AFK;
+            }
+
+            return UserStatus.Online;
+        }
+    }
+
+    public enum SettableUserStatus
+    {
+        Online = 1,
+        On = 1,
+        Invisible = 2,
+        Invis = 2,
+        Idle = 3,
+        Afk = 3
     }
 }

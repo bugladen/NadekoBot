@@ -2853,4 +2853,13 @@
   <data name="autohentai_usage" xml:space="preserve">
     <value>`{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`</value>
   </data>
+  <data name="setstatus_cmd" xml:space="preserve">
+    <value>setstatus</value>
+  </data>
+  <data name="setstatus_desc" xml:space="preserve">
+    <value>Sets the bot's status. (Online/Idle/Invisible)</value>
+  </data>
+  <data name="setstatus_usage" xml:space="preserve">
+    <value>`{0}setstatus Idle`</value>
+  </data>
 </root>

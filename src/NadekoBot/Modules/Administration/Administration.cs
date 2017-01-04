@@ -485,7 +485,6 @@ namespace NadekoBot.Modules.Administration
         {
             var sb = new StringBuilder();
             var msgs = new List<IMessage>(cnt);
-
             await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
 
             var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
