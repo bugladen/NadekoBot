@@ -76,21 +76,16 @@ namespace NadekoBot.Modules.Music.Classes
                     })
                     { TotalTime = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
-                Console.WriteLine("Getting video id");
+
                 var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
-                Console.WriteLine("Done getting video id");
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
-                //var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetVideoAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
-                //var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-                //var video = videos
-                //    .Where(v => v.AudioBitrate < 256)
-                //    .OrderByDescending(v => v.AudioBitrate)
-                //    .FirstOrDefault();
-
-                Console.WriteLine("Getting video itself");
-                var video = await YouTube.Default.GetVideoAsync(link).ConfigureAwait(false);
-                Console.WriteLine("Done getting video");
+                var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
+                var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
+                var video = videos
+                    .Where(v => v.AudioBitrate < 256)
+                    .OrderByDescending(v => v.AudioBitrate)
+                    .FirstOrDefault();
 
                 if (video == null) // do something with this error
                     throw new Exception("Could not load any video elements based on the query.");
