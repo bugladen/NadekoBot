@@ -857,10 +857,14 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                         {
                             try
                             {
+                                IUserMessage msg;
                                 if (paused)
-                                    await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
                                 else
-                                    await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+
+                                if (msg != null)
+                                    msg.DeleteAfter(10);
                             }
                             catch { }
                         };
