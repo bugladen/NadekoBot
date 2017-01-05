@@ -99,15 +99,15 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Destroy()
+        public Task Destroy()
         {
-            //await Context.Channel.SendErrorAsync("This command is temporarily disabled.").ConfigureAwait(false);
-
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return;
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
+
+            return Task.CompletedTask;
 
         }
 
@@ -458,15 +458,16 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public async Task Remove(int num)
+        public Task Remove(int num)
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-                return;
+                return Task.CompletedTask;
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-                return;
+                return Task.CompletedTask;
 
             musicPlayer.RemoveSongAt(num - 1);
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -474,8 +475,6 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
         [Priority(1)]
         public async Task Remove(string all)
         {
-
-
             if (all.Trim().ToUpperInvariant() != "ALL")
                 return;
             MusicPlayer musicPlayer;
