@@ -97,8 +97,6 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task SetGame([Remainder] string game = null)
             {
-                game = game ?? "";
-
                 await NadekoBot.Client.SetGame(game).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👾 **New game set.**").ConfigureAwait(false);
