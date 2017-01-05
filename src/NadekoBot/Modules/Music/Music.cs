@@ -466,22 +466,6 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
 
-            musicPlayer.SongRemoved += async (song) =>
-            {
-                try
-                {
-                    var embed = new EmbedBuilder()
-                        .WithAuthor(eab => eab.WithName("Removed song #" + num).WithMusicIcon())
-                        .WithDescription(song.PrettyName)
-                        .WithFooter(ef => ef.WithText(song.PrettyInfo))
-                        .WithErrorColor();
-
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-
-                }
-                catch { }
-            };
-
             musicPlayer.RemoveSongAt(num - 1);
         }
 
@@ -868,6 +852,23 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                             }
                             catch { }
                         };
+
+
+                mp.SongRemoved += async (song, index) =>
+                {
+                    try
+                    {
+                        var embed = new EmbedBuilder()
+                            .WithAuthor(eab => eab.WithName("Removed song #" + (index + 1)).WithMusicIcon())
+                            .WithDescription(song.PrettyName)
+                            .WithFooter(ef => ef.WithText(song.PrettyInfo))
+                            .WithErrorColor();
+
+                        await textCh.EmbedAsync(embed).ConfigureAwait(false);
+
+                    }
+                    catch { }
+                };
                 return mp;
             });
             Song resolvedSong;
