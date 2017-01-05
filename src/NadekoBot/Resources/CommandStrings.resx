@@ -2862,4 +2862,13 @@
   <data name="setstatus_usage" xml:space="preserve">
     <value>`{0}setstatus Idle`</value>
   </data>
+  <data name="rotaterolecolor_cmd" xml:space="preserve">
+    <value>rotaterolecolor rrc</value>
+  </data>
+  <data name="rotaterolecolor_desc" xml:space="preserve">
+    <value>Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds. Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.</value>
+  </data>
+  <data name="rotaterolecolor_usage" xml:space="preserve">
+    <value>`{0}rrc 1 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`</value>
+  </data>
 </root>

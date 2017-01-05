@@ -6054,6 +6054,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to rotaterolecolor rrc.
+        /// </summary>
+        public static string rotaterolecolor_cmd {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds. Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable..
+        /// </summary>
+        public static string rotaterolecolor_desc {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rrc 1 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`.
+        /// </summary>
+        public static string rotaterolecolor_usage {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to rps.
         /// </summary>
         public static string rps_cmd {

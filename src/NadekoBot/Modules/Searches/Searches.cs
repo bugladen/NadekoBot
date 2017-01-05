@@ -582,13 +582,9 @@ namespace NadekoBot.Modules.Searches
         public async Task Color([Remainder] string color = null)
         {
             color = color?.Trim().Replace("#", "");
-            if (string.IsNullOrWhiteSpace((string)color))
+            if (string.IsNullOrWhiteSpace(color))
                 return;
             var img = new ImageSharp.Image(50, 50);
-
-            var red = Convert.ToInt32(color.Substring(0, 2), 16);
-            var green = Convert.ToInt32(color.Substring(2, 2), 16);
-            var blue = Convert.ToInt32(color.Substring(4, 2), 16);
 
             img.BackgroundColor(new ImageSharp.Color(color));
 
