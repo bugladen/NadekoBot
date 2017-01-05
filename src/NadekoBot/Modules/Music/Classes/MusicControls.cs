@@ -152,6 +152,10 @@ namespace NadekoBot.Modules.Music.Classes
 
                     }
                     catch (OperationCanceledException) { }
+                    catch (TimeoutException) {
+                        Console.WriteLine("Bot couldn't connect to the channel. Most likely insufficient permissions. Fix permissions, then queue songs again");
+                        ClearQueue();
+                    }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");

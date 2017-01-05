@@ -325,7 +325,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
 
             while (ids.Any() && !cancelSource.IsCancellationRequested)
             {
-                var tasks = Task.WhenAll(ids.Take(5).Select(async id =>
+                var tasks = Task.WhenAll(ids.Take(3).Select(async id =>
                 {
                     if (cancelSource.Token.IsCancellationRequested)
                         return;
@@ -874,8 +874,9 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             try
             {
                 musicPlayer.ThrowIfQueueFull();
+                Console.WriteLine("Resolving");
                 resolvedSong = await SongHandler.ResolveSong(query, musicType).ConfigureAwait(false);
-
+                Console.WriteLine("Resolved");
                 if (resolvedSong == null)
                     throw new SongNotFoundException();
 
