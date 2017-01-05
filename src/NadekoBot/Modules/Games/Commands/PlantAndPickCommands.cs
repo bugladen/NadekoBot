@@ -111,9 +111,12 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages || !usersRecentlyPicked.Add(Context.User.Id))
+                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages)
                     return;
-
+#if GLOBAL_NADEKO
+                if (!usersRecentlyPicked.Add(Context.User.Id))
+                    return;
+#endif
                 try
                 {
 
@@ -131,8 +134,10 @@ namespace NadekoBot.Modules.Games
                 }
                 finally
                 {
+#if GLOBAL_NADEKO
                     await Task.Delay(60000);
                     usersRecentlyPicked.TryRemove(Context.User.Id);
+#endif
                 }
             }
 
