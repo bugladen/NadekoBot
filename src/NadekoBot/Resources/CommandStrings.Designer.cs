@@ -6063,7 +6063,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds. Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable..
+        ///    Looks up a localized string similar to Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable..
         /// </summary>
         public static string rotaterolecolor_desc {
             get {
@@ -6072,7 +6072,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}rrc 1 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`.
+        ///    Looks up a localized string similar to `{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`.
         /// </summary>
         public static string rotaterolecolor_usage {
             get {
