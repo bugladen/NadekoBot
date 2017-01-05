@@ -1926,23 +1926,23 @@
   <data name="randomdog_usage" xml:space="preserve">
     <value>`{0}woof`</value>
   </data>
-  <data name="i_cmd" xml:space="preserve">
-    <value>img i</value>
+  <data name="image_cmd" xml:space="preserve">
+    <value>image img</value>
   </data>
-  <data name="i_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}ir for different results.</value>
+  <data name="image_desc" xml:space="preserve">
+    <value>Pulls the first image found using a search parameter. Use {0}rimg for different results.</value>
   </data>
-  <data name="i_usage" xml:space="preserve">
-    <value>`{0}i cute kitten`</value>
+  <data name="image_usage" xml:space="preserve">
+    <value>`{0}img cute kitten`</value>
   </data>
-  <data name="ir_cmd" xml:space="preserve">
-    <value>ir</value>
+  <data name="randomimage_cmd" xml:space="preserve">
+    <value>randomimage rimg</value>
   </data>
-  <data name="ir_desc" xml:space="preserve">
+  <data name="randomimage_desc" xml:space="preserve">
     <value>Pulls a random image using a search parameter.</value>
   </data>
-  <data name="ir_usage" xml:space="preserve">
-    <value>`{0}ir cute kitten`</value>
+  <data name="randomimage_usage" xml:space="preserve">
+    <value>`{0}rimg cute kitten`</value>
   </data>
   <data name="lmgtfy_cmd" xml:space="preserve">
     <value>lmgtfy</value>
@@ -2803,7 +2803,7 @@
     <value>log</value>
   </data>
   <data name="log_desc" xml:space="preserve">
-    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a lit of all events you can subscribe to.</value>
+    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
   </data>
   <data name="log_usage" xml:space="preserve">
     <value>`{0}log userpresence` or `{0}log userbanned`</value>
@@ -2852,5 +2852,23 @@
   </data>
   <data name="autohentai_usage" xml:space="preserve">
     <value>`{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`</value>
+  </data>
+  <data name="setstatus_cmd" xml:space="preserve">
+    <value>setstatus</value>
+  </data>
+  <data name="setstatus_desc" xml:space="preserve">
+    <value>Sets the bot's status. (Online/Idle/Dnd/Invisible)</value>
+  </data>
+  <data name="setstatus_usage" xml:space="preserve">
+    <value>`{0}setstatus Idle`</value>
+  </data>
+  <data name="rotaterolecolor_cmd" xml:space="preserve">
+    <value>rotaterolecolor rrc</value>
+  </data>
+  <data name="rotaterolecolor_desc" xml:space="preserve">
+    <value>Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds. Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.</value>
+  </data>
+  <data name="rotaterolecolor_usage" xml:space="preserve">
+    <value>`{0}rrc 1 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`</value>
   </data>
 </root>

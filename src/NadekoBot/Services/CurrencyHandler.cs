@@ -9,7 +9,7 @@ namespace NadekoBot.Services
 {
     public static class CurrencyHandler
     {
-        public static async Task<bool> RemoveCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task<bool> RemoveCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             var success = await RemoveCurrencyAsync(author.Id, reason, amount);
 
@@ -42,7 +42,7 @@ namespace NadekoBot.Services
             return true;
         }
 
-        public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task AddCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             await AddCurrencyAsync(author.Id, reason, amount);
 

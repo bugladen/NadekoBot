@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Permissions
         }
 
         [Group]
-        public class BlacklistCommands
+        public class BlacklistCommands : ModuleBase
         {
             public static ConcurrentHashSet<BlacklistItem> BlacklistedItems { get; set; } = new ConcurrentHashSet<BlacklistItem>();
 
@@ -35,33 +35,31 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task UserBlacklist(IUserMessage imsg, AddRemove action, ulong id)
-                => Blacklist(imsg, action, id, BlacklistType.User);
+            public Task UserBlacklist(AddRemove action, ulong id)
+                => Blacklist(action, id, BlacklistType.User);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task UserBlacklist(IUserMessage imsg, AddRemove action, IUser usr)
-                => Blacklist(imsg, action, usr.Id, BlacklistType.User);
+            public Task UserBlacklist(AddRemove action, IUser usr)
+                => Blacklist(action, usr.Id, BlacklistType.User);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task ChannelBlacklist(IUserMessage imsg, AddRemove action, ulong id)
-                => Blacklist(imsg, action, id, BlacklistType.Channel);
+            public Task ChannelBlacklist(AddRemove action, ulong id)
+                => Blacklist(action, id, BlacklistType.Channel);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task ServerBlacklist(IUserMessage imsg, AddRemove action, ulong id)
-                => Blacklist(imsg, action, id, BlacklistType.Server);
+            public Task ServerBlacklist(AddRemove action, ulong id)
+                => Blacklist(action, id, BlacklistType.Server);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task ServerBlacklist(IUserMessage imsg, AddRemove action, IGuild guild)
-                => Blacklist(imsg, action, guild.Id, BlacklistType.Server);
+            public Task ServerBlacklist(AddRemove action, IGuild guild)
+                => Blacklist(action, guild.Id, BlacklistType.Server);
 
-            private async Task Blacklist(IUserMessage imsg, AddRemove action, ulong id, BlacklistType type)
+            private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
             {
-                var channel = imsg.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     if (action == AddRemove.Add)
@@ -106,9 +104,9 @@ namespace NadekoBot.Modules.Permissions
                 }
 
                 if(action == AddRemove.Add)
-                    await channel.SendConfirmAsync($"Blacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Blacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
                 else
-                    await channel.SendConfirmAsync($"Unblacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Unblacklisted a `{type}` with id `{id}`").ConfigureAwait(false);
             }
         }
     }

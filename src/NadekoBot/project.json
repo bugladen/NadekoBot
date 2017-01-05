@@ -17,15 +17,9 @@
     "define": []
   },
   "dependencies": {
+    "AngleSharp": "0.9.9",
     "VideoLibrary": "1.3.4",
     "CoreCLR-NCalc": "2.1.2",
-    "Discord.Net.Commands": {
-      "target": "project"
-    },
-    "Discord.Net": {
-      "target": "project"
-    },
-    "AngleSharp": "0.9.9",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.20.0.701",
     "Google.Apis.Customsearch.v1": "1.20.0.466",
@@ -46,7 +40,15 @@
     "Newtonsoft.Json": "9.0.2-beta1",
     "NLog": "5.0.0-beta03",
     "System.Diagnostics.Contracts": "4.3.0",
-    "System.Xml.XPath": "4.3.0"
+    "System.Xml.XPath": "4.3.0",
+    "Discord.Net.Commands": {
+      "target": "project",
+      "version": "1.0.0-*"
+    },
+    "Discord.Net.WebSocket": {
+      "target": "project",
+      "version": "1.0.0-*"
+    }
   },
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",

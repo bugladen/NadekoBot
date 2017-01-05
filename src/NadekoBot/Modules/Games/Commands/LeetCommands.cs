@@ -13,15 +13,12 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Leet(IUserMessage umsg, int level, [Remainder] string text = null)
+        public async Task Leet(int level, [Remainder] string text = null)
         {
-            var channel = (ITextChannel)umsg.Channel;
-
             text = text.Trim();
             if (string.IsNullOrWhiteSpace(text))
                 return;
-            await channel.SendConfirmAsync("L33t", ToLeet(text, level).SanitizeMentions()).ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync("L33t", ToLeet(text, level).SanitizeMentions()).ConfigureAwait(false);
         }
 
 

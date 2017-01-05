@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class VoicePlusTextCommands
+        public class VoicePlusTextCommands : ModuleBase
         {
             private static Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
 
@@ -36,9 +36,9 @@ namespace NadekoBot.Modules.Administration
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void UserUpdatedEventHandler(IUser iuser, IVoiceState before, IVoiceState after)
+            private static async void UserUpdatedEventHandler(SocketUser iuser, SocketVoiceState before, SocketVoiceState after)
             {
-                var user = (iuser as IGuildUser);
+                var user = (iuser as SocketGuildUser);
                 var guild = user?.Guild;
 
                 if (guild == null)
@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Administration
 
                 try
                 {
-                    var botUserPerms = guild.GetCurrentUser().GuildPermissions;
+                    var botUserPerms = guild.CurrentUser.GuildPermissions;
 
                     if (before.VoiceChannel == after.VoiceChannel) return;
 
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Administration
                     var beforeVch = before.VoiceChannel;
                     if (beforeVch != null)
                     {
-                        var textChannel = guild.GetTextChannels().Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
+                        var textChannel = (await guild.GetTextChannelsAsync()).Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
                         if (textChannel != null)
                             await textChannel.AddPermissionOverwriteAsync(user,
                                 new OverwritePermissions(readMessages: PermValue.Deny,
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Administration
                     var afterVch = after.VoiceChannel;
                     if (afterVch != null && guild.AFKChannelId != afterVch.Id)
                     {
-                        var textChannel = guild.GetTextChannels()
+                        var textChannel = (await guild.GetTextChannelsAsync())
                                                     .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
                                                     .FirstOrDefault();
                         if (textChannel == null)
@@ -110,17 +110,16 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            [RequirePermission(GuildPermission.ManageChannels)]
-            public async Task VoicePlusText(IUserMessage msg)
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            public async Task VoicePlusText()
             {
-                var channel = (ITextChannel)msg.Channel;
-                var guild = channel.Guild;
+                var guild = Context.Guild;
 
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
-                    await channel.SendErrorAsync("I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
+                    await Context.Channel.SendErrorAsync("I require atleast **manage roles** and **manage channels permissions** to enable this feature. `(preffered Administration permission)`");
                     return;
                 }
 
@@ -128,7 +127,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await channel.SendErrorAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
+                        await Context.Channel.SendErrorAsync("⚠️ You are enabling this feature and **I do not have ADMINISTRATOR permissions**. " +
                       "`This may cause some issues, and you will have to clean up text channels yourself afterwards.`");
                     }
                     catch { }
@@ -145,39 +144,38 @@ namespace NadekoBot.Modules.Administration
                     if (!isEnabled)
                     {
                         voicePlusTextCache.TryRemove(guild.Id);
-                        foreach (var textChannel in guild.GetTextChannels().Where(c => c.Name.EndsWith("-voice")))
+                        foreach (var textChannel in (await guild.GetTextChannelsAsync().ConfigureAwait(false)).Where(c => c.Name.EndsWith("-voice")))
                         {
                             try { await textChannel.DeleteAsync().ConfigureAwait(false); } catch { }
                         }
-                        await channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
+                        await Context.Channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
                         return;
                     }
                     voicePlusTextCache.Add(guild.Id);
-                    await channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
 
                 }
                 catch (Exception ex)
                 {
-                    await channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageChannels)]
-            [RequirePermission(GuildPermission.ManageRoles)]
-            public async Task CleanVPlusT(IUserMessage msg)
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            public async Task CleanVPlusT()
             {
-                var channel = (ITextChannel)msg.Channel;
-                var guild = channel.Guild;
+                var guild = Context.Guild;
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.Administrator)
                 {
-                    await channel.SendErrorAsync("I need **Administrator permission** to do that.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("I need **Administrator permission** to do that.").ConfigureAwait(false);
                     return;
                 }
 
-                var allTxtChannels = guild.GetTextChannels().Where(c => c.Name.EndsWith("-voice"));
-                var validTxtChannelNames = guild.GetVoiceChannels().Select(c => GetChannelName(c.Name).ToLowerInvariant());
+                var allTxtChannels = (await guild.GetTextChannelsAsync()).Where(c => c.Name.EndsWith("-voice"));
+                var validTxtChannelNames = (await guild.GetVoiceChannelsAsync()).Select(c => GetChannelName(c.Name).ToLowerInvariant());
 
                 var invalidTxtChannels = allTxtChannels.Where(c => !validTxtChannelNames.Contains(c.Name));
 
@@ -187,7 +185,7 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(500);
                 }
 
-                await channel.SendConfirmAsync("Cleaned v+t.").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Cleaned v+t.").ConfigureAwait(false);
             }
         }
     }

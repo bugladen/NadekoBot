@@ -18,7 +18,8 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
             {
                 var res = await http.GetStringAsync(String.Format(queryUrl,name.Trim().Replace(' ','+'))).ConfigureAwait(false);
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
-
+                if (movie?.Title == null)
+                    return null;
                 movie.Poster = await NadekoBot.Google.ShortenUrl(movie.Poster);
                 return movie;
             }
@@ -35,7 +36,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
         public string Plot { get; set; }
         public string Poster { get; set; }
 
-        public Embed GetEmbed() =>
+        public EmbedBuilder GetEmbed() =>
             new EmbedBuilder().WithOkColor()
                               .WithTitle(Title)
                               .WithUrl($"http://www.imdb.com/title/{ImdbId}/")
@@ -43,8 +44,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
                               .AddField(efb => efb.WithName("Rating").WithValue(ImdbRating).WithIsInline(true))
                               .AddField(efb => efb.WithName("Genre").WithValue(Genre).WithIsInline(true))
                               .AddField(efb => efb.WithName("Year").WithValue(Year).WithIsInline(true))
-                              .WithImage(eib => eib.WithUrl(Poster))
-                              .Build();
+                              .WithImageUrl(Poster);
 
         public override string ToString() =>
 $@"`Title:` {Title}

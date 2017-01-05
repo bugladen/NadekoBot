@@ -14,19 +14,19 @@ namespace NadekoBot
         private DiscordSocketConfig discordSocketConfig;
         private Logger _log { get; }
 
-        public event Action<IGuildUser> UserJoined = delegate { };
-        public event Action<IMessage> MessageReceived = delegate { };
-        public event Action<IGuildUser> UserLeft = delegate { };
-        public event Action<IGuildUser, IGuildUser> UserUpdated = delegate { };
-        public event Action<Optional<IMessage>, IMessage> MessageUpdated = delegate { };
-        public event Action<ulong, Optional<IMessage>> MessageDeleted = delegate { };
-        public event Action<IUser, IGuild> UserBanned = delegate { };
-        public event Action<IUser, IGuild> UserUnbanned = delegate { };
-        public event Action<IGuildUser, IPresence, IPresence> UserPresenceUpdated = delegate { };
-        public event Action<IUser, IVoiceState, IVoiceState> UserVoiceStateUpdated = delegate { };
-        public event Action<IChannel> ChannelCreated = delegate { };
-        public event Action<IChannel> ChannelDestroyed = delegate { };
-        public event Action<IChannel, IChannel> ChannelUpdated = delegate { };
+        public event Action<SocketGuildUser> UserJoined = delegate { };
+        public event Action<SocketMessage> MessageReceived = delegate { };
+        public event Action<SocketGuildUser> UserLeft = delegate { };
+        public event Action<SocketUser, SocketUser> UserUpdated = delegate { };
+        public event Action<Optional<SocketMessage>, SocketMessage> MessageUpdated = delegate { };
+        public event Action<ulong, Optional<SocketMessage>> MessageDeleted = delegate { };
+        public event Action<SocketUser, SocketGuild> UserBanned = delegate { };
+        public event Action<SocketUser, SocketGuild> UserUnbanned = delegate { };
+        public event Action<Optional<SocketGuild>, SocketUser, SocketPresence, SocketPresence> UserPresenceUpdated = delegate { };
+        public event Action<SocketUser, SocketVoiceState, SocketVoiceState> UserVoiceStateUpdated = delegate { };
+        public event Action<SocketChannel> ChannelCreated = delegate { };
+        public event Action<SocketChannel> ChannelDestroyed = delegate { };
+        public event Action<SocketChannel, SocketChannel> ChannelUpdated = delegate { };
         public event Action<Exception> Disconnected = delegate { };
 
         private uint _connectedCount = 0;
@@ -58,38 +58,55 @@ namespace NadekoBot
                 client.MessageDeleted += (arg1, arg2) => { MessageDeleted(arg1, arg2); return Task.CompletedTask; };
                 client.UserBanned += (arg1, arg2) => { UserBanned(arg1, arg2); return Task.CompletedTask; };
                 client.UserUnbanned += (arg1, arg2) => { UserUnbanned(arg1, arg2); return Task.CompletedTask; };
-                client.UserPresenceUpdated += (arg1, arg2, arg3) => { UserPresenceUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.UserPresenceUpdated += (arg1, arg2, arg3, arg4) => { UserPresenceUpdated(arg1, arg2, arg3, arg4); return Task.CompletedTask; };
                 client.UserVoiceStateUpdated += (arg1, arg2, arg3) => { UserVoiceStateUpdated(arg1, arg2, arg3); return Task.CompletedTask; };
                 client.ChannelCreated += arg => { ChannelCreated(arg); return Task.CompletedTask; };
                 client.ChannelDestroyed += arg => { ChannelDestroyed(arg); return Task.CompletedTask; };
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
+                client.Log += Client_Log;
+                var j = i;
+                client.Disconnected += (ex) =>
+                {
+                    _log.Error("Shard #{0} disconnected", j);
+                    _log.Error(ex, ex?.Message ?? "No error");
+                    return Task.CompletedTask;
+                };
             }
 
             Clients = clientList.AsReadOnly();
         }
 
-        public ISelfUser GetCurrentUser() =>
-            Clients[0].GetCurrentUser();
+        private Task Client_Log(LogMessage arg)
+        {
+            _log.Warn(arg.Exception, arg.Message);
+            return Task.CompletedTask;
+        }
 
-        public Task<ISelfUser> GetCurrentUserAsync() =>
-            Clients[0].GetCurrentUserAsync();
+        public DiscordSocketClient MainClient =>
+            Clients[0];
 
-        public Task<ISelfUser[]> GetAllCurrentUsersAsync() =>
-            Task.WhenAll(Clients.Select(c => c.GetCurrentUserAsync()));
+        public SocketSelfUser CurrentUser() =>
+            Clients[0].CurrentUser;
 
-        public IReadOnlyCollection<IGuild> GetGuilds() =>
-            Clients.SelectMany(c => c.GetGuilds()).ToArray();
+        public IReadOnlyCollection<SocketGuild> GetGuilds() =>
+            Clients.SelectMany(c => c.Guilds).ToList();
 
-        public IGuild GetGuild(ulong id) =>
+        public SocketGuild GetGuild(ulong id) =>
             Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
 
         public Task<IDMChannel> GetDMChannelAsync(ulong channelId) =>
             Clients[0].GetDMChannelAsync(channelId);
 
-        internal Task LoginAsync(TokenType tokenType, string token) =>
-            Task.WhenAll(Clients.Select(async c => { await c.LoginAsync(tokenType, token).ConfigureAwait(false); _log.Info($"Shard #{c.ShardId} logged in."); }));
+        internal async Task LoginAsync(TokenType tokenType, string token)
+        {
+            foreach (var c in Clients)
+            {
+                await c.LoginAsync(tokenType, token).ConfigureAwait(false);
+                _log.Info($"Shard #{c.ShardId} logged in.");
+            }
+        }
 
         internal async Task ConnectAsync()
         {
@@ -122,20 +139,44 @@ namespace NadekoBot
                 var sw = Stopwatch.StartNew();
                 await c.DownloadAllUsersAsync().ConfigureAwait(false);
                 sw.Stop();
-                _log.Info($"Shard #{c.ShardId} downloaded {c.GetGuilds().Sum(g => g.GetUsers().Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
+                _log.Info($"Shard #{c.ShardId} downloaded {c.Guilds.Sum(g => g.Users.Count)} users after {sw.Elapsed.TotalSeconds:F2}s ({++_downloadedCount}/{Clients.Count}).");
             }));
 
-        public async Task SetGame(string game)
-        {
-            await Task.WhenAll((await GetAllCurrentUsersAsync())
-                                    .Select(u => u.ModifyStatusAsync(ms => ms.Game = new Discord.Game(game))));
-        }
+        public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(game)));
 
-        public async Task SetStream(string name, string url)
-        {
-            await Task.WhenAll((await GetAllCurrentUsersAsync())
-                                    .Select(u => u.ModifyStatusAsync(ms => ms.Game = new Discord.Game(name, url, StreamType.Twitch))));
 
+        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(name, url, StreamType.NotStreaming)));
+
+        public Task SetStatus(SettableUserStatus status) => Task.WhenAll(Clients.Select(ms => ms.SetStatusAsync(SettableUserStatusToUserStatus(status))));
+
+        private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
+        {
+            switch (sus)
+            {
+                case SettableUserStatus.Online:
+                    return UserStatus.Online;
+                case SettableUserStatus.Invisible:
+                    return UserStatus.Invisible;
+                case SettableUserStatus.Idle:
+                    return UserStatus.AFK;
+                case SettableUserStatus.Dnd:
+                    return UserStatus.DoNotDisturb;
+            }
+
+            return UserStatus.Online;
         }
+    }
+
+    public enum SettableUserStatus
+    {
+        Online = 1,
+        On = 1,
+        Invisible = 2,
+        Invis = 2,
+        Idle = 3,
+        Afk = 3,
+        Dnd = 4,
+        DoNotDisturb = 4,
+        Busy = 4,
     }
 }

@@ -3246,33 +3246,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to img i.
-        /// </summary>
-        public static string i_cmd {
-            get {
-                return ResourceManager.GetString("i_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}ir for different results..
-        /// </summary>
-        public static string i_desc {
-            get {
-                return ResourceManager.GetString("i_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}i cute kitten`.
-        /// </summary>
-        public static string i_usage {
-            get {
-                return ResourceManager.GetString("i_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to iam.
         /// </summary>
         public static string iam_cmd {
@@ -3327,6 +3300,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to image img.
+        /// </summary>
+        public static string image_cmd {
+            get {
+                return ResourceManager.GetString("image_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pulls the first image found using a search parameter. Use {0}rimg for different results..
+        /// </summary>
+        public static string image_desc {
+            get {
+                return ResourceManager.GetString("image_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}img cute kitten`.
+        /// </summary>
+        public static string image_usage {
+            get {
+                return ResourceManager.GetString("image_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to imdb omdb.
         /// </summary>
         public static string imdb_cmd {
@@ -3377,33 +3377,6 @@ namespace NadekoBot.Resources {
         public static string inrole_usage {
             get {
                 return ResourceManager.GetString("inrole_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to ir.
-        /// </summary>
-        public static string ir_cmd {
-            get {
-                return ResourceManager.GetString("ir_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Pulls a random image using a search parameter..
-        /// </summary>
-        public static string ir_desc {
-            get {
-                return ResourceManager.GetString("ir_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}ir cute kitten`.
-        /// </summary>
-        public static string ir_usage {
-            get {
-                return ResourceManager.GetString("ir_usage", resourceCulture);
             }
         }
         
@@ -4011,7 +3984,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a lit of all events you can subscribe to..
+        ///    Looks up a localized string similar to Toggles logging event. Disables it if it&apos;s active anywhere on the server. Enables if it&apos;s not active. Use `{0}logevents` to see a list of all events you can subscribe to..
         /// </summary>
         public static string log_desc {
             get {
@@ -5406,6 +5379,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to randomimage rimg.
+        /// </summary>
+        public static string randomimage_cmd {
+            get {
+                return ResourceManager.GetString("randomimage_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pulls a random image using a search parameter..
+        /// </summary>
+        public static string randomimage_desc {
+            get {
+                return ResourceManager.GetString("randomimage_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rimg cute kitten`.
+        /// </summary>
+        public static string randomimage_usage {
+            get {
+                return ResourceManager.GetString("randomimage_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to remind.
         /// </summary>
         public static string remind_cmd {
@@ -6054,6 +6054,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to rotaterolecolor rrc.
+        /// </summary>
+        public static string rotaterolecolor_cmd {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds. Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable..
+        /// </summary>
+        public static string rotaterolecolor_desc {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rrc 1 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`.
+        /// </summary>
+        public static string rotaterolecolor_usage {
+            get {
+                return ResourceManager.GetString("rotaterolecolor_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to rps.
         /// </summary>
         public static string rps_cmd {
@@ -6563,6 +6590,33 @@ namespace NadekoBot.Resources {
         public static string setrole_usage {
             get {
                 return ResourceManager.GetString("setrole_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setstatus.
+        /// </summary>
+        public static string setstatus_cmd {
+            get {
+                return ResourceManager.GetString("setstatus_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the bot&apos;s status. (Online/Idle/Dnd/Invisible).
+        /// </summary>
+        public static string setstatus_desc {
+            get {
+                return ResourceManager.GetString("setstatus_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}setstatus Idle`.
+        /// </summary>
+        public static string setstatus_usage {
+            get {
+                return ResourceManager.GetString("setstatus_usage", resourceCulture);
             }
         }
         

@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -14,7 +15,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class DMForwardCommands
+        public class DMForwardCommands : ModuleBase
         {
             private static bool ForwardDMs { get; set; }
             private static bool ForwardDMsToAllOwners { get; set; }
@@ -35,10 +36,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task ForwardMessages(IUserMessage imsg)
+            public async Task ForwardMessages()
             {
-                var channel = imsg.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -46,17 +45,15 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMs)
-                    await channel.SendConfirmAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
                 else
-                    await channel.SendConfirmAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task ForwardToAll(IUserMessage imsg)
+            public async Task ForwardToAll()
             {
-                var channel = imsg.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -64,13 +61,13 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 if (ForwardDMsToAllOwners)
-                    await channel.SendConfirmAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
                 else
-                    await channel.SendConfirmAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
 
             }
 
-            public static async Task HandleDMForwarding(IMessage msg, List<IDMChannel> ownerChannels)
+            public static async Task HandleDMForwarding(SocketMessage msg, List<IDMChannel> ownerChannels)
             {
                 if (ForwardDMs && ownerChannels.Any())
                 {

@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class CrossServerTextChannel
+        public class CrossServerTextChannel : ModuleBase
         {
             static CrossServerTextChannel()
             {
@@ -31,11 +31,11 @@ namespace NadekoBot.Modules.Administration
                         var channel = imsg.Channel as ITextChannel;
                         if (channel == null)
                             return;
-                        if (msg.Author.Id == NadekoBot.Client.GetCurrentUser().Id) return;
+                        if (msg.Author.Id == NadekoBot.Client.CurrentUser().Id) return;
                         foreach (var subscriber in Subscribers)
                         {
                             var set = subscriber.Value;
-                            if (!set.Contains(msg.Channel))
+                            if (!set.Contains(channel))
                                 continue;
                             foreach (var chan in set.Except(new[] { channel }))
                             {
@@ -58,44 +58,39 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Scsc(IUserMessage msg)
+            public async Task Scsc()
             {
-                var channel = (ITextChannel)msg.Channel;
                 var token = new NadekoRandom().Next();
                 var set = new ConcurrentHashSet<ITextChannel>();
                 if (Subscribers.TryAdd(token, set))
                 {
-                    set.Add(channel);
-                    await ((IGuildUser)msg.Author).SendConfirmAsync("This is your CSC token", token.ToString()).ConfigureAwait(false);
+                    set.Add((ITextChannel)Context.Channel);
+                    await ((IGuildUser)Context.User).SendConfirmAsync("This is your CSC token", token.ToString()).ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task Jcsc(IUserMessage imsg, int token)
+            [RequireUserPermission(GuildPermission.ManageGuild)]
+            public async Task Jcsc(int token)
             {
-                var channel = (ITextChannel)imsg.Channel;
-
                 ConcurrentHashSet<ITextChannel> set;
                 if (!Subscribers.TryGetValue(token, out set))
                     return;
-                set.Add(channel);
-                await channel.SendConfirmAsync("Joined cross server channel.").ConfigureAwait(false);
+                set.Add((ITextChannel)Context.Channel);
+                await Context.Channel.SendConfirmAsync("Joined cross server channel.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(GuildPermission.ManageGuild)]
-            public async Task Lcsc(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageGuild)]
+            public async Task Lcsc()
             {
-                var channel = (ITextChannel)imsg.Channel;
-
                 foreach (var subscriber in Subscribers)
                 {
-                    subscriber.Value.TryRemove(channel);
+                    subscriber.Value.TryRemove((ITextChannel)Context.Channel);
                 }
-                await channel.SendMessageAsync("Left cross server channel.").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync("Left cross server channel.").ConfigureAwait(false);
             }
         }
     }

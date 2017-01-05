@@ -149,7 +149,7 @@ namespace NadekoBot.Services.Impl
 
             return toReturn;
         }
-
+        //todo AsyncEnumerable
         public async Task<IReadOnlyDictionary<string,TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
         {
             var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
