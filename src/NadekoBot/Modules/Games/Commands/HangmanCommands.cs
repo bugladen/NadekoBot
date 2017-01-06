@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Games
             {
                 await Context.Channel.SendConfirmAsync(typesStr);
             }
-
+#if !GLOBAL_NADEKO
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Hangman(HangmanTermPool.HangmanTermType type = HangmanTermPool.HangmanTermType.All)
             {
@@ -52,6 +52,7 @@ namespace NadekoBot.Modules.Games
 
                 await Context.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman() + "\n" + hm.ScrambledWord);
             }
+#endif
         }
     }
 }
