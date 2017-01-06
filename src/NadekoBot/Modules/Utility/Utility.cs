@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Utility
         {
             var channel = (ITextChannel)Context.Channel;
 
-            if (timeout < 0 || timeout > 3600)
+            if ((timeout < 60 && timeout != 0) || timeout > 3600)
                 return;
 
             Timer t;

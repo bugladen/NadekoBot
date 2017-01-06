@@ -80,7 +80,8 @@ namespace NadekoBot
 
         private Task Client_Log(LogMessage arg)
         {
-            _log.Warn(arg.Exception, arg.Message);
+            _log.Warn(arg.Message);
+            _log.Error(arg.Exception);
             return Task.CompletedTask;
         }
 
