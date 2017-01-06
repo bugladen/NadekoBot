@@ -65,7 +65,9 @@ namespace NadekoBot
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
+#if GLOBAL_NADEKO
                 client.Log += Client_Log;
+#endif
                 var j = i;
                 client.Disconnected += (ex) =>
                 {
