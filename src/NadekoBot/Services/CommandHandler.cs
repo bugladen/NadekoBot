@@ -17,6 +17,7 @@ using static NadekoBot.Modules.Administration.Administration;
 using NadekoBot.Modules.CustomReactions;
 using NadekoBot.Modules.Games;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace NadekoBot.Services
 {
@@ -39,11 +40,19 @@ namespace NadekoBot.Services
         //userid/msg count
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
 
+        public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
+        private Timer clearUsersOnShortCooldown { get; }
+
         public CommandHandler(ShardedDiscordClient client, CommandService commandService)
         {
             _client = client;
             _commandService = commandService;
             _log = LogManager.GetCurrentClassLogger();
+
+            clearUsersOnShortCooldown = new Timer((_) =>
+            {
+                UsersOnShortCooldown.Clear();
+            }, null, 1500, 1500);
         }
         public async Task StartHandling()
         {
@@ -70,8 +79,11 @@ namespace NadekoBot.Services
                 if (usrMsg == null)
                     return;
 
-                //if (!usrMsg.IsAuthor())
-                //    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+                if (!usrMsg.IsAuthor())
+                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+
+                if (!UsersOnShortCooldown.Add(usrMsg.Author.Id))
+                    return;
 
                 if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
                     return;

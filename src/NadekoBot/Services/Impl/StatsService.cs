@@ -20,7 +20,12 @@ namespace NadekoBot.Services.Impl
         public string Library => "Discord.Net";
         public int MessageCounter { get; private set; } = 0;
         public int CommandsRan { get; private set; } = 0;
-        public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
+        public string Heap =>
+#if !GLOBAL_NADEKO
+            Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
+#else
+        "a lot :)";
+#endif
         public double MessagesPerSecond => MessageCounter / (double)GetUptime().TotalSeconds;
         public int TextChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is ITextChannel)).Count();
         public int VoiceChannels => client.GetGuilds().SelectMany(g => g.Channels.Where(c => c is IVoiceChannel)).Count();

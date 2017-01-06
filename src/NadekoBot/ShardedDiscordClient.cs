@@ -96,6 +96,9 @@ namespace NadekoBot
         public IReadOnlyCollection<SocketGuild> GetGuilds() =>
             Clients.SelectMany(c => c.Guilds).ToList();
 
+        public int GetGuildsCount() =>
+            Clients.Sum(c => c.Guilds.Count);
+
         public SocketGuild GetGuild(ulong id) =>
             Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
 
