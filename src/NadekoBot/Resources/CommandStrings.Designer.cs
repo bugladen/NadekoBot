@@ -1842,6 +1842,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to createinvite crinv.
+        /// </summary>
+        public static string createinvite_cmd {
+            get {
+                return ResourceManager.GetString("createinvite_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Creates a new invite which has infinite max uses and never expires..
+        /// </summary>
+        public static string createinvite_desc {
+            get {
+                return ResourceManager.GetString("createinvite_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crinv`.
+        /// </summary>
+        public static string createinvite_usage {
+            get {
+                return ResourceManager.GetString("createinvite_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to createrole cr.
         /// </summary>
         public static string createrole_cmd {
