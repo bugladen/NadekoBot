@@ -101,6 +101,9 @@ namespace NadekoBot.Modules.Administration
                     else if (before.AvatarUrl != after.AvatarUrl)
                         str = $"👤__**{before.Username}#{before.Discriminator}**__ **| Avatar Changed |** 🆔 `{before.Id}`\n\t🖼 {await NadekoBot.Google.ShortenUrl(before.AvatarUrl)} `=>` {await NadekoBot.Google.ShortenUrl(after.AvatarUrl)}";
 
+                    if (string.IsNullOrWhiteSpace(str))
+                        return;
+
                     var guildsMemberOf = NadekoBot.Client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
                     foreach (var g in guildsMemberOf)
                     {
@@ -110,7 +113,7 @@ namespace NadekoBot.Modules.Administration
                             return;
 
                         ITextChannel logChannel;
-                        if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.VoicePresenceTTS)) == null)
+                        if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
                             return;
 
                         try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch { }

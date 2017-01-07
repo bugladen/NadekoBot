@@ -223,9 +223,13 @@ namespace NadekoBot.Services
             }
             catch (Exception ex)
             {
-                _log.Warn(ex, "Error in CommandHandler");
+                _log.Warn("Error in CommandHandler");
+                _log.Warn(ex);
                 if (ex.InnerException != null)
-                    _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+                {
+                    _log.Warn("Inner Exception of the error in CommandHandler");
+                    _log.Warn(ex.InnerException);
+                }
             }
 
             return;
