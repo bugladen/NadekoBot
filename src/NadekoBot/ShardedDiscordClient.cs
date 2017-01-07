@@ -38,6 +38,8 @@ namespace NadekoBot
         private uint _connectedCount = 0;
         private uint _downloadedCount = 0;
 
+        private int _guildCount = 0;
+
         private IReadOnlyList<DiscordSocketClient> Clients { get; }
 
         public ShardedDiscordClient(DiscordSocketConfig discordSocketConfig)
@@ -70,8 +72,8 @@ namespace NadekoBot
                 client.ChannelCreated += arg => { ChannelCreated(arg); return Task.CompletedTask; };
                 client.ChannelDestroyed += arg => { ChannelDestroyed(arg); return Task.CompletedTask; };
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
-                client.JoinedGuild += (arg1) => { JoinedGuild(arg1); return Task.CompletedTask; };
-                client.LeftGuild += (arg1) => { LeftGuild(arg1); return Task.CompletedTask; };
+                client.JoinedGuild += (arg1) => { JoinedGuild(arg1); ++_guildCount; return Task.CompletedTask; };
+                client.LeftGuild += (arg1) => { LeftGuild(arg1); --_guildCount;  return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
 #if GLOBAL_NADEKO
@@ -106,10 +108,18 @@ namespace NadekoBot
             Clients.SelectMany(c => c.Guilds);
 
         public int GetGuildsCount() =>
-            Clients.Sum(c => c.Guilds.Count);
+            _guildCount;
 
-        public SocketGuild GetGuild(ulong id) =>
-            Clients.Select(c => c.GetGuild(id)).FirstOrDefault(g => g != null);
+        public SocketGuild GetGuild(ulong id)
+        {
+            foreach (var c in Clients)
+            {
+                var g = c.GetGuild(id);
+                if (g != null)
+                    return g;
+            }
+            return null;
+        }
 
         public Task<IDMChannel> GetDMChannelAsync(ulong channelId) =>
             Clients[0].GetDMChannelAsync(channelId);
@@ -134,6 +144,7 @@ namespace NadekoBot
                     await c.ConnectAsync().ConfigureAwait(false);
                     sw.Stop();
                     _log.Info($"Shard #{c.ShardId} connected after {sw.Elapsed.TotalSeconds:F2}s ({++_connectedCount}/{Clients.Count})");
+                    _guildCount += c.Guilds.Count;
                 }
                 catch
                 {

@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
             public async Task Leave([Remainder] string guildStr)
             {
                 guildStr = guildStr.Trim().ToUpperInvariant();
-                var server = NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Id.ToString().Trim().ToUpperInvariant() == guildStr) ??
+                var server = NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Id.ToString() == guildStr) ??
                     NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
 
                 if (server == null)
