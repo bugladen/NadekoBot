@@ -23,10 +23,10 @@ namespace NadekoBot.Services.Impl
         public string Heap =>
             Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
         public double MessagesPerSecond => MessageCounter / (double)GetUptime().TotalSeconds;
-        private uint _textChannels = 0;
-        public uint TextChannels => _textChannels;
-        private uint _voiceChannels = 0;
-        public uint VoiceChannels => _voiceChannels;
+        private int _textChannels = 0;
+        public int TextChannels => _textChannels;
+        private int _voiceChannels = 0;
+        public int VoiceChannels => _voiceChannels;
         public string OwnerIds => string.Join(", ", NadekoBot.Credentials.OwnerIds);
 
         Timer carbonitexTimer { get; }
@@ -42,9 +42,12 @@ namespace NadekoBot.Services.Impl
 
             this.client.Disconnected += _ => Reset();
 
-            var guilds = this.client.GetGuilds();
-            var _textChannels = guilds.Sum(g => g.Channels.Where(cx => cx is ITextChannel).Count());
-            var _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
+            this.client.Connected += () =>
+            {
+                var guilds = this.client.GetGuilds();
+                _textChannels = guilds.Sum(g => g.Channels.Where(cx => cx is ITextChannel).Count());
+                _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
+            };
 
             this.client.ChannelCreated += (c) =>
             {
@@ -68,6 +71,14 @@ namespace NadekoBot.Services.Impl
                 var vc = g.Channels.Count - tc;
                 _textChannels += tc;
                 _voiceChannels += vc;
+            };
+
+            this.client.LeftGuild += (g) =>
+            {
+                var tc = g.Channels.Where(cx => cx is ITextChannel).Count();
+                var vc = g.Channels.Count - tc;
+                _textChannels -= tc;
+                _voiceChannels -= vc;
             };
 
             this.carbonitexTimer = new Timer(async (state) =>

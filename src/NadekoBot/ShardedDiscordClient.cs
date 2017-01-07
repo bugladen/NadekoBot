@@ -33,6 +33,7 @@ namespace NadekoBot
         public event Action<SocketGuild> LeftGuild = delegate { };
 
         public event Action<Exception> Disconnected = delegate { };
+        public event Action Connected = delegate { };
 
         private uint _connectedCount = 0;
         private uint _downloadedCount = 0;
@@ -145,6 +146,7 @@ namespace NadekoBot
                     }
                 }
             }
+            Connected();
         }
 
         internal Task DownloadAllUsersAsync() =>
