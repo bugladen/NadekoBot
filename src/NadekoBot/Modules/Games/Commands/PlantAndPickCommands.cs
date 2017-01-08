@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), "plant.jpg", msgToSend).ConfigureAwait(false);
                 }
                 plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }

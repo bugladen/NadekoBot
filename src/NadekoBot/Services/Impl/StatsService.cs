@@ -22,7 +22,7 @@ namespace NadekoBot.Services.Impl
         public int CommandsRan { get; private set; } = 0;
         public string Heap =>
             Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
-        public double MessagesPerSecond => MessageCounter / (double)GetUptime().TotalSeconds;
+        public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
         private int _textChannels = 0;
         public int TextChannels => _textChannels;
         private int _voiceChannels = 0;

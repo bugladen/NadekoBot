@@ -26,9 +26,9 @@ namespace NadekoBot.Modules.Gambling
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await Context.Channel.SendFileAsync(File.Open(headsPath, FileMode.OpenOrCreate), $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(File.Open(headsPath, FileMode.OpenOrCreate), "heads.jpg", $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
                     else
-                        await Context.Channel.SendFileAsync(File.Open(tailsPath, FileMode.OpenOrCreate), $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(File.Open(tailsPath, FileMode.OpenOrCreate), "tails.jpg", $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
                     return;
                 }
                 if (count > 10 || count < 1)
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Gambling
                     str = $"{Context.User.Mention}`Better luck next time.`";
                 }
 
-                await Context.Channel.SendFileAsync(File.Open(imgPathToSend, FileMode.OpenOrCreate), str).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(File.Open(imgPathToSend, FileMode.OpenOrCreate), "coin.jpg", str).ConfigureAwait(false);
             }
         }
     }
