@@ -2871,4 +2871,22 @@
   <data name="rotaterolecolor_usage" xml:space="preserve">
     <value>`{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`</value>
   </data>
+  <data name="createinvite_cmd" xml:space="preserve">
+    <value>createinvite crinv</value>
+  </data>
+  <data name="createinvite_desc" xml:space="preserve">
+    <value>Creates a new invite which has infinite max uses and never expires.</value>
+  </data>
+  <data name="createinvite_usage" xml:space="preserve">
+    <value>`{0}crinv`</value>
+  </data>
+  <data name="pollstats_cmd" xml:space="preserve">
+    <value>pollstats</value>
+  </data>
+  <data name="pollstats_desc" xml:space="preserve">
+    <value>Shows the poll results without stopping the poll on this server.</value>
+  </data>
+  <data name="pollstats_usage" xml:space="preserve">
+    <value>`{0}pollstats`</value>
+  </data>
 </root>

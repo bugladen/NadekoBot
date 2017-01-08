@@ -94,7 +94,8 @@ namespace NadekoBot.Modules.Games
                         lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
 
                         var sent = await channel.SendFileAsync(
-                            GetRandomCurrencyImagePath(),
+                            File.Open(GetRandomCurrencyImagePath(), FileMode.OpenOrCreate),
+                            "RandomFlower.jpg",
                             $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                 .ConfigureAwait(false);
                         plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
@@ -104,7 +105,7 @@ namespace NadekoBot.Modules.Games
                 }
                 catch { }
             }
-#if !GLOBAL_NADEKO
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick()
@@ -163,11 +164,10 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    msg = await Context.Channel.SendFileAsync(file, msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), "plant.jpg", msgToSend).ConfigureAwait(false);
                 }
                 plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
-#endif
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

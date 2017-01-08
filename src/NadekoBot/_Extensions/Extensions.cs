@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using ImageSharp;
+using NadekoBot.Services.Discord;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -16,6 +18,13 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
+        public static ReactionEventWrapper OnReactionAdded(this SocketMessage msg, Action<SocketReaction> reactionAdded)
+        {
+            var wrap = new ReactionEventWrapper(msg);
+            wrap.OnReactionAdded += reactionAdded;
+            return wrap;
+        }
+
         public static void AddFakeHeaders(this HttpClient http)
         {
             http.DefaultRequestHeaders.Clear();

@@ -1842,6 +1842,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to createinvite crinv.
+        /// </summary>
+        public static string createinvite_cmd {
+            get {
+                return ResourceManager.GetString("createinvite_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Creates a new invite which has infinite max uses and never expires..
+        /// </summary>
+        public static string createinvite_desc {
+            get {
+                return ResourceManager.GetString("createinvite_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crinv`.
+        /// </summary>
+        public static string createinvite_usage {
+            get {
+                return ResourceManager.GetString("createinvite_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to createrole cr.
         /// </summary>
         public static string createrole_cmd {
@@ -5132,6 +5159,33 @@ namespace NadekoBot.Resources {
         public static string pollend_usage {
             get {
                 return ResourceManager.GetString("pollend_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to pollstats.
+        /// </summary>
+        public static string pollstats_cmd {
+            get {
+                return ResourceManager.GetString("pollstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows the poll results without stopping the poll on this server..
+        /// </summary>
+        public static string pollstats_desc {
+            get {
+                return ResourceManager.GetString("pollstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}pollstats`.
+        /// </summary>
+        public static string pollstats_usage {
+            get {
+                return ResourceManager.GetString("pollstats_usage", resourceCulture);
             }
         }
         

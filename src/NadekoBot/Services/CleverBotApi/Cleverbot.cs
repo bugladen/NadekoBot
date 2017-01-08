@@ -46,7 +46,7 @@ namespace Services.CleverBotApi
         private readonly int endIndex;
         private readonly string url;
         private readonly IDictionary<string, string> vars;
-		private readonly CookieCollection cookies;
+        private readonly CookieCollection cookies;
 
         public CleverbotSession(string baseUrl, string url, int endIndex)
         {
@@ -60,7 +60,7 @@ namespace Services.CleverBotApi
             //vars["fno"] = "0";
             //vars["sub"] = "Say";
             //vars["cleanslate"] = "false";
-			cookies = Utils.GetCookies(baseUrl);
+            cookies = Utils.GetCookies(baseUrl);
         }
 
         public async Task<ChatterBotThought> Think(ChatterBotThought thought)
