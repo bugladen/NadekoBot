@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Games
                 }
                 catch { }
             }
-#if !GLOBAL_NADEKO
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick()
@@ -168,7 +168,6 @@ namespace NadekoBot.Modules.Games
                 }
                 plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
-#endif
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
