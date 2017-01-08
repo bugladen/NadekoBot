@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PollCommands : ModuleBase
         {
-            public static ConcurrentDictionary<IGuild, Poll> ActivePolls = new ConcurrentDictionary<IGuild, Poll>();
+            public static ConcurrentDictionary<ulong, Poll> ActivePolls = new ConcurrentDictionary<ulong, Poll>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageMessages)]
@@ -30,6 +31,18 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public Task PublicPoll([Remainder] string arg = null)
                 => InternalStartPoll(arg, isPublic: true);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [RequireContext(ContextType.Guild)]
+            public async Task PollStats()
+            {
+                Games.Poll poll;
+                if (!ActivePolls.TryGetValue(Context.Guild.Id, out poll))
+                    return;
+
+                await Context.Channel.EmbedAsync(poll.GetStats("Current Poll Results"));
+            }
 
             private async Task InternalStartPoll(string arg, bool isPublic = false)
             {
@@ -44,7 +57,7 @@ namespace NadekoBot.Modules.Games
                     return;
 
                 var poll = new Poll(Context.Message, data[0], data.Skip(1), isPublic: isPublic);
-                if (ActivePolls.TryAdd(channel.Guild, poll))
+                if (ActivePolls.TryAdd(channel.Guild.Id, poll))
                 {
                     await poll.StartPoll().ConfigureAwait(false);
                 }
@@ -60,7 +73,7 @@ namespace NadekoBot.Modules.Games
                 var channel = (ITextChannel)Context.Channel;
 
                 Poll poll;
-                ActivePolls.TryRemove(channel.Guild, out poll);
+                ActivePolls.TryRemove(channel.Guild.Id, out poll);
                 await poll.StopPoll().ConfigureAwait(false);
             }
         }
@@ -69,20 +82,55 @@ namespace NadekoBot.Modules.Games
         {
             private readonly IUserMessage originalMessage;
             private readonly IGuild guild;
-            private readonly string[] answers;
+            private string[] Answers { get; }
             private ConcurrentDictionary<ulong, int> participants = new ConcurrentDictionary<ulong, int>();
             private readonly string question;
             private DateTime started;
             private CancellationTokenSource pollCancellationSource = new CancellationTokenSource();
-            private readonly bool isPublic;
+            public bool IsPublic { get; }
 
             public Poll(IUserMessage umsg, string question, IEnumerable<string> enumerable, bool isPublic = false)
             {
                 this.originalMessage = umsg;
                 this.guild = ((ITextChannel)umsg.Channel).Guild;
                 this.question = question;
-                this.answers = enumerable as string[] ?? enumerable.ToArray();
-                this.isPublic = isPublic;
+                this.Answers = enumerable as string[] ?? enumerable.ToArray();
+                this.IsPublic = isPublic;
+            }
+
+            public EmbedBuilder GetStats(string title)
+            {
+                var results = participants.GroupBy(kvp => kvp.Value)
+                                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
+                                    .OrderByDescending(kvp => kvp.Value)
+                                    .ToArray();
+
+                var eb = new EmbedBuilder().WithTitle(title);
+
+                var sb = new StringBuilder()
+                    .AppendLine(Format.Bold(question))
+                    .AppendLine();
+
+                var totalVotesCast = 0;
+                if (results.Length == 0)
+                {
+                    sb.AppendLine("No votes cast.");
+                }
+                else
+                {
+                    for (int i = 0; i < results.Length; i++)
+                    {
+                        var result = results[i];
+                        sb.AppendLine($"`{i + 1}.` {Format.Bold(Answers[result.Key - 1])} with {Format.Bold(result.Value.ToString())} votes.");
+                        totalVotesCast += result.Value;
+                    }
+                }
+
+
+                eb.WithDescription(sb.ToString())
+                  .WithFooter(efb => efb.WithText(totalVotesCast + " total votes cast."));
+
+                return eb;
             }
 
             public async Task StartPoll()
@@ -91,8 +139,8 @@ namespace NadekoBot.Modules.Games
                 NadekoBot.Client.MessageReceived += Vote;
                 var msgToSend = $"📃**{originalMessage.Author.Username}** has created a poll which requires your attention:\n\n**{question}**\n";
                 var num = 1;
-                msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
-                if (!isPublic)
+                msgToSend = Answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
+                if (!IsPublic)
                     msgToSend += "\n**Private Message me with the corresponding number of the answer.**";
                 else
                     msgToSend += "\n**Send a Message here with the corresponding number of the answer.**";
@@ -102,30 +150,7 @@ namespace NadekoBot.Modules.Games
             public async Task StopPoll()
             {
                 NadekoBot.Client.MessageReceived -= Vote;
-                try
-                {
-                    var results = participants.GroupBy(kvp => kvp.Value)
-                                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
-                                    .OrderByDescending(kvp => kvp.Value);
-
-                    var totalVotesCast = results.Sum(kvp => kvp.Value);
-                    if (totalVotesCast == 0)
-                    {
-                        await originalMessage.Channel.SendMessageAsync("📄 **No votes have been cast.**").ConfigureAwait(false);
-                        return;
-                    }
-                    var closeMessage = $"--------------**POLL CLOSED**--------------\n" +
-                                       $"📄 , here are the results:\n";
-                    closeMessage = results.Aggregate(closeMessage, (current, kvp) => current + $"`{kvp.Key}.` **[{answers[kvp.Key - 1]}]**" +
-                                                                                     $" has {kvp.Value} votes." +
-                                                                                     $"({kvp.Value * 1.0f / totalVotesCast * 100}%)\n");
-
-                    await originalMessage.Channel.SendConfirmAsync($"📄 **Total votes cast**: {totalVotesCast}\n{closeMessage}").ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error in poll game {ex}");
-                }
+                await originalMessage.Channel.EmbedAsync(GetStats("POLL CLOSED")).ConfigureAwait(false);
             }
 
             private async void Vote(SocketMessage imsg)
@@ -141,11 +166,11 @@ namespace NadekoBot.Modules.Games
                     int vote;
                     if (!int.TryParse(imsg.Content, out vote))
                         return;
-                    if (vote < 1 || vote > answers.Length)
+                    if (vote < 1 || vote > Answers.Length)
                         return;
 
                     IMessageChannel ch;
-                    if (isPublic)
+                    if (IsPublic)
                     {
                         //if public, channel must be the same the poll started in
                         if (originalMessage.Channel.Id != imsg.Channel.Id)
@@ -167,7 +192,7 @@ namespace NadekoBot.Modules.Games
                     //user can vote only once
                     if (participants.TryAdd(msg.Author.Id, vote))
                     {
-                        if (!isPublic)
+                        if (!IsPublic)
                         {
                             await ch.SendConfirmAsync($"Thanks for voting **{msg.Author.Username}**.").ConfigureAwait(false);
                         }

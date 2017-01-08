@@ -5163,6 +5163,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to pollstats.
+        /// </summary>
+        public static string pollstats_cmd {
+            get {
+                return ResourceManager.GetString("pollstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows the poll results without stopping the poll on this server..
+        /// </summary>
+        public static string pollstats_desc {
+            get {
+                return ResourceManager.GetString("pollstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}pollstats`.
+        /// </summary>
+        public static string pollstats_usage {
+            get {
+                return ResourceManager.GetString("pollstats_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to prune clr.
         /// </summary>
         public static string prune_cmd {
