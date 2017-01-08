@@ -293,7 +293,7 @@ namespace NadekoBot.Modules.Administration
                     }
                     else
                         return;
-                    try { await logChannel.SendMessageAsync("🕔`{prettyCurrentTime}` " + str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await logChannel.SendMessageAsync($"🕔`{prettyCurrentTime}` " + str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
