@@ -240,15 +240,16 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChannelTopic()
+        public async Task ChannelTopic([Remainder]ITextChannel channel = null)
         {
-            var channel = (ITextChannel)Context.Channel;
+            if (channel == null)
+                channel = (ITextChannel)Context.Channel;
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
-                await channel.SendErrorAsync("No topic set.");
+                await channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync("Channel topic", topic);
+                await channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
