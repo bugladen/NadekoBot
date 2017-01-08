@@ -95,6 +95,7 @@ namespace NadekoBot.Modules.Games
 
                         var sent = await channel.SendFileAsync(
                             File.Open(GetRandomCurrencyImagePath(), FileMode.OpenOrCreate),
+                            "RandomFlower.jpg",
                             $"❗ A random { Gambling.Gambling.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                 .ConfigureAwait(false);
                         plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
