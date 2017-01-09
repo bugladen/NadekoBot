@@ -11,6 +11,9 @@ NadekoBot is an open source project, and it can be found on our [GitHub][GitHub]
 Here you can read current [Issues][Issues].
 
 If you want to contribute, be sure to PR on the **[dev][dev]** branch.
+
+**NadekoBot 1.1 release is currently only for 64bit PCs.**
+
 ##Content
 - [About](about.md)
 - Guides
