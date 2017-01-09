@@ -651,7 +651,7 @@ namespace NadekoBot.Modules.Administration
                         return;
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("🗑 Message Deleted")
+                        .WithTitle($"🗑 Message Deleted in {((ITextChannel)msg.Channel).Mention}")
                         .WithDescription($"{msg.Author}")
                         .AddField(efb => efb.WithName("Content").WithValue(msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
@@ -695,7 +695,7 @@ namespace NadekoBot.Modules.Administration
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("📝 Message Updated")
+                        .WithTitle($"📝 Message Updated in {((ITextChannel)after.Channel).Mention}")
                         .WithDescription(after.Author.ToString())
                         .AddField(efb => efb.WithName("Old Message").WithValue(before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("New Message").WithValue(after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))

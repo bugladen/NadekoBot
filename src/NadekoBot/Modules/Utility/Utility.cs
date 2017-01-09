@@ -247,9 +247,9 @@ namespace NadekoBot.Modules.Utility
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
-                await channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
