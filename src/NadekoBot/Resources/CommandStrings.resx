@@ -265,16 +265,16 @@
     <value>repeatinvoke repinv</value>
   </data>
   <data name="repeatinvoke_desc" xml:space="preserve">
-    <value>Immediately shows the repeat message and restarts the timer.</value>
+    <value>Immediately shows the repeat message on a certain index and restarts its timer.</value>
   </data>
   <data name="repeatinvoke_usage" xml:space="preserve">
-    <value>`{0}repinv`</value>
+    <value>`{0}repinv 1`</value>
   </data>
   <data name="repeat_cmd" xml:space="preserve">
     <value>repeat</value>
   </data>
   <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every X minutes. If no parameters are specified, repeat is disabled.</value>
+    <value>Repeat a message every X minutes in the current channel.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
     <value>`{0}repeat 5 Hello there`</value>
@@ -2888,5 +2888,23 @@
   </data>
   <data name="pollstats_usage" xml:space="preserve">
     <value>`{0}pollstats`</value>
+  </data>
+  <data name="repeatlist_cmd" xml:space="preserve">
+    <value>repeatlist replst</value>
+  </data>
+  <data name="repeatlist_desc" xml:space="preserve">
+    <value>Shows currently repeating messages and their indexes.</value>
+  </data>
+  <data name="repeatlist_usage" xml:space="preserve">
+    <value>`{0}repeatlist`</value>
+  </data>
+  <data name="repeatremove_cmd" xml:space="preserve">
+    <value>repeatremove reprm</value>
+  </data>
+  <data name="repeatremove_desc" xml:space="preserve">
+    <value>Removes a repeating message on a specified index. Use `{0}repeatlist` to see indexes.</value>
+  </data>
+  <data name="repeatremove_usage" xml:space="preserve">
+    <value>`{0}reprm 2`</value>
   </data>
 </root>
