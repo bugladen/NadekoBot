@@ -73,6 +73,7 @@ namespace NadekoBot.Modules.Music.Classes
         public int Duration { get; set; }
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
+        public string artwork_url { get; set; } = "";
         [JsonIgnore]
         public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Credentials.SoundCloudClientId}";
     }

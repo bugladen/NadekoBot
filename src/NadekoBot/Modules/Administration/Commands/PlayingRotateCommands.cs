@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -8,6 +7,7 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,26 +16,25 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class PlayingRotateCommands
+        public class PlayingRotateCommands : ModuleBase
         {
-            private Logger _log { get; }
+            private static Logger _log { get; }
             public static List<PlayingStatus> RotatingStatusMessages { get; }
             public static bool RotatingStatuses { get; private set; } = false;
 
+            //todo wtf is with this while(true) in constructor
             static PlayingRotateCommands()
             {
+                _log = LogManager.GetCurrentClassLogger();
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var conf = uow.BotConfig.GetOrCreate();
                     RotatingStatusMessages = conf.RotatingStatusMessages;
                     RotatingStatuses = conf.RotatingStatuses;
                 }
-            }
 
-            public PlayingRotateCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-                Task.Run(async () =>
+                var t = Task.Run(async () =>
                 {
                     var index = 0;
                     do
@@ -72,8 +71,8 @@ namespace NadekoBot.Modules.Administration
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
                 new Dictionary<string, Func<string>> {
-                    {"%servers%", () => NadekoBot.Client.GetGuilds().Count().ToString()},
-                    {"%users%", () => NadekoBot.Client.GetGuilds().Select(s => s.GetUsers().Count).Sum().ToString()},
+                    {"%servers%", () => NadekoBot.Client.GetGuildsCount().ToString()},
+                    {"%users%", () => NadekoBot.Client.GetGuilds().Sum(s => s.Users.Count).ToString()},
                     {"%playing%", () => {
                             var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                             if (cnt != 1) return cnt.ToString();
@@ -90,12 +89,9 @@ namespace NadekoBot.Modules.Administration
                 };
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task RotatePlaying(IUserMessage umsg)
+            public async Task RotatePlaying()
             {
-                var channel = (ITextChannel)umsg.Channel;
-                
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -104,18 +100,15 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
                 if (RotatingStatuses)
-                    await channel.SendMessageAsync("🆗 **Rotating playing status enabled.**");
+                    await Context.Channel.SendConfirmAsync("🆗 **Rotating playing status enabled.**").ConfigureAwait(false);
                 else
-                    await channel.SendMessageAsync("ℹ️ **Rotating playing status disabled.**");
+                    await Context.Channel.SendConfirmAsync("ℹ️ **Rotating playing status disabled.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task AddPlaying(IUserMessage umsg, [Remainder] string status)
+            public async Task AddPlaying([Remainder] string status)
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
@@ -125,33 +118,27 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                await channel.SendMessageAsync("✅ **Added.**").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("✅ **Added.**").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task ListPlaying(IUserMessage umsg)
+            public async Task ListPlaying()
             {
-                var channel = (ITextChannel)umsg.Channel;
-                
-
                 if (!RotatingStatusMessages.Any())
-                    await channel.SendMessageAsync("❎ **No rotating playing statuses set.**");
+                    await Context.Channel.SendErrorAsync("❎ **No rotating playing statuses set.**");
                 else
                 {
                     var i = 1;
-                    await channel.SendMessageAsync($"ℹ️ {umsg.Author.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
+                    await Context.Channel.SendConfirmAsync($"ℹ️ {Context.User.Mention} `Here is a list of rotating statuses:`\n\n\t" + string.Join("\n\t", RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")));
                 }
 
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task RemovePlaying(IUserMessage umsg, int index)
+            public async Task RemovePlaying(int index)
             {
-                var channel = (ITextChannel)umsg.Channel;
                 index -= 1;
 
                 string msg = "";
@@ -166,7 +153,7 @@ namespace NadekoBot.Modules.Administration
                     RotatingStatusMessages.RemoveAt(index);
                     await uow.CompleteAsync();
                 }
-                await channel.SendMessageAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"🗑 **Removed the the playing message:** {msg}").ConfigureAwait(false);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -11,24 +12,21 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class XkcdCommands
+        public class XkcdCommands : ModuleBase
         {
             private const string xkcdUrl = "https://xkcd.com";
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task Xkcd(IUserMessage msg, string arg = null)
+            public async Task Xkcd(string arg = null)
             {
-                var channel = (ITextChannel)msg.Channel;
-
                 if (arg?.ToLowerInvariant().Trim() == "latest")
                 {
                     using (var http = new HttpClient())
                     {
                         var res = await http.GetStringAsync($"{xkcdUrl}/info.0.json").ConfigureAwait(false);
                         var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                        var sent = await channel.SendMessageAsync($"{msg.Author.Mention} " + comic.ToString())
+                        var sent = await Context.Channel.SendMessageAsync($"{Context.User.Mention} " + comic.ToString())
                                      .ConfigureAwait(false);
 
                         await Task.Delay(10000).ConfigureAwait(false);
@@ -37,16 +35,13 @@ namespace NadekoBot.Modules.Searches
                     }
                     return;
                 }
-                await Xkcd(msg, new NadekoRandom().Next(1, 1750)).ConfigureAwait(false);
+                await Xkcd(new NadekoRandom().Next(1, 1750)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public async Task Xkcd(IUserMessage msg, int num)
+            public async Task Xkcd(int num)
             {
-                var channel = (ITextChannel)msg.Channel;
-
                 if (num < 1)
                     return;
 
@@ -55,12 +50,17 @@ namespace NadekoBot.Modules.Searches
                     var res = await http.GetStringAsync($"{xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
                     var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                    var sent = await channel.SendMessageAsync($"{msg.Author.Mention} " + comic.ToString())
+                    var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                                                  .WithImageUrl(comic.ImageLink)
+                                                  .WithAuthor(eab => eab.WithName(comic.Title).WithUrl($"{xkcdUrl}/{num}").WithIconUrl("http://xkcd.com/s/919f27.ico"))
+                                                  .AddField(efb => efb.WithName("Comic#").WithValue(comic.Num.ToString()).WithIsInline(true))
+                                                  .AddField(efb => efb.WithName("Date").WithValue($"{comic.Month}/{comic.Year}").WithIsInline(true));
+                    var sent = await Context.Channel.EmbedAsync(embed)
                                  .ConfigureAwait(false);
 
                     await Task.Delay(10000).ConfigureAwait(false);
 
-                    await sent.ModifyAsync(m => m.Content = sent.Content + $"\n`Alt:` {comic.Alt}");
+                    await sent.ModifyAsync(m => m.Embed = embed.AddField(efb => efb.WithName("Alt").WithValue(comic.Alt.ToString()).WithIsInline(false)).Build());
                 }
             }
         }

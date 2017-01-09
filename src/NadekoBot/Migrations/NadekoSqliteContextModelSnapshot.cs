@@ -2,10 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using NadekoBot.Services.Database;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Modules.Music.Classes;
 
 namespace NadekoBot.Migrations
 {
@@ -423,33 +420,63 @@ namespace NadekoBot.Migrations
 
                     b.Property<bool>("ChannelCreated");
 
+                    b.Property<ulong?>("ChannelCreatedId");
+
                     b.Property<bool>("ChannelDestroyed");
+
+                    b.Property<ulong?>("ChannelDestroyedId");
 
                     b.Property<ulong>("ChannelId");
 
                     b.Property<bool>("ChannelUpdated");
 
+                    b.Property<ulong?>("ChannelUpdatedId");
+
                     b.Property<bool>("IsLogging");
+
+                    b.Property<ulong?>("LogOtherId");
 
                     b.Property<bool>("LogUserPresence");
 
+                    b.Property<ulong?>("LogUserPresenceId");
+
                     b.Property<bool>("LogVoicePresence");
+
+                    b.Property<ulong?>("LogVoicePresenceId");
+
+                    b.Property<ulong?>("LogVoicePresenceTTSId");
 
                     b.Property<bool>("MessageDeleted");
 
+                    b.Property<ulong?>("MessageDeletedId");
+
                     b.Property<bool>("MessageUpdated");
+
+                    b.Property<ulong?>("MessageUpdatedId");
 
                     b.Property<bool>("UserBanned");
 
+                    b.Property<ulong?>("UserBannedId");
+
                     b.Property<bool>("UserJoined");
 
+                    b.Property<ulong?>("UserJoinedId");
+
                     b.Property<bool>("UserLeft");
+
+                    b.Property<ulong?>("UserLeftId");
+
+                    b.Property<ulong?>("UserMutedId");
 
                     b.Property<ulong>("UserPresenceChannelId");
 
                     b.Property<bool>("UserUnbanned");
 
+                    b.Property<ulong?>("UserUnbannedId");
+
                     b.Property<bool>("UserUpdated");
+
+                    b.Property<ulong?>("UserUpdatedId");
 
                     b.Property<ulong>("VoicePresenceChannelId");
 
@@ -490,6 +517,22 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MusicPlaylists");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.MutedUserId", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GuildConfigId");
+
+                    b.Property<ulong>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId");
+
+                    b.ToTable("MutedUserId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
@@ -658,6 +701,23 @@ namespace NadekoBot.Migrations
                     b.ToTable("SelfAssignableRoles");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.UserPokeTypes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("UserId");
+
+                    b.Property<string>("type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("PokeGame");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.BlacklistItem", b =>
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
@@ -749,6 +809,13 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("ModulePrefixes")
                         .HasForeignKey("BotConfigId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.MutedUserId", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                        .WithMany("MutedUsers")
+                        .HasForeignKey("GuildConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>

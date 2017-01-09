@@ -10,7 +10,7 @@ namespace NadekoBot.Modules.Permissions
 {
     public static class PermissionExtensions
     {
-        public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, Command command)
+        public static bool CheckPermissions(this IEnumerable<Permission> permsEnumerable, IUserMessage message, CommandInfo command)
         {
             var perms = permsEnumerable as List<Permission> ?? permsEnumerable.ToList();
             int throwaway;
@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Permissions
                 case PrimaryPermissionType.Role:        
                     if (guildUser == null)
                         break;
-                    if (guildUser.Roles.Any(r => r.Id == perm.PrimaryTargetId))
+                    if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
                         return perm.State;
                     break;
                 case PrimaryPermissionType.Server:
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Permissions
             return null;
         }
 
-        public static string GetCommand(this Permission perm, IGuild guild = null)
+        public static string GetCommand(this Permission perm, SocketGuild guild = null)
         {
             var com = "";
             switch (perm.PrimaryTarget)

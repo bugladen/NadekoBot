@@ -1,75 +1,84 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Trivia;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-//todo Rewrite? Fix trivia not stopping bug
+
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
         [Group]
-        public class TriviaCommands
+        public class TriviaCommands : ModuleBase
         {
-            public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias = new ConcurrentDictionary<ulong, TriviaGame>();
+            public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Trivia(IUserMessage umsg, params string[] args)
-            {
-                var channel = (ITextChannel)umsg.Channel;
+            public Task Trivia([Remainder] string additionalArgs = "")
+                => Trivia(10, additionalArgs);
 
-                TriviaGame trivia;
-                if (!RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
+            {
+                var channel = (ITextChannel)Context.Channel;
+
+                var showHints = !additionalArgs.Contains("nohint");
+
+                TriviaGame trivia = new TriviaGame(channel.Guild, channel, showHints, winReq);
+                if (RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
-                    var showHints = !args.Contains("nohint");
-                    var number = args.Select(s =>
+                    try
                     {
-                        int num;
-                        return new Tuple<bool, int>(int.TryParse(s, out num), num);
-                    }).Where(t => t.Item1).Select(t => t.Item2).FirstOrDefault();
-                    if (number < 0)
-                        return;
-                    var triviaGame = new TriviaGame(channel.Guild, (ITextChannel)umsg.Channel, showHints, number == 0 ? 10 : number);
-                    if (RunningTrivias.TryAdd(channel.Guild.Id, triviaGame))
-                        await channel.SendMessageAsync($"**Trivia game started! {triviaGame.WinRequirement} points needed to win.**").ConfigureAwait(false);
-                    else
-                        await triviaGame.StopGame().ConfigureAwait(false);
+                        await trivia.StartGame().ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
+                        await trivia.EnsureStopped().ConfigureAwait(false);
+                    }
+                    return;                    
                 }
                 else
-                    await channel.SendMessageAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync("Trivia game is already running on this server.\n" + trivia.CurrentQuestion).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tl(IUserMessage umsg)
+            public async Task Tl()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
                 if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
-                    await channel.SendMessageAsync(trivia.GetLeaderboard()).ConfigureAwait(false);
-                else
-                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+                {
+                    await channel.SendConfirmAsync("Leaderboard", trivia.GetLeaderboard()).ConfigureAwait(false);
+                    return;
+                }
+
+                await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Tq(IUserMessage umsg)
+            public async Task Tq()
             {
-                var channel = (ITextChannel)umsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
                 TriviaGame trivia;
-                if (RunningTrivias.TryRemove(channel.Guild.Id, out trivia))
+                if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
                 {
                     await trivia.StopGame().ConfigureAwait(false);
+                    return;
                 }
-                else
-                    await channel.SendMessageAsync("No trivia is running on this server.").ConfigureAwait(false);
+
+                await channel.SendErrorAsync("No trivia is running on this server.").ConfigureAwait(false);
             }
         }
     }

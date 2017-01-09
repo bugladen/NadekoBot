@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using NadekoBot.Modules.Permissions;
-using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
@@ -24,13 +23,12 @@ namespace NadekoBot
     {
         private Logger _log;
         
-        public static uint OkColor { get; } = 0x00ff00;
-        public static uint ErrorColor { get; } = 0xff0000;
+        public static Color OkColor { get; } = new Color(0x71cd40);
+        public static Color ErrorColor { get; } = new Color(0xee281f);
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
-        public static ShardedDiscordClient  Client { get; private set; }
-        public static Localization Localizer { get; private set; }
+        public static ShardedDiscordClient Client { get; private set; }
         public static BotCredentials Credentials { get; private set; }
 
         public static GoogleApiService Google { get; private set; }
@@ -48,7 +46,7 @@ namespace NadekoBot
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                AllGuildConfigs = uow.GuildConfigs.GetAll();
+                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs();
             }
         }
 
@@ -69,44 +67,47 @@ namespace NadekoBot
             });
 
             //initialize Services
-            CommandService = new CommandService();
-            Localizer = new Localization();
+            CommandService = new CommandService(new CommandServiceConfig() {
+                CaseSensitiveCommands = false
+            });
             Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
 
-            //setup DI
-            var depMap = new DependencyMap();
-            depMap.Add<ILocalization>(Localizer);
-            depMap.Add<ShardedDiscordClient>(Client);
-            depMap.Add<CommandService>(CommandService);
-            depMap.Add<IGoogleApiService>(Google);
+            ////setup DI
+            //var depMap = new DependencyMap();
+            //depMap.Add<ILocalization>(Localizer);
+            //depMap.Add<ShardedDiscordClient>(Client);
+            //depMap.Add<CommandService>(CommandService);
+            //depMap.Add<IGoogleApiService>(Google);
 
 
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
-            CommandService.AddTypeReader<Command>(new CommandTypeReader());
-            CommandService.AddTypeReader<Module>(new ModuleTypeReader());
+            CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
+            CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
             await Client.ConnectAsync().ConfigureAwait(false);
+#if !GLOBAL_NADEKO
             await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+#endif
 
             _log.Info("Connected");
 
             //load commands and prefixes
             using (var uow = DbHandler.UnitOfWork())
             {
-                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.OrderByDescending(mp => mp.Prefix.Length).ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
-            await CommandService.LoadAssembly(this.GetType().GetTypeInfo().Assembly, depMap).ConfigureAwait(false);
+            await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
-            await CommandService.Load(new Music(Localizer, CommandService, Client, Google)).ConfigureAwait(false);
+            await CommandService.AddModuleAsync<Music>().ConfigureAwait(false);
 #endif
             Ready = true;
             Console.WriteLine(await Stats.Print().ConfigureAwait(false));

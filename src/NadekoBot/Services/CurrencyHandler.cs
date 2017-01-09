@@ -9,12 +9,12 @@ namespace NadekoBot.Services
 {
     public static class CurrencyHandler
     {
-        public static async Task<bool> RemoveCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task<bool> RemoveCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             var success = await RemoveCurrencyAsync(author.Id, reason, amount);
 
             if (success && sendMessage)
-                try { await author.SendMessageAsync($"`You lost:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+                try { await author.SendErrorAsync($"`You lost:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
 
             return success;
         }
@@ -42,12 +42,12 @@ namespace NadekoBot.Services
             return true;
         }
 
-        public static async Task AddCurrencyAsync(IGuildUser author, string reason, long amount, bool sendMessage)
+        public static async Task AddCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
         {
             await AddCurrencyAsync(author.Id, reason, amount);
 
             if (sendMessage)
-                try { await author.SendMessageAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+                try { await author.SendConfirmAsync($"`You received:` {amount} {Gambling.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
         }
 
         public static async Task AddCurrencyAsync(ulong receiverId, string reason, long amount)

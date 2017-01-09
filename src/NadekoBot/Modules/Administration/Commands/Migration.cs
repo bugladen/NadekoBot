@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
@@ -21,23 +20,21 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class Migration
+        public class Migration : ModuleBase
         {
             private const int CURRENT_VERSION = 1;
 
-            private Logger _log { get; }
+            private static Logger _log { get; }
 
-            public Migration()
+            static Migration()
             {
                 _log = LogManager.GetCurrentClassLogger();
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task MigrateData(IUserMessage umsg)
+            public async Task MigrateData()
             {
-                var channel = (ITextChannel)umsg.Channel;
-
                 var version = 0;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -54,12 +51,12 @@ namespace NadekoBot.Modules.Administration
                                 break;
                         }
                     }
-                    await umsg.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    await umsg.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
                 }
             }
 
@@ -109,7 +106,7 @@ namespace NadekoBot.Modules.Administration
                     var byeMsg = (string)reader["ByeText"];
                     var grdel = false;
                     var byedel = grdel;
-                    var gc = uow.GuildConfigs.For(gid);
+                    var gc = uow.GuildConfigs.For(gid, set => set);
 
                     if (greetDM)
                         gc.SendDmGreetMessage = greet;
@@ -195,12 +192,9 @@ namespace NadekoBot.Modules.Administration
                             guildConfig.GenerateCurrencyChannelIds = new HashSet<GCChannelId>(data.GenerateCurrencyChannels.Select(gc => new GCChannelId() { ChannelId = gc.Key }));
                             selfAssRoles.AddRange(data.ListOfSelfAssignableRoles.Select(r => new SelfAssignedRole() { GuildId = guildConfig.GuildId, RoleId = r }).ToArray());
                             var logSetting = guildConfig.LogSetting;
-                            guildConfig.LogSetting.IsLogging = data.LogChannel != null;
-                            guildConfig.LogSetting.ChannelId = data.LogChannel ?? 0;
                             guildConfig.LogSetting.IgnoredChannels = new HashSet<IgnoredLogChannel>(data.LogserverIgnoreChannels.Select(id => new IgnoredLogChannel() { ChannelId = id }));
 
-                            guildConfig.LogSetting.LogUserPresence = data.LogPresenceChannel != null;
-                            guildConfig.LogSetting.UserPresenceChannelId = data.LogPresenceChannel ?? 0;
+                            guildConfig.LogSetting.LogUserPresenceId = data.LogPresenceChannel;
 
 
                             guildConfig.FollowedStreams = new HashSet<FollowedStream>(data.ObservingStreams.Select(x =>

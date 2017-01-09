@@ -27,14 +27,23 @@ There's no special requirement for the formatting of the response, so we could j
 
 Now, if that command was ran in a server, anyone on that server can make the bot mention them, saying `It sure is, @Username` anytime they say "Nice Weather". If the command is ran in a direct message with the bot, then the custom reaction can be used on every server the bot is connected to.  
 
+###Block global Custom Reactions
+If you want to disable some global custom reactions which you do not like, and you do not want to remove them or you are not the bot owner you can do so by adding a new Custom Reaction with the same trigger on your server, and set the response to `-`.
+
+For example:
+`.acr /o/ -`
+
+Now if you try to trigger `/o/`, it won't print anything.
+
 ###Placeholders!
 There are currently three different placeholders which we will look at, with more placeholders potentially coming in the future.  
 
 | Placeholder | Description | Example Usage | Usage |
 |:-----------:|-------------|---------------|-------|
-|`%mention`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|```.acr "Hello %mention%" I,  %mention%, also say hello!```|Input: "Hello @BotName" Output: "I, @BotName, also say hello!"|
+|`%mention%`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|```.acr "Hello %mention%" I,  %mention%, also say hello!```|Input: "Hello @BotName" Output: "I, @BotName, also say hello!"|
 |`%user%`|The `%user%` placeholder mentions the person who said the command|`.acr "Who am I?" You are %user%!`|Input: "Who am I?" Output: "You are @Username!"|
-|`%rng%`|The `%rng%` placeholder generates a random number between 0 and 10|`.acr "Random number" %rng%`|Input: "Random number" Output: "2"|
+|`%rng%`|The `%rng%` placeholder generates a random number between 0 and 10. You can also specify a custom range (%rng1-100%) even with negative numbers: `%rng-9--1%` (from -9 to -1) . |`.acr "Random number" %rng%`|Input: "Random number" Output: "2"|
+|`%rnduser%`|The `%rnduser%` placeholder mentions a random user from the server. |`.acr "Random user" %rnduser%`|Input: "Random number" Output: @SomeUser|
 |`%target%`|The `%target%` placeholder is used to make Nadeko Mention another person or phrase, it is only supported as part of the response|`.acr "Say this: " %target%`|Input: "Say this: I, @BotName, am a parrot!". Output: "I, @BotName, am a parrot!".|
 		
  Thanks to Nekai for being creative. <3

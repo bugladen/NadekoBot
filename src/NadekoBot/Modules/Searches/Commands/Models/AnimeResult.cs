@@ -1,5 +1,4 @@
 ﻿using NadekoBot.Extensions;
-using System.Globalization;
 
 namespace NadekoBot.Modules.Searches.Models
 {
@@ -13,6 +12,8 @@ namespace NadekoBot.Modules.Searches.Models
         public string description;
         public string image_url_lge;
         public string[] Genres;
+        public string average_score;
+
         public string Link => "http://anilist.co/anime/" + id;
         public string Synopsis => description?.Substring(0, description.Length > 500 ? 500 : description.Length) + "...";
     }

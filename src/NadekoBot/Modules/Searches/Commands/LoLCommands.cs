@@ -1,13 +1,12 @@
 ﻿using Discord;
-using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 //todo drawing
@@ -23,7 +22,7 @@ namespace NadekoBot.Modules.Searches
                 obj["name"].GetHashCode();
         }
 
-        private string[] trashTalk { get; } = { "Better ban your counters. You are going to carry the game anyway.",
+        private static string[] trashTalk { get; } = { "Better ban your counters. You are going to carry the game anyway.",
                                                 "Go with the flow. Don't think. Just ban one of these.",
                                                 "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
                                                 "Ask your teammates what would they like to play, and ban that.",
@@ -32,13 +31,8 @@ namespace NadekoBot.Modules.Searches
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Lolban(IUserMessage umsg)
+        public async Task Lolban()
         {
-            var channel = (ITextChannel)umsg.Channel;
-
-
-
             var showCount = 8;
             //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
             try
@@ -50,23 +44,19 @@ namespace NadekoBot.Modules.Searches
                                                     $"limit={showCount}")
                                                     .ConfigureAwait(false))["data"] as JArray;
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"**Showing {dataList.Count} top banned champions.**");
-                    sb.AppendLine($"`{trashTalk[new NadekoRandom().Next(0, trashTalk.Length)]}`");
+                    var eb = new EmbedBuilder().WithOkColor().WithTitle(Format.Underline($"{dataList.Count} most banned champions"));
                     for (var i = 0; i < dataList.Count; i++)
                     {
-                        if (i % 2 == 0 && i != 0)
-                            sb.AppendLine();
-                        sb.Append($"`{i + 1}.` **{dataList[i]["name"]}** {dataList[i]["general"]["banRate"]}% ");
-                        //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
+                        var champ = dataList[i];
+                        eb.AddField(efb => efb.WithName(champ["name"].ToString()).WithValue(champ["general"]["banRate"] + "%").WithIsInline(true));
                     }
 
-                    await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+                    await Context.Channel.EmbedAsync(eb, Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
                 }
             }
             catch (Exception)
             {
-                await channel.SendMessageAsync($":anger: `Something went wrong.`").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync("Something went wrong.").ConfigureAwait(false);
             }
         }
     }
@@ -115,7 +105,7 @@ namespace NadekoBot.Modules.Searches
 
 //        public override void Init(CommandGroupBuilder cgb)
 //        {
-//            cgb.CreateCommand(Module.Prefix + "lolchamp")
+//            cgb.CreateCommand(Module.Name + "lolchamp")
 //                  .Description($"Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. |`{Prefix}lolchamp Riven` or `{Prefix}lolchamp Annie sup`")
 //                  .Parameter("champ", ParameterType.Required)
 //                  .Parameter("position", ParameterType.Unparsed)

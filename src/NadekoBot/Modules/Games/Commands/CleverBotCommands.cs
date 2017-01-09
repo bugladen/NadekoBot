@@ -1,11 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NLog;
 using Services.CleverBotApi;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,43 +17,48 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class CleverBotCommands
+        public class CleverBotCommands : ModuleBase
         {
             private static Logger _log { get; }
 
-            class CleverAnswer {
+            class CleverAnswer
+            {
                 public string Status { get; set; }
                 public string Response { get; set; }
             }
-            //user#discrim is the key
-            public static ConcurrentHashSet<string> ChannelsInConversation { get; } = new ConcurrentHashSet<string>();
-            public static ConcurrentDictionary<ulong, ChatterBotSession> CleverbotGuilds { get; } = new ConcurrentDictionary<ulong, ChatterBotSession>();
+
+            public static ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; } = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>();
 
             static CleverBotCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                var sw = Stopwatch.StartNew();
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var bot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
-                    CleverbotGuilds = new ConcurrentDictionary<ulong, ChatterBotSession>(
-                        uow.GuildConfigs.GetAll()
+                    CleverbotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
+                        NadekoBot.AllGuildConfigs
                             .Where(gc => gc.CleverbotEnabled)
-                            .ToDictionary(gc => gc.GuildId, gc => bot.CreateSession()));
+                            .ToDictionary(gc => gc.GuildId, gc => new Lazy<ChatterBotSession>(() => bot.CreateSession(), true)));
                 }
+
+                sw.Stop();
+                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            public static async Task<bool> TryAsk(IUserMessage msg) {
+            public static async Task<bool> TryAsk(SocketUserMessage msg)
+            {
                 var channel = msg.Channel as ITextChannel;
 
                 if (channel == null)
                     return false;
 
-                ChatterBotSession cleverbot;
+                Lazy<ChatterBotSession> cleverbot;
                 if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out cleverbot))
                     return false;
 
-                var nadekoId = NadekoBot.Client.GetCurrentUser().Id;
+                var nadekoId = NadekoBot.Client.CurrentUser().Id;
                 var normalMention = $"<@{nadekoId}> ";
                 var nickMention = $"<@!{nadekoId}> ";
                 string message;
@@ -69,50 +77,48 @@ namespace NadekoBot.Modules.Games
 
                 await msg.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-                var response = await cleverbot.Think(message).ConfigureAwait(false);
+                var response = await cleverbot.Value.Think(message).ConfigureAwait(false);
                 try
                 {
-                    await msg.Channel.SendMessageAsync(response).ConfigureAwait(false);
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    _log.Warn(ex, "Eror sending response");
-                    await msg.Channel.SendMessageAsync(msg.Author.Mention+" "+response).ConfigureAwait(false); // try twice :\
+                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequirePermission(ChannelPermission.ManageMessages)]
-            public async Task Cleverbot(IUserMessage imsg)
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Cleverbot()
             {
-                var channel = (ITextChannel)imsg.Channel;
+                var channel = (ITextChannel)Context.Channel;
 
-                ChatterBotSession throwaway;
+                Lazy<ChatterBotSession> throwaway;
                 if (CleverbotGuilds.TryRemove(channel.Guild.Id, out throwaway))
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
-                        uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, false);
+                        uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await channel.SendMessageAsync($"{imsg.Author.Mention} `Disabled cleverbot on this server.`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
                     return;
                 }
 
                 var cleverbot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
-                var session = cleverbot.CreateSession();
 
-                CleverbotGuilds.TryAdd(channel.Guild.Id, session);
+                CleverbotGuilds.TryAdd(channel.Guild.Id, new Lazy<ChatterBotSession>(() => cleverbot.CreateSession(), true));
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    uow.GuildConfigs.SetCleverbotEnabled(channel.Guild.Id, true);
+                    uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, true);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                await channel.SendMessageAsync($"{imsg.Author.Mention} `Enabled cleverbot on this server.`").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
             }
         }
     }

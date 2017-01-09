@@ -54,11 +54,13 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
         public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new HashSet<FilterChannelId>();
 
+        public HashSet<MutedUserId> MutedUsers { get; set; } = new HashSet<MutedUserId>();
+
         public string MuteRoleName { get; set; }
         public bool CleverbotEnabled { get; set; }
     }
 
-    public class FilterChannelId :DbEntity
+    public class FilterChannelId : DbEntity
     {
         public ulong ChannelId { get; set; }
     }
@@ -66,6 +68,25 @@ namespace NadekoBot.Services.Database.Models
     public class FilteredWord : DbEntity
     {
         public string Word { get; set; }
+    }
+
+    public class MutedUserId : DbEntity
+    {
+        public ulong UserId { get; set; }
+
+        public override int GetHashCode()
+        {
+            return UserId.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var mui = obj as MutedUserId;
+            if (mui == null)
+                return false;
+
+            return mui.UserId == this.UserId;
+        }
     }
 
     public class GCChannelId : DbEntity
