@@ -12,7 +12,7 @@ Here you can read current [Issues][Issues].
 
 If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 
-**NadekoBot 1.1 release is currently only for 64bit PCs.**
+**NadekoBot 1.1 release currently does not support x86/32bit architecture.**
 
 ##Content
 - [About](about.md)
@@ -37,14 +37,3 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 [GitHub]: https://github.com/Kwoth/NadekoBot
 [Issues]: https://github.com/Kwoth/NadekoBot/issues
 [dev]: https://github.com/Kwoth/NadekoBot/tree/dev
-
-[Italian]: http://i.imgur.com/SsaTwOF.png?1
-[Russian]: http://i.imgur.com/wf9bc5G.png?1
-[German]: http://i.imgur.com/EM5qPzf.png?1
-[Chinese]: http://i.imgur.com/MVCNOjT.png?1
-[English]: http://i.imgur.com/jHTyZFS.png?1
-[Spanish]: http://i.imgur.com/9BsusB6.png?1
-[French]: http://i.imgur.com/g2ARPF6.png?1
-[Dutch]: http://i.imgur.com/SadddLj.png?1
-[Norwegian]: http://i.imgur.com/TCVa0V8.png?1
-[Serbian]: http://i.imgur.com/5evoUbU.png
