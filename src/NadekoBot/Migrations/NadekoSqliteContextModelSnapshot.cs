@@ -17,6 +17,62 @@ namespace NadekoBot.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiRaidSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Action");
+
+                    b.Property<int>("GuildConfigId");
+
+                    b.Property<int>("Seconds");
+
+                    b.Property<int>("UserThreshold");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId")
+                        .IsUnique();
+
+                    b.ToTable("AntiRaidSetting");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiSpamIgnore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AntiSpamSettingId");
+
+                    b.Property<ulong>("ChannelId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AntiSpamSettingId");
+
+                    b.ToTable("AntiSpamIgnore");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiSpamSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Action");
+
+                    b.Property<int>("GuildConfigId");
+
+                    b.Property<int>("MessageThreshold");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId")
+                        .IsUnique();
+
+                    b.ToTable("AntiSpamSetting");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.BlacklistItem", b =>
                 {
                     b.Property<int>("Id")
@@ -720,6 +776,29 @@ namespace NadekoBot.Migrations
                         .IsUnique();
 
                     b.ToTable("PokeGame");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiRaidSetting", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig", "GuildConfig")
+                        .WithOne("AntiRaidSetting")
+                        .HasForeignKey("NadekoBot.Services.Database.Models.AntiRaidSetting", "GuildConfigId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiSpamIgnore", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.AntiSpamSetting")
+                        .WithMany("IgnoredChannels")
+                        .HasForeignKey("AntiSpamSettingId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.AntiSpamSetting", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig", "GuildConfig")
+                        .WithOne("AntiSpamSetting")
+                        .HasForeignKey("NadekoBot.Services.Database.Models.AntiSpamSetting", "GuildConfigId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.BlacklistItem", b =>

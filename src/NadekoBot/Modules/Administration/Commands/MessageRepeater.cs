@@ -91,13 +91,11 @@ namespace NadekoBot.Modules.Administration
             {
                 var _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(NadekoBot.AllGuildConfigs
-                        .ToDictionary(gc => gc.GuildId,
-                                      gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters.Select(gr => new RepeatRunner(gr))
-                                        .Where(gr => gr.Channel != null))));
-                }
+
+                repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(NadekoBot.AllGuildConfigs
+                    .ToDictionary(gc => gc.GuildId,
+                                    gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters.Select(gr => new RepeatRunner(gr))
+                                    .Where(gr => gr.Channel != null))));
 
                 sw.Stop();
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");

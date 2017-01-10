@@ -438,6 +438,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to antilist antilst.
+        /// </summary>
+        public static string antilist_cmd {
+            get {
+                return ResourceManager.GetString("antilist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows currently enabled protection features..
+        /// </summary>
+        public static string antilist_desc {
+            get {
+                return ResourceManager.GetString("antilist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}antilist`.
+        /// </summary>
+        public static string antilist_usage {
+            get {
+                return ResourceManager.GetString("antilist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to antiraid.
         /// </summary>
         public static string antiraid_cmd {
@@ -488,6 +515,33 @@ namespace NadekoBot.Resources {
         public static string antispam_usage {
             get {
                 return ResourceManager.GetString("antispam_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to antispamignore.
+        /// </summary>
+        public static string antispamignore_cmd {
+            get {
+                return ResourceManager.GetString("antispamignore_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether antispam ignores current channel. Antispam must be enabled..
+        /// </summary>
+        public static string antispamignore_desc {
+            get {
+                return ResourceManager.GetString("antispamignore_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}antispamignore`.
+        /// </summary>
+        public static string antispamignore_usage {
+            get {
+                return ResourceManager.GetString("antispamignore_usage", resourceCulture);
             }
         }
         

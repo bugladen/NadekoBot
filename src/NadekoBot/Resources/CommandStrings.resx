@@ -2907,4 +2907,22 @@
   <data name="repeatremove_usage" xml:space="preserve">
     <value>`{0}reprm 2`</value>
   </data>
+  <data name="antilist_cmd" xml:space="preserve">
+    <value>antilist antilst</value>
+  </data>
+  <data name="antilist_desc" xml:space="preserve">
+    <value>Shows currently enabled protection features.</value>
+  </data>
+  <data name="antilist_usage" xml:space="preserve">
+    <value>`{0}antilist`</value>
+  </data>
+  <data name="antispamignore_cmd" xml:space="preserve">
+    <value>antispamignore</value>
+  </data>
+  <data name="antispamignore_desc" xml:space="preserve">
+    <value>Toggles whether antispam ignores current channel. Antispam must be enabled.</value>
+  </data>
+  <data name="antispamignore_usage" xml:space="preserve">
+    <value>`{0}antispamignore`</value>
+  </data>
 </root>
