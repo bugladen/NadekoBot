@@ -274,7 +274,7 @@
     <value>repeat</value>
   </data>
   <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every X minutes in the current channel.</value>
+    <value>Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
     <value>`{0}repeat 5 Hello there`</value>

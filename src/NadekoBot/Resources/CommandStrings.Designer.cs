@@ -5766,7 +5766,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Repeat a message every X minutes in the current channel..
+        ///    Looks up a localized string similar to Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total..
         /// </summary>
         public static string repeat_desc {
             get {

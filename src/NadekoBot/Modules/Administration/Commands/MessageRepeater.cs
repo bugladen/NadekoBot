@@ -188,6 +188,8 @@ namespace NadekoBot.Modules.Administration
                 {
                     var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
+                    if (gc.GuildRepeaters.Count >= 5)
+                        return;
                     gc.GuildRepeaters.Add(toAdd);
 
                     await uow.CompleteAsync().ConfigureAwait(false);
