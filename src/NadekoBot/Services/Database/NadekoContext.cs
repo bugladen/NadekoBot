@@ -16,7 +16,6 @@ namespace NadekoBot.Services.Database
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
         public DbSet<BotConfig> BotConfig { get; set; }
-        public DbSet<Repeater> Repeaters { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
@@ -44,6 +43,7 @@ namespace NadekoBot.Services.Database
             this.Database.Migrate();
             EnsureSeedData();
         }
+
         ////Uncomment this to db initialisation with dotnet ef migration add [module]
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -168,16 +168,6 @@ namespace NadekoBot.Services.Database
 
             selfassignableRolesEntity
                 .HasIndex(s => new { s.GuildId, s.RoleId })
-                .IsUnique();
-
-            #endregion
-
-            #region Repeater
-
-            var repeaterEntity = modelBuilder.Entity<Repeater>();
-
-            repeaterEntity
-                .HasIndex(r => r.ChannelId)
                 .IsUnique();
 
             #endregion

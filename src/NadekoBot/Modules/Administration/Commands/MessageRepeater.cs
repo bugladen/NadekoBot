@@ -58,9 +58,9 @@ namespace NadekoBot.Modules.Administration
                             var toSend = "🔄 " + Repeater.Message;
                             await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
 
-                           //var lastMsgInChannel = (await Channel.GetMessagesAsync(2)).FirstOrDefault();
-                           // if (lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
-                           //     continue;
+                            //var lastMsgInChannel = (await Channel.GetMessagesAsync(2)).FirstOrDefault();
+                            // if (lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
+                            //     continue;
 
                             if (oldMsg != null)
                                 try { await oldMsg.DeleteAsync(); } catch { }
@@ -79,6 +79,11 @@ namespace NadekoBot.Modules.Administration
                 public void Stop()
                 {
                     source.Cancel();
+                }
+
+                public override string ToString()
+                {
+                    return $"{this.Channel.Mention} | {(int)this.Repeater.Interval.TotalHours}:{this.Repeater.Interval:mm} | {this.Repeater.Message.TrimTo(33)}";
                 }
             }
 
@@ -105,7 +110,7 @@ namespace NadekoBot.Modules.Administration
             {
                 index -= 1;
                 ConcurrentQueue<RepeatRunner> rep;
-                if (!repeaters.TryGetValue(Context.Channel.Id, out rep))
+                if (!repeaters.TryGetValue(Context.Guild.Id, out rep))
                 {
                     await Context.Channel.SendErrorAsync("ℹ️ **No repeating message found on this server.**").ConfigureAwait(false);
                     return;
@@ -153,12 +158,12 @@ namespace NadekoBot.Modules.Administration
                 {
                     var guildConfig = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
-                    guildConfig.GuildRepeaters.RemoveWhere(r=>r.Id == repeater.Repeater.Id);
+                    guildConfig.GuildRepeaters.RemoveWhere(r => r.Id == repeater.Repeater.Id);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 if (repeaters.TryUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(repeaterList), rep))
-                    await Context.Channel.SendConfirmAsync("✅ **Stopped repeating a message.**").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync("Message Repeater",$"#{index+1} stopped.\n\n{repeater.ToString()}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -173,13 +178,22 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(message))
                     return;
 
-                var toAdd = new Repeater()
+                var toAdd = new GuildRepeater()
                 {
                     ChannelId = Context.Channel.Id,
                     GuildId = Context.Guild.Id,
                     Interval = TimeSpan.FromMinutes(minutes),
                     Message = message
                 };
+
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+
+                    gc.GuildRepeaters.Add(toAdd);
+
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
 
                 var rep = new RepeatRunner(toAdd, (ITextChannel)Context.Channel);
 
@@ -188,7 +202,7 @@ namespace NadekoBot.Modules.Administration
                     old.Enqueue(rep);
                     return old;
                 });
-                
+
                 await Context.Channel.SendConfirmAsync($"🔁 Repeating **\"{rep.Repeater.Message}\"** every `{rep.Repeater.Interval.Days} day(s), {rep.Repeater.Interval.Hours} hour(s) and {rep.Repeater.Interval.Minutes} minute(s)`.").ConfigureAwait(false);
             }
 
@@ -211,7 +225,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var rep = replist[i];
 
-                    sb.AppendLine($"`{i + 1}.` {rep.Channel.Mention} | {(int)rep.Repeater.Interval.TotalHours}:{rep.Repeater.Interval:mm} | {rep.Repeater.Message.TrimTo(20)}");
+                    sb.AppendLine($"`{i + 1}.` {rep.ToString()}");
                 }
 
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()

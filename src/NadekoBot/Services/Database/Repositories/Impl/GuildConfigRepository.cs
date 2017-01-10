@@ -26,6 +26,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.FilterWordsChannelIds)
                 .Include(gc => gc.FilteredWords)
                 .Include(gc => gc.CommandCooldowns)
+                .Include(gc => gc.GuildRepeaters)
                 .ToList();
 
         /// <summary>
