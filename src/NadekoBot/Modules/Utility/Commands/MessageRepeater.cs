@@ -16,9 +16,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration
+namespace NadekoBot.Modules.Utility
 {
-    public partial class Administration
+    public partial class Utility
     {
         [Group]
         public class RepeatCommands : ModuleBase
