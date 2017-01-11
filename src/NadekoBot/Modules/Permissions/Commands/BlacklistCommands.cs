@@ -23,13 +23,18 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class BlacklistCommands : ModuleBase
         {
-            public static ConcurrentHashSet<BlacklistItem> BlacklistedItems { get; set; } = new ConcurrentHashSet<BlacklistItem>();
+            public static ConcurrentHashSet<ulong> BlacklistedUsers { get; set; } = new ConcurrentHashSet<ulong>();
+            public static ConcurrentHashSet<ulong> BlacklistedGuilds { get; set; } = new ConcurrentHashSet<ulong>();
+            public static ConcurrentHashSet<ulong> BlacklistedChannels { get; set; } = new ConcurrentHashSet<ulong>();
 
             static BlacklistCommands()
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    BlacklistedItems = new ConcurrentHashSet<BlacklistItem>(uow.BotConfig.GetOrCreate().Blacklist);
+                    var blacklist = uow.BotConfig.GetOrCreate().Blacklist;
+                    BlacklistedUsers = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.User).Select(c => c.ItemId));
+                    BlacklistedGuilds = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Server).Select(c => c.ItemId));
+                    BlacklistedChannels = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Channel).Select(c => c.ItemId));
                 }
             }
 
@@ -66,12 +71,34 @@ namespace NadekoBot.Modules.Permissions
                     {
                         var item = new BlacklistItem { ItemId = id, Type = type };
                         uow.BotConfig.GetOrCreate().Blacklist.Add(item);
-                        BlacklistedItems.Add(item);
+                        if (type == BlacklistType.Server)
+                        {
+                            BlacklistedGuilds.Add(id);
+                        }
+                        else if (type == BlacklistType.Channel)
+                        {
+                            BlacklistedChannels.Add(id);
+                        }
+                        else if (type == BlacklistType.User)
+                        {
+                            BlacklistedUsers.Add(id);
+                        }                        
                     }
                     else
                     {
                         uow.BotConfig.GetOrCreate().Blacklist.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
-                        BlacklistedItems.RemoveWhere(bi => bi.ItemId == id && bi.Type == type);
+                        if (type == BlacklistType.Server)
+                        {
+                            BlacklistedGuilds.TryRemove(id);
+                        }
+                        else if (type == BlacklistType.Channel)
+                        {
+                            BlacklistedChannels.TryRemove(id);
+                        }
+                        else if (type == BlacklistType.User)
+                        {
+                            BlacklistedUsers.TryRemove(id);
+                        }
                     }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }

@@ -73,6 +73,9 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task PermRole([Remainder] IRole role = null)
         {
+            if (role != null && role == role.Guild.EveryoneRole)
+                return;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 var config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
@@ -379,6 +382,9 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task RoleCmd(CommandInfo command, PermissionAction action, [Remainder] IRole role)
         {
+            if (role == role.Guild.EveryoneRole)
+                return;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 var newPerm = new Permission
@@ -405,6 +411,9 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task RoleMdl(ModuleInfo module, PermissionAction action, [Remainder] IRole role)
         {
+            if (role == role.Guild.EveryoneRole)
+                return;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 var newPerm = new Permission
@@ -515,6 +524,9 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
         {
+            if (role == role.Guild.EveryoneRole)
+                return;
+
             using (var uow = DbHandler.UnitOfWork())
             {
                 var newPerm = new Permission

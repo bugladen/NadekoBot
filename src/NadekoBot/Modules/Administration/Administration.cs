@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Administration
             NadekoBot.CommandHandler.CommandExecuted += DelMsgOnCmd_Handler;
 
             DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.DeleteMessageOnCommand).Select(g => g.GuildId));
-            
+
         }
 
         private static async Task DelMsgOnCmd_Handler(SocketUserMessage msg, CommandInfo cmd)
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             }
             var roleName = args[0].ToUpperInvariant();
-            var role = Context.Guild.Roles.Where(r=>r.Name.ToUpperInvariant() == roleName).FirstOrDefault();
+            var role = Context.Guild.Roles.Where(r => r.Name.ToUpperInvariant() == roleName).FirstOrDefault();
 
             if (role == null)
             {
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.Administration
                 var red = Convert.ToByte(rgb ? int.Parse(arg1) : Convert.ToInt32(arg1.Substring(0, 2), 16));
                 var green = Convert.ToByte(rgb ? int.Parse(args[2]) : Convert.ToInt32(arg1.Substring(2, 2), 16));
                 var blue = Convert.ToByte(rgb ? int.Parse(args[3]) : Convert.ToInt32(arg1.Substring(4, 2), 16));
-                
+
                 await role.ModifyAsync(r => r.Color = new Color(red, green, blue)).ConfigureAwait(false);
                 await Context.Channel.SendConfirmAsync($"☑️ Role **{role.Name}'s** color has been changed.").ConfigureAwait(false);
             }
@@ -236,18 +236,22 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "❗️No reason provided.";
             }
-            if (Context.User.Id != user.Guild.OwnerId && ((IGuildUser)Context.User).GetRoles().Select(r=>r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
+            if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
             {
                 await Context.Channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.").ConfigureAwait(false);
                 return;
             }
-            try
+            if (!string.IsNullOrWhiteSpace(msg))
             {
-                await (await user.CreateDMChannelAsync()).SendErrorAsync($"⛔️ **You have been BANNED from `{Context.Guild.Name}` server.**\n" +
-                                        $"⚖ *Reason:* {msg}").ConfigureAwait(false);
-                await Task.Delay(2000).ConfigureAwait(false);
+                try
+                {
+                    await (await user.CreateDMChannelAsync()).SendErrorAsync($"⛔️ **You have been BANNED from `{Context.Guild.Name}` server.**\n" +
+                                            $"⚖ *Reason:* {msg}").ConfigureAwait(false);
+                    await Task.Delay(2000).ConfigureAwait(false);
+
+                }
+                catch { }
             }
-            catch { }
             try
             {
                 await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
@@ -275,13 +279,18 @@ namespace NadekoBot.Modules.Administration
                 await Context.Channel.SendErrorAsync("⚠️ You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
             }
-            try
+
+            if (!string.IsNullOrWhiteSpace(msg))
             {
-                await user.SendErrorAsync($"☣ **You have been SOFT-BANNED from `{Context.Guild.Name}` server.**\n" +
-              $"⚖ *Reason:* {msg}").ConfigureAwait(false);
-                await Task.Delay(2000).ConfigureAwait(false);
+                try
+                {
+                    await user.SendErrorAsync($"☣ **You have been SOFT-BANNED from `{Context.Guild.Name}` server.**\n" +
+                  $"⚖ *Reason:* {msg}").ConfigureAwait(false);
+                    await Task.Delay(2000).ConfigureAwait(false);
+                }
+                catch { }
             }
-            catch { }
+
             try
             {
                 await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
@@ -439,7 +448,7 @@ namespace NadekoBot.Modules.Administration
         public async Task Prune()
         {
             var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
-            
+
             var enumerable = (await Context.Channel.GetMessagesAsync().Flatten()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
@@ -451,6 +460,9 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task Prune(int count)
         {
+            if (count < 1)
+                return;
+            count += 1;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
@@ -463,44 +475,16 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task Prune(IGuildUser user, int count = 100)
         {
+            if (count < 1)
+                return;
+
+            if (user.Id == Context.User.Id)
+                count += 1;
 
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten()).Where(m => m.Author == user);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task SaveChat(int cnt)
-        {
-            ulong? lastmsgId = null;
-            var sb = new StringBuilder();
-            var msgs = new List<IMessage>(cnt);
-            while (cnt > 0)
-            {
-                var dlcnt = cnt < 100 ? cnt : 100;
-                IEnumerable<IMessage> dledMsgs;
-                if (lastmsgId == null)
-                    dledMsgs = await Context.Channel.GetMessagesAsync(cnt).Flatten().ConfigureAwait(false);
-                else
-                    dledMsgs = await Context.Channel.GetMessagesAsync(lastmsgId.Value, Direction.Before, dlcnt).Flatten().ConfigureAwait(false);
-
-                if (!dledMsgs.Any())
-                    break;
-
-                msgs.AddRange(dledMsgs);
-                lastmsgId = msgs[msgs.Count - 1].Id;
-                cnt -= 100;
-            }
-            var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
-            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
-            await (Context.User as IGuildUser).SendFileAsync(
-                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false),
-title, title).ConfigureAwait(false);
-        }
-
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -511,7 +495,7 @@ title, title).ConfigureAwait(false);
             foreach (var role in roles)
             {
                 send += $"\n**{role.Name}**\n";
-                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Distinct().Select(u=>u.Mention));
+                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Distinct().Select(u => u.Mention));
             }
 
             while (send.Length > 2000)
@@ -536,7 +520,7 @@ title, title).ConfigureAwait(false);
                 donatorsOrdered = uow.Donators.GetDonatorsOrdered();
             }
             await Context.Channel.SendConfirmAsync("Thanks to the people listed below for making this project happen!", string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
-            
+
             nadekoSupportServer = nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
 
             if (nadekoSupportServer == null)

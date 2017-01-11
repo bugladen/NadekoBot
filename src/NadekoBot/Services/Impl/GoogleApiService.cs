@@ -51,7 +51,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
 
-        private readonly Regex YtVideoIdRegex = new Regex("(?:youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)(?<id>[^#\\&\\?]*)", RegexOptions.Compiled);
+        private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
@@ -149,7 +149,7 @@ namespace NadekoBot.Services.Impl
 
             return toReturn;
         }
-
+        //todo AsyncEnumerable
         public async Task<IReadOnlyDictionary<string,TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
         {
             var videoIdsList = videoIds as List<string> ?? videoIds.ToList();

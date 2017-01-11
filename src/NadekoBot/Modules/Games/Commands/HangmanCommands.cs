@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Games
             static HangmanCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                typesStr = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Games).Name]}hangman\" term types:`\n" + String.Join(", ", Enum.GetNames(typeof(HangmanTermPool.HangmanTermType)));
+                typesStr = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Games).Name]}hangman\" term types:`\n" + String.Join(", ", HangmanTermPool.data.Keys);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Hangman(HangmanTermPool.HangmanTermType type = HangmanTermPool.HangmanTermType.All)
+            public async Task Hangman([Remainder]string type = "All")
             {
                 var hm = new HangmanGame(Context.Channel, type);
 
@@ -48,7 +48,18 @@ namespace NadekoBot.Modules.Games
                     HangmanGame throwaway;
                     HangmanGames.TryRemove(g.GameChannel.Id, out throwaway);
                 };
-                hm.Start();
+                try
+                {
+                    hm.Start();
+                }
+                catch (Exception ex)
+                {
+                    try { await Context.Channel.SendErrorAsync($"Starting errored: {ex.Message}").ConfigureAwait(false); } catch { }
+                    HangmanGame throwaway;
+                    HangmanGames.TryRemove(Context.Channel.Id, out throwaway);
+                    throwaway.Dispose();
+                    return;
+                }
 
                 await Context.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman() + "\n" + hm.ScrambledWord);
             }

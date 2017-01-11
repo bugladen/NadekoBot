@@ -43,7 +43,7 @@ Commonly Asked Questions
 ---------------
 
 ###How do I create a music DJ?
-To allow users to only see the current song and have a DJ role for queuing follow these five steps: 
+To allow users to only see the current song and have a DJ role for queuing follow these steps: 
 
 1.	`;sm Music disable`
 
@@ -53,17 +53,13 @@ To allow users to only see the current song and have a DJ role for queuing follo
 
 	*	Enables the "nowplaying" command for everyone
 
-3.	`;sc !!getlink enable`
-
-	*	Enables the "getlink" command for everyone
-
-4.	`;sc !!listqueue enable`
+3.	`;sc !!listqueue enable`
 
 	*	Enables the "listqueue" command for everyone
 
-5.	`;rm Music enable DJ`
+4.	`;rm Music enable DJ`
 
-	*	Enables all the music commands only for the DJ role
+	*	Enables all music commands only for the DJ role
 
 
 ###How do I create a NSFW channel?

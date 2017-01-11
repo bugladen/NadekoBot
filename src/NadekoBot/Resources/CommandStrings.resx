@@ -265,16 +265,16 @@
     <value>repeatinvoke repinv</value>
   </data>
   <data name="repeatinvoke_desc" xml:space="preserve">
-    <value>Immediately shows the repeat message and restarts the timer.</value>
+    <value>Immediately shows the repeat message on a certain index and restarts its timer.</value>
   </data>
   <data name="repeatinvoke_usage" xml:space="preserve">
-    <value>`{0}repinv`</value>
+    <value>`{0}repinv 1`</value>
   </data>
   <data name="repeat_cmd" xml:space="preserve">
     <value>repeat</value>
   </data>
   <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every X minutes. If no parameters are specified, repeat is disabled.</value>
+    <value>Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
     <value>`{0}repeat 5 Hello there`</value>
@@ -1926,23 +1926,23 @@
   <data name="randomdog_usage" xml:space="preserve">
     <value>`{0}woof`</value>
   </data>
-  <data name="i_cmd" xml:space="preserve">
-    <value>img i</value>
+  <data name="image_cmd" xml:space="preserve">
+    <value>image img</value>
   </data>
-  <data name="i_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}ir for different results.</value>
+  <data name="image_desc" xml:space="preserve">
+    <value>Pulls the first image found using a search parameter. Use {0}rimg for different results.</value>
   </data>
-  <data name="i_usage" xml:space="preserve">
-    <value>`{0}i cute kitten`</value>
+  <data name="image_usage" xml:space="preserve">
+    <value>`{0}img cute kitten`</value>
   </data>
-  <data name="ir_cmd" xml:space="preserve">
-    <value>ir</value>
+  <data name="randomimage_cmd" xml:space="preserve">
+    <value>randomimage rimg</value>
   </data>
-  <data name="ir_desc" xml:space="preserve">
+  <data name="randomimage_desc" xml:space="preserve">
     <value>Pulls a random image using a search parameter.</value>
   </data>
-  <data name="ir_usage" xml:space="preserve">
-    <value>`{0}ir cute kitten`</value>
+  <data name="randomimage_usage" xml:space="preserve">
+    <value>`{0}rimg cute kitten`</value>
   </data>
   <data name="lmgtfy_cmd" xml:space="preserve">
     <value>lmgtfy</value>
@@ -2852,5 +2852,77 @@
   </data>
   <data name="autohentai_usage" xml:space="preserve">
     <value>`{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`</value>
+  </data>
+  <data name="setstatus_cmd" xml:space="preserve">
+    <value>setstatus</value>
+  </data>
+  <data name="setstatus_desc" xml:space="preserve">
+    <value>Sets the bot's status. (Online/Idle/Dnd/Invisible)</value>
+  </data>
+  <data name="setstatus_usage" xml:space="preserve">
+    <value>`{0}setstatus Idle`</value>
+  </data>
+  <data name="rotaterolecolor_cmd" xml:space="preserve">
+    <value>rotaterolecolor rrc</value>
+  </data>
+  <data name="rotaterolecolor_desc" xml:space="preserve">
+    <value>Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.</value>
+  </data>
+  <data name="rotaterolecolor_usage" xml:space="preserve">
+    <value>`{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`</value>
+  </data>
+  <data name="createinvite_cmd" xml:space="preserve">
+    <value>createinvite crinv</value>
+  </data>
+  <data name="createinvite_desc" xml:space="preserve">
+    <value>Creates a new invite which has infinite max uses and never expires.</value>
+  </data>
+  <data name="createinvite_usage" xml:space="preserve">
+    <value>`{0}crinv`</value>
+  </data>
+  <data name="pollstats_cmd" xml:space="preserve">
+    <value>pollstats</value>
+  </data>
+  <data name="pollstats_desc" xml:space="preserve">
+    <value>Shows the poll results without stopping the poll on this server.</value>
+  </data>
+  <data name="pollstats_usage" xml:space="preserve">
+    <value>`{0}pollstats`</value>
+  </data>
+  <data name="repeatlist_cmd" xml:space="preserve">
+    <value>repeatlist replst</value>
+  </data>
+  <data name="repeatlist_desc" xml:space="preserve">
+    <value>Shows currently repeating messages and their indexes.</value>
+  </data>
+  <data name="repeatlist_usage" xml:space="preserve">
+    <value>`{0}repeatlist`</value>
+  </data>
+  <data name="repeatremove_cmd" xml:space="preserve">
+    <value>repeatremove reprm</value>
+  </data>
+  <data name="repeatremove_desc" xml:space="preserve">
+    <value>Removes a repeating message on a specified index. Use `{0}repeatlist` to see indexes.</value>
+  </data>
+  <data name="repeatremove_usage" xml:space="preserve">
+    <value>`{0}reprm 2`</value>
+  </data>
+  <data name="antilist_cmd" xml:space="preserve">
+    <value>antilist antilst</value>
+  </data>
+  <data name="antilist_desc" xml:space="preserve">
+    <value>Shows currently enabled protection features.</value>
+  </data>
+  <data name="antilist_usage" xml:space="preserve">
+    <value>`{0}antilist`</value>
+  </data>
+  <data name="antispamignore_cmd" xml:space="preserve">
+    <value>antispamignore</value>
+  </data>
+  <data name="antispamignore_desc" xml:space="preserve">
+    <value>Toggles whether antispam ignores current channel. Antispam must be enabled.</value>
+  </data>
+  <data name="antispamignore_usage" xml:space="preserve">
+    <value>`{0}antispamignore`</value>
   </data>
 </root>

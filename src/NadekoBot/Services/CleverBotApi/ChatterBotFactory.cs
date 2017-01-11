@@ -29,10 +29,16 @@ namespace Services.CleverBotApi
 
         public static ChatterBot Create(ChatterBotType type, object arg)
         {
+#if GLOBAL_NADEKO
+            var url = "http://www.cleverbot.com/webservicemin?uc=3210&botapi=nadekobot";
+#else
+            var url = "http://www.cleverbot.com/webservicemin?uc=3210";
+#endif
+
             switch (type)
             {
                 case ChatterBotType.CLEVERBOT:
-                    return new Cleverbot("http://www.cleverbot.com/", "http://www.cleverbot.com/webservicemin?uc=321", 26);
+                    return new Cleverbot("http://www.cleverbot.com/", url, 26);
                 case ChatterBotType.JABBERWACKY:
                     return new Cleverbot("http://jabberwacky.com", "http://jabberwacky.com/webservicemin", 20);
                 case ChatterBotType.PANDORABOTS:

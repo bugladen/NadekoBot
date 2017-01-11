@@ -164,12 +164,15 @@ namespace NadekoBot.Modules.Gambling
                         var arr = new int[n1];
                         for (int i = 0; i < n1; i++)
                         {
-                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
+                            arr[i] = rng.Next(1, n2 + 1);
                         }
 
-                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`")
-                        .AddField(efb => efb.WithName(Format.Bold("Result"))
-                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))));
+                        var sum = arr.Sum();
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}`")
+                        .AddField(efb => efb.WithName(Format.Bold("Rolls"))
+                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))))
+                        .AddField(efb => efb.WithName(Format.Bold("Sum"))
+                            .WithValue(sum + " + " + add + " - " + sub + " = " + (sum + add - sub)));
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }

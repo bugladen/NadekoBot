@@ -122,17 +122,23 @@ namespace NadekoBot.Modules.Help
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public Task Hgit()
+        public async Task Hgit()
         {
             var helpstr = new StringBuilder();
             helpstr.AppendLine("You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: <https://www.paypal.me/Kwoth>\n");
             helpstr.AppendLine("##Table Of Contents");
-            helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Where(m => m.Name.ToLowerInvariant() != "help").OrderBy(m => m.Name).Prepend(NadekoBot.CommandService.Modules.FirstOrDefault(m=>m.Name.ToLowerInvariant()=="help")).Select(m => $"- [{m.Name}](#{m.Name.ToLowerInvariant()})")));
+            helpstr.AppendLine(string.Join("\n", NadekoBot.CommandService.Modules.Where(m => m.GetTopLevelModule().Name.ToLowerInvariant() != "help")
+                .Select(m => m.GetTopLevelModule().Name)
+                .Distinct()
+                .OrderBy(m => m)
+                .Prepend("Help")
+                .Select(m => $"- [{m}](#{m.ToLowerInvariant()})")));
             helpstr.AppendLine();
             string lastModule = null;
-            foreach (var com in NadekoBot.CommandService.Commands.OrderBy(com => com.Module.Name).GroupBy(c => c.Aliases.First()).Select(g => g.First()))
+            foreach (var com in NadekoBot.CommandService.Commands.OrderBy(com => com.Module.GetTopLevelModule().Name).GroupBy(c => c.Aliases.First()).Select(g => g.First()))
             {
-                if (com.Module.Name != lastModule)
+                var module = com.Module.GetTopLevelModule();
+                if (module.Name != lastModule)
                 {
                     if (lastModule != null)
                     {
@@ -140,16 +146,16 @@ namespace NadekoBot.Modules.Help
                         helpstr.AppendLine("###### [Back to TOC](#table-of-contents)");
                     }
                     helpstr.AppendLine();
-                    helpstr.AppendLine("### " + com.Module.Name + "  ");
+                    helpstr.AppendLine("### " + module.Name + "  ");
                     helpstr.AppendLine("Command and aliases | Description | Usage");
                     helpstr.AppendLine("----------------|--------------|-------");
-                    lastModule = com.Module.Name;
+                    lastModule = module.Name;
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} | {string.Format(com.Summary, com.Module.GetPrefix())} {GetCommandRequirements(com)} | {string.Format(com.Remarks, com.Module.GetPrefix())}");
             }
             helpstr = helpstr.Replace(NadekoBot.Client.CurrentUser().Username , "@BotName");
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
-            return Task.CompletedTask;
+            await Context.Channel.SendConfirmAsync("Commandlist Regenerated").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

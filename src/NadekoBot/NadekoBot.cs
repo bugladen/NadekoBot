@@ -91,7 +91,9 @@ namespace NadekoBot
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
             await Client.ConnectAsync().ConfigureAwait(false);
-            //await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+#if !GLOBAL_NADEKO
+            await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+#endif
 
             _log.Info("Connected");
 

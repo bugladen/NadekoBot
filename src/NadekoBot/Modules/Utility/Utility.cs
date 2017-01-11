@@ -10,12 +10,84 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using NadekoBot.Services.Impl;
 using System.Net.Http;
+using System.Collections.Concurrent;
+using System.Threading;
+using ImageSharp;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Utility
 {
     [NadekoModule("Utility", ".")]
     public partial class Utility : DiscordModule
     {
+        private static ConcurrentDictionary<ulong, Timer> rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task RotateRoleColor(int timeout, IRole role, params string[] hexes)
+        {
+            var channel = (ITextChannel)Context.Channel;
+
+            if ((timeout < 60 && timeout != 0) || timeout > 3600)
+                return;
+
+            Timer t;
+            if (timeout == 0 || hexes.Length == 0)
+            {
+                if (rotatingRoleColors.TryRemove(role.Id, out t))
+                {
+                    t.Change(Timeout.Infinite, Timeout.Infinite);
+                    await channel.SendConfirmAsync($"Stopped rotating colors for the **{role.Name}** role").ConfigureAwait(false);
+                }
+                return;
+            }
+
+            var hexColors = hexes.Select(hex =>
+            {
+                try { return (ImageSharp.Color?)new ImageSharp.Color(hex.Replace("#", "")); } catch { return null; }
+            })
+            .Where(c => c != null)
+            .Select(c => c.Value)
+            .ToArray();
+
+            if (!hexColors.Any())
+            {
+                await channel.SendMessageAsync("No colors are in the correct format. Use `#00ff00` for example.").ConfigureAwait(false);
+                return;
+            }
+
+            var images = hexColors.Select(color =>
+            {
+                var img = new ImageSharp.Image(50, 50);
+                img.BackgroundColor(color);
+                return img;
+            }).Merge().ToStream();
+
+            var i = 0;
+            t = new Timer(async (_) =>
+            {
+                try
+                {
+                    var color = hexColors[i];
+                    await role.ModifyAsync(r => r.Color = new Discord.Color(color.R, color.G, color.B)).ConfigureAwait(false);
+                    ++i;
+                    if (i >= hexColors.Length)
+                        i = 0;
+                }
+                catch { }
+            }, null, 0, timeout * 1000);
+
+            rotatingRoleColors.AddOrUpdate(role.Id, t, (key, old) =>
+            {
+                old.Change(Timeout.Infinite, Timeout.Infinite);
+                return t;
+            });
+
+            await channel.SendFileAsync(images, "magicalgirl.jpg", $"Rotating **{role.Name}** role's color.").ConfigureAwait(false);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task TogetherTube()
         {
@@ -170,15 +242,27 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChannelTopic()
+        public async Task ChannelTopic([Remainder]ITextChannel channel = null)
         {
-            var channel = (ITextChannel)Context.Channel;
+            if (channel == null)
+                channel = (ITextChannel)Context.Channel;
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
-                await channel.SendErrorAsync("No topic set.");
+                await Context.Channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync("Channel topic", topic);
+                await Context.Channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireBotPermission(ChannelPermission.CreateInstantInvite)]
+        [RequireUserPermission(ChannelPermission.CreateInstantInvite)]
+        public async Task CreateInvite()
+        {
+            var invite = await ((ITextChannel)Context.Channel).CreateInviteAsync(0, null, isUnique: true);
+
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -199,7 +283,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(Format.Bold("Memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Owner ID(s)")).WithValue(stats.OwnerIds).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
-                    .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuildsCount()} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
 #if !GLOBAL_NADEKO
                     .WithFooter(efb => efb.WithText($"Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued."))
 #endif
@@ -230,7 +314,7 @@ namespace NadekoBot.Modules.Utility
             if (page < 0)
                 return;
 
-            var guilds = NadekoBot.Client.GetGuilds().OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15);
+            var guilds = await Task.Run(() => NadekoBot.Client.GetGuilds().OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15)).ConfigureAwait(false);
 
             if (!guilds.Any())
             {
@@ -243,6 +327,23 @@ namespace NadekoBot.Modules.Utility
                                                                            .WithValue($"```css\nID: {g.Id}\nMembers: {g.Users.Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false))))
                          .ConfigureAwait(false);
+        }
+
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task SaveChat(int cnt)
+        {
+            var sb = new StringBuilder();
+            var msgs = new List<IMessage>(cnt);
+            await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
+
+            var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
+            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
+                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
+            await Context.User.SendFileAsync(
+                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
         }
     }
 }

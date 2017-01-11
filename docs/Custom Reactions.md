@@ -40,7 +40,7 @@ There are currently three different placeholders which we will look at, with mor
 
 | Placeholder | Description | Example Usage | Usage |
 |:-----------:|-------------|---------------|-------|
-|`%mention`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|```.acr "Hello %mention%" I,  %mention%, also say hello!```|Input: "Hello @BotName" Output: "I, @BotName, also say hello!"|
+|`%mention%`|The `%mention%` placeholder is triggered when you type `@BotName` - It's important to note that if you've given the bot a custom nickname, this trigger won't work!|```.acr "Hello %mention%" I,  %mention%, also say hello!```|Input: "Hello @BotName" Output: "I, @BotName, also say hello!"|
 |`%user%`|The `%user%` placeholder mentions the person who said the command|`.acr "Who am I?" You are %user%!`|Input: "Who am I?" Output: "You are @Username!"|
 |`%rng%`|The `%rng%` placeholder generates a random number between 0 and 10. You can also specify a custom range (%rng1-100%) even with negative numbers: `%rng-9--1%` (from -9 to -1) . |`.acr "Random number" %rng%`|Input: "Random number" Output: "2"|
 |`%rnduser%`|The `%rnduser%` placeholder mentions a random user from the server. |`.acr "Random user" %rnduser%`|Input: "Random number" Output: @SomeUser|

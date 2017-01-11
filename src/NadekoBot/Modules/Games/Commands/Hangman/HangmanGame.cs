@@ -12,37 +12,15 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands.Hangman
 {
-    public class HangmanModel
-    {
-        public List<HangmanObject> All { get; set; }
-        public List<HangmanObject> Animals { get; set; }
-        public List<HangmanObject> Countries { get; set; }
-        public List<HangmanObject> Movies { get; set; }
-        public List<HangmanObject> Things { get; set; }
-    }
-
     public class HangmanTermPool
     {
-        public enum HangmanTermType
-        {
-            All,
-            Animals,
-            Countries,
-            Movies,
-            Things
-        }
-
         const string termsPath = "data/hangman.json";
-        public static HangmanModel data { get; }
+        public static IReadOnlyDictionary<string, HangmanObject[]> data { get; }
         static HangmanTermPool()
         {
             try
             {
-                data = JsonConvert.DeserializeObject<HangmanModel>(File.ReadAllText(termsPath));
-                data.All = data.Animals.Concat(data.Countries)
-                                       .Concat(data.Movies)
-                                       .Concat(data.Things)
-                                       .ToList();
+                data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
             }
             catch (Exception ex)
             {
@@ -50,27 +28,31 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             }
         }
 
-        public static HangmanObject GetTerm(HangmanTermType type)
+        public static HangmanObject GetTerm(string type)
         {
+            if (string.IsNullOrWhiteSpace(type))
+                throw new ArgumentNullException(nameof(type));
+
+            type = type.Trim();
+
             var rng = new NadekoRandom();
-            switch (type)
-            {
-                case HangmanTermType.Animals:
-                    return data.Animals[rng.Next(0, data.Animals.Count)];
-                case HangmanTermType.Countries:
-                    return data.Countries[rng.Next(0, data.Countries.Count)];
-                case HangmanTermType.Movies:
-                    return data.Movies[rng.Next(0, data.Movies.Count)];
-                case HangmanTermType.Things:
-                    return data.Things[rng.Next(0, data.Things.Count)];
-                default:
-                    return data.All[rng.Next(0, data.All.Count)];
+
+            if (type == "All") {
+                var keys = data.Keys.ToArray();
+                type = keys[rng.Next(0, keys.Length)];
             }
 
+            HangmanObject[] termTypes;
+            data.TryGetValue(type, out termTypes);
+
+            if (termTypes.Length == 0)
+                return null;
+
+            return termTypes[rng.Next(0, termTypes.Length)];
         }
     }
 
-    public class HangmanGame
+    public class HangmanGame: IDisposable
     {
         private readonly Logger _log;
 
@@ -95,20 +77,23 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
         public bool GuessedAll => Guesses.IsSupersetOf(Term.Word.ToUpperInvariant()
                                                            .Where(c => char.IsLetter(c) || char.IsDigit(c)));
 
-        public HangmanTermPool.HangmanTermType TermType { get; }
+        public string TermType { get; }
 
         public event Action<HangmanGame> OnEnded;
 
-        public HangmanGame(IMessageChannel channel, HangmanTermPool.HangmanTermType type)
+        public HangmanGame(IMessageChannel channel, string type)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.GameChannel = channel;
-            this.TermType = type;
+            this.TermType = type.ToTitleCase();
         }
 
         public void Start()
         {
             this.Term = HangmanTermPool.GetTerm(TermType);
+
+            if (this.Term == null)
+                throw new KeyNotFoundException("Can't find a term with that type. Use hangmanlist command.");
             // start listening for answers when game starts
             NadekoBot.Client.MessageReceived += PotentialGuess;
         }
@@ -211,5 +196,11 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
    {(Errors > 1 ? "/" : "  ")} {(Errors > 2 ? "|" : "  ")} {(Errors > 3 ? "\\" : "  ")}       | 
     {(Errors > 4 ? "/" : "  ")} {(Errors > 5 ? "\\" : "  ")}        |
                /-\";
+
+        public void Dispose()
+        {
+            NadekoBot.Client.MessageReceived -= PotentialGuess;
+            OnEnded = null;
+        }
     }
 }

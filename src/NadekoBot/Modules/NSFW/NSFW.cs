@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.NSFW
             var link = await provider.ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(link))
             {
-                if (noError)
+                if (!noError)
                     await channel.SendErrorAsync("No results found.").ConfigureAwait(false);
                 return;
             }

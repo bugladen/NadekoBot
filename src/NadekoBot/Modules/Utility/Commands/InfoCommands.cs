@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName("**Voice Channels**").WithValue(voicechn.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Created At**").WithValue($"{createdAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Region**").WithValue(guild.VoiceRegionId.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Roles**").WithValue(guild.Roles.Count().ToString()).WithIsInline(true))
+                    .AddField(fb => fb.WithName("**Roles**").WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
                     .WithImageUrl(guild.IconUrl)
                     .WithColor(NadekoBot.OkColor);
                 if (guild.Emojis.Count() > 0)
@@ -92,8 +92,7 @@ namespace NadekoBot.Modules.Utility
                 embed.AddField(fb => fb.WithName("**ID**").WithValue(user.Id.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Joined Server**").WithValue($"{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Joined Discord**").WithValue($"{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Current Game**").WithValue($"{(user.Game?.Name == null ? "-" : user.Game.Value.Name)}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count})** - {string.Join(", ", user.GetRoles().Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
+                    .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count})** - {string.Join(", ", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
                     .WithThumbnailUrl(user.AvatarUrl)
                     .WithColor(NadekoBot.OkColor);
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -103,7 +102,7 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Activity(IUserMessage imsg, int page = 1)
+        public async Task Activity(int page = 1)
         {
             const int activityPerPage = 15;
             page -= 1;
@@ -119,7 +118,7 @@ namespace NadekoBot.Modules.Utility
                 str.AppendLine($"`{++startCount}.` **{kvp.Key}** [{kvp.Value/NadekoBot.Stats.GetUptime().TotalSeconds:F2}/s] - {kvp.Value} total");
             }
 
-            await imsg.Channel.EmbedAsync(new EmbedBuilder().WithTitle($"Activity Page #{page}")
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithTitle($"Activity Page #{page}")
                 .WithOkColor()
                 .WithFooter(efb => efb.WithText($"{NadekoBot.CommandHandler.UserMessagesSent.Count} users total."))
                 .WithDescription(str.ToString()));

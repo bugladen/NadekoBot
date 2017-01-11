@@ -17,6 +17,8 @@ using static NadekoBot.Modules.Administration.Administration;
 using NadekoBot.Modules.CustomReactions;
 using NadekoBot.Modules.Games;
 using System.Collections.Concurrent;
+using System.Threading;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Services
 {
@@ -28,6 +30,8 @@ namespace NadekoBot.Services
     }
     public class CommandHandler
     {
+        public const int GlobalCommandsCooldown = 1500;
+
         private ShardedDiscordClient _client;
         private CommandService _commandService;
         private Logger _log;
@@ -39,11 +43,19 @@ namespace NadekoBot.Services
         //userid/msg count
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
 
+        public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
+        private Timer clearUsersOnShortCooldown { get; }
+
         public CommandHandler(ShardedDiscordClient client, CommandService commandService)
         {
             _client = client;
             _commandService = commandService;
             _log = LogManager.GetCurrentClassLogger();
+
+            clearUsersOnShortCooldown = new Timer((_) =>
+            {
+                UsersOnShortCooldown.Clear();
+            }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
         }
         public async Task StartHandling()
         {
@@ -62,158 +74,202 @@ namespace NadekoBot.Services
             _client.MessageReceived += MessageReceivedHandler;
         }
 
-        private async void MessageReceivedHandler(SocketMessage msg)
+        private async Task<bool> TryRunCleverbot(SocketUserMessage usrMsg, IGuild guild)
         {
+            if (guild == null)
+                return false;
             try
             {
-
-                var usrMsg = msg as SocketUserMessage;
-                if (usrMsg == null)
-                    return;
-
-                if (!usrMsg.IsAuthor())
-                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
-
-                if (msg.Author.IsBot || !NadekoBot.Ready) //no bots
-                    return;
-
-                var guild = (msg.Channel as SocketTextChannel)?.Guild;
-
-                if (guild != null && guild.OwnerId != msg.Author.Id)
+                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg).ConfigureAwait(false);
+                if (cleverbotExecuted)
                 {
-                    //todo split checks into their own modules
-                    if (Permissions.FilterCommands.InviteFilteringChannels.Contains(msg.Channel.Id) ||
-                        Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id))
-                    {
-                        if (usrMsg.Content.IsDiscordInvite())
-                        {
-                            try
-                            {
-                                await usrMsg.DeleteAsync().ConfigureAwait(false);
-                                return;
-                            }
-                            catch (HttpException ex)
-                            {
-                                _log.Warn("I do not have permission to filter invites in channel with id " + msg.Channel.Id, ex);
-                            }
-                        }
-                    }
-
-                    var filteredWords = Permissions.FilterCommands.FilteredWordsForChannel(msg.Channel.Id, guild.Id).Concat(Permissions.FilterCommands.FilteredWordsForServer(guild.Id));
-                    var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
-                    if (filteredWords.Any(w => wordsInMessage.Contains(w)))
-                    {
-                        try
-                        {
-                            await usrMsg.DeleteAsync().ConfigureAwait(false);
-                            return;
-                        }
-                        catch (HttpException ex)
-                        {
-                            _log.Warn("I do not have permission to filter words in channel with id " + msg.Channel.Id, ex);
-                        }
-                    }
+                    _log.Info($@"CleverBot Executed
+        Server: {guild.Name} [{guild.Id}]
+        Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
+        UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
+        Message: {usrMsg.Content}");
+                    return true;
                 }
+            }
+            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+            return false;
+        }
 
-                BlacklistItem blacklistedItem;
-                if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
-                     (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == msg.Author.Id))) != null)
-                {
-                    return;
-                }
-#if !GLOBAL_NADEKO
-                try
-                {
-                    var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
+        private bool IsBlacklisted(IGuild guild, SocketUserMessage usrMsg) =>
+            (guild != null && BlacklistCommands.BlacklistedGuilds.Contains(guild.Id)) ||
+            BlacklistCommands.BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
+            BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
-                    if (cleverbotExecuted)
-                        return;
-                }
-                catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
 
-#endif
-                try
-                {
-                    // maybe this message is a custom reaction
-                    var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+        private async Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, Stopwatch sw)
+        {
+            await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
+            _log.Info("Command Executed after {4}s\n\t" +
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}",
+                        usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                        (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                        (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                        usrMsg.Content, // {3}
+                        sw.Elapsed.TotalSeconds);
+        }
 
-                    //if it was, don't execute the command
-                    if (crExecuted)
-                        return;
-                }
-                catch { }
-
-                string messageContent = usrMsg.Content;
-
-                var sw = new Stopwatch();
-                sw.Start();
-                var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
-                var command = exec.CommandInfo;
-                var permCache = exec.PermissionCache;
-                var result = exec.Result;
-                sw.Stop();
-                var channel = (msg.Channel as ITextChannel);
-                if (result.IsSuccess)
-                {
-                    await CommandExecuted(usrMsg, command);
-                    _log.Info("Command Executed after {4}s\n\t" +
-                                "User: {0}\n\t" +
-                                "Server: {1}\n\t" +
-                                "Channel: {2}\n\t" +
-                                "Message: {3}",
-                                msg.Author + " [" + msg.Author.Id + "]", // {0}
-                                (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                usrMsg.Content, // {3}
-                                sw.Elapsed.TotalSeconds // {4}
-                                );
-                }
-                else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
-                {
-                    _log.Warn("Command Errored after {5}s\n\t" +
+        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, Stopwatch sw)
+        {
+            _log.Warn("Command Errored after {5}s\n\t" +
                                 "User: {0}\n\t" +
                                 "Server: {1}\n\t" +
                                 "Channel: {2}\n\t" +
                                 "Message: {3}\n\t" +
                                 "Error: {4}",
-                                msg.Author + " [" + msg.Author.Id + "]", // {0}
+                                usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
                                 (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                                 (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                                 usrMsg.Content,// {3}
-                                result.ErrorReason, // {4}
+                                exec.Result.ErrorReason, // {4}
                                 sw.Elapsed.TotalSeconds // {5}
                                 );
-                    if (guild != null && command != null && result.Error == CommandError.Exception)
+        }
+
+        private async Task<bool> InviteFiltered(IGuild guild, SocketUserMessage usrMsg)
+        {
+            if ((Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
+                Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id)) &&
+                    usrMsg.Content.IsDiscordInvite())
+            {
+                try
+                {
+                    await usrMsg.DeleteAsync().ConfigureAwait(false);
+                    return true;
+                }
+                catch (HttpException ex)
+                {
+                    _log.Warn("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id, ex);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private async Task<bool> WordFiltered(IGuild guild, SocketUserMessage usrMsg)
+        {
+            var filteredChannelWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id);
+            var filteredServerWords = Permissions.FilterCommands.FilteredWordsForServer(guild.Id);
+            var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
+            if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
+            {
+                foreach (var word in wordsInMessage)
+                {
+                    if (filteredChannelWords.Contains(word) ||
+                        filteredServerWords.Contains(word))
                     {
-                        if (permCache != null && permCache.Verbose)
-                            try { await msg.Channel.SendMessageAsync("⚠️ " + result.ErrorReason).ConfigureAwait(false); } catch { }
+                        try
+                        {
+                            await usrMsg.DeleteAsync().ConfigureAwait(false);
+                        }
+                        catch (HttpException ex)
+                        {
+                            _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
+                        }
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private async void MessageReceivedHandler(SocketMessage msg)
+        {
+            try
+            {
+                if (msg.Author.IsBot || !NadekoBot.Ready) //no bots, wait until bot connected and initialized
+                    return;
+
+                var usrMsg = msg as SocketUserMessage;
+                if (usrMsg == null) //has to be an user message, not system/other messages.
+                    return;
+
+                // track how many messagges each user is sending
+                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+
+                // Bot will ignore commands which are ran more often than what specified by
+                // GlobalCommandsCooldown constant (miliseconds)
+                if (!UsersOnShortCooldown.Add(usrMsg.Author.Id))
+                    return;
+
+                var channel = msg.Channel as SocketTextChannel;
+                var guild = channel?.Guild;
+
+                if (guild != null && guild.OwnerId != msg.Author.Id)
+                {
+                    if (await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
+                        return;
+
+                    if (await WordFiltered(guild, usrMsg).ConfigureAwait(false))
+                        return;
+                }
+
+                if (IsBlacklisted(guild, usrMsg))
+                    return;
+
+                var cleverBotRan = await TryRunCleverbot(usrMsg, guild).ConfigureAwait(false);
+                if (cleverBotRan)
+                    return;
+
+                // maybe this message is a custom reaction
+                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+                if (crExecuted) //if it was, don't execute the command
+                    return;
+
+                string messageContent = usrMsg.Content;
+
+                // execute the command and measure the time it took
+                var sw = Stopwatch.StartNew();
+                var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
+                sw.Stop();
+
+                if (exec.Result.IsSuccess)
+                {
+                    await LogSuccessfulExecution(usrMsg, exec, channel, sw).ConfigureAwait(false);
+                }
+                else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
+                {
+                    LogErroredExecution(usrMsg, exec, channel, sw);
+                    if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
+                    {
+                        if (exec.PermissionCache != null && exec.PermissionCache.Verbose)
+                            try { await msg.Channel.SendMessageAsync("⚠️ " + exec.Result.ErrorReason).ConfigureAwait(false); } catch { }
                     }
                 }
                 else
                 {
                     if (msg.Channel is IPrivateChannel)
                     {
-                        //rofl, gotta do this to prevent this message from occuring on polls
+                        // rofl, gotta do this to prevent dm help message being sent to 
+                        // users who are voting on private polls (sending a number in a DM)
                         int vote;
                         if (int.TryParse(msg.Content, out vote)) return;
-
+                        
                         await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
-                        await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
+                        await DMForwardCommands.HandleDMForwarding(msg, ownerChannels).ConfigureAwait(false);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _log.Warn(ex, "Error in CommandHandler");
+                _log.Warn("Error in CommandHandler");
+                _log.Warn(ex);
                 if (ex.InnerException != null)
-                    _log.Warn(ex.InnerException, "Inner Exception of the error in CommandHandler");
+                {
+                    _log.Warn("Inner Exception of the error in CommandHandler");
+                    _log.Warn(ex.InnerException);
+                }
             }
-
-            return;
         }
+
         public Task<ExecuteCommandResult> ExecuteCommandAsync(CommandContext context, int argPos, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
             => ExecuteCommand(context, context.Message.Content.Substring(argPos), dependencyMap, multiMatchHandling);
 
@@ -307,20 +363,6 @@ namespace NadekoBot.Services
             }
 
             return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
-        }
-
-        public struct ExecuteCommandResult
-        {
-            public readonly CommandInfo CommandInfo;
-            public readonly PermissionCache PermissionCache;
-            public readonly IResult Result;
-
-            public ExecuteCommandResult(CommandInfo commandInfo, PermissionCache cache, IResult result)
-            {
-                this.CommandInfo = commandInfo;
-                this.PermissionCache = cache;
-                this.Result = result;
-            }
         }
     }
 }

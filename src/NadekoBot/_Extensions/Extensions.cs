@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using ImageSharp;
+using NadekoBot.Services.Discord;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -16,6 +18,73 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
+        private const string arrow_left = "⬅";
+        private const string arrow_right = "➡";
+        
+        /// <summary>
+        /// danny kamisama
+        /// </summary>
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null)
+        {
+            lastPage += 1;
+            var embed = pageFunc(currentPage).AddPaginatedFooter(currentPage, lastPage);
+
+            var msg = await channel.EmbedAsync(embed) as IUserMessage;
+
+            if (currentPage >= lastPage && lastPage == 1)
+                return;
+
+            await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
+            await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
+
+            await Task.Delay(2000).ConfigureAwait(false);
+
+            Action<SocketReaction> changePage = async r =>
+            {
+                try
+                {
+                    if (r.Emoji.Name == arrow_left)
+                    {
+                        if (currentPage == 1)
+                            return;
+                        await msg.ModifyAsync(x => x.Embed = pageFunc(--currentPage).AddPaginatedFooter(currentPage, lastPage).Build()).ConfigureAwait(false);
+                    }
+                    else if (r.Emoji.Name == arrow_right)
+                    {
+                        if (lastPage == null || lastPage > currentPage)
+                            await msg.ModifyAsync(x => x.Embed = pageFunc(++currentPage).AddPaginatedFooter(currentPage, lastPage).Build()).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex) { Console.WriteLine(ex); }
+            };
+
+            using (msg.OnReaction(changePage, changePage))
+            {
+                await Task.Delay(30000).ConfigureAwait(false);
+            }
+
+            await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+        }
+
+        private static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
+        {
+            if (lastPage != null)
+                return embed.WithFooter(efb => efb.WithText($"page {curPage} / {lastPage}"));
+            else
+                return embed.WithFooter(efb => efb.WithText($"page {curPage}"));
+        }
+
+        public static ReactionEventWrapper OnReaction(this IUserMessage msg, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
+        {
+            if (reactionRemoved == null)
+                reactionRemoved = delegate { };
+
+            var wrap = new ReactionEventWrapper(msg);
+            wrap.OnReactionAdded += reactionAdded;
+            wrap.OnReactionRemoved += reactionRemoved;
+            return wrap;
+        }
+
         public static void AddFakeHeaders(this HttpClient http)
         {
             http.DefaultRequestHeaders.Clear();
@@ -44,7 +113,8 @@ namespace NadekoBot.Extensions
 
         public static string GetPrefix(this ModuleInfo module) => NadekoBot.ModulePrefixes[module.GetTopLevelModule().Name];
 
-        public static ModuleInfo GetTopLevelModule(this ModuleInfo module) {
+        public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
+        {
             while (module.Parent != null)
             {
                 module = module.Parent;
@@ -93,7 +163,7 @@ namespace NadekoBot.Extensions
 
         public static bool IsInteger(this decimal number) => number == Math.Truncate(number);
 
-        public static string SanitizeMentions(this string str) => 
+        public static string SanitizeMentions(this string str) =>
             str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
@@ -105,7 +175,7 @@ namespace NadekoBot.Extensions
              => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string url = null)
-             => await(await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
                  .WithTitle(title).WithUrl(url));
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string url = null)
@@ -126,7 +196,7 @@ namespace NadekoBot.Extensions
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();
-        
+
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
              => ch.SendMessageAsync(msg, embed: embed);
 
@@ -153,7 +223,7 @@ namespace NadekoBot.Extensions
 ```");
         }
 
-        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3) => 
+        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3) =>
             ch.SendTableAsync("", items, howToPrint, columns);
 
         /// <summary>
@@ -286,7 +356,7 @@ namespace NadekoBot.Extensions
 
         }
 
-        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) => 
+        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
         public static int KiB(this int value) => value * 1024;
@@ -317,7 +387,7 @@ namespace NadekoBot.Extensions
 
             var canvasPixels = canvas.Lock();
             int offsetX = 0;
-            foreach (var img in imgList.Select(img=>img.Lock()))
+            foreach (var img in imgList.Select(img => img.Lock()))
             {
                 for (int i = 0; i < img.Width; i++)
                 {
@@ -326,7 +396,7 @@ namespace NadekoBot.Extensions
                         canvasPixels[i + offsetX, j] = img[i, j];
                     }
                 }
-                offsetX += img.Width;                
+                offsetX += img.Width;
             }
 
             return canvas;
