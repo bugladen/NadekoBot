@@ -28,6 +28,9 @@ namespace NadekoBot
         public event Action<SocketChannel> ChannelCreated = delegate { };
         public event Action<SocketChannel> ChannelDestroyed = delegate { };
         public event Action<SocketChannel, SocketChannel> ChannelUpdated = delegate { };
+        public event Action<ulong, Optional<SocketUserMessage>, SocketReaction> ReactionAdded = delegate { };
+        public event Action<ulong, Optional<SocketUserMessage>, SocketReaction> ReactionRemoved = delegate { };
+        public event Action<ulong, Optional<SocketUserMessage>> ReactionsCleared = delegate { };
 
         public event Action<SocketGuild> JoinedGuild = delegate { };
         public event Action<SocketGuild> LeftGuild = delegate { };
@@ -74,6 +77,9 @@ namespace NadekoBot
                 client.ChannelUpdated += (arg1, arg2) => { ChannelUpdated(arg1, arg2); return Task.CompletedTask; };
                 client.JoinedGuild += (arg1) => { JoinedGuild(arg1); ++_guildCount; return Task.CompletedTask; };
                 client.LeftGuild += (arg1) => { LeftGuild(arg1); --_guildCount;  return Task.CompletedTask; };
+                client.ReactionAdded += (arg1, arg2, arg3) => { ReactionAdded(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.ReactionRemoved += (arg1, arg2, arg3) => { ReactionRemoved(arg1, arg2, arg3); return Task.CompletedTask; };
+                client.ReactionsCleared += (arg1, arg2) => { ReactionsCleared(arg1, arg2); return Task.CompletedTask; };
 
                 _log.Info($"Shard #{i} initialized.");
 #if GLOBAL_NADEKO
