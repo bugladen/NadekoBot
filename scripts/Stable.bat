@@ -48,9 +48,6 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	GOTO :end
 :backupinstall
 	TITLE Backing up old files
-	ECHO.
-	ECHO Make sure to close any files such as NadekoBot.db before PRESSing ANY KEY TO CONTINUE to prevent data loss
-	PAUSE >nul 2>&1
 	::Recursively copies all files and folders from NadekoBot to NadekoBot_Old
 	ROBOCOPY "%root%NadekoBot" "%root%NadekoBot_Old" /MIR >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
