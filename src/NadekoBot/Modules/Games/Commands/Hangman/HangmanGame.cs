@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
         }
     }
 
-    public class HangmanGame
+    public class HangmanGame: IDisposable
     {
         private readonly Logger _log;
 
@@ -196,5 +196,11 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
    {(Errors > 1 ? "/" : "  ")} {(Errors > 2 ? "|" : "  ")} {(Errors > 3 ? "\\" : "  ")}       | 
     {(Errors > 4 ? "/" : "  ")} {(Errors > 5 ? "\\" : "  ")}        |
                /-\";
+
+        public void Dispose()
+        {
+            NadekoBot.Client.MessageReceived -= PotentialGuess;
+            OnEnded = null;
+        }
     }
 }

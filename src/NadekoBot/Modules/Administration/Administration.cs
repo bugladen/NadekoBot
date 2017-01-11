@@ -460,6 +460,9 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task Prune(int count)
         {
+            if (count < 1)
+                return;
+            count += 1;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
@@ -472,29 +475,16 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task Prune(IGuildUser user, int count = 100)
         {
+            if (count < 1)
+                return;
+
+            if (user.Id == Context.User.Id)
+                count += 1;
 
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten()).Where(m => m.Author == user);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task SaveChat(int cnt)
-        {
-            var sb = new StringBuilder();
-            var msgs = new List<IMessage>(cnt);
-            await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
-
-            var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
-            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
-            await (Context.User as IGuildUser).SendFileAsync(
-                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false),
-title, title).ConfigureAwait(false);
-        }
-
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

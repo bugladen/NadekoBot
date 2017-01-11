@@ -438,6 +438,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to antilist antilst.
+        /// </summary>
+        public static string antilist_cmd {
+            get {
+                return ResourceManager.GetString("antilist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows currently enabled protection features..
+        /// </summary>
+        public static string antilist_desc {
+            get {
+                return ResourceManager.GetString("antilist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}antilist`.
+        /// </summary>
+        public static string antilist_usage {
+            get {
+                return ResourceManager.GetString("antilist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to antiraid.
         /// </summary>
         public static string antiraid_cmd {
@@ -488,6 +515,33 @@ namespace NadekoBot.Resources {
         public static string antispam_usage {
             get {
                 return ResourceManager.GetString("antispam_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to antispamignore.
+        /// </summary>
+        public static string antispamignore_cmd {
+            get {
+                return ResourceManager.GetString("antispamignore_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether antispam ignores current channel. Antispam must be enabled..
+        /// </summary>
+        public static string antispamignore_desc {
+            get {
+                return ResourceManager.GetString("antispamignore_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}antispamignore`.
+        /// </summary>
+        public static string antispamignore_usage {
+            get {
+                return ResourceManager.GetString("antispamignore_usage", resourceCulture);
             }
         }
         
@@ -5712,7 +5766,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Repeat a message every X minutes. If no parameters are specified, repeat is disabled..
+        ///    Looks up a localized string similar to Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total..
         /// </summary>
         public static string repeat_desc {
             get {
@@ -5739,7 +5793,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Immediately shows the repeat message and restarts the timer..
+        ///    Looks up a localized string similar to Immediately shows the repeat message on a certain index and restarts its timer..
         /// </summary>
         public static string repeatinvoke_desc {
             get {
@@ -5748,11 +5802,38 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}repinv`.
+        ///    Looks up a localized string similar to `{0}repinv 1`.
         /// </summary>
         public static string repeatinvoke_usage {
             get {
                 return ResourceManager.GetString("repeatinvoke_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to repeatlist replst.
+        /// </summary>
+        public static string repeatlist_cmd {
+            get {
+                return ResourceManager.GetString("repeatlist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows currently repeating messages and their indexes..
+        /// </summary>
+        public static string repeatlist_desc {
+            get {
+                return ResourceManager.GetString("repeatlist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}repeatlist`.
+        /// </summary>
+        public static string repeatlist_usage {
+            get {
+                return ResourceManager.GetString("repeatlist_usage", resourceCulture);
             }
         }
         
@@ -5780,6 +5861,33 @@ namespace NadekoBot.Resources {
         public static string repeatpl_usage {
             get {
                 return ResourceManager.GetString("repeatpl_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to repeatremove reprm.
+        /// </summary>
+        public static string repeatremove_cmd {
+            get {
+                return ResourceManager.GetString("repeatremove_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a repeating message on a specified index. Use `{0}repeatlist` to see indexes..
+        /// </summary>
+        public static string repeatremove_desc {
+            get {
+                return ResourceManager.GetString("repeatremove_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}reprm 2`.
+        /// </summary>
+        public static string repeatremove_usage {
+            get {
+                return ResourceManager.GetString("repeatremove_usage", resourceCulture);
             }
         }
         

@@ -13,6 +13,8 @@ using System.Net.Http;
 using System.Collections.Concurrent;
 using System.Threading;
 using ImageSharp;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -82,7 +84,7 @@ namespace NadekoBot.Modules.Utility
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
             });
-            
+
             await channel.SendFileAsync(images, "magicalgirl.jpg", $"Rotating **{role.Name}** role's color.").ConfigureAwait(false);
         }
 
@@ -247,9 +249,9 @@ namespace NadekoBot.Modules.Utility
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
-                await channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync("No topic set.").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("Channel topic", topic).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -325,6 +327,23 @@ namespace NadekoBot.Modules.Utility
                                                                            .WithValue($"```css\nID: {g.Id}\nMembers: {g.Users.Count}\nOwnerID: {g.OwnerId} ```")
                                                                            .WithIsInline(false))))
                          .ConfigureAwait(false);
+        }
+
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task SaveChat(int cnt)
+        {
+            var sb = new StringBuilder();
+            var msgs = new List<IMessage>(cnt);
+            await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
+
+            var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
+            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
+                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
+            await Context.User.SendFileAsync(
+                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
         }
     }
 }
