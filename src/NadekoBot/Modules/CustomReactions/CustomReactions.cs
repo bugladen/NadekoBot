@@ -145,13 +145,17 @@ namespace NadekoBot.Modules.CustomReactions
             if (customReactions == null || !customReactions.Any())
                 await Context.Channel.SendErrorAsync("No custom reactions found").ConfigureAwait(false);
             else
-                await Context.Channel.SendConfirmAsync(
-                    $"Page {page} of custom reactions:",
-                    string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
-                                                     .Skip((page - 1) * 20)
+            {
+                var lastPage = customReactions.Count / 20;
+                await Context.Channel.SendPaginatedConfirmAsync(page, curPage =>
+                    new EmbedBuilder().WithOkColor()
+                        .WithTitle("Custom reactions")
+                        .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
+                                                     .Skip((curPage - 1) * 20)
                                                      .Take(20)
-                                                     .Select(cr => $"`#{cr.Id}`  `Trigger:` {cr.Trigger}")))
+                                                     .Select(cr => $"`#{cr.Id}`  `Trigger:` {cr.Trigger}"))), lastPage)
                                  .ConfigureAwait(false);
+            }
         }
 
         public enum All
@@ -200,14 +204,22 @@ namespace NadekoBot.Modules.CustomReactions
             if (customReactions == null || !customReactions.Any())
                 await Context.Channel.SendErrorAsync("No custom reactions found").ConfigureAwait(false);
             else
-                await Context.Channel.SendConfirmAsync($"Page {page} of custom reactions (grouped):",
-                                    string.Join("\r\n", customReactions
-                                                        .GroupBy(cr => cr.Trigger)
-                                                        .OrderBy(cr => cr.Key)
-                                                        .Skip((page - 1) * 20)
-                                                        .Take(20)
-                                                        .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`")))
+            {
+                var ordered = customReactions
+                    .GroupBy(cr => cr.Trigger)
+                    .OrderBy(cr => cr.Key)
+                    .ToList();
+
+                var lastPage = ordered.Count / 20;
+                await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) =>
+                    new EmbedBuilder().WithOkColor()
+                        .WithTitle($"Custom Reactions (grouped)")
+                        .WithDescription(string.Join("\r\n", ordered
+                                                         .Skip((curPage - 1) * 20)
+                                                         .Take(20)
+                                                         .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))), lastPage)
                              .ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -300,13 +312,14 @@ namespace NadekoBot.Modules.CustomReactions
         {
             if (page < 1)
                 return;
-            await Context.Channel.EmbedAsync(ReactionStats.OrderByDescending(x => x.Value)
-                                               .Skip((page - 1) * 9)
-                                               .Take(9)
-                                               .Aggregate(new EmbedBuilder().WithOkColor().WithTitle($"Custom Reaction stats page #{page}"),
-                                                         (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true)))
-                                                         )
-                              .ConfigureAwait(false);
+            var ordered = ReactionStats.OrderByDescending(x => x.Value).ToList();
+            var lastPage = ordered.Count / 9;
+            await Context.Channel.SendPaginatedConfirmAsync(page,
+                (curPage) => ordered.Skip((curPage - 1) * 9)
+                                    .Take(9)
+                                    .Aggregate(new EmbedBuilder().WithOkColor().WithTitle($"Custom Reaction Stats"),
+                                            (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true))), lastPage)
+                .ConfigureAwait(false);
         }
     }
 }

@@ -183,36 +183,41 @@ namespace NadekoBot.Modules.Music
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
             const int itemsPerPage = 10;
-            int startAt = itemsPerPage * (page - 1);
-            var number = 0 + startAt;
 
             var total = musicPlayer.TotalPlaytime;
             var maxPlaytime = musicPlayer.MaxPlaytimeSeconds;
-            var embed = new EmbedBuilder()
-                .WithAuthor(eab => eab.WithName($"Player Queue - Page {page}")
-                                      .WithMusicIcon())
-                .WithDescription(string.Join("\n", musicPlayer.Playlist
-                    .Skip(startAt)
-                    .Take(10)
-                    .Select(v => $"`{++number}.` {v.PrettyFullName}")))
-                .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
-$"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
-(musicPlayer.FairPlay ? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
-                .WithOkColor();
+            var lastPage = musicPlayer.Playlist.Count / itemsPerPage;
+            Func<int, EmbedBuilder> printAction = (curPage) =>
+            {
+                int startAt = itemsPerPage * (curPage - 1);
+                var number = 0 + startAt;
+                var embed = new EmbedBuilder()
+                    .WithAuthor(eab => eab.WithName($"Player Queue")
+                                          .WithMusicIcon())
+                    .WithDescription(string.Join("\n", musicPlayer.Playlist
+                        .Skip(startAt)
+                        .Take(itemsPerPage)
+                        .Select(v => $"`{++number}.` {v.PrettyFullName}")))
+                    .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
+    $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
+    (musicPlayer.FairPlay ? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
+                    .WithOkColor();
 
-            if (musicPlayer.RepeatSong)
-            {
-                embed.WithTitle($"🔂 Repeating Song: {currentSong.SongInfo.Title} | {currentSong.PrettyFullTime}");
-            }
-            else if (musicPlayer.RepeatPlaylist)
-            {
-                embed.WithTitle("🔁 Repeating Playlist");
-            }
-            if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
-            {
-                embed.WithTitle("🎵 Song queue is full!");
-            }
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                if (musicPlayer.RepeatSong)
+                {
+                    embed.WithTitle($"🔂 Repeating Song: {currentSong.SongInfo.Title} | {currentSong.PrettyFullTime}");
+                }
+                else if (musicPlayer.RepeatPlaylist)
+                {
+                    embed.WithTitle("🔁 Repeating Playlist");
+                }
+                if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
+                {
+                    embed.WithTitle("🎵 Song queue is full!");
+                }
+                return embed;
+            };
+            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
