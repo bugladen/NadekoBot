@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Games
 
                     await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, "Picked flower(s).", msgs.Count, false).ConfigureAwait(false);
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {Gambling.Gambling.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
                     var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                     msg.DeleteAfter(10);
                 }
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Plant()
             {
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, "Planted a flower.", 1, false).ConfigureAwait(false);
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Planted a {Gambling.Gambling.CurrencyName}", 1, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await Context.Channel.SendErrorAsync($"You don't have any {Gambling.Gambling.CurrencyPluralName}.").ConfigureAwait(false);
