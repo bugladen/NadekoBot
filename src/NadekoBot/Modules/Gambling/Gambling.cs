@@ -70,11 +70,11 @@ namespace NadekoBot.Modules.Gambling
             var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
             if (!success)
             {
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Gambling
 
             await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false);
 
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} awarded {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} to <@{usrId}>!").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} awarded {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to <@{usrId}>!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Gambling
                                                       amount)))
                          .ConfigureAwait(false);
 
-            await Context.Channel.SendConfirmAsync($"Awarded `{amount}` {Gambling.CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
+            await Context.Channel.SendConfirmAsync($"Awarded `{amount}` {CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
                          .ConfigureAwait(false);
 
         }
@@ -126,9 +126,9 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             if (await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user}!").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from {user}!").ConfigureAwait(false);
             else
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from {user} because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from {user} because the user doesn't have that much {CurrencyPluralName}!").ConfigureAwait(false);
         }
 
 
@@ -140,9 +140,9 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             if (await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
             else
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? Gambling.CurrencyName : Gambling.CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {Gambling.CurrencyPluralName}!").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {CurrencyPluralName}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Gambling
 
             if (userFlowers < amount)
             {
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}. You only have {userFlowers}{Gambling.CurrencySign}.").ConfigureAwait(false);
+                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}. You only have {userFlowers}{CurrencySign}.").ConfigureAwait(false);
                 return;
             }
 
@@ -173,17 +173,17 @@ namespace NadekoBot.Modules.Gambling
             }
             else if (rng < 91)
             {
-                str += $"Congratulations! You won {amount * 2}{Gambling.CurrencySign} for rolling above 66";
+                str += $"Congratulations! You won {amount * 2}{CurrencySign} for rolling above 66";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);
             }
             else if (rng < 100)
             {
-                str += $"Congratulations! You won {amount * 3}{Gambling.CurrencySign} for rolling above 90.";
+                str += $"Congratulations! You won {amount * 3}{CurrencySign} for rolling above 90.";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 3, false).ConfigureAwait(false);
             }
             else
             {
-                str += $"👑 Congratulations! You won {amount * 10}{Gambling.CurrencySign} for rolling **100**. 👑";
+                str += $"👑 Congratulations! You won {amount * 10}{CurrencySign} for rolling **100**. 👑";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 10, false).ConfigureAwait(false);
             }
 

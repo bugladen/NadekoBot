@@ -12,7 +12,6 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Concurrent;
-using static NadekoBot.Modules.Gambling.Gambling;
 
 namespace NadekoBot.Modules.Pokemon
 {
@@ -254,7 +253,7 @@ namespace NadekoBot.Modules.Pokemon
                 {
                         if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
                         {
-                            try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {CurrencyName}s.").ConfigureAwait(false); } catch { }
+                            try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {NadekoBot.BotConfig.CurrencyName}s.").ConfigureAwait(false); } catch { }
                             return;
                         }
                 }
@@ -267,15 +266,15 @@ namespace NadekoBot.Modules.Pokemon
                     Stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
                     if (target == "yourself")
                     {
-                        await Context.Channel.SendMessageAsync($"You revived yourself with one {CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendMessageAsync($"You revived yourself with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
                     }
                     else
                     {
-                        await Context.Channel.SendMessageAsync($"{user.Mention} revived {targetUser.Mention} with one {CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendMessageAsync($"{user.Mention} revived {targetUser.Mention} with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
                     }
                    return;
                 }
-                await Context.Channel.SendMessageAsync($"{user.Mention} healed {targetUser.Mention} with one {CurrencySign}").ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync($"{user.Mention} healed {targetUser.Mention} with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
                 return;
             }
             else
@@ -329,7 +328,7 @@ namespace NadekoBot.Modules.Pokemon
             {
                 if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"{user.Mention} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
-                    try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {CurrencyName}s.").ConfigureAwait(false); } catch { }
+                    try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {NadekoBot.BotConfig.CurrencyName}s.").ConfigureAwait(false); } catch { }
                     return;
                 }
             }
@@ -362,7 +361,7 @@ namespace NadekoBot.Modules.Pokemon
             }
 
             //Now for the response
-            await Context.Channel.SendMessageAsync($"Set type of {user.Mention} to {typeTargeted}{targetType.Icon} for a {CurrencySign}").ConfigureAwait(false);
+            await Context.Channel.SendMessageAsync($"Set type of {user.Mention} to {typeTargeted}{targetType.Icon} for a {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
         }
 
     }
