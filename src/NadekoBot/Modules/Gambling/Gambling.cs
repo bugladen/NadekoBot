@@ -20,14 +20,9 @@ namespace NadekoBot.Modules.Gambling
 
         static Gambling()
         {
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var conf = uow.BotConfig.GetOrCreate();
-
-                CurrencyName = conf.CurrencyName;
-                CurrencySign = conf.CurrencySign;
-                CurrencyPluralName = conf.CurrencyPluralName;
-            }
+            CurrencyName = NadekoBot.BotConfig.CurrencyName;
+            CurrencyPluralName = NadekoBot.BotConfig.CurrencyPluralName;
+            CurrencySign = NadekoBot.BotConfig.CurrencySign;
         }
 
         public static long GetCurrency(ulong id)

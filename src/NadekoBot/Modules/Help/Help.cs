@@ -15,26 +15,10 @@ namespace NadekoBot.Modules.Help
     [NadekoModule("Help", "-")]
     public partial class Help : DiscordModule
     {
-        private static string helpString { get; }
+        private static string helpString { get; } = NadekoBot.BotConfig.HelpString;
         public static string HelpString => String.Format(helpString, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);
 
-        public static string DMHelpString { get; }
-
-        static Help()
-        {
-
-            //todo don't cache this, just query db when someone wants -h
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var config = uow.BotConfig.GetOrCreate();
-                helpString = config.HelpString;
-                DMHelpString = config.DMHelpString;
-            }
-        }
-
-        public Help() : base()
-        {
-        }
+        public static string DMHelpString { get; } = NadekoBot.BotConfig.DMHelpString;
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Modules()

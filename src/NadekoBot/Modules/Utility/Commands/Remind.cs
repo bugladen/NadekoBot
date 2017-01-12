@@ -40,9 +40,8 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     reminders = uow.Reminders.GetAll().ToList();
-
-                    RemindMessageFormat = uow.BotConfig.GetOrCreate().RemindMessageFormat;
                 }
+                RemindMessageFormat = NadekoBot.BotConfig.RemindMessageFormat;
 
                 foreach (var r in reminders)
                 {

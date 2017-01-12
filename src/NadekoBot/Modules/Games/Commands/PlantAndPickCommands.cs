@@ -38,32 +38,17 @@ namespace NadekoBot.Modules.Games
 
             private static ConcurrentHashSet<ulong> usersRecentlyPicked { get; } = new ConcurrentHashSet<ulong>();
 
-            private static float chance { get; }
-            private static int cooldown { get; }
             private static Logger _log { get; }
 
             static PlantPickCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                var sw = Stopwatch.StartNew();
-
 
 #if !GLOBAL_NADEKO
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
 #endif
-
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var conf = uow.BotConfig.GetOrCreate();
-                    var x =
-                    generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
-                        .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
-                    chance = conf.CurrencyGenerationChance;
-                    cooldown = conf.CurrencyGenerationCooldown;
-                }
-
-                sw.Stop();
-                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
+                generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
+                    .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
             }
 
             private static async void PotentialFlowerGeneration(SocketMessage imsg)
@@ -84,10 +69,10 @@ namespace NadekoBot.Modules.Games
                     var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
                     var rng = new NadekoRandom();
 
-                    if (DateTime.Now - TimeSpan.FromSeconds(cooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    if (DateTime.Now - TimeSpan.FromSeconds(NadekoBot.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
                         return;
 
-                    var num = rng.Next(1, 101) + chance * 100;
+                    var num = rng.Next(1, 101) + NadekoBot.BotConfig.CurrencyGenerationChance * 100;
 
                     if (num > 100)
                     {
