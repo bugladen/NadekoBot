@@ -78,14 +78,32 @@ namespace NadekoBot.Modules.Games
                     {
                         lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
 
-                        var sent = await channel.SendFileAsync(
-                            File.Open(GetRandomCurrencyImagePath(), FileMode.OpenOrCreate),
-                            "RandomFlower.jpg",
-                            $"❗ A random { NadekoBot.BotConfig.CurrencyName } appeared! Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
-                                .ConfigureAwait(false);
-                        plantedFlowers.AddOrUpdate(channel.Id, new List<IUserMessage>() { sent }, (id, old) => { old.Add(sent); return old; });
+                        var dropAmount = NadekoBot.BotConfig.CurrencyDropAmount;
 
+                        if (dropAmount > 0)
+                        {
+                            var msgs = new List<IUserMessage>(dropAmount);
 
+                            string firstPart;
+                            if (dropAmount == 1)
+                            {
+                                firstPart = $"A random { NadekoBot.BotConfig.CurrencyName } appeared!";
+                            }
+                            else
+                            {
+                                firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
+                            }
+
+                            var sent = await channel.SendFileAsync(
+                                File.Open(GetRandomCurrencyImagePath(), FileMode.OpenOrCreate),
+                                "RandomFlower.jpg",
+                                $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
+                                    .ConfigureAwait(false);
+
+                            msgs.Add(sent);
+
+                            plantedFlowers.AddOrUpdate(channel.Id, msgs, (id, old) => { old.AddRange(msgs); return old; });
+                        }
                     }
                 }
                 catch { }
@@ -108,11 +126,11 @@ namespace NadekoBot.Modules.Games
 
                     List<IUserMessage> msgs;
 
-                try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
-                if (!plantedFlowers.TryRemove(channel.Id, out msgs))
-                    return;
+                    try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
+                    if (!plantedFlowers.TryRemove(channel.Id, out msgs))
+                        return;
 
-                    await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
+                    await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
                     await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {NadekoBot.BotConfig.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
                     var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{NadekoBot.BotConfig.CurrencySign}!").ConfigureAwait(false);

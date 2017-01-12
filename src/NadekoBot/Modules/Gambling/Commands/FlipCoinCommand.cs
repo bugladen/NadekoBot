@@ -53,9 +53,9 @@ namespace NadekoBot.Modules.Gambling
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
                     return;
 
-                if (amount < 3)
+                if (amount < NadekoBot.BotConfig.MinimumBetAmount)
                 {
-                    await Context.Channel.SendErrorAsync($"You can't bet less than 3{CurrencySign}.")
+                    await Context.Channel.SendErrorAsync($"You can't bet less than {NadekoBot.BotConfig.MinimumBetAmount}{CurrencySign}.")
                                  .ConfigureAwait(false);
                     return;
                 }
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Gambling
                 string str;
                 if (isHeads == result)
                 { 
-                    var toWin = (int)Math.Round(amount * 1.8);
+                    var toWin = (int)Math.Round(amount * NadekoBot.BotConfig.BetflipMultiplier);
                     str = $"{Context.User.Mention}`You guessed it!` You won {toWin}{CurrencySign}";
                     await CurrencyHandler.AddCurrencyAsync(Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }

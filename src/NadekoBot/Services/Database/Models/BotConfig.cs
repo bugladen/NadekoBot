@@ -18,11 +18,21 @@ namespace NadekoBot.Services.Database.Models
 
         public bool RotatingStatuses { get; set; } = false;
         public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
-
-
+        
+        //currency
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "Nadeko Flower";
         public string CurrencyPluralName { get; set; } = "Nadeko Flowers";
+
+        public int TriviaCurrencyReward { get; set; } = 0;
+        public int MinimumBetAmount { get; set; } = 3;
+        public float BetflipMultiplier { get; set; } = 1.8f;
+        public int CurrencyDropAmount { get; set; } = 1;
+        public float Betroll67Multiplier { get; set; } = 2;
+        public float Betroll91Multiplier { get; set; } = 3;
+        public float Betroll100Multiplier { get; set; } = 10;
+        public HashSet<CommandPrice> CommandPrices { get; set; } = new HashSet<CommandPrice>();
+
 
         public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
         public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();

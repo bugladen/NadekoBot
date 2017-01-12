@@ -173,17 +173,17 @@ namespace NadekoBot.Modules.Gambling
             }
             else if (rng < 91)
             {
-                str += $"Congratulations! You won {amount * 2}{CurrencySign} for rolling above 66";
+                str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll67Multiplier}{CurrencySign} for rolling above 66";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);
             }
             else if (rng < 100)
             {
-                str += $"Congratulations! You won {amount * 3}{CurrencySign} for rolling above 90.";
+                str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll91Multiplier}{CurrencySign} for rolling above 90.";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 3, false).ConfigureAwait(false);
             }
             else
             {
-                str += $"👑 Congratulations! You won {amount * 10}{CurrencySign} for rolling **100**. 👑";
+                str += $"👑 Congratulations! You won {amount * NadekoBot.BotConfig.Betroll100Multiplier}{CurrencySign} for rolling **100**. 👑";
                 await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 10, false).ConfigureAwait(false);
             }
 
