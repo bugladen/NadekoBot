@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Administration
             private static Logger _log { get; }
 
             private static string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
-            private static string currentTime = $"{DateTime.Now:HH:mm:ss}";
+            private static string currentTime => $"{DateTime.Now:HH:mm:ss}";
 
             public static ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
