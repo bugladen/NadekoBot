@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Help
 
             await channel.SendConfirmAsync(
 $@"You can support the NadekoBot project on patreon. <https://patreon.com/nadekobot> or
-You can send donations to `nadekodiscordbot@gmail.com`
+Paypal <https://paypal.me/Kwoth>
 Don't forget to leave your discord name or id in the message.
 
 **Thank you** ♥️").ConfigureAwait(false);
