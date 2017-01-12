@@ -55,14 +55,14 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 3)
                 {
-                    await Context.Channel.SendErrorAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                    await Context.Channel.SendErrorAsync($"You can't bet less than 3{CurrencySign}.")
                                  .ConfigureAwait(false);
                     return;
                 }
                 var removed = await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Betflip Gamble", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {Gambling.CurrencyPluralName}.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
                 //heads = true
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Gambling
                 if (isHeads == result)
                 { 
                     var toWin = (int)Math.Round(amount * 1.8);
-                    str = $"{Context.User.Mention}`You guessed it!` You won {toWin}{Gambling.CurrencySign}";
+                    str = $"{Context.User.Mention}`You guessed it!` You won {toWin}{CurrencySign}";
                     await CurrencyHandler.AddCurrencyAsync(Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }
                 else

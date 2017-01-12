@@ -38,6 +38,7 @@ namespace NadekoBot
         public static bool Ready { get; private set; }
 
         public static IEnumerable<GuildConfig> AllGuildConfigs { get; }
+        public static BotConfig BotConfig { get; }
 
         static NadekoBot()
         {
@@ -47,6 +48,7 @@ namespace NadekoBot
             using (var uow = DbHandler.UnitOfWork())
             {
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs();
+                BotConfig = uow.BotConfig.GetOrCreate();
             }
         }
 
@@ -98,10 +100,9 @@ namespace NadekoBot
             _log.Info("Connected");
 
             //load commands and prefixes
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.OrderByDescending(mp => mp.Prefix.Length).ToDictionary(m => m.ModuleName, m => m.Prefix));
-            }
+
+            ModulePrefixes = new ConcurrentDictionary<string, string>(NadekoBot.BotConfig.ModulePrefixes.OrderByDescending(mp => mp.Prefix.Length).ToDictionary(m => m.ModuleName, m => m.Prefix));
+
             // start handling messages received in commandhandler
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
