@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Games
 
                         if (dropAmount > 0)
                         {
-                            var msgs = new List<IUserMessage>(dropAmount);
+                            var msgs = new IUserMessage[dropAmount];
 
                             string firstPart;
                             if (dropAmount == 1)
@@ -100,9 +100,9 @@ namespace NadekoBot.Modules.Games
                                 $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                     .ConfigureAwait(false);
 
-                            msgs.Add(sent);
+                            msgs[0] = sent;
 
-                            plantedFlowers.AddOrUpdate(channel.Id, msgs, (id, old) => { old.AddRange(msgs); return old; });
+                            plantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                         }
                     }
                 }
