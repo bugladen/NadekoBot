@@ -174,17 +174,17 @@ namespace NadekoBot.Modules.Gambling
             else if (rng < 91)
             {
                 str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll67Multiplier}{CurrencySign} for rolling above 66";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
             }
             else if (rng < 100)
             {
                 str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll91Multiplier}{CurrencySign} for rolling above 90.";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 3, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
             }
             else
             {
                 str += $"👑 Congratulations! You won {amount * NadekoBot.BotConfig.Betroll100Multiplier}{CurrencySign} for rolling **100**. 👑";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", amount * 10, false).ConfigureAwait(false);
+                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
             }
 
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
