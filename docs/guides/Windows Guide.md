@@ -80,11 +80,20 @@ ________________________________________________________________________________
 - You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
-#### Setting Up NadekoBot For Music
-##### Prerequisites
-- 1) [FFMPEG][FFMPEG] installed.
-- 2) Setting up API keys.
+### Setting Up NadekoBot For Music
 
+In order to have a functioning music module, you need to install ffmpeg and setup api keys.
+
+#### Manual `ffmpeg` setup 
+- Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
+- Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
+- EXTRACT it using `7zip` and place the FOLDER `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
+- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
+- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
+- Setup your API keys as explained above.
+- **Restart your computer**
+
+#### Api keys setup
 - Follow these steps on how to setup Google API keys:
     - Go to [Google Console][Google Console] and log in.
     - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
@@ -98,22 +107,12 @@ ________________________________________________________________________________
     - Enter a name for the app and create it. 
     - You will need to fill out an application form to request access to the Soundcloud API.
     - All requests for an API key must go through the review process, where applications will be reviewed on a case by case basis, in line with Soundcloud API Terms of Use. If your application is successful, you will receive an API key. 
-- **Restart your computer**.
+- **Restart your computer**
 
-####Manual `ffmpeg` setup 
-**Do this step in case you were not able to install `ffmpeg` with the installer.**
 
-- Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
-- Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
-- Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
-- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
-- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
-- Setup your API keys as explained above.
-- Restart your computer.
 
 [.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
 [Git]: https://git-scm.com/download/win
-[FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Notepad++]: https://notepad-plus-plus.org/
