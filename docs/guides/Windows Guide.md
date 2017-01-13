@@ -7,12 +7,11 @@ ________________________________________________________________________________
 #### Prerequisites 
 - 1) [.NET Core SDK][.NET Core SDK]
 - 2) [Git][Git]
-- 3) [FFMPEG][FFMPEG] 
-- 4) Google Account
-- 5) Soundcloud Account (if you want soundcloud support)
-- 6) [7zip][7zip] (or whatever you are using, WinRar)
-- 7) [Notepad++][Notepad++]
-- 8) Windows 8 or later
+- 3) Google Account
+- 4) Soundcloud Account (if you want soundcloud support)
+- 5) [7zip][7zip] (or whatever you are using, WinRar)
+- 6) [Notepad++][Notepad++]
+- 7) Windows 8 or later
 
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
