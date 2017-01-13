@@ -109,5 +109,5 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	RMDIR /S /Q "%installtemp%" >nul 2>&1
 	ECHO.
 	ECHO Installation complete, press any key to close this window!
-	PAUSE >nul 2>&1
+	timeout /t 5
 	del Stable.bat
