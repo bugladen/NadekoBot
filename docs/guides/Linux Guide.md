@@ -74,10 +74,6 @@ sudo apt-get dist-upgrade
 
 **NOTE:** If you are running **Debian 8 Jessie**, please, follow these steps:
 
-`wget http://luxcaeli.de/installer.sh && sudo bash installer.sh` *Thanks to Eleria <3*
-
-In case you are not able to install it with **installer**, follow these steps:
-
 ```
 sudo apt-get update
 echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list

@@ -348,7 +348,8 @@ namespace NadekoBot.Services
 
                     if (module.Name == typeof(Permissions).Name)
                     {
-                        if (!((IGuildUser)context.User).GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
+                        var guildUser = (IGuildUser)context.User;
+                        if (!guildUser.GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && guildUser.Id != guildUser.Guild.OwnerId)
                         {
                             return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }

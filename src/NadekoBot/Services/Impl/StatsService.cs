@@ -14,7 +14,7 @@ namespace NadekoBot.Services.Impl
         private ShardedDiscordClient client;
         private DateTime started;
 
-        public const string BotVersion = "1.1.0-beta";
+        public const string BotVersion = "1.1.0";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
@@ -27,7 +27,6 @@ namespace NadekoBot.Services.Impl
         public int TextChannels => _textChannels;
         private int _voiceChannels = 0;
         public int VoiceChannels => _voiceChannels;
-        public string OwnerIds => string.Join(", ", NadekoBot.Credentials.OwnerIds);
 
         Timer carbonitexTimer { get; }
 
@@ -111,7 +110,7 @@ namespace NadekoBot.Services.Impl
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
-Owner ID(s): {OwnerIds}
+Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
 Servers: {client.GetGuildsCount()} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
 Commands Ran this session: {CommandsRan}

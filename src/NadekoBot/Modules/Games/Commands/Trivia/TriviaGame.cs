@@ -2,6 +2,7 @@
 using Discord.Net;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -177,7 +178,10 @@ namespace NadekoBot.Modules.Games.Trivia
                 if (Users[guildUser] == WinRequirement)
                 {
                     ShouldStopGame = true;
-                    await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                    try { await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch { }
+                    var reward = NadekoBot.BotConfig.TriviaCurrencyReward;
+                    if (reward > 0)
+                        await CurrencyHandler.AddCurrencyAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                     return;
                 }
                 await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
