@@ -28,7 +28,13 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 
 ![img1](https://cdn.discordapp.com/attachments/251504306010849280/251504416019054592/git.gif)
 
+Ubuntu: 
+
 `sudo apt-get install git -y`
+
+CentOS: 
+
+`yum -y install git`
 
 **NOTE:** If the command is not being initiated, hit **Enter**
 
@@ -36,7 +42,7 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 
 ![img2](https://cdn.discordapp.com/attachments/251504306010849280/251504746987388938/dotnet.gif)
 
-Go to [this link](https://www.microsoft.com/net/core#ubuntu) provided by microsoft for instructions on how to get the most up to date version of the dotnet core sdk!  
+Go to [this link](https://www.microsoft.com/net/core#ubuntu) (for Ubuntu) or to [this link](https://www.microsoft.com/net/core#linuxcentos) (for CentOS) provided by microsoft for instructions on how to get the most up to date version of the dotnet core sdk!  
 Make sure that you're on the correct page for your distribution of linux as the guides are different for the various distributions  
 
 We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 25/11/2016
@@ -53,13 +59,28 @@ sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -
 
 ![img3](https://cdn.discordapp.com/attachments/251504306010849280/251505294654308353/libopus.gif)
 
+Ubuntu: 
+
 `sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y`
+
+CentOS: 
+
+`yum -y install opus opus-devel`
 
 ####Installing FFMPEG
 
 ![img4](https://cdn.discordapp.com/attachments/251504306010849280/251505443111829505/ffmpeg.gif)
 
+Ubuntu:
+
 `apt-get install ffmpeg -y`
+
+Centos: 
+
+```
+yum -y install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm epel-release
+yum -y install ffmpeg
+```
 
 **NOTE:** If you are running **UBUNTU 14.04**, you must run these first:
 
@@ -84,7 +105,13 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 
 ![img5](https://cdn.discordapp.com/attachments/251504306010849280/251505519758409728/tmux.gif)
 
+Ubuntu: 
+
 `sudo apt-get install tmux -y`
+
+Centos: 
+
+`yum -y install tmux`
 
 ####Getting NadekoBot
 
