@@ -290,14 +290,12 @@ namespace NadekoBot.Modules.Utility
                     );
         }
 
-        private Regex emojiFinder { get; } = new Regex(@"<:(?<name>.+?):(?<id>\d*)>", RegexOptions.Compiled);
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Showemojis([Remainder] string emojis)
         {
-            var matches = emojiFinder.Matches(emojis);
+            var tags = Context.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emoji)t.Value);
 
-            var result = string.Join("\n", matches.Cast<Match>()
-                                                  .Select(m => $"**Name:** {m.Groups["name"]} **Link:** http://discordapp.com/api/emojis/{m.Groups["id"]}.png"));
+            var result = string.Join("\n", tags.Select(m => $"**Name:** {m} **Link:** {m.Url}"));
 
             if (string.IsNullOrWhiteSpace(result))
                 await Context.Channel.SendErrorAsync("No special emojis found.");
