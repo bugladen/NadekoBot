@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Music
                 int startAt = itemsPerPage * (curPage - 1);
                 var number = 0 + startAt;
                 var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName($"Player Queue")
+                    .WithAuthor(eab => eab.WithName($"Player Queue - Page {curPage}/{lastPage + 1}")
                                           .WithMusicIcon())
                     .WithDescription(string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.Music
                 }
                 return embed;
             };
-            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage).ConfigureAwait(false);
+            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage, false).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -814,7 +814,7 @@ namespace NadekoBot.Modules.Music
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
 
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
                         }

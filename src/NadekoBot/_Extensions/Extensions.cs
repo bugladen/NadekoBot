@@ -24,10 +24,13 @@ namespace NadekoBot.Extensions
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null)
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
         {
             lastPage += 1;
-            var embed = pageFunc(currentPage).AddPaginatedFooter(currentPage, lastPage);
+            var embed = pageFunc(currentPage);
+
+            if(addPaginatedFooter)
+                embed.AddPaginatedFooter(currentPage, lastPage);
 
             var msg = await channel.EmbedAsync(embed) as IUserMessage;
 
@@ -47,12 +50,20 @@ namespace NadekoBot.Extensions
                     {
                         if (currentPage == 1)
                             return;
-                        await msg.ModifyAsync(x => x.Embed = pageFunc(--currentPage).AddPaginatedFooter(currentPage, lastPage).Build()).ConfigureAwait(false);
+                        var toSend = pageFunc(--currentPage);
+                        if (addPaginatedFooter)
+                            toSend.AddPaginatedFooter(currentPage, lastPage);
+                        await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
                     }
                     else if (r.Emoji.Name == arrow_right)
                     {
                         if (lastPage == null || lastPage > currentPage)
-                            await msg.ModifyAsync(x => x.Embed = pageFunc(++currentPage).AddPaginatedFooter(currentPage, lastPage).Build()).ConfigureAwait(false);
+                        {
+                            var toSend = pageFunc(++currentPage);
+                            if (addPaginatedFooter)
+                                toSend.AddPaginatedFooter(currentPage, lastPage);
+                            await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                        }
                     }
                 }
                 catch (Exception ex) { Console.WriteLine(ex); }
