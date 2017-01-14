@@ -31,6 +31,11 @@ namespace NadekoBot.Services.Database.Models
         public float Betroll67Multiplier { get; set; } = 2;
         public float Betroll91Multiplier { get; set; } = 3;
         public float Betroll100Multiplier { get; set; } = 10;
+        //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
+
+        /// <summary>
+        /// I messed up, don't use
+        /// </summary>
         public HashSet<CommandPrice> CommandPrices { get; set; } = new HashSet<CommandPrice>();
 
 

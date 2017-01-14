@@ -2925,4 +2925,22 @@
   <data name="antispamignore_usage" xml:space="preserve">
     <value>`{0}antispamignore`</value>
   </data>
+  <data name="cmdcosts_cmd" xml:space="preserve">
+    <value>cmdcosts</value>
+  </data>
+  <data name="cmdcosts_desc" xml:space="preserve">
+    <value>Shows a list of command costs. Paginated with 9 command per page.</value>
+  </data>
+  <data name="cmdcosts_usage" xml:space="preserve">
+    <value>`{0}cmdcosts` or `{0}cmdcosts 2`</value>
+  </data>
+  <data name="commandcost_cmd" xml:space="preserve">
+    <value>commandcost cmdcost</value>
+  </data>
+  <data name="commandcost_desc" xml:space="preserve">
+    <value>Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.</value>
+  </data>
+  <data name="commandcost_usage" xml:space="preserve">
+    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
+  </data>
 </root>
