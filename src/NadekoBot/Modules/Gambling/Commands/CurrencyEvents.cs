@@ -30,15 +30,19 @@ namespace NadekoBot.Modules.Gambling
             public async Task StartEvent(CurrencyEvent e)
             {
                 var channel = (ITextChannel)Context.Channel;
-
-                switch (e)
+                try
                 {
-                    case CurrencyEvent.FlowerReaction:
-                        await FlowerReactionEvent(Context).ConfigureAwait(false);
-                        break;
-                    default:
-                        break;
+
+                    switch (e)
+                    {
+                        case CurrencyEvent.FlowerReaction:
+                            await FlowerReactionEvent(Context).ConfigureAwait(false);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                catch { }
             }
 
 
@@ -48,13 +52,26 @@ namespace NadekoBot.Modules.Gambling
                     "Add 🌸 reaction to this message to get 100" + NadekoBot.BotConfig.CurrencySign,
                     footer: "This event is active for 24 hours.")
                                                .ConfigureAwait(false);
-                await msg.AddReactionAsync("🌸").ConfigureAwait(false);
+                try { await msg.AddReactionAsync("🌸").ConfigureAwait(false); }
+                catch
+                {
+                    try { await msg.AddReactionAsync("🌸").ConfigureAwait(false); }
+                    catch
+                    {
+                        try { await msg.DeleteAsync().ConfigureAwait(false); }
+                        catch { }
+                    }
+                }
                 using (msg.OnReaction(async (r) =>
                  {
-                     if (r.Emoji.Name == "🌸" && r.User.IsSpecified && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
+                     try
                      {
-                         try { await CurrencyHandler.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", 100, true).ConfigureAwait(false); } catch { }
+                         if (r.Emoji.Name == "🌸" && r.User.IsSpecified && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
+                         {
+                             try { await CurrencyHandler.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", 100, true).ConfigureAwait(false); } catch { }
+                         }
                      }
+                     catch { }
                  }))
                 {
                     await Task.Delay(TimeSpan.FromHours(24)).ConfigureAwait(false);
