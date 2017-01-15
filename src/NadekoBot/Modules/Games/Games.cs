@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Games
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
-                msg = $"{NadekoBot.Client.CurrentUser().Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
+                msg = $"{NadekoBot.Client.CurrentUser.Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
             else
                 msg = $"{Context.User.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
 

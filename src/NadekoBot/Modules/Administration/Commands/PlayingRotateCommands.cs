@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Administration
                                 if (string.IsNullOrWhiteSpace(status))
                                     continue;
                                 PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
-                                await NadekoBot.Client.SetGame(status);
+                                await NadekoBot.Client.SetGameAsync(status).ConfigureAwait(false);
                             }
                         }
                         catch (Exception ex)

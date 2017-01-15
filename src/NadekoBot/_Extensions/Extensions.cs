@@ -203,7 +203,7 @@ namespace NadekoBot.Extensions
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
         public static bool IsAuthor(this IUserMessage msg) =>
-            NadekoBot.Client.CurrentUser().Id == msg.Author.Id;
+            NadekoBot.Client.CurrentUser.Id == msg.Author.Id;
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();

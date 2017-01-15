@@ -32,7 +32,7 @@ namespace NadekoBot.Services
     {
         public const int GlobalCommandsCooldown = 1500;
 
-        private readonly ShardedDiscordClient _client;
+        private readonly DiscordShardedClient _client;
         private readonly CommandService _commandService;
         private readonly Logger _log;
 
@@ -46,7 +46,7 @@ namespace NadekoBot.Services
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
         private Timer clearUsersOnShortCooldown { get; }
 
-        public CommandHandler(ShardedDiscordClient client, CommandService commandService)
+        public CommandHandler(DiscordShardedClient client, CommandService commandService)
         {
             _client = client;
             _commandService = commandService;

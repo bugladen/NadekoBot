@@ -107,7 +107,7 @@ namespace NadekoBot
         public DiscordSocketClient MainClient =>
             Clients[0];
 
-        public SocketSelfUser CurrentUser() =>
+        public SocketSelfUser CurrentUser =>
             Clients[0].CurrentUser;
 
         public IEnumerable<SocketGuild> GetGuilds() =>
@@ -182,22 +182,7 @@ namespace NadekoBot
 
         public Task SetStatus(SettableUserStatus status) => Task.WhenAll(Clients.Select(ms => ms.SetStatusAsync(SettableUserStatusToUserStatus(status))));
 
-        private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
-        {
-            switch (sus)
-            {
-                case SettableUserStatus.Online:
-                    return UserStatus.Online;
-                case SettableUserStatus.Invisible:
-                    return UserStatus.Invisible;
-                case SettableUserStatus.Idle:
-                    return UserStatus.AFK;
-                case SettableUserStatus.Dnd:
-                    return UserStatus.DoNotDisturb;
-            }
-
-            return UserStatus.Online;
-        }
+        
     }
 
     public enum SettableUserStatus

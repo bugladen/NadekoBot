@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration
         {
             private const string clockEmojiUrl = "https://cdn.discordapp.com/attachments/155726317222887425/258309524966866945/clock.png";
 
-            private static ShardedDiscordClient _client { get; }
+            private static DiscordShardedClient _client { get; }
             private static Logger _log { get; }
 
             private static string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Administration
                 _client.UserPresenceUpdated += _client_UserPresenceUpdated;
                 _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
                 _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
-                _client.GuildUserUpdated += _client_GuildUserUpdated;
+                _client.GuildMemberUpdated += _client_GuildUserUpdated;
 #if !GLOBAL_NADEKO
                 _client.UserUpdated += _client_UserUpdated;
 #endif
