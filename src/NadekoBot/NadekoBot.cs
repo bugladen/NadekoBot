@@ -67,8 +67,9 @@ namespace NadekoBot
                 TotalShards = Credentials.TotalShards,
                 ConnectionTimeout = int.MaxValue
             });
-
+#if GLOBAL_NADEKO
             Client.Log += Client_Log;
+#endif
 
             //initialize Services
             CommandService = new CommandService(new CommandServiceConfig() {
