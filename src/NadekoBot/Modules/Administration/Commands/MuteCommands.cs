@@ -37,8 +37,7 @@ namespace NadekoBot.Modules.Administration
             static MuteCommands()
             {
                 var _log = LogManager.GetCurrentClassLogger();
-                var sw = Stopwatch.StartNew();
-                
+
                 var configs = NadekoBot.AllGuildConfigs;
                 GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
                         .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
@@ -50,9 +49,6 @@ namespace NadekoBot.Modules.Administration
                 ));
 
                 NadekoBot.Client.UserJoined += Client_UserJoined;
-
-                sw.Stop();
-                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             private static async Task Client_UserJoined(IGuildUser usr)
