@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Administration
                 MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
             }
 
-            private static async void _client_UserUpdated(SocketUser before, SocketUser uAfter)
+            private static async Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
             {
                 try
                 {
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules.Administration
                 { }
             }
 
-            private static async void _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+            private static async Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
             {
                 try
                 {
@@ -317,7 +317,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_GuildUserUpdated(SocketGuildUser before, SocketGuildUser after)
+            private static async Task _client_GuildUserUpdated(SocketGuildUser before, SocketGuildUser after)
             {
                 try
                 {
@@ -360,7 +360,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
+            private static async Task _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
             {
                 try
                 {
@@ -403,7 +403,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_ChannelDestroyed(IChannel ich)
+            private static async Task _client_ChannelDestroyed(IChannel ich)
             {
                 try
                 {
@@ -430,7 +430,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_ChannelCreated(IChannel ich)
+            private static async Task _client_ChannelCreated(IChannel ich)
             {
                 try
                 {
@@ -456,7 +456,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private static async void _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+            private static async Task _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
             {
                 try
                 {
@@ -498,7 +498,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
+            private static async Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
             {
                 try
                 {
@@ -532,7 +532,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_UserLeft(IGuildUser usr)
+            private static async Task _client_UserLeft(IGuildUser usr)
             {
                 try
                 {
@@ -556,7 +556,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_UserJoined(IGuildUser usr)
+            private static async Task _client_UserJoined(IGuildUser usr)
             {
                 try
                 {
@@ -580,7 +580,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private static async void _client_UserUnbanned(IUser usr, IGuild guild)
+            private static async Task _client_UserUnbanned(IUser usr, IGuild guild)
             {
                 try
                 {
@@ -604,7 +604,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private static async void _client_UserBanned(IUser usr, IGuild guild)
+            private static async Task _client_UserBanned(IUser usr, IGuild guild)
             {
                 try
                 {
@@ -627,7 +627,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private static async void _client_MessageDeleted(ulong arg1, Optional<SocketMessage> imsg)
+            private static async Task _client_MessageDeleted(ulong arg1, Optional<SocketMessage> imsg)
             {
 
                 try
@@ -664,7 +664,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void _client_MessageUpdated(Optional<SocketMessage> optmsg, SocketMessage imsg2)
+            private static async Task _client_MessageUpdated(Optional<SocketMessage> optmsg, SocketMessage imsg2)
             {
                 try
                 {

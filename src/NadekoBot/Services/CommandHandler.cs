@@ -180,7 +180,7 @@ namespace NadekoBot.Services
             return false;
         }
 
-        private async void MessageReceivedHandler(SocketMessage msg)
+        private async Task MessageReceivedHandler(SocketMessage msg)
         {
             try
             {
@@ -228,7 +228,7 @@ namespace NadekoBot.Services
                 string messageContent = usrMsg.Content;
 
                 // execute the command and measure the time it took
-                var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
+                var exec = await ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
                 execTime = Environment.TickCount - execTime;
 
                 if (exec.Result.IsSuccess)

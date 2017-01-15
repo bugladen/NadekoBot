@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void Client_UserJoined(IGuildUser usr)
+            private static async Task Client_UserJoined(IGuildUser usr)
             {
                 try
                 {

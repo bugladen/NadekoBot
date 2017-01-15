@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Administration
                 _log = LogManager.GetCurrentClassLogger();
             }
             //todo optimize ASAP
-            private static async void UserLeft(IGuildUser user)
+            private static async Task UserLeft(IGuildUser user)
             {
                 try
                 {
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration
                 catch { }
             }
 
-            private static async void UserJoined(IGuildUser user)
+            private static async Task UserJoined(IGuildUser user)
             {
                 try
                 {

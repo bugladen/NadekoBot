@@ -207,15 +207,15 @@ namespace NadekoBot.Modules.Gambling
 
                 }
 
-                private void Client_MessageReceived(SocketMessage imsg)
+                private Task Client_MessageReceived(SocketMessage imsg)
                 {
                     var msg = imsg as SocketUserMessage;
                     if (msg == null)
-                        return;
+                        return Task.CompletedTask;
                     if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != raceChannel)
-                        return;
+                        return Task.CompletedTask;
                     messagesSinceGameStarted++;
-                    return;
+                    return Task.CompletedTask;
                 }
 
                 private async Task CheckForFullGameAsync(CancellationToken cancelToken)

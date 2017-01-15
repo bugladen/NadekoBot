@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            private static async void UserUpdatedEventHandler(SocketUser iuser, SocketVoiceState before, SocketVoiceState after)
+            private static async Task UserUpdatedEventHandler(SocketUser iuser, SocketVoiceState before, SocketVoiceState after)
             {
                 var user = (iuser as SocketGuildUser);
                 var guild = user?.Guild;

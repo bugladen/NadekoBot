@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.Games
                 await originalMessage.Channel.EmbedAsync(GetStats("POLL CLOSED")).ConfigureAwait(false);
             }
 
-            private async void Vote(SocketMessage imsg)
+            private async Task Vote(SocketMessage imsg)
             {
                 try
                 {

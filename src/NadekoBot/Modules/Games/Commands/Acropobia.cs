@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Games
                 await End().ConfigureAwait(false);
             }
 
-            private async void PotentialAcro(SocketMessage arg)
+            private async Task PotentialAcro(SocketMessage arg)
             {
                 try
                 {
