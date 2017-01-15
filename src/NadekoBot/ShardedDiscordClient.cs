@@ -60,7 +60,8 @@ namespace NadekoBot
                 client.MessageReceived += arg1 =>
                 {
                     if (arg1.Author == null || arg1.Author.IsBot)
-                        return Task.CompletedTask; MessageReceived(arg1);
+                        return Task.CompletedTask;
+                    MessageReceived(arg1);
                     return Task.CompletedTask;
                 };
                 client.UserLeft += arg1 => { UserLeft(arg1); return Task.CompletedTask; };
