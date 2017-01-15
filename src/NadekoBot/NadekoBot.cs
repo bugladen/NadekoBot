@@ -95,10 +95,8 @@ namespace NadekoBot
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
             await Client.ConnectAsync().ConfigureAwait(false);
-            Stats.Initialize();
-#if !GLOBAL_NADEKO
             await Client.DownloadAllUsersAsync().ConfigureAwait(false);
-#endif
+            Stats.Initialize();
 
             _log.Info("Connected");
 
@@ -107,6 +105,7 @@ namespace NadekoBot
             ModulePrefixes = new ConcurrentDictionary<string, string>(NadekoBot.BotConfig.ModulePrefixes.OrderByDescending(mp => mp.Prefix.Length).ToDictionary(m => m.ModuleName, m => m.Prefix));
 
             // start handling messages received in commandhandler
+            
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
             await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly).ConfigureAwait(false);
