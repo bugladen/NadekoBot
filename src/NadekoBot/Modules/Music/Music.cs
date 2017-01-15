@@ -37,17 +37,17 @@ namespace NadekoBot.Modules.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        private static async Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+        private static Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var usr = iusr as SocketGuildUser;
             if (usr == null ||
                 oldState.VoiceChannel == newState.VoiceChannel)
-                return;
+                return Task.CompletedTask;
 
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
-                return;
-            
+                return Task.CompletedTask;
+
             try
             {
 
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Music
                     else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
                         player.TogglePause();
 
-                    return;
+                    return Task.CompletedTask;
                 }
 
 
@@ -74,11 +74,12 @@ namespace NadekoBot.Modules.Music
                         oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
-                    return;
+                    return Task.CompletedTask;
                 }
 
             }
             catch { }
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
