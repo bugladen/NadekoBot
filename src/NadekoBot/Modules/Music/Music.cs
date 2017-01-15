@@ -47,18 +47,36 @@ namespace NadekoBot.Modules.Music
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
                 return;
+            
             try
             {
-                var users = await player.PlaybackVoiceChannel.GetUsersAsync().Flatten().ConfigureAwait(false);
+
+
+                //if bot moved
+                if ((player.PlaybackVoiceChannel == oldState.VoiceChannel) &&
+                        usr.Id == NadekoBot.Client.CurrentUser.Id)
+                {
+                    if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
+                        player.TogglePause();
+                    else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
+                        player.TogglePause();
+
+                    return;
+                }
+
+
+                //if some other user moved
                 if ((player.PlaybackVoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
                         player.Paused &&
-                        users.Count() == 2) ||  // keep in mind bot is in the channel (+1)
+                        newState.VoiceChannel.Users.Count == 2) ||  // keep in mind bot is in the channel (+1)
                     (player.PlaybackVoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
                         !player.Paused &&
-                        users.Count() == 1))
+                        oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
+                    return;
                 }
+
             }
             catch { }
         }
@@ -448,17 +466,17 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Move()
-        {
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Move()
+        //{
 
-            MusicPlayer musicPlayer;
-            var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
-            if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-                return;
-            await musicPlayer.MoveToVoiceChannel(voiceChannel);
-        }
+        //    MusicPlayer musicPlayer;
+        //    var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
+        //    if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+        //        return;
+        //    await musicPlayer.MoveToVoiceChannel(voiceChannel);
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

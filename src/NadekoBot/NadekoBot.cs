@@ -118,7 +118,7 @@ namespace NadekoBot
 
         private Task Client_Log(LogMessage arg)
         {
-            _log.Warn(arg.Message);
+            _log.Warn(arg.Source + " | " + arg.Message);
             if (arg.Exception != null)
                 _log.Warn(arg.Exception);
 

@@ -342,13 +342,13 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
-        public Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
-        {
-            if (audioClient?.ConnectionState != ConnectionState.Connected)
-                throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
-            PlaybackVoiceChannel = voiceChannel;
-            return PlaybackVoiceChannel.ConnectAsync();
-        }
+        //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
+        //{
+        //    if (audioClient?.ConnectionState != ConnectionState.Connected)
+        //        throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
+        //    PlaybackVoiceChannel = voiceChannel;
+        //    audioClient = await voiceChannel.ConnectAsync().ConfigureAwait(false);
+        //}
 
         public bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
 
