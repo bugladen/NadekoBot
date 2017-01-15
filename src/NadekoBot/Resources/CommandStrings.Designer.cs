@@ -7296,6 +7296,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to startevent.
+        /// </summary>
+        public static string startevent_cmd {
+            get {
+                return ResourceManager.GetString("startevent_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts one of the events seen on public nadeko..
+        /// </summary>
+        public static string startevent_desc {
+            get {
+                return ResourceManager.GetString("startevent_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}startevent flowerreaction`.
+        /// </summary>
+        public static string startevent_usage {
+            get {
+                return ResourceManager.GetString("startevent_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to startwar sw.
         /// </summary>
         public static string startwar_cmd {

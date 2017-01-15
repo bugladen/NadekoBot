@@ -2943,4 +2943,13 @@
   <data name="commandcost_usage" xml:space="preserve">
     <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
   </data>
+  <data name="startevent_cmd" xml:space="preserve">
+    <value>startevent</value>
+  </data>
+  <data name="startevent_desc" xml:space="preserve">
+    <value>Starts one of the events seen on public nadeko.</value>
+  </data>
+  <data name="startevent_usage" xml:space="preserve">
+    <value>`{0}startevent flowerreaction`</value>
+  </data>
 </root>
