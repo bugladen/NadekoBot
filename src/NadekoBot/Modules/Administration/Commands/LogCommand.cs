@@ -397,6 +397,8 @@ namespace NadekoBot.Modules.Administration
                             .AddField(efb => efb.WithName("Old Topic").WithValue(beforeTextChannel.Topic))
                             .AddField(efb => efb.WithName("New Topic").WithValue(afterTextChannel.Topic));
                     }
+                    else
+                        return;
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
