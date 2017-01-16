@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Gambling
                     str = $"{Context.User.Mention}`Better luck next time.`";
                 }
 
-                await Context.Channel.SendFileAsync(File.Open(imgPathToSend, FileMode.OpenOrCreate), "coin.jpg", str).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(File.Open(imgPathToSend, FileMode.OpenOrCreate), new FileInfo(imgPathToSend).Name, str).ConfigureAwait(false);
             }
         }
     }

@@ -93,10 +93,10 @@ namespace NadekoBot.Modules.Games
                             {
                                 firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
                             }
-
+                            var file = GetRandomCurrencyImagePath();
                             var sent = await channel.SendFileAsync(
-                                File.Open(GetRandomCurrencyImagePath(), FileMode.OpenOrCreate),
-                                "RandomFlower.jpg",
+                                File.Open(file, FileMode.OpenOrCreate),
+                                new FileInfo(file).Name,
                                 $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                     .ConfigureAwait(false);
 
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), "plant.jpg", msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), new FileInfo(file).Name, msgToSend).ConfigureAwait(false);
                 }
                 plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
             }
