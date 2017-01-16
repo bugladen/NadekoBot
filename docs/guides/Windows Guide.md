@@ -16,8 +16,8 @@ ________________________________________________________________________________
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a **new folder** anywhere you like and name it `Nadeko`.
-- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoInstaller.bat`)
-- Once that's done, double-click on `NadekoInstaller.bat` to run it.
+- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (Please **DO NOT** rename the file `NadekoInstaller.bat`.)
+- Once that's done, right-click on `NadekoInstaller.bat` to run it as Administrator.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
@@ -58,7 +58,7 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 
 ####Starting the bot
-- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file.
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
 - From the options,
 	- Choose `3` to **run the bot normally**.	
 	(with normal-run the bot will shutdown and will stay offline if it disconnects by the use of `.die` command until you manually run it again. Useful if you want to test the bot.)
@@ -82,6 +82,16 @@ ________________________________________________________________________________
 ### Setting Up NadekoBot For Music
 
 In order to have a functioning music module, you need to install ffmpeg and setup api keys.
+
+#### Setting up `ffmpeg` using NadekoBot Client!
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
+- From the options select `6` Install ffmpeg (for music)
+- Next, **Press Any Key** if you are running as Administrator or just close and relaunch it as Administrator using mouse right-click.
+- Wait for it to finish installing and backing up existing. 
+- Once done, you should see "ffmpeg Installation complete!".
+- Next, **Press Any Key** to go back to NadekoBot Client.
+- Press `3` to run the bot normally just to test music. (optional)
+- `ffmpeg` installation for Music is now complete.
 
 #### Manual `ffmpeg` setup 
 - Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
