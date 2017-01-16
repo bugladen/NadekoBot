@@ -17,6 +17,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                              .Include(bc => bc.Blacklist)
                              .Include(bc => bc.EightBallResponses)
                              .Include(bc => bc.ModulePrefixes)
+                             //.Include(bc => bc.CommandCosts)
                              .FirstOrDefault();
 
             if (config == null)

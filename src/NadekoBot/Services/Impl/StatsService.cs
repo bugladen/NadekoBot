@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace NadekoBot.Services.Impl
 {
     public class StatsService : IStatsService
     {
-        private ShardedDiscordClient client;
+        private DiscordShardedClient client;
         private DateTime started;
 
-        public const string BotVersion = "1.1.0";
+        public const string BotVersion = "1.1.1";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
@@ -30,7 +31,7 @@ namespace NadekoBot.Services.Impl
 
         Timer carbonitexTimer { get; }
 
-        public StatsService(ShardedDiscordClient client, CommandHandler cmdHandler)
+        public StatsService(DiscordShardedClient client, CommandHandler cmdHandler)
         {
 
             this.client = client;
@@ -39,21 +40,14 @@ namespace NadekoBot.Services.Impl
             this.client.MessageReceived += _ => Task.FromResult(MessageCounter++);
             cmdHandler.CommandExecuted += (_, e) => Task.FromResult(CommandsRan++);
 
-            this.client.Disconnected += _ => Reset();
-
-            this.client.Connected += () =>
-            {
-                var guilds = this.client.GetGuilds();
-                _textChannels = guilds.Sum(g => g.Channels.Where(cx => cx is ITextChannel).Count());
-                _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
-            };
-
             this.client.ChannelCreated += (c) =>
             {
                 if (c is ITextChannel)
                     ++_textChannels;
                 else if (c is IVoiceChannel)
                     ++_voiceChannels;
+
+                return Task.CompletedTask;
             };
 
             this.client.ChannelDestroyed += (c) =>
@@ -62,6 +56,8 @@ namespace NadekoBot.Services.Impl
                     --_textChannels;
                 else if (c is IVoiceChannel)
                     --_voiceChannels;
+
+                return Task.CompletedTask;
             };
 
             this.client.JoinedGuild += (g) =>
@@ -70,6 +66,8 @@ namespace NadekoBot.Services.Impl
                 var vc = g.Channels.Count - tc;
                 _textChannels += tc;
                 _voiceChannels += vc;
+
+                return Task.CompletedTask;
             };
 
             this.client.LeftGuild += (g) =>
@@ -78,6 +76,8 @@ namespace NadekoBot.Services.Impl
                 var vc = g.Channels.Count - tc;
                 _textChannels -= tc;
                 _voiceChannels -= vc;
+
+                return Task.CompletedTask;
             };
 
             this.carbonitexTimer = new Timer(async (state) =>
@@ -90,7 +90,7 @@ namespace NadekoBot.Services.Impl
                     {
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
-                                { "servercount", this.client.GetGuildsCount().ToString() },
+                                { "servercount", this.client.GetGuildCount().ToString() },
                                 { "key", NadekoBot.Credentials.CarbonKey }}))
                         {
                             content.Headers.Clear();
@@ -103,16 +103,24 @@ namespace NadekoBot.Services.Impl
                 catch { }
             }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
+
+        public void Initialize()
+        {
+            var guilds = this.client.GetGuilds();
+            _textChannels = guilds.Sum(g => g.Channels.Where(cx => cx is ITextChannel).Count());
+            _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
+        }
+
         public Task<string> Print()
         {
-            var curUser = client.CurrentUser();
+            var curUser = client.CurrentUser;
             return Task.FromResult($@"
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
 Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
-Servers: {client.GetGuildsCount()} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
+Servers: {client.GetGuildCount()} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
 Commands Ran this session: {CommandsRan}
 Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]");
         }

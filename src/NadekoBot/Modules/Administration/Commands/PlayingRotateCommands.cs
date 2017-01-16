@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Administration
                                 if (string.IsNullOrWhiteSpace(status))
                                     continue;
                                 PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
-                                await NadekoBot.Client.SetGame(status);
+                                await NadekoBot.Client.SetGameAsync(status).ConfigureAwait(false);
                             }
                         }
                         catch (Exception ex)
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
                 new Dictionary<string, Func<string>> {
-                    {"%servers%", () => NadekoBot.Client.GetGuildsCount().ToString()},
+                    {"%servers%", () => NadekoBot.Client.GetGuildCount().ToString()},
                     {"%users%", () => NadekoBot.Client.GetGuilds().Sum(s => s.Users.Count).ToString()},
                     {"%playing%", () => {
                             var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);

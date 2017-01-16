@@ -235,9 +235,14 @@ namespace NadekoBot.Services.Database
             #endregion
 
             #region CommandPrice
+            //well, i failed
             modelBuilder.Entity<CommandPrice>()
                 .HasIndex(cp => cp.Price)
                 .IsUnique();
+
+            //modelBuilder.Entity<CommandCost>()
+            //    .HasIndex(cp => cp.CommandName)
+            //    .IsUnique();
             #endregion
         }
     }

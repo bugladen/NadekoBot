@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                 await GameChannel.EmbedAsync(embed.WithOkColor()).ConfigureAwait(false);
         }
 
-        private async void PotentialGuess(SocketMessage msg)
+        private async Task PotentialGuess(SocketMessage msg)
         {
             try
             {

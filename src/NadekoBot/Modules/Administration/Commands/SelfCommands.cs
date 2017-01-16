@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
                     await Context.Channel.SendErrorAsync("⚠️ Cannot find that server").ConfigureAwait(false);
                     return;
                 }
-                if (server.OwnerId != NadekoBot.Client.CurrentUser().Id)
+                if (server.OwnerId != NadekoBot.Client.CurrentUser.Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
                     await Context.Channel.SendConfirmAsync("✅ Left server " + server.Name).ConfigureAwait(false);
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(newName))
                     return;
 
-                await NadekoBot.Client.CurrentUser().ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+                await NadekoBot.Client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync($"Bot name changed to **{newName}**").ConfigureAwait(false);
             }
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task SetStatus([Remainder] SettableUserStatus status)
             {
-                await NadekoBot.Client.SetStatus(status);
+                await NadekoBot.Client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync($"Bot status changed to **{status}**").ConfigureAwait(false);
             }
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Administration
                         await sr.CopyToAsync(imgStream);
                         imgStream.Position = 0;
 
-                        await NadekoBot.Client.CurrentUser().ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+                        await NadekoBot.Client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
                     }
                 }
 
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task SetGame([Remainder] string game = null)
             {
-                await NadekoBot.Client.SetGame(game).ConfigureAwait(false);
+                await NadekoBot.Client.SetGameAsync(game).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👾 **New game set.**").ConfigureAwait(false);
             }
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Administration
             {
                 name = name ?? "";
 
-                await NadekoBot.Client.SetStream(name, url).ConfigureAwait(false);
+                await NadekoBot.Client.SetGameAsync(name, url, StreamType.Twitch).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("ℹ️ **New stream set.**").ConfigureAwait(false);
             }
@@ -168,6 +168,23 @@ namespace NadekoBot.Modules.Administration
                         .ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
+            }
+
+            private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
+            {
+                switch (sus)
+                {
+                    case SettableUserStatus.Online:
+                        return UserStatus.Online;
+                    case SettableUserStatus.Invisible:
+                        return UserStatus.Invisible;
+                    case SettableUserStatus.Idle:
+                        return UserStatus.AFK;
+                    case SettableUserStatus.Dnd:
+                        return UserStatus.DoNotDisturb;
+                }
+
+                return UserStatus.Online;
             }
         }
     }

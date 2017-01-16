@@ -1761,6 +1761,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to cmdcosts.
+        /// </summary>
+        public static string cmdcosts_cmd {
+            get {
+                return ResourceManager.GetString("cmdcosts_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of command costs. Paginated with 9 command per page..
+        /// </summary>
+        public static string cmdcosts_desc {
+            get {
+                return ResourceManager.GetString("cmdcosts_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}cmdcosts` or `{0}cmdcosts 2`.
+        /// </summary>
+        public static string cmdcosts_usage {
+            get {
+                return ResourceManager.GetString("cmdcosts_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to color clr.
         /// </summary>
         public static string color_cmd {
@@ -1784,6 +1811,33 @@ namespace NadekoBot.Resources {
         public static string color_usage {
             get {
                 return ResourceManager.GetString("color_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to commandcost cmdcost.
+        /// </summary>
+        public static string commandcost_cmd {
+            get {
+                return ResourceManager.GetString("commandcost_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price..
+        /// </summary>
+        public static string commandcost_desc {
+            get {
+                return ResourceManager.GetString("commandcost_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`.
+        /// </summary>
+        public static string commandcost_usage {
+            get {
+                return ResourceManager.GetString("commandcost_usage", resourceCulture);
             }
         }
         
@@ -7238,6 +7292,33 @@ namespace NadekoBot.Resources {
         public static string srvrmdl_usage {
             get {
                 return ResourceManager.GetString("srvrmdl_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to startevent.
+        /// </summary>
+        public static string startevent_cmd {
+            get {
+                return ResourceManager.GetString("startevent_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts one of the events seen on public nadeko..
+        /// </summary>
+        public static string startevent_desc {
+            get {
+                return ResourceManager.GetString("startevent_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}startevent flowerreaction`.
+        /// </summary>
+        public static string startevent_usage {
+            get {
+                return ResourceManager.GetString("startevent_usage", resourceCulture);
             }
         }
         

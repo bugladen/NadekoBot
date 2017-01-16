@@ -89,54 +89,66 @@ namespace NadekoBot.Modules.Administration
                 db.Open();
 
                 var com = db.CreateCommand();
-                com.CommandText = "SELECT * FROM Announcement";
-
-                var reader = com.ExecuteReader();
                 var i = 0;
-                while (reader.Read())
+                try
                 {
-                    var gid = (ulong)(long)reader["ServerId"];
-                    var greet = (long)reader["Greet"] == 1;
-                    var greetDM = (long)reader["GreetPM"] == 1;
-                    var greetChannel = (ulong)(long)reader["GreetChannelId"];
-                    var greetMsg = (string)reader["GreetText"];
-                    var bye = (long)reader["Bye"] == 1;
-                    var byeDM = (long)reader["ByePM"] == 1;
-                    var byeChannel = (ulong)(long)reader["ByeChannelId"];
-                    var byeMsg = (string)reader["ByeText"];
-                    var grdel = false;
-                    var byedel = grdel;
-                    var gc = uow.GuildConfigs.For(gid, set => set);
+                    com.CommandText = "SELECT * FROM Announcement";
 
-                    if (greetDM)
-                        gc.SendDmGreetMessage = greet;
-                    else
-                        gc.SendChannelGreetMessage = greet;
-                    gc.GreetMessageChannelId = greetChannel;
-                    gc.ChannelGreetMessageText = greetMsg;
+                    var reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var gid = (ulong)(long)reader["ServerId"];
+                        var greet = (long)reader["Greet"] == 1;
+                        var greetDM = (long)reader["GreetPM"] == 1;
+                        var greetChannel = (ulong)(long)reader["GreetChannelId"];
+                        var greetMsg = (string)reader["GreetText"];
+                        var bye = (long)reader["Bye"] == 1;
+                        var byeDM = (long)reader["ByePM"] == 1;
+                        var byeChannel = (ulong)(long)reader["ByeChannelId"];
+                        var byeMsg = (string)reader["ByeText"];
+                        var grdel = false;
+                        var byedel = grdel;
+                        var gc = uow.GuildConfigs.For(gid, set => set);
 
-                    gc.SendChannelByeMessage = bye;
-                    gc.ByeMessageChannelId = byeChannel;
-                    gc.ChannelByeMessageText = byeMsg;
+                        if (greetDM)
+                            gc.SendDmGreetMessage = greet;
+                        else
+                            gc.SendChannelGreetMessage = greet;
+                        gc.GreetMessageChannelId = greetChannel;
+                        gc.ChannelGreetMessageText = greetMsg;
 
-                    gc.AutoDeleteGreetMessagesTimer = gc.AutoDeleteByeMessagesTimer = grdel ? 30 : 0;
-                    _log.Info(++i);
+                        gc.SendChannelByeMessage = bye;
+                        gc.ByeMessageChannelId = byeChannel;
+                        gc.ChannelByeMessageText = byeMsg;
+
+                        gc.AutoDeleteGreetMessagesTimer = gc.AutoDeleteByeMessagesTimer = grdel ? 30 : 0;
+                        _log.Info(++i);
+                    }
                 }
-
+                catch {
+                    _log.Warn("Greet/bye messages won't be migrated");
+                }
                 var com2 = db.CreateCommand();
                 com.CommandText = "SELECT * FROM CurrencyState GROUP BY UserId";
 
                 i = 0;
-                var reader2 = com.ExecuteReader();
-                while (reader2.Read())
+                try
                 {
-                    _log.Info(++i);
-                    var curr = new Currency()
+                    var reader2 = com.ExecuteReader();
+                    while (reader2.Read())
                     {
-                        Amount = (long)reader2["Value"],
-                        UserId = (ulong)(long)reader2["UserId"]
-                    };
-                    uow.Currency.Add(curr);
+                        _log.Info(++i);
+                        var curr = new Currency()
+                        {
+                            Amount = (long)reader2["Value"],
+                            UserId = (ulong)(long)reader2["UserId"]
+                        };
+                        uow.Currency.Add(curr);
+                    }
+                }
+                catch
+                {
+                    _log.Warn("Currency won't be migrated");
                 }
                 db.Close();
                 try { File.Move("data/nadekobot.sqlite", "data/DELETE_ME_nadekobot.sqlite"); } catch { }

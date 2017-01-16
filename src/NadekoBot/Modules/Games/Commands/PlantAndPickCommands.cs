@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Games
                     .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
             }
 
-            private static async void PotentialFlowerGeneration(SocketMessage imsg)
+            private static async Task PotentialFlowerGeneration(SocketMessage imsg)
             {
                 try
                 {
