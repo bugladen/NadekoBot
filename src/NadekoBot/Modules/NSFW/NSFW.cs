@@ -66,6 +66,7 @@ namespace NadekoBot.Modules.NSFW
             InternalHentai(Context.Channel, tag, false);
 
         [NadekoCommand, Usage, Description, Aliases]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
