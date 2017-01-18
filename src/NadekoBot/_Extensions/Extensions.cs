@@ -425,5 +425,12 @@ namespace NadekoBot.Extensions
 
         public static bool IsDiscordInvite(this string str)
             => filterRegex.IsMatch(str);
+
+        public static string RealAvatarUrl(this IUser usr)
+        {
+            return usr.AvatarId.StartsWith("a_")
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif"
+                    : usr.AvatarUrl;
+        }
     }
 }

@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName("**Joined Server**").WithValue($"{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Joined Discord**").WithValue($"{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count - 1})** - {string.Join("\n", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
-                    .WithThumbnailUrl(user.AvatarUrl)
+                    .WithThumbnailUrl(user.RealAvatarUrl())
                     .WithColor(NadekoBot.OkColor);
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
