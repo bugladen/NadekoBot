@@ -25,8 +25,8 @@ namespace NadekoBot.Services.Database.Models
         public string CurrencyPluralName { get; set; } = "Nadeko Flowers";
 
         public int TriviaCurrencyReward { get; set; } = 0;
-        public int MinimumBetAmount { get; set; } = 3;
-        public float BetflipMultiplier { get; set; } = 1.8f;
+        public int MinimumBetAmount { get; set; } = 2;
+        public float BetflipMultiplier { get; set; } = 1.95f;
         public int CurrencyDropAmount { get; set; } = 1;
         public float Betroll67Multiplier { get; set; } = 2;
         public float Betroll91Multiplier { get; set; } = 3;
@@ -57,6 +57,9 @@ For a specific command help, use `{1}h CommandName` (for example {1}h !!q)
 Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
 
         public int MigrationVersion { get; set; }
+
+        public string OkColor { get; set; } = "71cd40";
+        public string ErrorColor { get; set; } = "ee281f";
     }
 
     public class PlayingStatus :DbEntity

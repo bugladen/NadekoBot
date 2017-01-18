@@ -183,18 +183,18 @@ namespace NadekoBot.Extensions
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string url = null)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
                  .WithTitle(title).WithUrl(url));
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string url = null)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
                  .WithTitle(title).WithUrl(url));
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(File.Open(filePath, FileMode.Open), caption ?? "x", text, isTTS).ConfigureAwait(false);
@@ -212,18 +212,18 @@ namespace NadekoBot.Extensions
              => ch.SendMessageAsync(msg, embed: embed);
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.ErrorColor).WithDescription(error)
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
                  .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
                  .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
