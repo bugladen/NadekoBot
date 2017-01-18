@@ -7080,6 +7080,87 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to slot.
+        /// </summary>
+        public static string slot_cmd {
+            get {
+                return ResourceManager.GetString("slot_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user..
+        /// </summary>
+        public static string slot_desc {
+            get {
+                return ResourceManager.GetString("slot_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}slot 5`.
+        /// </summary>
+        public static string slot_usage {
+            get {
+                return ResourceManager.GetString("slot_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to slotstats.
+        /// </summary>
+        public static string slotstats_cmd {
+            get {
+                return ResourceManager.GetString("slotstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows the total stats of the slot command for this bot&apos;s session..
+        /// </summary>
+        public static string slotstats_desc {
+            get {
+                return ResourceManager.GetString("slotstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}slotstats`.
+        /// </summary>
+        public static string slotstats_usage {
+            get {
+                return ResourceManager.GetString("slotstats_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to slottest.
+        /// </summary>
+        public static string slottest_cmd {
+            get {
+                return ResourceManager.GetString("slottest_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Tests to see how much slots payout for X number of plays..
+        /// </summary>
+        public static string slottest_desc {
+            get {
+                return ResourceManager.GetString("slottest_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}slottest 1000`.
+        /// </summary>
+        public static string slottest_usage {
+            get {
+                return ResourceManager.GetString("slottest_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to slowmode.
         /// </summary>
         public static string slowmode_cmd {

@@ -2952,4 +2952,31 @@
   <data name="startevent_usage" xml:space="preserve">
     <value>`{0}startevent flowerreaction`</value>
   </data>
+  <data name="slotstats_cmd" xml:space="preserve">
+    <value>slotstats</value>
+  </data>
+  <data name="slotstats_desc" xml:space="preserve">
+    <value>Shows the total stats of the slot command for this bot's session.</value>
+  </data>
+  <data name="slotstats_usage" xml:space="preserve">
+    <value>`{0}slotstats`</value>
+  </data>
+  <data name="slottest_cmd" xml:space="preserve">
+    <value>slottest</value>
+  </data>
+  <data name="slottest_desc" xml:space="preserve">
+    <value>Tests to see how much slots payout for X number of plays.</value>
+  </data>
+  <data name="slottest_usage" xml:space="preserve">
+    <value>`{0}slottest 1000`</value>
+  </data>
+  <data name="slot_cmd" xml:space="preserve">
+    <value>slot</value>
+  </data>
+  <data name="slot_desc" xml:space="preserve">
+    <value>Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.</value>
+  </data>
+  <data name="slot_usage" xml:space="preserve">
+    <value>`{0}slot 5`</value>
+  </data>
 </root>
