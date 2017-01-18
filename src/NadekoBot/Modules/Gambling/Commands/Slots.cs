@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                 return ms;
             }
 
-            //here is a payout chart 
+            //here is a payout chart
             //https://lh6.googleusercontent.com/-i1hjAJy_kN4/UswKxmhrbPI/AAAAAAAAB1U/82wq_4ZZc-Y/DE6B0895-6FC1-48BE-AC4F-14D1B91AB75B.jpg
             //thanks to judge for helping me with this
 
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var sb = new StringBuilder();
                 const int bet = 1;
-                int payout = 0; 
+                int payout = 0;
                 foreach (var key in dict.Keys.OrderByDescending(x=>x))
                 {
                     sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
@@ -293,7 +293,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         await Task.Delay(3000);
                         runningUsers.Remove(Context.User.Id);
-                    });                    
+                    });
                 }
             }
         }
