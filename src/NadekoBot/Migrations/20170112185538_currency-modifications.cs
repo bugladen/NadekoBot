@@ -30,7 +30,7 @@ namespace NadekoBot.Migrations
                 name: "Betroll91Multiplier",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: 3f);
+                defaultValue: 4f);
 
             migrationBuilder.AddColumn<int>(
                 name: "CurrencyDropAmount",

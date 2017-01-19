@@ -29,7 +29,7 @@ namespace NadekoBot.Services.Database.Models
         public float BetflipMultiplier { get; set; } = 1.95f;
         public int CurrencyDropAmount { get; set; } = 1;
         public float Betroll67Multiplier { get; set; } = 2;
-        public float Betroll91Multiplier { get; set; } = 3;
+        public float Betroll91Multiplier { get; set; } = 4;
         public float Betroll100Multiplier { get; set; } = 10;
         //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
 

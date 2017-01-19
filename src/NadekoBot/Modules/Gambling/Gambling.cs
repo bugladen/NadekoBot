@@ -146,6 +146,56 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
+        public async Task BrTest(int tests = 1000)
+        {
+            var t = Task.Run(async () =>
+            {
+                if (tests <= 0)
+                    return;
+                //multi vs how many times it occured
+                var dict = new Dictionary<int, int>();
+                var generator = new NadekoRandom();
+                for (int i = 0; i < tests; i++)
+                {
+                    var rng = generator.Next(0, 101);
+                    var mult = 0;
+                    if (rng < 67)
+                    {
+                        mult = 0;
+                    }
+                    else if (rng < 91)
+                    {
+                        mult = 2;
+                    }
+                    else if (rng < 100)
+                    {
+                        mult = 4;
+                    }
+                    else
+                        mult = 10;
+
+                    if (dict.ContainsKey(mult))
+                        dict[mult] += 1;
+                    else
+                        dict.Add(mult, 1);
+                }
+
+                var sb = new StringBuilder();
+                const int bet = 1;
+                int payout = 0;
+                foreach (var key in dict.Keys.OrderByDescending(x => x))
+                {
+                    sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
+                    payout += key * dict[key];
+                }
+                await Context.Channel.SendConfirmAsync("BetRoll Test Results", sb.ToString(),
+                    footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
+
+            });
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task BetRoll(long amount)
         {
             if (amount < 1)
