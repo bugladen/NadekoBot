@@ -32,7 +32,7 @@ namespace Services.CleverBotApi
 #if GLOBAL_NADEKO
             var url = "http://www.cleverbot.com/webservicemin?uc=3210&botapi=nadekobot";
 #else
-            var url = "http://www.cleverbot.com/webservicemin?uc=3210";
+            var url = "http://www.cleverbot.com/webservicemin?uc=3210&botapi=chatterbotapi";
 #endif
 
             switch (type)
