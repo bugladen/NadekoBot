@@ -184,7 +184,10 @@ namespace NadekoBot.Modules.Gambling
                     }
 
                     if (!await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Slot Machine", amount, false))
+                    {
+                        await Context.Channel.SendErrorAsync($"You don't have enough {NadekoBot.BotConfig.CurrencySign}.").ConfigureAwait(false);
                         return;
+                    }
                     Interlocked.Add(ref totalBet, amount);
                     using (var bgFileStream = new MemoryStream(backgroundBuffer))
                     {
