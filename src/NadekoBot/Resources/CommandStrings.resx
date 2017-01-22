@@ -2983,10 +2983,10 @@
     <value>affinity</value>
   </data>
   <data name="waifuclaimeraffinity_desc" xml:space="preserve">
-    <value>Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%</value>
+    <value>Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.</value>
   </data>
   <data name="waifuclaimeraffinity_usage" xml:space="preserve">
-    <value>`{0}affinity`</value>
+    <value>`{0}affinity @MyHusband` or `{0}affinity`</value>
   </data>
   <data name="waifuclaim_cmd" xml:space="preserve">
     <value>claimwaifu claim</value>
@@ -3001,7 +3001,7 @@
     <value>waifus waifulb</value>
   </data>
   <data name="waifuleaderboard_desc" xml:space="preserve">
-    <value>Shows top 10 waifus.</value>
+    <value>Shows top 9 waifus.</value>
   </data>
   <data name="waifuleaderboard_usage" xml:space="preserve">
     <value>`{0}waifus`</value>
@@ -3010,7 +3010,7 @@
     <value>divorce</value>
   </data>
   <data name="divorce_desc" xml:space="preserve">
-    <value>Releases your claim on a specific waifu. You will get a part of your money back unless that waifu has an affinity towards you.</value>
+    <value>Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.</value>
   </data>
   <data name="divorce_usage" xml:space="preserve">
     <value>`{0}divorce @CheatingSloot`</value>
@@ -3019,9 +3019,9 @@
     <value>waifuinfo waifustats</value>
   </data>
   <data name="waifuinfo_desc" xml:space="preserve">
-    <value>Shows waifu stats for a target person.</value>
+    <value>Shows waifu stats for a target person. Defaults to you if no user is provided.</value>
   </data>
   <data name="waifuinfo_usage" xml:space="preserve">
-    <value>`{0}waifuinfo @MyCrush`</value>
+    <value>`{0}waifuinfo @MyCrush` or `{0}waifuinfo`</value>
   </data>
 </root>

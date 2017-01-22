@@ -2499,7 +2499,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Releases your claim on a specific waifu. You will get a part of your money back unless that waifu has an affinity towards you..
+        ///    Looks up a localized string similar to Releases your claim on a specific waifu. You will get some of the money you&apos;ve spent back unless that waifu has an affinity towards you. 6 hours cooldown..
         /// </summary>
         public static string divorce_desc {
             get {
@@ -8439,7 +8439,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%.
+        ///    Looks up a localized string similar to Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown..
         /// </summary>
         public static string waifuclaimeraffinity_desc {
             get {
@@ -8448,7 +8448,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}affinity`.
+        ///    Looks up a localized string similar to `{0}affinity @MyHusband` or `{0}affinity`.
         /// </summary>
         public static string waifuclaimeraffinity_usage {
             get {
@@ -8466,7 +8466,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows waifu stats for a target person..
+        ///    Looks up a localized string similar to Shows waifu stats for a target person. Defaults to you if no user is provided..
         /// </summary>
         public static string waifuinfo_desc {
             get {
@@ -8475,7 +8475,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}waifuinfo @MyCrush`.
+        ///    Looks up a localized string similar to `{0}waifuinfo @MyCrush` or `{0}waifuinfo`.
         /// </summary>
         public static string waifuinfo_usage {
             get {
@@ -8493,7 +8493,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Shows top 10 waifus..
+        ///    Looks up a localized string similar to Shows top 9 waifus..
         /// </summary>
         public static string waifuleaderboard_desc {
             get {
