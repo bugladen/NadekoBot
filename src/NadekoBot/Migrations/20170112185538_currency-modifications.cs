@@ -12,7 +12,7 @@ namespace NadekoBot.Migrations
                 name: "BetflipMultiplier",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: 1.8f);
+                defaultValue: 1.95f);
 
             migrationBuilder.AddColumn<float>(
                 name: "Betroll100Multiplier",
@@ -30,7 +30,7 @@ namespace NadekoBot.Migrations
                 name: "Betroll91Multiplier",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: 3f);
+                defaultValue: 4f);
 
             migrationBuilder.AddColumn<int>(
                 name: "CurrencyDropAmount",
@@ -42,7 +42,7 @@ namespace NadekoBot.Migrations
                 name: "MinimumBetAmount",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: 3);
+                defaultValue: 2);
 
             migrationBuilder.AddColumn<int>(
                 name: "TriviaCurrencyReward",

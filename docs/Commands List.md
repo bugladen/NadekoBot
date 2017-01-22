@@ -125,6 +125,14 @@ Command and aliases | Description | Usage
 ### Gambling  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
+`$claimwaifu` `$claim` | Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `$affinity` towards you.  | `$claim 50 @Himesama`
+`$divorce` | Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.  | `$divorce @CheatingSloot`
+`$affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `$claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `$affinity @MyHusband` or `$affinity`
+`$waifus` `$waifulb` | Shows top 9 waifus.  | `$waifus`
+`$waifuinfo` `$waifustats` | Shows waifu stats for a target person. Defaults to you if no user is provided.  | `$waifuinfo @MyCrush` or `$waifuinfo`
+`$slotstats` | Shows the total stats of the slot command for this bot's session. **Bot Owner only.** | `$slotstats`
+`$slottest` | Tests to see how much slots payout for X number of plays. **Bot Owner only.** | `$slottest 1000`
+`$slot` | Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.  | `$slot 5`
 `$flip` | Flips coin(s) - heads or tails, and shows an image.  | `$flip` or `$flip 3`
 `$betflip` `$bf` | Bet to guess will the result be heads or tails. Guessing awards you 1.8x the currency you've bet.  | `$bf 5 heads` or `$bf 3 t`
 `$draw` | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.  | `$draw` or `$draw 5`
@@ -132,6 +140,7 @@ Command and aliases | Description | Usage
 `$roll` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.  | `$roll` or `$roll 7` or `$roll 3d5` or `$roll 5dF`
 `$rolluo` | Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.  | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`
 `$nroll` | Rolls in a given range.  | `$nroll 5` (rolls 0-5) or `$nroll 5-15`
+`$startevent` | Starts one of the events seen on public nadeko. **Bot Owner only.** | `$startevent flowerreaction`
 `$race` | Starts a new animal race.  | `$race`
 `$joinrace` `$jr` | Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.  | `$jr` or `$jr 5`
 `$raffle` | Prints a name and ID of a random user from the online list from the (optional) role.  | `$raffle` or `$raffle RoleName`
@@ -206,7 +215,6 @@ Command and aliases | Description | Usage
 `!!localplaylst` `!!lopl` | Queues all songs from a directory. **Bot Owner only.** | `!!lopl C:/music/classical`
 `!!radio` `!!ra` | Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)  | `!!ra radio link here`
 `!!local` `!!lo` | Queues a local file by specifying a full path. **Bot Owner only.** | `!!lo C:/music/mysong.mp3`
-`!!move` `!!mv` | Moves the bot to your voice channel. (works only if music is already playing)  | `!!mv`
 `!!remove` `!!rm` | Remove a song by its # in the queue, or 'all' to remove whole queue.  | `!!rm 5`
 `!!movesong` `!!ms` | Moves a song from one position to another.  | `!!ms 5>3`
 `!!setmaxqueue` `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq 50` or `!!smq`
@@ -226,7 +234,7 @@ Command and aliases | Description | Usage
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~hentai` | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `~hentai yuri`
-`~autohentai` | Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.  | `~autohentai 30 yuri|tail|long_hair` or `~autohentai`
+`~autohentai` | Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable. **Requires ManageMessages channel permission.** | `~autohentai 30 yuri|tail|long_hair` or `~autohentai`
 `~hentaibomb` | Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.  | `~hentaibomb yuri`
 `~danbooru` | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
 `~yandere` | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~yandere tag1+tag2`
@@ -249,6 +257,7 @@ Command and aliases | Description | Usage
 `;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.  | `;cfw`
 `;fw` | Adds or removes (if it exists) a word from the list of filtered words. Use`;sfw` or `;cfw` to toggle filtering.  | `;fw poop`
 `;lstfilterwords` `;lfw` | Shows a list of filtered words.  | `;lfw`
+`;cmdcosts` | Shows a list of command costs. Paginated with 9 command per page.  | `;cmdcosts` or `;cmdcosts 2`
 `;cmdcooldown` `;cmdcd` | Sets a cooldown per user for a command. Set to 0 to remove the cooldown.  | `;cmdcd "some cmd" 5`
 `;allcmdcooldowns` `;acmdcds` | Shows a list of all commands and their respective cooldowns.  | `;acmdcds`
 `;ubl` | Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist. **Bot Owner only.** | `;ubl add @SomeUser` or `;ubl rem 12312312313`

@@ -43,7 +43,12 @@ namespace NadekoBot.Modules.Music.Classes
         /// </summary>
         public uint MaxPlaytimeSeconds { get; set; } = 0;
 
-        public TimeSpan TotalPlaytime => new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
+
+        // this should be written better
+        public TimeSpan TotalPlaytime => 
+            playlist.Any(s => s.TotalTime == TimeSpan.MaxValue) ? 
+            TimeSpan.MaxValue : 
+            new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
 
         /// <summary>
         /// Users who recently got their music wish

@@ -23,8 +23,8 @@ namespace NadekoBot
     {
         private Logger _log;
         
-        public static Color OkColor { get; } = new Color(0x71cd40);
-        public static Color ErrorColor { get; } = new Color(0xee281f);
+        public static Color OkColor { get; }
+        public static Color ErrorColor { get; }
 
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
@@ -49,6 +49,8 @@ namespace NadekoBot
             {
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs();
                 BotConfig = uow.BotConfig.GetOrCreate();
+                OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
+                ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
         }
 
@@ -96,7 +98,7 @@ namespace NadekoBot
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
             await Client.ConnectAsync().ConfigureAwait(false);
-            await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+            //await Client.DownloadAllUsersAsync().ConfigureAwait(false);
             Stats.Initialize();
 
             _log.Info("Connected");

@@ -30,7 +30,11 @@ namespace NadekoBot.Services
     }
     public class CommandHandler
     {
+#if GLOBAL_NADEKO
         public const int GlobalCommandsCooldown = 1500;
+#else
+        public const int GlobalCommandsCooldown = 750;
+#endif
 
         private readonly DiscordShardedClient _client;
         private readonly CommandService _commandService;
@@ -119,18 +123,18 @@ namespace NadekoBot.Services
         private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int ticks)
         {
             _log.Warn("Command Errored after {5}s\n\t" +
-                                "User: {0}\n\t" +
-                                "Server: {1}\n\t" +
-                                "Channel: {2}\n\t" +
-                                "Message: {3}\n\t" +
-                                "Error: {4}",
-                                usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                                (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                usrMsg.Content,// {3}
-                                exec.Result.ErrorReason, // {4}
-                                ticks * oneThousandth // {5}
-                                );
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" +
+                        "Error: {4}",
+                        usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                        (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                        (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                        usrMsg.Content,// {3}
+                        exec.Result.ErrorReason, // {4}
+                        ticks * oneThousandth // {5}
+                        );
         }
 
         private async Task<bool> InviteFiltered(IGuild guild, SocketUserMessage usrMsg)
@@ -193,13 +197,10 @@ namespace NadekoBot.Services
                 if (usrMsg == null) //has to be an user message, not system/other messages.
                     return;
 
+#if !GLOBAL_NADEKO
                 // track how many messagges each user is sending
                 UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
-
-                // Bot will ignore commands which are ran more often than what specified by
-                // GlobalCommandsCooldown constant (miliseconds)
-                if (!UsersOnShortCooldown.Add(usrMsg.Author.Id))
-                    return;
+#endif
 
                 var channel = msg.Channel as SocketTextChannel;
                 var guild = channel?.Guild;
@@ -216,19 +217,19 @@ namespace NadekoBot.Services
                 if (IsBlacklisted(guild, usrMsg))
                     return;
 
-                var cleverBotRan = await TryRunCleverbot(usrMsg, guild).ConfigureAwait(false);
+                var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
                 if (cleverBotRan)
                     return;
 
                 // maybe this message is a custom reaction
-                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+                var crExecuted = await Task.Run(() => CustomReactions.TryExecuteCustomReaction(usrMsg)).ConfigureAwait(false);
                 if (crExecuted) //if it was, don't execute the command
                     return;
 
                 string messageContent = usrMsg.Content;
 
                 // execute the command and measure the time it took
-                var exec = await ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
+                var exec = await Task.Run(() => ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best)).ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
                 if (exec.Result.IsSuccess)
@@ -367,9 +368,13 @@ namespace NadekoBot.Services
                     }
                 }
 
+                // Bot will ignore commands which are ran more often than what specified by
+                // GlobalCommandsCooldown constant (miliseconds)
+                if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"You are on a global cooldown."));
 
                 if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
-                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on a cooldown for you."));
 
                 return new ExecuteCommandResult(cmd, null, await commands[i].ExecuteAsync(context, parseResult, dependencyMap));
             }

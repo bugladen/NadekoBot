@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Net;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -64,7 +65,24 @@ namespace NadekoBot.Modules.Utility
 
                             if (oldMsg != null)
                                 try { await oldMsg.DeleteAsync(); } catch { }
-                            try { oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                            try
+                            {
+                                oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false);
+                            }
+                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                            {
+                                _log.Warn("Missing permissions. Repeater stopped. ChannelId : {0}", Channel?.Id);
+                                return;
+                            }
+                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                            {
+                                _log.Warn("Channel not found. Repeater stopped. ChannelId : {0}", Channel?.Id);
+                                return;
+                            }
+                            catch (Exception ex)
+                            {
+                                _log.Warn(ex);
+                            }
                         }
                     }
                     catch (OperationCanceledException) { }
