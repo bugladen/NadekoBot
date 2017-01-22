@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
-        public async Task BrTest(int tests = 1000)
+        public Task BrTest(int tests = 1000)
         {
             var t = Task.Run(async () =>
             {
@@ -189,10 +189,15 @@ namespace NadekoBot.Modules.Gambling
                     sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
                     payout += key * dict[key];
                 }
-                await Context.Channel.SendConfirmAsync("BetRoll Test Results", sb.ToString(),
-                    footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
+                try
+                {
+                    await Context.Channel.SendConfirmAsync("BetRoll Test Results", sb.ToString(),
+                        footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
+                }
+                catch { }
 
             });
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

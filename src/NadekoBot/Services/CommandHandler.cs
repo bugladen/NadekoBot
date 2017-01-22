@@ -197,8 +197,10 @@ namespace NadekoBot.Services
                 if (usrMsg == null) //has to be an user message, not system/other messages.
                     return;
 
+#if !GLOBAL_NADEKO
                 // track how many messagges each user is sending
                 UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+#endif
 
                 var channel = msg.Channel as SocketTextChannel;
                 var guild = channel?.Guild;

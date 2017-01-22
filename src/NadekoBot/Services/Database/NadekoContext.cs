@@ -3,9 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace NadekoBot.Services.Database
 {
+
+    public class NadekoContextFactory : IDbContextFactory<NadekoContext>
+    {
+        /// <summary>
+        /// :\ Used for migrations
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public NadekoContext Create(DbContextFactoryOptions options)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder();
+            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
+            return new NadekoContext(optionsBuilder.Options);
+        }
+    }
+
     public class NadekoContext : DbContext
     {
         public DbSet<Quote> Quotes { get; set; }
@@ -22,6 +39,7 @@ namespace NadekoBot.Services.Database
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
         public DbSet<UserPokeTypes> PokeGame { get; set; }
+        public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -33,22 +51,14 @@ namespace NadekoBot.Services.Database
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<ModulePrefix> ModulePrefixes { get; set; }
 
-        public NadekoContext()
+        public NadekoContext() : base()
         {
-            this.Database.Migrate();
+
         }
 
         public NadekoContext(DbContextOptions options) : base(options)
         {
-            this.Database.Migrate();
-            EnsureSeedData();
         }
-
-        ////Uncomment this to db initialisation with dotnet ef migration add [module]
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
-        //}
 
         public void EnsureSeedData()
         {
@@ -243,6 +253,24 @@ namespace NadekoBot.Services.Database
             //modelBuilder.Entity<CommandCost>()
             //    .HasIndex(cp => cp.CommandName)
             //    .IsUnique();
+            #endregion
+
+            #region Waifus
+
+            var wi = modelBuilder.Entity<WaifuInfo>();
+            wi.HasOne(x => x.Waifu)
+                .WithOne();
+            //    //.HasForeignKey<WaifuInfo>(w => w.WaifuId)
+            //    //.IsRequired(true);
+
+            //wi.HasOne(x => x.Claimer)
+            //    .WithOne();
+            //    //.HasForeignKey<WaifuInfo>(w => w.ClaimerId)
+            //    //.IsRequired(false);
+
+            var du = modelBuilder.Entity<DiscordUser>();
+            du.HasAlternateKey(w => w.UserId);
+
             #endregion
         }
     }

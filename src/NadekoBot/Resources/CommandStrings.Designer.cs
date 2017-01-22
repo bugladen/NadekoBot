@@ -2490,6 +2490,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to divorce.
+        /// </summary>
+        public static string divorce_cmd {
+            get {
+                return ResourceManager.GetString("divorce_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Releases your claim on a specific waifu. You will get a part of your money back unless that waifu has an affinity towards you..
+        /// </summary>
+        public static string divorce_desc {
+            get {
+                return ResourceManager.GetString("divorce_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}divorce @CheatingSloot`.
+        /// </summary>
+        public static string divorce_usage {
+            get {
+                return ResourceManager.GetString("divorce_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to donadd.
         /// </summary>
         public static string donadd_cmd {
@@ -8372,6 +8399,114 @@ namespace NadekoBot.Resources {
         public static string volume_usage {
             get {
                 return ResourceManager.GetString("volume_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to claimwaifu claim.
+        /// </summary>
+        public static string waifuclaim_cmd {
+            get {
+                return ResourceManager.GetString("waifuclaim_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you..
+        /// </summary>
+        public static string waifuclaim_desc {
+            get {
+                return ResourceManager.GetString("waifuclaim_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}claim 50 @Himesama`.
+        /// </summary>
+        public static string waifuclaim_usage {
+            get {
+                return ResourceManager.GetString("waifuclaim_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to affinity.
+        /// </summary>
+        public static string waifuclaimeraffinity_cmd {
+            get {
+                return ResourceManager.GetString("waifuclaimeraffinity_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%.
+        /// </summary>
+        public static string waifuclaimeraffinity_desc {
+            get {
+                return ResourceManager.GetString("waifuclaimeraffinity_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}affinity`.
+        /// </summary>
+        public static string waifuclaimeraffinity_usage {
+            get {
+                return ResourceManager.GetString("waifuclaimeraffinity_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to waifuinfo waifustats.
+        /// </summary>
+        public static string waifuinfo_cmd {
+            get {
+                return ResourceManager.GetString("waifuinfo_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows waifu stats for a target person..
+        /// </summary>
+        public static string waifuinfo_desc {
+            get {
+                return ResourceManager.GetString("waifuinfo_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}waifuinfo @MyCrush`.
+        /// </summary>
+        public static string waifuinfo_usage {
+            get {
+                return ResourceManager.GetString("waifuinfo_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to waifus waifulb.
+        /// </summary>
+        public static string waifuleaderboard_cmd {
+            get {
+                return ResourceManager.GetString("waifuleaderboard_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows top 10 waifus..
+        /// </summary>
+        public static string waifuleaderboard_desc {
+            get {
+                return ResourceManager.GetString("waifuleaderboard_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}waifus`.
+        /// </summary>
+        public static string waifuleaderboard_usage {
+            get {
+                return ResourceManager.GetString("waifuleaderboard_usage", resourceCulture);
             }
         }
         

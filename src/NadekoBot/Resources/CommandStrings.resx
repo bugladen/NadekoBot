@@ -2979,4 +2979,49 @@
   <data name="slot_usage" xml:space="preserve">
     <value>`{0}slot 5`</value>
   </data>
+  <data name="waifuclaimeraffinity_cmd" xml:space="preserve">
+    <value>affinity</value>
+  </data>
+  <data name="waifuclaimeraffinity_desc" xml:space="preserve">
+    <value>Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%</value>
+  </data>
+  <data name="waifuclaimeraffinity_usage" xml:space="preserve">
+    <value>`{0}affinity`</value>
+  </data>
+  <data name="waifuclaim_cmd" xml:space="preserve">
+    <value>claimwaifu claim</value>
+  </data>
+  <data name="waifuclaim_desc" xml:space="preserve">
+    <value>Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you.</value>
+  </data>
+  <data name="waifuclaim_usage" xml:space="preserve">
+    <value>`{0}claim 50 @Himesama`</value>
+  </data>
+  <data name="waifuleaderboard_cmd" xml:space="preserve">
+    <value>waifus waifulb</value>
+  </data>
+  <data name="waifuleaderboard_desc" xml:space="preserve">
+    <value>Shows top 10 waifus.</value>
+  </data>
+  <data name="waifuleaderboard_usage" xml:space="preserve">
+    <value>`{0}waifus`</value>
+  </data>
+  <data name="divorce_cmd" xml:space="preserve">
+    <value>divorce</value>
+  </data>
+  <data name="divorce_desc" xml:space="preserve">
+    <value>Releases your claim on a specific waifu. You will get a part of your money back unless that waifu has an affinity towards you.</value>
+  </data>
+  <data name="divorce_usage" xml:space="preserve">
+    <value>`{0}divorce @CheatingSloot`</value>
+  </data>
+  <data name="waifuinfo_cmd" xml:space="preserve">
+    <value>waifuinfo waifustats</value>
+  </data>
+  <data name="waifuinfo_desc" xml:space="preserve">
+    <value>Shows waifu stats for a target person.</value>
+  </data>
+  <data name="waifuinfo_usage" xml:space="preserve">
+    <value>`{0}waifuinfo @MyCrush`</value>
+  </data>
 </root>
