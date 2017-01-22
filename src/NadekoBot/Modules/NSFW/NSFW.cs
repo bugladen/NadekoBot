@@ -289,6 +289,6 @@ namespace NadekoBot.Modules.NSFW
 
         public static Task<string> GetRule34ImageLink(string tag) =>
             Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Rule34);
-    }
 #endif
+    }
 }
