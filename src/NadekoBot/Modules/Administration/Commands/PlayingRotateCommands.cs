@@ -81,7 +81,8 @@ namespace NadekoBot.Modules.Administration
                             }
                         }
                     },
-                    {"%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()}
+                    {"%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
+                    { "%time%", () => DateTime.Now.ToString("hh:mm "+TimeZoneInfo.Local.StandardName.GetInitials()) }
                 };
 
             [NadekoCommand, Usage, Description, Aliases]

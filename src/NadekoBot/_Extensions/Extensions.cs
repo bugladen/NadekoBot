@@ -103,6 +103,9 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
 
+        public static string GetInitials(this string txt, string glue = "") =>
+            string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
+
         public static DateTime ToUnixTimestamp(this double number) => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(number);
 
         public static EmbedBuilder WithOkColor(this EmbedBuilder eb) =>
