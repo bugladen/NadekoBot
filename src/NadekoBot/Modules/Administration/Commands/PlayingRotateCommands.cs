@@ -67,9 +67,9 @@ namespace NadekoBot.Modules.Administration
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
                 new Dictionary<string, Func<string>> {
-                    {"%servers%", () => NadekoBot.Client.GetGuildCount().ToString()},
-                    {"%users%", () => NadekoBot.Client.GetGuilds().Sum(s => s.Users.Count).ToString()},
-                    {"%playing%", () => {
+                    { "%servers%", () => NadekoBot.Client.GetGuildCount().ToString()},
+                    { "%users%", () => NadekoBot.Client.GetGuilds().Sum(s => s.Users.Count).ToString()},
+                    { "%playing%", () => {
                             var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                             if (cnt != 1) return cnt.ToString();
                             try {
@@ -81,8 +81,8 @@ namespace NadekoBot.Modules.Administration
                             }
                         }
                     },
-                    {"%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
-                    { "%time%", () => DateTime.Now.ToString("hh:mm "+TimeZoneInfo.Local.StandardName.GetInitials()) }
+                    { "%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
+                    { "%time%", () => DateTime.Now.ToString("hh:mm " + TimeZoneInfo.Local.StandardName.GetInitials()) }
                 };
 
             [NadekoCommand, Usage, Description, Aliases]
