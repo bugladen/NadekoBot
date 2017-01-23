@@ -147,9 +147,12 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Plant()
+            public async Task Plant(int amount = 1)
             {
-                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Planted a {NadekoBot.BotConfig.CurrencyName}", 1, false).ConfigureAwait(false);
+                if (amount < 1)
+                    return;
+
+                var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Planted a {NadekoBot.BotConfig.CurrencyName}", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await Context.Channel.SendErrorAsync($"You don't have any {NadekoBot.BotConfig.CurrencyPluralName}.").ConfigureAwait(false);
@@ -160,7 +163,7 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.BotConfig.CurrencyName[0]);
                 
-                var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.BotConfig.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
+                var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(amount == 1 ? (vowelFirst ? "an" : "a") : amount.ToString())} {(amount > 1 ? NadekoBot.BotConfig.CurrencyPluralName : NadekoBot.BotConfig.CurrencyName)}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {
                     msg = await Context.Channel.SendConfirmAsync(NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
@@ -169,7 +172,15 @@ namespace NadekoBot.Modules.Games
                 {
                     msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), new FileInfo(file).Name, msgToSend).ConfigureAwait(false);
                 }
-                plantedFlowers.AddOrUpdate(Context.Channel.Id, new List<IUserMessage>() { msg }, (id, old) => { old.Add(msg); return old; });
+
+                var msgs = new IUserMessage[amount];
+                msgs[0] = msg;
+
+                plantedFlowers.AddOrUpdate(Context.Channel.Id, msgs.ToList(), (id, old) =>
+                {
+                    old.AddRange(msgs);
+                    return old;
+                });
             }
 
             [NadekoCommand, Usage, Description, Aliases]
