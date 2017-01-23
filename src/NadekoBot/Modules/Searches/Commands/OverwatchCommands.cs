@@ -46,11 +46,7 @@ namespace NadekoBot.Modules.Searches
                             .WithThumbnailUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png")
                             .AddField(fb => fb.WithName("**Level**").WithValue($"{model.level}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
-                            //.AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Games.Competitive.wins}").WithIsInline(true))
-                            //.AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Games.Competitive.lost}").WithIsInline(true))
-                            //.AddField(fb => fb.WithName("**Current Competitive Played**").WithValue($"{model.Games.Competitive.played}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
-                            //.AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Playtime.quick}").WithIsInline(true))
                             .WithOkColor();
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
