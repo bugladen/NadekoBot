@@ -67,14 +67,14 @@ namespace NadekoBot.Modules.Gambling
         {
             if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
-            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
+            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)
             {
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
