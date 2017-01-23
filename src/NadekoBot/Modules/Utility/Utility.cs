@@ -25,6 +25,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
         [OwnerOnly]
         public async Task RotateRoleColor(int timeout, IRole role, params string[] hexes)
         {
