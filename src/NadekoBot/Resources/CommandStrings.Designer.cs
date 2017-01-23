@@ -5118,7 +5118,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost).
+        ///    Looks up a localized string similar to Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost).
         /// </summary>
         public static string plant_desc {
             get {
@@ -5127,7 +5127,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}plant`.
+        ///    Looks up a localized string similar to `{0}plant` or `{0}plant 5`.
         /// </summary>
         public static string plant_usage {
             get {

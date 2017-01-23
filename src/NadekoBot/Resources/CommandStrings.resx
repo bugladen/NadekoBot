@@ -1372,10 +1372,11 @@
     <value>plant</value>
   </data>
   <data name="plant_desc" xml:space="preserve">
-    <value>Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)</value>
+    <value>Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)</value>
   </data>
   <data name="plant_usage" xml:space="preserve">
-    <value>`{0}plant`</value>
+    <value>`{0}plant` or `{0}plant 5`</value>
+    <comment> </comment>
   </data>
   <data name="gencurrency_cmd" xml:space="preserve">
     <value>gencurrency gc</value>
