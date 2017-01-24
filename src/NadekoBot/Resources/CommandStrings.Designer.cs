@@ -177,7 +177,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%.
+        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%.
         /// </summary>
         public static string addplaying_desc {
             get {

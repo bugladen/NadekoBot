@@ -292,7 +292,7 @@
     <value>addplaying adpl</value>
   </data>
   <data name="addplaying_desc" xml:space="preserve">
-    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%</value>
+    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%</value>
   </data>
   <data name="addplaying_usage" xml:space="preserve">
     <value>`{0}adpl`</value>
@@ -1376,7 +1376,6 @@
   </data>
   <data name="plant_usage" xml:space="preserve">
     <value>`{0}plant` or `{0}plant 5`</value>
-    <comment> </comment>
   </data>
   <data name="gencurrency_cmd" xml:space="preserve">
     <value>gencurrency gc</value>
