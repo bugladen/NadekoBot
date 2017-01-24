@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Gambling
                  {
                      try
                      {
-                         if (r.Emoji.Name == "🌸" && r.User.IsSpecified && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
+                         if (r.Emoji.Name == "🌸" && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
                          {
                              try { await CurrencyHandler.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", 100, false).ConfigureAwait(false); } catch { }
                          }
