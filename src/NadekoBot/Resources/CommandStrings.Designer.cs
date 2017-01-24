@@ -879,7 +879,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bet to guess will the result be heads or tails. Guessing awards you 1.8x the currency you&apos;ve bet..
+        ///    Looks up a localized string similar to Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you&apos;ve bet (rounded up). Multiplier can be changed by the bot owner..
         /// </summary>
         public static string betflip_desc {
             get {
@@ -5118,7 +5118,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost).
+        ///    Looks up a localized string similar to Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost).
         /// </summary>
         public static string plant_desc {
             get {
@@ -5127,7 +5127,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}plant`.
+        ///    Looks up a localized string similar to `{0}plant` or `{0}plant 5`.
         /// </summary>
         public static string plant_usage {
             get {

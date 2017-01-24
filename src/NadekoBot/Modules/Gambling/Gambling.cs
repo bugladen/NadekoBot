@@ -67,14 +67,14 @@ namespace NadekoBot.Modules.Gambling
         {
             if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
-            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
+            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)
             {
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -248,22 +248,33 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Leaderboard()
         {
-            IEnumerable<Currency> richest = new List<Currency>();
+            var richest = new List<Currency>();
             using (var uow = DbHandler.UnitOfWork())
             {
-                richest = uow.Currency.GetTopRichest(10);
+                richest = uow.Currency.GetTopRichest(9).ToList();
             }
             if (!richest.Any())
                 return;
-            await Context.Channel.SendMessageAsync(
-                richest.Aggregate(new StringBuilder(
-$@"```xl
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
-┃        Id           ┃  $$$   ┃
-"),
-                (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
-┃{(Context.Guild.GetUserAsync(cs.UserId).GetAwaiter().GetResult()?.Username?.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
-                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
+
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(NadekoBot.BotConfig.CurrencySign + " Leaderboard");
+
+            for (var i = 0; i < richest.Count; i++)
+            {
+                var x = richest[i];
+                var usr = await Context.Guild.GetUserAsync(x.UserId).ConfigureAwait(false);
+                var usrStr = "";
+                if (usr == null)
+                    usrStr = x.UserId.ToString();
+                else
+                    usrStr = usr.Username?.TrimTo(20, true);
+
+                embed.AddField(efb => efb.WithName("#" + (i + 1) + " " + usrStr).WithValue(x.Amount.ToString() + " " + NadekoBot.BotConfig.CurrencySign).WithIsInline(true));
+            }
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
     }
 }

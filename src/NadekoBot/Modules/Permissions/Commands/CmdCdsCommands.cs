@@ -65,12 +65,12 @@ namespace NadekoBot.Modules.Permissions
                 {
                     var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     activeCds.RemoveWhere(ac => ac.Command == command.Aliases.First().ToLowerInvariant());
-                    await channel.SendConfirmAsync($"🚮 Command **{command}** has no coooldown now and all existing cooldowns have been cleared.")
+                    await channel.SendConfirmAsync($"🚮 Command **{command.Aliases.First()}** has no coooldown now and all existing cooldowns have been cleared.")
                                  .ConfigureAwait(false);
                 }
                 else
                 {
-                    await channel.SendConfirmAsync($"✅ Command **{command}** now has a **{secs} {"seconds".SnPl(secs)}** cooldown.")
+                    await channel.SendConfirmAsync($"✅ Command **{command.Aliases.First()}** now has a **{secs} {"seconds".SnPl(secs)}** cooldown.")
                                  .ConfigureAwait(false);
                 }
             }

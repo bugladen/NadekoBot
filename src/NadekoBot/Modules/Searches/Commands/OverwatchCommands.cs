@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Searches
                 {
                     await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                     var model = await GetProfile(region, battletag);
-                        
+
                     var rankimg = $"{model.Competitive.rank_img}";
                     var rank = $"{model.Competitive.rank}";
                     var competitiveplay = $"{model.Games.Competitive.played}";
@@ -92,7 +92,6 @@ namespace NadekoBot.Modules.Searches
                     return null;
                 }
             }
-            
         }
     }
 }
