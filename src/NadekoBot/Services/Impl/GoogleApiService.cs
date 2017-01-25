@@ -199,7 +199,7 @@ namespace NadekoBot.Services.Impl
             }
         }
 
-        public async Task<ImageResult> GetImageAsync(string query, int start = 0)
+        public async Task<ImageResult> GetImageAsync(string query, int start = 1)
         {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
