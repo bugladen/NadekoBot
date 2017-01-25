@@ -67,14 +67,14 @@ namespace NadekoBot.Modules.Gambling
         {
             if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
-            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, true).ConfigureAwait(false);
+            var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)
             {
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver.Mention}!").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully sent {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} to {receiver}!").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -145,6 +145,61 @@ namespace NadekoBot.Modules.Gambling
                 await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {CurrencyPluralName}!").ConfigureAwait(false);
         }
 
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[OwnerOnly]
+        //public Task BrTest(int tests = 1000)
+        //{
+        //    var t = Task.Run(async () =>
+        //    {
+        //        if (tests <= 0)
+        //            return;
+        //        //multi vs how many times it occured
+        //        var dict = new Dictionary<int, int>();
+        //        var generator = new NadekoRandom();
+        //        for (int i = 0; i < tests; i++)
+        //        {
+        //            var rng = generator.Next(0, 101);
+        //            var mult = 0;
+        //            if (rng < 67)
+        //            {
+        //                mult = 0;
+        //            }
+        //            else if (rng < 91)
+        //            {
+        //                mult = 2;
+        //            }
+        //            else if (rng < 100)
+        //            {
+        //                mult = 4;
+        //            }
+        //            else
+        //                mult = 10;
+
+        //            if (dict.ContainsKey(mult))
+        //                dict[mult] += 1;
+        //            else
+        //                dict.Add(mult, 1);
+        //        }
+
+        //        var sb = new StringBuilder();
+        //        const int bet = 1;
+        //        int payout = 0;
+        //        foreach (var key in dict.Keys.OrderByDescending(x => x))
+        //        {
+        //            sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
+        //            payout += key * dict[key];
+        //        }
+        //        try
+        //        {
+        //            await Context.Channel.SendConfirmAsync("BetRoll Test Results", sb.ToString(),
+        //                footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
+        //        }
+        //        catch { }
+
+        //    });
+        //    return Task.CompletedTask;
+        //}
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task BetRoll(long amount)
         {
@@ -193,22 +248,33 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Leaderboard()
         {
-            IEnumerable<Currency> richest = new List<Currency>();
+            var richest = new List<Currency>();
             using (var uow = DbHandler.UnitOfWork())
             {
-                richest = uow.Currency.GetTopRichest(10);
+                richest = uow.Currency.GetTopRichest(9).ToList();
             }
             if (!richest.Any())
                 return;
-            await Context.Channel.SendMessageAsync(
-                richest.Aggregate(new StringBuilder(
-$@"```xl
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
-┃        Id           ┃  $$$   ┃
-"),
-                (cur, cs) => cur.AppendLine($@"┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━┫
-┃{(Context.Guild.GetUserAsync(cs.UserId).GetAwaiter().GetResult()?.Username?.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Amount,6} ┃")
-                        ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┛```").ConfigureAwait(false);
+
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(NadekoBot.BotConfig.CurrencySign + " Leaderboard");
+
+            for (var i = 0; i < richest.Count; i++)
+            {
+                var x = richest[i];
+                var usr = await Context.Guild.GetUserAsync(x.UserId).ConfigureAwait(false);
+                var usrStr = "";
+                if (usr == null)
+                    usrStr = x.UserId.ToString();
+                else
+                    usrStr = usr.Username?.TrimTo(20, true);
+
+                embed.AddField(efb => efb.WithName("#" + (i + 1) + " " + usrStr).WithValue(x.Amount.ToString() + " " + NadekoBot.BotConfig.CurrencySign).WithIsInline(true));
+            }
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Games
                 if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out cleverbot))
                     return false;
 
-                var nadekoId = NadekoBot.Client.CurrentUser().Id;
+                var nadekoId = NadekoBot.Client.CurrentUser.Id;
                 var normalMention = $"<@{nadekoId}> ";
                 var nickMention = $"<@!{nadekoId}> ";
                 string message;

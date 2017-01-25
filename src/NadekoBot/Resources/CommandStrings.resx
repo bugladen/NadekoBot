@@ -292,7 +292,7 @@
     <value>addplaying adpl</value>
   </data>
   <data name="addplaying_desc" xml:space="preserve">
-    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%</value>
+    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%</value>
   </data>
   <data name="addplaying_usage" xml:space="preserve">
     <value>`{0}adpl`</value>
@@ -1183,7 +1183,7 @@
     <value>betflip bf</value>
   </data>
   <data name="betflip_desc" xml:space="preserve">
-    <value>Bet to guess will the result be heads or tails. Guessing awards you 1.8x the currency you've bet.</value>
+    <value>Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you've bet (rounded up). Multiplier can be changed by the bot owner.</value>
   </data>
   <data name="betflip_usage" xml:space="preserve">
     <value>`{0}bf 5 heads` or `{0}bf 3 t`</value>
@@ -1372,10 +1372,10 @@
     <value>plant</value>
   </data>
   <data name="plant_desc" xml:space="preserve">
-    <value>Spend a unit of currency to plant it in this channel. (If bot is restarted or crashes, the currency will be lost)</value>
+    <value>Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)</value>
   </data>
   <data name="plant_usage" xml:space="preserve">
-    <value>`{0}plant`</value>
+    <value>`{0}plant` or `{0}plant 5`</value>
   </data>
   <data name="gencurrency_cmd" xml:space="preserve">
     <value>gencurrency gc</value>
@@ -2924,5 +2924,104 @@
   </data>
   <data name="antispamignore_usage" xml:space="preserve">
     <value>`{0}antispamignore`</value>
+  </data>
+  <data name="cmdcosts_cmd" xml:space="preserve">
+    <value>cmdcosts</value>
+  </data>
+  <data name="cmdcosts_desc" xml:space="preserve">
+    <value>Shows a list of command costs. Paginated with 9 command per page.</value>
+  </data>
+  <data name="cmdcosts_usage" xml:space="preserve">
+    <value>`{0}cmdcosts` or `{0}cmdcosts 2`</value>
+  </data>
+  <data name="commandcost_cmd" xml:space="preserve">
+    <value>commandcost cmdcost</value>
+  </data>
+  <data name="commandcost_desc" xml:space="preserve">
+    <value>Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.</value>
+  </data>
+  <data name="commandcost_usage" xml:space="preserve">
+    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
+  </data>
+  <data name="startevent_cmd" xml:space="preserve">
+    <value>startevent</value>
+  </data>
+  <data name="startevent_desc" xml:space="preserve">
+    <value>Starts one of the events seen on public nadeko.</value>
+  </data>
+  <data name="startevent_usage" xml:space="preserve">
+    <value>`{0}startevent flowerreaction`</value>
+  </data>
+  <data name="slotstats_cmd" xml:space="preserve">
+    <value>slotstats</value>
+  </data>
+  <data name="slotstats_desc" xml:space="preserve">
+    <value>Shows the total stats of the slot command for this bot's session.</value>
+  </data>
+  <data name="slotstats_usage" xml:space="preserve">
+    <value>`{0}slotstats`</value>
+  </data>
+  <data name="slottest_cmd" xml:space="preserve">
+    <value>slottest</value>
+  </data>
+  <data name="slottest_desc" xml:space="preserve">
+    <value>Tests to see how much slots payout for X number of plays.</value>
+  </data>
+  <data name="slottest_usage" xml:space="preserve">
+    <value>`{0}slottest 1000`</value>
+  </data>
+  <data name="slot_cmd" xml:space="preserve">
+    <value>slot</value>
+  </data>
+  <data name="slot_desc" xml:space="preserve">
+    <value>Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.</value>
+  </data>
+  <data name="slot_usage" xml:space="preserve">
+    <value>`{0}slot 5`</value>
+  </data>
+  <data name="waifuclaimeraffinity_cmd" xml:space="preserve">
+    <value>affinity</value>
+  </data>
+  <data name="waifuclaimeraffinity_desc" xml:space="preserve">
+    <value>Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.</value>
+  </data>
+  <data name="waifuclaimeraffinity_usage" xml:space="preserve">
+    <value>`{0}affinity @MyHusband` or `{0}affinity`</value>
+  </data>
+  <data name="waifuclaim_cmd" xml:space="preserve">
+    <value>claimwaifu claim</value>
+  </data>
+  <data name="waifuclaim_desc" xml:space="preserve">
+    <value>Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you.</value>
+  </data>
+  <data name="waifuclaim_usage" xml:space="preserve">
+    <value>`{0}claim 50 @Himesama`</value>
+  </data>
+  <data name="waifuleaderboard_cmd" xml:space="preserve">
+    <value>waifus waifulb</value>
+  </data>
+  <data name="waifuleaderboard_desc" xml:space="preserve">
+    <value>Shows top 9 waifus.</value>
+  </data>
+  <data name="waifuleaderboard_usage" xml:space="preserve">
+    <value>`{0}waifus`</value>
+  </data>
+  <data name="divorce_cmd" xml:space="preserve">
+    <value>divorce</value>
+  </data>
+  <data name="divorce_desc" xml:space="preserve">
+    <value>Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.</value>
+  </data>
+  <data name="divorce_usage" xml:space="preserve">
+    <value>`{0}divorce @CheatingSloot`</value>
+  </data>
+  <data name="waifuinfo_cmd" xml:space="preserve">
+    <value>waifuinfo waifustats</value>
+  </data>
+  <data name="waifuinfo_desc" xml:space="preserve">
+    <value>Shows waifu stats for a target person. Defaults to you if no user is provided.</value>
+  </data>
+  <data name="waifuinfo_usage" xml:space="preserve">
+    <value>`{0}waifuinfo @MyCrush` or `{0}waifuinfo`</value>
   </data>
 </root>

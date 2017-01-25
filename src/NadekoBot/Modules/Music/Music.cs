@@ -37,30 +37,49 @@ namespace NadekoBot.Modules.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        private static async void Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+        private static Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var usr = iusr as SocketGuildUser;
             if (usr == null ||
                 oldState.VoiceChannel == newState.VoiceChannel)
-                return;
+                return Task.CompletedTask;
 
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
-                return;
+                return Task.CompletedTask;
+
             try
             {
-                var users = await player.PlaybackVoiceChannel.GetUsersAsync().Flatten().ConfigureAwait(false);
+
+
+                //if bot moved
+                if ((player.PlaybackVoiceChannel == oldState.VoiceChannel) &&
+                        usr.Id == NadekoBot.Client.CurrentUser.Id)
+                {
+                    if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
+                        player.TogglePause();
+                    else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
+                        player.TogglePause();
+
+                    return Task.CompletedTask;
+                }
+
+
+                //if some other user moved
                 if ((player.PlaybackVoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
                         player.Paused &&
-                        users.Count() == 2) ||  // keep in mind bot is in the channel (+1)
+                        newState.VoiceChannel.Users.Count == 2) ||  // keep in mind bot is in the channel (+1)
                     (player.PlaybackVoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
                         !player.Paused &&
-                        users.Count() == 1))
+                        oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
+                    return Task.CompletedTask;
                 }
+
             }
             catch { }
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -185,39 +204,40 @@ namespace NadekoBot.Modules.Music
             const int itemsPerPage = 10;
 
             var total = musicPlayer.TotalPlaytime;
+            var totalStr = total == TimeSpan.MaxValue ? "∞" : $"{(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s";
             var maxPlaytime = musicPlayer.MaxPlaytimeSeconds;
             var lastPage = musicPlayer.Playlist.Count / itemsPerPage;
             Func<int, EmbedBuilder> printAction = (curPage) =>
             {
                 int startAt = itemsPerPage * (curPage - 1);
                 var number = 0 + startAt;
-                var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName($"Player Queue")
-                                          .WithMusicIcon())
-                    .WithDescription(string.Join("\n", musicPlayer.Playlist
+                var desc = string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
                         .Take(itemsPerPage)
-                        .Select(v => $"`{++number}.` {v.PrettyFullName}")))
+                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+
+                if (currentSong != null)
+                    desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
+
+                if (musicPlayer.RepeatSong)
+                    desc = "🔂 Repeating Current Song\n\n" + desc;
+                else if (musicPlayer.RepeatPlaylist)
+                    desc = "🔁 Repeating Playlist\n\n" + desc;
+                
+
+
+                var embed = new EmbedBuilder()
+                    .WithAuthor(eab => eab.WithName($"Player Queue - Page {curPage}/{lastPage + 1}")
+                                          .WithMusicIcon())
+                    .WithDescription(desc)
                     .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
-    $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
+    $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {totalStr} | " +
     (musicPlayer.FairPlay ? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
                     .WithOkColor();
 
-                if (musicPlayer.RepeatSong)
-                {
-                    embed.WithTitle($"🔂 Repeating Song: {currentSong.SongInfo.Title} | {currentSong.PrettyFullTime}");
-                }
-                else if (musicPlayer.RepeatPlaylist)
-                {
-                    embed.WithTitle("🔁 Repeating Playlist");
-                }
-                if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
-                {
-                    embed.WithTitle("🎵 Song queue is full!");
-                }
                 return embed;
             };
-            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage).ConfigureAwait(false);
+            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage, false).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -448,17 +468,17 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Move()
-        {
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Move()
+        //{
 
-            MusicPlayer musicPlayer;
-            var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
-            if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-                return;
-            await musicPlayer.MoveToVoiceChannel(voiceChannel);
-        }
+        //    MusicPlayer musicPlayer;
+        //    var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
+        //    if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+        //        return;
+        //    await musicPlayer.MoveToVoiceChannel(voiceChannel);
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -785,7 +805,7 @@ namespace NadekoBot.Modules.Music
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (!silent)
-                    await textCh.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining.").ConfigureAwait(false);
+                    await textCh.SendErrorAsync($"💢 You need to be in a voice channel on this server.").ConfigureAwait(false);
                 throw new ArgumentNullException(nameof(voiceCh));
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
@@ -814,7 +834,7 @@ namespace NadekoBot.Modules.Music
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
 
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
                         }

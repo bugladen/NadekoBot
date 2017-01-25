@@ -43,7 +43,12 @@ namespace NadekoBot.Modules.Music.Classes
         /// </summary>
         public uint MaxPlaytimeSeconds { get; set; } = 0;
 
-        public TimeSpan TotalPlaytime => new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
+
+        // this should be written better
+        public TimeSpan TotalPlaytime => 
+            playlist.Any(s => s.TotalTime == TimeSpan.MaxValue) ? 
+            TimeSpan.MaxValue : 
+            new TimeSpan(playlist.Sum(s => s.TotalTime.Ticks));
 
         /// <summary>
         /// Users who recently got their music wish
@@ -140,9 +145,15 @@ namespace NadekoBot.Modules.Music.Classes
                             RemoveSongAt(index, true);
 
                         OnStarted(this, CurrentSong);
-                        await CurrentSong.Play(audioClient, cancelToken);
-
-                        OnCompleted(this, CurrentSong);
+                        try
+                        {
+                            await CurrentSong.Play(audioClient, cancelToken);
+                        }
+                        catch(OperationCanceledException)
+                        {
+                            OnCompleted(this, CurrentSong);
+                        }
+                        
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
@@ -151,7 +162,6 @@ namespace NadekoBot.Modules.Music.Classes
                             AddSong(CurrentSong, 0);
 
                     }
-                    catch (OperationCanceledException) { }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
@@ -337,13 +347,13 @@ namespace NadekoBot.Modules.Music.Classes
             });
         }
 
-        public Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
-        {
-            if (audioClient?.ConnectionState != ConnectionState.Connected)
-                throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
-            PlaybackVoiceChannel = voiceChannel;
-            return PlaybackVoiceChannel.ConnectAsync();
-        }
+        //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
+        //{
+        //    if (audioClient?.ConnectionState != ConnectionState.Connected)
+        //        throw new InvalidOperationException("Can't move while bot is not connected to voice channel.");
+        //    PlaybackVoiceChannel = voiceChannel;
+        //    audioClient = await voiceChannel.ConnectAsync().ConfigureAwait(false);
+        //}
 
         public bool ToggleRepeatSong() => this.RepeatSong = !this.RepeatSong;
 

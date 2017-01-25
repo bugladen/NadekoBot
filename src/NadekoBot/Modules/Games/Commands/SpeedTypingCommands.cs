@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Games
                 NadekoBot.Client.MessageReceived += AnswerReceived;
             }
 
-            private async void AnswerReceived(SocketMessage imsg)
+            private async Task AnswerReceived(SocketMessage imsg)
             {
                 try
                 {

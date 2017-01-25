@@ -26,7 +26,7 @@ namespace NadekoBot.Services.Discord
             NadekoBot.Client.ReactionsCleared += Discord_ReactionsCleared;
         }
 
-        private void Discord_ReactionsCleared(ulong messageId, Optional<SocketUserMessage> reaction)
+        private Task Discord_ReactionsCleared(ulong messageId, Optional<SocketUserMessage> reaction)
         {
             try
             {
@@ -34,9 +34,11 @@ namespace NadekoBot.Services.Discord
                     OnReactionsCleared?.Invoke();
             }
             catch { }
+
+            return Task.CompletedTask;
         }
 
-        private void Discord_ReactionRemoved(ulong messageId, Optional<SocketUserMessage> arg2, SocketReaction reaction)
+        private Task Discord_ReactionRemoved(ulong messageId, Optional<SocketUserMessage> arg2, SocketReaction reaction)
         {
             try
             {
@@ -44,9 +46,11 @@ namespace NadekoBot.Services.Discord
                     OnReactionRemoved?.Invoke(reaction);
             }
             catch { }
+
+            return Task.CompletedTask;
         }
 
-        private void Discord_ReactionAdded(ulong messageId, Optional<SocketUserMessage> message, SocketReaction reaction)
+        private Task Discord_ReactionAdded(ulong messageId, Optional<SocketUserMessage> message, SocketReaction reaction)
         {
             try
             {
@@ -54,6 +58,8 @@ namespace NadekoBot.Services.Discord
                     OnReactionAdded?.Invoke(reaction);
             }
             catch { }
+
+            return Task.CompletedTask;
         }
 
         public void UnsubAll()

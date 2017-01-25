@@ -8,13 +8,19 @@ using System.Text.RegularExpressions;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using NLog;
+using Google.Apis.Customsearch.v1;
+using Google.Apis.Customsearch.v1.Data;
 
 namespace NadekoBot.Services.Impl
 {
     public class GoogleApiService : IGoogleApiService
     {
+        const string search_engine_id = "018084019232060951019:hs5piey28-e";
+
         private YouTubeService yt;
         private UrlshortenerService sh;
+        private CustomsearchService cs;
+        
         private Logger _log { get; }
 
         public GoogleApiService()
@@ -22,13 +28,14 @@ namespace NadekoBot.Services.Impl
             var bcs = new BaseClientService.Initializer
             {
                 ApplicationName = "Nadeko Bot",
-                ApiKey = NadekoBot.Credentials.GoogleApiKey
+                ApiKey = NadekoBot.Credentials.GoogleApiKey,
             };
 
             _log = LogManager.GetCurrentClassLogger();
 
             yt = new YouTubeService(bcs);
             sh = new UrlshortenerService(bcs);
+            cs = new CustomsearchService(bcs);
         }
         public async Task<IEnumerable<string>> GetPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
@@ -51,7 +58,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
 
-        private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
+        private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
@@ -150,7 +157,7 @@ namespace NadekoBot.Services.Impl
             return toReturn;
         }
         //todo AsyncEnumerable
-        public async Task<IReadOnlyDictionary<string,TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
+        public async Task<IReadOnlyDictionary<string, TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
         {
             var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
 
@@ -178,6 +185,35 @@ namespace NadekoBot.Services.Impl
             while (remaining > 0);
 
             return toReturn;
+        }
+
+        public struct ImageResult
+        {
+            public Result.ImageData Image { get; }
+            public string Link { get; }
+
+            public ImageResult(Result.ImageData image, string link)
+            {
+                this.Image = image;
+                this.Link = link;
+            }
+        }
+
+        public async Task<ImageResult> GetImageAsync(string query, int start = 0)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                throw new ArgumentNullException(nameof(query));
+
+            var req = cs.Cse.List(query);
+            req.Cx = search_engine_id;
+            req.Num = 1;
+            req.Fields = "items(image(contextLink,thumbnailLink),link)";
+            req.SearchType = CseResource.ListRequest.SearchTypeEnum.Image;
+            req.Start = start;
+
+            var search = await req.ExecuteAsync().ConfigureAwait(false);
+
+            return new ImageResult(search.Items[0].Image, search.Items[0].Link);
         }
     }
 }

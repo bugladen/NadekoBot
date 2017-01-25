@@ -60,7 +60,8 @@ namespace NadekoBot
                 client.MessageReceived += arg1 =>
                 {
                     if (arg1.Author == null || arg1.Author.IsBot)
-                        return Task.CompletedTask; MessageReceived(arg1);
+                        return Task.CompletedTask;
+                    MessageReceived(arg1);
                     return Task.CompletedTask;
                 };
                 client.UserLeft += arg1 => { UserLeft(arg1); return Task.CompletedTask; };
@@ -107,7 +108,7 @@ namespace NadekoBot
         public DiscordSocketClient MainClient =>
             Clients[0];
 
-        public SocketSelfUser CurrentUser() =>
+        public SocketSelfUser CurrentUser =>
             Clients[0].CurrentUser;
 
         public IEnumerable<SocketGuild> GetGuilds() =>
@@ -178,26 +179,9 @@ namespace NadekoBot
         public Task SetGame(string game) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(game)));
 
 
-        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(name, url, StreamType.NotStreaming)));
+        public Task SetStream(string name, string url) => Task.WhenAll(Clients.Select(ms => ms.SetGameAsync(name, url, StreamType.Twitch)));
 
-        public Task SetStatus(SettableUserStatus status) => Task.WhenAll(Clients.Select(ms => ms.SetStatusAsync(SettableUserStatusToUserStatus(status))));
-
-        private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
-        {
-            switch (sus)
-            {
-                case SettableUserStatus.Online:
-                    return UserStatus.Online;
-                case SettableUserStatus.Invisible:
-                    return UserStatus.Invisible;
-                case SettableUserStatus.Idle:
-                    return UserStatus.AFK;
-                case SettableUserStatus.Dnd:
-                    return UserStatus.DoNotDisturb;
-            }
-
-            return UserStatus.Online;
-        }
+        //public Task SetStatus(SettableUserStatus status) => Task.WhenAll(Clients.Select(ms => ms.SetStatusAsync(SettableUserStatusToUserStatus(status))));
     }
 
     public enum SettableUserStatus

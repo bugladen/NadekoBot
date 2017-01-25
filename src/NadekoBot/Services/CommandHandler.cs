@@ -30,11 +30,15 @@ namespace NadekoBot.Services
     }
     public class CommandHandler
     {
+#if GLOBAL_NADEKO
         public const int GlobalCommandsCooldown = 1500;
+#else
+        public const int GlobalCommandsCooldown = 750;
+#endif
 
-        private ShardedDiscordClient _client;
-        private CommandService _commandService;
-        private Logger _log;
+        private readonly DiscordShardedClient _client;
+        private readonly CommandService _commandService;
+        private readonly Logger _log;
 
         private List<IDMChannel> ownerChannels { get; set; }
 
@@ -46,7 +50,7 @@ namespace NadekoBot.Services
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
         private Timer clearUsersOnShortCooldown { get; }
 
-        public CommandHandler(ShardedDiscordClient client, CommandService commandService)
+        public CommandHandler(DiscordShardedClient client, CommandService commandService)
         {
             _client = client;
             _commandService = commandService;
@@ -100,8 +104,8 @@ namespace NadekoBot.Services
             BlacklistCommands.BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
             BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
-
-        private async Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, Stopwatch sw)
+        const float oneThousandth = 1.0f / 1000;
+        private async Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int ticks)
         {
             await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
             _log.Info("Command Executed after {4}s\n\t" +
@@ -113,24 +117,24 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content, // {3}
-                        sw.Elapsed.TotalSeconds);
+                        ticks * oneThousandth);
         }
 
-        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, Stopwatch sw)
+        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int ticks)
         {
             _log.Warn("Command Errored after {5}s\n\t" +
-                                "User: {0}\n\t" +
-                                "Server: {1}\n\t" +
-                                "Channel: {2}\n\t" +
-                                "Message: {3}\n\t" +
-                                "Error: {4}",
-                                usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                                (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                                (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                                usrMsg.Content,// {3}
-                                exec.Result.ErrorReason, // {4}
-                                sw.Elapsed.TotalSeconds // {5}
-                                );
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" +
+                        "Error: {4}",
+                        usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                        (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                        (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                        usrMsg.Content,// {3}
+                        exec.Result.ErrorReason, // {4}
+                        ticks * oneThousandth // {5}
+                        );
         }
 
         private async Task<bool> InviteFiltered(IGuild guild, SocketUserMessage usrMsg)
@@ -180,24 +184,23 @@ namespace NadekoBot.Services
             return false;
         }
 
-        private async void MessageReceivedHandler(SocketMessage msg)
+        private async Task MessageReceivedHandler(SocketMessage msg)
         {
             try
             {
                 if (msg.Author.IsBot || !NadekoBot.Ready) //no bots, wait until bot connected and initialized
                     return;
 
+                var execTime = Environment.TickCount;
+
                 var usrMsg = msg as SocketUserMessage;
                 if (usrMsg == null) //has to be an user message, not system/other messages.
                     return;
 
+#if !GLOBAL_NADEKO
                 // track how many messagges each user is sending
                 UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
-
-                // Bot will ignore commands which are ran more often than what specified by
-                // GlobalCommandsCooldown constant (miliseconds)
-                if (!UsersOnShortCooldown.Add(usrMsg.Author.Id))
-                    return;
+#endif
 
                 var channel = msg.Channel as SocketTextChannel;
                 var guild = channel?.Guild;
@@ -214,29 +217,28 @@ namespace NadekoBot.Services
                 if (IsBlacklisted(guild, usrMsg))
                     return;
 
-                var cleverBotRan = await TryRunCleverbot(usrMsg, guild).ConfigureAwait(false);
+                var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
                 if (cleverBotRan)
                     return;
 
                 // maybe this message is a custom reaction
-                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+                var crExecuted = await Task.Run(() => CustomReactions.TryExecuteCustomReaction(usrMsg)).ConfigureAwait(false);
                 if (crExecuted) //if it was, don't execute the command
                     return;
 
                 string messageContent = usrMsg.Content;
 
                 // execute the command and measure the time it took
-                var sw = Stopwatch.StartNew();
-                var exec = await ExecuteCommand(new CommandContext(_client.MainClient, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best);
-                sw.Stop();
+                var exec = await Task.Run(() => ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best)).ConfigureAwait(false);
+                execTime = Environment.TickCount - execTime;
 
                 if (exec.Result.IsSuccess)
                 {
-                    await LogSuccessfulExecution(usrMsg, exec, channel, sw).ConfigureAwait(false);
+                    await LogSuccessfulExecution(usrMsg, exec, channel, execTime).ConfigureAwait(false);
                 }
                 else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
                 {
-                    LogErroredExecution(usrMsg, exec, channel, sw);
+                    LogErroredExecution(usrMsg, exec, channel, execTime);
                     if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
                     {
                         if (exec.PermissionCache != null && exec.PermissionCache.Verbose)
@@ -354,11 +356,25 @@ namespace NadekoBot.Services
                             return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
                     }
+
+                    int price;
+                    if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
+                    {
+                        var success = await CurrencyHandler.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
+                        if (!success)
+                        {
+                            return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
+                        }
+                    }
                 }
 
+                // Bot will ignore commands which are ran more often than what specified by
+                // GlobalCommandsCooldown constant (miliseconds)
+                if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"You are on a global cooldown."));
 
                 if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
-                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on cooldown for you."));
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on a cooldown for you."));
 
                 return new ExecuteCommandResult(cmd, null, await commands[i].ExecuteAsync(context, parseResult, dependencyMap));
             }

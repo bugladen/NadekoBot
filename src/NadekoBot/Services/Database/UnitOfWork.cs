@@ -48,6 +48,12 @@ namespace NadekoBot.Services.Database
         private IPokeGameRepository _pokegame;
         public IPokeGameRepository PokeGame => _pokegame ?? (_pokegame = new PokeGameRepository(_context));
 
+        private IWaifuRepository _waifus;
+        public IWaifuRepository Waifus => _waifus ?? (_waifus = new WaifuRepository(_context));
+
+        private IDiscordUserRepository _discordUsers;
+        public IDiscordUserRepository DiscordUsers => _discordUsers ?? (_discordUsers = new DiscordUserRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;
