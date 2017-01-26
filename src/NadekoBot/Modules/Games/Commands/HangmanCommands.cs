@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                await Context.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman() + "\n" + hm.ScrambledWord);
+                await Context.Channel.SendConfirmAsync("Hangman game started", hm.ScrambledWord + "\n" + hm.GetHangman());
             }
         }
     }
