@@ -69,6 +69,7 @@ namespace NadekoBot.Modules.Games
             private readonly ConcurrentDictionary<string, IGuildUser> submissions = new ConcurrentDictionary<string, IGuildUser>();
             public IReadOnlyDictionary<string, IGuildUser> Submissions => submissions;
 
+            private readonly ConcurrentHashSet<ulong> usersWhoSubmitted = new ConcurrentHashSet<ulong>();
             private readonly ConcurrentHashSet<ulong> usersWhoVoted = new ConcurrentHashSet<ulong>();
 
             private int spamCount = 0;
@@ -191,8 +192,7 @@ namespace NadekoBot.Modules.Games
                             catch { }
                         }
                         //user didn't input something already
-                        IGuildUser throwaway;
-                        if (submissions.TryGetValue(input, out throwaway))
+                        if (!usersWhoSubmitted.Add(guildUser.Id))
                             return;
                         var inputWords = input.Split(' '); //get all words
 
