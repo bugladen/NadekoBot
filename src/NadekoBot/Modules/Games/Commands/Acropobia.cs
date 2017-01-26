@@ -191,9 +191,6 @@ namespace NadekoBot.Modules.Games
                             try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
-                        //user didn't input something already
-                        if (!usersWhoSubmitted.Add(guildUser.Id))
-                            return;
                         var inputWords = input.Split(' '); //get all words
 
                         if (inputWords.Length != startingLetters.Length) // number of words must be the same as the number of the starting letters
@@ -207,9 +204,15 @@ namespace NadekoBot.Modules.Games
                                 return;
                         }
 
+
+                        if (!usersWhoSubmitted.Add(guildUser.Id))
+                            return;
                         //try adding it to the list of answers
                         if (!submissions.TryAdd(input, guildUser))
+                        {
+                            usersWhoSubmitted.TryRemove(guildUser.Id);
                             return;
+                        }
 
                         // all good. valid input. answer recorded
                         await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} submitted their sentence. ({submissions.Count} total)");
