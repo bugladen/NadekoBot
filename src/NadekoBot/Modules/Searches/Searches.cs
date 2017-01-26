@@ -115,6 +115,8 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(terms))
                 return;
 
+            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
+
             try
             {
                 var res = await NadekoBot.Google.GetImageAsync(terms).ConfigureAwait(false);
@@ -131,7 +133,6 @@ namespace NadekoBot.Modules.Searches
             catch
             {
                 _log.Warn("Falling back to Imgur search.");
-                terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
                 var fullQueryLink = $"http://imgur.com/search?q={ terms }";
                 var config = Configuration.Default.WithDefaultLoader();
@@ -167,6 +168,7 @@ namespace NadekoBot.Modules.Searches
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
+            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
             try
             {
                 var res = await NadekoBot.Google.GetImageAsync(terms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);

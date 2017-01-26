@@ -3024,4 +3024,13 @@
   <data name="waifuinfo_usage" xml:space="preserve">
     <value>`{0}waifuinfo @MyCrush` or `{0}waifuinfo`</value>
   </data>
+  <data name="mal_cmd" xml:space="preserve">
+    <value>mal</value>
+  </data>
+  <data name="mal_desc" xml:space="preserve">
+    <value>Shows basic info from myanimelist profile.</value>
+  </data>
+  <data name="mal_usage" xml:space="preserve">
+    <value>`{0}mal straysocks`</value>
+  </data>
 </root>

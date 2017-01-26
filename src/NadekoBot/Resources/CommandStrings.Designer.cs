@@ -4407,6 +4407,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to mal.
+        /// </summary>
+        public static string mal_cmd {
+            get {
+                return ResourceManager.GetString("mal_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows basic info from myanimelist profile..
+        /// </summary>
+        public static string mal_desc {
+            get {
+                return ResourceManager.GetString("mal_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mal straysocks`.
+        /// </summary>
+        public static string mal_usage {
+            get {
+                return ResourceManager.GetString("mal_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to manga mang mq.
         /// </summary>
         public static string manga_cmd {
