@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         .GetAllWars()
                         .Select(cw =>
                         {
-                            cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
+                            cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)?
                                                          .GetTextChannel(cw.ChannelId);
                             return cw;
                         })
