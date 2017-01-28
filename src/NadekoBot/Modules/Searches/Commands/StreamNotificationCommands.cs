@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Searches
                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
                                 if (server == null)
                                     return;
-                                var channel = await server.GetTextChannelAsync(fs.ChannelId);
+                                var channel = server.GetTextChannel(fs.ChannelId);
                                 if (channel == null)
                                     return;
                                 try

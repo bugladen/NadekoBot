@@ -37,9 +37,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         .Select(cw =>
                         {
                             cw.Channel = NadekoBot.Client.GetGuild(cw.GuildId)
-                                                         ?.GetTextChannelAsync(cw.ChannelId)
-                                                         .GetAwaiter()
-                                                         .GetResult();
+                                                         .GetTextChannel(cw.ChannelId);
                             return cw;
                         })
                         .Where(cw => cw.Channel != null)
@@ -322,7 +320,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
         public static async Task<ClashWar> CreateWar(string enemyClan, int size, ulong serverId, ulong channelId)
         {
-            var channel = await NadekoBot.Client.GetGuild(serverId)?.GetTextChannelAsync(channelId);
+            var channel = NadekoBot.Client.GetGuild(serverId)?.GetTextChannel(channelId);
             using (var uow = DbHandler.UnitOfWork())
             {
                 var cw = new ClashWar

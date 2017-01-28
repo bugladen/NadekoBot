@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
                     catch
                     {
                         try { await msg.DeleteAsync().ConfigureAwait(false); }
-                        catch { }
+                        catch { return; }
                     }
                 }
                 using (msg.OnReaction(async (r) =>

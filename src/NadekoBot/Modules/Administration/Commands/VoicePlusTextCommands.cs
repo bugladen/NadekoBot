@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         try
                         {
-                            await (await guild.GetOwnerAsync()).SendErrorAsync(
+                            await guild.Owner.SendErrorAsync(
                                 "⚠️ I don't have **manage server** and/or **manage channels** permission," +
                                 $" so I cannot run `voice+text` on **{guild.Name}** server.").ConfigureAwait(false);
                         }
@@ -75,16 +75,16 @@ namespace NadekoBot.Modules.Administration
                     var beforeVch = before.VoiceChannel;
                     if (beforeVch != null)
                     {
-                        var textChannel = (await guild.GetTextChannelsAsync()).Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
+                        var textChannel = guild.TextChannels.Where(t => t.Name == GetChannelName(beforeVch.Name).ToLowerInvariant()).FirstOrDefault();
                         if (textChannel != null)
                             await textChannel.AddPermissionOverwriteAsync(user,
                                 new OverwritePermissions(readMessages: PermValue.Deny,
                                                    sendMessages: PermValue.Deny)).ConfigureAwait(false);
                     }
                     var afterVch = after.VoiceChannel;
-                    if (afterVch != null && guild.AFKChannelId != afterVch.Id)
+                    if (afterVch != null && guild.AFKChannel.Id != afterVch.Id)
                     {
-                        var textChannel = (await guild.GetTextChannelsAsync())
+                        ITextChannel textChannel = guild.TextChannels
                                                     .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
                                                     .FirstOrDefault();
                         if (textChannel == null)
