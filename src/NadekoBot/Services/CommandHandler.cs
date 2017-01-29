@@ -222,6 +222,7 @@ namespace NadekoBot.Services
                     return;
 
                 // maybe this message is a custom reaction
+                // todo log custom reaction executions. return struct with info
                 var crExecuted = await Task.Run(() => CustomReactions.TryExecuteCustomReaction(usrMsg)).ConfigureAwait(false);
                 if (crExecuted) //if it was, don't execute the command
                     return;
