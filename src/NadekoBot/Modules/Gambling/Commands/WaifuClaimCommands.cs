@@ -506,7 +506,7 @@ namespace NadekoBot.Modules.Gambling
                     title = AffinityTitles.Sloot;
                 else if (count < 17)
                     title = AffinityTitles.Depraved;
-                else if (count < 20)
+                else
                     title = AffinityTitles.Harlot;
 
                 return new WaifuProfileTitle(count, title.ToString().Replace('_', ' '));
