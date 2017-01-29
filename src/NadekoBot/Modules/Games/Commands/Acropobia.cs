@@ -69,6 +69,7 @@ namespace NadekoBot.Modules.Games
             private readonly ConcurrentDictionary<string, IGuildUser> submissions = new ConcurrentDictionary<string, IGuildUser>();
             public IReadOnlyDictionary<string, IGuildUser> Submissions => submissions;
 
+            private readonly ConcurrentHashSet<ulong> usersWhoSubmitted = new ConcurrentHashSet<ulong>();
             private readonly ConcurrentHashSet<ulong> usersWhoVoted = new ConcurrentHashSet<ulong>();
 
             private int spamCount = 0;
@@ -190,10 +191,6 @@ namespace NadekoBot.Modules.Games
                             try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
-                        //user didn't input something already
-                        IGuildUser throwaway;
-                        if (submissions.TryGetValue(input, out throwaway))
-                            return;
                         var inputWords = input.Split(' '); //get all words
 
                         if (inputWords.Length != startingLetters.Length) // number of words must be the same as the number of the starting letters
@@ -207,9 +204,15 @@ namespace NadekoBot.Modules.Games
                                 return;
                         }
 
+
+                        if (!usersWhoSubmitted.Add(guildUser.Id))
+                            return;
                         //try adding it to the list of answers
                         if (!submissions.TryAdd(input, guildUser))
+                        {
+                            usersWhoSubmitted.TryRemove(guildUser.Id);
                             return;
+                        }
 
                         // all good. valid input. answer recorded
                         await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} submitted their sentence. ({submissions.Count} total)");

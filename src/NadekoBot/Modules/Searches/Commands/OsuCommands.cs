@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
                         MemoryStream ms = new MemoryStream();
                         res.CopyTo(ms);
                         ms.Position = 0;
-                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link:** <https://new.ppy.sh/u/{Uri.EscapeDataString(usr)}>\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {

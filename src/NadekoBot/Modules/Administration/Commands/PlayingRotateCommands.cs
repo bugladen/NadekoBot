@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -22,8 +23,8 @@ namespace NadekoBot.Modules.Administration
             private static Logger _log { get; }
             public static List<PlayingStatus> RotatingStatusMessages { get; }
             public static bool RotatingStatuses { get; private set; } = false;
-
-            //todo wtf is with this while(true) in constructor
+            private static Timer _t { get; }
+            
             static PlayingRotateCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
@@ -31,48 +32,43 @@ namespace NadekoBot.Modules.Administration
                 RotatingStatusMessages = NadekoBot.BotConfig.RotatingStatusMessages;
                 RotatingStatuses = NadekoBot.BotConfig.RotatingStatuses;
 
-                var t = Task.Run(async () =>
+
+
+                _t = new Timer(async (_) =>
                 {
                     var index = 0;
-                    do
+                    try
                     {
-                        try
+                        if (!RotatingStatuses)
+                            return;
+                        else
                         {
-                            if (!RotatingStatuses)
-                                continue;
-                            else
-                            {
-                                if (index >= RotatingStatusMessages.Count)
-                                    index = 0;
+                            if (index >= RotatingStatusMessages.Count)
+                                index = 0;
 
-                                if (!RotatingStatusMessages.Any())
-                                    continue;
-                                var status = RotatingStatusMessages[index++].Status;
-                                if (string.IsNullOrWhiteSpace(status))
-                                    continue;
-                                PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
-                                var shards = NadekoBot.Client.Shards;
-                                for (int i = 0; i < shards.Count; i++)
+                            if (!RotatingStatusMessages.Any())
+                                return;
+                            var status = RotatingStatusMessages[index++].Status;
+                            if (string.IsNullOrWhiteSpace(status))
+                                return;
+                            PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
+                            var shards = NadekoBot.Client.Shards;
+                            for (int i = 0; i < shards.Count; i++)
+                            {
+                                ShardSpecificPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(shards.ElementAt(i))));
+                                try { await shards.ElementAt(i).SetGameAsync(status).ConfigureAwait(false); }
+                                catch (Exception ex)
                                 {
-                                    ShardSpecificPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(shards.ElementAt(i))));
-                                    try { await shards.ElementAt(i).SetGameAsync(status).ConfigureAwait(false); }
-                                    catch (Exception ex)
-                                    {
-                                        _log.Warn(ex);
-                                    }
+                                    _log.Warn(ex);
                                 }
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            _log.Warn("Rotating playing status errored.\n" + ex);
-                        }
-                        finally
-                        {
-                            await Task.Delay(TimeSpan.FromMinutes(1));
-                        }
-                    } while (true);
-                });
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn("Rotating playing status errored.\n" + ex);
+                    }
+                }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
             }
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
@@ -92,7 +88,7 @@ namespace NadekoBot.Modules.Administration
                         }
                     },
                     { "%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
-                    { "%time%", () => DateTime.Now.ToString("hh:mm " + TimeZoneInfo.Local.StandardName.GetInitials()) },
+                    { "%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()) },
                     { "%shardcount%", () => NadekoBot.Client.Shards.Count.ToString() },
                 };
 

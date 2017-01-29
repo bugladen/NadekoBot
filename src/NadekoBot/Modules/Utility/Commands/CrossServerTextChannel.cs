@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             private static string GetText(IGuild server, ITextChannel channel, IGuildUser user, IUserMessage message) =>
-                $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content;
+                $"**{server.Name} | {channel.Name}** `{user.Username}`: " + message.Content.SanitizeMentions();
             
             public static readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers = new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
             private static Logger _log { get; }

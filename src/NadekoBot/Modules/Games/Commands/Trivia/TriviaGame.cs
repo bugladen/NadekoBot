@@ -76,9 +76,9 @@ namespace NadekoBot.Modules.Games.Trivia
 
                     questionMessage = await channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
                 }
-                catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || 
-                                               ex.StatusCode == System.Net.HttpStatusCode.Forbidden ||
-                                               ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound || 
+                                               ex.HttpCode == System.Net.HttpStatusCode.Forbidden ||
+                                               ex.HttpCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     return;
                 }
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Games.Trivia
                                 await questionMessage.ModifyAsync(m => m.Embed = questionEmbed.WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
                                     .ConfigureAwait(false);
                             }
-                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound || ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                             {
                                 break;
                             }

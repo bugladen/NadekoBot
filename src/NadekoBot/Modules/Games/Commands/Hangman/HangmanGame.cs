@@ -189,13 +189,13 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
             catch (Exception ex) { _log.Warn(ex); }
         }
 
-        public string GetHangman() => $@"\_\_\_\_\_\_\_\_\_
-      |           |
-      |           |
-   {(Errors > 0 ? "😲" : "      ")}        |
-   {(Errors > 1 ? "/" : "  ")} {(Errors > 2 ? "|" : "  ")} {(Errors > 3 ? "\\" : "  ")}       | 
-    {(Errors > 4 ? "/" : "  ")} {(Errors > 5 ? "\\" : "  ")}        |
-               /-\";
+        public string GetHangman() => $@". ┌─────┐
+.┃...............┋
+.┃...............┋
+.┃{(Errors > 0 ? ".............😲" : "")}
+.┃{(Errors > 1 ? "............./" : "")} {(Errors > 2 ? "|" : "")} {(Errors > 3 ? "\\" : "")}
+.┃{(Errors > 4 ? "............../" : "")} {(Errors > 5 ? "\\" : "")}
+/-\";
 
         public void Dispose()
         {

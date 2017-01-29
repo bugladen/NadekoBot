@@ -177,7 +177,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%.
+        ///    Looks up a localized string similar to Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%.
         /// </summary>
         public static string addplaying_desc {
             get {
@@ -4403,6 +4403,33 @@ namespace NadekoBot.Resources {
         public static string magicthegathering_usage {
             get {
                 return ResourceManager.GetString("magicthegathering_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to mal.
+        /// </summary>
+        public static string mal_cmd {
+            get {
+                return ResourceManager.GetString("mal_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows basic info from myanimelist profile..
+        /// </summary>
+        public static string mal_desc {
+            get {
+                return ResourceManager.GetString("mal_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mal straysocks`.
+        /// </summary>
+        public static string mal_usage {
+            get {
+                return ResourceManager.GetString("mal_usage", resourceCulture);
             }
         }
         

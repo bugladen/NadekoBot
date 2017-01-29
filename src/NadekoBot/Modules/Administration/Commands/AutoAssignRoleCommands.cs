@@ -25,7 +25,6 @@ namespace NadekoBot.Modules.Administration
             static AutoAssignRoleCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                var sw = Stopwatch.StartNew();
 
                 AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
@@ -46,9 +45,6 @@ namespace NadekoBot.Modules.Administration
                     }
                     catch (Exception ex) { _log.Warn(ex); }
                 };
-
-                sw.Stop();
-                _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -68,9 +68,7 @@ namespace NadekoBot.Modules.Utility
                     }
                     else
                     {
-                        var t = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannelAsync(r.ChannelId).ConfigureAwait(false);
-                        if (t != null)
-                            ch = await t.Value;
+                        ch = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
                     }
                     if (ch == null)
                         return;

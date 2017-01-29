@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     _log = LogManager.GetCurrentClassLogger();
                     this.Repeater = repeater;
-                    this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannelAsync(repeater.ChannelId).GetAwaiter().GetResult();
+                    this.Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
                     if (Channel == null)
                         return;
                     Task.Run(Run);
@@ -69,12 +69,12 @@ namespace NadekoBot.Modules.Utility
                             {
                                 oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false);
                             }
-                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                             {
                                 _log.Warn("Missing permissions. Repeater stopped. ChannelId : {0}", Channel?.Id);
                                 return;
                             }
-                            catch (HttpException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound)
                             {
                                 _log.Warn("Channel not found. Repeater stopped. ChannelId : {0}", Channel?.Id);
                                 return;
