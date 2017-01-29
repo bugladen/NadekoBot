@@ -159,8 +159,8 @@ namespace NadekoBot.Services
 
         private async Task<bool> WordFiltered(IGuild guild, SocketUserMessage usrMsg)
         {
-            var filteredChannelWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id);
-            var filteredServerWords = Permissions.FilterCommands.FilteredWordsForServer(guild.Id);
+            var filteredChannelWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
+            var filteredServerWords = Permissions.FilterCommands.FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
             var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
             if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
             {
