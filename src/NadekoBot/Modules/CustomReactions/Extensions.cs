@@ -1,9 +1,11 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -25,9 +27,13 @@ namespace NadekoBot.Modules.CustomReactions
                 if(ch == null)
                     return "";
 
-                var usrs = (ch.Guild.GetUsersAsync().GetAwaiter().GetResult());
+                var g = ch.Guild as SocketGuild;
+                if(g == null)
+                    return "";
 
-                return usrs.Skip(new NadekoRandom().Next(0,usrs.Count-1)).Shuffle().FirstOrDefault()?.Mention ?? "";
+                var users = g.Users.ToArray();
+
+                return users[new NadekoRandom().Next(0, users.Length-1)].Mention;
             } }
             //{"%rng%", (ctx) => { return new NadekoRandom().Next(0,10).ToString(); } }
         };
