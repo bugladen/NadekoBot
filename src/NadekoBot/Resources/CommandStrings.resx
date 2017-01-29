@@ -340,7 +340,7 @@
     <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.</value>
   </data>
   <data name="voiceplustext_usage" xml:space="preserve">
-    <value>`{0}voice+text`</value>
+    <value>`{0}v+t`</value>
   </data>
   <data name="scsc_cmd" xml:space="preserve">
     <value>scsc</value>

@@ -320,10 +320,10 @@ namespace NadekoBot.Modules.Searches
                                         .ConfigureAwait(false);
                 try
                 {
-                    var items = JArray.Parse(response).Shuffle().ToList();
-                    if (items == null)
+                    var items = JArray.Parse(response).ToArray();
+                    if (items == null || items.Length == 0)
                         throw new KeyNotFoundException("Cannot find a card by that name");
-                    var item = items[0];
+                    var item = items[new NadekoRandom().Next(0, items.Length)];
                     var storeUrl = await NadekoBot.Google.ShortenUrl(item["store_url"].ToString());
                     var cost = item["cost"].ToString();
                     var desc = item["text"].ToString();
@@ -379,13 +379,16 @@ namespace NadekoBot.Modules.Searches
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
                     {
-                        using (var sr = await http.GetStreamAsync(item["img"].ToString()))
+                        await Task.Run(async () =>
                         {
-                            var imgStream = new MemoryStream();
-                            await sr.CopyToAsync(imgStream);
-                            imgStream.Position = 0;
-                            images.Add(new ImageSharp.Image(imgStream));
-                        }
+                            using (var sr = await http.GetStreamAsync(item["img"].ToString()))
+                            {
+                                var imgStream = new MemoryStream();
+                                await sr.CopyToAsync(imgStream);
+                                imgStream.Position = 0;
+                                images.Add(new ImageSharp.Image(imgStream));
+                            }
+                        }).ConfigureAwait(false);
                     }
                     string msg = null;
                     if (items.Count > 4)
@@ -393,7 +396,7 @@ namespace NadekoBot.Modules.Searches
                         msg = "⚠ Found over 4 images. Showing random 4.";
                     }
                     var ms = new MemoryStream();
-                    images.AsEnumerable().Merge().SaveAsPng(ms);
+                    await Task.Run(() => images.AsEnumerable().Merge().SaveAsPng(ms));
                     ms.Position = 0;
                     await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
                 }

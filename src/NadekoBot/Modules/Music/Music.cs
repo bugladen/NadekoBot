@@ -833,7 +833,14 @@ namespace NadekoBot.Modules.Music
 
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
-                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                            var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
+                            if(relatedVideos.Count > 0)
+                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), 
+                                textCh, 
+                                voiceCh, 
+                                relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
+                                silent, 
+                                musicType).ConfigureAwait(false);
                         }
                     }
                     catch { }
