@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Administration
                                                    sendMessages: PermValue.Deny)).ConfigureAwait(false);
                     }
                     var afterVch = after.VoiceChannel;
-                    if (afterVch != null && guild.AFKChannel.Id != afterVch.Id)
+                    if (afterVch != null && guild.AFKChannel?.Id != afterVch.Id)
                     {
                         ITextChannel textChannel = guild.TextChannels
                                                     .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
