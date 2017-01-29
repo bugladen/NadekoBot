@@ -711,14 +711,11 @@ namespace NadekoBot.Modules.Music
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 
         }
-
-        //todo only author or owner
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task DeletePlaylist([Remainder] int id)
         {
-
-
             bool success = false;
             MusicPlaylist pl = null;
             try
@@ -747,7 +744,7 @@ namespace NadekoBot.Modules.Music
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _log.Warn(ex);
             }
         }
 
