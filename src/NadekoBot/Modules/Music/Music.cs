@@ -797,6 +797,23 @@ namespace NadekoBot.Modules.Music
                 await Context.Channel.SendConfirmAsync("✅ Autoplay enabled.").ConfigureAwait(false);
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        public async Task SetMusicChannel()
+        {
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+            {
+                await Context.Channel.SendErrorAsync("Music must be playing before you set an ouput channel.").ConfigureAwait(false);
+                return;
+            }
+
+            musicPlayer.OutputTextChannel = (ITextChannel)Context.Channel;
+
+            await Context.Channel.SendConfirmAsync("I will now output playing, finished, paused and removed songs in this channel.").ConfigureAwait(false);
+        }
+
         public static async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
         {
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
@@ -815,7 +832,7 @@ namespace NadekoBot.Modules.Music
                 {
                     vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
-                var mp = new MusicPlayer(voiceCh, vol);
+                var mp = new MusicPlayer(voiceCh, textCh, vol);
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
@@ -825,7 +842,7 @@ namespace NadekoBot.Modules.Music
                         if (lastFinishedMessage != null)
                             lastFinishedMessage.DeleteAfter(0);
 
-                        lastFinishedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
                                                   .WithDescription(song.PrettyName)
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
@@ -833,7 +850,14 @@ namespace NadekoBot.Modules.Music
 
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
-                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                            var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
+                            if(relatedVideos.Count > 0)
+                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), 
+                                textCh, 
+                                voiceCh, 
+                                relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
+                                silent, 
+                                musicType).ConfigureAwait(false);
                         }
                     }
                     catch { }
@@ -850,7 +874,7 @@ namespace NadekoBot.Modules.Music
                         if (playingMessage != null)
                             playingMessage.DeleteAfter(0);
 
-                        playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
                                                     .WithDescription(song.PrettyName)
                                                     .WithFooter(ef => ef.WithText(song.PrettyInfo)))
@@ -859,22 +883,21 @@ namespace NadekoBot.Modules.Music
                     catch { }
                 };
                 mp.OnPauseChanged += async (paused) =>
-                        {
-                            try
-                            {
-                                IUserMessage msg;
-                                if (paused)
-                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                                else
-                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                {
+                    try
+                    {
+                        IUserMessage msg;
+                        if (paused)
+                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                        else
+                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
 
-                                if (msg != null)
-                                    msg.DeleteAfter(10);
-                            }
-                            catch { }
-                        };
-
-
+                        if (msg != null)
+                            msg.DeleteAfter(10);
+                    }
+                    catch { }
+                };
+                
                 mp.SongRemoved += async (song, index) =>
                 {
                     try
@@ -885,7 +908,7 @@ namespace NadekoBot.Modules.Music
                             .WithFooter(ef => ef.WithText(song.PrettyInfo))
                             .WithErrorColor();
 
-                        await textCh.EmbedAsync(embed).ConfigureAwait(false);
+                        await mp.OutputTextChannel.EmbedAsync(embed).ConfigureAwait(false);
 
                     }
                     catch { }

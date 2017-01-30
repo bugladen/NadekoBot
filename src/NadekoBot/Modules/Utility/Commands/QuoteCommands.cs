@@ -93,24 +93,31 @@ namespace NadekoBot.Modules.Utility
                 var isAdmin = ((IGuildUser)Context.Message.Author).GuildPermissions.Administrator;
 
                 keyword = keyword.ToUpperInvariant();
+                var sucess = false;
                 string response;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var qs = uow.Quotes.GetAllQuotesByKeyword(Context.Guild.Id, keyword);
+                    var qs = uow.Quotes.GetAllQuotesByKeyword(Context.Guild.Id, keyword)?.Where(elem => isAdmin || elem.AuthorId == Context.Message.Author.Id).ToArray();
 
                     if (qs == null || !qs.Any())
                     {
-                        await Context.Channel.SendErrorAsync("No quotes found.").ConfigureAwait(false);
-                        return;
+                        sucess = false;
+                        response = "No quotes found which you can remove.";
                     }
+                    else
+                    {
+                        var q = qs[new NadekoRandom().Next(0, qs.Length)];
 
-                    var q = qs.Shuffle().FirstOrDefault(elem => isAdmin || elem.AuthorId == Context.Message.Author.Id);
-
-                    uow.Quotes.Remove(q);
-                    await uow.CompleteAsync().ConfigureAwait(false);
-                    response = "🗑 **Deleted a random quote.**";
+                        uow.Quotes.Remove(q);
+                        await uow.CompleteAsync().ConfigureAwait(false);
+                        sucess = true;
+                        response = "🗑 **Deleted a random quote.**";
+                    }
                 }
-                await Context.Channel.SendConfirmAsync(response);
+                if(sucess)
+                    await Context.Channel.SendConfirmAsync(response);
+                else
+                    await Context.Channel.SendErrorAsync(response);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -126,7 +133,7 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var quotes = uow.Quotes.GetAllQuotesByKeyword(Context.Guild.Id, keyword);
-
+                    //todo kwoth please don't be complete retard
                     uow.Quotes.RemoveRange(quotes.ToArray());//wtf?!
 
                     await uow.CompleteAsync();

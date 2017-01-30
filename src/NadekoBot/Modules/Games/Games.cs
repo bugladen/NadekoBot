@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Games
     [NadekoModule("Games", ">")]
     public partial class Games : DiscordModule
     {
-        private static IEnumerable<string> _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text);
+        private static string[] _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToArray();
 
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Games
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
-                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses.Shuffle().FirstOrDefault()).WithIsInline(false)));
+                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses[new NadekoRandom().Next(0, _8BallResponses.Length)]).WithIsInline(false)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
