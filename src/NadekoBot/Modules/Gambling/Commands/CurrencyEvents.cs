@@ -26,6 +26,7 @@ namespace NadekoBot.Modules.Gambling
             }
             //flower reaction event
             public static readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
+            public static readonly ConcurrentHashSet<ulong> _sneakyGameAwardedUsers = new ConcurrentHashSet<ulong>();
 
 
             private static readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
@@ -33,8 +34,6 @@ namespace NadekoBot.Modules.Gambling
                 .Concat(Enumerable.Range(97, 26))
                 .Select(x => (char)x)
                 .ToArray();
-
-            public static readonly ConcurrentHashSet<ulong> _sneakyGameAwardedUsers = new ConcurrentHashSet<ulong>();
 
             private static string _secretCode = String.Empty;
 
