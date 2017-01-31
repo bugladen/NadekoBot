@@ -71,6 +71,7 @@ namespace NadekoBot.Modules.Music.Classes
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
+        public ITextChannel OutputTextChannel { get; set; }
 
         private bool Destroyed { get; set; } = false;
         public bool RepeatSong { get; private set; } = false;
@@ -84,10 +85,12 @@ namespace NadekoBot.Modules.Music.Classes
 
         public event Action<Song, int> SongRemoved = delegate { };
 
-        public MusicPlayer(IVoiceChannel startingVoiceChannel, float? defaultVolume)
+        public MusicPlayer(IVoiceChannel startingVoiceChannel, ITextChannel outputChannel, float? defaultVolume)
         {
             if (startingVoiceChannel == null)
                 throw new ArgumentNullException(nameof(startingVoiceChannel));
+
+            OutputTextChannel = outputChannel;
             Volume = defaultVolume ?? 1.0f;
 
             PlaybackVoiceChannel = startingVoiceChannel;

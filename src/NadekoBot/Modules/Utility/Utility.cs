@@ -15,6 +15,8 @@ using System.Threading;
 using ImageSharp;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Discord.WebSocket;
+using NadekoBot.Services;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -113,21 +115,29 @@ namespace NadekoBot.Modules.Utility
             game = game.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
                 return;
-            var arr = (await (Context.Channel as IGuildChannel).Guild.GetUsersAsync())
+
+            var socketGuild = Context.Guild as SocketGuild;
+            if (socketGuild == null) {
+                _log.Warn("Can't cast guild to socket guild.");
+                return;
+            }
+            var rng = new NadekoRandom();
+            var arr = await Task.Run(() => socketGuild.Users
                     .Where(u => u.Game?.Name?.ToUpperInvariant() == game)
                     .Select(u => u.Username)
-                    .Shuffle()
+                    .OrderBy(x => rng.Next())
                     .Take(60)
-                    .ToList();
+                    .ToArray()).ConfigureAwait(false);
 
             int i = 0;
-            if (!arr.Any())
+            if (arr.Length == 0)
                 await Context.Channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
-            else { 
+            else
+            {
                 await Context.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 2)
                                                                                  .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
                                                                                  .ConfigureAwait(false);
-                }
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

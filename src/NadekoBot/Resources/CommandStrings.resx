@@ -340,7 +340,7 @@
     <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.</value>
   </data>
   <data name="voiceplustext_usage" xml:space="preserve">
-    <value>`{0}voice+text`</value>
+    <value>`{0}v+t`</value>
   </data>
   <data name="scsc_cmd" xml:space="preserve">
     <value>scsc</value>
@@ -3032,5 +3032,14 @@
   </data>
   <data name="mal_usage" xml:space="preserve">
     <value>`{0}mal straysocks`</value>
+  </data>
+  <data name="setmusicchannel_cmd" xml:space="preserve">
+    <value>setmusicchannel smch</value>
+  </data>
+  <data name="setmusicchannel_desc" xml:space="preserve">
+    <value>Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in.</value>
+  </data>
+  <data name="setmusicchannel_usage" xml:space="preserve">
+    <value>`{0}smch`</value>
   </data>
 </root>

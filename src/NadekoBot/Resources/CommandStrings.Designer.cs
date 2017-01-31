@@ -6783,6 +6783,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setmusicchannel smch.
+        /// </summary>
+        public static string setmusicchannel_cmd {
+            get {
+                return ResourceManager.GetString("setmusicchannel_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in..
+        /// </summary>
+        public static string setmusicchannel_desc {
+            get {
+                return ResourceManager.GetString("setmusicchannel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smch`.
+        /// </summary>
+        public static string setmusicchannel_usage {
+            get {
+                return ResourceManager.GetString("setmusicchannel_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to setmuterole.
         /// </summary>
         public static string setmuterole_cmd {
@@ -8340,7 +8367,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}voice+text`.
+        ///    Looks up a localized string similar to `{0}v+t`.
         /// </summary>
         public static string voiceplustext_usage {
             get {
