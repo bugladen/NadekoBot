@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration
                                 if (beforeRole != null)
                                     try
                                     {
-                                        _log.Warn("Removing role " + beforeRoleName + " from user " + user.Username);
+                                        _log.Info("Removing role " + beforeRoleName + " from user " + user.Username);
                                         await user.RemoveRolesAsync(beforeRole).ConfigureAwait(false);
                                         await Task.Delay(200).ConfigureAwait(false);
                                     }
