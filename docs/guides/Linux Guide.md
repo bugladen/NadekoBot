@@ -55,7 +55,7 @@ You should see these following options after using the above command:
 6. Set up credentials.json (if you have downloaded the bot already)
 7. To exit
 ```
-#####Part II
+#####Part II (Optional)
 **If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed, Press `5` and `enter` key, then `y` when you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
@@ -76,8 +76,8 @@ and then press `enter` key.
 Once Installation is completed you should see the options again.
 
 Next, check out:
-#####Part IV
-If you prefer to do this step [manually](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-sftp), and skip other parts click on the link. *(Optional)*
+#####Part IV (Optional)
+If you prefer to skip this step and want to do it [manually](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-sftp) or already have the `credentials.json` file, click on the link. *(Optional)*
 
 - [1. Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-credentialsjson)
 - [2. To Get the Google API](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
