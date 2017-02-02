@@ -184,6 +184,14 @@ namespace NadekoBot.Modules.Administration
 
                 return UserStatus.Online;
             }
+
+            public enum SettableUserStatus
+            {
+                Online,
+                Invisible,
+                Idle,
+                Dnd
+            }
         }
     }
 }
