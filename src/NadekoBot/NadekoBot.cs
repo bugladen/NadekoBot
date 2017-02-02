@@ -113,7 +113,7 @@ namespace NadekoBot
             
             await CommandHandler.StartHandling().ConfigureAwait(false);
 
-            await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly).ConfigureAwait(false);
+            var _ = await Task.Run(() => CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly)).ConfigureAwait(false);
 #if !GLOBAL_NADEKO
             await CommandService.AddModuleAsync<Music>().ConfigureAwait(false);
 #endif
