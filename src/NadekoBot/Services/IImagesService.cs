@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace NadekoBot.Services
     {
         Stream Heads { get; }
         Stream Tails { get; }
+
+        IImmutableList<Tuple<string, Stream>> CurrencyImages { get; }
 
         Task Reload();
     }

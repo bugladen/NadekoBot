@@ -93,10 +93,10 @@ namespace NadekoBot.Modules.Games
                             {
                                 firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
                             }
-                            var file = GetRandomCurrencyImagePath();
+                            var file = GetRandomCurrencyImage();
                             var sent = await channel.SendFileAsync(
-                                File.Open(file, FileMode.OpenOrCreate),
-                                new FileInfo(file).Name,
+                                file.Item2,
+                                file.Item1,
                                 $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
                                     .ConfigureAwait(false);
 
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var file = GetRandomCurrencyImagePath();
+                var file = GetRandomCurrencyImage();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.BotConfig.CurrencyName[0]);
                 
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    msg = await Context.Channel.SendFileAsync(File.Open(file, FileMode.OpenOrCreate), new FileInfo(file).Name, msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(file.Item2, file.Item1, msgToSend).ConfigureAwait(false);
                 }
 
                 var msgs = new IUserMessage[amount];
@@ -220,10 +220,12 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private static string GetRandomCurrencyImagePath()
+            private static Tuple<string, Stream> GetRandomCurrencyImage()
             {
                 var rng = new NadekoRandom();
-                return Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
+                var images = NadekoBot.Images.CurrencyImages;
+
+                return images[rng.Next(0, images.Count)];
             }
 
             int GetRandomNumber()
