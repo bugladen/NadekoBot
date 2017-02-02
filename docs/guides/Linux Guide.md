@@ -56,7 +56,7 @@ You should see these following options after using the above command:
 7. To exit
 ```
 #####Part II
-**If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed, Press `5` and press `enter` key, then `y` when you see the following:
+**If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed, Press `5` and `enter` key, then `y` when you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
@@ -97,18 +97,19 @@ You will need the following for the next step:
 
 Once you have acquired them, press `6` to **Set up credentials.json**
 
-You will be asked to enter the required informations, just follow the on-screen instructions and enter whats asked.		
-*i.e* If you are asked **Bot's Token**, then just copy and paste the `token` and press `enter` key.
+You will be asked to enter the required informations, just follow the on-screen instructions and enter the required information.		
+*i.e* If you are asked **Bot's Token**, then just copy and paste or type the **Bot's Token** and press `enter` key.
 
-If you want to skip any optional informations, just press `enter` key without typing/pasting anything.	
+(If you want to skip any optional infos, just press `enter` key without typing/pasting anything.)		
 Once done,		
 #####Part V
-You should see the options again within the **tmux session** named *nadako*.	
+You should see the options again within the **`tmux` session** named `nadeko` *(remember this one)*			
 Next, press `3` to **Run Nadeko (Normally)**	
 Check in your discord server if your new bot is working properly.	
 #####Part VI
-If the bot is working properly in your server, type `.die` to shut down the bot.		
-You should be back to the options again, 	
+If your bot is working properly in your server, type `.die` to shut down the bot.
+
+You should be back to the options screen again on **PuTTY**, 	
 from the options choose `4` to **Run Nadeko with Auto Restart.**
 
 It will show you more options: 
@@ -118,11 +119,12 @@ It will show you more options:
 3. Auto Restart and Update with Stable Build
 4. Exit
 ```
-Choose anything you like and once the bot's back online again in your server, close the **PuTTY**.		
-Done, You now have your own **NadekoBot**.		
+Choose anything you like and once the bot's back online again in your server, close the **PuTTY**.
+
+**Done**, You now have your own **NadekoBot**.		
 
 
-[To **Restart** your **NadekoBot** anytime later.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
+[Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
 
 ####Running NadekoBot
 
@@ -156,6 +158,11 @@ Next to **move the bot to background** and to do that, press **CTRL+B+D** (this 
 
 ####Restarting Nadeko
 
+**Restarting NadekoBot:**
+
+**If** you have chosen option `4` to **Run Nadeko with Auto Restart** from Nadeko's `linuxAIO.sh` *[(you got it from this step)](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)*	
+You can simply type `.die` in the server you have your NadekoBot to make her restart.
+
 **Restarting Nadeko with the Server:**
 
 Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
@@ -168,14 +175,14 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 
 ####Updating Nadeko
 
-- Connect to the terminal through PuTTY.
+- Connect to the terminal through **PuTTY**.
 - `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
 - Make sure the bot is **not** running.
 - `tmux new -s nadeko` (**nadeko** is the name of the session)
 - `cd ~ && bash linuxAIO.sh`
 - Choose either `1` or `2` to update the bot with **latest build** or **stable build** respectively.
 - Choose either `3` or `4` to run the bot again with **normally** or **auto restart** respectively.
-- Done. You can close PuTTY now.
+- Done. You can close **PuTTY** now.
 
 ####Installing Manually (Optional)
 
