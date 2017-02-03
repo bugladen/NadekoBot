@@ -231,7 +231,7 @@ namespace NadekoBot.Modules.Games
             private static Tuple<string, Stream> GetRandomCurrencyImage()
             {
                 var rng = new NadekoRandom();
-                var images = NadekoBot.Images.CurrencyImages;
+                var images = NadekoBot.Images.Currency;
 
                 return images[rng.Next(0, images.Count)];
             }

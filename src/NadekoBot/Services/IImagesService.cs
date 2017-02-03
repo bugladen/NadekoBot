@@ -13,7 +13,8 @@ namespace NadekoBot.Services
         Stream Heads { get; }
         Stream Tails { get; }
 
-        IImmutableList<Tuple<string, Stream>> CurrencyImages { get; }
+        IImmutableList<Tuple<string, Stream>> Currency { get; }
+        IImmutableList<Tuple<string, Stream>> Dice { get; }
 
         Task Reload();
     }
