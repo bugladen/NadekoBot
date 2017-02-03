@@ -51,62 +51,70 @@ namespace NadekoBot.Modules.Games
                     .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
             }
 
-            private static async Task PotentialFlowerGeneration(SocketMessage imsg)
+            private static Task PotentialFlowerGeneration(SocketMessage imsg)
             {
-                try
+                var msg = imsg as SocketUserMessage;
+                if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
+                    return Task.CompletedTask;
+
+                var channel = imsg.Channel as ITextChannel;
+                if (channel == null)
+                    return Task.CompletedTask;
+
+                if (!generationChannels.Contains(channel.Id))
+                    return Task.CompletedTask;
+
+                var _ = Task.Run(async () =>
                 {
-                    var msg = imsg as SocketUserMessage;
-                    if (msg == null || msg.IsAuthor() || msg.Author.IsBot)
-                        return;
-
-                    var channel = imsg.Channel as ITextChannel;
-                    if (channel == null)
-                        return;
-
-                    if (!generationChannels.Contains(channel.Id))
-                        return;
-
-                    var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                    var rng = new NadekoRandom();
-
-                    if (DateTime.Now - TimeSpan.FromSeconds(NadekoBot.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
-                        return;
-
-                    var num = rng.Next(1, 101) + NadekoBot.BotConfig.CurrencyGenerationChance * 100;
-
-                    if (num > 100)
+                    try
                     {
-                        lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
+                        var lastGeneration = lastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
+                        var rng = new NadekoRandom();
 
-                        var dropAmount = NadekoBot.BotConfig.CurrencyDropAmount;
+                        //todo i'm stupid :rofl: wtg kwoth. real async programming :100: :ok_hand: :100: :100: :thumbsup:
+                        if (DateTime.Now - TimeSpan.FromSeconds(NadekoBot.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                            return;
 
-                        if (dropAmount > 0)
+                        var num = rng.Next(1, 101) + NadekoBot.BotConfig.CurrencyGenerationChance * 100;
+
+                        if (num > 100)
                         {
-                            var msgs = new IUserMessage[dropAmount];
+                            lastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
 
-                            string firstPart;
-                            if (dropAmount == 1)
+                            var dropAmount = NadekoBot.BotConfig.CurrencyDropAmount;
+
+                            if (dropAmount > 0)
                             {
-                                firstPart = $"A random { NadekoBot.BotConfig.CurrencyName } appeared!";
-                            }
-                            else
-                            {
-                                firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
-                            }
-                            var file = GetRandomCurrencyImage();
-                            var sent = await channel.SendFileAsync(
-                                file.Item2,
-                                file.Item1,
-                                $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
-                                    .ConfigureAwait(false);
+                                var msgs = new IUserMessage[dropAmount];
 
-                            msgs[0] = sent;
+                                string firstPart;
+                                if (dropAmount == 1)
+                                {
+                                    firstPart = $"A random { NadekoBot.BotConfig.CurrencyName } appeared!";
+                                }
+                                else
+                                {
+                                    firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
+                                }
+                                var file = GetRandomCurrencyImage();
+                                var sent = await channel.SendFileAsync(
+                                    file.Item2,
+                                    file.Item1,
+                                    $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
+                                        .ConfigureAwait(false);
 
-                            plantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
+                                msgs[0] = sent;
+
+                                plantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
+                            }
                         }
                     }
-                }
-                catch { }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                });
+                return Task.CompletedTask;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -162,7 +170,7 @@ namespace NadekoBot.Modules.Games
                 var file = GetRandomCurrencyImage();
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.BotConfig.CurrencyName[0]);
-                
+
                 var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(amount == 1 ? (vowelFirst ? "an" : "a") : amount.ToString())} {(amount > 1 ? NadekoBot.BotConfig.CurrencyPluralName : NadekoBot.BotConfig.CurrencyName)}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {

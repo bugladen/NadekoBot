@@ -3,6 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -166,6 +167,23 @@ namespace NadekoBot.Modules.Administration
                         .ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task ReloadImages()
+            {
+                var channel = (ITextChannel)Context.Channel;
+
+                var msg = await Context.Channel.SendMessageAsync("Reloading Images...").ConfigureAwait(false);
+                var sw = Stopwatch.StartNew();
+                await NadekoBot.Images.Reload().ConfigureAwait(false);
+                sw.Stop();
+                await msg.ModifyAsync(x =>
+                {
+                    x.Content = "✅ Images reloaded.";
+                }).ConfigureAwait(false);
             }
 
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)

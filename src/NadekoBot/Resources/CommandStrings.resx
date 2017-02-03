@@ -3042,4 +3042,13 @@
   <data name="setmusicchannel_usage" xml:space="preserve">
     <value>`{0}smch`</value>
   </data>
+  <data name="reloadimages_cmd" xml:space="preserve">
+    <value>reloadimages</value>
+  </data>
+  <data name="reloadimages_desc" xml:space="preserve">
+    <value>Reloads images bot is using. Safe to use even when bot is being used heavily.</value>
+  </data>
+  <data name="reloadimages_usage" xml:space="preserve">
+    <value>`{0}reloadimages`</value>
+  </data>
 </root>
