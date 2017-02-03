@@ -170,12 +170,9 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task ReloadImages()
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 var msg = await Context.Channel.SendMessageAsync("Reloading Images...").ConfigureAwait(false);
                 var sw = Stopwatch.StartNew();
                 await NadekoBot.Images.Reload().ConfigureAwait(false);
