@@ -1869,6 +1869,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to connectshard.
+        /// </summary>
+        public static string connectshard_cmd {
+            get {
+                return ResourceManager.GetString("connectshard_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors..
+        /// </summary>
+        public static string connectshard_desc {
+            get {
+                return ResourceManager.GetString("connectshard_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}connectshard 2`.
+        /// </summary>
+        public static string connectshard_usage {
+            get {
+                return ResourceManager.GetString("connectshard_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to convert.
         /// </summary>
         public static string convert_cmd {
