@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using NadekoBot.DataStructures;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -15,27 +16,30 @@ namespace NadekoBot.Services.Impl
     {
         private readonly Logger _log;
 
-        private const string headsPath = "data/images/coins/heads.png";
-        private const string tailsPath = "data/images/coins/tails.png";
+        private const string basePath = "data/images/";
 
-        private const string currencyImagesPath = "data/currency_images";
-        private const string diceImagesPath = "data/images/dice";
+        private const string headsPath = basePath + "coins/heads.png";
+        private const string tailsPath = basePath + "coins/tails.png";
 
-        private byte[] heads;
-        public Stream Heads => new MemoryStream(heads, false);
+        private const string currencyImagesPath = basePath + "currency";
+        private const string diceImagesPath = basePath + "dice";
 
-        private byte[] tails;
-        public Stream Tails => new MemoryStream(tails, false);
+        private const string slotBackgroundPath = basePath + "slots/background.png";
+        private const string slotNumbersPath = basePath + "slots/numbers/";
+        private const string slotEmojisPath = basePath + "slots/emojis/";
+
+
+        public ImmutableArray<byte> Heads { get; private set; }
+        public ImmutableArray<byte> Tails { get; private set; }
+
         //todo C#7
-        private IReadOnlyDictionary<string, byte[]> currency;
-        public IImmutableList<Tuple<string, Stream>> Currency =>
-            currency.Select(x => new Tuple<string, Stream>(x.Key, new MemoryStream(x.Value, false)))
-                          .ToImmutableArray();
+        public ImmutableArray<KeyValuePair<string, ImmutableArray<byte>>> Currency { get; private set; }
 
-        private IReadOnlyDictionary<string, byte[]> dice;
-        public IImmutableList<Tuple<string, Stream>> Dice =>
-            dice.Select(x => new Tuple<string, Stream>(x.Key, new MemoryStream(x.Value, false)))
-                          .ToImmutableArray();
+        public ImmutableArray<KeyValuePair<string, ImmutableArray<byte>>> Dice { get; private set; }
+
+        public ImmutableArray<byte> SlotBackground { get; private set; }
+        public ImmutableArray<ImmutableArray<byte>> SlotNumbers { get; private set; }
+        public ImmutableArray<ImmutableArray<byte>> SlotEmojis { get; private set; }
 
         private ImagesService()
         {
@@ -49,18 +53,41 @@ namespace NadekoBot.Services.Impl
             return srvc;
         }
 
-        public Task Reload() => Task.Run(() =>
+        public Task<TimeSpan> Reload() => Task.Run(() =>
         {
             try
             {
                 _log.Info("Loading images...");
                 var sw = Stopwatch.StartNew();
-                heads = File.ReadAllBytes(headsPath);
-                tails = File.ReadAllBytes(tailsPath);
+                Heads = File.ReadAllBytes(headsPath).ToImmutableArray();
+                Tails = File.ReadAllBytes(tailsPath).ToImmutableArray();
 
-                currency = Directory.GetFiles(currencyImagesPath).ToDictionary(x => Path.GetFileName(x), x => File.ReadAllBytes(x));
-                dice = Directory.GetFiles(diceImagesPath).ToDictionary(x => Path.GetFileName(x), x => File.ReadAllBytes(x));
+                Currency = Directory.GetFiles(currencyImagesPath)
+                    .Select(x => new KeyValuePair<string, ImmutableArray<byte>>(
+                                        Path.GetFileName(x), 
+                                        File.ReadAllBytes(x).ToImmutableArray()))
+                    .ToImmutableArray();
+
+                Dice = Directory.GetFiles(diceImagesPath)
+                                .OrderBy(x => int.Parse(Path.GetFileNameWithoutExtension(x)))
+                                .Select(x => new KeyValuePair<string, ImmutableArray<byte>>(x, 
+                                                    File.ReadAllBytes(x).ToImmutableArray()))
+                                .ToImmutableArray();
+                
+                SlotBackground = File.ReadAllBytes(slotBackgroundPath).ToImmutableArray();
+
+                SlotNumbers = Directory.GetFiles(slotNumbersPath)
+                    .OrderBy(f => int.Parse(Path.GetFileNameWithoutExtension(f)))
+                    .Select(x => File.ReadAllBytes(x).ToImmutableArray())
+                    .ToImmutableArray();
+
+                SlotEmojis = Directory.GetFiles(slotEmojisPath)
+                    .Select(x => File.ReadAllBytes(x).ToImmutableArray())
+                    .ToImmutableArray();
+
+                sw.Stop();
                 _log.Info($"Images loaded after {sw.Elapsed.TotalSeconds:F2}s!");
+                return sw.Elapsed;
             }
             catch (Exception ex)
             {

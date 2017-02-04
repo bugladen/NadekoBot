@@ -10,6 +10,7 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -97,13 +98,16 @@ namespace NadekoBot.Modules.Games
                                     firstPart = $"{dropAmount} random { NadekoBot.BotConfig.CurrencyPluralName } appeared!";
                                 }
                                 var file = GetRandomCurrencyImage();
-                                var sent = await channel.SendFileAsync(
-                                    file.Item2,
-                                    file.Item1,
-                                    $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
-                                        .ConfigureAwait(false);
+                                using (var fileStream = file.Value.ToStream())
+                                {
+                                    var sent = await channel.SendFileAsync(
+                                        fileStream,
+                                        file.Key,
+                                        $"❗ {firstPart} Pick it up by typing `{NadekoBot.ModulePrefixes[typeof(Games).Name]}pick`")
+                                            .ConfigureAwait(false);
 
-                                msgs[0] = sent;
+                                    msgs[0] = sent;
+                                }
 
                                 plantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                             }
@@ -167,18 +171,15 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var file = GetRandomCurrencyImage();
-                IUserMessage msg;
+                var imgData = GetRandomCurrencyImage();
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.BotConfig.CurrencyName[0]);
 
                 var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(amount == 1 ? (vowelFirst ? "an" : "a") : amount.ToString())} {(amount > 1 ? NadekoBot.BotConfig.CurrencyPluralName : NadekoBot.BotConfig.CurrencyName)}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
-                if (file == null)
+
+                IUserMessage msg;
+                using (var toSend = imgData.Value.ToStream())
                 {
-                    msg = await Context.Channel.SendConfirmAsync(NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
-                }
-                else
-                {
-                    msg = await Context.Channel.SendFileAsync(file.Item2, file.Item1, msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(toSend, imgData.Key, msgToSend).ConfigureAwait(false);
                 }
 
                 var msgs = new IUserMessage[amount];
@@ -228,12 +229,12 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private static Tuple<string, Stream> GetRandomCurrencyImage()
+            private static KeyValuePair<string, ImmutableArray<byte>> GetRandomCurrencyImage()
             {
                 var rng = new NadekoRandom();
                 var images = NadekoBot.Images.Currency;
 
-                return images[rng.Next(0, images.Count)];
+                return images[rng.Next(0, images.Length)];
             }
 
             int GetRandomNumber()

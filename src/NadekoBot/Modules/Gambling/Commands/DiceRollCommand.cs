@@ -34,15 +34,11 @@ namespace NadekoBot.Modules.Gambling
                 var num2 = gen % 10;
                 var imageStream = await Task.Run(() =>
                 {
-                    try
-                    {
-                        var ms = new MemoryStream();
-                        new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
-                        ms.Position = 0;
-                        return ms;
-                    }
-                    catch { return new MemoryStream(); }
-                });
+                    var ms = new MemoryStream();
+                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
+                    ms.Position = 0;
+                    return ms;
+                }).ConfigureAwait(false);
 
                 await Context.Channel.SendFileAsync(imageStream, "dice.png", $"{Context.User.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
             }
@@ -82,7 +78,7 @@ namespace NadekoBot.Modules.Gambling
                 await InternallDndRoll(arg, false).ConfigureAwait(false);
             }
 
-            private async Task InternalRoll( int num, bool ordered)
+            private async Task InternalRoll(int num, bool ordered)
             {
                 if (num < 1 || num > 30)
                 {
@@ -209,20 +205,24 @@ namespace NadekoBot.Modules.Gambling
 
             private Image GetDice(int num)
             {
-                const string pathToImage = "data/images/dice";
-                if (num != 10)
+                if (num < 0 || num > 10)
+                    throw new ArgumentOutOfRangeException(nameof(num));
+
+                if (num == 10)
                 {
-                    using (var stream = File.OpenRead(Path.Combine(pathToImage, $"{num}.png")))
-                        return new Image(stream);
+                    var images = NadekoBot.Images.Dice;
+                    using (var imgOneStream = images[1].Value.ToStream())
+                    using (var imgZeroStream = images[0].Value.ToStream())
+                    {
+                        Image imgOne = new Image(imgOneStream);
+                        Image imgZero = new Image(imgZeroStream);
+
+                        return new[] { imgOne, imgZero }.Merge();
+                    }
                 }
-
-                using (var one = File.OpenRead(Path.Combine(pathToImage, "1.png")))
-                using (var zero = File.OpenRead(Path.Combine(pathToImage, "0.png")))
+                using (var die = NadekoBot.Images.Dice[num].Value.ToStream())
                 {
-                    Image imgOne = new Image(one);
-                    Image imgZero = new Image(zero);
-
-                    return new[] { imgOne, imgZero }.Merge();
+                    return new Image(die);
                 }
             }
         }

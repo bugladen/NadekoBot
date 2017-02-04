@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NadekoBot.DataStructures;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -10,12 +11,16 @@ namespace NadekoBot.Services
 {
     public interface IImagesService
     {
-        Stream Heads { get; }
-        Stream Tails { get; }
+        ImmutableArray<byte> Heads { get; }
+        ImmutableArray<byte> Tails { get; }
 
-        IImmutableList<Tuple<string, Stream>> Currency { get; }
-        IImmutableList<Tuple<string, Stream>> Dice { get; }
+        ImmutableArray<KeyValuePair<string, ImmutableArray<byte>>> Currency { get; }
+        ImmutableArray<KeyValuePair<string, ImmutableArray<byte>>> Dice { get; }
 
-        Task Reload();
+        ImmutableArray<byte> SlotBackground { get; }
+        ImmutableArray<ImmutableArray<byte>> SlotEmojis { get; }
+        ImmutableArray<ImmutableArray<byte>> SlotNumbers { get; }
+
+        Task<TimeSpan> Reload();
     }
 }
