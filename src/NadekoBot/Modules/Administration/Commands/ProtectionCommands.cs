@@ -105,74 +105,85 @@ namespace NadekoBot.Modules.Administration
                         antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
                 }
 
-                NadekoBot.Client.MessageReceived += async (imsg) =>
+                NadekoBot.Client.MessageReceived += (imsg) =>
                 {
+                    var msg = imsg as IUserMessage;
+                    if (msg == null || msg.Author.IsBot)
+                        return Task.CompletedTask;
 
-                    try
+                    var channel = msg.Channel as ITextChannel;
+                    if (channel == null)
+                        return Task.CompletedTask;
+                    var _ = Task.Run(async () =>
                     {
-                        var msg = imsg as IUserMessage;
-                        if (msg == null || msg.Author.IsBot)
-                            return;
-
-                        var channel = msg.Channel as ITextChannel;
-                        if (channel == null)
-                            return;
-                        AntiSpamStats spamSettings;
-                        if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings) ||
-                            spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore()
-                            {
-                                ChannelId = channel.Id
-                            }))
-                            return;
-
-                        var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
-                            (id, old) => { old.ApplyNextMessage(msg.Content); return old; });
-
-                        if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
+                        try
                         {
-                            if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
+                            AntiSpamStats spamSettings;
+                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings) ||
+                                spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore()
+                                {
+                                    ChannelId = channel.Id
+                                }))
+                                return;
+
+                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
+                                (id, old) =>
+                                {
+                                    old.ApplyNextMessage(msg.Content); return old;
+                                });
+
+                            if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
                             {
-                                await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
-                                    .ConfigureAwait(false);
+                                if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
+                                {
+                                    await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
+                                        .ConfigureAwait(false);
+                                }
                             }
                         }
-                    }
-                    catch { }
+                        catch { }
+                    });
+                    return Task.CompletedTask;
                 };
 
-                NadekoBot.Client.UserJoined += async (usr) =>
+                NadekoBot.Client.UserJoined += (usr) =>
                 {
-                    try
+                    if (usr.IsBot)
+                        return Task.CompletedTask;
+                    AntiRaidStats settings;
+                    if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
+                        return Task.CompletedTask;
+                    if (!settings.RaidUsers.Add(usr))
+                        return Task.CompletedTask;
+
+                    var _ = Task.Run(async () =>
                     {
-                        if (usr.IsBot)
-                            return;
-                        AntiRaidStats settings;
-                        if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
-                            return;
-                        if (!settings.RaidUsers.Add(usr))
-                            return;
-
-                        ++settings.UsersCount;
-
-                        if (settings.UsersCount >= settings.AntiRaidSettings.UserThreshold)
+                        try
                         {
-                            var users = settings.RaidUsers.ToArray();
-                            settings.RaidUsers.Clear();
+                            ++settings.UsersCount;
 
-                            await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
+                            if (settings.UsersCount >= settings.AntiRaidSettings.UserThreshold)
+                            {
+                                var users = settings.RaidUsers.ToArray();
+                                settings.RaidUsers.Clear();
+
+                                await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
+                            }
+                            await Task.Delay(1000 * settings.AntiRaidSettings.Seconds).ConfigureAwait(false);
+
+                            settings.RaidUsers.TryRemove(usr);
+                            --settings.UsersCount;
+
                         }
-                        await Task.Delay(1000 * settings.AntiRaidSettings.Seconds).ConfigureAwait(false);
-
-                        settings.RaidUsers.TryRemove(usr);
-                        --settings.UsersCount;
-
-                    }
-                    catch { }
+                        catch { }
+                    });
+                    return Task.CompletedTask;
                 };
             }
 
             private static async Task PunishUsers(PunishmentAction action, ProtectionType pt, params IGuildUser[] gus)
             {
+                _log.Info($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
                 foreach (var gu in gus)
                 {
                     switch (action)

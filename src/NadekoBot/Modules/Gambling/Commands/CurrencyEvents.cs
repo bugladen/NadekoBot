@@ -78,6 +78,7 @@ namespace NadekoBot.Modules.Gambling
                     _secretCode += _sneakyGameStatusChars[rng.Next(0, _sneakyGameStatusChars.Length)];
                 }
 
+                var game = NadekoBot.Client.Game?.Name;
                 await NadekoBot.Client.SetGameAsync($"type {_secretCode} for " + NadekoBot.BotConfig.CurrencyPluralName)
                     .ConfigureAwait(false);
                 try
@@ -94,10 +95,11 @@ namespace NadekoBot.Modules.Gambling
                 await Task.Delay(num * 1000);
                 NadekoBot.Client.MessageReceived -= SneakyGameMessageReceivedEventHandler;
 
+                var cnt = _sneakyGameAwardedUsers.Count;
                 _sneakyGameAwardedUsers.Clear();
                 _secretCode = String.Empty;
 
-                await NadekoBot.Client.SetGameAsync($"SneakyGame event ended.")
+                await NadekoBot.Client.SetGameAsync($"SneakyGame event ended. {cnt} users received a reward.")
                     .ConfigureAwait(false);
             }
 

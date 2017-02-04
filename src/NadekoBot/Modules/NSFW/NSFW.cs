@@ -140,24 +140,6 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task Danbooru([Remainder] string tag = null)
-        {
-            tag = tag?.Trim() ?? "";
-
-            var url = await GetDanbooruImageLink(tag).ConfigureAwait(false);
-
-            if (url == null)
-                await Context.Channel.SendErrorAsync(Context.User.Mention + " No results.").ConfigureAwait(false);
-            else
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(Context.User.Mention + " " + tag)
-                    .WithImageUrl(url)
-                    .WithFooter(efb => efb.WithText("Danbooru")))
-                    .ConfigureAwait(false);
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         public Task Yandere([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
@@ -165,10 +147,6 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public Task Konachan([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Gelbooru([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Rule34([Remainder] string tag = null)
@@ -191,6 +169,49 @@ namespace NadekoBot.Modules.NSFW
                     .ConfigureAwait(false);
         }
 #endif
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Danbooru([Remainder] string tag = null)
+        {
+            tag = tag?.Trim() ?? "";
+
+            var url = await GetDanbooruImageLink(tag).ConfigureAwait(false);
+
+            if (url == null)
+                await Context.Channel.SendErrorAsync(Context.User.Mention + " No results.").ConfigureAwait(false);
+            else
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(Context.User.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText("Danbooru")))
+                    .ConfigureAwait(false);
+        }
+
+        public static Task<string> GetDanbooruImageLink(string tag) => Task.Run(async () =>
+        {
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.AddFakeHeaders();
+                    var data = await http.GetStreamAsync("https://danbooru.donmai.us/posts.xml?limit=100&tags=" + tag).ConfigureAwait(false);
+                    var doc = new XmlDocument();
+                    doc.Load(data);
+                    var nodes = doc.GetElementsByTagName("file-url");
+
+                    var node = nodes[new NadekoRandom().Next(0, nodes.Count)];
+                    return "https://danbooru.donmai.us" + node.InnerText;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        });
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Gelbooru([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Cp()
         {
@@ -233,27 +254,6 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 #if !GLOBAL_NADEKO
-        public static Task<string> GetDanbooruImageLink(string tag) => Task.Run(async () =>
-        {
-            try
-            {
-                using (var http = new HttpClient())
-                {
-                    http.AddFakeHeaders();
-                    var data = await http.GetStreamAsync("https://danbooru.donmai.us/posts.xml?limit=100&tags=" + tag).ConfigureAwait(false);
-                    var doc = new XmlDocument();
-                    doc.Load(data);
-                    var nodes = doc.GetElementsByTagName("file-url");
-
-                    var node = nodes[new NadekoRandom().Next(0, nodes.Count)];
-                    return "https://danbooru.donmai.us" + node.InnerText;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        });
 
 
         public static Task<string> GetE621ImageLink(string tag) => Task.Run(async () =>

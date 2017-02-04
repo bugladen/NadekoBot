@@ -20,7 +20,10 @@ namespace NadekoBot.Extensions
     {
         private const string arrow_left = "⬅";
         private const string arrow_right = "➡";
-        
+
+        public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
+            => new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
+
         /// <summary>
         /// danny kamisama
         /// </summary>

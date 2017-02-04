@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Image = ImageSharp.Image;
@@ -16,34 +17,54 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlipCoinCommands : ModuleBase
         {
+            private readonly IImagesService _images;
+
             private static NadekoRandom rng { get; } = new NadekoRandom();
-            private const string headsPath = "data/images/coins/heads.png";
-            private const string tailsPath = "data/images/coins/tails.png";
-            
+
+            public FlipCoinCommands()
+            {
+                //todo DI in the future, can't atm
+                this._images = NadekoBot.Images;
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Flip(int count = 1)
             {
                 if (count == 1)
                 {
                     if (rng.Next(0, 2) == 1)
-                        await Context.Channel.SendFileAsync(File.Open(headsPath, FileMode.OpenOrCreate), "heads.jpg", $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                    {
+                        using (var heads = _images.Heads.ToStream())
+                        {
+                            await Context.Channel.SendFileAsync(heads, "heads.jpg", $"{Context.User.Mention} flipped " + Format.Code("Heads") + ".").ConfigureAwait(false);
+                        }
+                    }
                     else
-                        await Context.Channel.SendFileAsync(File.Open(tailsPath, FileMode.OpenOrCreate), "tails.jpg", $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                    {
+                        using (var tails = _images.Tails.ToStream())
+                        {
+                            await Context.Channel.SendFileAsync(tails, "tails.jpg", $"{Context.User.Mention} flipped " + Format.Code("Tails") + ".").ConfigureAwait(false);
+                        }
+                    }
                     return;
                 }
                 if (count > 10 || count < 1)
                 {
-                    await Context.Channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`");
+                    await Context.Channel.SendErrorAsync("`Invalid number specified. You can flip 1 to 10 coins.`").ConfigureAwait(false);
                     return;
                 }
                 var imgs = new Image[count];
-                for (var i = 0; i < count; i++)
+                using (var heads = _images.Heads.ToStream())
+                using(var tails = _images.Tails.ToStream())
                 {
-                    imgs[i] = rng.Next(0, 10) < 5 ?
-                                new Image(File.OpenRead(headsPath)) :
-                                new Image(File.OpenRead(tailsPath));
+                    for (var i = 0; i < count; i++)
+                    {
+                        imgs[i] = rng.Next(0, 10) < 5 ?
+                                    new Image(heads) :
+                                    new Image(tails);
+                    }
+                    await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
                 }
-                await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -68,17 +89,18 @@ namespace NadekoBot.Modules.Gambling
                 //heads = true
                 //tails = false
 
+                //todo this seems stinky, no time to look at it right now
                 var isHeads = guessStr == "HEADS" || guessStr == "H";
                 bool result = false;
-                string imgPathToSend;
+                IEnumerable<byte> imageToSend;
                 if (rng.Next(0, 2) == 1)
                 {
-                    imgPathToSend = headsPath;
+                    imageToSend = _images.Heads;
                     result = true;
                 }
                 else
                 {
-                    imgPathToSend = tailsPath;
+                    imageToSend = _images.Tails;
                 }
 
                 string str;
@@ -92,8 +114,10 @@ namespace NadekoBot.Modules.Gambling
                 {
                     str = $"{Context.User.Mention}`Better luck next time.`";
                 }
-
-                await Context.Channel.SendFileAsync(File.Open(imgPathToSend, FileMode.OpenOrCreate), new FileInfo(imgPathToSend).Name, str).ConfigureAwait(false);
+                using (var toSend = imageToSend.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(toSend, "result.png", str).ConfigureAwait(false);
+                }
             }
         }
     }

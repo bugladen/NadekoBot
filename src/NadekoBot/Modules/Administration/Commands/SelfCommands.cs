@@ -3,6 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -168,6 +169,14 @@ namespace NadekoBot.Modules.Administration
                 await Context.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
             }
 
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task ReloadImages()
+            {
+                var time = await NadekoBot.Images.Reload().ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync($"Images loaded after {time.TotalSeconds:F3}s!").ConfigureAwait(false);
+            }
+
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
             {
                 switch (sus)
@@ -183,6 +192,14 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 return UserStatus.Online;
+            }
+
+            public enum SettableUserStatus
+            {
+                Online,
+                Invisible,
+                Idle,
+                Dnd
             }
         }
     }

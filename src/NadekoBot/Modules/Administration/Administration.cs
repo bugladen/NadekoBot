@@ -38,20 +38,24 @@ namespace NadekoBot.Modules.Administration
 
         }
 
-        private static async Task DelMsgOnCmd_Handler(SocketUserMessage msg, CommandInfo cmd)
+        private static Task DelMsgOnCmd_Handler(SocketUserMessage msg, CommandInfo cmd)
         {
-            try
+            var _ = Task.Run(async () =>
             {
-                var channel = msg.Channel as SocketTextChannel;
-                if (channel == null)
-                    return;
-                if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune")
-                    await msg.DeleteAsync().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex, "Delmsgoncmd errored...");
-            }
+                try
+                {
+                    var channel = msg.Channel as SocketTextChannel;
+                    if (channel == null)
+                        return;
+                    if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune")
+                        await msg.DeleteAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex, "Delmsgoncmd errored...");
+                }
+            });
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

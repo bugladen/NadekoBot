@@ -5622,6 +5622,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to reloadimages.
+        /// </summary>
+        public static string reloadimages_cmd {
+            get {
+                return ResourceManager.GetString("reloadimages_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Reloads images bot is using. Safe to use even when bot is being used heavily..
+        /// </summary>
+        public static string reloadimages_desc {
+            get {
+                return ResourceManager.GetString("reloadimages_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}reloadimages`.
+        /// </summary>
+        public static string reloadimages_usage {
+            get {
+                return ResourceManager.GetString("reloadimages_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to remind.
         /// </summary>
         public static string remind_cmd {
