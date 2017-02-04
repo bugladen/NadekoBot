@@ -70,7 +70,7 @@ namespace NadekoBot
                 TotalShards = Credentials.TotalShards,
                 ConnectionTimeout = int.MaxValue,
 #if !GLOBAL_NADEKO
-                AlwaysDownloadUsers = true,
+                //AlwaysDownloadUsers = true,
 #endif
             });
 
