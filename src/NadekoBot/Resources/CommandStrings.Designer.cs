@@ -7026,6 +7026,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to shardstats.
+        /// </summary>
+        public static string shardstats_cmd {
+            get {
+                return ResourceManager.GetString("shardstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Stats for shards. Paginated with 25 shards per page..
+        /// </summary>
+        public static string shardstats_desc {
+            get {
+                return ResourceManager.GetString("shardstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shardstats` or `{0}shardstats 2`.
+        /// </summary>
+        public static string shardstats_usage {
+            get {
+                return ResourceManager.GetString("shardstats_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to shorten.
         /// </summary>
         public static string shorten_cmd {
