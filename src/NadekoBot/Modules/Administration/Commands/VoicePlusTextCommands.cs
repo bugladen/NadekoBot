@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Administration
                                 var roleName = GetRoleName(afterVch);
                                 IRole roleToAdd = guild.Roles.FirstOrDefault(x => x.Name == roleName);
                                 if (roleToAdd == null)
-                                    roleToAdd = await guild.CreateRoleAsync(roleName).ConfigureAwait(false);
+                                    roleToAdd = await guild.CreateRoleAsync(roleName, GuildPermissions.None).ConfigureAwait(false);
 
                                 ITextChannel textChannel = guild.TextChannels
                                                             .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
