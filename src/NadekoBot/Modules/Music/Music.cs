@@ -556,7 +556,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task SetMaxQueue(uint size)
+        public async Task SetMaxQueue(uint size = 0)
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
