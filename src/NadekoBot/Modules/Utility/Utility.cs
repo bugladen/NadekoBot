@@ -280,9 +280,39 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        public async Task ShardStats(int page = 1)
+        {
+            page -= 1;
+            if (page < 0)
+                return;
+
+            var shards = NadekoBot.Client.Shards.Skip(page * 25).Take(25);
+
+            var info = string.Join("\n",
+                shards.Select(x => $"Shard **#{x.ShardId.ToString()}** is in {Format.Bold(x.ConnectionState.ToString())} state with {Format.Bold(x.Guilds.Count.ToString())} servers"));
+
+            if (string.IsNullOrWhiteSpace(info))
+                info = "No shard stats on this page.";
+
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle("Shard Stats - page " + (page + 1))
+                .WithDescription(info))
+                .ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {
             var stats = NadekoBot.Stats;
+
+            var shardId = Context.Guild != null
+                ? NadekoBot.Client.GetShardIdFor(Context.Guild.Id)
+                : 0;
+            var footer = $"Shard {shardId} | {NadekoBot.Client.Shards.Count} total shards";
+#if !GLOBAL_NADEKO
+            footer += $" | Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued.";
+#endif
 
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
@@ -298,10 +328,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(Format.Bold("Owner ID(s)")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuildCount()} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
-#if !GLOBAL_NADEKO
-                    .WithFooter(efb => efb.WithText($"Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued."))
-#endif
-                    );
+                    .WithFooter(efb => efb.WithText(footer)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]

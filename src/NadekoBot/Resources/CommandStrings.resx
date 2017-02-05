@@ -3051,4 +3051,22 @@
   <data name="reloadimages_usage" xml:space="preserve">
     <value>`{0}reloadimages`</value>
   </data>
+  <data name="shardstats_cmd" xml:space="preserve">
+    <value>shardstats</value>
+  </data>
+  <data name="shardstats_desc" xml:space="preserve">
+    <value>Stats for shards. Paginated with 25 shards per page.</value>
+  </data>
+  <data name="shardstats_usage" xml:space="preserve">
+    <value>`{0}shardstats` or `{0}shardstats 2`</value>
+  </data>
+  <data name="connectshard_cmd" xml:space="preserve">
+    <value>connectshard</value>
+  </data>
+  <data name="connectshard_desc" xml:space="preserve">
+    <value>Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.</value>
+  </data>
+  <data name="connectshard_usage" xml:space="preserve">
+    <value>`{0}connectshard 2`</value>
+  </data>
 </root>

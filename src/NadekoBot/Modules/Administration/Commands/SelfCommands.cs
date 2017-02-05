@@ -18,6 +18,29 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
+            public async Task ConnectShard(int shardid)
+            {
+                var shard = NadekoBot.Client.GetShard(shardid);
+
+                if (shard == null)
+                {
+                    await Context.Channel.SendErrorAsync("No shard by that id found.").ConfigureAwait(false);
+                    return;
+                }
+                try
+                {
+                    await Context.Channel.SendConfirmAsync($"Shard **#{shardid}** reconnecting.").ConfigureAwait(false);
+                    await shard.ConnectAsync().ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Shard **#{shardid}** reconnected.").ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
             public async Task Leave([Remainder] string guildStr)
             {
                 guildStr = guildStr.Trim().ToUpperInvariant();

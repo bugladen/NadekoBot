@@ -1869,6 +1869,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to connectshard.
+        /// </summary>
+        public static string connectshard_cmd {
+            get {
+                return ResourceManager.GetString("connectshard_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors..
+        /// </summary>
+        public static string connectshard_desc {
+            get {
+                return ResourceManager.GetString("connectshard_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}connectshard 2`.
+        /// </summary>
+        public static string connectshard_usage {
+            get {
+                return ResourceManager.GetString("connectshard_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to convert.
         /// </summary>
         public static string convert_cmd {
@@ -7022,6 +7049,33 @@ namespace NadekoBot.Resources {
         public static string settype_usage {
             get {
                 return ResourceManager.GetString("settype_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to shardstats.
+        /// </summary>
+        public static string shardstats_cmd {
+            get {
+                return ResourceManager.GetString("shardstats_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Stats for shards. Paginated with 25 shards per page..
+        /// </summary>
+        public static string shardstats_desc {
+            get {
+                return ResourceManager.GetString("shardstats_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shardstats` or `{0}shardstats 2`.
+        /// </summary>
+        public static string shardstats_usage {
+            get {
+                return ResourceManager.GetString("shardstats_usage", resourceCulture);
             }
         }
         
