@@ -24,7 +24,12 @@ namespace NadekoBot.Modules.Administration
             public static List<PlayingStatus> RotatingStatusMessages { get; }
             public static bool RotatingStatuses { get; private set; } = false;
             private static Timer _t { get; }
-            
+
+            private class TimerState
+            {
+                public int Index { get; set; } = 0;
+            }
+
             static PlayingRotateCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
@@ -34,21 +39,21 @@ namespace NadekoBot.Modules.Administration
 
 
 
-                _t = new Timer(async (_) =>
+                _t = new Timer(async (objState) =>
                 {
-                    var index = 0;
                     try
                     {
+                        var state = (TimerState)objState;
                         if (!RotatingStatuses)
                             return;
                         else
                         {
-                            if (index >= RotatingStatusMessages.Count)
-                                index = 0;
+                            if (state.Index >= RotatingStatusMessages.Count)
+                                state.Index = 0;
 
                             if (!RotatingStatusMessages.Any())
                                 return;
-                            var status = RotatingStatusMessages[index++].Status;
+                            var status = RotatingStatusMessages[state.Index++].Status;
                             if (string.IsNullOrWhiteSpace(status))
                                 return;
                             PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
@@ -68,7 +73,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         _log.Warn("Rotating playing status errored.\n" + ex);
                     }
-                }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+                }, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
             }
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =

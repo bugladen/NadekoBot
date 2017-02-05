@@ -302,6 +302,14 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        public async Task ShardId(ulong guildid)
+        {
+            var shardId = NadekoBot.Client.GetShardIdFor(guildid);
+
+            await Context.Channel.SendConfirmAsync($"ShardId for **{guildid}** with {NadekoBot.Client.Shards.Count} total shards", shardId.ToString()).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {
             var stats = NadekoBot.Stats;
