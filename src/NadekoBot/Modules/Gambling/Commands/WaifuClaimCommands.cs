@@ -403,6 +403,7 @@ namespace NadekoBot.Modules.Gambling
                         x.UpdateType == WaifuUpdateType.Claimed &&
                         x.New == null);
                     if (w == null)
+                    {
                         uow.Waifus.Add(w = new WaifuInfo()
                         {
                             Affinity = null,
@@ -410,6 +411,10 @@ namespace NadekoBot.Modules.Gambling
                             Price = 1,
                             Waifu = uow.DiscordUsers.GetOrCreate(target),
                         });
+                    }
+
+                    w.Waifu.Username = target.Username;
+                    w.Waifu.Discriminator = target.Discriminator;
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
