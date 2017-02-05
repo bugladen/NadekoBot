@@ -7053,6 +7053,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to shardid.
+        /// </summary>
+        public static string shardid_cmd {
+            get {
+                return ResourceManager.GetString("shardid_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows which shard is a certain guild on, by guildid..
+        /// </summary>
+        public static string shardid_desc {
+            get {
+                return ResourceManager.GetString("shardid_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shardid 117523346618318850`.
+        /// </summary>
+        public static string shardid_usage {
+            get {
+                return ResourceManager.GetString("shardid_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to shardstats.
         /// </summary>
         public static string shardstats_cmd {

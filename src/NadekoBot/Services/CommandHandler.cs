@@ -105,9 +105,9 @@ namespace NadekoBot.Services
             BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
         const float oneThousandth = 1.0f / 1000;
-        private Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int ticks)
+        private Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int exec1, int exec2, int exec3, int total)
         {
-            _log.Info("Command Executed after {4}s\n\t" +
+            _log.Info("Command Executed after {4}/{5}/{6}/{7}s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
@@ -116,13 +116,17 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content, // {3}
-                        ticks * oneThousandth);
+                        exec1 * oneThousandth, // {4}
+                        exec2 * oneThousandth, // {5}
+                        exec3 * oneThousandth, // {6}
+                        total * oneThousandth // {7}
+                        );
             return Task.CompletedTask;
         }
 
-        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int ticks)
+        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int exec1, int exec2, int exec3, int total)
         {
-            _log.Warn("Command Errored after {5}s\n\t" +
+            _log.Warn("Command Errored after {5}/{6}/{7}/{8}s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
@@ -133,7 +137,10 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content,// {3}
                         exec.Result.ErrorReason, // {4}
-                        ticks * oneThousandth // {5}
+                        exec1 * oneThousandth, // {5}
+                        exec2 * oneThousandth, // {6}
+                        exec3 * oneThousandth, // {7}
+                        total * oneThousandth // {8}
                         );
         }
 
@@ -219,15 +226,21 @@ namespace NadekoBot.Services
                     if (IsBlacklisted(guild, usrMsg))
                         return;
 
+                    var exec1 = Environment.TickCount - execTime;
+
                     var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
                     if (cleverBotRan)
                         return;
+
+                    var exec2 = Environment.TickCount - execTime;
 
                     // maybe this message is a custom reaction
                     // todo log custom reaction executions. return struct with info
                     var crExecuted = await Task.Run(() => CustomReactions.TryExecuteCustomReaction(usrMsg)).ConfigureAwait(false);
                     if (crExecuted) //if it was, don't execute the command
                         return;
+
+                    var exec3 = Environment.TickCount - execTime;
 
                     string messageContent = usrMsg.Content;
 
@@ -238,11 +251,11 @@ namespace NadekoBot.Services
                     if (exec.Result.IsSuccess)
                     {
                         await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
-                        await LogSuccessfulExecution(usrMsg, exec, channel, execTime).ConfigureAwait(false);
+                        await LogSuccessfulExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime).ConfigureAwait(false);
                     }
                     else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
                     {
-                        LogErroredExecution(usrMsg, exec, channel, execTime);
+                        LogErroredExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime);
                         if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
                         {
                             if (exec.PermissionCache != null && exec.PermissionCache.Verbose)

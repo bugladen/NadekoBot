@@ -3069,4 +3069,13 @@
   <data name="connectshard_usage" xml:space="preserve">
     <value>`{0}connectshard 2`</value>
   </data>
+  <data name="shardid_cmd" xml:space="preserve">
+    <value>shardid</value>
+  </data>
+  <data name="shardid_desc" xml:space="preserve">
+    <value>Shows which shard is a certain guild on, by guildid.</value>
+  </data>
+  <data name="shardid_usage" xml:space="preserve">
+    <value>`{0}shardid 117523346618318850`</value>
+  </data>
 </root>
