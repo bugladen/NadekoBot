@@ -312,23 +312,32 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         public async Task ShardStats(int page = 1)
         {
-            page -= 1;
-            if (page < 0)
+            if (page < 1)
                 return;
 
-            var shards = NadekoBot.Client.Shards.Skip(page * 25).Take(25);
+            var status = string.Join(", ", NadekoBot.Client.Shards.GroupBy(x => x.ConnectionState)
+                .Select(x => $"{x.Count()} shards {x.Key}")
+                .ToArray());
 
-            var info = string.Join("\n",
-                shards.Select(x => $"Shard **#{x.ShardId.ToString()}** is in {Format.Bold(x.ConnectionState.ToString())} state with {Format.Bold(x.Guilds.Count.ToString())} servers"));
+            var allShardStrings = NadekoBot.Client.Shards
+                .Select(x => $"Shard **#{x.ShardId.ToString()}** is in {Format.Bold(x.ConnectionState.ToString())} state with {Format.Bold(x.Guilds.Count.ToString())} servers")
+                .ToArray();
 
-            if (string.IsNullOrWhiteSpace(info))
-                info = "No shard stats on this page.";
 
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle("Shard Stats - page " + (page + 1))
-                .WithDescription(info))
-                .ConfigureAwait(false);
+
+            await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
+
+                var str = string.Join("\n", allShardStrings.Skip(25 * (curPage - 1)).Take(25));
+
+                if (string.IsNullOrWhiteSpace(str))
+                    str = "No shards on this page.";
+
+                return new EmbedBuilder()
+                    .WithAuthor(a => a.WithName("Shard Stats"))
+                    .WithTitle(status)
+                    .WithOkColor()
+                    .WithDescription(str);
+            }, allShardStrings.Length / 25);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
