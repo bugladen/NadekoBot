@@ -25,6 +25,36 @@ namespace NadekoBot.Modules.Utility
     {
         private static ConcurrentDictionary<ulong, Timer> rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
 
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Midorina([Remainder] string arg)
+        //{
+        //    var channel = (ITextChannel)Context.Channel;
+
+        //    var roleNames = arg?.Split(';');
+
+        //    if (roleNames == null || roleNames.Length == 0)
+        //        return;
+
+        //    var j = 0;
+        //    var roles = roleNames.Select(x => Context.Guild.Roles.FirstOrDefault(r => String.Compare(r.Name, x) == 0))
+        //            .Where(x => x != null)
+        //            .Select(x => $"`{++j}.` {x.Name}")
+        //            .Take(10)
+        //            .ToArray();
+
+        //    string[] reactions = { "one", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":ten:" };
+
+        //    var msg = await Context.Channel.SendConfirmAsync("Pick a Role",
+        //        string.Join("\n", roles)).ConfigureAwait(false);
+
+        //    for (int i = 0; i < roles.Length; i++)
+        //    {
+        //        await msg.AddReactionAsync(reactions[i]).ConfigureAwait(false);
+        //        await Task.Delay(1000).ConfigureAwait(false);
+        //    }
+        //}
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageRoles)]
@@ -317,10 +347,6 @@ namespace NadekoBot.Modules.Utility
             var shardId = Context.Guild != null
                 ? NadekoBot.Client.GetShardIdFor(Context.Guild.Id)
                 : 0;
-            var footer = $"Shard {shardId} | {NadekoBot.Client.Shards.Count} total shards";
-#if !GLOBAL_NADEKO
-            footer += $" | Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued.";
-#endif
 
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
@@ -328,15 +354,18 @@ namespace NadekoBot.Modules.Utility
                                           .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
                                           .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
                     .AddField(efb => efb.WithName(Format.Bold("Author")).WithValue(stats.Author).WithIsInline(true))
-                    .AddField(efb => efb.WithName(Format.Bold("Library")).WithValue(stats.Library).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Bot ID")).WithValue(NadekoBot.Client.CurrentUser.Id.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(Format.Bold("Shard")).WithValue($"#{shardId}, {NadekoBot.Client.Shards.Count} total").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Commands Ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Owner ID(s)")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(Format.Bold("Presence")).WithValue($"{NadekoBot.Client.GetGuildCount()} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels").WithIsInline(true))
-                    .WithFooter(efb => efb.WithText(footer)));
+#if !GLOBAL_NADEKO
+                    .WithFooter(efb => efb.WithText($"Playing {Music.Music.MusicPlayers.Where(mp => mp.Value.CurrentSong != null).Count()} songs, {Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count)} queued."))
+#endif
+                    );
         }
 
         [NadekoCommand, Usage, Description, Aliases]

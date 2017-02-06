@@ -147,11 +147,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public Task Konachan([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Rule34([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
-
+#endif
         [NadekoCommand, Usage, Description, Aliases]
         public async Task E621([Remainder] string tag = null)
         {
@@ -168,7 +164,11 @@ namespace NadekoBot.Modules.NSFW
                     .WithFooter(efb => efb.WithText("e621")))
                     .ConfigureAwait(false);
         }
-#endif
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Rule34([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Danbooru([Remainder] string tag = null)
         {
