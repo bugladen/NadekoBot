@@ -11,6 +11,8 @@ using NLog;
 using System.Diagnostics;
 using Discord.WebSocket;
 using System;
+using Newtonsoft.Json;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -69,7 +71,22 @@ namespace NadekoBot.Modules.CustomReactions
                     if (reaction != null)
                     {
                         if (reaction.Response != "-")
-                            try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                        {
+                            CREmbed crembed;
+                            if (CREmbed.TryParse(reaction.Response, out crembed))
+                            {
+                                try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
+                                catch (Exception ex)
+                                {
+                                    _log.Warn("Sending CREmbed failed");
+                                    _log.Warn(ex);
+                                }
+                            }
+                            else
+                            {
+                                try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                            }
+                        }
 
                         ReactionStats.AddOrUpdate(reaction.Trigger, 1, (k, old) => ++old);
                         return true;
@@ -91,7 +108,20 @@ namespace NadekoBot.Modules.CustomReactions
 
             if (greaction != null)
             {
-                try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                CREmbed crembed;
+                if (CREmbed.TryParse(greaction.Response, out crembed))
+                {
+                    try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
+                    catch (Exception ex)
+                    {
+                        _log.Warn("Sending CREmbed failed");
+                        _log.Warn(ex);
+                    }
+                }
+                else
+                {
+                    try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
+                }
                 ReactionStats.AddOrUpdate(greaction.Trigger, 1, (k, old) => ++old);
                 return true;
             }

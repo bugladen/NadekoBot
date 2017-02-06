@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
+using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
@@ -83,77 +84,137 @@ namespace NadekoBot.Modules.Administration
                 return settings;
             }
 
-            //todo optimize ASAP
-            private static async Task UserLeft(IGuildUser user)
+            private static Task UserLeft(IGuildUser user)
             {
-                try
+                var _ = Task.Run(async () =>
                 {
-                    var conf = GetOrAddSettingsForGuild(user.GuildId);
-
-                    if (!conf.SendChannelByeMessage) return;
-                    var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
-
-                    if (channel == null) //maybe warn the server owner that the channel is missing
-                        return;
-
-                    var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                    if (string.IsNullOrWhiteSpace(msg))
-                        return;
                     try
                     {
-                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        var conf = GetOrAddSettingsForGuild(user.GuildId);
+
+                        if (!conf.SendChannelByeMessage) return;
+                        var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
+
+                        if (channel == null) //maybe warn the server owner that the channel is missing
+                            return;
+                        CREmbed embedData;
+                        if (CREmbed.TryParse(conf.ChannelByeMessageText, out embedData))
                         {
-                            toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                            embedData.PlainText = embedData.PlainText?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                            embedData.Description = embedData.Description?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                            embedData.Title = embedData.Title?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                            try
+                            {
+                                var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                                if (conf.AutoDeleteByeMessagesTimer > 0)
+                                {
+                                    toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                                }
+                            }
+                            catch (Exception ex) { _log.Warn(ex); }
+                        }
+                        else
+                        {
+                            var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                            if (string.IsNullOrWhiteSpace(msg))
+                                return;
+                            try
+                            {
+                                var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                                if (conf.AutoDeleteByeMessagesTimer > 0)
+                                {
+                                    toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                                }
+                            }
+                            catch (Exception ex) { _log.Warn(ex); }
                         }
                     }
-                    catch (Exception ex) { _log.Warn(ex); }
-                }
-                catch { }
+                    catch { }
+                });
+                return Task.CompletedTask;
             }
 
-            private static async Task UserJoined(IGuildUser user)
+            private static Task UserJoined(IGuildUser user)
             {
-                try
+                var _ = Task.Run(async () =>
                 {
-                    var conf = GetOrAddSettingsForGuild(user.GuildId);
-
-                    if (conf.SendChannelGreetMessage)
+                    try
                     {
-                        var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
-                        if (channel != null) //maybe warn the server owner that the channel is missing
+                        var conf = GetOrAddSettingsForGuild(user.GuildId);
+
+                        if (conf.SendChannelGreetMessage)
                         {
-                            var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                            if (!string.IsNullOrWhiteSpace(msg))
+                            var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
+                            if (channel != null) //maybe warn the server owner that the channel is missing
                             {
-                                try
+
+                                CREmbed embedData;
+                                if (CREmbed.TryParse(conf.ChannelGreetMessageText, out embedData))
                                 {
-                                    var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                                    if (conf.AutoDeleteGreetMessagesTimer > 0)
+                                    embedData.PlainText = embedData.PlainText?.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    embedData.Description = embedData.Description?.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    embedData.Title = embedData.Title?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    try
                                     {
-                                        toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                                        var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                                        if (conf.AutoDeleteGreetMessagesTimer > 0)
+                                        {
+                                            toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                                        }
+                                    }
+                                    catch (Exception ex) { _log.Warn(ex); }
+                                }
+                                else
+                                {
+                                    var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    if (!string.IsNullOrWhiteSpace(msg))
+                                    {
+                                        try
+                                        {
+                                            var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                                            if (conf.AutoDeleteGreetMessagesTimer > 0)
+                                            {
+                                                toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                                            }
+                                        }
+                                        catch (Exception ex) { _log.Warn(ex); }
                                     }
                                 }
-                                catch (Exception ex) { _log.Warn(ex); }
                             }
                         }
-                    }
 
-                    if (conf.SendDmGreetMessage)
-                    {
-                        var channel = await user.CreateDMChannelAsync();
-
-                        if (channel != null)
+                        if (conf.SendDmGreetMessage)
                         {
-                            var msg = conf.DmGreetMessageText.Replace("%user%", user.Username).Replace("%server%", user.Guild.Name);
-                            if (!string.IsNullOrWhiteSpace(msg))
+                            var channel = await user.CreateDMChannelAsync();
+
+                            if (channel != null)
                             {
-                                await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                                CREmbed embedData;
+                                if (CREmbed.TryParse(conf.ChannelGreetMessageText, out embedData))
+                                {
+                                    embedData.PlainText = embedData.PlainText?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    embedData.Description = embedData.Description?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    embedData.Title = embedData.Title?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    try
+                                    {
+                                        await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                                    }
+                                    catch (Exception ex) { _log.Warn(ex); }
+                                }
+                                else
+                                {
+                                    var msg = conf.DmGreetMessageText.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                    if (!string.IsNullOrWhiteSpace(msg))
+                                    {
+                                        await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                catch { }
+                    catch { }
+                });
+                return Task.CompletedTask;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
