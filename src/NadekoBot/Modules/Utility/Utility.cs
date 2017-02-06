@@ -37,22 +37,68 @@ namespace NadekoBot.Modules.Utility
         //        return;
 
         //    var j = 0;
-        //    var roles = roleNames.Select(x => Context.Guild.Roles.FirstOrDefault(r => String.Compare(r.Name, x) == 0))
+        //    var roles = roleNames.Select(x => Context.Guild.Roles.FirstOrDefault(r => String.Compare(r.Name, x, StringComparison.OrdinalIgnoreCase) == 0))
         //            .Where(x => x != null)
-        //            .Select(x => $"`{++j}.` {x.Name}")
         //            .Take(10)
         //            .ToArray();
 
-        //    string[] reactions = { "one", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":ten:" };
+        //    var rnd = new NadekoRandom();
+        //    var reactions = new[] { "🎬", "🐧", "🌍", "🌺", "🚀", "☀", "🌲", "🍒", "🐾", "🏀" }
+        //        .OrderBy(x => rnd.Next())
+        //        .ToArray();
 
+        //    var roleStrings = roles
+        //            .Select(x => $"{reactions[j++]} -> {x.Name}");
+            
         //    var msg = await Context.Channel.SendConfirmAsync("Pick a Role",
-        //        string.Join("\n", roles)).ConfigureAwait(false);
+        //        string.Join("\n", roleStrings)).ConfigureAwait(false);
 
         //    for (int i = 0; i < roles.Length; i++)
         //    {
-        //        await msg.AddReactionAsync(reactions[i]).ConfigureAwait(false);
+        //        try { await msg.AddReactionAsync(reactions[i]).ConfigureAwait(false); }
+        //        catch (Exception ex) { _log.Warn(ex); }
         //        await Task.Delay(1000).ConfigureAwait(false);
         //    }
+
+        //    msg.OnReaction((r) => Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            var usr = r.User.GetValueOrDefault() as IGuildUser;
+
+        //            if (usr == null)
+        //                return;
+
+        //            var index = Array.IndexOf<string>(reactions, r.Emoji.Name);
+        //            if (index == -1)
+        //                return;
+
+        //            await usr.RemoveRolesAsync(roles[index]);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _log.Warn(ex);
+        //        }
+        //    }), (r) => Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            var usr = r.User.GetValueOrDefault() as IGuildUser;
+
+        //            if (usr == null)
+        //                return;
+
+        //            var index = Array.IndexOf<string>(reactions, r.Emoji.Name);
+        //            if (index == -1)
+        //                return;
+
+        //            await usr.RemoveRolesAsync(roles[index]);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _log.Warn(ex);
+        //        }
+        //    }));
         //}
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -147,7 +193,8 @@ namespace NadekoBot.Modules.Utility
                 return;
 
             var socketGuild = Context.Guild as SocketGuild;
-            if (socketGuild == null) {
+            if (socketGuild == null)
+            {
                 _log.Warn("Can't cast guild to socket guild.");
                 return;
             }
@@ -325,7 +372,8 @@ namespace NadekoBot.Modules.Utility
 
 
 
-            await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
+            await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) =>
+            {
 
                 var str = string.Join("\n", allShardStrings.Skip(25 * (curPage - 1)).Take(25));
 
