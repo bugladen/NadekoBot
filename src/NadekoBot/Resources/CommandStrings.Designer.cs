@@ -906,7 +906,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x3 and 100 x10..
+        ///    Looks up a localized string similar to Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10..
         /// </summary>
         public static string betroll_desc {
             get {
@@ -1041,7 +1041,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message..
+        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string byemsg_desc {
             get {
@@ -3066,7 +3066,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message..
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string greetdmmsg_desc {
             get {
@@ -3093,7 +3093,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message..
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string greetmsg_desc {
             get {

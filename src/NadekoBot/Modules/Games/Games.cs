@@ -15,7 +15,6 @@ namespace NadekoBot.Modules.Games
     {
         private static string[] _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToArray();
 
-
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Choose([Remainder] string list = null)
         {
