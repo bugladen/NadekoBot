@@ -7728,6 +7728,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to tictactoe ttt.
+        /// </summary>
+        public static string tictactoe_cmd {
+            get {
+                return ResourceManager.GetString("tictactoe_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move..
+        /// </summary>
+        public static string tictactoe_desc {
+            get {
+                return ResourceManager.GetString("tictactoe_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to &gt;ttt.
+        /// </summary>
+        public static string tictactoe_usage {
+            get {
+                return ResourceManager.GetString("tictactoe_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to tl.
         /// </summary>
         public static string tl_cmd {

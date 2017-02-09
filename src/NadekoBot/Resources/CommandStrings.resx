@@ -3078,4 +3078,13 @@
   <data name="shardid_usage" xml:space="preserve">
     <value>`{0}shardid 117523346618318850`</value>
   </data>
+  <data name="tictactoe_cmd" xml:space="preserve">
+    <value>tictactoe ttt</value>
+  </data>
+  <data name="tictactoe_desc" xml:space="preserve">
+    <value>Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.</value>
+  </data>
+  <data name="tictactoe_usage" xml:space="preserve">
+    <value>&gt;ttt</value>
+  </data>
 </root>
