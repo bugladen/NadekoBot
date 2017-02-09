@@ -51,12 +51,12 @@ You should see these following options after using the above command:
 2. Download Stable Build
 3. Run Nadeko (Normally)
 4. Run Nadeko with Auto Restart (Run Nadeko normally before using this.)
-5. Auto-Install Prerequisites (for Ubuntu and Debian)
+5. Auto-Install Prerequisites (for Ubuntu, Debian and CentOS)
 6. Set up credentials.json (if you have downloaded the bot already)
 7. To exit
 ```
 #####Part II (Optional)
-**If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed, Press `5` and `enter` key, then `y` when you see the following:
+**If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed and have Ubuntu, Debian or CentOS, Press `5` and `enter` key, then `y` when you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
