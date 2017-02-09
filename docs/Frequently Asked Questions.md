@@ -19,7 +19,7 @@
 
 ###Question 5: I have an issue/bug/suggestion, where do I put it so it gets noticed?
 -----------
-**Answer:** First, check [issues](https://github.com/Kwoth/NadekoBot/issues "GitHub NadekoBot Issues"), then check the `#suggestions` channel in the Nadeko [help server](https://discord.gg/0ehQwTK2RBjAxzEY).
+**Answer:** First, check [issues](https://github.com/Kwoth/NadekoBot/issues "GitHub NadekoBot Issues"), then check the `#suggestions` channel in the Nadeko [help server](https://discord.gg/nadekobot).
 
 If your problem or suggestion is not there, feel free to request/notify us about it either in the Issues section of GitHub for issues or in the `#suggestions` channel on the Nadeko help server for suggestions.
 
