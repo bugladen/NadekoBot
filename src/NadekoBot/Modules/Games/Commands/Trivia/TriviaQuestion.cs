@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 if (letters[i] != ' ')
                     letters[i] = '_';
             }
-            return string.Join(" \x200B", new string(letters).Replace(" ", " \x200B").AsEnumerable());
+            return string.Join(" ", new string(letters).Replace(" ", " \u2000").AsEnumerable());
         }
     }
 }
