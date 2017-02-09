@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Searches
                 //           return $"[{elem.InnerHtml}]({elem.Href})";
                 //       }));
 
-                var info = document.QuerySelectorAll("ul.user-status:nth-child(3) > li")
+                var info = document.QuerySelectorAll("ul.user-status:nth-child(3) > li.clearfix")
                     .Select(x => Tuple.Create(x.Children[0].InnerHtml, x.Children[1].InnerHtml))
                     .ToList();
 
