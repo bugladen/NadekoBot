@@ -70,7 +70,7 @@ namespace NadekoBot.DataStructures
                 embed = crembed;
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

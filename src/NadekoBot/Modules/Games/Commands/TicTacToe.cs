@@ -79,7 +79,6 @@ namespace NadekoBot.Modules.Games
             private readonly IGuildUser[] _users;
             private readonly int?[,] _state;
             private Phase _phase;
-            private readonly Func<IUserMessage, Task> _playMove;
             int curUserIndex = 0;
             private readonly SemaphoreSlim moveLock;
 
