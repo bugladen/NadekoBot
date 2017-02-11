@@ -7755,6 +7755,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to timezone.
+        /// </summary>
+        public static string timezone_cmd {
+            get {
+                return ResourceManager.GetString("timezone_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets this guilds timezone. This affects bot&apos;s time output in this server (logs, etc..).
+        /// </summary>
+        public static string timezone_desc {
+            get {
+                return ResourceManager.GetString("timezone_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}timezone`.
+        /// </summary>
+        public static string timezone_usage {
+            get {
+                return ResourceManager.GetString("timezone_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to timezones.
+        /// </summary>
+        public static string timezones_cmd {
+            get {
+                return ResourceManager.GetString("timezones_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of all timezones available on the system to be used with `{0}timezone`..
+        /// </summary>
+        public static string timezones_desc {
+            get {
+                return ResourceManager.GetString("timezones_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}timezones`.
+        /// </summary>
+        public static string timezones_usage {
+            get {
+                return ResourceManager.GetString("timezones_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to tl.
         /// </summary>
         public static string tl_cmd {

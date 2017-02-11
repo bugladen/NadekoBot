@@ -3087,4 +3087,22 @@
   <data name="tictactoe_usage" xml:space="preserve">
     <value>&gt;ttt</value>
   </data>
+  <data name="timezones_cmd" xml:space="preserve">
+    <value>timezones</value>
+  </data>
+  <data name="timezones_desc" xml:space="preserve">
+    <value>List of all timezones available on the system to be used with `{0}timezone`.</value>
+  </data>
+  <data name="timezones_usage" xml:space="preserve">
+    <value>`{0}timezones`</value>
+  </data>
+  <data name="timezone_cmd" xml:space="preserve">
+    <value>timezone</value>
+  </data>
+  <data name="timezone_desc" xml:space="preserve">
+    <value>Sets this guilds timezone. This affects bot's time output in this server (logs, etc..)</value>
+  </data>
+  <data name="timezone_usage" xml:space="preserve">
+    <value>`{0}timezone`</value>
+  </data>
 </root>
