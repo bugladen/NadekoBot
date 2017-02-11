@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Gambling
                             result = WaifuClaimResult.Success;
                         }
                     }
-                    else if (isAffinity && amount >= w.Price * 0.88f)
+                    else if (isAffinity && amount > w.Price * 0.88f)
                     {
                         if (!await CurrencyHandler.RemoveCurrencyAsync(Context.User.Id, "Claimed Waifu", amount, uow).ConfigureAwait(false))
                         {
