@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Games
                 var removed = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Planted a {NadekoBot.BotConfig.CurrencyName}", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await Context.Channel.SendErrorAsync($"You don't have any {NadekoBot.BotConfig.CurrencyPluralName}.").ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync($"You don't have enough {NadekoBot.BotConfig.CurrencyPluralName}.").ConfigureAwait(false);
                     return;
                 }
 
