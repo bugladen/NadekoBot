@@ -65,81 +65,82 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public Task Hentai([Remainder] string tag = null) =>
             InternalHentai(Context.Channel, tag, false);
+#if !GLOBAL_NADEKO
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        public async Task AutoHentai(int interval = 0, string tags = null)
+        {
+            Timer t;
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireUserPermission(ChannelPermission.ManageMessages)]
-        //public async Task AutoHentai(int interval = 0, string tags = null)
-        //{
-        //    Timer t;
+            if (interval == 0)
+            {
+                if (AutoHentaiTimers.TryRemove(Context.Channel.Id, out t))
+                {
+                    t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                    await Context.Channel.SendConfirmAsync("Autohentai stopped.").ConfigureAwait(false);
+                }
+                return;
+            }
 
-        //    if (interval == 0)
-        //    {
-        //        if (AutoHentaiTimers.TryRemove(Context.Channel.Id, out t))
-        //        {
-        //            t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-        //            await Context.Channel.SendConfirmAsync("Autohentai stopped.").ConfigureAwait(false);
-        //        }
-        //        return;
-        //    }
+            if (interval < 20)
+                return;
 
-        //    if (interval < 20)
-        //        return;
+            var tagsArr = tags?.Split('|');
 
-        //    var tagsArr = tags?.Split('|');
+            t = new Timer(async (state) =>
+            {
+                try
+                {
+                    if (tagsArr == null || tagsArr.Length == 0)
+                        await InternalHentai(Context.Channel, null, true).ConfigureAwait(false);
+                    else
+                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)], true).ConfigureAwait(false);
+                }
+                catch { }
+            }, null, interval * 1000, interval * 1000);
 
-        //    t = new Timer(async (state) =>
-        //    {
-        //        try
-        //        {
-        //            if (tagsArr == null || tagsArr.Length == 0)
-        //                await InternalHentai(Context.Channel, null, true).ConfigureAwait(false);
-        //            else
-        //                await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)], true).ConfigureAwait(false);
-        //        }
-        //        catch { }
-        //    }, null, interval * 1000, interval * 1000);
+            AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            {
+                old.Change(Timeout.Infinite, Timeout.Infinite);
+                return t;
+            });
 
-        //    AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
-        //    {
-        //        old.Change(Timeout.Infinite, Timeout.Infinite);
-        //        return t;
-        //    });
-
-        //    await Context.Channel.SendConfirmAsync($"Autohentai started. Reposting every {interval}s with one of the following tags:\n{string.Join(", ", tagsArr)}")
-        //                         .ConfigureAwait(false);
-        //}
+            await Context.Channel.SendConfirmAsync($"Autohentai started. Reposting every {interval}s with one of the following tags:\n{string.Join(", ", tagsArr)}")
+                                 .ConfigureAwait(false);
+        }
 
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //public async Task HentaiBomb([Remainder] string tag = null)
-        //{
-        //    if (!_hentaiBombBlacklist.Add(Context.User.Id))
-        //        return;
-        //    try
-        //    {
-        //        tag = tag?.Trim() ?? "";
-        //        tag = "rating%3Aexplicit+" + tag;
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task HentaiBomb([Remainder] string tag = null)
+        {
+            if (!_hentaiBombBlacklist.Add(Context.User.Id))
+                return;
+            try
+            {
+                tag = tag?.Trim() ?? "";
+                tag = "rating%3Aexplicit+" + tag;
 
-        //        var links = await Task.WhenAll(GetGelbooruImageLink(tag),
-        //                                       GetDanbooruImageLink(tag),
-        //                                       GetKonachanImageLink(tag),
-        //                                       GetYandereImageLink(tag)).ConfigureAwait(false);
+                var links = await Task.WhenAll(GetGelbooruImageLink(tag),
+                                               GetDanbooruImageLink(tag),
+                                               GetKonachanImageLink(tag),
+                                               GetYandereImageLink(tag)).ConfigureAwait(false);
 
-        //        var linksEnum = links?.Where(l => l != null);
-        //        if (links == null || !linksEnum.Any())
-        //        {
-        //            await Context.Channel.SendErrorAsync("No results found.").ConfigureAwait(false);
-        //            return;
-        //        }
+                var linksEnum = links?.Where(l => l != null);
+                if (links == null || !linksEnum.Any())
+                {
+                    await Context.Channel.SendErrorAsync("No results found.").ConfigureAwait(false);
+                    return;
+                }
 
-        //        await Context.Channel.SendMessageAsync(String.Join("\n\n", linksEnum)).ConfigureAwait(false);
-        //    }
-        //    finally {
-        //        await Task.Delay(5000).ConfigureAwait(false);
-        //        _hentaiBombBlacklist.TryRemove(Context.User.Id);
-        //    }
-        //}
-
+                await Context.Channel.SendMessageAsync(String.Join("\n\n", linksEnum)).ConfigureAwait(false);
+            }
+            finally
+            {
+                await Task.Delay(5000).ConfigureAwait(false);
+                _hentaiBombBlacklist.TryRemove(Context.User.Id);
+            }
+        }
+#endif
         [NadekoCommand, Usage, Description, Aliases]
         public Task Yandere([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
