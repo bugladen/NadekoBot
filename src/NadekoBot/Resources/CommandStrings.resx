@@ -3121,6 +3121,6 @@
     <value>Sets this server's response locale (language). If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name.</value>
   </data>
   <data name="setlocale_usage" xml:space="preserve">
-    <value>`{}sl de-DE ` or `{0}sl default`</value>
+    <value>`{0}sl de-DE ` or `{0}sl default`</value>
   </data>
 </root>

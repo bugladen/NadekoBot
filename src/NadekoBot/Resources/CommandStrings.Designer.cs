@@ -6828,7 +6828,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{}sl de-DE ` or `{0}sl default`.
+        ///    Looks up a localized string similar to `{0}sl de-DE ` or `{0}sl default`.
         /// </summary>
         public static string setlocale_usage {
             get {

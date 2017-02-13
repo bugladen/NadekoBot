@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Help
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" **/ `{alias}`**";
-                var embed = new EmbedBuilder()
+            var embed = new EmbedBuilder()
                 .AddField(fb => fb.WithName(str).WithValue($"{ string.Format(com.Summary, com.Module.Aliases.First())} { GetCommandRequirements(com)}").WithIsInline(true))
                 .AddField(fb => fb.WithName("**Usage**").WithValue($"{string.Format(com.Remarks, com.Module.Aliases.First())}").WithIsInline(false))
                 .WithColor(NadekoBot.OkColor);

@@ -24,14 +24,18 @@ namespace NadekoBot.Modules.Administration
                 CultureInfo ci = null;
                 try
                 {
-                    if(name.Trim().ToLowerInvariant() == "default")
+                    if (name.Trim().ToLowerInvariant() == "default")
                     {
                         NadekoBot.Localization.RemoveGuildCulture(Context.Guild);
+                        ci = NadekoBot.Localization.DefaultCultureInfo;
                     }
-                    ci = new CultureInfo(name);
-                    NadekoBot.Localization.SetGuildCulture(Context.Guild, ci);
+                    else
+                    {
+                        ci = new CultureInfo(name);
+                        NadekoBot.Localization.SetGuildCulture(Context.Guild, ci);
+                    }
 
-                    await Context.Channel.SendConfirmAsync($"Your guild's locale is now {ci}.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Your guild's locale is now {Format.Bold(ci.ToString())} - {Format.Bold(ci.NativeName)}.").ConfigureAwait(false);
                 }
                 catch(Exception) {
 
@@ -50,11 +54,15 @@ namespace NadekoBot.Modules.Administration
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
                         NadekoBot.Localization.ResetDefaultCulture();
+                        ci = NadekoBot.Localization.DefaultCultureInfo;
                     }
-                    ci = new CultureInfo(name);
-                    NadekoBot.Localization.SetDefaultCulture(ci);
+                    else
+                    {
+                        ci = new CultureInfo(name);
+                        NadekoBot.Localization.SetDefaultCulture(ci);
+                    }
 
-                    await Context.Channel.SendConfirmAsync($"Your guild's locale is now {ci}.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Bot's default locale is now {Format.Bold(ci.ToString())} - {Format.Bold(ci.NativeName)}.").ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
