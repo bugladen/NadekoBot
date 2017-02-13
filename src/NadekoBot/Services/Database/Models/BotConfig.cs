@@ -60,6 +60,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
 
         public string OkColor { get; set; } = "71cd40";
         public string ErrorColor { get; set; } = "ee281f";
+        public string Locale { get; set; } = null;
     }
 
     public class PlayingStatus :DbEntity

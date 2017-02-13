@@ -128,6 +128,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("HelpString");
 
+                    b.Property<string>("Locale");
+
                     b.Property<int>("MigrationVersion");
 
                     b.Property<int>("MinimumBetAmount");

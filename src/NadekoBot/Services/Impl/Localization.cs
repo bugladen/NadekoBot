@@ -8,17 +8,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using NadekoBot.Services.Database;
+using NLog;
 
 namespace NadekoBot.Services
 {
     public class Localization
     {
+        private readonly Logger _log;
+
         public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
         private Localization() { }
-        public Localization(IDictionary<ulong, string> cultureInfoNames)
+        public Localization(string defaultCulture, IDictionary<ulong, string> cultureInfoNames)
         {
+            _log = LogManager.GetCurrentClassLogger();
+            if (string.IsNullOrWhiteSpace(defaultCulture))
+                DefaultCultureInfo = new CultureInfo("en-US");
+            else
+            {
+                try
+                {
+                    DefaultCultureInfo = new CultureInfo(defaultCulture);
+                }
+                catch
+                {
+                    _log.Warn("Unable to load default bot's locale/language. Using en-US.");
+                    DefaultCultureInfo = new CultureInfo("en-US");
+                }
+            }
             GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo>(cultureInfoNames.ToDictionary(x => x.Key, x =>
               {
                   CultureInfo cultureInfo = null;
@@ -26,9 +44,7 @@ namespace NadekoBot.Services
                   {
                       cultureInfo = new CultureInfo(x.Value);
                   }
-                  catch
-                  {
-                  }
+                  catch { }
                   return cultureInfo;
               }).Where(x => x.Value != null));
         }
@@ -50,6 +66,8 @@ namespace NadekoBot.Services
                 gc.Locale = ci.Name;
                 uow.Complete();
             }
+
+            GuildCultureInfos.AddOrUpdate(guildId, ci, (id, old) => ci);
         }
 
         public void RemoveGuildCulture(IGuild guild) => 

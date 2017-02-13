@@ -84,7 +84,7 @@ namespace NadekoBot
 #endif
 
             //initialize Services
-            Localization = new Localization(NadekoBot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale));
+            Localization = new Localization(NadekoBot.BotConfig.Locale, NadekoBot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale));
             CommandService = new CommandService(new CommandServiceConfig() {
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Sync

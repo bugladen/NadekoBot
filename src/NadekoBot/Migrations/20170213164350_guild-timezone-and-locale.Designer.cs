@@ -10,7 +10,7 @@ using NadekoBot.Modules.Music.Classes;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    [Migration("20170213125444_guild-timezone-and-locale")]
+    [Migration("20170213164350_guild-timezone-and-locale")]
     partial class guildtimezoneandlocale
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,6 +128,8 @@ namespace NadekoBot.Migrations
                     b.Property<bool>("ForwardToAllOwners");
 
                     b.Property<string>("HelpString");
+
+                    b.Property<string>("Locale");
 
                     b.Property<int>("MigrationVersion");
 
