@@ -146,7 +146,7 @@
     <value>{0} has {1} HP remaining.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
-    <value>You are not able to use **{0}**. Type {1}ml to see a list of moves you can use.</value>
+    <value>You can't use {0}. Type `{1}ml` to see a list of moves you can use.</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
     <value>Movelist for {0} type</value>
