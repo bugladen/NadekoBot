@@ -1,45 +1,83 @@
-﻿namespace NadekoBot.Services
+﻿using Discord;
+using Discord.Commands;
+using NadekoBot.Extensions;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
+using NadekoBot.Services.Database;
+
+namespace NadekoBot.Services
 {
     public class Localization
     {
-        public string this[string key] => LoadCommandString(key);
+        public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
 
-        public static string LoadCommandString(string key)
+        private Localization() { }
+        public Localization(IDictionary<ulong, string> cultureInfoNames)
         {
-            string toReturn = Resources.CommandStrings.ResourceManager.GetString(key);
-            return string.IsNullOrWhiteSpace(toReturn) ? key : toReturn;
+            GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo>(cultureInfoNames.ToDictionary(x => x.Key, x =>
+              {
+                  CultureInfo cultureInfo = null;
+                  try
+                  {
+                      cultureInfo = new CultureInfo(x.Value);
+                  }
+                  catch
+                  {
+                  }
+                  return cultureInfo;
+              }).Where(x => x.Value != null));
         }
 
-        //private static string GetCommandString(string key)
-        //{
-        //    return key;
-            //var resx = new List<DictionaryEntry>();
-            //var fs = new StreamReader(File.OpenRead("./Strings.resx"));
-            //Console.WriteLine(fs.ReadToEnd());
-            //using (var reader = new ResourceReader(fs.BaseStream))
-            //{
-            //    List<DictionaryEntry> existing = new List<DictionaryEntry>();
-            //    foreach (DictionaryEntry item in reader)
-            //    {
-            //        existing.Add(item);
-            //    }
-            //    var existingResource = resx.Where(r => r.Key.ToString() == key).FirstOrDefault();
-            //    if (existingResource.Key == null)
-            //    {
-            //        resx.Add(new DictionaryEntry() { Key = key, Value = key });
-            //    }
-            //    else
-            //        return existingResource.Value.ToString();
-            //}
-            //using (var writer = new ResourceWriter(new FileStream("./Strings.resx", FileMode.OpenOrCreate)))
-            //{
-            //    resx.ForEach(r =>
-            //    {
-            //        writer.AddResource(r.Key.ToString(), r.Value.ToString());
-            //    });
-            //    writer.Generate();
-            //}
-            //return key;
-        //}
+        public void SetGuildCulture(IGuild guild, CultureInfo ci) =>
+            SetGuildCulture(guild.Id, ci);
+
+        public void SetGuildCulture(ulong guildId, CultureInfo ci)
+        {
+            if (ci == DefaultCultureInfo)
+            {
+                RemoveGuildCulture(guildId);
+                return;
+            }
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set);
+                gc.Locale = ci.Name;
+                uow.Complete();
+            }
+        }
+
+        public void RemoveGuildCulture(IGuild guild) => 
+            RemoveGuildCulture(guild.Id);
+
+        public void RemoveGuildCulture(ulong guildId) {
+
+            CultureInfo throwaway;
+            if (GuildCultureInfos.TryRemove(guildId, out throwaway))
+            {
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var gc = uow.GuildConfigs.For(guildId, set => set);
+                    gc.Locale = null;
+                    uow.Complete();
+                }
+            }
+        }
+
+        public CultureInfo GetCultureInfo(IGuild guild) =>
+            GetCultureInfo(guild.Id);
+
+        public CultureInfo DefaultCultureInfo { get; } = CultureInfo.CurrentCulture;
+
+        public CultureInfo GetCultureInfo(ulong guildId)
+        {
+            CultureInfo info = null;
+            GuildCultureInfos.TryGetValue(guildId, out info);
+            return info ?? DefaultCultureInfo;
+        }
     }
 }
