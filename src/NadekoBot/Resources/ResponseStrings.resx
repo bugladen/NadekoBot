@@ -163,7 +163,7 @@
     <value>You are not participating in that war.</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} You are either not participating in that war, or you have already destroyed a base.</value>
+    <value>@{0} You are either not participating in that war, or that base is already destroyed.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>No active wars.</value>
@@ -172,7 +172,7 @@
     <value>Size</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value>War against {0} is already started.</value>
+    <value>War against {0} has already started.</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
     <value>War against {0} created.</value>
@@ -185,6 +185,45 @@
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
     <value>War against {0} started!</value>
+  </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>All custom reaction stats cleared.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Custom Reaction deleted</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>List of all custom reactions</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Custom Reactions</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>New Custom Reaction</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>No custom reactions found.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>No custom reaction found with that id.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Response</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Custom Reaction Stats</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Stats cleared for {0} custom reaction.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>No stats for that trigger found, no action taken.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Trigger</value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
     <value>{0} has already fainted.</value>
