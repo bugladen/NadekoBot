@@ -107,12 +107,12 @@ namespace NadekoBot.Modules.Pokemon
 
             if (targetUser == null)
             {
-                await ErrorLocalized(nameof(ResponseStrings.Culture)).ConfigureAwait(false);
+                await ReplyErrorLocalized("user_not_found").ConfigureAwait(false);
                 return;
             }
-            else if (targetUser == user)
+            if (targetUser == user)
             {
-                await ErrorLocalized("You can't attack yourself.").ConfigureAwait(false);
+                await ReplyErrorLocalized("cant_attack_yourself").ConfigureAwait(false);
                 return;
             }
 
@@ -126,17 +126,17 @@ namespace NadekoBot.Modules.Pokemon
             //User not able if HP < 0, has made more than 4 attacks
             if (userStats.Hp < 0)
             {
-                await Context.Channel.SendMessageAsync($"{user.Mention} has fainted and was not able to move!").ConfigureAwait(false);
+                await ReplyErrorLocalized("you_fainted").ConfigureAwait(false);
                 return;
             }
             if (userStats.MovesMade >= 5)
             {
-                await Context.Channel.SendMessageAsync($"{user.Mention} has used too many moves in a row and was not able to move!").ConfigureAwait(false);
+                await ReplyErrorLocalized("too_many_moves").ConfigureAwait(false);
                 return;
             }
             if (userStats.LastAttacked.Contains(targetUser.Id))
             {
-                await Context.Channel.SendMessageAsync($"{user.Mention} can't attack again without retaliation!").ConfigureAwait(false);
+                await ReplyErrorLocalized("cant_attack_again").ConfigureAwait(false);
                 return;
             }
             //get target stats
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Pokemon
             //If target's HP is below 0, no use attacking
             if (targetStats.Hp <= 0)
             {
-                await Context.Channel.SendMessageAsync($"{targetUser.Mention} has already fainted!").ConfigureAwait(false);
+                await ReplyErrorLocalized("too_many_moves", targetUser).ConfigureAwait(false);
                 return;
             }
 
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Pokemon
             var enabledMoves = userType.Moves;
             if (!enabledMoves.Contains(move.ToLowerInvariant()))
             {
-                await Context.Channel.SendMessageAsync($"{user.Mention} is not able to use **{move}**. Type {NadekoBot.ModulePrefixes[typeof(Pokemon).Name]}ml to see moves").ConfigureAwait(false);
+                await ReplyErrorLocalized("invalid_move", move, _prefix).ConfigureAwait(false);
                 return;
             }
 
@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.Pokemon
             //Damage type
             if (damage < 40)
             {
-                response += "\nIt's not effective..";
+                response += "\nIt's not effective.";
             }
             else if (damage > 60)
             {
@@ -235,7 +235,7 @@ namespace NadekoBot.Modules.Pokemon
             IGuildUser user = (IGuildUser)Context.User;
 
             if (targetUser == null) {
-                await Context.Channel.SendMessageAsync("No such person.").ConfigureAwait(false);
+                await ReplyErrorLocalized("user_not_found").ConfigureAwait(false);
                 return;
             }
 
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Pokemon
                 var targetStats = Stats[targetUser.Id];
                 if (targetStats.Hp == targetStats.MaxHp)
                 {
-                    await Context.Channel.SendMessageAsync($"{targetUser.Mention} already has full HP!").ConfigureAwait(false);
+                    await ReplyErrorLocalized("already_full", targetUser).ConfigureAwait(false);
                     return;
                 }
                 //Payment~
@@ -253,11 +253,11 @@ namespace NadekoBot.Modules.Pokemon
                 var target = (targetUser.Id == user.Id) ? "yourself" : targetUser.Mention;
                 if (amount > 0)
                 {
-                        if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
-                        {
-                            try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {NadekoBot.BotConfig.CurrencyName}s.").ConfigureAwait(false); } catch { }
-                            return;
-                        }
+                    if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
+                    {
+                        await ReplyErrorLocalized("no_currency", NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
+                        return;
+                    }
                 }
 
                 //healing
@@ -268,20 +268,18 @@ namespace NadekoBot.Modules.Pokemon
                     Stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
                     if (target == "yourself")
                     {
-                        await Context.Channel.SendMessageAsync($"You revived yourself with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await ReplyErrorLocalized("revive_yourself", NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
+                        return;
                     }
-                    else
-                    {
-                        await Context.Channel.SendMessageAsync($"{user.Mention} revived {targetUser.Mention} with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
-                    }
-                   return;
+
+                    await ReplyErrorLocalized("revive_other", targetUser, NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
-                await Context.Channel.SendMessageAsync($"{user.Mention} healed {targetUser.Mention} with one {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                await ReplyErrorLocalized("healed", targetUser, NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
                 return;
             }
             else
             {
-                await Context.Channel.SendMessageAsync($"{targetUser.Mention} already has full HP!").ConfigureAwait(false);
+                await ErrorLocalized("already_full", targetUser);
             }
         }
 
@@ -290,15 +288,9 @@ namespace NadekoBot.Modules.Pokemon
         [RequireContext(ContextType.Guild)]
         public async Task Type(IGuildUser targetUser = null)
         {
-            IGuildUser user = (IGuildUser)Context.User;
-
-            if (targetUser == null)
-            {
-                return;
-            }
-
+            targetUser = targetUser ?? (IGuildUser)Context.User;
             var pType = GetPokeType(targetUser.Id);
-            await Context.Channel.SendMessageAsync($"Type of {targetUser.Mention} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
+            await ReplyConfirmLocalized("type_of_user", targetUser.Mention, pType.Name.ToLowerInvariant() + pType.Icon).ConfigureAwait(false);
 
         }
 
@@ -320,7 +312,7 @@ namespace NadekoBot.Modules.Pokemon
             }
             if (targetType == GetPokeType(user.Id))
             {
-                await Context.Channel.SendMessageAsync($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Icon}").ConfigureAwait(false);
+                await ReplyErrorLocalized("already_that_type", targetType.Name.ToLowerInvariant() + targetType.Icon).ConfigureAwait(false);
                 return;
             }
 
@@ -328,9 +320,9 @@ namespace NadekoBot.Modules.Pokemon
             var amount = 1;
             if (amount > 0)
             {
-                if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"{user.Mention} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
+                if (!await CurrencyHandler.RemoveCurrencyAsync(user, $"{user} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
-                    try { await Context.Channel.SendMessageAsync($"{user.Mention} You don't have enough {NadekoBot.BotConfig.CurrencyName}s.").ConfigureAwait(false); } catch { }
+                    await ReplyErrorLocalized("no_currency", NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
             }
@@ -363,9 +355,10 @@ namespace NadekoBot.Modules.Pokemon
             }
 
             //Now for the response
-            await Context.Channel.SendMessageAsync($"Set type of {user.Mention} to {typeTargeted}{targetType.Icon} for a {NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+            await ReplyConfirmLocalized("settype_success", 
+                typeTargeted + targetType.Icon, 
+                NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
         }
-
     }
 }
 

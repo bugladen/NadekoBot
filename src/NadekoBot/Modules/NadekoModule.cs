@@ -28,30 +28,48 @@ namespace NadekoBot.Modules
                 : NadekoBot.Localization.GetCultureInfo(Context.Guild));
         }
 
-        public Task<IUserMessage> ConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
+        //public Task<IUserMessage> ReplyConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
+        //{
+        //    var title = NadekoBot.ResponsesResourceManager.GetString(titleKey, cultureInfo);
+        //    var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+        //    return Context.Channel.SendConfirmAsync(title, text, url, footer);
+        //}
+
+        //public Task<IUserMessage> ReplyConfirmLocalized(string textKey)
+        //{
+        //    var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+        //    return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + textKey);
+        //}
+
+        //public Task<IUserMessage> ReplyErrorLocalized(string titleKey, string textKey, string url = null, string footer = null)
+        //{
+        //    var title = NadekoBot.ResponsesResourceManager.GetString(titleKey, cultureInfo);
+        //    var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+        //    return Context.Channel.SendErrorAsync(title, text, url, footer);
+        //}
+
+        public Task<IUserMessage> ErrorLocalized(string textKey, params object[] replacements)
         {
-            var title = NadekoBot.ResponsesResourceManager.GetString(titleKey, cultureInfo);
             var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
-            return Context.Channel.SendConfirmAsync(title, text, url, footer);
+            return Context.Channel.SendErrorAsync(string.Format(text, replacements));
         }
 
-        public Task<IUserMessage> ConfirmLocalized(string textKey)
+        public Task<IUserMessage> ReplyErrorLocalized(string textKey, params object[] replacements)
         {
             var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
-            return Context.Channel.SendConfirmAsync(textKey);
+            return Context.Channel.SendErrorAsync(Context.User.Mention + " " +string.Format(text, replacements));
         }
 
-        public Task<IUserMessage> ErrorLocalized(string titleKey, string textKey, string url = null, string footer = null)
+        public Task<IUserMessage> ConfirmLocalized(string textKey, params object[] replacements)
         {
-            var title = NadekoBot.ResponsesResourceManager.GetString(titleKey, cultureInfo);
             var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
-            return Context.Channel.SendErrorAsync(title, text, url, footer);
+            return Context.Channel.SendConfirmAsync(string.Format(text, replacements));
         }
 
-        public Task<IUserMessage> ErrorLocalized(string textKey)
+        public Task<IUserMessage> ReplyConfirmLocalized(string textKey, params object[] replacements)
         {
             var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
-            return Context.Channel.SendErrorAsync(textKey);
+            return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + string.Format(text, replacements));
         }
     }
 
