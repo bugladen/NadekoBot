@@ -4,6 +4,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,16 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LocalizationCommands : ModuleBase
         {
+            private ImmutableDictionary<string, string> SupportedLocales { get; } = new Dictionary<string, string>()
+            {
+                {"en-US", "English, United States" },
+                {"sr-cyrl-rs", "Serbian, Cyrillic" }
+            }.ToImmutableDictionary();
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task SetLocale([Remainder] string name = null)
+            public async Task SetLanguage([Remainder] string name = null)
             {
                 CultureInfo ci = null;
                 try
@@ -35,7 +42,7 @@ namespace NadekoBot.Modules.Administration
                         NadekoBot.Localization.SetGuildCulture(Context.Guild, ci);
                     }
 
-                    await Context.Channel.SendConfirmAsync($"Your guild's locale is now {Format.Bold(ci.ToString())} - {Format.Bold(ci.NativeName)}.").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"Your server's locale is now {Format.Bold(ci.ToString())} - {Format.Bold(ci.NativeName)}.").ConfigureAwait(false);
                 }
                 catch(Exception) {
 
@@ -46,7 +53,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetDefaultLocale(string name)
+            public async Task SetDefaultLanguage(string name)
             {
                 CultureInfo ci = null;
                 try
@@ -69,6 +76,14 @@ namespace NadekoBot.Modules.Administration
                     //_log.warn(ex);
                     await Context.Channel.SendConfirmAsync($"Failed setting locale. Revisit this command's help.").ConfigureAwait(false);
                 }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task ListLanguages(string name)
+            {
+                await Context.Channel.SendConfirmAsync("List Of Languages",
+                    string.Join("\n", SupportedLocales.Select(x => $"{Format.Code(x.Key)} => {x.Value}")));
             }
         }
     }

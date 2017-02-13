@@ -118,70 +118,70 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="pokemon_already_fainted" xml:space="preserve">
-    <value>{0} has already fainted.</value>
+    <value>{0} је већ онесвешћен.</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value>{0} already has full HP.</value>
+    <value>{0} је већ потпуно здрав.</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
-    <value>Your type is already {0}</value>
+    <value>Твој тип већ јесте {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value>used {0}{1} on {2}{3} for {4} damage.</value>
+    <value>је искористио {0}{1} на {2}{3} и нанео {4} штете.</value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>You can't attack again without retaliation!</value>
+    <value>Не можеш напасти пре узвратног ударца.</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value>You can't attack yourself.</value>
+    <value>Не можеш напасти себе.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value>{0} has fainted!</value>
+    <value>{0} се онесвестио.</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value>healed {0} with one {1}</value>
+    <value>је излечио {0} са једним {1}</value>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value>{0} has {1} HP remaining.</value>
+    <value>{0} има {1} преосталог здравља.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
-    <value>You can't use {0}. Type `{1}ml` to see a list of moves you can use.</value>
+    <value>Не можеш искористити {0}. Укуцај `{1}ml` да би видео листу удараца које можеш користити.</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value>Movelist for {0} type</value>
+    <value>Листа покрета за {0} тип</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value>It's not effective.</value>
+    <value>Није ефективно.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>Немаш довољно {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
-    <value>revived {0} with one {1}</value>
+    <value>је оживео {0} са једним {1}</value>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value>You revived yourself with one {0}</value>
+    <value>Оживео си себе са једним {0}</value>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
-    <value>Your type has been changed to {0} for a {1}</value>
+    <value>Твој тип је промењен на {0} за један {1}</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>It's somewhat effective.</value>
+    <value>Има неког ефекта!</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value>It's super effective!</value>
+    <value>Супер ефективно!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>You used too many moves in a row, so you can't move!</value>
+    <value>Користио си превише напада узастопно, не можеш да се крећеш!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
-    <value>Type of {0} is {1}</value>
+    <value>{0}-ов тип је {1}</value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
-    <value>User not found.</value>
+    <value>Корисник није нађен.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>You fainted, so you are not able to move!</value>
+    <value>Онесвешћен си, не можеш да се крећеш.</value>
   </data>
 </root>
