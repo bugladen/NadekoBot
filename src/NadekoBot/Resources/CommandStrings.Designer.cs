@@ -3687,7 +3687,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets this server&apos;s response language If bot&apos;s response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name..
+        ///    Looks up a localized string similar to Sets this server&apos;s response language If bot&apos;s response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language..
         /// </summary>
         public static string languageset_desc {
             get {
@@ -3714,7 +3714,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets the bot&apos;s default response language. All servers which use a default locale will use this one. Setting to `default` will use the host&apos;s current culture..
+        ///    Looks up a localized string similar to Sets the bot&apos;s default response language. All servers which use a default locale will use this one. Setting to `default` will use the host&apos;s current culture. Provide no arguments to see currently set language..
         /// </summary>
         public static string languagesetdefault_desc {
             get {

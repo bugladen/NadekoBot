@@ -89,13 +89,17 @@ namespace NadekoBot.Services
 
         public void SetDefaultCulture(CultureInfo ci)
         {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var bc = uow.BotConfig.GetOrCreate();
+                bc.Locale = ci.Name;
+                uow.Complete();
+            }
             DefaultCultureInfo = ci;
         }
 
-        public void ResetDefaultCulture()
-        {
-            DefaultCultureInfo = CultureInfo.CurrentCulture;
-        }
+        public void ResetDefaultCulture() =>
+            SetDefaultCulture(CultureInfo.CurrentCulture);
 
         public CultureInfo GetCultureInfo(IGuild guild) =>
             GetCultureInfo(guild.Id);
