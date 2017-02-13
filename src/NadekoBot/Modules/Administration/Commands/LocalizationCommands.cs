@@ -25,16 +25,17 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task LanguageSet([Remainder] string name = null)
+            public async Task LanguageSet()
             {
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    var cul = NadekoBot.Localization.GetCultureInfo(Context.Guild);
-                    await Context.Channel.SendConfirmAsync("This server's language is set to " + cul + " - " + cul.NativeName).ConfigureAwait(false);
-                    return;
-                }
+                var cul = NadekoBot.Localization.GetCultureInfo(Context.Guild);
+                await Context.Channel.SendConfirmAsync("This server's language is set to " + Format.Bold(cul.ToString()) + " - " + Format.Bold(cul.NativeName)).ConfigureAwait(false);
+            }
 
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task LanguageSet(string name)
+            {
                 CultureInfo ci = null;
                 try
                 {
@@ -59,15 +60,17 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
-            public async Task LanguageSetDefault([Remainder]string name = null)
+            public async Task LanguageSetDefault()
             {
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    var cul = NadekoBot.Localization.GetCultureInfo(Context.Guild);
-                    await Context.Channel.SendConfirmAsync("Bot's language is set to " + cul + " - " + cul.NativeName).ConfigureAwait(false);
-                    return;
-                }
+                var cul = NadekoBot.Localization.DefaultCultureInfo;
+                await Context.Channel.SendConfirmAsync("Bot's language is set to " + cul + " - " + cul.NativeName).ConfigureAwait(false);
+                return;
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task LanguageSetDefault(string name)
+            {
                 CultureInfo ci = null;
                 try
                 {
