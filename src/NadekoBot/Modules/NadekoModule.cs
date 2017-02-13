@@ -12,8 +12,8 @@ namespace NadekoBot.Modules
     public abstract class NadekoModule : ModuleBase
     {
         protected readonly Logger _log;
+        protected CultureInfo _cultureInfo { get; private set; }
         public readonly string _prefix;
-        public readonly CultureInfo cultureInfo;
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
 
@@ -26,8 +26,11 @@ namespace NadekoBot.Modules
             if (!NadekoBot.ModulePrefixes.TryGetValue(ModuleTypeName, out _prefix))
                 _prefix = "?err?";
             _log = LogManager.GetCurrentClassLogger();
+        }
 
-            cultureInfo = (Context.Guild == null
+        protected override void BeforeExecute()
+        {
+            _cultureInfo = (Context.Guild == null
                 ? CultureInfo.CurrentCulture
                 : NadekoBot.Localization.GetCultureInfo(Context.Guild));
         }
@@ -54,7 +57,7 @@ namespace NadekoBot.Modules
 
         protected string GetText(string key)
         {
-            return NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, cultureInfo);
+            return NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, _cultureInfo);
         }
 
         protected string GetText(string key, params object[] replacements)

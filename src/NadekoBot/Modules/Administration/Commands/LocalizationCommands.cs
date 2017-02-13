@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
     {
