@@ -3678,6 +3678,87 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to languageset langset.
+        /// </summary>
+        public static string languageset_cmd {
+            get {
+                return ResourceManager.GetString("languageset_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets this server&apos;s response language If bot&apos;s response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name..
+        /// </summary>
+        public static string languageset_desc {
+            get {
+                return ResourceManager.GetString("languageset_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}langset de-DE ` or `{0}langset default`.
+        /// </summary>
+        public static string languageset_usage {
+            get {
+                return ResourceManager.GetString("languageset_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to langsetdefault langsetd.
+        /// </summary>
+        public static string languagesetdefault_cmd {
+            get {
+                return ResourceManager.GetString("languagesetdefault_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the bot&apos;s default response language. All servers which use a default locale will use this one. Setting to `default` will use the host&apos;s current culture..
+        /// </summary>
+        public static string languagesetdefault_desc {
+            get {
+                return ResourceManager.GetString("languagesetdefault_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}langsetd en-US` or `{0}langsetd default`.
+        /// </summary>
+        public static string languagesetdefault_usage {
+            get {
+                return ResourceManager.GetString("languagesetdefault_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to languageslist langli.
+        /// </summary>
+        public static string languageslist_cmd {
+            get {
+                return ResourceManager.GetString("languageslist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of languages for which translation (or part of it) exist atm..
+        /// </summary>
+        public static string languageslist_desc {
+            get {
+                return ResourceManager.GetString("languageslist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}langli`.
+        /// </summary>
+        public static string languageslist_usage {
+            get {
+                return ResourceManager.GetString("languageslist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to lcsc.
         /// </summary>
         public static string lcsc_cmd {
@@ -6756,33 +6837,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to setdefaultlocale sdl.
-        /// </summary>
-        public static string setdefaultlanguage_cmd {
-            get {
-                return ResourceManager.GetString("setdefaultlanguage_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets the bot&apos;s default response language. All servers which use a default locale will use this one. Setting to `default` will use the host&apos;s current culture..
-        /// </summary>
-        public static string setdefaultlanguage_desc {
-            get {
-                return ResourceManager.GetString("setdefaultlanguage_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}sdl en-US` or `{0}sdl default`.
-        /// </summary>
-        public static string setdefaultlanguage_usage {
-            get {
-                return ResourceManager.GetString("setdefaultlanguage_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to setgame.
         /// </summary>
         public static string setgame_cmd {
@@ -6806,33 +6860,6 @@ namespace NadekoBot.Resources {
         public static string setgame_usage {
             get {
                 return ResourceManager.GetString("setgame_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to setlocale sl.
-        /// </summary>
-        public static string setlanguage_cmd {
-            get {
-                return ResourceManager.GetString("setlanguage_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Sets this server&apos;s response language) If bot&apos;s response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name..
-        /// </summary>
-        public static string setlanguage_desc {
-            get {
-                return ResourceManager.GetString("setlanguage_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}sl de-DE ` or `{0}sl default`.
-        /// </summary>
-        public static string setlanguage_usage {
-            get {
-                return ResourceManager.GetString("setlanguage_usage", resourceCulture);
             }
         }
         
