@@ -129,32 +129,18 @@ namespace NadekoBot.Modules.Games
 
                 if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages)
                     return;
-#if GLOBAL_NADEKO
-                if (!usersRecentlyPicked.Add(Context.User.Id))
+
+                List<IUserMessage> msgs;
+
+                try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
+                if (!plantedFlowers.TryRemove(channel.Id, out msgs))
                     return;
-#endif
-                try
-                {
 
-                    List<IUserMessage> msgs;
+                await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                    try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
-                    if (!plantedFlowers.TryRemove(channel.Id, out msgs))
-                        return;
-
-                    await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
-
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {NadekoBot.BotConfig.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
-                    var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{NadekoBot.BotConfig.CurrencySign}!").ConfigureAwait(false);
-                    msg.DeleteAfter(10);
-                }
-                finally
-                {
-#if GLOBAL_NADEKO
-                    await Task.Delay(60000);
-                    usersRecentlyPicked.TryRemove(Context.User.Id);
-#endif
-                }
+                await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {NadekoBot.BotConfig.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
+                var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{NadekoBot.BotConfig.CurrencySign}!").ConfigureAwait(false);
+                msg.DeleteAfter(10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
