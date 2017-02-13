@@ -28,7 +28,7 @@ using System.Xml.Linq;
 namespace NadekoBot.Modules.Searches
 {
     [NadekoModule("Searches", "~")]
-    public partial class Searches : DiscordModule
+    public partial class Searches : NadekoModule
     {
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)

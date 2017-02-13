@@ -16,7 +16,7 @@ using System.Collections.Concurrent;
 namespace NadekoBot.Modules.Pokemon
 {
     [NadekoModule("Pokemon", ">")]
-    public partial class Pokemon : DiscordModule
+    public partial class Pokemon : NadekoModule
     {
         private static List<PokemonType> PokemonTypes = new List<PokemonType>();
         private static ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Pokemon
 
             if (targetUser == null)
             {
-                await Context.Channel.SendMessageAsync("No such person.").ConfigureAwait(false);
+                await ReplyLocalized("no user found").ConfigureAwait(false);
                 return;
             }
             else if (targetUser == user)

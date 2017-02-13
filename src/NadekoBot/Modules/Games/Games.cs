@@ -11,7 +11,7 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Modules.Games
 {
     [NadekoModule("Games", ">")]
-    public partial class Games : DiscordModule
+    public partial class Games : NadekoModule
     {
         private static string[] _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToArray();
 

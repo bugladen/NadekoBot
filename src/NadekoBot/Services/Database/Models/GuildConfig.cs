@@ -64,6 +64,8 @@ namespace NadekoBot.Services.Database.Models
         public AntiRaidSetting AntiRaidSetting { get; set; }
         public AntiSpamSetting AntiSpamSetting { get; set; }
 
+        public string Locale { get; set; }
+
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
     }
 

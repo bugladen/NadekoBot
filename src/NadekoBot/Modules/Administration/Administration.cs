@@ -20,7 +20,7 @@ using NLog;
 namespace NadekoBot.Modules.Administration
 {
     [NadekoModule("Administration", ".")]
-    public partial class Administration : DiscordModule
+    public partial class Administration : NadekoModule
     {
 
         private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();

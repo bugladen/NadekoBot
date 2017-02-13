@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace NadekoBot.Modules.Help
 {
     [NadekoModule("Help", "-")]
-    public partial class Help : DiscordModule
+    public partial class Help : NadekoModule
     {
         private static string helpString { get; } = NadekoBot.BotConfig.HelpString;
         public static string HelpString => String.Format(helpString, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);

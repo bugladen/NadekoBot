@@ -16,6 +16,8 @@ using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
+using System.Resources;
+using NadekoBot.Resources;
 
 namespace NadekoBot
 {
@@ -29,7 +31,10 @@ namespace NadekoBot
         public static CommandService CommandService { get; private set; }
         public static CommandHandler CommandHandler { get; private set; }
         public static DiscordShardedClient Client { get; private set; }
-        public static BotCredentials Credentials { get; private set; }
+        public static BotCredentials Credentials { get; }
+
+        public static Localization Localization { get; private set; }
+        public static ResourceManager ResponsesResourceManager { get; } = new ResourceManager(typeof(ResponseStrings));
 
         public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
@@ -79,6 +84,7 @@ namespace NadekoBot
 #endif
 
             //initialize Services
+            Localization = new Localization(NadekoBot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale));
             CommandService = new CommandService(new CommandServiceConfig() {
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Sync

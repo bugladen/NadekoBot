@@ -21,7 +21,7 @@ using NadekoBot.Services;
 namespace NadekoBot.Modules.Utility
 {
     [NadekoModule("Utility", ".")]
-    public partial class Utility : DiscordModule
+    public partial class Utility : NadekoModule
     {
         private static ConcurrentDictionary<ulong, Timer> rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
 

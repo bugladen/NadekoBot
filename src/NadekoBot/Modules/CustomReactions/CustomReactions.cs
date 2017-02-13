@@ -17,7 +17,7 @@ using NadekoBot.DataStructures;
 namespace NadekoBot.Modules.CustomReactions
 {
     [NadekoModule("CustomReactions", ".")]
-    public class CustomReactions : DiscordModule
+    public class CustomReactions : NadekoModule
     {
         private static CustomReaction[] _globalReactions = new CustomReaction[] { };
         public static CustomReaction[] GlobalReactions => _globalReactions;
