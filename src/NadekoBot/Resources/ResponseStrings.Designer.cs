@@ -384,6 +384,174 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Back to ToC.
+        /// </summary>
+        public static string help_back_to_toc {
+            get {
+                return ResourceManager.GetString("help_back_to_toc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bot Owner Only.
+        /// </summary>
+        public static string help_bot_owner_only {
+            get {
+                return ResourceManager.GetString("help_bot_owner_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Requires {0} channel permission..
+        /// </summary>
+        public static string help_channel_permission {
+            get {
+                return ResourceManager.GetString("help_channel_permission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command and aliases.
+        /// </summary>
+        public static string help_cmd_and_alias {
+            get {
+                return ResourceManager.GetString("help_cmd_and_alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can support the project on patreon: &lt;{0}&gt; or paypal: &lt;{1}&gt;.
+        /// </summary>
+        public static string help_cmdlist_donate {
+            get {
+                return ResourceManager.GetString("help_cmdlist_donate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I can&apos;t find that command. Please verify that the command exists before trying again..
+        /// </summary>
+        public static string help_command_not_found {
+            get {
+                return ResourceManager.GetString("help_command_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Commandlist Regenerated..
+        /// </summary>
+        public static string help_commandlist_regen {
+            get {
+                return ResourceManager.GetString("help_commandlist_regen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type `{0}h CommandName` to see the help for that specified command. e.g. `{0}h &gt;8ball`.
+        /// </summary>
+        public static string help_commands_instr {
+            get {
+                return ResourceManager.GetString("help_commands_instr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Description.
+        /// </summary>
+        public static string help_desc {
+            get {
+                return ResourceManager.GetString("help_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can support the NadekoBot project on 
+        ///Patreon &lt;{0}&gt; or
+        ///Paypal &lt;{1}&gt;
+        ///Don&apos;t forget to leave your discord name or id in the message.
+        ///
+        ///**Thank you** ♥️.
+        /// </summary>
+        public static string help_donate {
+            get {
+                return ResourceManager.GetString("help_donate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to **List of Commands**: &lt;{0}&gt;
+        ///**Hosting Guides and docs can be found here**: &lt;{1}&gt;.
+        /// </summary>
+        public static string help_guide {
+            get {
+                return ResourceManager.GetString("help_guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List Of Commands.
+        /// </summary>
+        public static string help_list_of_commands {
+            get {
+                return ResourceManager.GetString("help_list_of_commands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List Of Modules.
+        /// </summary>
+        public static string help_list_of_modules {
+            get {
+                return ResourceManager.GetString("help_list_of_modules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That module does not exist..
+        /// </summary>
+        public static string help_module_not_found {
+            get {
+                return ResourceManager.GetString("help_module_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type `{0}cmds ModuleName` to get a list of commands in that module. eg `{0}cmds games`.
+        /// </summary>
+        public static string help_modules_footer {
+            get {
+                return ResourceManager.GetString("help_modules_footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Requires {0} server permission..
+        /// </summary>
+        public static string help_server_permission {
+            get {
+                return ResourceManager.GetString("help_server_permission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Table Of Contents.
+        /// </summary>
+        public static string help_table_of_contents {
+            get {
+                return ResourceManager.GetString("help_table_of_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Usage.
+        /// </summary>
+        public static string help_usage {
+            get {
+                return ResourceManager.GetString("help_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Autohentai started. Reposting every {0}s with one of the following tags:
         ///{1}.
         /// </summary>

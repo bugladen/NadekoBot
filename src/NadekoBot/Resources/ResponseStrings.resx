@@ -298,6 +298,66 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
   </data>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value>Back to ToC</value>
+  </data>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value>Bot Owner Only</value>
+  </data>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value>Requires {0} channel permission.</value>
+  </data>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value>You can support the project on patreon: &lt;{0}&gt; or paypal: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value>Command and aliases</value>
+  </data>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value>Commandlist Regenerated.</value>
+  </data>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value>Type `{0}h CommandName` to see the help for that specified command. e.g. `{0}h &gt;8ball`</value>
+  </data>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value>I can't find that command. Please verify that the command exists before trying again.</value>
+  </data>
+  <data name="help_desc" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="help_donate" xml:space="preserve">
+    <value>You can support the NadekoBot project on 
+Patreon &lt;{0}&gt; or
+Paypal &lt;{1}&gt;
+Don't forget to leave your discord name or id in the message.
+
+**Thank you** ♥️</value>
+  </data>
+  <data name="help_guide" xml:space="preserve">
+    <value>**List of Commands**: &lt;{0}&gt;
+**Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value>List Of Commands</value>
+  </data>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value>List Of Modules</value>
+  </data>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value>Type `{0}cmds ModuleName` to get a list of commands in that module. eg `{0}cmds games`</value>
+  </data>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value>That module does not exist.</value>
+  </data>
+  <data name="help_server_permission" xml:space="preserve">
+    <value>Requires {0} server permission.</value>
+  </data>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value>Table Of Contents</value>
+  </data>
+  <data name="help_usage" xml:space="preserve">
+    <value>Usage</value>
+  </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
     <value>Autohentai started. Reposting every {0}s with one of the following tags:
 {1}</value>

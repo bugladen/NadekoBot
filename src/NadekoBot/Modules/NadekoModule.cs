@@ -17,7 +17,7 @@ namespace NadekoBot.Modules
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
 
-        public NadekoModule(bool isTopLevelModule = true)
+        protected NadekoModule(bool isTopLevelModule = true)
         {
             //if it's top level module
             ModuleTypeName = isTopLevelModule ? this.GetType().Name : this.GetType().DeclaringType.Name;
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules
             GetTextStatic(key, _cultureInfo, LowerModuleTypeName);
 
         protected string GetText(string key, params object[] replacements) =>
-            GetText(key, _cultureInfo, LowerModuleTypeName, replacements);
+            GetTextStatic(key, _cultureInfo, LowerModuleTypeName, replacements);
 
         public Task<IUserMessage> ErrorLocalized(string textKey, params object[] replacements)
         {
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules
 
     public abstract class NadekoSubmodule : NadekoModule
     {
-        public NadekoSubmodule() : base(false)
+        protected NadekoSubmodule() : base(false)
         {
         }
     }
