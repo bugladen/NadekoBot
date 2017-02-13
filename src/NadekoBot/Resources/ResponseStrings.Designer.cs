@@ -384,6 +384,43 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Autohentai started. Reposting every {0}s with one of the following tags:
+        ///{1}.
+        /// </summary>
+        public static string nsfw_autohentai_started {
+            get {
+                return ResourceManager.GetString("nsfw_autohentai_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Autohentai stopped..
+        /// </summary>
+        public static string nsfw_autohentai_stopped {
+            get {
+                return ResourceManager.GetString("nsfw_autohentai_stopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No results found..
+        /// </summary>
+        public static string nsfw_not_found {
+            get {
+                return ResourceManager.GetString("nsfw_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Tag.
+        /// </summary>
+        public static string nsfw_tag {
+            get {
+                return ResourceManager.GetString("nsfw_tag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has already fainted..
         /// </summary>
         public static string pokemon_already_fainted {

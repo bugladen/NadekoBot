@@ -225,6 +225,12 @@
   <data name="customreactions_trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>Autohentai stopped.</value>
+  </data>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>No results found.</value>
+  </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
     <value>{0} has already fainted.</value>
   </data>
@@ -291,5 +297,12 @@
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
+  </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Autohentai started. Reposting every {0}s with one of the following tags:
+{1}</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Tag</value>
   </data>
 </root>

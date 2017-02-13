@@ -292,4 +292,17 @@
   <data name="customreactions_trigger" xml:space="preserve">
     <value>Окидач</value>
   </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Аутохентаи започет. Постоваћу сваких {0} сек. користећи један од следећих тагова:
+{1}</value>
+  </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>АутоХентаи заустављен.</value>
+  </data>
+  <data name="nsfw_no_results" xml:space="preserve">
+    <value>Нема резултата.</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Таг</value>
+  </data>
 </root>
