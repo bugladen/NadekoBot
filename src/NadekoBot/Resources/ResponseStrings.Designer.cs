@@ -285,7 +285,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions..
+        ///    Looks up a localized string similar to Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for server custom reactions..
         /// </summary>
         public static string customreactions_insuff_perms {
             get {

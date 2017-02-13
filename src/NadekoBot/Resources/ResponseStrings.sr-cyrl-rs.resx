@@ -253,4 +253,43 @@
   <data name="clasofclans_base_destroyed" xml:space="preserve">
     <value>је **УНИШТИО** базу #{0} у рату против {1}</value>
   </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Сва статистика Реакција по  Избору је обрисана.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Реакција по Избору обрисана</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Немате дозволу. Потребно је поседовати бота за глобалне Реакције по Избору, а Администратор за серверске Реакције по Избору.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Листа свих реакција по избору</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Реакције по Избору</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Нова Реакција по Избору</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Реакција по избору није нађена.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Није нађена реакција са тим идентификатором.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Одговор</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Статистика Реакција по Избору</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Статистика је обрисана за  {0} реакцију по избору.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Није нађена статистика за тај окидач. Нема промене.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Окидач</value>
+  </data>
 </root>

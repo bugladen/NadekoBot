@@ -193,7 +193,7 @@
     <value>Custom Reaction deleted</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for guild custom reactions.</value>
+    <value>Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for server custom reactions.</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
     <value>List of all custom reactions</value>
