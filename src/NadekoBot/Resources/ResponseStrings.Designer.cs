@@ -141,34 +141,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to It&apos;s not effective..
-        /// </summary>
-        public static string pokemon_its_not_effective {
-            get {
-                return ResourceManager.GetString("pokemon_its_not_effective", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to It&apos;s somewhat effective..
-        /// </summary>
-        public static string pokemon_its_somewhat_effective {
-            get {
-                return ResourceManager.GetString("pokemon_its_somewhat_effective", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to It&apos;s super effective!.
-        /// </summary>
-        public static string pokemon_its_super_effective {
-            get {
-                return ResourceManager.GetString("pokemon_its_super_effective", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Moves for {0} type.
+        ///    Looks up a localized string similar to Movelist for &quot;{0}&quot; type.
         /// </summary>
         public static string pokemon_moves {
             get {
@@ -182,6 +155,15 @@ namespace NadekoBot.Resources {
         public static string pokemon_no_currency {
             get {
                 return ResourceManager.GetString("pokemon_no_currency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to It&apos;s not effective..
+        /// </summary>
+        public static string pokemon_not_effective {
+            get {
+                return ResourceManager.GetString("pokemon_not_effective", resourceCulture);
             }
         }
         
@@ -209,6 +191,24 @@ namespace NadekoBot.Resources {
         public static string pokemon_settype_success {
             get {
                 return ResourceManager.GetString("pokemon_settype_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to It&apos;s somewhat effective..
+        /// </summary>
+        public static string pokemon_somewhat_effective {
+            get {
+                return ResourceManager.GetString("pokemon_somewhat_effective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to It&apos;s super effective!.
+        /// </summary>
+        public static string pokemon_super_effective {
+            get {
+                return ResourceManager.GetString("pokemon_super_effective", resourceCulture);
             }
         }
         

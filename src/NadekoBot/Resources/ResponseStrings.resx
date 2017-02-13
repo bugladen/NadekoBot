@@ -145,17 +145,11 @@
   <data name="pokemon_invalid_move" xml:space="preserve">
     <value>You are not able to use **{0}**. Type {1}ml to see a list of moves you can use.</value>
   </data>
-  <data name="pokemon_its_not_effective" xml:space="preserve">
-    <value>It's not effective.</value>
-  </data>
-  <data name="pokemon_its_somewhat_effective" xml:space="preserve">
-    <value>It's somewhat effective.</value>
-  </data>
-  <data name="pokemon_its_super_effective" xml:space="preserve">
-    <value>It's super effective!</value>
-  </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value>Moves for {0} type</value>
+    <value>Movelist for "{0}" type</value>
+  </data>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>It's not effective.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
     <value>You don't have enough {0}</value>
@@ -168,6 +162,12 @@
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
     <value>Your type has been changed to {0} for a {1}</value>
+  </data>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>It's somewhat effective.</value>
+  </data>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>It's super effective!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
     <value>You used too many moves in a row, so you can't move!</value>

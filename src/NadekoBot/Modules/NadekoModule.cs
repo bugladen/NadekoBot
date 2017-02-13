@@ -14,12 +14,16 @@ namespace NadekoBot.Modules
         protected readonly Logger _log;
         public readonly string _prefix;
         public readonly CultureInfo cultureInfo;
+        public readonly string ModuleTypeName;
+        public readonly string LowerModuleTypeName;
 
         public NadekoModule(bool isTopLevelModule = true)
         {
             //if it's top level module
-            var typeName = isTopLevelModule ? this.GetType().Name : this.GetType().DeclaringType.Name;
-            if (!NadekoBot.ModulePrefixes.TryGetValue(typeName, out _prefix))
+            ModuleTypeName = isTopLevelModule ? this.GetType().Name : this.GetType().DeclaringType.Name;
+            LowerModuleTypeName = ModuleTypeName.ToLowerInvariant();
+
+            if (!NadekoBot.ModulePrefixes.TryGetValue(ModuleTypeName, out _prefix))
                 _prefix = "?err?";
             _log = LogManager.GetCurrentClassLogger();
 
@@ -48,27 +52,37 @@ namespace NadekoBot.Modules
         //    return Context.Channel.SendErrorAsync(title, text, url, footer);
         //}
 
+        protected string GetText(string key)
+        {
+            return NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, cultureInfo);
+        }
+
+        protected string GetText(string key, params object[] replacements)
+        {
+            return string.Format(GetText(key), replacements);
+        }
+
         public Task<IUserMessage> ErrorLocalized(string textKey, params object[] replacements)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+            var text = GetText(textKey);
             return Context.Channel.SendErrorAsync(string.Format(text, replacements));
         }
 
         public Task<IUserMessage> ReplyErrorLocalized(string textKey, params object[] replacements)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+            var text = GetText(textKey);
             return Context.Channel.SendErrorAsync(Context.User.Mention + " " +string.Format(text, replacements));
         }
 
         public Task<IUserMessage> ConfirmLocalized(string textKey, params object[] replacements)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+            var text = GetText(textKey);
             return Context.Channel.SendConfirmAsync(string.Format(text, replacements));
         }
 
         public Task<IUserMessage> ReplyConfirmLocalized(string textKey, params object[] replacements)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
+            var text = GetText(textKey);
             return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + string.Format(text, replacements));
         }
     }
