@@ -57,9 +57,20 @@ namespace NadekoBot.Modules
         //    return Context.Channel.SendErrorAsync(title, text, url, footer);
         //}
 
+        /// <summary>
+        /// Used as failsafe in case response key doesn't exist in the selected or default language.
+        /// </summary>
+        private readonly CultureInfo usCultureInfo = new CultureInfo("en-US");
         protected string GetText(string key)
         {
-            return NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, _cultureInfo);
+            var text = NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, _cultureInfo);
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                _log.Warn(LowerModuleTypeName + "_" + key + " key is missing from " + _cultureInfo + " response strings. PLEASE REPORT THIS.");
+                return NadekoBot.ResponsesResourceManager.GetString(LowerModuleTypeName + "_" + key, usCultureInfo);
+            }
+            return text;
         }
 
         protected string GetText(string key, params object[] replacements)
