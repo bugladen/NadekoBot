@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration.Commands
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task SetLocale([Remainder] string name)
+            public async Task SetLocale([Remainder] string name = null)
             {
                 CultureInfo ci = null;
                 try
@@ -42,17 +42,17 @@ namespace NadekoBot.Modules.Administration.Commands
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetDefaulLocale(string name)
+            public async Task SetDefaultLocale(string name)
             {
                 CultureInfo ci = null;
                 try
                 {
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
-                        NadekoBot.Localization.RemoveGuildCulture(Context.Guild);
+                        NadekoBot.Localization.ResetDefaultCulture();
                     }
                     ci = new CultureInfo(name);
-                    NadekoBot.Localization.SetGuildCulture(Context.Guild, ci);
+                    NadekoBot.Localization.SetDefaultCulture(ci);
 
                     await Context.Channel.SendConfirmAsync($"Your guild's locale is now {ci}.").ConfigureAwait(false);
                 }

@@ -6756,6 +6756,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setdefaultlocale sdl.
+        /// </summary>
+        public static string setdefaultlocale_cmd {
+            get {
+                return ResourceManager.GetString("setdefaultlocale_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets the bot&apos;s default locale. All servers which use a default locale will use this one. Setting to `default` will use the host&apos;s current culture..
+        /// </summary>
+        public static string setdefaultlocale_desc {
+            get {
+                return ResourceManager.GetString("setdefaultlocale_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}sdl en-US` or `{0}sdl default`.
+        /// </summary>
+        public static string setdefaultlocale_usage {
+            get {
+                return ResourceManager.GetString("setdefaultlocale_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to setgame.
         /// </summary>
         public static string setgame_cmd {
@@ -6779,6 +6806,33 @@ namespace NadekoBot.Resources {
         public static string setgame_usage {
             get {
                 return ResourceManager.GetString("setgame_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to setlocale sl.
+        /// </summary>
+        public static string setlocale_cmd {
+            get {
+                return ResourceManager.GetString("setlocale_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets this server&apos;s response locale (language). If bot&apos;s response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name..
+        /// </summary>
+        public static string setlocale_desc {
+            get {
+                return ResourceManager.GetString("setlocale_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{}sl de-DE ` or `{0}sl default`.
+        /// </summary>
+        public static string setlocale_usage {
+            get {
+                return ResourceManager.GetString("setlocale_usage", resourceCulture);
             }
         }
         
