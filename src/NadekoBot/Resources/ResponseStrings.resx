@@ -117,6 +117,75 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>That base is already claimed or destroyed.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>That base is already destroyed.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>That base is not claimed.</value>
+  </data>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value>**DESTROYED** base #{0} in a war against {1}</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} has **UNCLAIMED** base #{1} in a war against {2}</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} claimed a base #{1} in a war against {2}</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} You already claimed base #{1}. You can't claim a new one.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>Claim from @{0} for a war against {1} has expired.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Enemy</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Info about war against {0}</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Invalid base number.</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Not a Valid war size.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>List Of Active Wars</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>not claimed</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>You are not participating in that war.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} You are either not participating in that war, or you have already destroyed a base.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>No active wars.</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>War against {0} is already started.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>War against {0} created.</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>War against {0} ended.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>That war does not exist.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>War against {0} started!</value>
+  </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
     <value>{0} has already fainted.</value>
   </data>

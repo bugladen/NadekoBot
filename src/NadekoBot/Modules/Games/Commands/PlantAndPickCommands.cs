@@ -222,17 +222,6 @@ namespace NadekoBot.Modules.Games
 
                 return images[rng.Next(0, images.Length)];
             }
-
-            int GetRandomNumber()
-            {
-                using (var rg = RandomNumberGenerator.Create())
-                {
-                    byte[] rno = new byte[4];
-                    rg.GetBytes(rno);
-                    int randomvalue = BitConverter.ToInt32(rno, 0);
-                    return randomvalue;
-                }
-            }
         }
     }
 }

@@ -60,6 +60,213 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to That base is already claimed or destroyed..
+        /// </summary>
+        public static string clashofclans_base_already_claimed {
+            get {
+                return ResourceManager.GetString("clashofclans_base_already_claimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That base is already destroyed..
+        /// </summary>
+        public static string clashofclans_base_already_destroyed {
+            get {
+                return ResourceManager.GetString("clashofclans_base_already_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That base is not claimed..
+        /// </summary>
+        public static string clashofclans_base_already_unclaimed {
+            get {
+                return ResourceManager.GetString("clashofclans_base_already_unclaimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to **DESTROYED** base #{0} in a war against {1}.
+        /// </summary>
+        public static string clashofclans_base_destroyed {
+            get {
+                return ResourceManager.GetString("clashofclans_base_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has **UNCLAIMED** base #{1} in a war against {2}.
+        /// </summary>
+        public static string clashofclans_base_unclaimed {
+            get {
+                return ResourceManager.GetString("clashofclans_base_unclaimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Claim from @{0} for a war against {1} has expired..
+        /// </summary>
+        public static string clashofclans_claim_expired {
+            get {
+                return ResourceManager.GetString("clashofclans_claim_expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} claimed a base #{1} in a war against {2}.
+        /// </summary>
+        public static string clashofclans_claimed_base {
+            get {
+                return ResourceManager.GetString("clashofclans_claimed_base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to @{0} You already claimed base #{1}. You can&apos;t claim a new one..
+        /// </summary>
+        public static string clashofclans_claimed_other {
+            get {
+                return ResourceManager.GetString("clashofclans_claimed_other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enemy.
+        /// </summary>
+        public static string clashofclans_enemy {
+            get {
+                return ResourceManager.GetString("clashofclans_enemy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Info about war against {0}.
+        /// </summary>
+        public static string clashofclans_info_about_war {
+            get {
+                return ResourceManager.GetString("clashofclans_info_about_war", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid base number..
+        /// </summary>
+        public static string clashofclans_invalid_base_number {
+            get {
+                return ResourceManager.GetString("clashofclans_invalid_base_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Not a Valid war size..
+        /// </summary>
+        public static string clashofclans_invalid_size {
+            get {
+                return ResourceManager.GetString("clashofclans_invalid_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List Of Active Wars.
+        /// </summary>
+        public static string clashofclans_list_active_wars {
+            get {
+                return ResourceManager.GetString("clashofclans_list_active_wars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No active wars..
+        /// </summary>
+        public static string clashofclans_no_active_wars {
+            get {
+                return ResourceManager.GetString("clashofclans_no_active_wars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to not claimed.
+        /// </summary>
+        public static string clashofclans_not_claimed {
+            get {
+                return ResourceManager.GetString("clashofclans_not_claimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You are not participating in that war..
+        /// </summary>
+        public static string clashofclans_not_partic {
+            get {
+                return ResourceManager.GetString("clashofclans_not_partic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to @{0} You are either not participating in that war, or that base is already destroyed..
+        /// </summary>
+        public static string clashofclans_not_partic_or_destroyed {
+            get {
+                return ResourceManager.GetString("clashofclans_not_partic_or_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Size.
+        /// </summary>
+        public static string clashofclans_size {
+            get {
+                return ResourceManager.GetString("clashofclans_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to War against {0} has already started..
+        /// </summary>
+        public static string clashofclans_war_already_started {
+            get {
+                return ResourceManager.GetString("clashofclans_war_already_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to War against {0} created..
+        /// </summary>
+        public static string clashofclans_war_created {
+            get {
+                return ResourceManager.GetString("clashofclans_war_created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to War against {0} ended..
+        /// </summary>
+        public static string clashofclans_war_ended {
+            get {
+                return ResourceManager.GetString("clashofclans_war_ended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That war does not exist..
+        /// </summary>
+        public static string clashofclans_war_not_exist {
+            get {
+                return ResourceManager.GetString("clashofclans_war_not_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to War against {0} started!.
+        /// </summary>
+        public static string clashofclans_war_started {
+            get {
+                return ResourceManager.GetString("clashofclans_war_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has already fainted..
         /// </summary>
         public static string pokemon_already_fainted {

@@ -102,12 +102,14 @@ namespace NadekoBot.Services
             SetDefaultCulture(CultureInfo.CurrentCulture);
 
         public CultureInfo GetCultureInfo(IGuild guild) =>
-            GetCultureInfo(guild.Id);
+            GetCultureInfo(guild?.Id);
 
-        public CultureInfo GetCultureInfo(ulong guildId)
+        public CultureInfo GetCultureInfo(ulong? guildId)
         {
+            if (guildId == null)
+                return DefaultCultureInfo;
             CultureInfo info = null;
-            GuildCultureInfos.TryGetValue(guildId, out info);
+            GuildCultureInfos.TryGetValue(guildId.Value, out info);
             return info ?? DefaultCultureInfo;
         }
 

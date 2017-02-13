@@ -184,4 +184,73 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>Онесвешћен си, не можеш да се крећеш.</value>
   </data>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Та база је већ под захетвом или је уништена.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Та база је већ под захтевом.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Та база није под захтевом.</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} је **ПОНИШТИО ЗАХТЕВ** за базу #{1} у рату против {2}</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} захтева базу #{1} у рату против {2}</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} Ти већ захтеваш базу #{1}. Не можеш захтевати још једну.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>Захтев од @{0} за рат против {1} је истекао.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Противник</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Подаци о рату против {0}</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Број базе није валидан.</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Величина рата није валидна.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Листа Ратова У Току</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>нема захтева</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Ти не учествујеш у том рату.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Ти или не учествујеш у рату или је та база већ уништена.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Нема ратова у току.</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Величина</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>Рат против {0} је већ почео.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>Рат против {0} је направљен.</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>Рат против {0} је завршен.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Тај рат не постоји.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>Рат против {0} је започет!</value>
+  </data>
+  <data name="clasofclans_base_destroyed" xml:space="preserve">
+    <value>је **УНИШТИО** базу #{0} у рату против {1}</value>
+  </data>
 </root>
