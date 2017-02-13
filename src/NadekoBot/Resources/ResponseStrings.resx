@@ -121,13 +121,13 @@
     <value>{0} has already fainted.</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value>{1} already has full HP.</value>
+    <value>{0} already has full HP.</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
     <value>Your type is already {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value>used **{0}**{1} on {2}{3} for **{4}** damage.</value>
+    <value>used {0}{1} on {2}{3} for {4} damage.</value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
@@ -139,6 +139,9 @@
   <data name="pokemon_fainted" xml:space="preserve">
     <value>{0} has fainted!</value>
   </data>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>healed {0} with one {1}</value>
+  </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
     <value>{0} has {1} HP remaining.</value>
   </data>
@@ -146,7 +149,7 @@
     <value>You are not able to use **{0}**. Type {1}ml to see a list of moves you can use.</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value>Movelist for "{0}" type</value>
+    <value>Movelist for {0} type</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
     <value>It's not effective.</value>
@@ -173,15 +176,12 @@
     <value>You used too many moves in a row, so you can't move!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
-    <value>Type of {0} is **{1}**</value>
+    <value>Type of {0} is {1}</value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
     <value>User not found.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
-  </data>
-  <data name="pokmeon_healed" xml:space="preserve">
-    <value>healed {0} with one {1}</value>
   </data>
 </root>

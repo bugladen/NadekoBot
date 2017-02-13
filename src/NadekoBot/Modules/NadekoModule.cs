@@ -74,7 +74,7 @@ namespace NadekoBot.Modules
         public Task<IUserMessage> ReplyErrorLocalized(string textKey, params object[] replacements)
         {
             var text = GetText(textKey);
-            return Context.Channel.SendErrorAsync(Context.User.Mention + " " +string.Format(text, replacements));
+            return Context.Channel.SendErrorAsync(Context.User.Mention + " " + string.Format(text, replacements));
         }
 
         public Task<IUserMessage> ConfirmLocalized(string textKey, params object[] replacements)

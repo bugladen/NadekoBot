@@ -15,6 +15,9 @@ namespace NadekoBot.Modules.Pokemon
         public List<PokemonMultiplier> Multipliers { get; set; }
         public string Icon { get; set; }
         public string[] Moves { get; set; }
+
+        public override string ToString() => 
+            Icon + "**" + Name.ToLowerInvariant() + "**" + Icon;
     }
     public class PokemonMultiplier
     {
