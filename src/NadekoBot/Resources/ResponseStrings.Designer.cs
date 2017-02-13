@@ -58,5 +58,23 @@ namespace NadekoBot.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t attack yourself..
+        /// </summary>
+        public static string cant_attack_yourself {
+            get {
+                return ResourceManager.GetString("cant_attack_yourself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User not found..
+        /// </summary>
+        public static string no_user_found {
+            get {
+                return ResourceManager.GetString("no_user_found", resourceCulture);
+            }
+        }
     }
 }

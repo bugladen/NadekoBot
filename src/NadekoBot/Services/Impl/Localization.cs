@@ -88,5 +88,11 @@ namespace NadekoBot.Services
             GuildCultureInfos.TryGetValue(guildId, out info);
             return info ?? DefaultCultureInfo;
         }
+
+        public static string LoadCommandString(string key)
+        {
+            string toReturn = Resources.CommandStrings.ResourceManager.GetString(key);
+            return string.IsNullOrWhiteSpace(toReturn) ? key : toReturn;
+        }
     }
 }

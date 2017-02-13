@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="cant_attack_yourself" xml:space="preserve">
+    <value>You can't attack yourself.</value>
+  </data>
+  <data name="no_user_found" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
 </root>
