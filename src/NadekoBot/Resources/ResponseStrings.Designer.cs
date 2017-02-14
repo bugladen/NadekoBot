@@ -123,6 +123,61 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to List Of Languages
+        ///{0}.
+        /// </summary>
+        public static string administration_lang_list {
+            get {
+                return ResourceManager.GetString("administration_lang_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Your server&apos;s locale is now {0} - {1}.
+        /// </summary>
+        public static string administration_lang_set {
+            get {
+                return ResourceManager.GetString("administration_lang_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bot&apos;s default locale is now {0} - {1}.
+        /// </summary>
+        public static string administration_lang_set_bot {
+            get {
+                return ResourceManager.GetString("administration_lang_set_bot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bot&apos;s language is set to {0} - {0}.
+        /// </summary>
+        public static string administration_lang_set_bot_show {
+            get {
+                return ResourceManager.GetString("administration_lang_set_bot_show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed setting locale. Revisit this command&apos;s help..
+        /// </summary>
+        public static string administration_lang_set_fail {
+            get {
+                return ResourceManager.GetString("administration_lang_set_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to This server&apos;s language is set to {0} - {0}.
+        /// </summary>
+        public static string administration_lang_set_show {
+            get {
+                return ResourceManager.GetString("administration_lang_set_show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
         /// </summary>
         public static string administration_mute_error {

@@ -304,6 +304,40 @@
   <data name="administration_aar_enabled" xml:space="preserve">
     <value>**Auto assign role** on user join is now **enabled**.</value>
   </data>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>DM from</value>
+  </data>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>I will forward DMs to all owners.</value>
+  </data>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>I will forward DMs only to the first owner.</value>
+  </data>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>I will forward DMs from now on.</value>
+  </data>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>I will stop forwarding DMs from now on.</value>
+  </data>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>List Of Languages
+{0}</value>
+  </data>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Your server's locale is now {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>Bot's default locale is now {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Bot's language is set to {0} - {0}</value>
+  </data>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value>Failed setting locale. Revisit this command's help.</value>
+  </data>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>This server's language is set to {0} - {0}</value>
+  </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value>I don't have the permission necessary for that most likely.</value>
   </data>
