@@ -21,12 +21,6 @@ namespace NadekoBot.Modules.Games
         {
             private static Logger _log { get; }
 
-            class CleverAnswer
-            {
-                public string Status { get; set; }
-                public string Response { get; set; }
-            }
-
             public static ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; } = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>();
 
             static CleverBotCommands()
@@ -34,14 +28,12 @@ namespace NadekoBot.Modules.Games
                 _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
 
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var bot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
-                    CleverbotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
-                        NadekoBot.AllGuildConfigs
-                            .Where(gc => gc.CleverbotEnabled)
-                            .ToDictionary(gc => gc.GuildId, gc => new Lazy<ChatterBotSession>(() => bot.CreateSession(), true)));
-                }
+                
+                var bot = ChatterBotFactory.Create(ChatterBotType.CLEVERBOT);
+                CleverbotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
+                    NadekoBot.AllGuildConfigs
+                        .Where(gc => gc.CleverbotEnabled)
+                        .ToDictionary(gc => gc.GuildId, gc => new Lazy<ChatterBotSession>(() => bot.CreateSession(), true)));
 
                 sw.Stop();
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");

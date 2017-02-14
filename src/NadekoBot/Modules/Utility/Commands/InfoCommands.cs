@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Utility
                 var voicechn = (await guild.GetVoiceChannelsAsync()).Count();
 
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
-                var sb = new StringBuilder();
                 var users = await guild.GetUsersAsync().ConfigureAwait(false);
                 var features = string.Join("\n", guild.Features);
                 if (string.IsNullOrWhiteSpace(features))
@@ -45,13 +44,13 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName("**Members**").WithValue(users.Count.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Text Channels**").WithValue(textchn.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Voice Channels**").WithValue(voicechn.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Created At**").WithValue($"{createdAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
+                    .AddField(fb => fb.WithName("**Created At**").WithValue($"{createdAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Region**").WithValue(guild.VoiceRegionId.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Roles**").WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Features**").WithValue(features).WithIsInline(true))
                     .WithImageUrl(guild.IconUrl)
                     .WithColor(NadekoBot.OkColor);
-                if (guild.Emojis.Count() > 0)
+                if (guild.Emojis.Any())
                 {
                     embed.AddField(fb => fb.WithName($"**Custom Emojis ({guild.Emojis.Count})**").WithValue(string.Join(" ", guild.Emojis.Shuffle().Take(25).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
                 }
@@ -71,7 +70,7 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(ch.Name)
                     .WithDescription(ch.Topic?.SanitizeMentions())
                     .AddField(fb => fb.WithName("**ID**").WithValue(ch.Id.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Created At**").WithValue($"{createdAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
+                    .AddField(fb => fb.WithName("**Created At**").WithValue($"{createdAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Users**").WithValue(usercount.ToString()).WithIsInline(true))
                     .WithColor(NadekoBot.OkColor);
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -81,7 +80,6 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task UserInfo(IGuildUser usr = null)
             {
-                var channel = (ITextChannel)Context.Channel;
                 var user = usr ?? Context.User as IGuildUser;
 
                 if (user == null)
@@ -95,7 +93,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 embed.AddField(fb => fb.WithName("**ID**").WithValue(user.Id.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("**Joined Server**").WithValue($"{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm") ?? "unavail."}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("**Joined Discord**").WithValue($"{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}").WithIsInline(true))
+                    .AddField(fb => fb.WithName("**Joined Discord**").WithValue($"{user.CreatedAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
                     .AddField(fb => fb.WithName("**Roles**").WithValue($"**({user.RoleIds.Count - 1})** - {string.Join("\n", user.GetRoles().Take(10).Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
                     .WithColor(NadekoBot.OkColor);
 

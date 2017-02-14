@@ -307,7 +307,7 @@ namespace NadekoBot.Modules.Games
                                 var del2 = previousMessage?.DeleteAsync();
                                 try { previousMessage = await _channel.EmbedAsync(GetEmbed(reason)); } catch { }
                                 try { await del1; } catch { }
-                                try { await del2; } catch { }
+                                try { if (del2 != null) await del2; } catch { }
                             });
                             curUserIndex ^= 1;
 

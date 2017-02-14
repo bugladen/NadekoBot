@@ -12,7 +12,8 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class PlaceCommands : ModuleBase
         {
-            private static string typesStr { get; } = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Searches).Name]}place\" tags:`\n" + String.Join(", ", Enum.GetNames(typeof(PlaceType)));
+            private static string typesStr { get; } =
+                string.Format("`List of \"{0}place\" tags:`\n", NadekoBot.ModulePrefixes[typeof(Searches).Name]) + String.Join(", ", Enum.GetNames(typeof(PlaceType)));
 
             public enum PlaceType
             {

@@ -230,7 +230,7 @@ namespace NadekoBot.Modules.Searches
                     var link = "http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query);
                     using (var http = new HttpClient())
                     {
-                        var res = await http.GetStringAsync("http://anilist.co/api/anime/search/" + Uri.EscapeUriString(query) + $"?access_token={anilistToken}").ConfigureAwait(false);
+                        var res = await http.GetStringAsync(link + $"?access_token={anilistToken}").ConfigureAwait(false);
                         var smallObj = JArray.Parse(res)[0];
                         var aniData = await http.GetStringAsync("http://anilist.co/api/anime/" + smallObj["id"] + $"?access_token={anilistToken}").ConfigureAwait(false);
 

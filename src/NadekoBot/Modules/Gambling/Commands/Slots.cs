@@ -260,7 +260,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 finally
                 {
-                    var t = Task.Run(async () =>
+                    var _ = Task.Run(async () =>
                     {
                         await Task.Delay(2000);
                         runningUsers.Remove(Context.User.Id);

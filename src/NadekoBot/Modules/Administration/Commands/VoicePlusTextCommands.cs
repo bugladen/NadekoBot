@@ -30,10 +30,8 @@ namespace NadekoBot.Modules.Administration
             {
                 var _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
-                }
+
+                voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
 
                 sw.Stop();

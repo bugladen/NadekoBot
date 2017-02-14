@@ -37,26 +37,22 @@ namespace NadekoBot.Modules.Administration
 
                 public bool CheckUserRatelimit(ulong id)
                 {
-                    RatelimitedUser usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
+                    var usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
                     if (usr.MessageCount == MaxMessages)
                     {
                         return true;
                     }
-                    else
+                    usr.MessageCount++;
+                    var _ = Task.Run(async () =>
                     {
-                        usr.MessageCount++;
-                        var t = Task.Run(async () =>
+                        try
                         {
-                            try
-                            {
-                                await Task.Delay(PerSeconds * 1000, cancelSource.Token);
-                            }
-                            catch (OperationCanceledException) { }
-                            usr.MessageCount--;
-                        });
-                        return false;
-                    }
-
+                            await Task.Delay(PerSeconds * 1000, cancelSource.Token);
+                        }
+                        catch (OperationCanceledException) { }
+                        usr.MessageCount--;
+                    });
+                    return false;
                 }
             }
 

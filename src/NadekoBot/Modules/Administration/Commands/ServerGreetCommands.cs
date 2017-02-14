@@ -18,10 +18,10 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class ServerGreetCommands : ModuleBase
+        public class ServerGreetCommands : NadekoSubmodule
         {
             //make this to a field in the guildconfig table
-            class GreetSettings
+            private class GreetSettings
             {
                 public int AutoDeleteGreetMessagesTimer { get; set; }
                 public int AutoDeleteByeMessagesTimer { get; set; }
@@ -129,7 +129,10 @@ namespace NadekoBot.Modules.Administration
                             catch (Exception ex) { _log.Warn(ex); }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 });
                 return Task.CompletedTask;
             }
@@ -212,7 +215,10 @@ namespace NadekoBot.Modules.Administration
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 });
                 return Task.CompletedTask;
             }
@@ -222,7 +228,6 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task GreetDel(int timer = 30)
             {
-                var channel = (ITextChannel)Context.Channel;
                 if (timer < 0 || timer > 600)
                     return;
 
@@ -375,7 +380,7 @@ namespace NadekoBot.Modules.Administration
 
                 await Context.Channel.SendConfirmAsync("🆗 New DM greet message **set**.").ConfigureAwait(false);
                 if (!sendGreetEnabled)
-                    await Context.Channel.SendConfirmAsync($"ℹ️ Enable DM greet messsages by typing `{NadekoBot.ModulePrefixes[typeof(Administration).Name]}greetdm`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"ℹ️ Enable DM greet messsages by typing `{Prefix}greetdm`").ConfigureAwait(false);
             }
 
             public static bool SetGreetDmMessage(ulong guildId, ref string message)
@@ -450,7 +455,7 @@ namespace NadekoBot.Modules.Administration
 
                 await Context.Channel.SendConfirmAsync("🆗 New bye message **set**.").ConfigureAwait(false);
                 if (!sendByeEnabled)
-                    await Context.Channel.SendConfirmAsync($"ℹ️ Enable bye messsages by typing `{NadekoBot.ModulePrefixes[typeof(Administration).Name]}bye`").ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync($"ℹ️ Enable bye messsages by typing `{Prefix}bye`").ConfigureAwait(false);
             }
 
             public static bool SetByeMessage(ulong guildId, ref string message)

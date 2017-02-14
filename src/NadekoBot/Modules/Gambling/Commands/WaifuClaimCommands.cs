@@ -197,8 +197,6 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Divorce([Remainder]IUser target)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 if (target.Id == Context.User.Id)
                     return;
 

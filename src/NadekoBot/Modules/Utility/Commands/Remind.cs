@@ -45,15 +45,15 @@ namespace NadekoBot.Modules.Utility
 
                 foreach (var r in reminders)
                 {
-                    try { var t = StartReminder(r); } catch (Exception ex) { _log.Warn(ex); }
+                    Task.Run(() => StartReminder(r));
                 }
             }
 
             private static async Task StartReminder(Reminder r)
             {
                 var now = DateTime.Now;
-                var twoMins = new TimeSpan(0, 2, 0);
-                TimeSpan time = r.When - now;
+
+                var time = r.When - now;
 
                 if (time.TotalMilliseconds > int.MaxValue)
                     return;

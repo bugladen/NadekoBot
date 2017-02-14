@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.CustomReactions
             }
             else
             {
-                var reactions = GuildReactions.AddOrUpdate(Context.Guild.Id,
+                GuildReactions.AddOrUpdate(Context.Guild.Id,
                     new CustomReaction[] { cr },
                     (k, old) =>
                     {

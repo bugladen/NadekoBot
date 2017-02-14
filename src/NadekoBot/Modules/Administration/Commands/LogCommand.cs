@@ -35,19 +35,15 @@ namespace NadekoBot.Modules.Administration
 
             private static ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
             private static Timer timerReference { get; }
-            private IGoogleApiService _google { get; }
 
             static LogCommands()
             {
                 _client = NadekoBot.Client;
                 _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
-
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
-                                                                                      .ToDictionary(g => g.GuildId, g => g.LogSetting));
-                }
+                
+                GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
+                    .ToDictionary(g => g.GuildId, g => g.LogSetting));
 
                 timerReference = new Timer(async (state) =>
                 {
@@ -59,7 +55,11 @@ namespace NadekoBot.Modules.Administration
                         {
                             List<string> messages;
                             if (PresenceUpdates.TryRemove(key, out messages))
-                                try { await key.SendConfirmAsync("Presence Updates", string.Join(Environment.NewLine, messages)); } catch { }
+                                try { await key.SendConfirmAsync("Presence Updates", string.Join(Environment.NewLine, messages)); }
+                                catch
+                                {
+                                    // ignored
+                                }
                         }));
                     }
                     catch (Exception ex)
@@ -159,7 +159,9 @@ namespace NadekoBot.Modules.Administration
                     //}
                 }
                 catch
-                { }
+                {
+                    // ignored
+                }
             }
 
             private static async Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
@@ -188,7 +190,7 @@ namespace NadekoBot.Modules.Administration
                     var str = "";
                     if (beforeVch?.Guild == afterVch?.Guild)
                     {
-                        str = $"{usr.Username} moved from {beforeVch.Name} to {afterVch.Name}";
+                        str = $"{usr.Username} moved from {beforeVch?.Name} to {afterVch?.Name}";
                     }
                     else if (beforeVch == null)
                     {
@@ -201,7 +203,10 @@ namespace NadekoBot.Modules.Administration
                     var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
                     toDelete.DeleteAfter(5);
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
 
             private static async void MuteCommands_UserMuted(IGuildUser usr, MuteCommands.MuteType muteType)
@@ -216,7 +221,7 @@ namespace NadekoBot.Modules.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
                         return;
-                    string mutes = "";
+                    var mutes = "";
                     switch (muteType)
                     {
                         case MuteCommands.MuteType.Voice:

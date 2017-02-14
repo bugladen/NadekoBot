@@ -23,7 +23,8 @@ namespace NadekoBot.Modules.Games
             static HangmanCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
-                typesStr = $"`List of \"{NadekoBot.ModulePrefixes[typeof(Games).Name]}hangman\" term types:`\n" + String.Join(", ", HangmanTermPool.data.Keys);
+                typesStr =
+                    string.Format("`List of \"{0}hangman\" term types:`\n", NadekoBot.ModulePrefixes[typeof(Games).Name]) + String.Join(", ", HangmanTermPool.data.Keys);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

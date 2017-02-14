@@ -103,7 +103,6 @@ namespace NadekoBot.Modules.Gambling
         [Priority(0)]
         public async Task Award(int amount, [Remainder] IRole role)
         {
-            var channel = (ITextChannel)Context.Channel;
             var users = (await Context.Guild.GetUsersAsync())
                                .Where(u => u.GetRoles().Contains(role))
                                .ToList();

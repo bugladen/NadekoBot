@@ -468,7 +468,6 @@ namespace NadekoBot.Modules.Utility
         [OwnerOnly]
         public async Task SaveChat(int cnt)
         {
-            var sb = new StringBuilder();
             var msgs = new List<IMessage>(cnt);
             await Context.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
 

@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Games
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;
-                var rng = new NadekoRandom();
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))

@@ -402,8 +402,6 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task AntiList()
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 AntiSpamStats spam;
                 antiSpamGuilds.TryGetValue(Context.Guild.Id, out spam);
 

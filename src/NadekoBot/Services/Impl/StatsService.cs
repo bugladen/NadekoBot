@@ -96,18 +96,21 @@ namespace NadekoBot.Services.Impl
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                            var res = await http.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
+                            await http.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
                         }
                     };
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
 
         public void Initialize()
         {
-            var guilds = this.client.GetGuilds();
-            _textChannels = guilds.Sum(g => g.Channels.Where(cx => cx is ITextChannel).Count());
+            var guilds = this.client.GetGuilds().ToArray();
+            _textChannels = guilds.Sum(g => g.Channels.Count(cx => cx is ITextChannel));
             _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
         }
 

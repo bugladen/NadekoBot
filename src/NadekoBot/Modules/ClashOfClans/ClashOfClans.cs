@@ -23,12 +23,8 @@ namespace NadekoBot.Modules.ClashOfClans
 
         private static Timer checkWarTimer { get; }
 
-        private static new readonly Logger _log;
-
         static ClashOfClans()
         {
-            _log = LogManager.GetCurrentClassLogger();
-            var sw = Stopwatch.StartNew();
             using (var uow = DbHandler.UnitOfWork())
             {
                 ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(
@@ -244,7 +240,6 @@ namespace NadekoBot.Modules.ClashOfClans
             SaveWar(war);
             await ReplyConfirmLocalized("war_ended", warsInfo.Item1[warsInfo.Item2].ShortPrint()).ConfigureAwait(false);
 
-            var size = warsInfo.Item1[warsInfo.Item2].Size;
             warsInfo.Item1.RemoveAt(warsInfo.Item2);
         }
 

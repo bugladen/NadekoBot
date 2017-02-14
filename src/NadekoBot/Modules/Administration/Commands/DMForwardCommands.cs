@@ -74,8 +74,8 @@ namespace NadekoBot.Modules.Administration
                     var title = $"DM from [{msg.Author}]({msg.Author.Id})";
                     if (ForwardDMsToAllOwners)
                     {
-                        var msgs = await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
-                                                                   .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
+                        await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
+                            .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
                     }
                     else
                     {
