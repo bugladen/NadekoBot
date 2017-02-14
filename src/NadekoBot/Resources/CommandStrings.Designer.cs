@@ -2382,6 +2382,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to qsearch .....
+        /// </summary>
+        public static string searchquote_cmd {
+            get {
+                return ResourceManager.GetString("searchquote_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Searches a quote for a given keyword and any string portion of a quote matching that keyword..
+        /// </summary>
+        public static string searchquote_desc {
+            get {
+                return ResourceManager.GetString("searchquote_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}qsearch keyword text`.
+        /// </summary>
+        public static string searchquote_usage {
+            get {
+                return ResourceManager.GetString("searchquote_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to delmsgoncmd.
         /// </summary>
         public static string delmsgoncmd_cmd {
