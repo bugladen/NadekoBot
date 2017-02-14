@@ -59,12 +59,12 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
             }
             
-            [NadekoCommand, Usage, Description, Aliases]
+           [NadekoCommand, Usage, Description, Aliases]
   	    [RequireContext(ContextType.Guild)] 
             public async Task SearchQuote(string keyword, [Remainder] string text)
-        	{
-		        if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
-					return;
+            {
+	        if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
+		    return;
 
                 keyword = keyword.ToUpperInvariant();
 
