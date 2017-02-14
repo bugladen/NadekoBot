@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Administration
                 };
             }
 
-            private static Logger _log { get; }
+            private new static Logger _log { get; }
 
             private static ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; } = new ConcurrentDictionary<ulong, GreetSettings>();
 

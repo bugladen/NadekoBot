@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
 using System.Resources;
@@ -108,13 +109,16 @@ namespace NadekoBot
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
+
+            var sw = Stopwatch.StartNew();
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
             await Client.ConnectAsync().ConfigureAwait(false);
             //await Client.DownloadAllUsersAsync().ConfigureAwait(false);
             Stats.Initialize();
 
-            _log.Info("Connected");
+            sw.Stop();
+            _log.Info("Connected in " + sw.Elapsed.TotalSeconds.ToString("F2"));
 
             //load commands and prefixes
 
