@@ -123,6 +123,69 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Bye announcements disabled..
+        /// </summary>
+        public static string administration_bye_off {
+            get {
+                return ResourceManager.GetString("administration_bye_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bye announcements enabled on this channel..
+        /// </summary>
+        public static string administration_bye_on {
+            get {
+                return ResourceManager.GetString("administration_bye_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Automatic deletion of bye messages has been disabled..
+        /// </summary>
+        public static string administration_byedel_off {
+            get {
+                return ResourceManager.GetString("administration_byedel_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bye messages will be deleted after {0} seconds..
+        /// </summary>
+        public static string administration_byedel_on {
+            get {
+                return ResourceManager.GetString("administration_byedel_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Current bye message: {0}.
+        /// </summary>
+        public static string administration_byemsg_cur {
+            get {
+                return ResourceManager.GetString("administration_byemsg_cur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enable bye messages by typing {0}.
+        /// </summary>
+        public static string administration_byemsg_enable {
+            get {
+                return ResourceManager.GetString("administration_byemsg_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New bye message set..
+        /// </summary>
+        public static string administration_byemsg_new {
+            get {
+                return ResourceManager.GetString("administration_byemsg_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Channel Name Changed.
         /// </summary>
         public static string administration_ch_name_change {
@@ -209,6 +272,114 @@ namespace NadekoBot.Resources {
         public static string administration_fwdm_stop {
             get {
                 return ResourceManager.GetString("administration_fwdm_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Greet announcements disabled..
+        /// </summary>
+        public static string administration_greet_off {
+            get {
+                return ResourceManager.GetString("administration_greet_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Greet announcements enabled on this channel..
+        /// </summary>
+        public static string administration_greet_on {
+            get {
+                return ResourceManager.GetString("administration_greet_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Automatic deletion of greet messages has been disabled..
+        /// </summary>
+        public static string administration_greetdel_off {
+            get {
+                return ResourceManager.GetString("administration_greetdel_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Greet messages will be deleted after {0} seconds..
+        /// </summary>
+        public static string administration_greetdel_on {
+            get {
+                return ResourceManager.GetString("administration_greetdel_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to DM greet announcements disabled..
+        /// </summary>
+        public static string administration_greetdm_off {
+            get {
+                return ResourceManager.GetString("administration_greetdm_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to DM greet announcements enabled..
+        /// </summary>
+        public static string administration_greetdm_on {
+            get {
+                return ResourceManager.GetString("administration_greetdm_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Current DM greet message: {0}.
+        /// </summary>
+        public static string administration_greetdmmsg_cur {
+            get {
+                return ResourceManager.GetString("administration_greetdmmsg_cur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enable DM greet messages by typing {0}.
+        /// </summary>
+        public static string administration_greetdmmsg_enable {
+            get {
+                return ResourceManager.GetString("administration_greetdmmsg_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New DM greet message set..
+        /// </summary>
+        public static string administration_greetdmmsg_new {
+            get {
+                return ResourceManager.GetString("administration_greetdmmsg_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Current greet message: {0}.
+        /// </summary>
+        public static string administration_greetmsg_cur {
+            get {
+                return ResourceManager.GetString("administration_greetmsg_cur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enable greet messages by typing {0}.
+        /// </summary>
+        public static string administration_greetmsg_enable {
+            get {
+                return ResourceManager.GetString("administration_greetmsg_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New greet message set..
+        /// </summary>
+        public static string administration_greetmsg_new {
+            get {
+                return ResourceManager.GetString("administration_greetmsg_new", resourceCulture);
             }
         }
         

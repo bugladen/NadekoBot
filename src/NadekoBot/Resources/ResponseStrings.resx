@@ -320,6 +320,27 @@
   <data name="administration_bot_status" xml:space="preserve">
     <value>Bot status changed to {0}</value>
   </data>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Automatic deletion of bye messages has been disabled.</value>
+  </data>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Bye messages will be deleted after {0} seconds.</value>
+  </data>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Current bye message: {0}</value>
+  </data>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>Enable bye messages by typing {0}</value>
+  </data>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>New bye message set.</value>
+  </data>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Bye announcements disabled.</value>
+  </data>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Bye announcements enabled on this channel.</value>
+  </data>
   <data name="administration_ch_name_change" xml:space="preserve">
     <value>Channel Name Changed</value>
   </data>
@@ -349,6 +370,42 @@
   </data>
   <data name="administration_fwdm_stop" xml:space="preserve">
     <value>I will stop forwarding DMs from now on.</value>
+  </data>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Automatic deletion of greet messages has been disabled.</value>
+  </data>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Greet messages will be deleted after {0} seconds.</value>
+  </data>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Current DM greet message: {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>Enable DM greet messages by typing {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>New DM greet message set.</value>
+  </data>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>DM greet announcements disabled.</value>
+  </data>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>DM greet announcements enabled.</value>
+  </data>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Current greet message: {0}</value>
+  </data>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>Enable greet messages by typing {0}</value>
+  </data>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>New greet message set.</value>
+  </data>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Greet announcements disabled.</value>
+  </data>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Greet announcements enabled on this channel.</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
     <value>Images loaded after {0} seconds!</value>
