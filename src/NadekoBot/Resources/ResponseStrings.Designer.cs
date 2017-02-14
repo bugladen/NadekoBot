@@ -213,6 +213,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Cleaned up..
+        /// </summary>
+        public static string administration_cleaned_up {
+            get {
+                return ResourceManager.GetString("administration_cleaned_up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Content.
         /// </summary>
         public static string administration_content {
@@ -633,6 +642,15 @@ namespace NadekoBot.Resources {
         public static string administration_muted_sn {
             get {
                 return ResourceManager.GetString("administration_muted_sn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I need **Administration** permission to do that..
+        /// </summary>
+        public static string administration_need_admin {
+            get {
+                return ResourceManager.GetString("administration_need_admin", resourceCulture);
             }
         }
         
@@ -1283,6 +1301,51 @@ namespace NadekoBot.Resources {
         public static string administration_voice_chan_destroyed {
             get {
                 return ResourceManager.GetString("administration_voice_chan_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled voice + text feature..
+        /// </summary>
+        public static string administration_vt_disabled {
+            get {
+                return ResourceManager.GetString("administration_vt_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled voice + text feature..
+        /// </summary>
+        public static string administration_vt_enabled {
+            get {
+                return ResourceManager.GetString("administration_vt_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I don&apos;t have **manage roles** and/or **manage channels** permission, so I cannot run `voice+text` on {0} server..
+        /// </summary>
+        public static string administration_vt_exit {
+            get {
+                return ResourceManager.GetString("administration_vt_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards..
+        /// </summary>
+        public static string administration_vt_no_admin {
+            get {
+                return ResourceManager.GetString("administration_vt_no_admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission).
+        /// </summary>
+        public static string administration_vt_perms {
+            get {
+                return ResourceManager.GetString("administration_vt_perms", resourceCulture);
             }
         }
         
