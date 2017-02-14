@@ -419,12 +419,12 @@ namespace NadekoBot.Modules.Administration
 
                 if (spam != null)
                     embed.AddField(efb => efb.WithName("Anti-Spam")
-                        .WithValue(spam.ToString())
+                        .WithValue(GetAntiSpamString(spam))
                         .WithIsInline(true));
 
                 if (raid != null)
                     embed.AddField(efb => efb.WithName("Anti-Raid")
-                        .WithValue(raid.ToString())
+                        .WithValue(GetAntiRaidString(raid))
                         .WithIsInline(true));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
