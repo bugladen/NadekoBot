@@ -186,6 +186,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Invalid parameters..
+        /// </summary>
+        public static string administration_invalid_params {
+            get {
+                return ResourceManager.GetString("administration_invalid_params", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has joined {1}.
         /// </summary>
         public static string administration_joined {
@@ -571,6 +580,33 @@ namespace NadekoBot.Resources {
         public static string administration_ropl_not_set {
             get {
                 return ResourceManager.GetString("administration_ropl_not_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users can&apos;t send more than {0} messages every {1} seconds..
+        /// </summary>
+        public static string administration_slowmode_desc {
+            get {
+                return ResourceManager.GetString("administration_slowmode_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slow mode disabled..
+        /// </summary>
+        public static string administration_slowmode_disabled {
+            get {
+                return ResourceManager.GetString("administration_slowmode_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slow mode initiated.
+        /// </summary>
+        public static string administration_slowmode_init {
+            get {
+                return ResourceManager.GetString("administration_slowmode_init", resourceCulture);
             }
         }
         

@@ -341,6 +341,9 @@
   <data name="administration_fwdm_stop" xml:space="preserve">
     <value>I will stop forwarding DMs from now on.</value>
   </data>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Invalid parameters.</value>
+  </data>
   <data name="administration_joined" xml:space="preserve">
     <value>{0} has joined {1}</value>
   </data>
@@ -473,6 +476,15 @@
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
     <value>No rotating playing statuses set.</value>
+  </data>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value>Users can't send more than {0} messages every {1} seconds.</value>
+  </data>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>Slow mode disabled.</value>
+  </data>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>Slow mode initiated</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (kicked)</value>
