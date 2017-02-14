@@ -58,6 +58,27 @@ namespace NadekoBot.Modules.Utility
 
                 await Context.Channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
             }
+            
+            [NadekoCommand, Usage, Description, Aliases]
+  		    [RequireContext(ContextType.Guild)] 
+            public async Task SearchQuote(string keyword, [Remainder] string text)
+        	{
+		        if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
+					return;
+
+                keyword = keyword.ToUpperInvariant();
+
+                Quote keywordquote;
+                using (var uow = DbHandler.UnitOfWork())
+               {
+                    keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(Context.Guild.Id, keyword, text).ConfigureAwait(false);
+               }
+
+                if (keywordquote == null)
+                    return;
+
+                await Context.Channel.SendMessageAsync("💬 " + keyword + ":  " + keywordquote.Text.SanitizeMentions());
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
