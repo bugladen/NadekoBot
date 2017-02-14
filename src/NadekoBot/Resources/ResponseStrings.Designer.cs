@@ -448,6 +448,61 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Removed the playing message: {0}.
+        /// </summary>
+        public static string administration_reprm {
+            get {
+                return ResourceManager.GetString("administration_reprm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Added..
+        /// </summary>
+        public static string administration_ropl_added {
+            get {
+                return ResourceManager.GetString("administration_ropl_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rotating playing status disabled..
+        /// </summary>
+        public static string administration_ropl_disabled {
+            get {
+                return ResourceManager.GetString("administration_ropl_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rotating playing status enabled..
+        /// </summary>
+        public static string administration_ropl_enabled {
+            get {
+                return ResourceManager.GetString("administration_ropl_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Here is a list of rotating statuses:
+        ///{0}.
+        /// </summary>
+        public static string administration_ropl_list {
+            get {
+                return ResourceManager.GetString("administration_ropl_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No rotating playing statuses set..
+        /// </summary>
+        public static string administration_ropl_not_set {
+            get {
+                return ResourceManager.GetString("administration_ropl_not_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to soft-banned (kicked).
         /// </summary>
         public static string administration_soft_banned_pl {

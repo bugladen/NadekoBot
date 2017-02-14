@@ -431,6 +431,25 @@
   <data name="administration_old_topic" xml:space="preserve">
     <value>Old Topic</value>
   </data>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>Removed the playing message: {0}</value>
+  </data>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>Added.</value>
+  </data>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value>Rotating playing status disabled.</value>
+  </data>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value>Rotating playing status enabled.</value>
+  </data>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value>Here is a list of rotating statuses:
+{0}</value>
+  </data>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value>No rotating playing statuses set.</value>
+  </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (kicked)</value>
     <comment>PLURAL</comment>
@@ -513,6 +532,12 @@
   </data>
   <data name="administraton_user_unbanned" xml:space="preserve">
     <value>User Unbanned</value>
+  </data>
+  <data name="adminsitration_migration_done" xml:space="preserve">
+    <value>Migration done!</value>
+  </data>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value>Error while migrating, check bot's console for more information.</value>
   </data>
   <data name="adminsitration_presence_updates" xml:space="preserve">
     <value>Presence Updates</value>
