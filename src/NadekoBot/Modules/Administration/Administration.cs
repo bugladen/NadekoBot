@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
     {
         private static ConcurrentHashSet<ulong> deleteMessagesOnCommand { get; }
 
-        private new static Logger _log { get; }
+        private new static readonly Logger _log;
 
         static Administration()
         {
@@ -209,7 +209,7 @@ namespace NadekoBot.Modules.Administration
             }
             try
             {
-                var rgb = args.Count() == 4;
+                var rgb = args.Length == 4;
                 var arg1 = args[1].Replace("#", "");
 
                 var red = Convert.ToByte(rgb ? int.Parse(arg1) : Convert.ToInt32(arg1.Substring(0, 2), 16));
@@ -244,7 +244,10 @@ namespace NadekoBot.Modules.Administration
                     await Task.Delay(2000).ConfigureAwait(false);
 
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
 
             await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
@@ -275,7 +278,10 @@ namespace NadekoBot.Modules.Administration
                     await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg));
                     await Task.Delay(2000).ConfigureAwait(false);
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
 
             await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);

@@ -12,27 +12,25 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Concurrent;
-using NadekoBot.Modules;
-using NadekoBot.Resources;
 
 namespace NadekoBot.Modules.Pokemon
 {
     [NadekoModule("Pokemon", ">")]
-    public partial class Pokemon : NadekoModule
+    public class Pokemon : NadekoModule
     {
-        private static List<PokemonType> PokemonTypes = new List<PokemonType>();
-        private static ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
+        private static readonly List<PokemonType> _pokemonTypes = new List<PokemonType>();
+        private static readonly ConcurrentDictionary<ulong, PokeStats> _stats = new ConcurrentDictionary<ulong, PokeStats>();
         
         public const string PokemonTypesFile = "data/pokemon_types.json";
 
-        private static new Logger _log { get; }
+        private new static Logger _log { get; }
 
         static Pokemon()
         {
             _log = LogManager.GetCurrentClassLogger();
             if (File.Exists(PokemonTypesFile))
             {
-                PokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText(PokemonTypesFile));
+                _pokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText(PokemonTypesFile));
             }
             else
             {
@@ -44,21 +42,18 @@ namespace NadekoBot.Modules.Pokemon
         private int GetDamage(PokemonType usertype, PokemonType targetType)
         {
             var rng = new Random();
-            int damage = rng.Next(40, 60);
-            foreach (PokemonMultiplier Multiplier in usertype.Multipliers)
+            var damage = rng.Next(40, 60);
+            foreach (var multiplierObj in usertype.Multipliers)
             {
-                if (Multiplier.Type == targetType.Name)
-                {
-                    var multiplier = Multiplier.Multiplication;
-                    damage = (int)(damage * multiplier);
-                }
+                if (multiplierObj.Type != targetType.Name) continue;
+                damage = (int)(damage * multiplierObj.Multiplication);
             }
 
             return damage;
         }
             
 
-        private PokemonType GetPokeType(ulong id)
+        private static PokemonType GetPokeType(ulong id)
         {
 
             Dictionary<ulong, string> setTypes;
@@ -71,18 +66,18 @@ namespace NadekoBot.Modules.Pokemon
             {
                 return StringToPokemonType(setTypes[id]);
             }
-            int count = PokemonTypes.Count;
+            var count = _pokemonTypes.Count;
 
-            int remainder = Math.Abs((int)(id % (ulong)count));
+            var remainder = Math.Abs((int)(id % (ulong)count));
 
-            return PokemonTypes[remainder];
+            return _pokemonTypes[remainder];
         }
         
-        private PokemonType StringToPokemonType(string v)
+        private static PokemonType StringToPokemonType(string v)
         {
             var str = v?.ToUpperInvariant();
-            var list = PokemonTypes;
-            foreach (PokemonType p in list)
+            var list = _pokemonTypes;
+            foreach (var p in list)
             {
                 if (str == p.Name)
                 {
@@ -116,8 +111,7 @@ namespace NadekoBot.Modules.Pokemon
                    
             // Checking stats first, then move
             //Set up the userstats
-            PokeStats userStats;
-            userStats = Stats.GetOrAdd(user.Id, new PokeStats());
+            var userStats = _stats.GetOrAdd(user.Id, new PokeStats());
 
             //Check if able to move
             //User not able if HP < 0, has made more than 4 attacks
@@ -137,8 +131,7 @@ namespace NadekoBot.Modules.Pokemon
                 return;
             }
             //get target stats
-            PokeStats targetStats;
-            targetStats = Stats.GetOrAdd(targetUser.Id, new PokeStats());
+            var targetStats = _stats.GetOrAdd(targetUser.Id, new PokeStats());
 
             //If target's HP is below 0, no use attacking
             if (targetStats.Hp <= 0)
@@ -184,11 +177,11 @@ namespace NadekoBot.Modules.Pokemon
 
             if (targetStats.Hp <= 0)
             {
-                response += $"\n" + GetText("fainted", Format.Bold(targetUser.ToString()));
+                response += "\n" + GetText("fainted", Format.Bold(targetUser.ToString()));
             }
             else
             {
-                response += $"\n" + GetText("hp_remaining", Format.Bold(targetUser.ToString()), targetStats.Hp);
+                response += "\n" + GetText("hp_remaining", Format.Bold(targetUser.ToString()), targetStats.Hp);
             }
 
             //update other stats
@@ -202,8 +195,8 @@ namespace NadekoBot.Modules.Pokemon
 
             //update dictionary
             //This can stay the same right?
-            Stats[user.Id] = userStats;
-            Stats[targetUser.Id] = targetStats;
+            _stats[user.Id] = userStats;
+            _stats[targetUser.Id] = targetStats;
 
             await Context.Channel.SendConfirmAsync(Context.User.Mention + " " + response).ConfigureAwait(false);
         }
@@ -235,9 +228,9 @@ namespace NadekoBot.Modules.Pokemon
                 return;
             }
 
-            if (Stats.ContainsKey(targetUser.Id))
+            if (_stats.ContainsKey(targetUser.Id))
             {
-                var targetStats = Stats[targetUser.Id];
+                var targetStats = _stats[targetUser.Id];
                 if (targetStats.Hp == targetStats.MaxHp)
                 {
                     await ReplyErrorLocalized("already_full", Format.Bold(targetUser.ToString())).ConfigureAwait(false);
@@ -261,7 +254,7 @@ namespace NadekoBot.Modules.Pokemon
                 if (targetStats.Hp < 0)
                 {
                     //Could heal only for half HP?
-                    Stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
+                    _stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
                     if (target == "yourself")
                     {
                         await ReplyConfirmLocalized("revive_yourself", NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
@@ -271,7 +264,6 @@ namespace NadekoBot.Modules.Pokemon
                     await ReplyConfirmLocalized("revive_other", Format.Bold(targetUser.ToString()), NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
                 await ReplyConfirmLocalized("healed", Format.Bold(targetUser.ToString()), NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
-                return;
             }
             else
             {
@@ -299,7 +291,7 @@ namespace NadekoBot.Modules.Pokemon
             var targetType = StringToPokemonType(typeTargeted);
             if (targetType == null)
             {
-                await Context.Channel.EmbedAsync(PokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), 
+                await Context.Channel.EmbedAsync(_pokemonTypes.Aggregate(new EmbedBuilder().WithDescription("List of the available types:"), 
                         (eb, pt) => eb.AddField(efb => efb.WithName(pt.Name)
                                                           .WithValue(pt.Icon)
                                                           .WithIsInline(true)))
@@ -324,12 +316,11 @@ namespace NadekoBot.Modules.Pokemon
             }
 
             //Actually changing the type here
-            Dictionary<ulong, string> setTypes;
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                var pokeUsers = uow.PokeGame.GetAll();
-                setTypes = pokeUsers.ToDictionary(x => x.UserId, y => y.type);
+                var pokeUsers = uow.PokeGame.GetAll().ToArray();
+                var setTypes = pokeUsers.ToDictionary(x => x.UserId, y => y.type);
                 var pt = new UserPokeTypes
                 {
                     UserId = user.Id,
@@ -343,7 +334,7 @@ namespace NadekoBot.Modules.Pokemon
                 else
                 {
                     //update user in db
-                    var pokeUserCmd = pokeUsers.Where(p => p.UserId == user.Id).FirstOrDefault();
+                    var pokeUserCmd = pokeUsers.FirstOrDefault(p => p.UserId == user.Id);
                     pokeUserCmd.type = targetType.Name;
                     uow.PokeGame.Update(pokeUserCmd);
                 }
