@@ -60,6 +60,78 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
+        /// </summary>
+        public static string administration_mute_error {
+            get {
+                return ResourceManager.GetString("administration_mute_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New mute role set..
+        /// </summary>
+        public static string administration_mute_role_set {
+            get {
+                return ResourceManager.GetString("administration_mute_role_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **muted** from chatting..
+        /// </summary>
+        public static string administration_user_chat_mute {
+            get {
+                return ResourceManager.GetString("administration_user_chat_mute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **unmuted** from chatting..
+        /// </summary>
+        public static string administration_user_chat_unmute {
+            get {
+                return ResourceManager.GetString("administration_user_chat_unmute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **muted** from text and voice chat..
+        /// </summary>
+        public static string administration_user_muted {
+            get {
+                return ResourceManager.GetString("administration_user_muted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **unmuted** from text and voice chat..
+        /// </summary>
+        public static string administration_user_unmuted {
+            get {
+                return ResourceManager.GetString("administration_user_unmuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **voice muted**..
+        /// </summary>
+        public static string administration_user_voice_mute {
+            get {
+                return ResourceManager.GetString("administration_user_voice_mute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **voice unmuted**..
+        /// </summary>
+        public static string administration_user_voice_unmute {
+            get {
+                return ResourceManager.GetString("administration_user_voice_unmute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to That base is already claimed or destroyed..
         /// </summary>
         public static string clashofclans_base_already_claimed {

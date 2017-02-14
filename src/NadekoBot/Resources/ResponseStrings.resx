@@ -298,6 +298,30 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
   </data>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value>I don't have the permission necessary for that most likely.</value>
+  </data>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>New mute role set.</value>
+  </data>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value>{0} has been **muted** from chatting.</value>
+  </data>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value>{0} has been **unmuted** from chatting.</value>
+  </data>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value>{0} has been **muted** from text and voice chat.</value>
+  </data>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value>{0} has been **unmuted** from text and voice chat.</value>
+  </data>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value>{0} has been **voice muted**.</value>
+  </data>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value>{0} has been **voice unmuted**.</value>
+  </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Back to ToC</value>
   </data>
