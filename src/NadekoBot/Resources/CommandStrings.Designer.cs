@@ -2382,7 +2382,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to qsearch .....
+        ///    Looks up a localized string similar to qsearch ....
         /// </summary>
         public static string searchquote_cmd {
             get {
